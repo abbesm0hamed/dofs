@@ -1,0 +1,274 @@
+return {
+  --  top 1
+  {
+    "bluz71/vim-moonfly-colors",
+    event = "VimEnter", -- VimEnter will make it run as main colorscheme
+    name = "moonfly",
+    -- lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("moonfly")
+    end,
+  },
+  -- {
+  --   "bluz71/vim-nightfly-colors",
+  --   name = "nightfly",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme("nightfly")
+  --   end,
+  -- },
+  -- top 2
+  -- vimbones = light
+  -- neobones = dark
+  -- {
+  --   "mcchrish/zenbones.nvim",
+  --   priority = 1000,
+  --   lazy = false,
+  --   dependencies = {
+  --     "rktjmp/lush.nvim"
+  --   },
+  --   config = function()
+  --     vim.cmd.colorscheme("zenbones")
+  --   end,
+  -- },
+  -- {
+  --   "nyoom-engineering/oxocarbon.nvim",
+  --   lazy = false,          -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000,       -- make sure to load this before all the other start plugins
+  --   opts = {
+  --     background = "dark", -- dark or light
+  --   },
+  --   config = function()
+  --     -- load the colorscheme here
+  --     vim.cmd.colorscheme("oxocarbon")
+  --     vim.opt.background = "dark" -- light | dark
+  --   end,
+  -- },
+  -- top 3
+  -- {
+  --   "blazkowolf/gruber-darker.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     bold = true,
+  --     invert = {
+  --       signs = false,
+  --       tabline = false,
+  --       visual = false,
+  --     },
+  --     italic = {
+  --       strings = true,
+  --       comments = true,
+  --       operators = false,
+  --       folds = true,
+  --     },
+  --     undercurl = true,
+  --     underline = true,
+  --   },
+  --   config = function()
+  --     require("gruber-darker").setup({})
+  --   end,
+  -- },
+  -- top 4
+  -- {
+  --   "kevinm6/kurayami.nvim",
+  --   event = "VimEnter", -- load plugin on VimEnter or
+  --   lazy = false,       --   don't lazy load plugin
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme("kurayami") -- this is enough to initialize and load plugin
+  --   end,
+  --
+  --   ---Use this config to override some highlights
+  --   -- config = function(_, opts)
+  --   ---override highlights passing table
+  --   ---@usage
+  --   -- opts.override = {
+  --   --  Number = { fg = "#015a60" }
+  --   -- }
+  --   -- require("kurayami").setup(opts)
+  --   -- end
+  -- },
+  -- top 5
+  -- {
+  --   "Shatur/neovim-ayu",
+  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   opts = {
+  --     theme = "ayu",
+  --   },
+  --   config = function()
+  --     vim.cmd.colorscheme("ayu")
+  --   end,
+  -- },
+  -- {
+  --   "kvrohit/rasmus.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd("colorscheme rasmus")
+  --   end,
+  -- },
+  -- this also has one of the best light colorschemes
+  -- {
+  --   "miikanissi/modus-themes.nvim",
+  --   priority = 1000,
+  --   config = function()
+  --     require("modus-themes").setup({
+  --       -- Theme comes in two styles `modus_operandi` and `modus_vivendi`
+  --       -- `auto` will automatically set style based on background set with vim.o.background
+  --       style = "auto",
+  --       variant = "default",  -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
+  --       transparent = false,  -- Transparent background (as supported by the terminal)
+  --       dim_inactive = false, -- "non-current" windows are dimmed
+  --       styles = {
+  --         -- Style to be applied to different syntax groups
+  --         -- Value is any valid attr-list value for `:help nvim_set_hl`
+  --         comments = { italic = true },
+  --         keywords = { italic = true },
+  --         functions = {},
+  --         variables = {},
+  --       },
+  --
+  --       --- You can override specific color groups to use other groups or a hex color
+  --       --- function will be called with a ColorScheme table
+  --       ---@param colors ColorScheme
+  --       on_colors = function(colors) end,
+  --
+  --       --- You can override specific highlights to use other groups or a hex color
+  --       --- function will be called with a Highlights and ColorScheme table
+  --       ---@param highlights Highlights
+  --       ---@param colors ColorScheme
+  --       on_highlights = function(highlights, colors) end,
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "Abstract-IDE/Abstract-cs",
+  --   priority = 1000,
+  --   lazy = false,
+  --   config = function()
+  --     -- load the colorscheme here
+  --     vim.cmd([[colorscheme abscs]])
+  --   end,
+  -- },
+  -- {
+  --   "embark-theme/vim",
+  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     vim.cmd.colorscheme("embark")
+  --   end,
+  -- },
+  -- {
+  --   "rose-pine/neovim",
+  --   lazy = false,
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     -- load the colorscheme here
+  --     vim.cmd([[colorscheme rose-pine]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "oxfist/night-owl.nvim",
+  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     -- load the colorscheme here
+  --     vim.cmd.colorscheme("night-owl")
+  --   end,
+  -- },
+  -- {
+  --   "tiagovla/tokyodark.nvim",
+  --   opts = {
+  --     transparent_background = false,    -- set background to transparent
+  --     gamma = 1.00,                      -- adjust the brightness of the theme
+  --     styles = {
+  --       comments = { italic = true },    -- style for comments
+  --       keywords = { italic = true },    -- style for keywords
+  --       identifiers = { italic = true }, -- style for identifiers
+  --       functions = {},                  -- style for functions
+  --       variables = {},                  -- style for variables
+  --     },
+  --     custom_highlights = {} or function(highlights, palette)
+  --       return {}
+  --     end, -- extend highlights
+  --     custom_palette = {} or function(palette)
+  --       return {}
+  --     end, -- extend palette
+  --     terminal_colors = true,
+  --   },
+  --   config = function(_, opts)
+  --     require("tokyodark").setup(opts) -- calling setup is optional
+  --     vim.cmd([[colorscheme tokyodark]])
+  --   end,
+  -- },
+  -- {
+  --   "metalelf0/jellybeans-nvim",
+  --   dependencies = {
+  --     "rktjmp/lush.nvim",
+  --   },
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme("jellybeans-nvim")
+  --   end,
+  -- },
+  -- {
+  --   "loctvl842/monokai-pro.nvim",
+  --   dependencies = {
+  --     "rktjmp/lush.nvim",
+  --   },
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require("monokai-pro").setup({
+  --       transparent_background = false,
+  --       terminal_colors = true,
+  --       devicons = true, -- highlight the icons of `nvim-web-devicons`
+  --       styles = {
+  --         comment = { italic = true },
+  --         keyword = { italic = true },       -- any other keyword
+  --         type = { italic = true },          -- (preferred) int, long, char, etc
+  --         storageclass = { italic = true },  -- static, register, volatile, etc
+  --         structure = { italic = true },     -- struct, union, enum, etc
+  --         parameter = { italic = true },     -- parameter pass in function
+  --         annotation = { italic = true },
+  --         tag_attribute = { italic = true }, -- attribute of tag in reactjs
+  --       },
+  --       filter = "pro",                      -- classic | octagon | pro | machine | ristretto | spectrum
+  --       -- Enable this will disable filter option
+  --       day_night = {
+  --         enable = false,            -- turn off by default
+  --         day_filter = "pro",        -- classic | octagon | pro | machine | ristretto | spectrum
+  --         night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+  --       },
+  --       inc_search = "background",   -- underline | background
+  --       background_clear = {
+  --         -- "float_win",
+  --         "toggleterm",
+  --         "telescope",
+  --         -- "which-key",
+  --         "renamer",
+  --         "notify",
+  --         -- "nvim-tree",
+  --         -- "neo-tree",
+  --         -- "bufferline", -- better used if background of `neo-tree` or `nvim-tree` is cleared
+  --       }, -- "float_win", "toggleterm", "telescope", "which-key", "renamer", "neo-tree", "nvim-tree", "bufferline"
+  --       plugins = {
+  --         bufferline = {
+  --           underline_selected = false,
+  --           underline_visible = false,
+  --         },
+  --         indent_blankline = {
+  --           context_highlight = "default", -- default | pro
+  --           context_start_underline = false,
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- },
+}
