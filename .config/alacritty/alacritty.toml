@@ -46,7 +46,7 @@ print_events = false
 render_timer = false
 
 [font]
-size = 10
+size = 8 
 
 [font.bold]
 family = "JetBrainsMono Nerd Font"
@@ -69,7 +69,7 @@ x = 0
 y = 0
 
 [shell]
-program = "/bin/bash"
+program = "/bin/zsh"
 
 [window]
 dynamic_padding = true
