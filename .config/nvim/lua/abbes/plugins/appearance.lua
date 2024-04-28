@@ -37,19 +37,19 @@ return {
       },
     },
   },
-  { -- virtual text context at the end of a scope
-    "haringsrob/nvim_context_vt",
-    event = "VeryLazy",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    opts = {
-      highlight = "LspInlayHint",
-      prefix = " 󱞷",
-      min_rows = 8,
-      disable_ft = { "markdown", "yaml", "css" },
-      min_rows_ft = { python = 15 },
-      disable_virtual_lines = false,
-    },
-  },
+  -- { -- virtual text context at the end of a scope
+  --   "haringsrob/nvim_context_vt",
+  --   event = "VeryLazy",
+  --   dependencies = "nvim-treesitter/nvim-treesitter",
+  --   opts = {
+  --     highlight = "LspInlayHint",
+  --     prefix = " 󱞷",
+  --     min_rows = 8,
+  --     disable_ft = { "markdown", "yaml", "css" },
+  --     min_rows_ft = { python = 15 },
+  --     disable_virtual_lines = false,
+  --   },
+  -- },
   { -- indentation guides
     "lukas-reineke/indent-blankline.nvim",
     event = "UIEnter",
@@ -122,7 +122,7 @@ return {
       end,
     },
   },
-  {                        -- rainbow brackets
+  { -- rainbow brackets
     "hiphish/rainbow-delimiters.nvim",
     event = "BufReadPost", -- later does not load on first buffer
     dependencies = "nvim-treesitter/nvim-treesitter",
@@ -167,7 +167,7 @@ return {
           ccc.picker.css_hsl,
           ccc.picker.ansi_escape({ meaning1 = "bright" }),
         },
-        alpha_show = "hide",           -- needed when highlighter.lsp is set to true
+        alpha_show = "hide", -- needed when highlighter.lsp is set to true
         recognize = { output = true }, -- automatically recognize color format under cursor
         inputs = { ccc.input.hsl },
         outputs = {
@@ -202,7 +202,7 @@ return {
       end
     end,
     keys = {
-      { "<Tab>",   "j", ft = "DressingSelect" },
+      { "<Tab>", "j", ft = "DressingSelect" },
       { "<S-Tab>", "k", ft = "DressingSelect" },
     },
     opts = {

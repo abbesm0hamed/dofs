@@ -203,7 +203,7 @@ return {
           fallback = function()
             vim.cmd("normal! gww")
           end,
-        }
+        },
       }
       local curleyLessIfStatementJoin = {
         -- remove curly brackets in js when joining if statements https://github.com/Wansmer/treesj/issues/150
@@ -314,23 +314,96 @@ return {
     keys = {
       -- stylua: ignore
       { "<leader>p", function() require("telescope").extensions.yank_history.yank_history({}) end, desc = "Open Yank History" },
-      { "y",         "<Plug>(YankyYank)",                                                          mode = { "n", "x" },                           desc = "Yank Text" },
-      { "p",         "<Plug>(YankyPutAfter)",                                                      mode = { "n", "x" },                           desc = "Put Yanked Text After Cursor" },
-      { "P",         "<Plug>(YankyPutBefore)",                                                     mode = { "n", "x" },                           desc = "Put Yanked Text Before Cursor" },
-      { "gp",        "<Plug>(YankyGPutAfter)",                                                     mode = { "n", "x" },                           desc = "Put Yanked Text After Selection" },
-      { "gP",        "<Plug>(YankyGPutBefore)",                                                    mode = { "n", "x" },                           desc = "Put Yanked Text Before Selection" },
-      { "[y",        "<Plug>(YankyCycleForward)",                                                  desc = "Cycle Forward Through Yank History" },
-      { "]y",        "<Plug>(YankyCycleBackward)",                                                 desc = "Cycle Backward Through Yank History" },
-      { "]p",        "<Plug>(YankyPutIndentAfterLinewise)",                                        desc = "Put Indented After Cursor (Linewise)" },
-      { "[p",        "<Plug>(YankyPutIndentBeforeLinewise)",                                       desc = "Put Indented Before Cursor (Linewise)" },
-      { "]P",        "<Plug>(YankyPutIndentAfterLinewise)",                                        desc = "Put Indented After Cursor (Linewise)" },
-      { "[P",        "<Plug>(YankyPutIndentBeforeLinewise)",                                       desc = "Put Indented Before Cursor (Linewise)" },
-      { ">p",        "<Plug>(YankyPutIndentAfterShiftRight)",                                      desc = "Put and Indent Right" },
-      { "<p",        "<Plug>(YankyPutIndentAfterShiftLeft)",                                       desc = "Put and Indent Left" },
-      { ">P",        "<Plug>(YankyPutIndentBeforeShiftRight)",                                     desc = "Put Before and Indent Right" },
-      { "<P",        "<Plug>(YankyPutIndentBeforeShiftLeft)",                                      desc = "Put Before and Indent Left" },
-      { "=p",        "<Plug>(YankyPutAfterFilter)",                                                desc = "Put After Applying a Filter" },
-      { "=P",        "<Plug>(YankyPutBeforeFilter)",                                               desc = "Put Before Applying a Filter" },
+      {
+        "y",
+        "<Plug>(YankyYank)",
+        mode = { "n", "x" },
+        desc = "Yank Text",
+      },
+      {
+        "p",
+        "<Plug>(YankyPutAfter)",
+        mode = { "n", "x" },
+        desc = "Put Yanked Text After Cursor",
+      },
+      {
+        "P",
+        "<Plug>(YankyPutBefore)",
+        mode = { "n", "x" },
+        desc = "Put Yanked Text Before Cursor",
+      },
+      {
+        "gp",
+        "<Plug>(YankyGPutAfter)",
+        mode = { "n", "x" },
+        desc = "Put Yanked Text After Selection",
+      },
+      {
+        "gP",
+        "<Plug>(YankyGPutBefore)",
+        mode = { "n", "x" },
+        desc = "Put Yanked Text Before Selection",
+      },
+      {
+        "[y",
+        "<Plug>(YankyCycleForward)",
+        desc = "Cycle Forward Through Yank History",
+      },
+      {
+        "]y",
+        "<Plug>(YankyCycleBackward)",
+        desc = "Cycle Backward Through Yank History",
+      },
+      {
+        "]p",
+        "<Plug>(YankyPutIndentAfterLinewise)",
+        desc = "Put Indented After Cursor (Linewise)",
+      },
+      {
+        "[p",
+        "<Plug>(YankyPutIndentBeforeLinewise)",
+        desc = "Put Indented Before Cursor (Linewise)",
+      },
+      {
+        "]P",
+        "<Plug>(YankyPutIndentAfterLinewise)",
+        desc = "Put Indented After Cursor (Linewise)",
+      },
+      {
+        "[P",
+        "<Plug>(YankyPutIndentBeforeLinewise)",
+        desc = "Put Indented Before Cursor (Linewise)",
+      },
+      {
+        ">p",
+        "<Plug>(YankyPutIndentAfterShiftRight)",
+        desc = "Put and Indent Right",
+      },
+      {
+        "<p",
+        "<Plug>(YankyPutIndentAfterShiftLeft)",
+        desc = "Put and Indent Left",
+      },
+      {
+        ">P",
+        "<Plug>(YankyPutIndentBeforeShiftRight)",
+        desc = "Put Before and Indent Right",
+      },
+      {
+        "<P",
+        "<Plug>(YankyPutIndentBeforeShiftLeft)",
+        desc = "Put Before and Indent Left",
+      },
+      {
+        "=p",
+        "<Plug>(YankyPutAfterFilter)",
+        desc = "Put After Applying a Filter",
+      },
+      {
+        "=P",
+        "<Plug>(YankyPutBeforeFilter)",
+        desc = "Put Before Applying a Filter",
+      },
     },
   },
   {
@@ -346,6 +419,47 @@ return {
       -- { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       -- { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
+  },
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {},
+    config = function()
+      require("barbecue").setup({
+        create_autocmd = false, -- prevent barbecue from updating itself automatically
+      })
+
+      vim.api.nvim_create_autocmd({
+        "WinScrolled", -- or WinResized on NVIM-v0.9 and higher
+        "BufWinEnter",
+        "CursorHold",
+        "InsertLeave",
+        -- include this if you have set `show_modified` to `true`
+        -- "BufModifiedSet",
+      }, {
+        group = vim.api.nvim_create_augroup("barbecue.updater", {}),
+        callback = function()
+          require("barbecue.ui").update()
+        end,
+      })
+    end,
+  },
+  -- Lorem Ipsum generator for Neovim
+  {
+    "derektata/lorem.nvim",
+    enabled = false,
+    config = function()
+      local lorem = require("lorem")
+      lorem.setup({
+        sentenceLength = "mixedShort",
+        comma = 1,
+      })
+    end,
   },
   -- { -- Multi Cursor
   --   "mg979/vim-visual-multi",

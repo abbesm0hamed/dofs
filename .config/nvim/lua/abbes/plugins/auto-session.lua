@@ -16,12 +16,12 @@ return {
     })
 
     local keymap = vim.keymap
-    keymap.set("n", "<leader>ls", require("auto-session.session-lens").search_session, {
+    keymap.set("n", "<leader>sl", require("auto-session.session-lens").search_session, {
       noremap = true,
     })
     keymap.set(
       "n",
-      "<leader>rs",
+      "<leader>ls",
       "<cmd>SessionRestore<CR>:echo 'Session restored'<CR>",
       { desc = "Restore session for cwd" }
     ) -- restore last workspace session for current directory

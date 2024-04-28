@@ -6,8 +6,8 @@ local defaultSources = {
     name = "nvim_lsp",
   },
   { name = "luasnip" }, -- snippets
-  { name = "buffer" }, -- text within current buffer
-  { name = "path" }, -- file system paths
+  { name = "buffer" },  -- text within current buffer
+  { name = "path" },    -- file system paths
   {
     name = "nvim_lsp",
     entry_filter = function(entry, _)
@@ -71,8 +71,8 @@ local function cmpconfig()
         compare.offset,
         compare.recently_used, -- higher
         compare.score,
-        compare.exact, -- lower
-        compare.kind, -- higher (prioritize snippets)
+        compare.exact,         -- lower
+        compare.kind,          -- higher (prioritize snippets)
         compare.locality,
         compare.length,
         compare.order,
@@ -84,7 +84,7 @@ local function cmpconfig()
       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-      ["<C-e>"] = cmp.mapping.abort(), -- close completion window
+      ["<C-e>"] = cmp.mapping.abort(),        -- close completion window
       ["<CR>"] = cmp.mapping.confirm({ select = false }),
       ["<PageUp>"] = cmp.mapping.scroll_docs(-4),
       ["<PageDown>"] = cmp.mapping.scroll_docs(4),
@@ -233,33 +233,33 @@ return {
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-emoji",
-      "hrsh7th/cmp-nvim-lsp", -- LSP input
-      "L3MON4D3/LuaSnip", -- snippet engine
-      "saadparwaiz1/cmp_luasnip", -- adapter for snippet engine
+      "hrsh7th/cmp-nvim-lsp",         -- LSP input
+      "L3MON4D3/LuaSnip",             -- snippet engine
+      "saadparwaiz1/cmp_luasnip",     -- adapter for snippet engine
       "rafamadriz/friendly-snippets", -- useful snippets
     },
-    { -- Snippet Engine
-      "L3MON4D3/LuaSnip",
-      init = function()
-        -- copy system clipboard to regular register, required for VSCode
-        -- snippets with `$CLIPBOARD`
-        vim.api.nvim_create_autocmd("FocusGained", {
-          callback = function()
-            vim.fn.setreg('"', vim.fn.getreg("+"))
-          end,
-        })
-      end,
-      opts = {
-        -- live updating of snippets
-        update_events = { "TextChanged", "TextChangedI" },
-        -- disable auto-reload, since already done by scissors
-        fs_event_providers = { autocmd = false, libuv = false },
-      },
-      config = function(_, opts)
-        require("luasnip").setup(opts)
-        -- DOCS https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#vs-code
-        require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
-      end,
+  },
+  { -- Snippet Engine
+    "L3MON4D3/LuaSnip",
+    init = function()
+      -- copy system clipboard to regular register, required for VSCode
+      -- snippets with `$CLIPBOARD`
+      vim.api.nvim_create_autocmd("FocusGained", {
+        callback = function()
+          vim.fn.setreg('"', vim.fn.getreg("+"))
+        end,
+      })
+    end,
+    opts = {
+      -- live updating of snippets
+      update_events = { "TextChanged", "TextChangedI" },
+      -- disable auto-reload, since already done by scissors
+      fs_event_providers = { autocmd = false, libuv = false },
     },
+    config = function(_, opts)
+      require("luasnip").setup(opts)
+      -- DOCS https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#vs-code
+      require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
+    end,
   },
 }

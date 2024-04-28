@@ -45,7 +45,7 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
       { "<c-space>", desc = "Increment Selection" },
-      { "<bs>", desc = "Decrement Selection", mode = "x" },
+      { "<bs>",      desc = "Decrement Selection", mode = "x" },
     },
     ---@type TSConfig
     ---@diagnostic disable-next-line: missing-fields
@@ -120,46 +120,53 @@ return {
       require("nvim-treesitter.configs").setup(opts)
     end,
   },
-  { -- context lines
-    "nvim-treesitter/nvim-treesitter-context",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
-    keys = {
-      {
-        "gk",
-        function()
-          require("treesitter-context").go_to_context()
-        end,
-        desc = " Goto Context",
-      },
-    },
-    opts = {
-      max_lines = 4,
-      multiline_threshold = 1, -- only show 1 line per context
-
-      -- disable in markdown, PENDING https://github.com/nvim-treesitter/nvim-treesitter-context/issues/289
-      on_attach = function()
-        vim.defer_fn(function()
-          if vim.bo.filetype == "markdown" then
-            return false
-          end
-        end, 1)
-      end,
-    },
-    init = function()
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        callback = function()
-          -- adds grey underline
-          local grey = u.getHighlightValue("Comment", "fg")
-          vim.api.nvim_set_hl(0, "TreesitterContextBottom", { special = grey, underline = true })
-        end,
-      })
-    end,
-  },
+  -- { -- sticky context lines at the top to show the current section of code
+  --   "nvim-treesitter/nvim-treesitter-context",
+  --   dependencies = "nvim-treesitter/nvim-treesitter",
+  --   event = "VeryLazy",
+  --   keys = {
+  --     {
+  --       "gk",
+  --       function()
+  --         require("treesitter-context").go_to_context()
+  --       end,
+  --       desc = " Goto Context",
+  --     },
+  --   },
+  --   opts = {
+  --     max_lines = 4,
+  --     multiline_threshold = 1, -- only show 1 line per context
+  --
+  --     -- disable in markdown, PENDING https://github.com/nvim-treesitter/nvim-treesitter-context/issues/289
+  --     on_attach = function()
+  --       vim.defer_fn(function()
+  --         if vim.bo.filetype == "markdown" then
+  --           return false
+  --         end
+  --       end, 1)
+  --     end,
+  --   },
+  --   init = function()
+  --     vim.api.nvim_create_autocmd("ColorScheme", {
+  --       callback = function()
+  --         -- adds grey underline
+  --         local grey = u.getHighlightValue("Comment", "fg")
+  --         vim.api.nvim_set_hl(0, "TreesitterContextBottom", { special = grey, underline = true })
+  --       end,
+  --     })
+  --   end,
+  -- },
   { -- autopair, but for keywords
     "RRethy/nvim-treesitter-endwise",
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "InsertEnter",
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        endwise = {
+          enable = true,
+        },
+      }
+    end,
   },
   {
     "windwp/nvim-ts-autotag",
