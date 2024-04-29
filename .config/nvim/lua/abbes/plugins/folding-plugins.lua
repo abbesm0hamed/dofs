@@ -29,7 +29,7 @@ return {
       vim.opt.foldlevelstart = 99
     end,
     opts = {
-      filetype_exclude = { 'help', 'alpha', 'dashboard', 'Trouble', 'lazy', 'mason' },
+      filetype_exclude = { 'help', 'alpha', 'dashboard', 'Trouble', 'lazy', 'mason', 'yml' },
       provider_selector = function(_, ft, _)
         -- INFO some filetypes only allow indent, some only LSP, some only
         -- treesitter. However, ufo only accepts two kinds as priority,

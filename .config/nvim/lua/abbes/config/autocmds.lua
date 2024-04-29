@@ -30,3 +30,12 @@ vim.api.nvim_create_autocmd("User", {
     end)
   end,
 })
+
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "yml", "yaml", "neo-tree", ".env" },
+  callback = function()
+    require("ufo").detach()
+    vim.opt_local.foldenable = false
+  end
+})
