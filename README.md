@@ -35,5 +35,9 @@ $ stow .
 Clone widgets under awesome config folder
 ```
 $ cd dofs/.config/awesome
+$ git clone https://github.com/horst3180/arc-icon-theme --depth 1 && cd arc-icon-theme 
+$ ./autogen.sh --prefix=/usr
+$ sudo make install
+$ sudo pacman -S acpi lxpolkit pacman-contrib
 $ git clone git@github.com:streetturtle/awesome-wm-widgets.git
 ```

@@ -53,6 +53,7 @@ local sourceIcons = {
 local function cmpconfig()
   local cmp = require("cmp")
   local compare = require("cmp.config.compare")
+  require("vim-react-snippets").lazy_load()
 
   cmp.setup({
     snippet = {
@@ -237,6 +238,7 @@ return {
       "L3MON4D3/LuaSnip",             -- snippet engine
       "saadparwaiz1/cmp_luasnip",     -- adapter for snippet engine
       "rafamadriz/friendly-snippets", -- useful snippets
+      "mlaursen/vim-react-snippets",
     },
   },
   { -- Snippet Engine
