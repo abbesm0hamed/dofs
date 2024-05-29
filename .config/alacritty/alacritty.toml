@@ -46,7 +46,7 @@ print_events = false
 render_timer = false
 
 [font]
-size = 8 
+size = 10 
 
 [font.bold]
 family = "JetBrainsMono Nerd Font"
@@ -73,7 +73,7 @@ program = "/bin/zsh"
 
 [window]
 dynamic_padding = true
-opacity = 0.5
+opacity = 0.99 
 startup_mode = "Windowed"
 
 [window.padding]
