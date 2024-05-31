@@ -38,11 +38,11 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # set up wallpapers for multiple screens 
-exec --no-startup-id feh --bg-scale ~/.config/backgrounds/japan.jpg --bg-scale ~/.config/backgrounds/street.jpg
+exec --no-startup-id feh --bg-scale ~/.config/backgrounds/street.jpg --bg-scale ~/.config/backgrounds/japan.jpg
 
 # configure polybar
-# exec_always killall polybar
-# exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
+exec_always killall polybar
+exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -124,6 +124,28 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
+set $color-primary #ff9900
+set $color-secondary #000000
+set $color-tertiary #204a87
+set $color-alert #bd2c40
+set $color-light-gray #acacac
+set $color-medium-gray #777777
+set $color-dark-gray #555555
+set $color-black #000000
+set $color-white #e6e6e6
+client.focused             $color-dark-gray    #028391            $color-white         $color-medium-gray
+client.focused_inactive    $color-black        #028391        $color-medium-gray   $color-black
+client.unfocused           $color-black        $color-black        $color-dark-gray     $color-black
+client.urgent              $color-alert        $color-alert        $color-black         $color-black
+client.placeholder         $color-black        $color-black        $color-white         $color-black
+client.background          $color-black
+
+gaps outer 2 
+gaps inner 2 
+
+for_window [class="^.*"] border pixel $borderwidth
+
+
 # focus the child container
 #bindsym $mod+d focus child
 
@@ -173,33 +195,27 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+    # Pressing left will shrink the window’s width.
+    bindsym h resize grow width 5 px or 5 ppt
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+    # Pressing down will grow the window’s height.
+    bindsym j resize shrink height 5 px or 5 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+    # Pressing up will shrink the window’s height.
+    bindsym k resize grow height 5 px or 5 ppt
 
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+    # Pressing right will grow the window’s width.
+    bindsym l resize shrink width 5 px or 5 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
 bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-}
+# bar {
+#         status_command i3status
+# }
