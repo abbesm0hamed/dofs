@@ -133,14 +133,14 @@ set $color-medium-gray #777777
 set $color-dark-gray #555555
 set $color-black #000000
 set $color-white #e6e6e6
-client.focused             $color-dark-gray    #028391            $color-white         $color-medium-gray
+client.focused             $color-dark-gray    #2d353b            $color-white         $color-medium-gray
 client.focused_inactive    $color-black        #028391        $color-medium-gray   $color-black
 client.unfocused           $color-black        $color-black        $color-dark-gray     $color-black
 client.urgent              $color-alert        $color-alert        $color-black         $color-black
 client.placeholder         $color-black        $color-black        $color-white         $color-black
 client.background          $color-black
 
-gaps outer 2 
+gaps outer 3 
 gaps inner 2 
 
 for_window [class="^.*"] border pixel $borderwidth
