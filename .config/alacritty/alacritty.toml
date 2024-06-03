@@ -1,42 +1,42 @@
+#   █████╗ ██╗      █████╗  ██████╗██████╗ ██╗████████╗████████╗██╗   ██╗
+#  ██╔══██╗██║     ██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝╚══██╔══╝╚██╗ ██╔╝
+#  ███████║██║     ███████║██║     ██████╔╝██║   ██║      ██║    ╚████╔╝ 
+#  ██╔══██║██║     ██╔══██║██║     ██╔══██╗██║   ██║      ██║     ╚██╔╝  
+#  ██║  ██║███████╗██║  ██║╚██████╗██║  ██║██║   ██║      ██║      ██║   
+#  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝      ╚═╝   
+#	gh0stzk - https://github.com/gh0stzk/dotfiles
+
+import = ["~/.config/alacritty/rice-colors.toml", "~/.config/alacritty/fonts.toml"]
+
 live_config_reload = true
 
-[debug]
-log_level = "OFF"
-persistent_logging = false
-print_events = false
-render_timer = false
+[cursor]
+blink_interval = 550
+unfocused_hollow = false
+thickness = 0.15
 
-[font]
-size = 10 
+[cursor.style]
+blinking = "On"
+shape = "Block"
 
-[font.bold]
-family = "JetBrainsMono Nerd Font"
-style = "Bold"
-
-[font.bold_italic]
-family = "JetBrainsMono Nerd Font"
-style = "Bold Italic"
-
-[font.italic]
-family = "JetBrainsMono Nerd Font"
-style = "Italic"
-
-[font.normal]
-family = "JetBrainsMono Nerd Font"
-style = "Regular"
-
-[font.offset]
-x = 0
-y = 0
-
-[shell]
-program = "/bin/zsh"
+[selection]
+save_to_clipboard = true
 
 [window]
+decorations = "none"
+dynamic_title = true
+opacity = 0.9
 dynamic_padding = true
-opacity = 0.99 
-startup_mode = "Windowed"
 
 [window.padding]
-x = 6
-y = 6
+x = 0
+y = 0 
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[bell]
+animation = "Linear"
+duration = 0
+command = { program = "paplay", args = ["/usr/share/sounds/freedesktop/stereo/dialog-error.oga"] }
