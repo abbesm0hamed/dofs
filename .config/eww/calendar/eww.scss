@@ -1,0 +1,68 @@
+// Global
+*{
+    all: unset;
+    border-radius: 5px;
+  }
+  
+  // Variable Color's
+  $background: #545668;
+  $foreground: #A9B1D6;
+  
+  $black: #24283B;
+  $gray: #565F89;
+  $red: #F7768E;
+  $green: #73DACA;
+  $yellow: #E0AF68;
+  $blue: #7AA2F7;
+  $magenta: #bea1ff;
+  $cyan: #7DCFFF;
+  $white: $foreground;
+  
+  // EWW BAR
+  .eww_bar{
+    background-color: $background;
+  }
+  
+
+  // Calendar
+  .cal-box {
+    background-color: #1e1d2d;
+    font-family: Comic Mono;
+    font-size: 12px;
+    font-weight: bold;
+  
+    .cal-inner-box {
+        padding: 1px 1px 1px;
+  
+        .cal {
+            &.highlight {
+                padding: 1px;
+            }
+  
+            padding: .8rem .25rem 0rem;
+            margin-left: 10px;
+        }
+    }
+  }
+  
+  calendar:selected {
+    color: #af8cff;
+  }
+  
+  calendar.header {
+  color: #af8cff;
+  font-weight: bold;
+  }
+  
+  calendar.button {
+  color: #bea1ff
+  }
+  
+  calendar.highlight {
+  color: #bea1ff;
+  font-weight: bold;
+  }
+  
+  calendar:indeterminate {
+  color: $background;
+  }
