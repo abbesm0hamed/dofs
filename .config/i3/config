@@ -33,6 +33,7 @@ tiling_drag modifier titlebar
 
 # start a terminal
 bindsym $mod+Return exec wezterm
+bindsym $mod+Mod1+t exec alacritty
 # start the browser
 bindsym $mod+b exec brave
 # kill focused window
@@ -82,7 +83,6 @@ bindsym $mod+semicolon split h
 bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
-
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
@@ -202,10 +202,10 @@ for_window [class="(.*join\?action\=join.*|.*zoom.*)"] floating enable
 for_window [class="(.*join\?action\=join.*|.*zoom.*)" title="Zoom - Licensed Account"] floating disable
 for_window [class="(.*join\?action\=join.*|.*zoom.*)" title="Zoom Meeting"] floating disable
 
-set $bg-color 		#282a36c2
+set $bg-color 		#282a36
 set $inactive-text	#f8f8f2
 set $text-color		#8be9fd	
-set $urgent-bg		#ff5555c2
+set $urgent-bg		#ff5555
 set $indicator 		#bd93f9
 set $test 		#6272a4	
 
