@@ -14,6 +14,7 @@ run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 
 #run caffeine
 run sxhkd -c $HOME/.config/qtile/sxhkd/sxhkdrc &
 picom --config $HOME/.config/picom/picom.conf &
+autotiling &
 /usr/bin/dunst &
 run pamac-tray
 # run variety

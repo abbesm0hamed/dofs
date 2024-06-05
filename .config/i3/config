@@ -1,3 +1,6 @@
+exec_always --no-startup-id ~/.config/autostart.sh
+exec_always --no-startup-id autotiling
+
 set $mod Mod4
 
 gaps outer 3 
