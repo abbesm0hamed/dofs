@@ -2,7 +2,7 @@
 local wezterm = require("wezterm")
 
 local config = {}
--- font 
+-- font
 config.font = wezterm.font 'JetBrains Mono'
 
 config.colors = {
@@ -17,11 +17,11 @@ config.use_fancy_tab_bar = true
 
 -- keybinding
 
-config.font_size = 13
+config.font_size = 10
 
 config.inactive_pane_hsb = {
-	saturation = 0.7,
-	brightness = 0.6,
+  saturation = 0.7,
+  brightness = 0.6,
 }
 
 return config

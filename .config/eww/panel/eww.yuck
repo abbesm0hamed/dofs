@@ -1,0 +1,265 @@
+
+;; Volume vars
+(defpoll VOLUME :interval "1s" `scripts/panel/panel.sh --volume`)
+
+;;Weather
+(defpoll WEATHER :interval "1s" `scripts/panel/panel.sh --weather`)
+
+;;Brightness 
+(defpoll BRIGHTNESS :interval "1s" `scripts/panel/panel.sh --brightness`)
+;;Mic
+(defpoll MIC :interval "1s" `scripts/panel/panel.sh --mic`)
+
+(defpoll NOTI :interval "1s" `scripts/noti.sh --status`)
+;; System vars
+(defpoll VOLUME_LEVEL :interval "1s" `scripts/panel/system.sh volume`)
+(defpoll BRIGHTNESS_LEVEL :interval "1s" `scripts/panel/system.sh brightness`)
+(defpoll MIC_LEVEL :interval "1s" `scripts/panel/system.sh mic`)
+
+
+;; Resources vars
+(defpoll CPU_USAGE :interval "1s" `scripts/sys_info.sh --cpu`)
+(defpoll MEM_USAGE :interval "1s" `scripts/sys_info.sh --mem`)
+
+;; Network
+(defpoll WIFIICON :interval "10s" `scripts/check-network --icon`)
+(defpoll NETSTAT :interval "1s" `scripts/check-network --stat`)
+(defpoll ONOFF :interval "1s" `scripts/check-network --status`)
+
+
+;; Files vars
+(defpoll FREE :interval "5s" `df -h / | awk '{print $4}' | tail -n 1 | sed 's/G/GB/'`)
+
+;;WIDGETS------------------------------------------------------------------------------------------------------------------------
+
+
+
+(defwidget wifi [] 
+  (box :class "wid_get" :vexpand "false" :hexpand "false" :orientation "h"
+    (button  :class "wifiicon" :wrap "true" :limit-width 15 :onclick "scripts/check-network --toggle" "${WIFIICON}")
+    (box :class "namenstatus" :vexpand "false" :hexpand "false" :orientation "v"
+      (label :halign "start" :class "netstat" :wrap "true" :limit-width 15 :text NETSTAT)
+            (label :halign "start" :class "netstat" :wrap "true" :limit-width 15 :text ONOFF))))
+
+
+(defwidget notification [] 
+  (box :class "wid_get" :vexpand "false" :hexpand "false" :orientation "h"
+    (button  :class "wifiicon" :wrap "true"   :onclick "scripts/noti.sh --toggle" "󰍶")
+    (box :class "namenstatus" :vexpand "false" :hexpand "false" :orientation "v"
+      (label :halign "start" :class "dnd" :wrap "true" :limit-width 15 :text "DnD")
+            (label :halign "start" :class "netstat" :wrap "true" :limit-width 15 :text NOTI))))
+
+(defwidget volume [] 
+	(box :class "wid_get" :vexpand "false" :hexpand "false" 
+		    (button :halign "center" :class "noti" :wrap "true" :limit-width 15 :onclick "scripts/panel/volumetoggle.sh " "${VOLUME}")))
+
+(defwidget mic [] 
+	(box :class "wid_get" :vexpand "false" :hexpand "false" 
+		    (button :halign "center" :class "volume" :wrap "true" :limit-width 15 :onclick "scripts/panel/mictoggle.sh" "${MIC}")))
+
+(defwidget weather [] 
+	(box :class "wid_get" :vexpand "false" :hexpand "false" 
+		    (label :halign "center" :class "volume" :wrap "true" :limit-width 15 :text WEATHER)))
+(defwidget brightness [] 
+	(box :class "wid_get" :vexpand "false" :hexpand "false" 
+		    (label :halign "center" :class "volume" :wrap "true" :limit-width 15 :text BRIGHTNESS)))
+
+;; system
+(defwidget system [] 
+	(box :class "wid_get" :vexpand "false" :hexpand "false" 
+		(box :orientation "v" :spacing 35 :halign "center" :valign "center" :space-evenly "false" :vexpand "false" :hexpand "false"     
+			(box :class "volume_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false" 
+				(label :class "iconvolume" :text "󰕾")
+				(scale :min 0 :max 100 :value VOLUME_LEVEL :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%" ))
+			(box :class "brightness_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false" 
+				(label :class "iconbrightness" :text "󰃟")
+				(scale :min 0 :max 100 :value BRIGHTNESS_LEVEL :onchange "brightnessctl set {}%"))
+		  (box :class "mic_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false" 
+				(label :class "iconmic" :text "")
+				(scale :min 0 :max 100 :value MIC_LEVEL :onchange "pactl set-source-volume 0 {}%")))))
+
+
+
+(defwidget resources [] 
+		(box :class "wid_get"
+				(box :class "res_box" :orientation "v" :valign "center" :halign "center" :spacing 15 :space-evenly "false"
+					(box :class "res_circle" :orientation "v" :valign "center" :halign "center"
+						(circular-progress :class "res_cpu" :value CPU_USAGE :thickness 5
+							(label :class "res_circle_small" :text "CPU")))
+					(label :class "res_text" :valign "end" :halign "center" :text "${CPU_USAGE}%"))
+				(box :class "res_box" :orientation "v" :valign "center" :halign "center" :spacing 15 :space-evenly "false"
+					(box :class "res_circle" :orientation "v" :valign "center" :halign "center"
+						(circular-progress :class "res_mem" :value MEM_USAGE :thickness 5
+							(label :class "res_circle_small" :text "MEMORY")))
+					(label :class "res_text" :valign "end" :halign "center" :text "${MEM_USAGE}%"))))
+
+(defwidget folders [] 
+	(box :class "wid_get" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false" 
+		(box :class "hddbox" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false" 
+			(box :space-evenly "false" :vexpand "false" :hexpand "false"
+				(button :class "hddicon" :onclick "scripts/open_apps --fm" "")
+				(label :class "fs_sep" :text "|"))
+			(box :space-evenly "false" :vexpand "false" :hexpand "false" 
+				(label :class "hdd_label" :wrap "true" :limit-width 25 :text FREE)))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false" 
+			(button :class "iconfolder1" :onclick "scripts/open_folders --docs" "")
+			(button :class "label_folder1" :onclick "scripts/open_folders --docs" "Documents"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false" 
+			(button :class "iconfolder2" :onclick "scripts/open_folders --dl" "")
+			(button :class "label_folder2" :onclick "scripts/open_folders --dl" "Downloads"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false" 
+			(button :class "iconfolder3" :onclick "scripts/open_folders --5sem" "")
+			(button :class "label_folder3" :onclick "scripts/open_folders --5sem" "5th Semestre"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false" 
+			(button :class "iconfolder4" :onclick "scripts/open_folders --pics" "")
+			(button :class "label_folder4" :onclick "scripts/open_folders --pics" "Pictures"))
+		(box :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false" 
+			(button :class "iconfolder5" :onclick "scripts/open_folders --cfg" "ﮛ")
+			(button :class "label_folder5" :onclick "scripts/open_folders --cfg" "~/.config"))))
+
+
+
+;;WINDOWS------------------------------------------------------------------------------------------------------------------------
+;; wifi
+(defwindow wifi
+           :monitor 0
+           :geometry (geometry :x "1640px"
+                               :y "40px"
+                               :width "130px"
+                               :height "45px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(wifi))
+
+
+;; notification
+(defwindow notification
+           :monitor 0
+           :geometry (geometry 
+                               :x "1780px"
+                               :y "40px"
+                               :width "130px"
+                               :height "45px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(notification))
+
+
+
+
+;; brightness
+(defwindow brightness
+           :monitor 0
+           :geometry (geometry 
+                               :x "1640px"
+                               :y "95px"
+                               :width "83px"
+                               :height "45px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(brightness))
+
+;; volume
+(defwindow volume
+           :monitor 0
+           :geometry (geometry :x "1733px"
+                               :y "95px"
+                               
+                               :width "83px"
+                               :height "45px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(volume))
+
+
+;; mic
+(defwindow mic
+           :monitor 0
+           :geometry (geometry 
+                               :x "1827px"
+                               :y "95px"
+                               :width "83px"
+                               :height "45px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(mic))
+
+
+
+
+
+;; weather
+(defwindow weather
+           :monitor 0
+           :geometry (geometry :x "1720px"
+                               :y "90px"
+                               :width "80px"
+                               :height "40px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(weather))
+
+
+
+
+
+;; system
+(defwindow system
+           :monitor 0
+           :geometry (geometry :x "1640px"
+                               :y "150px"
+                               :width "270px"
+                               :height "120px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(system))
+
+;; resources
+(defwindow resources
+           :monitor 0
+           :geometry (geometry :x "1640px"
+                               :y "280px"
+                               :width "270px"
+                               :height "180px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(resources))
+
+
+;; folders
+(defwindow folders
+           :monitor 0
+           :geometry (geometry :x "1640px"
+                               :y "470px"
+                               :width "270px"
+                               :height "330px"
+                               :anchor "top left")
+           :stacking "fg"
+           :reserve (struts :distance "80px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+(folders))
