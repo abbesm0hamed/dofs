@@ -12,7 +12,7 @@ run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 
 #run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
 #autorandr horizontal
 #run caffeine
-run sxhkd -c ~/.config/qtile/sxhkd/sxhkdrc &
+run sxhkd -c $HOME/.config/qtile/sxhkd/sxhkdrc &
 picom --config $HOME/.config/picom/picom.conf &
 /usr/bin/dunst &
 run pamac-tray
@@ -22,7 +22,7 @@ run blueberry-tray
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run numlockx on
 run volumeicon
-# run conky -c $HOME/.config/awesome/system-overview
+# run conky -c $HOME/.config/conky/conky.conf
 #you can set wallpapers in themes as well
 run feh --bg-fill $HOME/.config/backgrounds/street.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg &
 # run feh --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest2.jpg --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest1.jpg &
