@@ -1,0 +1,64 @@
+#!/bin/bash
+
+count=0
+
+ID="$(ip link | awk '/state UP/ {print $2}')"
+SSID="$(iwgetid -r)"
+
+truncate_ssid() {
+    local ssid="$1"
+    if [[ ${#ssid} -gt 8 ]]; then
+        echo "${ssid:0:7}.."
+    else
+        echo "$ssid"
+    fi
+}
+
+net_stat () {
+    if (ping -c 1 archlinux.org || ping -c 1 google.com) &>/dev/null; then
+        if [[ $ID == e* ]]; then
+            echo "Online"
+            echo "images/icons/system/wifi.png"
+        else
+            truncated_ssid=$(truncate_ssid "$SSID")  # Corrected the function name here
+            echo "$truncated_ssid"
+            echo "images/icons/system/wifi.png"
+        fi
+    else
+        echo "Offline"
+        echo "images/icons/system/no-wifi.png"    
+    fi
+}
+
+if [[ $1 == '--stat' ]]; then
+    net_stat | head -n1
+elif [[ $1 == '--icon' ]]; then
+    signal=$(nmcli -t -f SIGNAL dev wifi list | head -n 1)
+
+    if ((signal < 30)); then
+        signal_symbol="󰤟"
+    elif ((signal < 60)); then
+        signal_symbol="󰤢"
+    elif ((signal < 90)); then
+        signal_symbol="󰤥"
+    else
+        signal_symbol="󰤨" 
+    fi
+
+    echo $signal_symbol
+
+elif [[ $1 == '--status' ]]; then
+
+    if nmcli radio wifi | grep -q "enabled"; then
+        echo "On"
+    else
+        echo "Off"
+    fi
+elif [[ $1 == '--toggle' ]]; then
+
+    if nmcli radio wifi | grep -q "enabled"; then
+        nmcli radio wifi off
+    else
+        nmcli radio wifi on
+    fi
+fi

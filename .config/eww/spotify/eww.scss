@@ -1,0 +1,74 @@
+/** Global *******************************************/
+*{
+	all: unset;
+	font-family: feather;
+	font-family: Iosevka;
+}
+
+/** Bar ***********************************/
+.wid_get {
+	background-color: #1e1e2e;
+	border-radius: 5px;
+}
+ 
+
+/** Music *************************************************/
+.album_art {
+	background-size: 220px;
+	min-height: 220px;
+	min-width: 220px;
+	margin: 10px;
+	border-radius: 12px;
+	border-color: #C6A0F6;
+}
+
+.song {
+	color: #8f5eff;
+	font-size : 20px;
+	font-weight : bold;
+}
+
+.artist {
+	color: #bea1ff;
+	font-size : 20px;
+	font-weight : normal;
+}
+
+
+.prev {
+	color: #bea1ff;
+	font-weight: normal;
+	font-size: 32px;
+}
+.play {
+	color: #bea1ff;
+	font-size: 48px;
+}
+.next {
+	color: #bea1ff;
+	font-weight: normal;
+	font-size:32px
+}
+
+
+/*.cava{
+	color: #6290C8;
+}*/
+
+scale trough{
+	all: unset;
+	background-color: #454547;
+	min-height: 10px;
+	min-width: 180px;
+	margin: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-radius: 12px;
+
+}
+
+scale trough highlight{
+	all: unset;
+	border-radius: 12px;
+	background-color: #bea1ff;
+}

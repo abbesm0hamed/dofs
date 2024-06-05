@@ -1,0 +1,31 @@
+;;battery vars
+(defpoll LOGO :interval "1s" `scripts/logo.sh`)
+(defpoll CYCLES :interval "1s" `scripts/battery.sh --cycles`)
+(defpoll STATE :interval "1s" `scripts/battery.sh --state`)
+(defpoll PERC :interval "1s" `scripts/battery.sh --perc`)
+(defpoll ENERGY :interval "1s" `scripts/battery.sh --energy`)
+(defpoll RATE :interval "1s" `scripts/battery.sh --rate`)
+
+
+(defwidget battery []
+  (box :class "wid_get" :vexpand "false" :hexpand "false"
+    (box :orientation "v" :halign "center" :valign "center" :space-evenly "false" :vexpand "false" :hexpand "false"
+      (box :class "volume_bar" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
+        (label :class "logo" :text LOGO :halign "center")
+        (label :class "text" :text PERC :halign "start")
+        (label :class "text" :text ENERGY :halign "start")
+        (label :class "text" :text RATE :halign "start")
+        (label :class "text" :text STATE :halign "start")
+        (label :halign "start" :class "text" :text CYCLES)))))
+
+
+
+;;---------------------------------------------------------------------------------------------------------------------------
+
+;; battery
+(defwindow battery :stacking "fg" :focusable "false" 
+	    :geometry (geometry :x 1664
+							:y 38
+							:width 220
+							:height 215)
+					(battery))
