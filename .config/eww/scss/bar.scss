@@ -1,0 +1,100 @@
+.main-bar {
+  padding: 10px 10px 5px 10px;
+  color: $foreground;
+}
+
+.block {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  background-color: $background;
+  padding: 0px 10px;
+}
+
+.launcher {
+  background-color: $secondary;
+  font-family: $icon-font;
+  font-size: 16px;
+  label {
+    margin-top: 4px;
+    margin-left: -1px;
+  }
+}
+
+.workspaces {
+  color: $secondary;
+  padding: 0px 5px;
+  button {
+    padding: 0px 5px;
+  }
+  .active-workspace {
+    color: $foreground;
+  }
+}
+
+.mode {
+  color: $secondary;
+  label:not(.separator) {
+    color: $other;
+    margin: 5px 5px 0px 5px;
+  }
+}
+
+.music {
+  padding: 0px;
+  .song-title {
+    margin: 0px 5px 0px 10px;
+  }
+  .separator {
+    color: $secondary;
+  }
+  button {
+    padding: 0px 2.5px;
+    margin-top: 5px;
+    font-family: $icon-font;
+    color: $other;
+  }
+  .song-prev {
+    padding-left: 5px;
+  }
+  .song-next {
+    padding-right: 5px;
+  }
+  .launch-music {
+    padding: 0px 10px 0px 5px;
+    color: $foreground;
+    &.closed {
+      padding: 0px 10px;
+    }
+  }
+}
+
+.settings {
+  font-family: $icon-font;
+  label {
+    margin-top: 5px;
+  }
+}
+
+.battery {
+  padding: 0px;
+  .battery-inner {
+    padding: 0px 10px;
+  }
+  .battery-icon {
+    margin-top: 5px;
+    font-family: $icon-font;
+  }
+  .battery-percent {
+    padding-left: 5px;
+  }
+}
+
+.tray {
+  padding: 0px;
+  button {
+    padding: 0px 10px;
+  }
+  label {
+    margin-top: 5px;
+  }
+}

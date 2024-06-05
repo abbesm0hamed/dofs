@@ -6,7 +6,7 @@
 #  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝      ╚═╝   
 #	gh0stzk - https://github.com/gh0stzk/dotfiles
 
-import = ["~/.config/alacritty/rice-colors.toml", "~/.config/alacritty/fonts.toml"]
+import = ["~/.config/alacritty/colors.toml", "~/.config/alacritty/fonts.toml"]
 
 live_config_reload = true
 
@@ -25,12 +25,13 @@ save_to_clipboard = true
 [window]
 decorations = "none"
 dynamic_title = true
-opacity = 0.9
+opacity = 0.5
+blur = true
 dynamic_padding = true
 
 [window.padding]
-x = 0
-y = 0 
+x = 8
+y = 4 
 
 [scrolling]
 history = 10000

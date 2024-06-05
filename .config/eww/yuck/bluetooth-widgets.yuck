@@ -1,0 +1,14 @@
+(defwidget bluetooth []
+  (box
+    :class "window"
+    ; :orientation "vertical"
+    (bluetoothtitle)))
+
+(defwidget bluetoothtitle []
+  (box
+    :class "title"
+    :valign "start"
+    (label
+      :halign "start"
+      :text "Bluetooth")))
+  

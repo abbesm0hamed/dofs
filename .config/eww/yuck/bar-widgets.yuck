@@ -1,0 +1,152 @@
+(defwidget bar [monitor]
+    (centerbox  
+      :class "main-bar"
+      (left :monitor monitor)
+      (datetime)
+      (right :monitor monitor)))
+  
+(defwidget left [monitor]
+  (box 
+    :space-evenly false
+    :spacing 5
+    :halign "start"
+    (launcher)
+    (box
+      :class "block workspaces"
+      :space-evenly false
+      (workspaces :monitor monitor)
+      (mode))
+    (window))) 
+
+(defwidget right [monitor]
+  (box 
+    :space-evenly false
+    :spacing 5
+    :halign "end"
+    (music)
+    ; (settings)
+    (battery :monitor monitor)
+    (tray)))
+
+(defwidget launcher []
+  (eventbox
+    :cursor "pointer"
+    :tooltip "Apps"
+    (button 
+      :class "block launcher"
+      :onclick "rofi -show drun -show-icons &"
+      :onrightclick "rofi -show power-menu -modi power-menu:rofi-power-menu -config ~/.config/rofi/config-power.rasi &"
+      "")))
+
+(defwidget workspaces [monitor]
+  (box
+    :space-evenly false
+    (for workspace in workspaces
+      (eventbox
+        :cursor "pointer"
+        :visible {workspace.output == monitor ? true : false}
+        (button
+          :class {workspace.focused ? "active-workspace" : ""}
+          :onclick "i3-msg workspace ${workspace.name}"
+          "${workspace.name}")))))
+
+(defwidget mode []
+  (box
+    :class "mode"
+    :space-evenly false
+    :halign "end"
+    (label
+      :class "separator"
+      :visible {mode == "default" ? false : true}
+      :text "|")
+    (label
+      :visible {mode == "default" ? false : true}
+      :text "${mode}")))
+
+(defwidget window []
+  (label 
+    :class "block" 
+    :visible {window != "" ? true : false}
+    :text "${window}"))
+
+(defwidget datetime []
+  (label
+    :class "block"
+    :text "${datetime}"))
+
+(defwidget music []
+  (box
+    :class "block music"
+    :space-evenly false
+    (label 
+      :class "song-title"
+      :visible {player.player ? true : false} 
+      :text "${player.title}")
+    (label 
+      :class "separator" 
+      :visible {player.player ? true : false} 
+      :text "|") 
+    (eventbox
+      :cursor "pointer"
+      (button
+        :class "song-prev"
+        :visible {player.player ? true : false}
+        :onclick "playerctl -p spotify,Feishin previous"
+        "玲"))
+    (eventbox
+      :cursor "pointer"
+      (button
+        :visible {player.player ? true : false}
+        :onclick "playerctl -p spotify,Feishin play-pause" 
+        (label :text {player.playing ? "" : "契"})))
+    (eventbox
+      :cursor "pointer"
+      (button
+        :class "song-next"
+        :visible {player.player ? true : false}
+        :onclick "playerctl -p spotify,Feishin next"
+        "怜"))
+    (label 
+      :class "separator" 
+      :visible {player.player ? true : false} 
+      :text "|") 
+    (eventbox
+      :cursor "pointer"
+      (button
+        :class {player.player ? "launch-music" : "launch-music closed"}
+        :onclick "~/.config/eww/scripts/open-spotify.sh &"
+        ""))))
+
+(defwidget settings []
+  (box
+    :class "block"
+    (button
+      :onclick "~/.config/eww/scripts/open-bluetooth.sh ${bluetoothopen} &"
+      "BL")))
+
+(defwidget battery [monitor]
+  (box
+    :class "block battery"
+    (eventbox
+      :onhover "eww update batterypercent=${monitor}"
+      :onhoverlost "eww update batterypercent=false"
+      (box
+        :class "battery-inner"
+        :space-evenly false
+        (label 
+          :class "battery-icon" 
+          :text "${battery.icon}")
+        (revealer
+          :class "battery-percent"
+          :transition "slideright"
+          :reveal {batterypercent == monitor}
+          "${battery.percent}%")))))
+
+(defwidget tray []
+  (box
+    :class "block tray"
+    (eventbox
+      :cursor "pointer"
+      (button
+        :onclick "~/.config/eww/scripts/open-tray.sh ${tray} &"
+        ""))))
