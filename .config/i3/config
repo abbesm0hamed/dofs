@@ -1,7 +1,7 @@
 include $HOME/.config/i3/rules.conf
 include $HOME/.config/i3/modes.conf
 include $HOME/.config/i3/themes/moonfly.conf
-exec_always --no-startup-id ~/.config/autostart.sh
+exec_always --no-startup-id $HOME/.config/scripts/autostart.sh
 exec_always --no-startup-id autotiling
 
 focus_on_window_activation focus

@@ -1,0 +1,1 @@
+.config/scripts/mic.sh
