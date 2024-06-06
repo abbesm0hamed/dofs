@@ -6,35 +6,40 @@ function run {
 	fi
 }
 
-run nm-applet
 run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 --rotate normal --output HDMI-2-0 --off
-#run xrandr --output VGA-1 --primary --mode 1360x768 --pos 0x0 --rotate normal
+# xrandr --output DP-1 --off --output DP-2 --mode 1920x1080 --pos 1920x415 --rotate normal --output DP-3 --primary --mode 1920x1080 --pos 0x884 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 1920x1495 --rotate normal
+#
+# compositor
+run killall picom
+while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
+run picom --config ~/.config/picom/picom.conf --vsync &
+
+run kill polybar
+run ~/.config/i3/polybar/launch_polybar.sh
+
+# run ~/.config/eww/launch.sh
+
 #run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
 #autorandr horizontal
 #run caffeine
-run sxhkd -c $HOME/.config/qtile/sxhkd/sxhkdrc &
-picom --config $HOME/.config/picom/picom.conf &
-autotiling &
-/usr/bin/dunst &
+run autotiling
+run dunst
 run pamac-tray
-# run variety
+run variety
 run xfce4-power-manager
 run blueberry-tray
+run blueman-applet
+run nm-applet
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run numlockx on
 run volumeicon
+run flameshot
+
 # run conky -c $HOME/.config/conky/conky.conf
 #you can set wallpapers in themes as well
 run feh --bg-fill $HOME/.config/backgrounds/street.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg &
 # run feh --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest2.jpg --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest1.jpg &
 # run nitrogen --restore &
-#run applications from startup
-# run brave
-# run wezterm
-#run atom
-#run dropbox
-#run insync start
-#run spotify
-#run ckb-next -b
-#run discord --start-minimized &
-#run telegram-desktop
+#
+#sxhkd
+run sxhkd -c $HOME/.config/sxhkd/sxhkdrc

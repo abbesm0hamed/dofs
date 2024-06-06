@@ -1,122 +1,106 @@
+include $HOME/.config/i3/rules.conf
+include $HOME/.config/i3/modes.conf
+include $HOME/.config/i3/themes/moonfly.conf
 exec_always --no-startup-id ~/.config/autostart.sh
 exec_always --no-startup-id autotiling
 
-set $mod Mod4
+focus_on_window_activation focus
+workspace_auto_back_and_forth yes
 
-gaps outer 3 
-gaps inner 2 
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+set $mod Mod4
 
 font pango:JetBrains Mono 8
 
 # start zsh
 exec zsh
 
-exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# exec --no-startup-id dex --autostart --environment i3
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # configure polybar
-exec_always killall polybar
-exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
+# exec_always killall polybar
+# exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
+
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# set $refresh_i3status killall -SIGUSR1 i3status
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
 
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec wezterm
-bindsym $mod+Mod1+t exec alacritty
+# bindsym $mod+Return exec wezterm
+# bindsym $mod+Mod1+t exec alacritty
 # start the browser
-bindsym $mod+b exec brave
+# bindsym $mod+b exec brave
 # kill focused window
-bindsym $mod+q kill
+# bindsym $mod+q kill
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindsym $mod+p exec "rofi -modi drun,run -show drun"
-bindsym $mod+p exec rofi -modi drun -show drun -show-icons
-bindsym $mod+c exec --no-startup-id rofi -show combi
-bindsym $mod+Tab exec --no-startup-id rofi -show window
-bindsym Mod1+d exec flameshot gui
+# bindsym $mod+p exec rofi -modi drun -show drun -show-icons
+# bindsym $mod+c exec --no-startup-id rofi -show combi
+# bindsym $mod+Tab exec --no-startup-id 
+# bindsym Mod1+d exec flameshot gui
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+# bindsym $mod+h focus left
+# bindsym $mod+j focus down
+# bindsym $mod+k focus up
+# bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+# bindsym $mod+Left focus left
+# bindsym $mod+Down focus down
+# bindsym $mod+Up focus up
+# bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+# bindsym $mod+Shift+h move left
+# bindsym $mod+Shift+j move down
+# bindsym $mod+Shift+k move up
+# bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# bindsym $mod+Shift+Left move left
+# bindsym $mod+Shift+Down move down
+# bindsym $mod+Shift+Up move up
+# bindsym $mod+Shift+Right move right
 
-bindsym $mod+Ctrl+Left move workspace to output left
-bindsym $mod+Ctrl+Right move workspace to output right
+# bindsym $mod+Ctrl+Left move workspace to output left
+# bindsym $mod+Ctrl+Right move workspace to output right
 
 # split in horizontal orientation
-bindsym $mod+semicolon split h
+# bindsym $mod+semicolon split h
 # split in vertical orientation
-bindsym $mod+v split v
+# bindsym $mod+v split v
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+# bindsym $mod+f fullscreen toggle
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+# bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
-
-set $color-primary #ff9900
-set $color-secondary #000000
-set $color-tertiary #204a87
-set $color-alert #bd2c40
-set $color-light-gray #acacac
-set $color-medium-gray #777777
-set $color-dark-gray #555555
-set $color-black #000000
-set $color-white #e6e6e6
-client.focused             $color-dark-gray    #2d353b             $color-white         $color-medium-gray
-client.focused_inactive    $color-black        #028391             $color-medium-gray   $color-black
-client.unfocused           $color-black        $color-black        $color-dark-gray     $color-black
-client.urgent              $color-alert        $color-alert        $color-black         $color-black
-client.placeholder         $color-black        $color-black        $color-white         $color-black
-client.background          $color-black
-
-
-for_window [class="^.*"] border pixel $borderwidth
-
+# bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -159,79 +143,31 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+# bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+# bindsym $mod+Shift+r restart
 # bindsym $mod+l exec i3lock-fancy
 # Toggle the inactive opacity for picom.
-bindsym $mod+Shift+o exec ~/.config/picom/scripts/toggle-picom-inactive-opacity.sh && polybar-msg action "#read-mode.exec"
+# bindsym $mod+Shift+o exec ~/.config/picom/scripts/toggle-picom-inactive-opacity.sh && polybar-msg action "#read-mode.exec"
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
-bindsym $mod+r mode ""
-mode ""{
-        bindsym l resize shrink width 5 px or 5 ppt
-        bindsym j resize grow height 5 px or 5 ppt
-        bindsym k resize shrink height 5 px or 5 ppt
-        bindsym h resize grow width 5 px or 5 ppt
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
-}
-
-assign [class="brave"] $ws1
-assign [class="wezterm"] $ws2
-assign [class="Slack"] $ws8
-assign [class="discord"] $ws9
-for_window [class="brave"] move to workspace $ws1 focus
-for_window [class="wezterm"] move to workspace $ws2 focus
-for_window [class="Slack"] move to workspace $ws8 focus
-for_window [class="discord"] move to workspace $ws9 focus
-
-default_border pixel 1
-default_floating_border pixel 1
-
-for_window [urgent="latest" class="firefox"] focus
-focus_on_window_activation focus
-
-for_window [class="^.*"] border pixel 1
-for_window [class="stalonetray"] border pixel 0
-for_window [class="Florence"] floating enable
-for_window [class="(.*join\?action\=join.*|.*zoom.*)"] floating enable
-for_window [class="(.*join\?action\=join.*|.*zoom.*)" title="Zoom - Licensed Account"] floating disable
-for_window [class="(.*join\?action\=join.*|.*zoom.*)" title="Zoom Meeting"] floating disable
-
-set $bg-color 		#282a36
-set $inactive-text	#f8f8f2
-set $text-color		#8be9fd	
-set $urgent-bg		#ff5555
-set $indicator 		#bd93f9
-set $test 		#6272a4	
-
-# 			border		background	text		indicator
-client.focused		$bg-color	$test		$text-color	$text-color
-client.unfocused	$bg-color	$bg-color	$inactive-text	$text-color	
-client.focused_inactive	$bg-color	$bg-color	$inactive-text	$text-color	
-client.urgent		$bg-color	$urgent-bg	$urgent-bg	$text-color	
-
-exec --no-startup-id picom --experimental-backends 
-exec --no-startup-id xrdb ~/.config/X11/xresources
-exec --no-startup-id ~/.config/eww/launch.sh
-exec --no-startup-id nm-applet 
-exec --no-startup-id blueman-applet 
-exec --no-startup-id volumeicon 
-exec --no-startup-id autorandr -c
-exec --no-startup-id flameshot
-exec --no-startup-id nitrogen --restore
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id dunst
-
-
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-# bar {
-#         status_command i3status
+# bindsym $mod+r mode ""
+# mode ""{
+#         bindsym l resize shrink width 5 px or 5 ppt
+#         bindsym j resize grow height 5 px or 5 ppt
+#         bindsym k resize shrink height 5 px or 5 ppt
+#         bindsym h resize grow width 5 px or 5 ppt
+#
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+#         bindsym $mod+r mode "default"
 # }
+
+
+# bindsym $mod+v [class="vol"] scratchpad show; move position center
+# bindsym $mod+n [class="ttrm"] scratchpad show; move position center
+# bindsym $mod+m [class="mus"] scratchpad show; move position center
+# bindsym $mod+b [class="news"] scratchpad show; move position center
+# bindsym $mod+c [class="fm"] scratchpad show; move position center

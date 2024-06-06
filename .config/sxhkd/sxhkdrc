@@ -3,6 +3,170 @@
 #################################################################
 
 #################################################################
+# i3 specific
+#################################################################
+
+super + Escape
+    pkill -USR1 -x sxhkd
+
+super + shift + Return
+    krusader
+
+ctrl + j
+    zim
+
+alt + z; {a,s}
+   {viddesc, poddesc}
+
+alt + x
+	wc.sh
+
+super + g; {n,t,l,g,k,a,o} 
+  {nitrogen,telegram-desktop,lowriter,flatpak run org.gimp.GIMP,flatpak run org.kde.kdenlive,flatpak run org.audacityteam.Audacity,flatpak run com.obsproject.Studio}
+
+super + s; {s,b,a,c,r,d,e}
+  {dmsearch,bm.sh,dmconf,clipmenu,rofi-beats-linux, flatpak run org.mozilla.firefox snapdrop.net, emoji}
+
+super + shift + b
+    addbm.sh
+
+super + r; {r,a}
+    {ricer.sh, alchanger.sh}
+
+alt + g
+    rofi-mpc
+
+alt + p
+    rofi -show
+
+# Application Keybindings
+
+super + w
+    flatpak run org.mozilla.firefox
+
+super + shift + w
+    flatpak run org.mozilla.firefox --private-window
+ctrl + w
+    qutebrowser
+alt + s
+    flatpak run com.todoist.Todoist
+
+alt + n 
+    flatpak run com.discordapp.Discord
+
+ctrl + alt + s
+    flameshot gui
+
+#Audio Keybindings
+
+XF86AudioRaiseVolume
+    amixer -c 1 -- sset Master 2db+
+
+XF86AudioLowerVolume
+    amixer -c 1 -- sset Master 2db-
+
+XF86AudioMute
+    amixer -c 1 -- sset Master toggle
+
+alt + d
+    amixer -c 1 -- sset Master 2db+
+
+alt + a
+    amixer -c 1 -- sset Master 2db-
+
+XF86AudioPlay
+    playerctl play-pause
+
+ctrl + alt + p
+    playerctl play-pause
+
+XF86AudioNext
+    playerctl next
+
+XF86AudioPrev
+    playerctl previous
+
+ctrl + shift + period
+    playerctl next
+
+ctrl + shift + comma
+    playerctl previous
+
+XF86AudioStop
+    playerctl stop
+
+alt + {h,j,k,l}
+   mpc {prev,next,play,pause}
+
+#i3 Specific Keybindings
+
+#movement
+
+super+{h,j,k,l}
+    i3-msg focus {left,down,up,right}
+
+super+shift+{h,j,k,l}
+    i3-msg move {left,down,up,right}
+
+super + {z,x}
+    i3-msg split {v,h}
+
+super + f
+    i3-msg fullscreen toggle
+
+super + shift + space
+    i3-msg floating toggle
+
+super + space
+    i3-msg focus mode_toggle
+
+super + a
+    i3-msg focus parent
+
+
+#workspaces
+
+super + shift + b
+    i3-msg move workspace to output next
+
+#super + {1-9,0}
+#    /usr/local/bin/i3_workspace_swapper.sh {1-9,0}
+
+#super + {1-9,0}
+ #   i3-msg workspace {1-9,10}
+
+#alt + {0,1,2,3,4,5,6,7,8,9}
+ #  i3-msg workspace {10,11,12,13,14,15,16,17,18,19}
+
+super + shift + {1-9,0}
+    i3-msg move container to workspace number {1-9,0}
+
+#alt+shift+{0,1,2,3,4,5,6,7,8,9}
+#    i3-msg move container to workspace number {10,11,12,13,14,15,16,17,18,19}
+
+
+super + Return
+    kitty
+
+alt + Return
+    kitty
+
+super + q
+    i3-msg kill
+
+super + shift + c
+    i3-msg reload
+
+super + shift + r
+    i3-msg restart
+
+super + ctrl + {h,j,k,l}
+    i3-msg resize {grow width 1 px or 1 ppt, shrink height 1 px or 1 ppt, grow height 1 px or 1 ppt, shrink width 1 px or 1 ppt}
+
+super + y
+    polybar-msg cmd toggle
+
+#################################################################
 # SUPER + FUNCTION KEYS
 #################################################################
 
@@ -48,7 +212,7 @@ super + F10
 
 #Rofi Fullscreen
 super + F11
-    rofi -theme-str 'window \{width: 100%;height: 100%;\}' -show drun
+    rofi -theme-str 'window \{width: 100%;height: 100%;\}' -show drun -show-icons
 
 #Rofi
 super + F12
@@ -59,12 +223,12 @@ super + F12
 #################################################################
 
 #Atom
-super + e
-    atom
+# super + e
+#     atom
 
 #Browser
-super + w
-    vivaldi-stable
+super + b
+    brave
 
 #Conky-toggle
 super + c
@@ -102,9 +266,9 @@ super + v
 super + m
     lollypop
 
-#alacritty
+#Wezterm
 super + Return
-    alacritty
+    wezterm
 
 #Xkill
 super + Escape
@@ -129,12 +293,18 @@ super + shift + Return
 #	thunar
 
 #dmenu
-super + shift + d
-	dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
+# super + shift + d
+# 	dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
     
-#dmenu
-super + d
-    rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/qtile/rofi/launcher2.rasi
+#rofi menu
+super + p
+    rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/rofi/config.rasi
+
+super + c 
+    rofi -show combi
+
+super + tab 
+    rofi -show window
 
 #reload sxhkd:
 super + shift + s
@@ -150,23 +320,23 @@ super + shift + s
 #################################################################
 
 #arcolinux-welcome-app
-ctrl + alt + w
-     arcolinux-welcome-app
+# ctrl + alt + w
+#      arcolinux-welcome-app
 
 #archlinux-tweak-tool
 ctrl + alt + e
     archlinux-tweak-tool
 
 #conky-rotate
-ctrl + alt + Next
-     conky-rotate -n
+# ctrl + alt + Next
+#      conky-rotate -n
 
 #conky-rotate
-ctrl + alt + Prior
-    conky-rotate -p
+# ctrl + alt + Prior
+#     conky-rotate -p
 
 #File-Manager
-ctrl + alt + b
+ctrl + alt + f
      thunar
 
 #Catfish
@@ -319,8 +489,8 @@ ctrl + shift + Escape
 #################################################################
 
 #Scrot
-Print
-    scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
+# Print
+#     scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
 
 #screeenshooter
 ctrl + Print
@@ -346,11 +516,11 @@ F12
 
 #Raises volume
 XF86AudioRaiseVolume
-    amixer set Master 10%+
+    amixer set Master 5%+
 
 #Lowers volume
 XF86AudioLowerVolume
-    amixer set Master 10%-
+    amixer set Master 5%-
 
 #Mute
 XF86AudioMute
@@ -383,11 +553,11 @@ XF86AudioStop
 
 #Brightness up
 XF86MonBrightnessUp
-    xbacklight -inc 10
+    xbacklight -inc 5
 
 #Brightness down
 XF86MonBrightnessDown
-    xbacklight -dec 10
+    xbacklight -dec 5 
 
 
 
@@ -403,7 +573,7 @@ XF86MonBrightnessDown
 
 #Picom Toggle
 ctrl + alt + o
-    ~/.config/qtile/scripts/picom-toggle.sh
+    ~/.config/scripts/picom/toggle-picom-inactive-opacity.sh
 
 #################################################################
 # SUPER + SHIFT KEYS
