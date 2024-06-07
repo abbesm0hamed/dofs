@@ -1,0 +1,135 @@
+---
+- name: Install software on Arch Linux
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Ensure base-devel and other dependencies are installed
+      pacman:
+        name:
+          - base-devel
+          - git
+          - nodejs
+          - npm
+          - zsh
+        state: present
+
+    - name: Install Yay AUR helper
+      git:
+        repo: "https://aur.archlinux.org/yay.git"
+        dest: "/tmp/yay"
+        clone: yes
+      register: yay_clone
+
+    - name: Build and install Yay
+      command: "makepkg -si --noconfirm"
+      args:
+        chdir: "/tmp/yay"
+      when: yay_clone.changed
+
+    - name: Install packages from official repositories
+      pacman:
+        name:
+          - wezterm
+          - neofetch
+          - tmux
+          - nodejs
+          - npm
+          - nerd-fonts
+          - fzf
+          - ripgrep
+          - lazygit
+          - zsh
+          - rofi
+          - polybar
+          - feh
+          - docker
+          - flameshot
+          - github-cli
+          - bat
+          - tldr
+          - zoxide
+          - nitch
+          - lsd
+          - dunst
+          - sxhkd
+          - ranger
+          - cava
+          - neovim
+          - alacritty
+          - xcolor
+          - mpv
+          - gimp
+          - cheese
+          - audacity
+          - discord
+          - htop
+          - ncdu
+          - libreoffice-fresh
+          - keepassxc
+          - calibre
+          - vlc
+          - inkscape
+          - blender
+          - ufw
+          - clamav
+          - firefox
+          - chromium
+          - redshift
+        state: present
+
+    - name: Install packages from AUR using Yay
+      yay:
+        name:
+          - brave-bin
+          - tpm
+          - tmuxifier
+          - nvm
+          - espanso
+          - conky
+          - picom-jonaburg-git
+          - anydesk
+          - meshvibes
+          - autotiling
+          - slack-desktop
+          - telegram-desktop
+          - whatsapp-nativefier
+          - virtualbox
+          - code-bin
+          - postman-bin
+          - zoom
+          - teams
+          - the_silver_searcher
+          - exa
+          - fd
+        state: present
+        use_aur: yes
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Docker Compose
+      command: "sudo pacman -S docker-compose --noconfirm"
+
+    - name: Enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Change default shell to Zsh
+      command: "chsh -s /usr/bin/zsh"
+      become_user: "{{ ansible_user_id }}"
+
+    - name: Verify Zsh is the default shell
+      command: "echo $SHELL"
+      register: shell_check
+      changed_when: "shell_check.stdout != '/usr/bin/zsh'"
+
+    - name: Print message about Zsh default shell change
+      debug:
+        msg: "Please log out and log back in to use Zsh as your default shell."
+
+    - name: Cleanup Yay build files
+      file:
+        path: "/tmp/yay"
+        state: absent
+        force: yes
