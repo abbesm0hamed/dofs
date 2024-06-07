@@ -73,9 +73,10 @@
           - blender
           - ufw
           - clamav
-          - firefox
-          - chromium
+          # - firefox
+          # - chromium
           - redshift
+          - kvantum
         state: present
 
     - name: Install packages from AUR using Yay
