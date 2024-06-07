@@ -80,33 +80,31 @@
         state: present
 
     - name: Install packages from AUR using Yay
-      yay:
-        name:
-          - brave-bin
-          - tpm
-          - tmuxifier
-          - nvm
-          - espanso
-          - conky
-          - picom-jonaburg-git
-          - anydesk
-          - meshvibes
-          - autotiling
-          - slack-desktop
-          - telegram-desktop
-          - whatsapp-nativefier
-          - virtualbox
-          - code-bin
-          - postman-bin
-          - zoom
-          - teams
-          - the_silver_searcher
-          - exa
-          - fd
-        state: present
-        use_aur: yes
-        update_cache: yes
-        upgrade: yes
+      command: "yay -S --noconfirm {{ item }}"
+      with_items:
+        - brave-bin
+        - tpm
+        - tmuxifier
+        - nvm
+        - espanso
+        - conky
+        - picom-jonaburg-git
+        - anydesk
+        - meshvibes
+        - autotiling
+        - slack-desktop
+        - telegram-desktop
+        - whatsapp-nativefier
+        - virtualbox
+        - code-bin
+        - postman-bin
+        - zoom
+        - teams
+        - the_silver_searcher
+        - exa
+        - fd
+      args:
+        creates: "/usr/bin/{{ item }}"
 
     - name: Install Docker Compose
       command: "sudo pacman -S docker-compose --noconfirm"
