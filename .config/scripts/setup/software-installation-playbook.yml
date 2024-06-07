@@ -29,6 +29,7 @@
     - name: Install packages from official repositories
       pacman:
         name:
+          - stow
           - wezterm
           - neofetch
           - tmux
@@ -62,7 +63,7 @@
           - cheese
           - audacity
           - discord
-          - htop
+          - btop
           - ncdu
           - libreoffice-fresh
           - keepassxc
@@ -115,6 +116,13 @@
         enabled: yes
         state: started
 
+    - name: Install zinit
+      shell: |
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma-continuum/zinit/master/scripts/install.sh)"
+      args:
+        creates: /home/{{ ansible_user_id }}/.zinit/bin/zinit.zsh
+      become: false
+
     - name: Change default shell to Zsh
       command: "chsh -s /usr/bin/zsh"
       become_user: "{{ ansible_user_id }}"
@@ -127,6 +135,13 @@
     - name: Print message about Zsh default shell change
       debug:
         msg: "Please log out and log back in to use Zsh as your default shell."
+
+    - name: Install TPM (Tmux Plugin Manager)
+      git:
+        repo: https://github.com/tmux-plugins/tpm
+        dest: /home/{{ ansible_user_id }}/.tmux/plugins/tpm
+        version: master
+      become: false
 
     - name: Cleanup Yay build files
       file:
