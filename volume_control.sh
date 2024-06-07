@@ -1,1 +1,0 @@
-.config/scripts/volume_control.sh

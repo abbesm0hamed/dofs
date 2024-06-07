@@ -1,1 +1,0 @@
-.config/scripts/autostart.sh

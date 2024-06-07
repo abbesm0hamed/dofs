@@ -1,1 +1,0 @@
-.config/scripts/pacman-updates.py

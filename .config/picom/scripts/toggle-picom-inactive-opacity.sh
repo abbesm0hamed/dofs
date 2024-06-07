@@ -1,8 +1,8 @@
 # Data.
 NO_DIM="inactive-opacity = 1.00;"
 DIM="inactive-opacity = 0.85;"
-FILENAME="/home/alex/.config/picom/picom.conf"
-STATE_FILE="/home/alex/.config/picom/read-mode-state"
+FILENAME="/home/abbes/.config/picom/picom.conf"
+STATE_FILE="/home/abbes/.config/picom/read-mode-state"
 
 # Clear the file contents.
 >$STATE_FILE
