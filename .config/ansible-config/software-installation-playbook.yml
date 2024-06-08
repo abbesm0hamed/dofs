@@ -2,10 +2,9 @@
 - name: Install software on Arch Linux
   hosts: localhost
   become: yes
-  vars:
-    yay_path: "/usr/local/bin/yay"
+
   tasks:
-    - name: Ensure base-devel and other dependencies are installed
+    - name: Ensure base-devel and other essential dependencies are installed
       pacman:
         name:
           - base-devel
@@ -15,6 +14,10 @@
           - zsh
         state: present
 
+- name: Clone and Install Yay AUR Helper
+  hosts: localhost
+  become: yes
+  tasks:
     - name: Clone Yay AUR helper
       git:
         repo: "https://aur.archlinux.org/yay.git"
@@ -56,7 +59,11 @@
       debug:
         msg: "yay version: {{ yay_version_output.stdout }}"
 
-    - name: Install packages from official repositories
+- name: Install Development Tools
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install development tools from official repositories
       pacman:
         name:
           - stow
@@ -65,75 +72,101 @@
           - tmux
           - nodejs
           - npm
-          - nerd-fonts
-          - fzf
-          - ripgrep
           - lazygit
-          - zsh
-          - rofi
-          - polybar
-          - feh
           - docker
-          - flameshot
           - github-cli
           - bat
           - tldr
           - zoxide
           - lsd
-          - dunst
-          - sxhkd
           - ranger
           - neovim
           - alacritty
-          - xcolor
           - mpv
-          - gimp
-          - cheese
-          - audacity
-          - discord
-          - btop
           - ncdu
-          - libreoffice-fresh
           - keepassxc
+          - libreoffice-fresh
+          - btop
           - calibre
           - vlc
           - inkscape
           - blender
-          - ufw
-          - clamav
-          # - firefox
-          # - chromium
-          - redshift
-          - kvantum
         state: present
 
-    - name: Install packages from AUR using Yay
+    - name: Install development tools from AUR using Yay
       command: "{{ yay_path }} -S --noconfirm {{ item }}"
       with_items:
         - brave-bin
         - tpm
         - tmuxifier
         - nvm
-        - espanso
-        - conky
-        - picom-jonaburg-git
-        - anydesk
-        - meshvibes
-        - autotiling
-        - slack-desktop
-        - telegram-desktop
-        - whatsapp-nativefier
+        - postman-bin
         - virtualbox
         - code-bin
-        - postman-bin
-        - zoom
-        - teams
+        - fastfetch
         - the_silver_searcher
         - exa
         - fd
 
-    - name: Install Docker Compose
-      command: "sudo pacman -S docker-compose --noconfirm"
+- name: Install Fonts and Appearance Tools
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install fonts and appearance tools from official repositories
+      pacman:
+        name:
+          - nerd-fonts
+          - rofi
+          - polybar
+          - feh
+          - flameshot
+          - dunst
+          - kvantum
+          - redshift
+          - xcolor
+        state: present
+
+    - name: Install fonts and appearance tools from AUR using Yay
+      command: "{{ yay_path }} -S --noconfirm {{ item }}"
+      with_items:
+        - espanso
+        - conky
+        - picom-jonaburg-git
+
+- name: Install Network and Communication Tools
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install network and communication tools from official repositories
+      pacman:
+        name:
+          - discord
+          - telegram-desktop
+          - slack-desktop
+          - zoom
+          - teams
+          - anydesk
+        state: present
+
+    - name: Install network and communication tools from AUR using Yay
+      command: "{{ yay_path }} -S --noconfirm {{ item }}"
+      with_items:
+        - whatsapp-nativefier
+
+- name: Install Media and Utility Tools
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install media and utility tools from official repositories
+      pacman:
+        name:
+          - gimp
+          - cheese
+          - audacity
+          - docker-compose
+          - ufw
+          - clamav
+        state: present
 
     - name: Enable Docker service
       systemd:
@@ -141,6 +174,10 @@
         enabled: yes
         state: started
 
+- name: Shell Configuration and Customization
+  hosts: localhost
+  become: yes
+  tasks:
     - name: Install zinit
       shell: |
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma-continuum/zinit/master/scripts/install.sh)"
@@ -168,17 +205,8 @@
         version: master
       become: false
 
-    - name: Install nitch
-      shell: |
-        wget https://raw.githubusercontent.com/unxsh/nitch/main/setup.sh
-        sh setup.sh
-      args:
-        creates: /usr/local/bin/nitch
-      become: false
-
     - name: Cleanup Yay build files
       file:
         path: "/tmp/yay"
         state: absent
         force: yes
-
