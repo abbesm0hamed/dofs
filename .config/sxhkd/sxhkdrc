@@ -422,11 +422,11 @@ alt + f
     variety -f
 
 #Wallpaper previous
-alt + Left
+alt + shift + Left
     variety -p
 
 #Wallpaper next
-alt + Right
+alt + shift + Right
     variety -n
 
 #Wallpaper toggle-pause
