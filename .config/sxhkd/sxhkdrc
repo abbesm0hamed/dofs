@@ -12,9 +12,6 @@ super + Escape
 super + shift + Return
     krusader
 
-ctrl + j
-    zim
-
 alt + z; {a,s}
    {viddesc, poddesc}
 
@@ -30,8 +27,8 @@ super + s; {s,b,a,c,r,d,e}
 super + shift + b
     addbm.sh
 
-super + r; {r,a}
-    {ricer.sh, alchanger.sh}
+# super + r; {r,a}
+#     {ricer.sh, alchanger.sh}
 
 alt + g
     rofi-mpc
@@ -41,18 +38,16 @@ alt + p
 
 # Application Keybindings
 
-super + w
-    flatpak run org.mozilla.firefox
-
-super + shift + w
-    flatpak run org.mozilla.firefox --private-window
-ctrl + w
-    qutebrowser
-alt + s
-    flatpak run com.todoist.Todoist
-
-alt + n 
-    flatpak run com.discordapp.Discord
+# super + w
+#     flatpak run org.mozilla.firefox
+#
+# super + shift + w
+#     flatpak run org.mozilla.firefox --private-window
+# alt + s
+#     flatpak run com.todoist.Todoist
+#
+# alt + n 
+#     flatpak run com.discordapp.Discord
 
 ctrl + alt + s
     flameshot gui
@@ -145,11 +140,6 @@ super + shift + {1-9,0}
 #    i3-msg move container to workspace number {10,11,12,13,14,15,16,17,18,19}
 
 
-super + Return
-    kitty
-
-alt + Return
-    kitty
 
 super + q
     i3-msg kill
@@ -266,18 +256,23 @@ super + v
 super + m
     lollypop
 
+## Terminal emulators
+# super + Return
+#     kitty
+alt + Return
+    kitty
+
+#alacritty
+super + Return 
+	alacritty
+
 #Wezterm
-super + Return
+super + shift + w 
     wezterm
 
 #Xkill
 super + Escape
     xkill
-
-#Keyboard dependent
-#alacritty
-super + KP_Enter
-	alacritty
 
 #################################################################
 # SUPER + SHIFT KEYS
@@ -298,7 +293,7 @@ super + shift + Return
     
 #rofi menu
 super + p
-    rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/rofi/config.rasi
+    rofi -no-config -no-lazy-grab -show drun -show-icons -modi drun -theme ~/.config/rofi/config.rasi
 
 super + c 
     rofi -show combi

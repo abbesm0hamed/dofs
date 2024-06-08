@@ -85,25 +85,26 @@
           - mpv
           - ncdu
           - keepassxc
-          - libreoffice-fresh
+          # - libreoffice-fresh
           - btop
           - calibre
           - vlc
           - inkscape
-          - blender
+          # - blender
         state: present
 
     - name: Install development tools from AUR using Yay
       command: "{{ yay_path }} -S --noconfirm {{ item }}"
       with_items:
         - brave-bin
+        - cava
+        - fastfetch
         - tpm
         - tmuxifier
         - nvm
         - postman-bin
         - virtualbox
         - code-bin
-        - fastfetch
         - the_silver_searcher
         - exa
         - fd

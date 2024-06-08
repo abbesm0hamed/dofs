@@ -32,6 +32,7 @@ then use GNU stow to create symlinks
 ```
 $ stow .
 ```
+### AwesomeWM setup
 Clone widgets under awesome config folder
 ```
 $ cd dofs/.config/awesome

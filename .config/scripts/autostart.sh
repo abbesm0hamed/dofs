@@ -12,10 +12,9 @@ run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 
 # compositor
 # run killall picom
 # while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
-# run picom --config ~/.config/picom/picom.conf --vsync &
+# run picom --config ~/.config/picom/picom.conf --vsync 
 
-run killall polybar
-run ~/.config/i3/polybar/launch_polybar.sh
+run ~/.config/polybar/launch_polybar.sh
 
 # run ~/.config/eww/launch.sh
 
@@ -37,9 +36,9 @@ run volumeicon
 
 # run conky -c $HOME/.config/conky/conky.conf
 #you can set wallpapers in themes as well
-run feh --bg-fill $HOME/.config/backgrounds/street.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg &
-# run feh --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest2.jpg --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest1.jpg &
-# run nitrogen --restore &
+run feh --bg-fill $HOME/.config/backgrounds/street.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
+# run feh --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest2.jpg --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest1.jpg 
+# run nitrogen --restore 
 #
 #sxhkd
 run sxhkd -c $HOME/.config/sxhkd/sxhkdrc
