@@ -14,52 +14,6 @@
           - zsh
         state: present
 
-# install it manually this is not working for some reason
-# - name: Clone and Install Yay AUR Helper
-#   hosts: localhost
-#   become: yes
-#   tasks:
-#     - name: Clone Yay AUR helper
-#       git:
-#         repo: "https://aur.archlinux.org/yay.git"
-#         dest: "/tmp/yay"
-#         clone: yes
-#       register: yay_clone
-#
-#     - name: Build and install Yay as non-root user
-#       command: "makepkg -si --noconfirm"
-#       args:
-#         chdir: "/tmp/yay"
-#       become: false
-#       become_user: "{{ ansible_user_id }}"
-#       when: yay_clone.changed
-#
-#     - name: Move yay to /usr/local/bin
-#       command: "mv /tmp/yay/yay /usr/local/bin/yay"
-#       become: yes
-#       when: yay_clone.changed
-#
-#     - name: Ensure yay is executable
-#       file:
-#         path: "{{ yay_path }}"
-#         mode: '0755'
-#         state: file
-#       become: yes
-#
-#     - name: Debug yay path
-#       debug:
-#         msg: "yay path is {{ yay_path }}"
-#
-#     - name: Debug yay binary
-#       command: "{{ yay_path }} --version"
-#       register: yay_version_output
-#       changed_when: false
-#       ignore_errors: true
-#
-#     - name: Print yay version
-#       debug:
-#         msg: "yay version: {{ yay_version_output.stdout }}"
-
 - name: Install Development Tools
   hosts: localhost
   become: yes
@@ -96,7 +50,7 @@
         state: present
 
     - name: Install development tools from AUR using Yay
-      command: "{{ yay_path }} -S --noconfirm {{ item }}"
+      command: "yay -S --noconfirm {{ item }}"
       with_items:
         - brave-bin
         - cava
@@ -130,7 +84,7 @@
         state: present
 
     - name: Install fonts and appearance tools from AUR using Yay
-      command: "{{ yay_path }} -S --noconfirm {{ item }}"
+      command: "yay -S --noconfirm {{ item }}"
       with_items:
         - espanso
         - conky
@@ -152,7 +106,7 @@
         state: present
 
     - name: Install network and communication tools from AUR using Yay
-      command: "{{ yay_path }} -S --noconfirm {{ item }}"
+      command: "yay -S --noconfirm {{ item }}"
       with_items:
         - whatsapp-nativefier
 
@@ -207,9 +161,3 @@
         dest: /home/{{ ansible_user_id }}/.tmux/plugins/tpm
         version: master
       become: false
-
-    - name: Cleanup Yay build files
-      file:
-        path: "/tmp/yay"
-        state: absent
-        force: yes
