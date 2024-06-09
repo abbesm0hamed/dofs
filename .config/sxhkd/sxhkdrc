@@ -293,7 +293,7 @@ super + shift + Return
     
 #rofi menu
 super + p
-    rofi -no-config -no-lazy-grab -show drun -show-icons -modi drun -theme ~/.config/rofi/config.rasi
+    rofi -no-config -no-lazy-grab -theme-str 'window \{width: 50%;height: 60%;\}' -show drun -show-icons -modi drun -theme ~/.config/rofi/config.rasi
 
 super + c 
     rofi -show combi
@@ -318,8 +318,8 @@ super + shift + s
 # ctrl + alt + w
 #      arcolinux-welcome-app
 
-super + l + {o}
-    {~/.config/scripts/powermenu.sh}
+super + alt + l + {o}
+    {~/.config/polybar/scripts/powermenu.sh}
 
 #archlinux-tweak-tool
 ctrl + alt + e
