@@ -90,7 +90,7 @@ ctrl + shift + comma
 XF86AudioStop
     playerctl stop
 
-alt + {h,j,k,l}
+alt + shift + {h,j,k,l}
    mpc {prev,next,play,pause}
 
 #i3 Specific Keybindings
