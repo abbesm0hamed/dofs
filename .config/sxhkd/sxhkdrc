@@ -351,10 +351,6 @@ ctrl + alt + i
      nitrogen
 
 #archlinux-logout
-ctrl + alt + k
-     archlinux-logout
-
-#archlinux-logout
 ctrl + alt + l
     archlinux-logout
 
@@ -394,17 +390,9 @@ ctrl + alt + v
 ctrl + alt + a
     xfce4-appfinder
 
-
-#Keyboard dependent
-#alacritty
-#ctrl + alt + KP_Enter
-#     alacritty
-
-
 #################################################################
 # ALT + ... KEYS
 #################################################################
-
 #Wallpaper trash
 alt + t
     variety -t
@@ -430,12 +418,12 @@ alt + shift + Right
     variety -n
 
 #Wallpaper toggle-pause
-alt + Up
-    variety --toggle-pause
+# alt + Up
+#     variety --toggle-pause
 
 #Wallpaper resume
-alt + Down
-    variety --resume
+# alt + Down
+#     variety --resume
 
 #Xfce4-appfinder
 alt + F2
