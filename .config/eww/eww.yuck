@@ -1,5 +1,2 @@
-(include './yuck/vars.yuck')
-(include './yuck/bars.yuck')
-(include './yuck/bar-widgets.yuck')
-(include './yuck/bluetooth-widgets.yuck')
-(include './yuck/windows.yuck')
+(include "./eww-bar/eww.yuck")
+(include "./eww-launcher/eww.yuck")

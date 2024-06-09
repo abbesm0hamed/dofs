@@ -1,15 +1,2 @@
-@import "./scss/vars.scss";
-@import "./scss/bar.scss";
-
-* {
-  all: unset;
-}
-
-.window {
-  background: $background;
-  padding: 10px;
-}
-
-.title {
-  font-size: $title-font-size;
-}
+@import "./eww-bar/eww.scss"
+@import "./eww-launcher/eww.scss"

@@ -10,9 +10,9 @@ run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 
 # xrandr --output DP-1 --off --output DP-2 --mode 1920x1080 --pos 1920x415 --rotate normal --output DP-3 --primary --mode 1920x1080 --pos 0x884 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 1920x1495 --rotate normal
 #
 # compositor
-run killall picom
-while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
-run picom --config ~/.config/picom/picom.conf --vsync
+# run killall picom
+# while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
+# run picom --config ~/.config/picom/picom.conf --vsync
 
 run ~/.config/polybar/launch_polybar.sh
 

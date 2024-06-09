@@ -1,0 +1,13 @@
+(defwindow mylauncher
+	:windowtype "dock"
+	:wm-ignore true
+	:geometry (geometry
+				:width "10%"
+				:height "5%"
+				:anchor "center center")
+	(launcher))
+
+(defwidget launcher []
+	(box
+		:class "launcher"
+		(label :text "Hello, World")))

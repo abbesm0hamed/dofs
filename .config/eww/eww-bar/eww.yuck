@@ -1,0 +1,202 @@
+(defwindow mybar
+	:windowtype "dock"
+	:wm-ignore false
+	:geometry (geometry
+				:width "99%" ; this doesn't work... :(
+				:anchor "top center")
+	:reserve (struts :side "top" :distance "10%")
+	(bar))
+
+(defwidget bar []
+	(centerbox
+		:class "bar-main"
+		:orientation "horizontal"
+		:hexpand false
+		:space-evenly true
+		(workspaces :names active-workspaces :current-idx current-workspace-index)
+		(time-date)
+		; (box :class "bar-section" (info))
+		(info) ; <------------- the background occupies all the right side, from the time to the end of the screen
+		))
+
+
+; ..:: RIGHT: SYSTEM INFO ::..
+
+(defwidget info []
+	(box
+		:class "side-stuff"
+		:halign "end"
+		:space-evenly false
+		:spacing "25"
+		(box
+			:space-evenly false
+			:spacing "10"
+			(_volume :volume volume)
+			(_backlight :brightness brightness-level)
+			(_battery :status {EWW_BATTERY.BAT0.status} :battery {EWW_BATTERY.BAT0.capacity}))
+			(_network :strength net-strength :name net-name)
+		(sep)
+		(buttons)))
+
+(defvar eww "eww -c $HOME/.config/eww")
+
+(defwidget revealer-on-hover [toggle togglename ?transition ?duration]
+	(eventbox
+		:onhover "${eww} update ${togglename}=true"
+		:onhoverlost "${eww} update ${togglename}=false"
+		(box
+			:space-evenly false
+			(children :nth 0)
+			(revealer
+				:reveal toggle
+				:transition {transition ?: "slideright"}
+				:duration {duration ?: "300ms"}
+				(children :nth 1)))))
+
+(defvar volume-visible false)
+(defwidget _volume [volume]
+	(box
+		:hexpand false
+		:class {volume > 100 ? "alert" : "regular"}
+		(revealer-on-hover
+			:toggle volume-visible
+			:togglename "volume-visible"
+			(label :text {volume <= 0 ? "󰝟 " :
+				volume < 33 ? "󰕿 " :
+					volume < 66 ? "󰖀 " :
+						volume < 99 ? "󰕾 " : "󱄡 "})
+			(label :text "${volume}%"))))
+
+(defvar backlight-visible false)
+(defwidget _backlight [brightness]
+	(box
+		:hexpand false
+		:class "regular"
+		(revealer-on-hover
+			:toggle backlight-visible
+			:togglename "backlight-visible"
+			(label :text "󰃟 ")
+			(label :text "${brightness}%"))))
+
+(defvar battery-visible false)
+(defwidget _battery [status battery]
+	(box
+		:hexpand false
+		:class {battery < 20 ? "alert" : "regular"} 
+		(revealer-on-hover
+			:toggle battery-visible
+			:togglename "battery-visible"
+			(label :text {status == 'Charging' ? "󰂄" :
+				battery < 20 ? "󰁻" :
+					battery < 40 ? "󰁽" :
+						battery < 60 ? "󰁿" :
+							battery < 80 ? "󰂁" : "󰁹"})
+			(label :text "${battery}%"))))
+
+(defvar network-visible false)
+(defwidget _network [strength name]
+	(box
+		:hexpand false
+		:vexpand true
+		:class "regular"
+		(revealer-on-hover
+			:toggle network-visible
+			:togglename "network-visible"
+			:ransition "slidedown"
+			(label :text {strength == "" ? "󰤮 " :
+				strength < 26 ? "󰤟 " :
+					strength < 51 ? "󰤢 " :
+						strength < 76 ? "󰤥 " : "󰤨 "})
+			(label :text "${name} (${strength})"))))
+
+(defwidget buttons []
+	(box
+		:halign "end"
+		:hexpand false
+		:space-evenly true
+		:spacing "15"
+		(box (button :onclick `i3-msg exit` "󰍃 "))
+		(box (button :onclick `reboot` " "))
+		(box (button :onclick `shutdown now` " "))))
+
+
+; ..:: CENTER ::..
+
+(defwidget time-date []
+	(box
+		:halign "center"
+		:space-evenly false
+		:spacing "15"
+		(label :text "${today}")
+		(sep)
+		(label :text "${time}")))
+
+
+; ..:: LEFT: ::..
+
+; nope:
+; i3-msg -t get_workspaces
+; i3-msg -t subscribe -m '[ "workspace" ]' | jq | grep num > tmp.txt
+; yep:
+; xprop -spy -root _NET_DESKTOP_NAMES
+; xprop -spy -root _NET_CURRENT_DESKTOP
+
+(defwidget workspaces [names current-idx]
+	(box
+		:halign "start"
+		:hexpand false
+		:space-evenly true
+		:spacing "12"
+		:css "* {margin-left: 20px; margin-right: 20px;}"
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "1" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"1"` ? "" : ""}))
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "2" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"2"` ? "" : ""}))
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "3" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"3"` ? "" : ""}))
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "4" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"4"` ? "" : ""}))
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "5" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"5"` ? "" : ""}))
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "6" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"6"` ? "" : ""}))
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "7" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"7"` ? "" : ""}))
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "8" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"8"` ? "" : ""}))
+		(box
+			:class {replace(captures(names, "\"[0-9]\"")[captures(current-idx, "[0-9]")[0][0]][0], "\"", "") == "9" ? "active-workspace" : "regular"}
+			(label :text {names =~ `"9"` ? "" : ""}))))
+
+
+; ..:: UTILITIES ::..
+
+(defwidget sep [] (box :hexpand false (label :class "sep" :text "|")))
+
+(deflisten active-workspaces :initial "N/A" "xprop -spy -root _NET_DESKTOP_NAMES")
+(deflisten current-workspace-index :initial "N/A" `xprop -spy -root _NET_CURRENT_DESKTOP`)
+
+; get active window name... still didn't figure it out
+; (deflisten :initial "N/A" "")
+
+(defpoll brightness-level :interval "5s" :initial "N/A" "scripts/getbright.sh")
+
+; it'd be nice if it was a deflisten...
+(defpoll volume :interval "1s" :initial "N/A" "scripts/getvol.sh")
+
+(defpoll today :interval "1h" :initial "N/A" "date +'%a %d %b %Y'")
+
+(defpoll time :interval "5s" :initial "N/A" "date +'%H:%M'")
+
+(defpoll net-name :interval "60s" :initial "N/A" "nmcli -t -f NAME c show --active | head -n 1")
+
+(defpoll net-strength :interval "5s" :initial `N/A`
+	`nmcli -t -f SIGNAL,ACTIVE device wifi | awk -F':' '{if($2=="yes")print$1}'`)
