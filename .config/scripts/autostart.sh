@@ -36,7 +36,7 @@ run flameshot
 
 # run conky -c $HOME/.config/conky/conky.conf
 #you can set wallpapers in themes as well
-run feh --bg-fill $HOME/.config/backgrounds/sphere.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
+run feh --bg-fill $HOME/.config/backgrounds/store.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
 # run feh --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest2.jpg --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest1.jpg
 # run nitrogen --restore
 #
