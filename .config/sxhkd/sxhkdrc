@@ -4,11 +4,11 @@
 
 # software 
 #
-alt + s + {n,t,l,g,k,a,o} 
-  {nitrogen,telegram-desktop,lowriter,flatpak run org.gimp.GIMP,flatpak run org.kde.kdenlive,flatpak run org.audacityteam.Audacity,flatpak run com.obsproject.Studio}
-
-alt + m + {b,a,c,r,d,e}
-  {bm.sh,dmconf,clipmenu,rofi-beats-linux, flatpak run org.mozilla.firefox snapdrop.net, emoji}
+# alt + s + {n,t,l,g,k,a,o} 
+#   {nitrogen,telegram-desktop,lowriter,flatpak run org.gimp.GIMP,flatpak run org.kde.kdenlive,flatpak run org.audacityteam.Audacity,flatpak run com.obsproject.Studio}
+#
+# alt + m + {b,a,c,r,d,e}
+#   {bm.sh,dmconf,clipmenu,rofi-beats-linux, flatpak run org.mozilla.firefox snapdrop.net, emoji}
 
 #################################################################
 # i3 specific
@@ -587,5 +587,3 @@ super + ctrl + b
 
 super + ctrl + r
     i3run --class ranger -- alacritty --class ranger,ranger -e "ranger" 
-
-# rather be always on the bottom

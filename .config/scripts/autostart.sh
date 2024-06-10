@@ -33,7 +33,6 @@ run autotiling
 run dunst
 run variety
 run flameshot
-run Salawat
 
 # run conky -c $HOME/.config/conky/conky.conf
 #you can set wallpapers in themes as well
