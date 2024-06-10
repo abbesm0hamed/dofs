@@ -8,9 +8,10 @@ configuration {
 @theme "/dev/null"
 
 * {
-  bg: #1E1E2E99;
-  bg-alt: #585b7066;
-  bg-selected: #31324466;
+  bg: #080808;
+  bg-alt: #2D2D2D;
+  bg-selected: #1d2021;
+  border-c: #323437;
 
   fg: #cdd6f4;
   fg-alt: #7f849c;
@@ -23,8 +24,10 @@ configuration {
 }
 
 window {
-  width: 30%;
+  width: 50%;
   background-color: @bg;
+  border: 1;
+  border-color: @border-c;
 }
 
 element {

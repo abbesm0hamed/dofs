@@ -2,6 +2,14 @@
 # KEYBOARD BINDINGS FOR ANY TWM
 #################################################################
 
+# software 
+#
+alt + s + {n,t,l,g,k,a,o} 
+  {nitrogen,telegram-desktop,lowriter,flatpak run org.gimp.GIMP,flatpak run org.kde.kdenlive,flatpak run org.audacityteam.Audacity,flatpak run com.obsproject.Studio}
+
+alt + m + {b,a,c,r,d,e}
+  {bm.sh,dmconf,clipmenu,rofi-beats-linux, flatpak run org.mozilla.firefox snapdrop.net, emoji}
+
 #################################################################
 # i3 specific
 #################################################################
@@ -18,11 +26,6 @@ alt + z; {a,s}
 alt + x
 	wc.sh
 
-super + g; {n,t,l,g,k,a,o} 
-  {nitrogen,telegram-desktop,lowriter,flatpak run org.gimp.GIMP,flatpak run org.kde.kdenlive,flatpak run org.audacityteam.Audacity,flatpak run com.obsproject.Studio}
-
-super + s; {s,b,a,c,r,d,e}
-  {dmsearch,bm.sh,dmconf,clipmenu,rofi-beats-linux, flatpak run org.mozilla.firefox snapdrop.net, emoji}
 
 super + shift + b
     addbm.sh
@@ -30,11 +33,6 @@ super + shift + b
 # super + r; {r,a}
 #     {ricer.sh, alchanger.sh}
 
-alt + g
-    rofi-mpc
-
-alt + p
-    rofi -show
 
 # Application Keybindings
 
@@ -100,7 +98,7 @@ alt + shift + {h,j,k,l}
 super+{h,j,k,l}
     i3-msg focus {left,down,up,right}
 
-super+shift+{h,j,k,l}
+super + shift + {h,j,k,l}
     i3-msg move {left,down,up,right}
 
 super + {z,x}
@@ -200,6 +198,21 @@ super + F9
 super + F10
     spotify
 
+#################################################################
+# ROFI
+#################################################################
+#
+
+#rofi menu
+super + p
+    rofi -no-config -no-lazy-grab -theme-str 'window \{width: 50%;height: 60%;\}' -show drun -show-icons -modi drun -theme ~/.config/rofi/config.rasi
+
+super + c 
+    rofi -show combi
+
+super + tab 
+    rofi -show window
+
 #Rofi Fullscreen
 super + F11
     rofi -theme-str 'window \{width: 100%;height: 100%;\}' -show drun -show-icons
@@ -208,10 +221,24 @@ super + F11
 super + F12
     rofi -show drun
 
+alt + g
+    rofi-mpc
+
+alt + p
+    rofi -show
+
+#Rofi theme selector
+super + r
+    rofi-theme-selector
+
+#Rofi theme selector
+ctrl + alt + r
+  rofi-theme-selector
+
 #################################################################
 # SUPER + ... KEYS
 #################################################################
-
+#
 #Atom
 # super + e
 #     atom
@@ -240,9 +267,6 @@ super + x
 super + shift + x
     arcolinux-powermenu
 
-#Rofi theme selector
-super + r
-    rofi-theme-selector
 
 #Urxvt
 super + t
@@ -291,15 +315,6 @@ super + shift + Return
 # super + shift + d
 # 	dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
     
-#rofi menu
-super + p
-    rofi -no-config -no-lazy-grab -theme-str 'window \{width: 50%;height: 60%;\}' -show drun -show-icons -modi drun -theme ~/.config/rofi/config.rasi
-
-super + c 
-    rofi -show combi
-
-super + tab 
-    rofi -show window
 
 #reload sxhkd:
 super + shift + s
@@ -369,9 +384,6 @@ ctrl + alt + m
 ctrl + alt + u
      pavucontrol
 
-#Rofi theme selector
-ctrl + alt + r
-  rofi-theme-selector
 
 #Spotify
 ctrl + alt + s
@@ -576,5 +588,4 @@ super + ctrl + b
 super + ctrl + r
     i3run --class ranger -- alacritty --class ranger,ranger -e "ranger" 
 
-super + ctrl + m
-    i3run --class minbar -- alacritty --class ranger,ranger -e "ranger" 
+# rather be always on the bottom
