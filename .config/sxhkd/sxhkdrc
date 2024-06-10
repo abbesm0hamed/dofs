@@ -575,3 +575,6 @@ super + ctrl + b
 
 super + ctrl + r
     i3run --class ranger -- alacritty --class ranger,ranger -e "ranger" 
+
+super + ctrl + m
+    i3run --class minbar -- alacritty --class ranger,ranger -e "ranger" 
