@@ -42,3 +42,9 @@ $ sudo make install
 $ sudo pacman -S acpi lxpolkit pacman-contrib
 $ git clone git@github.com:streetturtle/awesome-wm-widgets.git
 ```
+
+### Credits
+https://gitlab.com/thelinuxcast/my-dots.git
+https://github.com/Brannigan123/polybar-config.git
+
+
