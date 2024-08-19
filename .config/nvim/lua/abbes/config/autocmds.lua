@@ -1,5 +1,6 @@
 -- This file is automatically loaded by lazyvim.config.init.
 
+-- Helper function to create autogroups
 local function augroup(name)
   return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
@@ -12,7 +13,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Mason tool installer event handler
+-- Mason tool installer event handlers
 vim.api.nvim_create_autocmd("User", {
   pattern = "MasonToolsStartingInstall",
   callback = function()
@@ -31,11 +32,26 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
-
+-- Disable folding for specific file types
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "yml", "yaml", "neo-tree", ".env" },
+  pattern = { "yml", "yaml", "neo-tree" },
   callback = function()
-    require("ufo").detach()
+    local ufo = require("ufo")
+    if ufo then
+      ufo.detach()
+    end
+    vim.opt_local.foldenable = false
+  end
+})
+
+-- Disable folding for .env files
+vim.api.nvim_create_autocmd("BufRead", {
+  pattern = "*.env",
+  callback = function()
+    local ufo = require("ufo")
+    if ufo then
+      ufo.detach()
+    end
     vim.opt_local.foldenable = false
   end
 })

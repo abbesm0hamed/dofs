@@ -133,7 +133,7 @@ return {
               height = { 0.95, min = 13 },
               width = 0.99,
               preview_cutoff = 70,
-              preview_width = { 0.55, min = 30 },
+              preview_width = { 0.40, min = 30 },
             },
             vertical = {
               prompt_position = "top",

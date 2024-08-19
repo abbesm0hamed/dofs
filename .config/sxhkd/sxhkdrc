@@ -139,7 +139,7 @@ super + shift + {1-9,0}
 
 
 
-super + q
+super + shift + q
     i3-msg kill
 
 super + shift + c
@@ -288,11 +288,11 @@ alt + Return
 
 #alacritty
 super + Return 
-	alacritty
+	wezterm
 
 #Wezterm
 super + shift + w 
-    wezterm
+    alacritty
 
 #Xkill
 super + Escape

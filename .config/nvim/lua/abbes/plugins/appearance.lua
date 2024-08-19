@@ -122,7 +122,7 @@ return {
       end,
     },
   },
-  { -- rainbow brackets
+  {                        -- rainbow brackets
     "hiphish/rainbow-delimiters.nvim",
     event = "BufReadPost", -- later does not load on first buffer
     dependencies = "nvim-treesitter/nvim-treesitter",
@@ -167,7 +167,7 @@ return {
           ccc.picker.css_hsl,
           ccc.picker.ansi_escape({ meaning1 = "bright" }),
         },
-        alpha_show = "hide", -- needed when highlighter.lsp is set to true
+        alpha_show = "hide",           -- needed when highlighter.lsp is set to true
         recognize = { output = true }, -- automatically recognize color format under cursor
         inputs = { ccc.input.hsl },
         outputs = {
@@ -202,7 +202,7 @@ return {
       end
     end,
     keys = {
-      { "<Tab>", "j", ft = "DressingSelect" },
+      { "<Tab>",   "j", ft = "DressingSelect" },
       { "<S-Tab>", "k", ft = "DressingSelect" },
     },
     opts = {
