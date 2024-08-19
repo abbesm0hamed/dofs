@@ -1,31 +1,31 @@
 return {
   --  top 1
-  -- {
-  --   "bluz71/vim-moonfly-colors",
-  --   event = "VimEnter", -- VimEnter will make it run as main colorscheme
-  --   name = "moonfly",
-  --   -- lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --   -- Moonfly configuration
-  --   vim.g.moonflyCursorColor = true
-  --   vim.g.moonflyItalics = true
-  --   vim.g.moonflyNormalFloat = true
-  --   vim.g.moonflyTerminalColors = true
-  --   vim.g.moonflyUndercurls = true
-  --   vim.g.moonflyVertSplits = true
-  --
-  --   -- Set colorscheme
-  --   vim.cmd.colorscheme("moonfly")
-  --
-  --   -- Additional highlight customizations
-  --   vim.cmd([[
-  --     highlight Normal guibg=NONE ctermbg=NONE
-  --     highlight SignColumn guibg=NONE ctermbg=NONE
-  --     highlight VertSplit guibg=NONE ctermbg=NONE
-  --   ]])
-  --   end,
-  -- },
+  {
+    "bluz71/vim-moonfly-colors",
+    event = "VimEnter",
+    name = "moonfly",
+    priority = 1000,
+    config = function()
+      -- Moonfly configuration
+      vim.g.moonflyCursorColor = true
+      vim.g.moonflyItalics = true
+      vim.g.moonflyNormalFloat = true
+      vim.g.moonflyTerminalColors = true
+      vim.g.moonflyVirtualTextColor = true
+      vim.g.moonflyUndercurls = true
+      vim.g.moonflyVertSplits = true
+
+      -- Reduce used colors
+      vim.g.moonflyWinSeparator = 1
+
+      -- Set colorscheme
+      vim.cmd.colorscheme("moonfly")
+
+      -- Override function and search highlights to include italics
+      vim.api.nvim_set_hl(0, "Function", { italic = true })
+      vim.api.nvim_set_hl(0, "Search", { italic = true })
+    end,
+  }
   -- {
   --   "bluz71/vim-nightfly-colors",
   --   name = "nightfly",
@@ -127,6 +127,31 @@ return {
   --     vim.cmd("colorscheme rasmus")
   --   end,
   -- },
+  -- github
+  -- {
+  --   'projekt0n/github-nvim-theme',
+  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     require('github-theme').setup({
+  --       -- ...
+  --     })
+  --
+  --     vim.cmd('colorscheme github_dark_default')
+  --   end,
+  -- }
+  -- {
+  --   "Mofiqul/adwaita.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.g.adwaita_darker = true              -- for darker version
+  --     vim.g.adwaita_disable_cursorline = false -- to disable cursorline
+  --     vim.g.adwaita_transparent = false        -- makes the background transparent
+  --     vim.cmd('colorscheme adwaita')
+  --   end
+  -- },
+  -- --
   -- this also has one of the best light colorschemes
   -- {
   --   "miikanissi/modus-themes.nvim",
@@ -207,31 +232,51 @@ return {
   --     vim.cmd[[colorscheme tokyonight-moon]]
   --   end,
   -- },
-  {
-    "tiagovla/tokyodark.nvim",
-    opts = {
-      transparent_background = false,    -- set background to transparent
-      gamma = 1.00,                      -- adjust the brightness of the theme
-      styles = {
-        comments = { italic = true },    -- style for comments
-        keywords = { italic = true },    -- style for keywords
-        identifiers = { italic = true }, -- style for identifiers
-        functions = {},                  -- style for functions
-        variables = {},                  -- style for variables
-      },
-      custom_highlights = {} or function(highlights, palette)
-        return {}
-      end, -- extend highlights
-      custom_palette = {} or function(palette)
-        return {}
-      end, -- extend palette
-      terminal_colors = true,
-    },
-    config = function(_, opts)
-      require("tokyodark").setup(opts) -- calling setup is optional
-      vim.cmd([[colorscheme tokyodark]])
-    end,
-  },
+  -- {
+  --   "tiagovla/tokyodark.nvim",
+  --   opts = {
+  --     transparent_background = false,    -- set background to transparent
+  --     gamma = 1.00,                      -- adjust the brightness of the theme
+  --     styles = {
+  --       comments = { italic = true },    -- style for comments
+  --       keywords = { italic = true },    -- style for keywords
+  --       identifiers = { italic = true }, -- style for identifiers
+  --       functions = {},                  -- style for functions
+  --       variables = {},                  -- style for variables
+  --     },
+  --     custom_highlights = function(hl, p)
+  --       return {
+  --           ["LspInlayHint"] = { bg = "#1C1C2A", fg = "#9AA0A7" },
+  --           ["@module"] = { link = "TSType" },
+  --           ["@property"] = { link = "Identifier" },
+  --           ["@variable"] = { fg = "#Afa8ea" },
+  --           ["@lsp.type.variable"] = { fg = "#Afa8ea" },
+  --           ["FloatTitle"] = { link = "Blue" },
+  --           ["TelescopeBorder"] = { link = "TSType" },
+  --           ["TelescopePreviewBorder"] = { fg = "#4A5057" },
+  --           ["TelescopePreviewTitle"] = { link = "Blue" },
+  --           ["TelescopePromptBorder"] = { fg = "#4A5057" },
+  --           ["TelescopePromptTitle"] = { link = "Blue" },
+  --           ["TelescopeResultsBorder"] = { fg = "#4A5057" },
+  --           ["TelescopeResultsTitle"] = { link = "Blue" },
+  --           ["CmpItemKindCopilot"] = { fg = "#6CC644" },
+  --           ["NoiceLspProgressSpinner"] = { bg = "#1C1C2A" },
+  --           ["NoiceLspProgressClient"] = { bg = "#1C1C2A" },
+  --           ["NoiceLspProgressTitle"] = { bg = "#1C1C2A" },
+  --           ["NoiceMini"] = { bg = "#1C1C2A" },
+  --           ["NoiceCmdlineIconSearch"] = { link = "Blue" },
+  --       }
+  --     end,
+  --     custom_palette = {} or function(palette)
+  --       return {}
+  --     end, -- extend palette
+  --     terminal_colors = true,
+  --   },
+  --   config = function(_, opts)
+  --     require("tokyodark").setup(opts) -- calling setup is optional
+  --     vim.cmd([[colorscheme tokyodark]])
+  --   end,
+  -- },
   -- {
   --   "metalelf0/jellybeans-nvim",
   --   dependencies = {

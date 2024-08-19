@@ -286,11 +286,11 @@ super + m
 alt + Return
     kitty
 
-#alacritty
+#Wezterm
 super + Return 
 	wezterm
 
-#Wezterm
+#alacritty
 super + shift + w 
     alacritty
 

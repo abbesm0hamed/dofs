@@ -58,7 +58,7 @@ return {
 
       local lsp_zero = require('lsp-zero')
       local lsp_attach = function(client, bufnr)
-        local opts = {buffer = bufnr}
+        local opts = { buffer = bufnr }
 
         vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
         vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
@@ -68,7 +68,7 @@ return {
         vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
         vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
         vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-        vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+        vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
         vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
       end
 
@@ -115,25 +115,30 @@ return {
 
       local cmp = require('cmp')
       local cmp_select = lsp_zero.cmp_action()
+      local winhighlight = {
+        winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
+      }
 
       cmp.setup({
         preselect = cmp.PreselectMode.None,
         sources = {
-          {name = 'path'},
-          {name = 'nvim_lsp'},
-          {name = 'nvim_lua'},
-          {name = 'luasnip', keyword_length = 2},
-          {name = 'buffer', keyword_length = 3},
+          { name = 'path' },
+          { name = 'nvim_lsp' },
+          { name = 'nvim_lua' },
+          { name = 'luasnip', keyword_length = 2 },
+          { name = 'buffer',  keyword_length = 3 },
         },
         window = {
-          completion = {
-            border = "single",
-            winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
-          },
-          documentation = {
-            border = "single",
-            winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
-          },
+          --   completion = cmp.config.window.bordered({
+          --     winhighlight = winhighlight.winhighlight,
+          --     border = "single",
+          --     side_padding = 0,
+          --   }),
+          --   documentation = cmp.config.window.bordered({
+          --     winhighlight = winhighlight.winhighlight,
+          --     border = "single",
+          --     side_padding = 1,
+          --   }),
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
@@ -144,7 +149,7 @@ return {
           ['<Tab>'] = cmp_select.luasnip_supertab(),
           ['<S-Tab>'] = cmp_select.luasnip_shift_supertab(),
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<C-y>'] = cmp.mapping.confirm({select = true}),
+          ['<C-y>'] = cmp.mapping.confirm({ select = true }),
           ['<CR>'] = cmp.mapping.confirm({ select = false }),
 
           ['<C-j>'] = cmp.mapping(function()
@@ -185,10 +190,10 @@ return {
           timeout_ms = 10000,
         },
         servers = {
-          ['lua_ls'] = {'lua'},
-          ['tsserver'] = {'javascript', 'typescript'},
-          ['rust_analyzer'] = {'rust'},
-          ['gopls'] = {'go'},
+          ['lua_ls'] = { 'lua' },
+          ['tsserver'] = { 'javascript', 'typescript' },
+          ['rust_analyzer'] = { 'rust' },
+          ['gopls'] = { 'go' },
         }
       })
 

@@ -74,11 +74,37 @@ return {
     "sindrets/diffview.nvim",
     event = "VeryLazy",
     config = function()
+      local diffview_ok, diffview = pcall(require, "diffview")
+      if not diffview_ok then
+        vim.notify("Diffview plugin failed to load.", vim.log.levels.ERROR)
+        return
+      end
+
+      diffview.setup({
+        enhanced_diff_hl = true, -- Highlight word-level changes
+        keymaps = {
+          view = {
+            ["<leader>q"] = "<cmd>DiffviewClose<CR>", -- Close with leader + q
+          },
+          file_panel = {
+            ["j"] = "NextEntry",    -- Down
+            ["k"] = "PrevEntry",    -- Up
+            ["<cr>"] = "SelectEntry", -- Open the diff for the selected entry
+          },
+          file_history_panel = {
+            ["g!"] = "Options",
+            ["<C-A-d>"] = "OpenInDiffview", -- Open selected commit in diffview
+            ["zR"] = "ExpandAll",         -- Expand all folders
+          },
+        },
+      })
+
+      -- Key mappings
       vim.keymap.set("n", "<leader>gdo", "<cmd>DiffviewOpen<CR>", { desc = "Open Git diff view" })
       vim.keymap.set("n", "<leader>gdc", "<cmd>DiffviewClose<CR>", { desc = "Close Git diff view" })
       vim.keymap.set("n", "<leader>gdr", "<cmd>DiffviewRefresh<CR>", { desc = "Refresh Git diff view" })
-      vim.keymap.set("n", "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", { desc = "Open Git diff file panel" })
+      vim.keymap.set("n", "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", { desc = "Toggle Git diff file panel" })
       vim.keymap.set("n", "<leader>gdh", "<cmd>DiffviewFileHistory<CR>", { desc = "Open Git diff file history" })
     end,
-  },
+  }
 }
