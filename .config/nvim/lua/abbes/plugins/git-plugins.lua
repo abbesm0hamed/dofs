@@ -41,10 +41,10 @@ return {
     "neogitorg/neogit",
     event = "VeryLazy",
     config = function()
-      local wk = require("which-key")
-      wk.register({
-        ["<leader>tg"] = { "<cmd>Neogit<CR>", "Neogit" },
-      })
+      -- local wk = require("which-key")
+      -- wk.register({
+      --   ["<leader>tg"] = { "<cmd>Neogit<CR>", "Neogit" },
+      -- })
 
       require("neogit").setup({
         auto_refresh = true,
@@ -87,14 +87,14 @@ return {
             ["<leader>q"] = "<cmd>DiffviewClose<CR>", -- Close with leader + q
           },
           file_panel = {
-            ["j"] = "NextEntry",    -- Down
-            ["k"] = "PrevEntry",    -- Up
+            ["j"] = "NextEntry",      -- Down
+            ["k"] = "PrevEntry",      -- Up
             ["<cr>"] = "SelectEntry", -- Open the diff for the selected entry
           },
           file_history_panel = {
             ["g!"] = "Options",
             ["<C-A-d>"] = "OpenInDiffview", -- Open selected commit in diffview
-            ["zR"] = "ExpandAll",         -- Expand all folders
+            ["zR"] = "ExpandAll",           -- Expand all folders
           },
         },
       })

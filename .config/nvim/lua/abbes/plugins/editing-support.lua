@@ -242,103 +242,103 @@ return {
       require("treesj").setup(opts)
     end,
   },
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      plugins = {
-        marks = true,
-        registers = true,
-        spelling = {
-          enabled = true,
-          suggestions = 20,
-        },
-        presets = {
-          operators = false,
-          motions = false,
-          text_objects = false,
-          windows = true,
-          nav = true,
-          z = true,
-          g = true,
-        },
-      },
-      icons = {
-        breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-        separator = "➜", -- symbol used between a key and it's label
-        group = "+", -- symbol prepended to a group
-      },
-      popup_mappings = {
-        scroll_down = "<PageDown>",
-        scroll_up = "<PageUp>",
-      },
-      window = {
-        border = "single",      -- none, single, double, shadow
-        position = "bottom",    -- bottom, top
-        margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-        padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
-        winblend = 0,
-      },
-      layout = {
-        height = { min = 4, max = 25 }, -- min and max height of the columns
-        width = { min = 20, max = 50 }, -- min and max width of the columns
-        spacing = 3,                  -- spacing between columns
-        align = "left",               -- align columns left, center or right
-      },
-      hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " },
-      ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-      show_help = true,     -- show help message on the command line when the popup is visible
-      triggers = "auto",    -- automatically setup triggers
-      -- triggers = {"<leader>"} -- or specify a list manually
-      triggers_blacklist = {
-        -- list of mode / prefixes that should never be hooked by WhichKey
-        -- this is mostly relevant for key maps that start with a native binding
-        -- most people should not need to change this
-        i = { "j", "k" },
-        v = { "j", "k" },
-      },
-    },
-    config = function(_, opts)
-      local wk = require("which-key")
-      wk.setup(opts)
-
-      wk.register({
-        ["<leader>"] = {
-          u = { name = "󰕌 Undo" },
-          o = { name = " Options" },
-          p = { name = "󰏗 Packages" },
-          i = { name = "󱡴 Inspect" },
-          c = { name = " Code Action", mode = { "n", "v" } },
-          f = { name = "󱗘 Refactor", mode = { "n", "v" } },
-          g = { name = "󰊢 Git", mode = { "n", "v" } },
-          d = { name = "  Debugger", mode = { "n", "x" } },
-          t = {
-            name = "Toggle",
-            g = { "<cmd>Neogit<CR>", "Neogit" },
-          },
-          x = {
-            name = "Trouble/Quickfix",
-            x = { "<cmd>!chmod +x %<CR>", "Make executable" },
-            T = { "<cmd>TroubleToggle todo<CR>", "Todo/Fix/Fixme (Trouble)" },
-            l = { "<cmd>TroubleToggle loclist<CR>", "Location List" },
-            t = { "<cmd>TroubleToggle<CR>", "Trouble" },
-            q = { "<cmd>TroubleToggle quickfix<CR>", "Quickfix List" },
-          },
-          l = {
-            name = "Lazy",
-            s = { "<cmd>SessionRestore<CR>", "Restore session for current directory" },
-          },
-        },
-        g = {
-          r = { name = "References" },
-          c = { name = "Comment" },
-        },
-      })
-
-      -- Prevent unnecessary keymaps from interfering with which-key
-      vim.keymap.set("o", "<LeftMouse>", "<Nop>")
-    end,
-  },
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     plugins = {
+  --       marks = true,
+  --       registers = true,
+  --       spelling = {
+  --         enabled = true,
+  --         suggestions = 20,
+  --       },
+  --       presets = {
+  --         operators = false,
+  --         motions = false,
+  --         text_objects = false,
+  --         windows = true,
+  --         nav = true,
+  --         z = true,
+  --         g = true,
+  --       },
+  --     },
+  --     icons = {
+  --       breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+  --       separator = "➜", -- symbol used between a key and it's label
+  --       group = "+", -- symbol prepended to a group
+  --     },
+  --     popup_mappings = {
+  --       scroll_down = "<PageDown>",
+  --       scroll_up = "<PageUp>",
+  --     },
+  --     window = {
+  --       border = "single",        -- none, single, double, shadow
+  --       position = "bottom",      -- bottom, top
+  --       margin = { 1, 0, 1, 0 },  -- extra window margin [top, right, bottom, left]
+  --       padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
+  --       winblend = 0,
+  --     },
+  --     layout = {
+  --       height = { min = 4, max = 25 }, -- min and max height of the columns
+  --       width = { min = 20, max = 50 }, -- min and max width of the columns
+  --       spacing = 3,                    -- spacing between columns
+  --       align = "left",                 -- align columns left, center or right
+  --     },
+  --     hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " },
+  --     ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
+  --     show_help = true,       -- show help message on the command line when the popup is visible
+  --     triggers = "auto",      -- automatically setup triggers
+  --     -- triggers = {"<leader>"} -- or specify a list manually
+  --     triggers_blacklist = {
+  --       -- list of mode / prefixes that should never be hooked by WhichKey
+  --       -- this is mostly relevant for key maps that start with a native binding
+  --       -- most people should not need to change this
+  --       i = { "j", "k" },
+  --       v = { "j", "k" },
+  --     },
+  --   },
+  --   config = function(_, opts)
+  --     local wk = require("which-key")
+  --     wk.setup(opts)
+  --
+  --     wk.register({
+  --       ["<leader>"] = {
+  --         u = { name = "󰕌 Undo" },
+  --         o = { name = " Options" },
+  --         p = { name = "󰏗 Packages" },
+  --         i = { name = "󱡴 Inspect" },
+  --         c = { name = " Code Action", mode = { "n", "v" } },
+  --         f = { name = "󱗘 Refactor", mode = { "n", "v" } },
+  --         g = { name = "󰊢 Git", mode = { "n", "v" } },
+  --         d = { name = "  Debugger", mode = { "n", "x" } },
+  --         t = {
+  --           name = "Toggle",
+  --           g = { "<cmd>Neogit<CR>", "Neogit" },
+  --         },
+  --         x = {
+  --           name = "Trouble/Quickfix",
+  --           x = { "<cmd>!chmod +x %<CR>", "Make executable" },
+  --           T = { "<cmd>TroubleToggle todo<CR>", "Todo/Fix/Fixme (Trouble)" },
+  --           l = { "<cmd>TroubleToggle loclist<CR>", "Location List" },
+  --           t = { "<cmd>TroubleToggle<CR>", "Trouble" },
+  --           q = { "<cmd>TroubleToggle quickfix<CR>", "Quickfix List" },
+  --         },
+  --         l = {
+  --           name = "Lazy",
+  --           s = { "<cmd>SessionRestore<CR>", "Restore session for current directory" },
+  --         },
+  --       },
+  --       g = {
+  --         r = { name = "References" },
+  --         c = { name = "Comment" },
+  --       },
+  --     })
+  --
+  --     -- Prevent unnecessary keymaps from interfering with which-key
+  --     vim.keymap.set("o", "<LeftMouse>", "<Nop>")
+  --   end,
+  -- },
   { "kkharji/sqlite.lua" },
   {
     "gbprod/yanky.nvim",
