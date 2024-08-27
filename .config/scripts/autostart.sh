@@ -21,6 +21,7 @@ run ~/.config/polybar/launch_polybar.sh
 #run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
 #autorandr horizontal
 #run caffeine
+# run stalonetray
 run pamac-tray
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run xfce4-power-manager
