@@ -247,6 +247,9 @@ ctrl + alt + r
 super + b
     brave
 
+super + g
+    google-chrome-stable
+
 #Conky-toggle
 super + c
     conky-toggle

@@ -3,7 +3,7 @@ local wezterm = require("wezterm")
 
 local config = {}
 -- font
-config.font = wezterm.font 'JetBrains Mono'
+config.font = wezterm.font('JetBrains Mono')
 
 config.colors = {
   selection_fg = 'none',
