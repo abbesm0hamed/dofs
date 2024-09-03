@@ -51,21 +51,16 @@ ctrl + alt + s
     flameshot gui
 
 #Audio Keybindings
-
 XF86AudioRaiseVolume
-    amixer -c 1 -- sset Master 2db+
-
+    pactl set-sink-volume @DEFAULT_SINK@ +3%
 XF86AudioLowerVolume
-    amixer -c 1 -- sset Master 2db-
-
+    pactl set-sink-volume @DEFAULT_SINK@ -3%
 XF86AudioMute
-    amixer -c 1 -- sset Master toggle
-
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
 alt + d
-    amixer -c 1 -- sset Master 2db+
-
+    pactl set-sink-volume @DEFAULT_SINK@ +3%
 alt + a
-    amixer -c 1 -- sset Master 2db-
+    pactl set-sink-volume @DEFAULT_SINK@ -3%
 
 XF86AudioPlay
     playerctl play-pause
@@ -515,18 +510,6 @@ F12
 #     MULTIMEDIA KEYS
 #################################################################
 
-#Raises volume
-XF86AudioRaiseVolume
-    amixer set Master 5%+
-
-#Lowers volume
-XF86AudioLowerVolume
-    amixer set Master 5%-
-
-#Mute
-XF86AudioMute
-    amixer -D pulse set Master 1+ toggle
-
 #Playerctl works for Pragha, Spotify and others
 #Delete the line for playerctl if you want to use mpc
 #and replace it with the corresponding code
@@ -552,14 +535,11 @@ XF86AudioPrev
 XF86AudioStop
     playerctl stop
 
-#Brightness up
+# Brightness Controls
 XF86MonBrightnessUp
-    xbacklight -inc 5
-
-#Brightness down
+    brightnessctl set +5% && brightnessctl get > /tmp/brightness_level
 XF86MonBrightnessDown
-    xbacklight -dec 5 
-
+    brightnessctl set 5%- && brightnessctl get > /tmp/brightness_level
 
 
 #################################################################
