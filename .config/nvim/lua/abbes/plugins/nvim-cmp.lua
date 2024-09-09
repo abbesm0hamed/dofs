@@ -218,6 +218,12 @@ local function cmpconfig()
       { name = "buffer", max_item_count = 3, keyword_length = 2 },
     },
   })
+
+  cmp.setup({
+    sources = {
+      { name = "codeium" }
+    }
+  })
 end
 
 --------------------------------------------------------------------------------

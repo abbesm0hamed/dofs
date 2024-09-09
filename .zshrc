@@ -115,3 +115,5 @@ zinit light-mode for \
 #
 # encore 
 export PATH="/home/abbes/.encore/bin:$PATH"
+
+PATH=~/.console-ninja/.bin:$PATH
