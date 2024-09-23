@@ -116,4 +116,8 @@ zinit light-mode for \
 # encore 
 export PATH="/home/abbes/.encore/bin:$PATH"
 
+# added go path to be able to reach for binaries inside it 
+# like go-blueprint 
+export PATH=$PATH:$HOME/go/bin
+
 PATH=~/.console-ninja/.bin:$PATH
