@@ -1,6 +1,7 @@
 include $HOME/.config/i3/rules.conf
 include $HOME/.config/i3/modes.conf
-include $HOME/.config/i3/themes/custom.conf
+include $HOME/.config/i3/themes/kanagawa.conf
+# include $HOME/.config/i3/themes/custom.conf
 
 # exec --no-startup-id stalonetray &
 exec_always --no-startup-id $HOME/.config/scripts/autostart.sh

@@ -1,5 +1,60 @@
 return {
-  --  top 1
+  -- new
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    priority = 1000,
+    config = function()
+      require('kanagawa').setup({
+        compile = false,  -- enable compiling the colorscheme
+        undercurl = true, -- enable undercurls
+        commentStyle = { italic = true },
+        functionStyle = {},
+        keywordStyle = { italic = true },
+        statementStyle = { bold = true },
+        typeStyle = {},
+        transparent = false,   -- do not set background color
+        dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
+        terminalColors = true, -- define vim.g.terminal_color_{0,17}
+        colors = {
+          -- add/modify theme and palette colors
+          palette = {},
+          theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+        },
+        overrides = function(colors) -- add/modify highlights
+          return {}
+        end,
+        theme = "wave",  -- Load "wave" theme when 'background' option is not set
+        background = {   -- map the value of 'background' option to a theme
+          dark = "wave", -- try "dragon" !
+          light = "lotus"
+        },
+      })
+
+      vim.cmd("colorscheme kanagawa")
+    end,
+  },
+  -- {
+  --   "CosecSecCot/midnight-desert.nvim",
+  --   dependencies = {
+  --     "rktjmp/lush.nvim",
+  --   },
+  --   config = function()
+  --     vim.cmd("colorscheme midnight-desert")
+  --   end,
+  --   -- no setup function required
+  -- },
+  -- {
+  --   "yorumicolors/yorumi.nvim",
+  --   event = "VimEnter",
+  --   name = "yorumi",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd("colorscheme yorumi")
+  --   end,
+  -- },
+  -- top 1
   {
     "bluz71/vim-moonfly-colors",
     event = "VimEnter",
@@ -25,7 +80,7 @@ return {
       vim.api.nvim_set_hl(0, "Function", { italic = true })
       vim.api.nvim_set_hl(0, "Search", { italic = true })
     end,
-  }
+  },
   -- {
   --   "bluz71/vim-nightfly-colors",
   --   name = "nightfly",

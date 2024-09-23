@@ -42,7 +42,7 @@ return {
       mason_lspconfig.setup({
         -- list of servers for mason to install
         ensure_installed = {
-          "tsserver",
+          "ts_ls",
           "html",
           "cssls",
           "tailwindcss",
@@ -60,7 +60,7 @@ return {
         handlers = {
           lsp_zero.default_setup,
           tsserver = function()
-            require("lspconfig").tsserver.setup({
+            require("lspconfig").ts_ls.setup({
               single_file_support = false,
             })
           end,

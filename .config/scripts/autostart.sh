@@ -8,7 +8,13 @@ function run {
 
 # xrandr --output DP-1 --off --output DP-2 --mode 1920x1080 --pos 1920x415 --rotate normal --output DP-3 --primary --mode 1920x1080 --pos 0x884 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 1920x1495 --rotate normal
 run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 --rotate normal --output HDMI-2-0 --off
-run feh --bg-fill $HOME/.config/backgrounds/store.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
+
+# the backgrounds below match more darker themes like moonfly 
+# run feh --bg-fill $HOME/.config/backgrounds/store.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
+#
+# the backgrounds below matches the kanagawa theme
+run feh --bg-fill $HOME/.config/backgrounds/kanagawa.png --bg-fill $HOME/.config/backgrounds/kanagawa-blue.webp
+
 run killall polybar
 run ~/.config/polybar/launch_polybar.sh
 # compositor

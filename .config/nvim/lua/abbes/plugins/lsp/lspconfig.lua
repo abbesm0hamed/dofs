@@ -177,7 +177,7 @@ return {
       lsp_zero.setup()
       -- Setup individual language servers
       local lspconfig = require('lspconfig')
-      lspconfig.tsserver.setup({})
+      lspconfig.ts_ls.setup({})
       lspconfig.gopls.setup({})
       lspconfig.rust_analyzer.setup({})
       lspconfig.astro.setup({})
@@ -191,7 +191,7 @@ return {
         },
         servers = {
           ['lua_ls'] = { 'lua' },
-          ['tsserver'] = { 'javascript', 'typescript' },
+          ['ts_ls'] = { 'javascript', 'typescript' },
           ['rust_analyzer'] = { 'rust' },
           ['gopls'] = { 'go' },
         }
