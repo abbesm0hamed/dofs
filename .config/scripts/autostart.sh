@@ -13,7 +13,7 @@ run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 
 # run feh --bg-fill $HOME/.config/backgrounds/store.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
 #
 # the backgrounds below matches the kanagawa theme
-run feh --bg-fill $HOME/.config/backgrounds/kanagawa.png --bg-fill $HOME/.config/backgrounds/kanagawa-blue.webp
+run feh --bg-fill $HOME/.config/backgrounds/kanagawa.png --bg-fill $HOME/.config/backgrounds/kanagawa-blue-sky.png
 
 run killall polybar
 run ~/.config/polybar/launch_polybar.sh
