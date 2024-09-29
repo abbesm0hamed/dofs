@@ -55,32 +55,32 @@ return {
   --   end,
   -- },
   -- top 1
-  {
-    "bluz71/vim-moonfly-colors",
-    event = "VimEnter",
-    name = "moonfly",
-    priority = 1000,
-    config = function()
-      -- Moonfly configuration
-      vim.g.moonflyCursorColor = true
-      vim.g.moonflyItalics = true
-      vim.g.moonflyNormalFloat = true
-      vim.g.moonflyTerminalColors = true
-      vim.g.moonflyVirtualTextColor = true
-      vim.g.moonflyUndercurls = true
-      vim.g.moonflyVertSplits = true
-
-      -- Reduce used colors
-      vim.g.moonflyWinSeparator = 1
-
-      -- Set colorscheme
-      vim.cmd.colorscheme("moonfly")
-
-      -- Override function and search highlights to include italics
-      vim.api.nvim_set_hl(0, "Function", { italic = true })
-      vim.api.nvim_set_hl(0, "Search", { italic = true })
-    end,
-  },
+  -- {
+  --   "bluz71/vim-moonfly-colors",
+  --   event = "VimEnter",
+  --   name = "moonfly",
+  --   priority = 1000,
+  --   config = function()
+  --     -- Moonfly configuration
+  --     vim.g.moonflyCursorColor = true
+  --     vim.g.moonflyItalics = true
+  --     vim.g.moonflyNormalFloat = true
+  --     vim.g.moonflyTerminalColors = true
+  --     vim.g.moonflyVirtualTextColor = true
+  --     vim.g.moonflyUndercurls = true
+  --     vim.g.moonflyVertSplits = true
+  --
+  --     -- Reduce used colors
+  --     vim.g.moonflyWinSeparator = 1
+  --
+  --     -- Set colorscheme
+  --     vim.cmd.colorscheme("moonfly")
+  --
+  --     -- Override function and search highlights to include italics
+  --     vim.api.nvim_set_hl(0, "Function", { italic = true })
+  --     vim.api.nvim_set_hl(0, "Search", { italic = true })
+  --   end,
+  -- },
   -- {
   --   "bluz71/vim-nightfly-colors",
   --   name = "nightfly",
