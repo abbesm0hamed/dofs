@@ -46,6 +46,10 @@ keymap.set("n", "]b", ":bnext<CR>", { desc = "Jump to next buffer", noremap = tr
 keymap.set({ "n" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
+-- select and copy from file
+keymap.set("n", "<leader>vv", "ggVG", { desc = "Select All" })
+keymap.set("n", "<leader>ca", "ggVG\"+y", { desc = "Copy All to Clipboard" })
+
 -- Move Lines
 keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
 keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
