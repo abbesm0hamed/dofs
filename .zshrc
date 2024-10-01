@@ -81,7 +81,6 @@ alias tx="tmux"
 alias txfr="tmuxifier"
 alias dc="sudo docker-compose"
 alias dr="sudo docker"
-alias air='~/.air'
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
