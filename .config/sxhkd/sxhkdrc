@@ -568,8 +568,8 @@ ctrl + alt + o
 super + ctrl + b
     i3run --class btop -- alacritty --class btop,btop -e "btop" 
 
-super + ctrl + r
-    i3run --class ranger -- ranger --class ranger,ranger -e "ranger" 
+super + ctrl + p
+    i3run --class ranger -- alacritty --class ranger,ranger -e "ranger" 
 
-super + ctrl + t
-    i3run --class yazi -- yazi --class yazi,yazi -e "yazi" 
+super + ctrl + l
+    i3run --class yazi -- alacritty --class yazi,yazi -e "yazi" 
