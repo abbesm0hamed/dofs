@@ -3,7 +3,7 @@ return {
   {
     "rebelot/kanagawa.nvim",
     lazy = true,
-    event = "VeryLazy",
+    event = "VimEnter",
     priority = 1000,
     config = function()
       require('kanagawa').setup({
@@ -35,6 +35,20 @@ return {
       vim.cmd("colorscheme kanagawa")
     end,
   },
+  --
+  -- flexoki
+  -- {
+  --   "kepano/flexoki-neovim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     require("lazy").setup({
+  --       { 'kepano/flexoki-neovim', name = 'flexoki' }
+  --     })
+  --     vim.cmd('colorscheme flexoki-dark')
+  --   end,
+  -- },
   -- {
   --   "CosecSecCot/midnight-desert.nvim",
   --   dependencies = {

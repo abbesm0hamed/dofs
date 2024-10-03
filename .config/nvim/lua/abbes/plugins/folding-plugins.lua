@@ -1,76 +1,47 @@
 return {
   {
     "chrisgrieser/nvim-origami",
-    event = "BufReadPost", -- later will not save folds
+    event = "BufReadPost",
     opts = true,
   },
   {
-    "kevinhwang91/nvim-ufo",
+    "anuvyklack/pretty-fold.nvim",
+    event = "VeryLazy",
     dependencies = "kevinhwang91/promise-async",
-    event = "VimEnter", -- needed for folds to load in time and comments closed
-    keys = {
-      -- stylua: ignore start
-      { "zM", function() require("ufo").closeAllFolds() end, desc = "󱃄 Close All Folds" },
-      { "zR", function() require("ufo").openFoldsExceptKinds {} end, desc = "󱃄 Open All Folds" },
-      { "zr", function() require("ufo").openFoldsExceptKinds { "comment", "imports" } end, desc = "󱃄 Open All Regular Folds" },
-      { "z1", function() require("ufo").closeFoldsWith(1) end, desc = "󱃄 Close L1 Folds" },
-      { "z2", function() require("ufo").closeFoldsWith(2) end, desc = "󱃄 Close L2 Folds" },
-      { "z3", function() require("ufo").closeFoldsWith(3) end, desc = "󱃄 Close L3 Folds" },
-      { "z4", function() require("ufo").closeFoldsWith(4) end, desc = "󱃄 Close L4 Folds" },
-      -- stylua: ignore end
-    },
-    init = function()
-      -- INFO fold commands usually change the foldlevel, which fixes folds, e.g.
-      -- auto-closing them after leaving insert mode, however ufo does not seem to
-      -- have equivalents for zr and zm because there is no saved fold level.
-      -- Consequently, the vim-internal fold levels need to be disabled by setting
-      -- them to 99
-      vim.opt.foldlevel = 99
-      vim.opt.foldlevelstart = 99
+    config = function()
+      require("pretty-fold").setup {
+        keep_indentation = false,
+        fill_char = "━",
+        sections = {
+          left = {
+            "━ ", function() return string.rep("*", vim.v.foldlevel) end, " ━┫", "content", "┣"
+          },
+          right = {
+            "┫ ", "number_of_folded_lines", ": ", "percentage", " ┣━━",
+          }
+        },
+        ft_ignore = { "neorg" },
+      }
+
+      -- Set up explicit keymaps
+      local function close_all_folds() vim.cmd("normal! zM") end
+      local function open_all_folds() vim.cmd("normal! zR") end
+      local function open_all_regular_folds() vim.cmd("normal! zr") end
+      local function close_folds_level(level) return function() vim.cmd("normal! z" .. level) end end
+
+      vim.keymap.set("n", "zM", close_all_folds, { desc = "Close All Folds" })
+      vim.keymap.set("n", "zR", open_all_folds, { desc = "Open All Folds" })
+      vim.keymap.set("n", "zr", open_all_regular_folds, { desc = "Open All Regular Folds" })
+      vim.keymap.set("n", "zm", close_folds_level("1"), { desc = "Close L1 Folds" })
+      vim.keymap.set("n", "zM", close_folds_level("2"), { desc = "Close L2 Folds" })
+      vim.keymap.set("n", "zM", close_folds_level("3"), { desc = "Close L3 Folds" })
+      vim.keymap.set("n", "zM", close_folds_level("4"), { desc = "Close L4 Folds" })
     end,
-    opts = {
-      filetype_exclude = { 'help', 'alpha', 'dashboard', 'Trouble', 'lazy', 'mason', 'yml' },
-      provider_selector = function(_, ft, _)
-        -- INFO some filetypes only allow indent, some only LSP, some only
-        -- treesitter. However, ufo only accepts two kinds as priority,
-        -- therefore making this function necessary :/
-        local lspWithOutFolding = { "markdown", "sh", "css", "html", "python" }
-        if vim.tbl_contains(lspWithOutFolding, ft) then return { "treesitter", "indent" } end
-        return { "lsp", "indent" }
-      end,
-      -- when opening the buffer, close these fold kinds
-      -- use `:UfoInspect` to get available fold kinds from the LSP
-      close_fold_kinds_for_ft = {
-        default = { "imports", "comment" },
-      },
-      open_fold_hl_timeout = 800,
-      fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
-        local hlgroup = "NonText"
-        local newVirtText = {}
-        local suffix = "    " .. tostring(endLnum - lnum)
-        local sufWidth = vim.fn.strdisplaywidth(suffix)
-        local targetWidth = width - sufWidth
-        local curWidth = 0
-        for _, chunk in ipairs(virtText) do
-          local chunkText = chunk[1]
-          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-          else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, { chunkText, hlGroup })
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            if curWidth + chunkWidth < targetWidth then
-              suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-          end
-          curWidth = curWidth + chunkWidth
-        end
-        table.insert(newVirtText, { suffix, hlgroup })
-        return newVirtText
-      end,
-    },
+  },
+  {
+    "anuvyklack/fold-preview.nvim",
+    dependencies = "anuvyklack/keymap-amend.nvim",
+    event = "VeryLazy",
+    config = true,
   },
 }
