@@ -1,5 +1,3 @@
-local u = require("abbes.config.utils")
-
 return {
   {
     "nvim-treesitter/nvim-treesitter",
