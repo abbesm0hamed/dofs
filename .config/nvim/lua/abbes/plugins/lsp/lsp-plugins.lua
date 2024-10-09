@@ -31,37 +31,37 @@ return {
       },
     },
   },
-  { -- CodeLens, but also for languages not supporting it
-    "Wansmer/symbol-usage.nvim",
-    event = "BufReadPre",
-    opts = {
-      hl = { link = "Comment" },
-      vt_position = "end_of_line",
-      request_pending_text = false, -- no "Loading…" PENDING https://github.com/Wansmer/symbol-usage.nvim/issues/24
-      references = { enabled = true, include_declaration = false },
-      definition = { enabled = false },
-      implementation = { enabled = true },
-      text_format = function(symbol)
-        local refs = (symbol.references and symbol.references > 0) and (" 󰈿 %s"):format(symbol.references) or ""
-        return refs
-      end,
-      disable = {
-        filetypes = { "css", "scss" },
-      },
-      -- available kinds: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#symbolKind
-      kinds = {
-        vim.lsp.protocol.SymbolKind.Module,
-        vim.lsp.protocol.SymbolKind.Package,
-        vim.lsp.protocol.SymbolKind.Function,
-        vim.lsp.protocol.SymbolKind.Class,
-        vim.lsp.protocol.SymbolKind.Constructor,
-        vim.lsp.protocol.SymbolKind.Method,
-        vim.lsp.protocol.SymbolKind.Interface,
-        vim.lsp.protocol.SymbolKind.Object,
-        vim.lsp.protocol.SymbolKind.Key,
-      },
-    },
-  },
+  -- { -- CodeLens, but also for languages not supporting it
+  --   "Wansmer/symbol-usage.nvim",
+  --   event = "BufReadPre",
+  --   opts = {
+  --     hl = { link = "Comment" },
+  --     vt_position = "end_of_line",
+  --     request_pending_text = false, -- no "Loading…" PENDING https://github.com/Wansmer/symbol-usage.nvim/issues/24
+  --     references = { enabled = true, include_declaration = false },
+  --     definition = { enabled = false },
+  --     implementation = { enabled = true },
+  --     text_format = function(symbol)
+  --       local refs = (symbol.references and symbol.references > 0) and (" 󰈿 %s"):format(symbol.references) or ""
+  --       return refs
+  --     end,
+  --     disable = {
+  --       filetypes = { "css", "scss" },
+  --     },
+  --     -- available kinds: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#symbolKind
+  --     kinds = {
+  --       vim.lsp.protocol.SymbolKind.Module,
+  --       vim.lsp.protocol.SymbolKind.Package,
+  --       vim.lsp.protocol.SymbolKind.Function,
+  --       vim.lsp.protocol.SymbolKind.Class,
+  --       vim.lsp.protocol.SymbolKind.Constructor,
+  --       vim.lsp.protocol.SymbolKind.Method,
+  --       vim.lsp.protocol.SymbolKind.Interface,
+  --       vim.lsp.protocol.SymbolKind.Object,
+  --       vim.lsp.protocol.SymbolKind.Key,
+  --     },
+  --   },
+  -- },
   { -- lsp definitions & references count in the status line
     "chrisgrieser/nvim-dr-lsp",
     event = "LspAttach",
