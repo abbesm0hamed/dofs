@@ -35,7 +35,8 @@ config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = true
 
-config.font_size = 10
+-- config.font_size = 10
+config.font_size = 12
 
 config.inactive_pane_hsb = {
   saturation = 0.7,

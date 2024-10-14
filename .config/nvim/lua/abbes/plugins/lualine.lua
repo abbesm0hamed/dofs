@@ -1,4 +1,3 @@
---
 -- lualine configuration
 -- local gray_palette = {
 --   darker = "#232324",
