@@ -121,4 +121,4 @@ keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- disable recording using q key
-keymap.set("n", "q", "<Nop>", { noremap = true, silent = true })
+-- keymap.set("n", "q", "<Nop>", { noremap = true, silent = true })
