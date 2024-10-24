@@ -43,6 +43,7 @@ return {
         -- list of servers for mason to install
         ensure_installed = {
           "ts_ls",
+          "emmet_ls",
           "html",
           "cssls",
           "tailwindcss",
@@ -59,7 +60,7 @@ return {
         automatic_installation = true, -- not the same as ensure_installed
         handlers = {
           lsp_zero.default_setup,
-          tsserver = function()
+          ts_ls = function()
             require("lspconfig").ts_ls.setup({
               single_file_support = false,
             })
@@ -94,7 +95,7 @@ return {
           "vint",
           "golangci-lint",
           "prettier", -- prettier formatter
-          "stylua", -- lua formatter
+          "stylua",   -- lua formatter
           "eslint_d", -- js linter
           "bash-language-server",
         },

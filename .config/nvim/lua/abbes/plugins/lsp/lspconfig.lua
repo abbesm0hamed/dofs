@@ -182,6 +182,29 @@ return {
       lspconfig.rust_analyzer.setup({})
       lspconfig.astro.setup({})
       lspconfig.graphql.setup({})
+      lspconfig.emmet_ls.setup({
+        filetypes = {
+          "html",
+          "typescriptreact",
+          "javascriptreact",
+          "typescript",
+          "javascript",
+          "css",
+          "astro",
+          "sass",
+          "scss",
+          "less",
+          "svelte",
+          "vue"
+        },
+        init_options = {
+          html = {
+            options = {
+              ["bem.enabled"] = true,
+            },
+          },
+        },
+      })
 
       -- Format on save
       lsp_zero.format_on_save({
@@ -194,6 +217,9 @@ return {
           ['ts_ls'] = { 'javascript', 'typescript' },
           ['rust_analyzer'] = { 'rust' },
           ['gopls'] = { 'go' },
+          ['emmet_ls'] = {
+            'html',
+          }
         }
       })
 

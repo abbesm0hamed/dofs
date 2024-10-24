@@ -24,8 +24,16 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "nvim-treesitter/nvim-treesitter",
+      "ziontee113/icon-picker.nvim",
+      "nvim-telescope/telescope-symbols.nvim",
     },
     keys = {
+      -- emoji picker
+      {
+        "<leader>se",
+        "<cmd>Telescope symbols<cr>",
+        desc = "Search Emoji"
+      },
       {
         "<leader>,",
         "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",

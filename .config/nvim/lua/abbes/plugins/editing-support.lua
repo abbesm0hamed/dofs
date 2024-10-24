@@ -87,7 +87,11 @@ return {
 
       require("nvim-autopairs").add_rules({
         rule("<", ">", "lua"):with_pair(isNodeType({ "string", "string_content" })),
-        rule("<", ">", { "vim", "html", "xml" }), -- keymaps & tags
+        rule("<", ">", {
+          "vim",
+          "html",
+          "xml",
+        }), -- keymaps & tags
 
         -- css: auto-add trailing semicolon, but only for declarations
         -- (which are at the end of the line and have no text afterwards)
