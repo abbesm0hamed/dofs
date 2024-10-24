@@ -454,10 +454,10 @@ return {
     -- stylua: ignore
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      -- { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      -- { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      -- { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      -- { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      -- { "S",     mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      -- { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      -- { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      -- { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
   },
   {
@@ -491,15 +491,14 @@ return {
   },
   -- Lorem Ipsum generator for Neovim
   {
-    "derektata/lorem.nvim",
-    enabled = false,
+    'derektata/lorem.nvim',
     config = function()
-      local lorem = require("lorem")
-      lorem.setup({
-        sentenceLength = "mixedShort",
-        comma = 1,
-      })
-    end,
+      require('lorem').opts {
+        sentenceLength = "medium",
+        comma_chance = 0.2,
+        max_commas_per_sentence = 2,
+      }
+    end
   },
   -- { -- Multi Cursor
   --   "mg979/vim-visual-multi",
