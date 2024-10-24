@@ -1,7 +1,6 @@
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-
 -- Auto-install lazy.nvim if not present
-if not vim.uv.fs_stat(lazypath) then
+if vim.fn.empty(vim.fn.glob(lazypath)) > 0 then
   print('Installing lazy.nvim....')
   vim.fn.system({
     'git',
@@ -12,7 +11,6 @@ if not vim.uv.fs_stat(lazypath) then
     lazypath,
   })
 end
-
 vim.opt.rtp:prepend(lazypath)
 
 return {

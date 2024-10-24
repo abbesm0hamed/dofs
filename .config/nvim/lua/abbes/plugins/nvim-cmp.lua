@@ -1,5 +1,3 @@
-local u = require("abbes.config.utils")
-
 local defaultSources = {
   { name = "nvim_lsp" },
   { name = "luasnip" },
