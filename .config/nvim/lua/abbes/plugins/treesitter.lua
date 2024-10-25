@@ -50,6 +50,7 @@ return {
     opts = {
       highlight = { enable = true },
       indent = { enable = true },
+      fold = { enable = true },
       ensure_installed = {
         "go",
         "gomod",
@@ -101,6 +102,27 @@ return {
           goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
         },
       },
+      config = function()
+        require("nvim-tree").setup {
+          view = {
+            width = 30,
+            side = 'left', -- Change to 'right' if you want it on the right
+            auto_resize = true,
+            mappings = {
+              -- Use your preferred key mappings here
+            },
+          },
+          actions = {
+            open_file = {
+              quit_on_open = true, -- Close nvim-tree when you open a file
+            },
+          },
+        }
+
+        -- Key mapping to toggle nvim-tree
+        vim.api.nvim_set_keymap("n", "<leader>ve", ":NvimTreeToggle<CR>",
+          { noremap = true, silent = true, desc = "Toggle Nvim Tree" })
+      end,
     },
     ---@param opts TSConfig
     config = function(_, opts)

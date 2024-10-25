@@ -3,7 +3,7 @@ return {
   config = function()
     local ranger_nvim = require("ranger-nvim")
     ranger_nvim.setup({
-      replace_netrw = false,
+      Replace_netrw = false,
       enable_cmds = false,
       keybinds = {
         ["ov"] = ranger_nvim.OPEN_MODE.vsplit,

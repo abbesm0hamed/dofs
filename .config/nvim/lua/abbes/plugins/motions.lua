@@ -2,7 +2,7 @@ local u = require("abbes.config.utils")
 --------------------------------------------------------------------------------
 
 return {
-  { -- better % (highlighting, matches across lines, match quotes)
+  {                     -- better % (highlighting, matches across lines, match quotes)
     "andymass/vim-matchup",
     event = "VimEnter", -- cannot load on keys due to highlights
     keys = {

@@ -31,27 +31,3 @@ vim.api.nvim_create_autocmd("User", {
     end)
   end,
 })
-
--- Disable folding for specific file types
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "yml", "yaml", "neo-tree" },
-  callback = function()
-    local ufo = require("ufo")
-    if ufo then
-      ufo.detach()
-    end
-    vim.opt_local.foldenable = false
-  end
-})
-
--- Disable folding for .env files
-vim.api.nvim_create_autocmd("BufRead", {
-  pattern = "*.env",
-  callback = function()
-    local ufo = require("ufo")
-    if ufo then
-      ufo.detach()
-    end
-    vim.opt_local.foldenable = false
-  end
-})

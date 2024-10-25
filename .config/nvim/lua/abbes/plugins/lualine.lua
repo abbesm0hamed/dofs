@@ -10,14 +10,14 @@
 --   insert = "#cad3f5",
 --   visual = "#a8e6cf",
 --   command = "#ffd3b6",
---   replace = "#ffb37e",
+--   Replace = "#ffb37e",
 -- }
 -- local bg_colors = {
 --   normal = "#87af87",
 --   insert = "#cad3f5",
 --   visual = "#a8e6cf",
 --   command = "#ffe2b6",
---   replace = "#ffb37e",
+--   Replace = "#ffb37e",
 -- }
 -- local general_colors = {
 --   fg = "#000",
@@ -46,9 +46,9 @@
 --     b = { fg = fg_colors.command },
 --     c = { bg = general_colors.bg, fg = general_colors.fg },
 --   },
---   replace = {
---     a = { bg = bg_colors.replace, fg = gray_palette.darker },
---     b = { fg = fg_colors.replace },
+--   Replace = {
+--     a = { bg = bg_colors.Replace, fg = gray_palette.darker },
+--     b = { fg = fg_colors.Replace },
 --     c = { bg = general_colors.bg, fg = general_colors.fg },
 --   },
 --   inactive = {
@@ -175,7 +175,7 @@ return {
   --       insert = "#cad3f5",
   --       visual = "#a8e6cf",
   --       command = "#ffd3b6",
-  --       replace = "#ffb37e",
+  --       Replace = "#ffb37e",
   --     }
   --
   --     local bg_colors = {
@@ -183,7 +183,7 @@ return {
   --       insert = "#cad3f5",
   --       visual = "#a8e6cf",
   --       command = "#ffe2b6",
-  --       replace = "#ffb37e",
+  --       Replace = "#ffb37e",
   --     }
   --
   --     local general_colors = {
@@ -198,7 +198,7 @@ return {
   --       insert = {},
   --       visual = {},
   --       command = {},
-  --       replace = {},
+  --       Replace = {},
   --       inactive = {},
   --     }
   --
@@ -218,9 +218,9 @@ return {
   --     p.command.middle = { { general_colors.fg, general_colors.bg } }
   --     p.command.right = { { gray_palette.darker, bg_colors.command }, { fg_colors.command, gray_palette.dark } }
   --
-  --     p.replace.left = { { gray_palette.darker, bg_colors.replace }, { fg_colors.replace, general_colors.bg } }
-  --     p.replace.middle = { { general_colors.fg, general_colors.bg } }
-  --     p.replace.right = { { gray_palette.darker, bg_colors.replace }, { fg_colors.replace, gray_palette.dark } }
+  --     p.Replace.left = { { gray_palette.darker, bg_colors.Replace }, { fg_colors.Replace, general_colors.bg } }
+  --     p.Replace.middle = { { general_colors.fg, general_colors.bg } }
+  --     p.Replace.right = { { gray_palette.darker, bg_colors.Replace }, { fg_colors.Replace, gray_palette.dark } }
   --
   --     p.inactive.left = { { general_colors.bg, general_colors.bg }, { general_colors.bg, general_colors.bg } }
   --     p.inactive.middle = { { general_colors.bg, general_colors.bg } }
