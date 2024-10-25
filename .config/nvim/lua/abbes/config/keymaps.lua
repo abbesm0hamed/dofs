@@ -122,3 +122,8 @@ keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab
 
 -- disable recording using q key
 -- keymap.set("n", "q", "<Nop>", { noremap = true, silent = true })
+-- record macros
+keymap.set("n", "Q", "q", { noremap = true, silent = true })
+
+-- save a mark
+keymap.set('n', 'M', 'm', { noremap = true, silent = true })
