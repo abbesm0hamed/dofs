@@ -336,4 +336,137 @@ return {
   --     ]])
   --   end,
   -- },
+  --
+  -- lightline
+  -- {
+  --   'itchyny/lightline.vim',
+  --   lazy = false,
+  --   config = function()
+  --     vim.o.showmode = false
+  --
+  --     -- Define colors using your palette
+  --     local fg_colors = {
+  --       normal = "#87af87",
+  --       insert = "#cad3f5",
+  --       visual = "#a8e6cf",
+  --       command = "#ffd3b6",
+  --       replace = "#ffb37e", -- Fixed capitalization to match lightline modes
+  --     }
+  --
+  --     -- Common background colors
+  --     local bg = '#1f1f28'
+  --     local inactive_bg = '#16161d'
+  --
+  --     -- Register the custom theme
+  --     vim.g['lightline#colorscheme#kanagawa_custom#palette'] = vim.fn['lightline#colorscheme#fill']({
+  --       normal = {
+  --         left = { { bg, fg_colors.normal }, { fg_colors.normal, bg } },
+  --         middle = { { fg_colors.normal, bg } },
+  --         right = { { bg, fg_colors.normal }, { fg_colors.normal, bg } },
+  --       },
+  --       insert = {
+  --         left = { { bg, fg_colors.insert }, { fg_colors.insert, bg } },
+  --         middle = { { fg_colors.insert, bg } },
+  --         right = { { bg, fg_colors.insert }, { fg_colors.insert, bg } },
+  --       },
+  --       visual = {
+  --         left = { { bg, fg_colors.visual }, { fg_colors.visual, bg } },
+  --         middle = { { fg_colors.visual, bg } },
+  --         right = { { bg, fg_colors.visual }, { fg_colors.visual, bg } },
+  --       },
+  --       replace = {
+  --         left = { { bg, fg_colors.replace }, { fg_colors.replace, bg } },
+  --         middle = { { fg_colors.replace, bg } },
+  --         right = { { bg, fg_colors.replace }, { fg_colors.replace, bg } },
+  --       },
+  --       command = {
+  --         left = { { bg, fg_colors.command }, { fg_colors.command, bg } },
+  --         middle = { { fg_colors.command, bg } },
+  --         right = { { bg, fg_colors.command }, { fg_colors.command, bg } },
+  --       },
+  --       inactive = {
+  --         left = { { fg_colors.normal, inactive_bg }, { fg_colors.normal, inactive_bg } },
+  --         middle = { { fg_colors.normal, inactive_bg } },
+  --         right = { { fg_colors.normal, inactive_bg }, { fg_colors.normal, inactive_bg } }
+  --       }
+  --     })
+  --
+  --     vim.g.lightline = {
+  --       colorscheme = 'kanagawa_custom',
+  --       active = {
+  --         left = {
+  --           { 'mode',      'paste' },
+  --           { 'gitbranch', 'readonly', 'filename', 'modified' }
+  --         },
+  --         right = {
+  --           { 'lineinfo' },
+  --           { 'percent' },
+  --           { 'fileformat', 'fileencoding', 'filetype' }
+  --         }
+  --       },
+  --       inactive = {
+  --         left = { { 'filename' } },
+  --         right = { { 'lineinfo' }, { 'percent' } }
+  --       },
+  --       component = {
+  --         lineinfo = '%3l:%-2v%<',
+  --       },
+  --       component_function = {
+  --         filename = 'LightlineFilename',
+  --         gitbranch = 'FugitiveHead'
+  --       },
+  --       separator = { left = '', right = '' },
+  --       subseparator = { left = '', right = '' },
+  --       mode_map = {
+  --         n = 'NORMAL',
+  --         i = 'INSERT',
+  --         R = 'REPLACE',
+  --         v = 'VISUAL',
+  --         V = 'V-LINE',
+  --         ["<C-v>"] = 'V-BLOCK',
+  --         c = 'COMMAND',
+  --         s = 'SELECT',
+  --         S = 'S-LINE',
+  --         ["<C-s>"] = 'S-BLOCK',
+  --         t = 'TERMINAL'
+  --       }
+  --     }
+  --
+  --     _G.LightlineFilename = function()
+  --       local filename = vim.fn.expand('%:t')
+  --       if filename == '' then
+  --         return '[No Name]'
+  --       end
+  --
+  --       local readonly = vim.bo.readonly and '⭤' or ''
+  --       local modified = vim.bo.modified and ' +' or ''
+  --
+  --       return string.format('%s%s%s', readonly, filename, modified)
+  --     end
+  --
+  --     -- Create autocmd for colorscheme changes
+  --     vim.api.nvim_create_autocmd("ColorScheme", {
+  --       pattern = "*",
+  --       callback = function()
+  --         vim.schedule(function()
+  --           vim.fn['lightline#enable']()
+  --         end)
+  --       end
+  --     })
+  --
+  --     -- Optional: Custom refresh function
+  --     _G.LightlineReload = function()
+  --       vim.fn['lightline#colorscheme']()
+  --       vim.fn['lightline#update']()
+  --     end
+  --
+  --     -- Optional: Command to reload lightline
+  --     vim.api.nvim_create_user_command('LightlineReload', function()
+  --       _G.LightlineReload()
+  --     end, {})
+  --   end,
+  --   dependencies = {
+  --     'tpope/vim-fugitive'
+  --   }
+  -- },
 }
