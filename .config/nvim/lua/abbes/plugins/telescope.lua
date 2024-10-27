@@ -30,7 +30,7 @@ return {
     keys = {
       -- emoji picker
       {
-        "<leader>se",
+        "<leader>em",
         "<cmd>Telescope symbols<cr>",
         desc = "Search Emoji"
       },
