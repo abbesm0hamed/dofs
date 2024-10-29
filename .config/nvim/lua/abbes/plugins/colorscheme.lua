@@ -10,8 +10,8 @@ return {
         compile = false,  -- enable compiling the colorscheme
         undercurl = true, -- enable undercurls
         commentStyle = { italic = true },
-        functionStyle = {},
-        keywordStyle = { italic = true },
+        functionStyle = { italic = false, bold = false },
+        keywordStyle = { italic = false },
         statementStyle = { bold = true },
         typeStyle = {},
         transparent = false,   -- do not set background color

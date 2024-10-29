@@ -3,7 +3,23 @@ local wezterm = require("wezterm")
 
 local config = {}
 -- font
-config.font = wezterm.font('JetBrains Mono', { weight = 'Regular', italic = false })
+config.font = wezterm.font(
+  'JetBrains Mono',
+  { weight = 'Regular', italic = false }
+)
+-- Font rules for italic and italic bold
+config.font_rules = {
+  {
+    italic = true,
+    font = wezterm.font("Victor Mono Semibold", { weight = "Regular", italic = true }),
+  },
+  {
+    italic = true,
+    weight = "Bold",
+    font = wezterm.font("Victor Mono", { weight = "Bold", italic = true }),
+  },
+}
+
 config.force_reverse_video_cursor = true
 
 config.colors = {
