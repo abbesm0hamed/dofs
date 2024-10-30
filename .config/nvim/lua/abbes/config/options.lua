@@ -19,7 +19,7 @@ opt.smartcase = true  -- if you include mixed case in your search, assumes you w
 
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
-opt.guicursor = 'n-v-c-sm:block,i-ci-ve:blinkon1'
+opt.guicursor = "n-v-c-sm:block,i-ci-ve:blinkon1"
 
 -- appearance
 
@@ -42,17 +42,16 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- turn off swapfile
 opt.swapfile = false
 
-
 -- status line config
 opt.laststatus = 2   -- Always show statusline
 opt.showmode = false -- Don't show mode in command line
 -- Function to get relative file path
 local function relative_path()
-  local full_path = vim.fn.expand('%:p')
+  local full_path = vim.fn.expand("%:p")
   local cwd = vim.fn.getcwd()
-  local rel_path = vim.fn.fnamemodify(full_path, ':~:.')
-  if rel_path == '' then
-    return '[No Name]'
+  local rel_path = vim.fn.fnamemodify(full_path, ":~:.")
+  if rel_path == "" then
+    return "[No Name]"
   end
   return rel_path
 end

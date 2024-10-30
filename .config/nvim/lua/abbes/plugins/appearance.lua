@@ -20,22 +20,28 @@ return {
     event = "CursorMoved",
     opts = true,
   },
-  { -- highlighted undo/redos
+  {
     "tzachar/highlight-undo.nvim",
-    keys = { "u", "U" },
+    keys = { "u", "<A-u>" }, -- Alt+r for redo
     opts = {
       duration = 400,
       undo = {
         lhs = "u",
-        map = "silent undo",
+        map = "silent! undo", -- ensure 'undo' is executed silently
         opts = { desc = "󰕌 Undo" },
       },
       redo = {
-        lhs = "U",
-        map = "silent redo",
+        lhs = "<A-u>",
+        map = "silent! redo", -- ensure 'redo' is executed silently
         opts = { desc = "󰑎 Redo" },
       },
     },
+    config = function(_, opts)
+      local highlight_undo = require("highlight-undo")
+      highlight_undo.setup(opts)
+      -- Custom mapping for Alt + r to redo if not automatically set
+      vim.keymap.set("n", "<A-u>", "<cmd>redo<CR>", { desc = "󰑎 Redo" })
+    end,
   },
   -- { -- virtual text context at the end of a scope
   --   "haringsrob/nvim_context_vt",
@@ -52,7 +58,7 @@ return {
   -- },
   { -- indentation guides
     "lukas-reineke/indent-blankline.nvim",
-    event = "UIEnter",
+    event = "VeryLazy",
     main = "ibl",
     opts = {
       scope = {
@@ -251,27 +257,20 @@ return {
   -- notifier
   -- {
   --   "rcarriga/nvim-notify",
-  --   keys = {
-  --     {
-  --       "<leader>un",
-  --       function()
-  --         require("notify").dismiss({ silent = true, pending = true })
-  --       end,
-  --       desc = "Dismiss All Notifications",
-  --     },
-  --   },
-  --   opts = {
-  --     stages = "static",
-  --     timeout = 3000,
-  --     max_height = function()
-  --       return math.floor(vim.o.lines * 0.75)
-  --     end,
-  --     max_width = function()
-  --       return math.floor(vim.o.columns * 0.75)
-  --     end,
-  --     on_open = function(win)
-  --       vim.api.nvim_win_set_config(win, { zindex = 100 })
-  --     end,
-  --   },
-  -- }
+  --   config = function()
+  --     require("notify").setup({
+  --       stages = "fade_in_slide_out", -- animation style
+  --       timeout = 3000, -- notification duration
+  --       background_colour = "#000000", -- background color
+  --       icons = {
+  --         ERROR = "",
+  --         WARN = "",
+  --         INFO = "",
+  --         DEBUG = "",
+  --         TRACE = "✎",
+  --       },
+  --     })
+  --     vim.notify = require("notify") -- set as the default notifier
+  --   end,
+  -- },
 }

@@ -1,7 +1,8 @@
 return {
   {
     "chrisgrieser/nvim-origami",
-    event = "BufReadPost",
+    -- event = "BufReadPost",
+    lazy = true,
     opts = {
       keepFoldsAcrossSessions = false,
       pauseFoldsOnSearch = true,
@@ -10,6 +11,6 @@ return {
     },
     config = function()
       require("origami").setup({})
-    end
+    end,
   },
 }
