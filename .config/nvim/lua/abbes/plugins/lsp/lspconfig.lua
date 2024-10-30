@@ -175,6 +175,7 @@ return {
       lsp_zero.setup()
       -- Setup individual language servers
       local lspconfig = require('lspconfig')
+
       lspconfig.ts_ls.setup({})
       lspconfig.gopls.setup({})
       lspconfig.rust_analyzer.setup({})
@@ -216,7 +217,18 @@ return {
           ['rust_analyzer'] = { 'rust' },
           ['gopls'] = { 'go' },
           ['emmet_ls'] = {
-            'html',
+            "html",
+            "typescriptreact",
+            "javascriptreact",
+            "typescript",
+            "javascript",
+            "css",
+            "astro",
+            "sass",
+            "scss",
+            "less",
+            "svelte",
+            "vue"
           }
         }
       })

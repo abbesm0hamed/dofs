@@ -61,11 +61,25 @@ return {
         handlers = {
           lsp_zero.default_setup,
           ts_ls = function()
-            require("lspconfig").ts_ls.setup({
+            local lspconfig = require("lspconfig")
+
+            lspconfig.ts_ls.setup({
+              capabilities = lsp_zero.nvim_lua_ls().capabilities, -- Ensure it has the same capabilities as other servers
               single_file_support = false,
+              settings = {
+                documentFormatting = true, -- Ensure formatting is enabled
+                format = {
+                  enable = true,
+                },
+                tsserver = {
+                  format = {
+                    enable = true
+                  }
+                }
+              },
             })
           end,
-        },
+        }
       })
     end,
   },

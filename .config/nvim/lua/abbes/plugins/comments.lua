@@ -43,7 +43,7 @@ return {
 
       -- Define key mappings for different types of aligned lines
       -- lines
-      vim.api.nvim_set_keymap("n", "<leader>ll", ":CBllline<CR>", { noremap = true, silent = true }) -- Left aligned line with left text
+      vim.api.nvim_set_keymap("n", "<leader>lL", ":CBllline<CR>", { noremap = true, silent = true }) -- Left aligned line with left text
       vim.api.nvim_set_keymap("n", "<leader>lc", ":CBlcline<CR>", { noremap = true, silent = true }) -- Left aligned line with centered text
       -- vim.api.nvim_set_keymap("n", "<leader>lr", ":CBlrline<CR>", { noremap = true, silent = true }) -- Left aligned line with right text
       -- vim.api.nvim_set_keymap("n", "<leader>cl", ":CBclline<CR>", { noremap = true, silent = true }) -- Centered title line with left text
@@ -56,6 +56,6 @@ return {
       -- boxes
       vim.api.nvim_set_keymap("n", "<leader>bc", ":CBccbox<CR>", { noremap = true, silent = true }) -- Centered box with centered text
       vim.api.nvim_set_keymap("n", "<leader>bl", ":CBlcbox<CR>", { noremap = true, silent = true }) -- Right-aligned box with centered text
-    end
-  }
+    end,
+  },
 }

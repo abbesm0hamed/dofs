@@ -125,6 +125,7 @@ return {
   {                        -- rainbow brackets
     "hiphish/rainbow-delimiters.nvim",
     event = "BufReadPost", -- later does not load on first buffer
+    lazy = true,
     dependencies = "nvim-treesitter/nvim-treesitter",
     main = "rainbow-delimiters.setup",
     init = function()
