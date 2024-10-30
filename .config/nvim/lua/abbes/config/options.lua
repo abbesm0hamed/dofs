@@ -65,10 +65,10 @@ opt.statusline = table.concat({
   "%h",                                                              -- Help file flag
   "%=",                                                              -- Right align
   "%y",                                                              -- File type
-  " %{&fileencoding?&fileencoding:&encoding}",                       -- File encoding
-  " [%{&fileformat}]",                                               -- File format
-  " %p%%",                                                           -- Percentage through file
-  " %l:%c ",                                                         -- Line and column
+  -- " %{&fileencoding?&fileencoding:&encoding}",                       -- File encoding
+  -- " [%{&fileformat}]",                                               -- File format
+  " %p%%",   -- Percentage through file
+  " %l:%c ", -- Line and column
 })
 -- Make the relative_path function available to statusline
 _G.relative_path = relative_path
