@@ -131,7 +131,7 @@ end
 return {
   {
     "stevearc/conform.nvim",
-    event = { "BufWritePre" },
+    -- event = { "BufWritePre" },
     cmd = "ConformInfo",
     mason_dependencies = listConformFormatters(ftToFormatter),
     config = function()
@@ -151,7 +151,6 @@ return {
   {
     "nvimtools/none-ls.nvim",
     lazy = true,
-    -- event = { "BufReadPre", "BufNewFile" }, -- to enable uncomment this
     dependencies = { "jay-babu/mason-null-ls.nvim" },
     config = function()
       local mason_null_ls = require("mason-null-ls")
