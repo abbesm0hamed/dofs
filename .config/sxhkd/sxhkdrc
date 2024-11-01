@@ -395,9 +395,9 @@ ctrl + alt + Return
 ctrl + alt + t
     alacritty
 
-#Vivaldi
-ctrl + alt + v
-    vivaldi-stable
+#xcolor
+ctrl + alt + x
+    xcolor
 
 #Xfce4-appfinder
 ctrl + alt + a
@@ -566,10 +566,13 @@ ctrl + alt + o
 # Scratchpads
 #################################################################
 super + ctrl + b
-    i3run --class btop -- alacritty --class btop,btop -e "btop" 
+    i3run --class btop -- kitty --class btop,btop -e "btop" 
 
 super + ctrl + p
-    i3run --class ranger -- alacritty --class ranger,ranger -e "ranger" 
+    i3run --class ranger -- kitty --class ranger,ranger -e "ranger" 
 
 super + ctrl + l
-    i3run --class yazi -- alacritty --class yazi,yazi -e "yazi" 
+    i3run --class yazi -- kitty --class yazi,yazi -e "yazi" 
+
+super + ctrl + k
+    i3run --class kitty_scratchpad -- kitty --class kitty_scratchpad,kitty_scratchpad -e "kitty_scratchpad"
