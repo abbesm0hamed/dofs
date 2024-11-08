@@ -122,3 +122,7 @@ export PATH="/home/abbes/.encore/bin:$PATH"
 export PATH=$PATH:$HOME/go/bin
 
 PATH=~/.console-ninja/.bin:$PATH
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

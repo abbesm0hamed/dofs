@@ -80,7 +80,7 @@ return {
     event = "BufReadPre",
     keys = {
       { -- better signature view
-        "<D-g>",
+        "<A-g>",
         function()
           require("lsp_signature").toggle_float_win()
         end,
@@ -89,16 +89,24 @@ return {
       },
     },
     opts = {
-      noice = false,                       -- render via noice.nvim
+      noice = false,
       hint_prefix = "󰏪 ",
-      hint_scheme = "@variable.parameter", -- highlight group
+      hint_scheme = "@variable.parameter",
       hint_inline = function()
-        return vim.lsp.inlay_hint ~= nil
+        return false -- Disable inline hints
       end,
       floating_window = false,
       always_trigger = true,
-      bind = true, -- This is mandatory, otherwise border config won't get registered.
+      bind = true,
       handler_opts = { border = vim.g.borderStyle },
+
+      -- Add these settings to disable automatic triggering
+      toggle_key = nil,                 -- Disable default toggle key
+      toggle_key_flip_floatwin = nil,   -- Disable default float window toggle
+      auto_close_after = nil,           -- Disable auto-close
+      check_completion_visible = false, -- Disable checks for completion window
+      trigger_on_newline = false,       -- Disable trigger on newline
+      doc_lines = 0,                    -- Disable doc lines
     },
   },
   { -- add ignore-comments & lookup rules
