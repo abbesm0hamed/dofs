@@ -80,11 +80,22 @@ return {
         return
       end
 
+      local actions = require("diffview.actions")
+
       diffview.setup({
         enhanced_diff_hl = true, -- Highlight word-level changes
         keymaps = {
           view = {
-            ["<leader>q"] = "<cmd>DiffviewClose<CR>", -- Close with leader + q
+            ["<leader>q"] = "<cmd>DiffviewClose<CR>",           -- Close with leader + q
+            -- Choose the current (left) version
+            ["<leader>ch"] = actions.conflict_choose("ours"),   -- Choose current version
+            ["<leader>cl"] = actions.conflict_choose("theirs"), -- Choose incoming version
+            ["<leader>cb"] = actions.conflict_choose("base"),   -- Choose base version
+            ["<leader>ca"] = actions.conflict_choose("all"),    -- Choose all versions
+            ["<leader>cx"] = actions.conflict_choose("none"),   -- Choose none
+            -- Direct buffer operations
+            ["do"] = "<cmd>diffget<cr>",                        -- Obtain the diff (get from other file)
+            ["dp"] = "<cmd>diffput<cr>",                        -- Put the diff (put to other file)
           },
           file_panel = {
             ["j"] = "NextEntry",      -- Down
@@ -98,7 +109,6 @@ return {
           },
         },
       })
-
       -- Key mappings
       vim.keymap.set("n", "<leader>gdo", "<cmd>DiffviewOpen<CR>", { desc = "Open Git diff view" })
       vim.keymap.set("n", "<leader>gdc", "<cmd>DiffviewClose<CR>", { desc = "Close Git diff view" })

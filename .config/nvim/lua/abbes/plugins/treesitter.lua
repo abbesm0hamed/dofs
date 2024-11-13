@@ -1,15 +1,10 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    version = false, -- last release is way too old and doesn't work on Windows
+    version = false,
     build = ":TSUpdate",
     lazy = true,
     init = function(plugin)
-      -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
-      -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
-      -- no longer trigger the **nvim-treesitter** module to be loaded in time.
-      -- Luckily, the only things that those plugins need are the custom queries, which we make available
-      -- during startup.
       require("lazy.core.loader").add_to_rtp(plugin)
       require("nvim-treesitter.query_predicates")
     end,
@@ -17,15 +12,13 @@ return {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         config = function()
-          -- When in diff mode, we want to use the default
-          -- vim text objects c & C instead of the treesitter ones.
-          local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
+          local move = require("nvim-treesitter.textobjects.move")
           local configs = require("nvim-treesitter.configs")
           for name, fn in pairs(move) do
             if name:find("goto") == 1 then
               move[name] = function(q, ...)
                 if vim.wo.diff then
-                  local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
+                  local config = configs.get_module("textobjects.move")[name]
                   for key, query in pairs(config or {}) do
                     if q == query and key:find("[%]%[][cC]") then
                       vim.cmd("normal! " .. key)
@@ -45,15 +38,14 @@ return {
       { "<c-space>", desc = "Increment Selection" },
       { "<bs>",      desc = "Decrement Selection", mode = "x" },
     },
-    ---@type TSConfig
-    ---@diagnostic disable-next-line: missing-fields
     opts = {
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
       },
       indent = { enable = true },
-      fold = { enable = true },
+      -- Remove the fold setting from here since you're using native folding
+      -- fold = { enable = true },
       ensure_installed = {
         "go",
         "gomod",
@@ -68,6 +60,7 @@ return {
         "astro",
         "typescript",
         "tsx",
+        "xml",
         "json",
         "vue",
         "rust",
@@ -79,14 +72,14 @@ return {
         "markdown_inline",
         "python",
         "query",
-        "regex",
+        -- "regex",
         "toml",
         "vim",
         "vimdoc",
-        "xml",
         "yaml",
         "dockerfile",
       },
+      ignore_install = { "regex" },
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -105,32 +98,9 @@ return {
           goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
         },
       },
-      config = function()
-        require("nvim-tree").setup {
-          view = {
-            width = 30,
-            side = 'left', -- Change to 'right' if you want it on the right
-            auto_resize = true,
-            mappings = {
-              -- Use your preferred key mappings here
-            },
-          },
-          actions = {
-            open_file = {
-              quit_on_open = true, -- Close nvim-tree when you open a file
-            },
-          },
-        }
-
-        -- Key mapping to toggle nvim-tree
-        vim.api.nvim_set_keymap("n", "<leader>ve", ":NvimTreeToggle<CR>",
-          { noremap = true, silent = true, desc = "Toggle Nvim Tree" })
-      end,
     },
-    ---@param opts TSConfig
     config = function(_, opts)
       if type(opts.ensure_installed) == "table" then
-        ---@type table<string, boolean>
         local added = {}
         opts.ensure_installed = vim.tbl_filter(function(lang)
           if added[lang] then
@@ -179,16 +149,23 @@ return {
   --     })
   --   end,
   -- },
-  { -- autopair, but for keywords
+  {
     "RRethy/nvim-treesitter-endwise",
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "InsertEnter",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        endwise = {
-          enable = true,
-        },
-      })
+    opts = {
+      endwise = {
+        enable = true,
+      },
+      -- Adding required TSConfig fields
+      modules = {},
+      sync_install = false,
+      ensure_installed = {},
+      ignore_install = {},
+      auto_install = true,
+    },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
     end,
   },
   {

@@ -1,91 +1,120 @@
 #!/bin/bash
 
+# Set error handling
+set -euo pipefail
+
+# Configuration
+BACKGROUND_PRIMARY="$HOME/.config/backgrounds/kanagawa-blue-sky.png"
+BACKGROUND_SECONDARY="$HOME/.config/backgrounds/kanagawa.png"
+PICOM_CONFIG="$HOME/.config/picom/picom.conf"
+
+# Helper function to run processes if not already running
 function run {
-  if ! pgrep $1; then
-    $@ &
-  fi
+    if ! pgrep -x "$1" >/dev/null; then
+        "$@" &
+    fi
 }
 
-# Function to check if the second monitor (HDMI-1-0) is connected
+# Monitor configuration functions
 function is_second_monitor_connected {
     xrandr | grep "HDMI-1-0 connected" > /dev/null
 }
 
-# Function to get the name of the current primary display
 function get_current_primary {
     xrandr | grep "primary" | cut -d" " -f1
 }
 
-# Function to set up the display configurations and handle workspace transitions
+# Display setup with improved error handling and performance
 function setup_displays_and_workspaces {
     local current_primary=$(get_current_primary)
     local new_primary
     local current_workspace=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' -r)
+    
+    # Wait for X server to be fully ready
+    sleep 0.5
 
     if is_second_monitor_connected; then
         new_primary="HDMI-1-0"
-        xrandr --output HDMI-1-0 --mode 1920x1080 --pos 1920x0 --rate 170 --rotate normal \
-               --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal
+        # Configure displays with proper sync and reduced tearing
+        if ! xrandr --output HDMI-1-0 --mode 1920x1080 --pos 1920x0 --rate 60 --rotate normal \
+                    --output eDP-1 --mode 1920x1080 --pos 0x0 --primary --rotate normal; then
+            echo "Error: Failed to configure dual monitor setup" >&2
+            return 1
+        fi
+        
+        # Set proper DRI driver for better performance
+        export LIBVA_DRIVER_NAME=i965
+        export VDPAU_DRIVER=va_gl
     else
         new_primary="eDP-1"
-        xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1-0 --off
+        if ! xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal --primary \
+                    --output HDMI-1-0 --off; then
+            echo "Error: Failed to configure single monitor setup" >&2
+            return 1
+        fi
     fi
 
+    # Only move workspaces if primary changed
     if [ "$current_primary" != "$new_primary" ]; then
-        xrandr --output $new_primary --primary
-
-        # Move all workspaces to the new primary display
+        # Move workspaces in parallel for better performance
         for i in $(seq 1 10); do
-            i3-msg "workspace $i; move workspace to output $new_primary"
+            i3-msg "workspace $i; move workspace to output $new_primary" &
         done
+        wait
     fi
 
-    # Restore the previously active workspace
+    # Restore active workspace
     i3-msg "workspace $current_workspace"
 }
 
-# Main execution
-setup_displays_and_workspaces
+# Compositor setup with optimized settings
+function setup_compositor {
+    # Kill existing compositor
+    killall picom 2>/dev/null || true
+    sleep 0.5
 
-# xrandr --output DP-1 --off --output DP-2 --mode 1920x1080 --pos 1920x415 --rotate normal --output DP-3 --primary --mode 1920x1080 --pos 0x884 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 1920x1495 --rotate normal
-run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 --rotate normal --output HDMI-2-0 --off
+    # Start compositor with optimized settings
+    run picom --config "$PICOM_CONFIG" \
+             --vsync \
+             --backend glx \
+             --glx-no-stencil \
+             --glx-no-rebind-pixmap \
+             --use-damage \
+             --xrender-sync-fence
+}
 
-# the backgrounds below match more darker themes like moonfly 
-# run feh --bg-fill $HOME/.config/backgrounds/store.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
-#
-# the backgrounds below matches the kanagawa theme
-run feh --bg-fill $HOME/.config/backgrounds/kanagawa.png --bg-fill $HOME/.config/backgrounds/kanagawa-blue-sky.png
+# Main execution with parallel loading where possible
+function main {
+    # Set up displays first
+    setup_displays_and_workspaces
 
-run killall polybar
-run ~/.config/polybar/launch_polybar.sh
-# compositor
-# run killall picom
-# while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
-# run picom --config ~/.config/picom/picom.conf --vsync
+    # Start essential services in parallel
+    setup_compositor &
+    run feh --no-fehbg --bg-fill "$BACKGROUND_PRIMARY" --bg-fill "$BACKGROUND_SECONDARY" &
 
-# run ~/.config/eww/launch.sh
+    # Restart polybar
+    killall polybar 2>/dev/null || true
+    run ~/.config/polybar/launch_polybar.sh
 
-#run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
-#autorandr horizontal
-#run caffeine
-# run stalonetray
-run pamac-tray
-run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-run xfce4-power-manager
-run blueberry-tray
-run blueman-applet
-run nm-applet
-run numlockx on
-run volumeicon
-run autotiling
-run dunst
-run variety
-run flameshot
+    # Start system tray applications in parallel
+    run pamac-tray &
+    run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+    run xfce4-power-manager &
+    run blueberry-tray &
+    run blueman-applet &
+    run nm-applet &
+    run volumeicon &
 
-# run conky -c $HOME/.config/conky/conky.conf
-#you can set wallpapers in themes as well
-# run feh --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest2.jpg --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest1.jpg
-# run nitrogen --restore
-#
-#sxhkd
-run sxhkd -c $HOME/.config/sxhkd/sxhkdrc
+    # Start utilities in parallel
+    run autotiling &
+    run dunst &
+    run variety &
+    run flameshot &
+    run sxhkd -c "$HOME/.config/sxhkd/sxhkdrc" &
+
+    # Wait for all background processes to initialize
+    wait
+}
+
+# Execute main function
+main

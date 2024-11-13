@@ -49,5 +49,5 @@ opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldcolumn = "0"
 opt.foldtext = ""
 opt.foldlevel = 99
-opt.foldlevelstart = 1
+opt.foldlevelstart = 99
 opt.foldnestmax = 4
