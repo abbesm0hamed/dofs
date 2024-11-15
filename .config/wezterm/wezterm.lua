@@ -19,6 +19,41 @@ config.font_rules = {
   },
 }
 
+-- Default padding for non-Neovim windows
+config.window_padding = {
+  left = "1cell",
+  right = "1cell",
+  top = "0.5cell",
+  bottom = "0.5cell",
+}
+
+-- Event handler for process updates
+wezterm.on("update-right-status", function(window, pane)
+  local process_name = pane:get_foreground_process_name()
+  if process_name then
+    -- Check if nvim is running
+    if process_name:find("nvim") then
+      window:set_config_overrides({
+        window_padding = {
+          left = 0,
+          right = 0,
+          top = 0,
+          bottom = 0,
+        }
+      })
+    else
+      window:set_config_overrides({
+        window_padding = {
+          left = "1cell",
+          right = "1cell",
+          top = "0.5cell",
+          bottom = "0.5cell",
+        }
+      })
+    end
+  end
+end)
+
 -- Kanagawa color scheme
 config.colors = kanagwa_theme
 
