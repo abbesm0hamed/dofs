@@ -78,13 +78,13 @@ keymap.set("v", "<", "<gv")
 keymap.set("v", ">", ">gv")
 
 -- lazy
-keymap.set("n", "<leader>l", "<CMD>Lazy<cr>", { desc = "Lazy" })
+keymap.set("n", "<leader>la", "<CMD>Lazy<cr>", { desc = "Lazy" })
 
 -- new file
 keymap.set("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
 keymap.set("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
-keymap.set("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
+keymap.set("n", "<leader>fl", "<cmd>copen<cr>", { desc = "Quickfix list" })
 
 keymap.set("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })

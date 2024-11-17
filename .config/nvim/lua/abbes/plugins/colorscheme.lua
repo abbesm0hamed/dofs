@@ -36,6 +36,16 @@ return {
     end,
   },
   --
+  {
+    "wnkz/monoglow.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+    config = function()
+      vim.cmd [[colorscheme monoglow]]
+    end
+  },
+  --
   -- {
   --   "wtfox/jellybeans.nvim",
   --   priority = 1000,
