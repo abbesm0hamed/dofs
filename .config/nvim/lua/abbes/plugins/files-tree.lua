@@ -42,6 +42,10 @@ return {
             },
           },
         },
+        trash = {
+          cmd = "trash", -- Or "trash-put" if using trash-cli
+          require_confirm = true,
+        },
         filters = {
           custom = { ".DS_Store" },
         },

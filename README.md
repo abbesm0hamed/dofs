@@ -47,4 +47,5 @@ $ git clone git@github.com:streetturtle/awesome-wm-widgets.git
 https://gitlab.com/thelinuxcast/my-dots.git
 https://github.com/Brannigan123/polybar-config.git
 
-
+Install gitmux to have git related info in tmux bar
+``` $ go install github.com/arl/gitmux@latest ```
