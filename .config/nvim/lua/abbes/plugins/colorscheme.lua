@@ -1,5 +1,5 @@
 return {
-  -- new
+  -- best
   {
     "rebelot/kanagawa.nvim",
     lazy = true,
@@ -617,5 +617,14 @@ return {
   --     -- https://github.com/nvim-lua/lsp_extensions.nvim/issues/21
   --     -- call Base16hi("CocHintSign", g:base16_gui03, "", g:base16_cterm03, "", "", "")
   --   end
+  -- },
+  --
+  -- {
+  --   "matsuuu/pinkmare",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd("colorscheme pinkmare")
+  --   end,
   -- },
 }

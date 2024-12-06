@@ -1,18 +1,18 @@
 #!/bin/bash
 
 function run {
-  if ! pgrep $1; then
-    "$@" &
-  fi
+    if ! pgrep $1; then
+        "$@" &
+    fi
 }
 
-BACKGROUND_PRIMARY="$HOME/.config/backgrounds/avatar_pet.jpg"
-BACKGROUND_SECONDARY="$HOME/.config/backgrounds/avatar-ability.jpg"
+BACKGROUND_PRIMARY="$HOME/.config/backgrounds/owl.jpg"
+BACKGROUND_SECONDARY="$HOME/.config/backgrounds/bird.jpg"
 PICOM_CONFIG="$HOME/.config/picom/picom.conf"
 
 # Function to check if the second monitor (HDMI-1-0) is connected
 function is_second_monitor_connected {
-    xrandr | grep "HDMI-1-0 connected" > /dev/null
+    xrandr | grep "HDMI-1-0 connected" >/dev/null
 }
 
 # Function to get the name of the current primary display
@@ -29,7 +29,7 @@ function setup_displays_and_workspaces {
     if is_second_monitor_connected; then
         new_primary="HDMI-1-0"
         xrandr --output HDMI-1-0 --mode 1920x1080 --pos 1920x0 --rate 170 --rotate normal \
-               --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal
+            --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal
     else
         new_primary="eDP-1"
         xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1-0 --off
@@ -54,8 +54,7 @@ setup_displays_and_workspaces
 # xrandr --output DP-1 --off --output DP-2 --mode 1920x1080 --pos 1920x415 --rotate normal --output DP-3 --primary --mode 1920x1080 --pos 0x884 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 1920x1495 --rotate normal
 run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 --rotate normal --output HDMI-2-0 --off
 
-
-# the backgrounds below match more darker themes like moonfly 
+# the backgrounds below match more darker themes like moonfly
 # run feh --bg-fill $HOME/.config/backgrounds/store.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
 #
 # the backgrounds below matches the kanagawa theme

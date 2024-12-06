@@ -126,3 +126,11 @@ PATH=~/.console-ninja/.bin:$PATH
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+# pnpm
+export PNPM_HOME="/home/abbes/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
