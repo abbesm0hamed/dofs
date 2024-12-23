@@ -41,12 +41,13 @@ return {
       { "williamboman/mason.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
       -- Autocompletion
-      { "hrsh7th/nvim-cmp" },
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
-      { "saadparwaiz1/cmp_luasnip" },
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-nvim-lua" },
+      { "saghen/blink.cmp" },
+      -- { "hrsh7th/nvim-cmp" },
+      -- { "hrsh7th/cmp-buffer" },
+      -- { "hrsh7th/cmp-path" },
+      -- { "saadparwaiz1/cmp_luasnip" },
+      -- { "hrsh7th/cmp-nvim-lsp" },
+      -- { "hrsh7th/cmp-nvim-lua" },
       -- Snippets
       { "L3MON4D3/LuaSnip" },
       { "rafamadriz/friendly-snippets" },
@@ -74,7 +75,8 @@ return {
         sign_text = true,
         lsp_attach = lsp_attach,
         float_border = "rounded",
-        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+        capabilities = require("blink.cmp").get_lsp_capabilities(),
+        -- capabilities = require("cmp_nvim_lsp").default_capabilities(),
       })
 
       require("mason").setup({})
@@ -111,69 +113,35 @@ return {
         },
       })
 
+      -- local cmp = require("cmp")
       local cmp = require("cmp")
-      local cmp_select = lsp_zero.cmp_action()
-      local winhighlight = {
-        winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
-      }
+      local blink_cmp = require("blink.cmp")
 
       cmp.setup({
-        preselect = cmp.PreselectMode.None,
+        mapping = cmp.mapping.preset.insert({
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        }),
         sources = {
           { name = "path" },
           { name = "nvim_lsp" },
-          { name = "nvim_lua" },
-          { name = "luasnip", keyword_length = 2 },
-          { name = "buffer",  keyword_length = 3 },
+          { name = "luasnip" },
+          { name = "buffer", keyword_length = 3 },
         },
-        window = {
-          --   completion = cmp.config.window.bordered({
-          --     winhighlight = winhighlight.winhighlight,
-          --     border = "single",
-          --     side_padding = 0,
-          --   }),
-          --   documentation = cmp.config.window.bordered({
-          --     winhighlight = winhighlight.winhighlight,
-          --     border = "single",
-          --     side_padding = 1,
-          --   }),
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-          ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-d>"] = cmp.mapping.scroll_docs(4),
-          ["<Tab>"] = cmp_select.luasnip_supertab(),
-          ["<S-Tab>"] = cmp_select.luasnip_shift_supertab(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-          ["<CR>"] = cmp.mapping.confirm({ select = false }),
-
-          ["<C-j>"] = cmp.mapping(function()
-            if cmp.visible() then
-              cmp.select_next_item({ behavior = "insert" })
-            else
-              cmp.complete()
-            end
-          end),
-          ["<C-k>"] = cmp.mapping(function()
-            if cmp.visible() then
-              cmp.select_prev_item({ behavior = "insert" })
-            else
-              cmp.complete()
-            end
-          end),
-        }),
         snippet = {
           expand = function(args)
             require("luasnip").lsp_expand(args.body)
           end,
         },
+        capabilities = blink_cmp.get_lsp_capabilities(), -- Use blink's LSP capabilities
       })
 
       lsp_zero.setup()
-      -- Setup individual language servers
+      require("luasnip.loaders.from_vscode").lazy_load()
+      -- Language server setup
       local lspconfig = require("lspconfig")
 
       lspconfig.ts_ls.setup({})
@@ -205,7 +173,6 @@ return {
         },
       })
 
-      -- Format on save
       lsp_zero.format_on_save({
         format_opts = {
           async = false,
@@ -238,7 +205,6 @@ return {
         },
       })
 
-      -- Load snippets
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },

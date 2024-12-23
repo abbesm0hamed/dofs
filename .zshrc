@@ -121,7 +121,7 @@ export PATH="/home/abbes/.encore/bin:$PATH"
 # like go-blueprint 
 export PATH=$PATH:$HOME/go/bin
 
-PATH=~/.console-ninja/.bin:$PATH
+
 
 
 # Load Angular CLI autocompletion.
@@ -134,3 +134,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+

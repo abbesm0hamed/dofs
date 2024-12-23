@@ -281,11 +281,11 @@ super + m
 ## Terminal emulators
 # super + Return
 #     kitty
-alt + Return
+super + Return
     kitty
 
 #Wezterm
-super + Return 
+alt + Return 
 	wezterm
 
 #alacritty
