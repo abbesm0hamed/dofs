@@ -284,9 +284,13 @@ super + m
 super + Return
     kitty
 
-#Wezterm
+# #Wezterm
+# alt + Return 
+# 	wezterm
+
+# ghostty
 alt + Return 
-	wezterm
+	ghostty
 
 #alacritty
 super + shift + w 

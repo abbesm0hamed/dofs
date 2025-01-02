@@ -1,0 +1,80 @@
+# Ghostty Terminal Configuration
+
+# Font settings
+font-family = "JetBrains Mono Nerd Font"
+font-size = 10.5
+font-feature = "calt"
+font-feature = "liga"
+font-feature = "ss01"
+
+# Window settings
+window-padding-x = 10
+window-padding-y = 10
+window-theme = "dark"
+window-decoration = false
+window-blur = true
+window-option = "remember-window-size=false"
+window-option = "confirm-close=false"
+
+# Cursor settings
+cursor-style = "block"
+cursor-blink = true
+
+# Mouse settings
+mouse-hide-while-typing = true
+mouse-hide-wait = 0
+word-char-exceptions = "@-./_~?&=%+#"
+
+# Colors - Kanagawa Theme
+background = #1F1F28
+foreground = #DCD7BA
+
+# Normal colors
+palette = 0=#090618
+palette = 1=#C34043
+palette = 2=#76946A
+palette = 3=#C0A36E
+palette = 4=#7E9CD8
+palette = 5=#957FB8
+palette = 6=#6A9589
+palette = 7=#C8C093
+
+# Bright colors
+palette = 8=#727169
+palette = 9=#E82424
+palette = 10=#98BB6C
+palette = 11=#E6C384
+palette = 12=#7FB4CA
+palette = 13=#938AA9
+palette = 14=#7AA89F
+palette = 15=#DCD7BA
+
+# Extended colors
+palette = 16=#FFA066
+palette = 17=#FF5D62
+
+# Selection colors
+selection-background = #2D4F67
+selection-foreground = #C8C093
+
+# URL color
+url-color = #7E9CD8
+url-style = "curly"
+
+# Tab bar colors
+tab-bar-background = #1F1F28
+active-tab-background = #2D4F67
+active-tab-foreground = #DCD7BA
+inactive-tab-background = #1F1F28
+inactive-tab-foreground = #727169
+
+# Border colors
+active-border-color = #7E9CD8
+inactive-border-color = #363646
+
+# Bell settings
+bell-sound = false
+
+# Scrollback and performance
+scrollback = 2000
+unfocused-split-opacity = 0.6
