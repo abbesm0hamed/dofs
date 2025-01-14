@@ -7,6 +7,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
+      "folke/zen-mode.nvim",  -- Add Zen Mode as a dependency
     },
     init = function()
       -- disable other dashboards to avoid conflicts
@@ -56,5 +57,12 @@ return {
       statuscolumn = { enabled = false },
       words = { enabled = false },
     },
+    config = function(_, opts)
+      local snacks = require("snacks")
+      snacks.setup(opts)
+
+      -- Set up Zen Mode keybinding
+      vim.api.nvim_set_keymap('n', 'tz', '<cmd>ZenMode<CR>', { noremap = true, silent = true })
+    end,
   },
 }
