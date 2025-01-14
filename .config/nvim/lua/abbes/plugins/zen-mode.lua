@@ -6,6 +6,13 @@ return {
       -- Plugin for additional highlighting customization
       "folke/twilight.nvim",
       event = "VeryLazy",
+      opts = {
+        plugins = {
+          gitsigns = true,
+          tmux = true,
+          kitty = { enabled = false, font = "+2" },
+        },
+      },
       config = function()
         -- Configure custom highlights for comments
         vim.cmd([[

@@ -181,6 +181,7 @@ return {
   },
   { -- split-join lines
     "Wansmer/treesj",
+    lazy = true,
     keys = {
       {
         "<leader>tj",
@@ -343,7 +344,11 @@ return {
   --     vim.keymap.set("o", "<LeftMouse>", "<Nop>")
   --   end,
   -- },
-  { "kkharji/sqlite.lua" },
+  {
+    "kkharji/sqlite.lua",
+    lazy = true,
+    event = "VeryLazy",
+  },
   {
     "gbprod/yanky.nvim",
     dependencies = { "kkharji/sqlite.lua" },
@@ -462,11 +467,12 @@ return {
   },
   {
     "utilyre/barbecue.nvim",
+    lazy = true,
     name = "barbecue",
     version = "*",
     dependencies = {
       "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
+      "echasnovski/mini.icons",
     },
     opts = {},
     config = function()
@@ -492,6 +498,8 @@ return {
   -- Lorem Ipsum generator for Neovim
   {
     'derektata/lorem.nvim',
+    lazy = true,
+    event = "VeryLazy",
     config = function()
       require('lorem').opts {
         sentenceLength = "medium",

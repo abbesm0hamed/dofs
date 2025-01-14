@@ -1,4 +1,14 @@
 return {
+  --new
+  -- {
+  --   "ficcdaf/ashen.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   -- configuration is optional!
+  --   init = function()
+  --     vim.cmd("colorscheme ashen")
+  --   end
+  -- },
   -- best
   {
     "rebelot/kanagawa.nvim",

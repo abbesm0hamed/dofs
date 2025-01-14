@@ -6,7 +6,7 @@ return {
     window = {
       open = "current",
     },
-    callbacks = {
+    hooks = {
       pre_open = function()
         -- Close toggleterm when an external open request is received
         require("toggleterm").toggle(0)
@@ -14,8 +14,6 @@ return {
       post_open = function(bufnr, winnr, ft)
         if ft == "gitcommit" then
           -- If the file is a git commit, create one-shot autocmd to delete it on write
-          -- If you just want the toggleable terminal integration, ignore this bit and only use the
-          -- code in the else block
           vim.api.nvim_create_autocmd("BufWritePost", {
             buffer = bufnr,
             once = true,
@@ -29,7 +27,6 @@ return {
           })
         else
           -- If it's a normal file, then reopen the terminal, then switch back to the newly opened window
-          -- This gives the appearance of the window opening independently of the terminal
           require("toggleterm").toggle(0)
           vim.api.nvim_set_current_win(winnr)
         end

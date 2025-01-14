@@ -22,7 +22,7 @@ return {
         enabled = vim.fn.executable("make") == 1 or vim.fn.executable("cmake") == 1,
       },
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
+      "echasnovski/mini.icons",
       "nvim-treesitter/nvim-treesitter",
       "ziontee113/icon-picker.nvim",
       "nvim-telescope/telescope-symbols.nvim",
