@@ -12,9 +12,8 @@ return {
   --     })
   --   end,
   -- },
-  { "MunifTanjim/nui.nvim", lazy = true },
   {
     "wurli/visimatch.nvim",
     opts = {},
-  }
+  },
 }
