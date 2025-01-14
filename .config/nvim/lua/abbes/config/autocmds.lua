@@ -1,5 +1,6 @@
 -- This file is automatically loaded by lazyvim.config.init.
 
+-- Helper function to create autogroups
 local function augroup(name)
   return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
@@ -12,7 +13,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Mason tool installer event handler
+-- Mason tool installer event handlers
 vim.api.nvim_create_autocmd("User", {
   pattern = "MasonToolsStartingInstall",
   callback = function()
@@ -31,11 +32,16 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
+-- Auto-reload files when changed externally
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  group = augroup("checktime"),
+  command = "if !bufexists('[Command Line]') | checktime | endif",
+  desc = "Check if any buffers were changed outside of Vim",
+})
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "yml", "yaml", "neo-tree", ".env" },
-  callback = function()
-    require("ufo").detach()
-    vim.opt_local.foldenable = false
-  end
+-- Trigger `checktime` when changing buffers or after writing
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave" }, {
+  group = augroup("refresh_file"),
+  command = "checktime",
+  desc = "Refresh file content after writing or leaving buffer",
 })

@@ -4,7 +4,7 @@
 local wt = require("wezterm")
 local act = wt.action
 local actFun = wt.action_callback
-local theme = require("theme-utils")
+local theme = require("themes.theme-utils")
 
 --------------------------------------------------------------------------------
 

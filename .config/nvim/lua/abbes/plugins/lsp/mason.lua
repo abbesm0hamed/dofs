@@ -42,7 +42,8 @@ return {
       mason_lspconfig.setup({
         -- list of servers for mason to install
         ensure_installed = {
-          "tsserver",
+          "ts_ls",
+          "emmet_ls",
           "html",
           "cssls",
           "tailwindcss",
@@ -59,12 +60,26 @@ return {
         automatic_installation = true, -- not the same as ensure_installed
         handlers = {
           lsp_zero.default_setup,
-          tsserver = function()
-            require("lspconfig").tsserver.setup({
+          ts_ls = function()
+            local lspconfig = require("lspconfig")
+
+            lspconfig.ts_ls.setup({
+              capabilities = lsp_zero.nvim_lua_ls().capabilities, -- Ensure it has the same capabilities as other servers
               single_file_support = false,
+              settings = {
+                documentFormatting = true, -- Ensure formatting is enabled
+                format = {
+                  enable = true,
+                },
+                tsserver = {
+                  format = {
+                    enable = true
+                  }
+                }
+              },
             })
           end,
-        },
+        }
       })
     end,
   },
@@ -94,7 +109,7 @@ return {
           "vint",
           "golangci-lint",
           "prettier", -- prettier formatter
-          "stylua", -- lua formatter
+          "stylua",   -- lua formatter
           "eslint_d", -- js linter
           "bash-language-server",
         },

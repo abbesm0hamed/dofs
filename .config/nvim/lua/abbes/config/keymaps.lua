@@ -46,6 +46,10 @@ keymap.set("n", "]b", ":bnext<CR>", { desc = "Jump to next buffer", noremap = tr
 keymap.set({ "n" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
+-- select and copy from file
+keymap.set("n", "<leader>vv", "ggVG", { desc = "Select All" })
+keymap.set("n", "<leader>ca", "ggVG\"+y", { desc = "Copy All to Clipboard" })
+
 -- Move Lines
 keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
 keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
@@ -74,13 +78,13 @@ keymap.set("v", "<", "<gv")
 keymap.set("v", ">", ">gv")
 
 -- lazy
-keymap.set("n", "<leader>l", "<CMD>Lazy<cr>", { desc = "Lazy" })
+keymap.set("n", "<leader>la", "<CMD>Lazy<cr>", { desc = "Lazy" })
 
 -- new file
 keymap.set("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
 keymap.set("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
-keymap.set("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
+keymap.set("n", "<leader>fl", "<cmd>copen<cr>", { desc = "Quickfix list" })
 
 keymap.set("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
@@ -117,4 +121,9 @@ keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- disable recording using q key
-keymap.set("n", "q", "<Nop>", { noremap = true, silent = true })
+-- keymap.set("n", "q", "<Nop>", { noremap = true, silent = true })
+-- record macros
+keymap.set("n", "Q", "q", { noremap = true, silent = true })
+
+-- save a mark
+keymap.set('n', 'M', 'm', { noremap = true, silent = true })

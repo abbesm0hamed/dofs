@@ -6,21 +6,21 @@ return {
   },
   keys = {
     {
-      "<leader>Rr",
+      "<leader>rp",
       function()
         require("spectre").toggle()
       end,
       desc = "Toggle search and replace",
     },
     {
-      "<leader>Rw",
+      "<leader>rw",
       function()
         require("spectre").open_visual({ select_word = true })
       end,
       desc = "Search current word",
     },
     {
-      "<leader>Rw",
+      "<leader>rw",
       mode = "v",
       function()
         require("spectre").open_visual()
@@ -28,7 +28,7 @@ return {
       desc = "Search current word",
     },
     {
-      "<leader>Rf",
+      "<leader>rf",
       function()
         require("spectre").open_file_search({ select_word = true })
       end,

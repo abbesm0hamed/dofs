@@ -36,15 +36,15 @@ return {
       attach_to_untracked = true,
     },
   },
-  { "akinsho/git-conflict.nvim", version = "*", config = true },
+  -- { "akinsho/git-conflict.nvim", version = "*", config = true },
   {
     "neogitorg/neogit",
     event = "VeryLazy",
     config = function()
-      local wk = require("which-key")
-      wk.register({
-        ["<leader>tg"] = { "<cmd>Neogit<CR>", "Neogit" },
-      })
+      -- local wk = require("which-key")
+      -- wk.register({
+      --   ["<leader>tg"] = { "<cmd>Neogit<CR>", "Neogit" },
+      -- })
 
       require("neogit").setup({
         auto_refresh = true,
@@ -74,11 +74,47 @@ return {
     "sindrets/diffview.nvim",
     event = "VeryLazy",
     config = function()
+      local diffview_ok, diffview = pcall(require, "diffview")
+      if not diffview_ok then
+        vim.notify("Diffview plugin failed to load.", vim.log.levels.ERROR)
+        return
+      end
+
+      local actions = require("diffview.actions")
+
+      diffview.setup({
+        enhanced_diff_hl = true, -- Highlight word-level changes
+        keymaps = {
+          view = {
+            ["<leader>q"] = "<cmd>DiffviewClose<CR>",           -- Close with leader + q
+            -- Choose the current (left) version
+            ["<leader>ch"] = actions.conflict_choose("ours"),   -- Choose current version
+            ["<leader>cl"] = actions.conflict_choose("theirs"), -- Choose incoming version
+            ["<leader>cb"] = actions.conflict_choose("base"),   -- Choose base version
+            ["<leader>ca"] = actions.conflict_choose("all"),    -- Choose all versions
+            ["<leader>cx"] = actions.conflict_choose("none"),   -- Choose none
+            -- Direct buffer operations
+            ["do"] = "<cmd>diffget<cr>",                        -- Obtain the diff (get from other file)
+            ["dp"] = "<cmd>diffput<cr>",                        -- Put the diff (put to other file)
+          },
+          file_panel = {
+            ["j"] = "NextEntry",      -- Down
+            ["k"] = "PrevEntry",      -- Up
+            ["<cr>"] = "SelectEntry", -- Open the diff for the selected entry
+          },
+          file_history_panel = {
+            ["g!"] = "Options",
+            ["<C-A-d>"] = "OpenInDiffview", -- Open selected commit in diffview
+            ["zR"] = "ExpandAll",           -- Expand all folders
+          },
+        },
+      })
+      -- Key mappings
       vim.keymap.set("n", "<leader>gdo", "<cmd>DiffviewOpen<CR>", { desc = "Open Git diff view" })
       vim.keymap.set("n", "<leader>gdc", "<cmd>DiffviewClose<CR>", { desc = "Close Git diff view" })
       vim.keymap.set("n", "<leader>gdr", "<cmd>DiffviewRefresh<CR>", { desc = "Refresh Git diff view" })
-      vim.keymap.set("n", "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", { desc = "Open Git diff file panel" })
+      vim.keymap.set("n", "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", { desc = "Toggle Git diff file panel" })
       vim.keymap.set("n", "<leader>gdh", "<cmd>DiffviewFileHistory<CR>", { desc = "Open Git diff file history" })
     end,
-  },
+  }
 }

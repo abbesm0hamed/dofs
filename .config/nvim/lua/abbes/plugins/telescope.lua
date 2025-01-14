@@ -24,8 +24,16 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "nvim-treesitter/nvim-treesitter",
+      "ziontee113/icon-picker.nvim",
+      "nvim-telescope/telescope-symbols.nvim",
     },
     keys = {
+      -- emoji picker
+      {
+        "<leader>em",
+        "<cmd>Telescope symbols<cr>",
+        desc = "Search Emoji"
+      },
       {
         "<leader>,",
         "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
@@ -133,7 +141,7 @@ return {
               height = { 0.95, min = 13 },
               width = 0.99,
               preview_cutoff = 70,
-              preview_width = { 0.55, min = 30 },
+              preview_width = { 0.40, min = 30 },
             },
             vertical = {
               prompt_position = "top",
@@ -215,5 +223,5 @@ return {
       vim.keymap.set("n", "<Leader><Leader>y", "<cmd>IconPickerYank<cr>", opts) --> Yank the selected icon into register
       vim.keymap.set("i", "<C-i>", "<cmd>IconPickerInsert<cr>", opts)
     end
-  }
+  },
 }

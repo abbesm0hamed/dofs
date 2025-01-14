@@ -32,6 +32,7 @@ then use GNU stow to create symlinks
 ```
 $ stow .
 ```
+### AwesomeWM setup
 Clone widgets under awesome config folder
 ```
 $ cd dofs/.config/awesome
@@ -41,3 +42,10 @@ $ sudo make install
 $ sudo pacman -S acpi lxpolkit pacman-contrib
 $ git clone git@github.com:streetturtle/awesome-wm-widgets.git
 ```
+
+### Credits
+https://gitlab.com/thelinuxcast/my-dots.git
+https://github.com/Brannigan123/polybar-config.git
+
+Install gitmux to have git related info in tmux bar
+``` $ go install github.com/arl/gitmux@latest ```

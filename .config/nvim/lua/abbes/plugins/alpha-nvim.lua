@@ -31,29 +31,41 @@ return {
 
     local v = vim.version()
     local version = " v" .. v.major .. "." .. v.minor .. "." .. v.patch
-    local datetime = os.date(" %d-%m-%Y 󱑏 %H:%M:%S")
+
+    -- Define a function for updating the footer, including dynamic datetime
+    local function updateFooter()
+      local datetime = os.date(" %d-%m-%Y 󱑏 %H:%M:%S")
+      local stats = require("lazy").stats()
+      local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+      dashboard.section.footer.val = {
+        "",
+        "",
+        version,
+        "",
+        datetime,
+        "",
+        "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms",
+      }
+    end
+
+    -- Autocommand group for LazyVimStarted
+    local alphaGroup = vim.api.nvim_create_augroup("AlphaInit", { clear = true })
     vim.api.nvim_create_autocmd("User", {
+      group = alphaGroup,
       pattern = "LazyVimStarted",
       callback = function()
-        local stats = require("lazy").stats()
-        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-        dashboard.section.footer.val = {
-          "",
-          "",
-          version,
-          "",
-          datetime,
-          "",
-          "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms",
-        }
-        pcall(vim.cmd.AlphaRedraw)
+        updateFooter()
+        alpha.redraw()
       end,
     })
 
-    -- Send config to alpha
     alpha.setup(dashboard.opts)
 
-    -- Disable folding on alpha buffer
-    vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
+    -- Disable folding on the alpha buffer
+    vim.api.nvim_create_autocmd("FileType", {
+      group = alphaGroup,
+      pattern = "alpha",
+      command = "setlocal nofoldenable",
+    })
   end,
 }

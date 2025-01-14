@@ -1,5 +1,5 @@
 local u = require("abbes.config.utils")
---------------------------------------------------------------------------------
+---------------------------------------
 
 return {
   { -- display inlay hints from LSP
@@ -31,37 +31,37 @@ return {
       },
     },
   },
-  { -- CodeLens, but also for languages not supporting it
-    "Wansmer/symbol-usage.nvim",
-    event = "BufReadPre",
-    opts = {
-      hl = { link = "Comment" },
-      vt_position = "end_of_line",
-      request_pending_text = false, -- no "Loading…" PENDING https://github.com/Wansmer/symbol-usage.nvim/issues/24
-      references = { enabled = true, include_declaration = false },
-      definition = { enabled = false },
-      implementation = { enabled = true },
-      text_format = function(symbol)
-        local refs = symbol.references > 0 and (" 󰈿 %s"):format(symbol.references) or ""
-        return refs
-      end,
-      disable = {
-        filetypes = { "css", "scss" },
-      },
-      -- available kinds: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#symbolKind
-      kinds = {
-        vim.lsp.protocol.SymbolKind.Module,
-        vim.lsp.protocol.SymbolKind.Package,
-        vim.lsp.protocol.SymbolKind.Function,
-        vim.lsp.protocol.SymbolKind.Class,
-        vim.lsp.protocol.SymbolKind.Constructor,
-        vim.lsp.protocol.SymbolKind.Method,
-        vim.lsp.protocol.SymbolKind.Interface,
-        vim.lsp.protocol.SymbolKind.Object,
-        vim.lsp.protocol.SymbolKind.Key,
-      },
-    },
-  },
+  -- { -- CodeLens, but also for languages not supporting it
+  --   "Wansmer/symbol-usage.nvim",
+  --   event = "BufReadPre",
+  --   opts = {
+  --     hl = { link = "Comment" },
+  --     vt_position = "end_of_line",
+  --     request_pending_text = false, -- no "Loading…" PENDING https://github.com/Wansmer/symbol-usage.nvim/issues/24
+  --     references = { enabled = true, include_declaration = false },
+  --     definition = { enabled = false },
+  --     implementation = { enabled = true },
+  --     text_format = function(symbol)
+  --       local refs = (symbol.references and symbol.references > 0) and (" 󰈿 %s"):format(symbol.references) or ""
+  --       return refs
+  --     end,
+  --     disable = {
+  --       filetypes = { "css", "scss" },
+  --     },
+  --     -- available kinds: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#symbolKind
+  --     kinds = {
+  --       vim.lsp.protocol.SymbolKind.Module,
+  --       vim.lsp.protocol.SymbolKind.Package,
+  --       vim.lsp.protocol.SymbolKind.Function,
+  --       vim.lsp.protocol.SymbolKind.Class,
+  --       vim.lsp.protocol.SymbolKind.Constructor,
+  --       vim.lsp.protocol.SymbolKind.Method,
+  --       vim.lsp.protocol.SymbolKind.Interface,
+  --       vim.lsp.protocol.SymbolKind.Object,
+  --       vim.lsp.protocol.SymbolKind.Key,
+  --     },
+  --   },
+  -- },
   { -- lsp definitions & references count in the status line
     "chrisgrieser/nvim-dr-lsp",
     event = "LspAttach",
@@ -80,7 +80,7 @@ return {
     event = "BufReadPre",
     keys = {
       { -- better signature view
-        "<D-g>",
+        "<A-g>",
         function()
           require("lsp_signature").toggle_float_win()
         end,
@@ -89,16 +89,24 @@ return {
       },
     },
     opts = {
-      noice = false,                       -- render via noice.nvim
+      noice = false,
       hint_prefix = "󰏪 ",
-      hint_scheme = "@variable.parameter", -- highlight group
+      hint_scheme = "@variable.parameter",
       hint_inline = function()
-        return vim.lsp.inlay_hint ~= nil
+        return false -- Disable inline hints
       end,
       floating_window = false,
       always_trigger = true,
-      bind = true, -- This is mandatory, otherwise border config won't get registered.
+      bind = true,
       handler_opts = { border = vim.g.borderStyle },
+
+      -- Add these settings to disable automatic triggering
+      toggle_key = nil,                 -- Disable default toggle key
+      toggle_key_flip_floatwin = nil,   -- Disable default float window toggle
+      auto_close_after = nil,           -- Disable auto-close
+      check_completion_visible = false, -- Disable checks for completion window
+      trigger_on_newline = false,       -- Disable trigger on newline
+      doc_lines = 0,                    -- Disable doc lines
     },
   },
   { -- add ignore-comments & lookup rules

@@ -2,6 +2,153 @@
 # KEYBOARD BINDINGS FOR ANY TWM
 #################################################################
 
+# software 
+#
+# alt + s + {n,t,l,g,k,a,o} 
+#   {nitrogen,telegram-desktop,lowriter,flatpak run org.gimp.GIMP,flatpak run org.kde.kdenlive,flatpak run org.audacityteam.Audacity,flatpak run com.obsproject.Studio}
+#
+# alt + m + {b,a,c,r,d,e}
+#   {bm.sh,dmconf,clipmenu,rofi-beats-linux, flatpak run org.mozilla.firefox snapdrop.net, emoji}
+
+#################################################################
+# i3 specific
+#################################################################
+
+super + Escape
+    pkill -USR1 -x sxhkd
+
+super + shift + Return
+    krusader
+
+alt + z; {a,s}
+   {viddesc, poddesc}
+
+alt + x
+	wc.sh
+
+
+super + shift + b
+    addbm.sh
+
+# super + r; {r,a}
+#     {ricer.sh, alchanger.sh}
+
+
+# Application Keybindings
+
+# super + w
+#     flatpak run org.mozilla.firefox
+#
+# super + shift + w
+#     flatpak run org.mozilla.firefox --private-window
+# alt + s
+#     flatpak run com.todoist.Todoist
+#
+# alt + n 
+#     flatpak run com.discordapp.Discord
+
+ctrl + alt + s
+    flameshot gui
+
+#Audio Keybindings
+XF86AudioRaiseVolume
+    pactl set-sink-volume @DEFAULT_SINK@ +3%
+XF86AudioLowerVolume
+    pactl set-sink-volume @DEFAULT_SINK@ -3%
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+alt + d
+    pactl set-sink-volume @DEFAULT_SINK@ +3%
+alt + a
+    pactl set-sink-volume @DEFAULT_SINK@ -3%
+
+XF86AudioPlay
+    playerctl play-pause
+
+ctrl + alt + p
+    playerctl play-pause
+
+XF86AudioNext
+    playerctl next
+
+XF86AudioPrev
+    playerctl previous
+
+ctrl + shift + period
+    playerctl next
+
+ctrl + shift + comma
+    playerctl previous
+
+XF86AudioStop
+    playerctl stop
+
+alt + shift + {h,j,k,l}
+   mpc {prev,next,play,pause}
+
+#i3 Specific Keybindings
+
+#movement
+
+super+{h,j,k,l}
+    i3-msg focus {left,down,up,right}
+
+super + shift + {h,j,k,l}
+    i3-msg move {left,down,up,right}
+
+super + {z,x}
+    i3-msg split {v,h}
+
+super + f
+    i3-msg fullscreen toggle
+
+super + shift + space
+    i3-msg floating toggle
+
+super + space
+    i3-msg focus mode_toggle
+
+super + a
+    i3-msg focus parent
+
+
+#workspaces
+
+super + shift + b
+    i3-msg move workspace to output next
+
+#super + {1-9,0}
+#    /usr/local/bin/i3_workspace_swapper.sh {1-9,0}
+
+#super + {1-9,0}
+ #   i3-msg workspace {1-9,10}
+
+#alt + {0,1,2,3,4,5,6,7,8,9}
+ #  i3-msg workspace {10,11,12,13,14,15,16,17,18,19}
+
+super + shift + {1-9,0}
+    i3-msg move container to workspace number {1-9,0}
+
+#alt+shift+{0,1,2,3,4,5,6,7,8,9}
+#    i3-msg move container to workspace number {10,11,12,13,14,15,16,17,18,19}
+
+
+
+super + shift + q
+    i3-msg kill
+
+super + shift + c
+    i3-msg reload
+
+super + shift + r
+    i3-msg restart
+
+super + ctrl + {h,j,k,l}
+    i3-msg resize {grow width 1 px or 1 ppt, shrink height 1 px or 1 ppt, grow height 1 px or 1 ppt, shrink width 1 px or 1 ppt}
+
+super + y
+    polybar-msg cmd toggle
+
 #################################################################
 # SUPER + FUNCTION KEYS
 #################################################################
@@ -46,25 +193,57 @@ super + F9
 super + F10
     spotify
 
+#################################################################
+# ROFI
+#################################################################
+#
+
+#rofi menu
+super + p
+    rofi -no-config -no-lazy-grab -theme-str 'window \{width: 50%;height: 60%;\}' -show drun -show-icons -modi drun -theme ~/.config/rofi/config.rasi
+
+super + c 
+    rofi -show combi
+
+super + tab 
+    rofi -show window
+
 #Rofi Fullscreen
 super + F11
-    rofi -theme-str 'window \{width: 100%;height: 100%;\}' -show drun
+    rofi -theme-str 'window \{width: 100%;height: 100%;\}' -show drun -show-icons
 
 #Rofi
 super + F12
     rofi -show drun
 
+alt + g
+    rofi-mpc
+
+alt + p
+    rofi -show
+
+#Rofi theme selector
+super + r
+    rofi-theme-selector
+
+#Rofi theme selector
+ctrl + alt + r
+  rofi-theme-selector
+
 #################################################################
 # SUPER + ... KEYS
 #################################################################
-
+#
 #Atom
-super + e
-    atom
+# super + e
+#     atom
 
 #Browser
-super + w
-    vivaldi-stable
+super + b
+    brave
+
+super + g
+    google-chrome-stable
 
 #Conky-toggle
 super + c
@@ -86,9 +265,6 @@ super + x
 super + shift + x
     arcolinux-powermenu
 
-#Rofi theme selector
-super + r
-    rofi-theme-selector
 
 #Urxvt
 super + t
@@ -102,18 +278,27 @@ super + v
 super + m
     lollypop
 
-#alacritty
+## Terminal emulators
+# super + Return
+#     kitty
 super + Return
+    kitty
+
+# #Wezterm
+# alt + Return 
+# 	wezterm
+
+# ghostty
+alt + Return 
+	ghostty
+
+#alacritty
+super + shift + w 
     alacritty
 
 #Xkill
 super + Escape
     xkill
-
-#Keyboard dependent
-#alacritty
-super + KP_Enter
-	alacritty
 
 #################################################################
 # SUPER + SHIFT KEYS
@@ -129,12 +314,9 @@ super + shift + Return
 #	thunar
 
 #dmenu
-super + shift + d
-	dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
+# super + shift + d
+# 	dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
     
-#dmenu
-super + d
-    rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/qtile/rofi/launcher2.rasi
 
 #reload sxhkd:
 super + shift + s
@@ -150,23 +332,26 @@ super + shift + s
 #################################################################
 
 #arcolinux-welcome-app
-ctrl + alt + w
-     arcolinux-welcome-app
+# ctrl + alt + w
+#      arcolinux-welcome-app
+
+super + alt + l + {o}
+    {~/.config/polybar/scripts/powermenu.sh}
 
 #archlinux-tweak-tool
 ctrl + alt + e
     archlinux-tweak-tool
 
 #conky-rotate
-ctrl + alt + Next
-     conky-rotate -n
+# ctrl + alt + Next
+#      conky-rotate -n
 
 #conky-rotate
-ctrl + alt + Prior
-    conky-rotate -p
+# ctrl + alt + Prior
+#     conky-rotate -p
 
 #File-Manager
-ctrl + alt + b
+ctrl + alt + f
      thunar
 
 #Catfish
@@ -186,10 +371,6 @@ ctrl + alt + i
      nitrogen
 
 #archlinux-logout
-ctrl + alt + k
-     archlinux-logout
-
-#archlinux-logout
 ctrl + alt + l
     archlinux-logout
 
@@ -205,9 +386,6 @@ ctrl + alt + m
 ctrl + alt + u
      pavucontrol
 
-#Rofi theme selector
-ctrl + alt + r
-  rofi-theme-selector
 
 #Spotify
 ctrl + alt + s
@@ -221,25 +399,17 @@ ctrl + alt + Return
 ctrl + alt + t
     alacritty
 
-#Vivaldi
-ctrl + alt + v
-    vivaldi-stable
+#xcolor
+ctrl + alt + x
+    xcolor
 
 #Xfce4-appfinder
 ctrl + alt + a
     xfce4-appfinder
 
-
-#Keyboard dependent
-#alacritty
-#ctrl + alt + KP_Enter
-#     alacritty
-
-
 #################################################################
 # ALT + ... KEYS
 #################################################################
-
 #Wallpaper trash
 alt + t
     variety -t
@@ -257,20 +427,20 @@ alt + f
     variety -f
 
 #Wallpaper previous
-alt + Left
+alt + shift + Left
     variety -p
 
 #Wallpaper next
-alt + Right
+alt + shift + Right
     variety -n
 
 #Wallpaper toggle-pause
-alt + Up
-    variety --toggle-pause
+# alt + Up
+#     variety --toggle-pause
 
 #Wallpaper resume
-alt + Down
-    variety --resume
+# alt + Down
+#     variety --resume
 
 #Xfce4-appfinder
 alt + F2
@@ -319,8 +489,8 @@ ctrl + shift + Escape
 #################################################################
 
 #Scrot
-Print
-    scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
+# Print
+#     scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
 
 #screeenshooter
 ctrl + Print
@@ -343,18 +513,6 @@ F12
 #################################################################
 #     MULTIMEDIA KEYS
 #################################################################
-
-#Raises volume
-XF86AudioRaiseVolume
-    amixer set Master 10%+
-
-#Lowers volume
-XF86AudioLowerVolume
-    amixer set Master 10%-
-
-#Mute
-XF86AudioMute
-    amixer -D pulse set Master 1+ toggle
 
 #Playerctl works for Pragha, Spotify and others
 #Delete the line for playerctl if you want to use mpc
@@ -381,14 +539,11 @@ XF86AudioPrev
 XF86AudioStop
     playerctl stop
 
-#Brightness up
+# Brightness Controls
 XF86MonBrightnessUp
-    xbacklight -inc 10
-
-#Brightness down
+    brightnessctl set +5% && brightnessctl get > /tmp/brightness_level
 XF86MonBrightnessDown
-    xbacklight -dec 10
-
+    brightnessctl set 5%- && brightnessctl get > /tmp/brightness_level
 
 
 #################################################################
@@ -403,7 +558,7 @@ XF86MonBrightnessDown
 
 #Picom Toggle
 ctrl + alt + o
-    ~/.config/qtile/scripts/picom-toggle.sh
+    ~/.config/picom/scripts/toggle-picom-inactive-opacity.sh
 
 #################################################################
 # SUPER + SHIFT KEYS
@@ -411,6 +566,17 @@ ctrl + alt + o
 
 
 #################################################################
-# SUPER + ALT KEYS
+# SUPER + CTRL KEYS
+# Scratchpads
 #################################################################
+super + ctrl + b
+    i3run --class btop -- kitty --class btop,btop -e "btop" 
 
+super + ctrl + p
+    i3run --class ranger -- kitty --class ranger,ranger -e "ranger" 
+
+super + ctrl + l
+    i3run --class yazi -- kitty --class yazi,yazi -e "yazi" 
+
+super + ctrl + k
+    i3run --class kitty_scratchpad -- kitty --class kitty_scratchpad,kitty_scratchpad -e "kitty_scratchpad"

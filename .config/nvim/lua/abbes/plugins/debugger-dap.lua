@@ -41,7 +41,7 @@ local function dapConfig()
 		if dapStatus == "" then return "" end
 		return "  " .. dapStatus
 	end)
-	require("config.theme-customization").reloadTheming()
+	-- require("config.theme-customization").reloadTheming()
 end
 
 ---PENDING https://github.com/mfussenegger/nvim-dap/issues/792
@@ -158,32 +158,32 @@ return {
 			},
 		},
 	},
-	{ -- debugger for nvim-lua
-		"jbyuki/one-small-step-for-vimkind",
-		dependencies = "mfussenegger/nvim-dap",
-		config = function()
-			require("dap").configurations.lua = {
-				{ type = "nlua", request = "attach", name = "Attach to running Neovim instance" },
-			}
-			require("dap").adapters.nlua = function(callback, config)
-				callback {
-					type = "server",
-					host = config.host or "127.0.0.1",
-					port = config.port or 8086,
-				}
-			end
-		end,
-		keys = {
-			-- INFO is the only one that needs manual starting, other debuggers
-			-- start with `continue` by themselves
-			{
-				"<leader>dn",
-				function() require("osv").run_this() end,
-				ft = "lua",
-				desc = " nvim-lua debugger",
-			},
-		},
-	},
+	-- { -- debugger for nvim-lua
+	-- 	"jbyuki/one-small-step-for-vimkind",
+	-- 	dependencies = "mfussenegger/nvim-dap",
+	-- 	config = function()
+	-- 		require("dap").configurations.lua = {
+	-- 			{ type = "nlua", request = "attach", name = "Attach to running Neovim instance" },
+	-- 		}
+	-- 		require("dap").adapters.nlua = function(callback, config)
+	-- 			callback {
+	-- 				type = "server",
+	-- 				host = config.host or "127.0.0.1",
+	-- 				port = config.port or 8086,
+	-- 			}
+	-- 		end
+	-- 	end,
+	-- 	keys = {
+	-- 		-- INFO is the only one that needs manual starting, other debuggers
+	-- 		-- start with `continue` by themselves
+	-- 		{
+	-- 			"<leader>dn",
+	-- 			function() require("osv").run_this() end,
+	-- 			ft = "lua",
+	-- 			desc = " nvim-lua debugger",
+	-- 		},
+	-- 	},
+	-- },
 	-- { -- debugger preconfig for python
 	-- 	"mfussenegger/nvim-dap-python",
 	-- 	mason_dependencies = "debugpy",
