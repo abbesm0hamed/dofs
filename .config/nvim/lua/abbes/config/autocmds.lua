@@ -31,3 +31,17 @@ vim.api.nvim_create_autocmd("User", {
     end)
   end,
 })
+
+-- Auto-reload files when changed externally
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  group = augroup("checktime"),
+  command = "if !bufexists('[Command Line]') | checktime | endif",
+  desc = "Check if any buffers were changed outside of Vim",
+})
+
+-- Trigger `checktime` when changing buffers or after writing
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave" }, {
+  group = augroup("refresh_file"),
+  command = "checktime",
+  desc = "Refresh file content after writing or leaving buffer",
+})

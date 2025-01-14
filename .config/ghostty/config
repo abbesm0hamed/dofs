@@ -1,80 +1,43 @@
-# Ghostty Terminal Configuration
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldn't find any existing config files on your system:
+#
+#   /home/abbes/.config/ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
 
-# Font settings
-font-family = "JetBrains Mono Nerd Font"
-font-size = 10.5
-font-feature = "calt"
-font-feature = "liga"
-font-feature = "ss01"
-
-# Window settings
-window-padding-x = 10
-window-padding-y = 10
-window-theme = "dark"
-window-decoration = false
-window-blur = true
-window-option = "remember-window-size=false"
-window-option = "confirm-close=false"
-
-# Cursor settings
-cursor-style = "block"
-cursor-blink = true
-
-# Mouse settings
-mouse-hide-while-typing = true
-mouse-hide-wait = 0
-word-char-exceptions = "@-./_~?&=%+#"
-
-# Colors - Kanagawa Theme
-background = #1F1F28
-foreground = #DCD7BA
-
-# Normal colors
-palette = 0=#090618
-palette = 1=#C34043
-palette = 2=#76946A
-palette = 3=#C0A36E
-palette = 4=#7E9CD8
-palette = 5=#957FB8
-palette = 6=#6A9589
-palette = 7=#C8C093
-
-# Bright colors
-palette = 8=#727169
-palette = 9=#E82424
-palette = 10=#98BB6C
-palette = 11=#E6C384
-palette = 12=#7FB4CA
-palette = 13=#938AA9
-palette = 14=#7AA89F
-palette = 15=#DCD7BA
-
-# Extended colors
-palette = 16=#FFA066
-palette = 17=#FF5D62
-
-# Selection colors
-selection-background = #2D4F67
-selection-foreground = #C8C093
-
-# URL color
-url-color = #7E9CD8
-url-style = "curly"
-
-# Tab bar colors
-tab-bar-background = #1F1F28
-active-tab-background = #2D4F67
-active-tab-foreground = #DCD7BA
-inactive-tab-background = #1F1F28
-inactive-tab-foreground = #727169
-
-# Border colors
-active-border-color = #7E9CD8
-inactive-border-color = #363646
-
-# Bell settings
-bell-sound = false
-
-# Scrollback and performance
-scrollback = 2000
-unfocused-split-opacity = 0.6
+# Config syntax crash course
+# ==========================
+# # The config file consists of simple key-value pairs,
+# # separated by equals signs.
+# font-family = Iosevka
+# window-padding-x = 2
+#
+# # Spacing around the equals sign does not matter.
+# # All of these are identical:
+# key=value
+# key= value
+# key =value
+# key = value
+#
+# # Any line beginning with a # is a comment. It's not possible to put
+# # a comment after a config option, since it would be interpreted as a
+# # part of the value. For example, this will have a value of "#123abc":
+# background = #123abc
+#
+# # Empty values are used to reset config keys to default.
+# key =
+#
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms
