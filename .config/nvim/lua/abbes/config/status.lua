@@ -50,18 +50,18 @@ end
 
 -- Set custom statusline
 opt.statusline = table.concat({
-  "%#StatusLineMode#",                                              -- Start mode color
-  " %{%v:lua.get_mode()%} ",                                        -- Current mode
-  "%#StatusLine#",                                                  -- Reset color to default
-  "%{%v:lua.require'nvim-web-devicons'.get_icon(expand('%:t'))%} ", -- File icon
-  "%{%v:lua.relative_path()%}",                                     -- Relative path
-  "%m",                                                             -- Modified flag
-  "%r",                                                             -- Readonly flag
-  "%h",                                                             -- Help file flag
-  "%=",                                                             -- Right align
-  "%y",                                                             -- File type
-  " %p%%",                                                          -- Percentage through file
-  " %l:%c ",                                                        -- Line and column
+  "%#StatusLineMode#",          -- Start mode color
+  " %{%v:lua.get_mode()%} ",    -- Current mode
+  "%#StatusLine#",              -- Reset color to default
+  -- "%{%v:lua.require'nvim-web-devicons'.get_icon(expand('%:t'))%} ", -- File icon
+  "%{%v:lua.relative_path()%}", -- Relative path
+  "%m",                         -- Modified flag
+  "%r",                         -- Readonly flag
+  "%h",                         -- Help file flag
+  "%=",                         -- Right align
+  "%y",                         -- File type
+  " %p%%",                      -- Percentage through file
+  " %l:%c ",                    -- Line and column
 })
 
 -- Make the functions available to statusline

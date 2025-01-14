@@ -9,12 +9,14 @@ end
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
   callback = function()
-    vim.highlight.on_yank()
+    vim.highlight.on_yank({ timeout = 200 })  -- Set a shorter timeout
   end,
 })
 
 -- Mason tool installer event handlers
+local mason_group = augroup("mason_handlers")
 vim.api.nvim_create_autocmd("User", {
+  group = mason_group,
   pattern = "MasonToolsStartingInstall",
   callback = function()
     vim.schedule(function()
@@ -24,24 +26,58 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 vim.api.nvim_create_autocmd("User", {
+  group = mason_group,
   pattern = "MasonToolsUpdateCompleted",
   callback = function(e)
     vim.schedule(function()
-      print(vim.inspect(e.data)) -- print the table that lists the programs that were installed
+      -- Only print essential info to reduce output
+      local installed = e.data and e.data.installed or {}
+      print("Mason tools installation completed. Installed: " .. #installed .. " tools")
     end)
   end,
 })
 
--- Auto-reload files when changed externally
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
-  group = augroup("checktime"),
-  command = "if !bufexists('[Command Line]') | checktime | endif",
-  desc = "Check if any buffers were changed outside of Vim",
+-- File change detection
+local checktime_group = augroup("checktime")
+
+-- Optimize file change detection events
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  group = checktime_group,
+  callback = function()
+    if not vim.bo.buftype == "" then
+      return  -- Skip special buffers
+    end
+    vim.cmd("checktime")
+  end,
+  desc = "Check if buffers were changed externally",
 })
 
--- Trigger `checktime` when changing buffers or after writing
+-- Use a debounced version for CursorHold events
+local cursorhold_timer
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  group = checktime_group,
+  callback = function()
+    if cursorhold_timer then
+      vim.fn.timer_stop(cursorhold_timer)
+    end
+    cursorhold_timer = vim.fn.timer_start(1000, function()
+      if not vim.bo.buftype == "" then
+        return  -- Skip special buffers
+      end
+      vim.cmd("checktime")
+    end)
+  end,
+  desc = "Debounced check for external file changes",
+})
+
+-- Optimize buffer refresh
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave" }, {
   group = augroup("refresh_file"),
-  command = "checktime",
+  callback = function()
+    if not vim.bo.buftype == "" then
+      return  -- Skip special buffers
+    end
+    vim.cmd("checktime")
+  end,
   desc = "Refresh file content after writing or leaving buffer",
 })
