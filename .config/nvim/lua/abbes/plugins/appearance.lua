@@ -73,7 +73,6 @@ return {
         filetypes = {
           "undotree",
           "help",
-          "alpha",
           "dashboard",
           "neo-tree",
           "Trouble",
@@ -140,6 +139,8 @@ return {
   },
   { -- emphasized headers & code blocks in markdown
     "lukas-reineke/headlines.nvim",
+    lazy = true,
+    event = "VeryLazy",
     ft = "markdown",
     dependencies = "nvim-treesitter/nvim-treesitter",
     opts = {
