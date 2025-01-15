@@ -1,0 +1,539 @@
+return {
+  {
+    "folke/snacks.nvim",
+    event = "VimEnter",
+    cmd = "Snacks",
+    priority = 1000,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "folke/zen-mode.nvim", -- Add Zen Mode as a dependency
+    },
+    init = function()
+      -- disable other dashboards to avoid conflicts
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+    end,
+    opts = {
+      dashboard = {
+        formats = {
+          key = function(item)
+            return { { "[", hl = "special" }, { item.key, hl = "key" }, { "]", hl = "special" } }
+          end,
+        },
+        sections = {
+          {
+            header = [[
+███╗   ███╗███████╗ ██████╗ ██╗   ██╗██╗ ██████╗
+████╗ ████║██╔════╝██╔═══██╗██║   ██║██║██╔════╝
+ ██╔████╔██║█████╗  ██║   ██║██║   ██║██║██║  ███╗
+ ██║╚██╔╝██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║   ██║
+ ██║ ╚═╝ ██║███████╗╚██████╔╝ ╚████╔╝ ██║╚██████╔╝
+ ╚═╝     ╚═╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝ ╚═════╝
+
+            ]],
+          },
+          { section = "startup" },
+          { title = "MRU", padding = 1 },
+          { section = "recent_files", limit = 3, padding = 1 },
+          { title = "MRU CWD ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
+          { section = "recent_files", cwd = true, limit = 3, padding = 1 },
+          { title = "Sessions", padding = 1 },
+          { section = "projects", padding = 1 },
+          { title = "Bookmarks", padding = 1 },
+          { section = "keys" },
+        },
+      },
+      -- Keep other features enabled
+      scroll = { enabled = false },
+      bigfile = { enabled = false },
+      indent = { enabled = false },
+      input = { enabled = true },
+      lazygit = {
+        configure = true,
+        -- extra configuration for lazygit that will be merged with the default
+        -- snacks does NOT have a full yaml parser, so if you need `"test"` to appear with the quotes
+        -- you need to double quote it: `"\"test\""`
+        config = {
+          os = { editPreset = "nvim-remote" },
+          gui = {
+            -- set to an empty string "" to disable icons
+            nerdFontsVersion = "3",
+          },
+        },
+        theme_path = vim.fs.normalize(vim.fn.stdpath("cache") .. "/lazygit-theme.yml"),
+        -- Theme for lazygit
+        theme = {
+          [241] = { fg = "Special" },
+          activeBorderColor = { fg = "MatchParen", bold = true },
+          cherryPickedCommitBgColor = { fg = "Identifier" },
+          cherryPickedCommitFgColor = { fg = "Function" },
+          defaultFgColor = { fg = "Normal" },
+          inactiveBorderColor = { fg = "FloatBorder" },
+          optionsTextColor = { fg = "Function" },
+          searchingActiveBorderColor = { fg = "MatchParen", bold = true },
+          selectedLineBgColor = { bg = "Visual" }, -- set to `default` to have no background colour
+          unstagedChangesColor = { fg = "DiagnosticError" },
+        },
+        win = {
+          style = "lazygit",
+        },
+      },
+      notifier = {
+        enabled = false,
+        timeout = 3000,
+      },
+      quickfile = { enabled = false },
+      statuscolumn = { enabled = false },
+      words = {
+        enabled = false,
+      },
+      picker = {
+        prompt = " ",
+        sources = {},
+        layout = {
+          cycle = true,
+          --- Use the default layout or vertical if the window is too narrow
+          preset = function()
+            return vim.o.columns >= 120 and "default" or "vertical"
+          end,
+        },
+        ui_select = true, -- replace `vim.ui.select` with the snacks picker
+        previewers = {
+          file = {
+            max_size = 1024 * 1024, -- 1MB
+            max_line_length = 500,
+          },
+        },
+        win = {
+          -- input window
+          input = {
+            keys = {
+              ["<Esc>"] = "close",
+              -- to close the picker on ESC instead of going to normal mode,
+              -- add the following keymap to your config
+              -- ["<Esc>"] = { "close", mode = { "n", "i" } },
+              ["<CR>"] = "confirm",
+              ["G"] = "list_bottom",
+              ["gg"] = "list_top",
+              ["j"] = "list_down",
+              ["k"] = "list_up",
+              ["/"] = "toggle_focus",
+              ["q"] = "close",
+              ["?"] = "toggle_help",
+              ["<a-m>"] = { "toggle_maximize", mode = { "i", "n" } },
+              ["<a-p>"] = { "toggle_preview", mode = { "i", "n" } },
+              ["<a-w>"] = { "cycle_win", mode = { "i", "n" } },
+              ["<C-w>"] = { "<c-s-w>", mode = { "i" }, expr = true, desc = "delete word" },
+              ["<C-Up>"] = { "history_back", mode = { "i", "n" } },
+              ["<C-Down>"] = { "history_forward", mode = { "i", "n" } },
+              ["<Tab>"] = { "select_and_next", mode = { "i", "n" } },
+              ["<S-Tab>"] = { "select_and_prev", mode = { "i", "n" } },
+              ["<Down>"] = { "list_down", mode = { "i", "n" } },
+              ["<Up>"] = { "list_up", mode = { "i", "n" } },
+              ["<c-j>"] = { "list_down", mode = { "i", "n" } },
+              ["<c-k>"] = { "list_up", mode = { "i", "n" } },
+              ["<c-n>"] = { "list_down", mode = { "i", "n" } },
+              ["<c-p>"] = { "list_up", mode = { "i", "n" } },
+              ["<c-b>"] = { "preview_scroll_up", mode = { "i", "n" } },
+              ["<c-d>"] = { "list_scroll_down", mode = { "i", "n" } },
+              ["<c-f>"] = { "preview_scroll_down", mode = { "i", "n" } },
+              ["<c-g>"] = { "toggle_live", mode = { "i", "n" } },
+              ["<c-u>"] = { "list_scroll_up", mode = { "i", "n" } },
+              ["<ScrollWheelDown>"] = { "list_scroll_wheel_down", mode = { "i", "n" } },
+              ["<ScrollWheelUp>"] = { "list_scroll_wheel_up", mode = { "i", "n" } },
+              ["<c-v>"] = { "edit_vsplit", mode = { "i", "n" } },
+              ["<c-s>"] = { "edit_split", mode = { "i", "n" } },
+              ["<c-q>"] = { "qflist", mode = { "i", "n" } },
+              ["<a-i>"] = { "toggle_ignored", mode = { "i", "n" } },
+              ["<a-h>"] = { "toggle_hidden", mode = { "i", "n" } },
+            },
+            b = {
+              minipairs_disable = true,
+            },
+          },
+          -- result list window
+          list = {
+            keys = {
+              ["<CR>"] = "confirm",
+              ["gg"] = "list_top",
+              ["G"] = "list_bottom",
+              ["i"] = "focus_input",
+              ["j"] = "list_down",
+              ["k"] = "list_up",
+              ["q"] = "close",
+              ["<Tab>"] = "select_and_next",
+              ["<S-Tab>"] = "select_and_prev",
+              ["<Down>"] = "list_down",
+              ["<Up>"] = "list_up",
+              ["<c-d>"] = "list_scroll_down",
+              ["<c-u>"] = "list_scroll_up",
+              ["zt"] = "list_scroll_top",
+              ["zb"] = "list_scroll_bottom",
+              ["zz"] = "list_scroll_center",
+              ["/"] = "toggle_focus",
+              ["<ScrollWheelDown>"] = "list_scroll_wheel_down",
+              ["<ScrollWheelUp>"] = "list_scroll_wheel_up",
+              ["<c-f>"] = "preview_scroll_down",
+              ["<c-b>"] = "preview_scroll_up",
+              ["<c-v>"] = "edit_vsplit",
+              ["<c-s>"] = "edit_split",
+              ["<c-j>"] = "list_down",
+              ["<c-k>"] = "list_up",
+              ["<c-n>"] = "list_down",
+              ["<c-p>"] = "list_up",
+              ["<a-w>"] = "cycle_win",
+              ["<Esc>"] = "close",
+            },
+          },
+          -- preview window
+          preview = {
+            minimal = false,
+            wo = {
+              cursorline = false,
+              colorcolumn = "",
+            },
+            keys = {
+              ["<Esc>"] = "close",
+              ["q"] = "close",
+              ["i"] = "focus_input",
+              ["<ScrollWheelDown>"] = "list_scroll_wheel_down",
+              ["<ScrollWheelUp>"] = "list_scroll_wheel_up",
+              ["<a-w>"] = "cycle_win",
+            },
+          },
+        },
+        ---@class snacks.picker.icons
+        icons = {
+          indent = {
+            vertical = "│ ",
+            middle = "├╴",
+            last = "└╴",
+          },
+          ui = {
+            live = "󰐰 ",
+            selected = "● ",
+            -- selected = " ",
+          },
+          git = {
+            commit = "󰜘 ",
+          },
+          diagnostics = {
+            Error = " ",
+            Warn = " ",
+            Hint = " ",
+            Info = " ",
+          },
+          kinds = {
+            Array = " ",
+            Boolean = "󰨙 ",
+            Class = " ",
+            Color = " ",
+            Control = " ",
+            Collapsed = " ",
+            Constant = "󰏿 ",
+            Constructor = " ",
+            Copilot = " ",
+            Enum = " ",
+            EnumMember = " ",
+            Event = " ",
+            Field = " ",
+            File = " ",
+            Folder = " ",
+            Function = "󰊕 ",
+            Interface = " ",
+            Key = " ",
+            Keyword = " ",
+            Method = "󰊕 ",
+            Module = " ",
+            Namespace = "󰦮 ",
+            Null = " ",
+            Number = "󰎠 ",
+            Object = " ",
+            Operator = " ",
+            Package = " ",
+            Property = " ",
+            Reference = " ",
+            Snippet = "󱄽 ",
+            String = " ",
+            Struct = "󰆼 ",
+            Text = " ",
+            TypeParameter = " ",
+            Unit = " ",
+            Uknown = " ",
+            Value = " ",
+            Variable = "󰀫 ",
+          },
+        },
+      },
+    },
+    keys = {
+      {
+        "<leader>,",
+        function()
+          Snacks.picker.buffers()
+        end,
+        desc = "Buffers",
+      },
+      {
+        "<leader>/",
+        function()
+          Snacks.picker.grep()
+        end,
+        desc = "Grep",
+      },
+      {
+        "<leader>:",
+        function()
+          Snacks.picker.command_history()
+        end,
+        desc = "Command History",
+      },
+      {
+        "<leader>ff",
+        function()
+          Snacks.picker.files()
+        end,
+        desc = "Find Files",
+      },
+      -- find
+      {
+        "<leader>fb",
+        function()
+          Snacks.picker.buffers()
+        end,
+        desc = "Buffers",
+      },
+      {
+        "<leader>fc",
+        function()
+          Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+        end,
+        desc = "Find Config File",
+      },
+      {
+        "<leader>ff",
+        function()
+          Snacks.picker.files()
+        end,
+        desc = "Find Files",
+      },
+      {
+        "<leader>fg",
+        function()
+          Snacks.picker.git_files()
+        end,
+        desc = "Find Git Files",
+      },
+      {
+        "<leader>fr",
+        function()
+          Snacks.picker.recent()
+        end,
+        desc = "Recent",
+      },
+      -- git
+      {
+        "<leader>gc",
+        function()
+          Snacks.picker.git_log()
+        end,
+        desc = "Git Log",
+      },
+      {
+        "<leader>gs",
+        function()
+          Snacks.picker.git_status()
+        end,
+        desc = "Git Status",
+      },
+      -- Grep
+      {
+        "<leader>sb",
+        function()
+          Snacks.picker.lines()
+        end,
+        desc = "Buffer Lines",
+      },
+      {
+        "<leader>sB",
+        function()
+          Snacks.picker.grep_buffers()
+        end,
+        desc = "Grep Open Buffers",
+      },
+      {
+        "<leader>fs",
+        function()
+          Snacks.picker.grep()
+        end,
+        desc = "Grep",
+      },
+      {
+        "<leader>sw",
+        function()
+          Snacks.picker.grep_word()
+        end,
+        desc = "Visual selection or word",
+        mode = { "n", "x" },
+      },
+      -- search
+      {
+        '<leader>s"',
+        function()
+          Snacks.picker.registers()
+        end,
+        desc = "Registers",
+      },
+      {
+        "<leader>sa",
+        function()
+          Snacks.picker.autocmds()
+        end,
+        desc = "Autocmds",
+      },
+      {
+        "<leader>sc",
+        function()
+          Snacks.picker.command_history()
+        end,
+        desc = "Command History",
+      },
+      {
+        "<leader>sC",
+        function()
+          Snacks.picker.commands()
+        end,
+        desc = "Commands",
+      },
+      {
+        "<leader>sd",
+        function()
+          Snacks.picker.diagnostics()
+        end,
+        desc = "Diagnostics",
+      },
+      {
+        "<leader>sh",
+        function()
+          Snacks.picker.help()
+        end,
+        desc = "Help Pages",
+      },
+      {
+        "<leader>sH",
+        function()
+          Snacks.picker.highlights()
+        end,
+        desc = "Highlights",
+      },
+      {
+        "<leader>sj",
+        function()
+          Snacks.picker.jumps()
+        end,
+        desc = "Jumps",
+      },
+      {
+        "<leader>sk",
+        function()
+          Snacks.picker.keymaps()
+        end,
+        desc = "Keymaps",
+      },
+      {
+        "<leader>sl",
+        function()
+          Snacks.picker.loclist()
+        end,
+        desc = "Location List",
+      },
+      {
+        "<leader>sM",
+        function()
+          Snacks.picker.man()
+        end,
+        desc = "Man Pages",
+      },
+      {
+        "<leader>sm",
+        function()
+          Snacks.picker.marks()
+        end,
+        desc = "Marks",
+      },
+      {
+        "<leader>sR",
+        function()
+          Snacks.picker.resume()
+        end,
+        desc = "Resume",
+      },
+      {
+        "<leader>sq",
+        function()
+          Snacks.picker.qflist()
+        end,
+        desc = "Quickfix List",
+      },
+      {
+        "<leader>uC",
+        function()
+          Snacks.picker.colorschemes()
+        end,
+        desc = "Colorschemes",
+      },
+      {
+        "<leader>qp",
+        function()
+          Snacks.picker.projects()
+        end,
+        desc = "Projects",
+      },
+      -- LSP
+      {
+        "gd",
+        function()
+          Snacks.picker.lsp_definitions()
+        end,
+        desc = "Goto Definition",
+      },
+      {
+        "gr",
+        function()
+          Snacks.picker.lsp_references()
+        end,
+        nowait = true,
+        desc = "References",
+      },
+      {
+        "gI",
+        function()
+          Snacks.picker.lsp_implementations()
+        end,
+        desc = "Goto Implementation",
+      },
+      {
+        "gy",
+        function()
+          Snacks.picker.lsp_type_definitions()
+        end,
+        desc = "Goto T[y]pe Definition",
+      },
+      {
+        "<leader>sS",
+        function()
+          Snacks.picker.lsp_symbols()
+        end,
+        desc = "LSP Symbols",
+      },
+    },
+    config = function(_, opts)
+      local snacks = require("snacks")
+      snacks.setup(opts)
+
+      -- Set up Zen Mode keybinding
+      vim.api.nvim_set_keymap("n", "tz", "<cmd>ZenMode<CR>", { noremap = true, silent = true })
+    end,
+  },
+}
