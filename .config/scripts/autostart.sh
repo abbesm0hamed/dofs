@@ -6,8 +6,8 @@ function run {
     fi
 }
 
-BACKGROUND_PRIMARY="$HOME/.config/backgrounds/owl.jpg"
-BACKGROUND_SECONDARY="$HOME/.config/backgrounds/bird.jpg"
+BACKGROUND_PRIMARY="$HOME/.config/backgrounds/cat.jpg"
+BACKGROUND_SECONDARY="$HOME/.config/backgrounds/fox.jpg"
 PICOM_CONFIG="$HOME/.config/picom/picom.conf"
 
 # Function to check if the second monitor (HDMI-1-0) is connected
