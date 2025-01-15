@@ -226,7 +226,7 @@ return {
         mappings = { n = { ["q"] = "Close" } },
       },
       select = {
-        backend = { "telescope", "builtin" },
+        backend = { "fzf_lua", "fzf", "builtin", "nui", "builtin" },
         trim_prompt = true,
         builtin = {
           mappings = { ["q"] = "Close" },

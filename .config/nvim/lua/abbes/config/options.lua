@@ -1,3 +1,5 @@
+vim.g.lazyvim_picker = "snacks"
+
 local opt = vim.opt -- for conciseness
 
 -- line numbers

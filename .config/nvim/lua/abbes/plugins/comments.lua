@@ -3,14 +3,11 @@ return {
   event = "VeryLazy",
   cmd = { "TodoTrouble", "TodoTelescope" },
   config = true,
+  optional = true,
   -- stylua: ignore
   keys = {
-    { "]t",         function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-    { "[t",         function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-    { "<leader>xt", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
-    { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",      desc = "Todo/Fix/Fixme (Trouble)" },
-    { "<leader>tl", "<cmd>TodoTelescope<cr>",                            desc = "Todo" },
-    { "<leader>tL", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
+    { "<leader>st", function() Snacks.picker.todo_comments() end,                                          desc = "Todo" },
+    { "<leader>sT", function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
   },
   {
     "LudoPinelli/comment-box.nvim",
