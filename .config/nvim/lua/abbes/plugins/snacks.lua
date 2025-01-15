@@ -7,7 +7,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      "folke/zen-mode.nvim",  -- Add Zen Mode as a dependency
+      "folke/zen-mode.nvim", -- Add Zen Mode as a dependency
     },
     init = function()
       -- disable other dashboards to avoid conflicts
@@ -55,7 +55,9 @@ return {
       },
       quickfile = { enabled = false },
       statuscolumn = { enabled = false },
-      words = { enabled = false },
+      words = {
+        enabled = false
+      },
     },
     config = function(_, opts)
       local snacks = require("snacks")

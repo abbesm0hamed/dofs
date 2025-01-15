@@ -49,7 +49,7 @@ return {
           "tailwindcss",
           "svelte",
           "lua_ls",
-          "eslint",
+          "eslint_d",
           "graphql",
           "gopls",
           "vuels",

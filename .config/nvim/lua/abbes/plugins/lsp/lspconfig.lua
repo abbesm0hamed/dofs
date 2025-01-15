@@ -1,42 +1,74 @@
--- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
--- -- Auto-install lazy.nvim if not present
--- if vim.fn.empty(vim.fn.glob(lazypath)) > 0 then
---   print("Installing lazy.nvim....")
---   vim.fn.system({
---     "git",
---     "clone",
---     "--filter=blob:none",
---     "https://github.com/folke/lazy.nvim.git",
---     "--branch=stable", -- latest stable release
---     lazypath,
---   })
--- end
--- vim.opt.rtp:prepend(lazypath)
-
 return {
   {
     "VonHeikemen/lsp-zero.nvim",
-    event = {
-      "BufReadPre",
-      "BufNewFile",
-    },
+    event = "VeryLazy",
     cmd = "Mason",
     branch = "v4.x",
     dependencies = {
       -- LSP Support
-      { "neovim/nvim-lspconfig" },
-      { "williamboman/mason.nvim" },
-      { "williamboman/mason-lspconfig.nvim" },
+      { 
+        "neovim/nvim-lspconfig",
+        event = "VeryLazy",
+        config = function()
+          -- Set up capabilities properly
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+          
+          -- Disable file watcher
+          capabilities.workspace = {
+            didChangeWatchedFiles = {
+              dynamicRegistration = false
+            }
+          }
+          
+          -- Make capabilities available globally
+          vim.g.lsp_capabilities = capabilities
+        end,
+      },
+      { 
+        "williamboman/mason.nvim",
+        cmd = "Mason",
+        opts = {
+          ui = { border = "rounded" },
+          max_concurrent_installers = 4,
+        },
+      },
+      { 
+        "williamboman/mason-lspconfig.nvim",
+        event = "VeryLazy",
+      },
       -- Autocompletion
-      { "hrsh7th/nvim-cmp" },
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
-      { "saadparwaiz1/cmp_luasnip" },
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-nvim-lua" },
+      { 
+        "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
+        dependencies = {
+          { "hrsh7th/cmp-buffer", event = "InsertEnter" },
+          { "hrsh7th/cmp-path", event = "InsertEnter" },
+          { "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
+          { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+          { "hrsh7th/cmp-nvim-lua", ft = "lua" },
+        },
+        opts = {
+          preselect = "none",
+          completion = {
+            completeopt = "menu,menuone,noinsert,noselect"
+          },
+        },
+      },
       -- Snippets
-      { "L3MON4D3/LuaSnip" },
-      { "rafamadriz/friendly-snippets" },
+      { 
+        "L3MON4D3/LuaSnip",
+        event = "InsertEnter",
+        dependencies = {
+          { "rafamadriz/friendly-snippets", event = "InsertEnter" },
+        },
+        config = function()
+          require("luasnip").setup({
+            history = false,
+            update_events = "TextChanged,TextChangedI",
+          })
+        end,
+      },
     },
     config = function()
       vim.g.mapleader = " "
@@ -61,7 +93,7 @@ return {
         sign_text = true,
         lsp_attach = lsp_attach,
         float_border = "rounded",
-        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+        capabilities = vim.g.lsp_capabilities,
       })
 
       require("mason").setup({})
@@ -98,7 +130,7 @@ return {
           eslint = function()
             require("lspconfig").eslint.setup({
               on_attach = lsp_attach,
-              capabilities = require("cmp_nvim_lsp").default_capabilities(),
+              capabilities = vim.g.lsp_capabilities,
               filetypes = {
                 "javascript",
                 "javascriptreact",

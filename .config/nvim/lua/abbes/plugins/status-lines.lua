@@ -148,14 +148,14 @@ local lualineConfig = {
 }
 
 return {
-  {
-    "nvim-lualine/lualine.nvim",
-    event = "UIEnter",
-    dependencies = {
-      "echasnovski/mini.icons",
-    },
-    external_dependencies = "git",
-    opts = lualineConfig,
-    extensions = { "toggleterm", "trouble" },
-  },
+  -- {
+  --   "nvim-lualine/lualine.nvim",
+  --   event = "UIEnter",
+  --   dependencies = {
+  --     "echasnovski/mini.icons",
+  --   },
+  --   external_dependencies = "git",
+  --   opts = lualineConfig,
+  --   extensions = { "toggleterm", "trouble" },
+  -- },
 }

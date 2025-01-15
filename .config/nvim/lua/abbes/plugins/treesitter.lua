@@ -3,8 +3,9 @@ return {
     "nvim-treesitter/nvim-treesitter",
     version = false,
     build = ":TSUpdate",
-    lazy = true,
+    event = "VeryLazy",
     init = function(plugin)
+      -- Load treesitter only when needed
       require("lazy.core.loader").add_to_rtp(plugin)
       require("nvim-treesitter.query_predicates")
     end,
@@ -31,6 +32,10 @@ return {
             end
           end
         end,
+        init = function()
+          -- disable rtp plugin, as we only need its queries for mini.ai
+          require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
+        end,
       },
     },
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
@@ -46,6 +51,7 @@ return {
       indent = { enable = true },
       -- Remove the fold setting from here since you're using native folding
       -- fold = { enable = true },
+      sync_install = false,
       ensure_installed = {
         "go",
         "gomod",
@@ -171,7 +177,6 @@ return {
   {
     "windwp/nvim-ts-autotag",
     dependencies = "nvim-treesitter/nvim-treesitter",
-    lazy = true,
     event = "VeryLazy",
     opts = {},
     config = function()
