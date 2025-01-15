@@ -42,7 +42,7 @@ return {
       mason_lspconfig.setup({
         -- list of servers for mason to install
         ensure_installed = {
-          "ts_ls",
+          "vtsls",
           "emmet_ls",
           "html",
           "cssls",
@@ -60,22 +60,16 @@ return {
         automatic_installation = true, -- not the same as ensure_installed
         handlers = {
           lsp_zero.default_setup,
-          ts_ls = function()
+          vtsls = function()
             local lspconfig = require("lspconfig")
 
-            lspconfig.ts_ls.setup({
-              capabilities = lsp_zero.nvim_lua_ls().capabilities, -- Ensure it has the same capabilities as other servers
+            lspconfig.vtsls.setup({
               single_file_support = false,
               settings = {
                 documentFormatting = true, -- Ensure formatting is enabled
                 format = {
                   enable = true,
                 },
-                tsserver = {
-                  format = {
-                    enable = true
-                  }
-                }
               },
             })
           end,

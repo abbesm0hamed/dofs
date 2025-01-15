@@ -1,4 +1,4 @@
-local u = require("abbes.config.utils")
+-- local u = require("abbes.config.utils")
 ---------------------------------------
 
 return {
@@ -62,77 +62,77 @@ return {
   --     },
   --   },
   -- },
-  { -- lsp definitions & references count in the status line
-    "chrisgrieser/nvim-dr-lsp",
-    event = "LspAttach",
-    config = function()
-      u.addToLuaLine("sections", "lualine_x", require("dr-lsp").lspProgress)
-      u.addToLuaLine("sections", "lualine_c", {
-        require("dr-lsp").lspCount,
-        fmt = function(str)
-          return str:gsub("R", ""):gsub("D", " 󰄾"):gsub("LSP:", "󰈿")
-        end,
-      })
-    end,
-  },
-  { -- signature hints
-    "ray-x/lsp_signature.nvim",
-    event = "BufReadPre",
-    keys = {
-      { -- better signature view
-        "<A-g>",
-        function()
-          require("lsp_signature").toggle_float_win()
-        end,
-        mode = { "i", "n", "v" },
-        desc = "󰏪 LSP Signature",
-      },
-    },
-    opts = {
-      noice = false,
-      hint_prefix = "󰏪 ",
-      hint_scheme = "@variable.parameter",
-      hint_inline = function()
-        return false -- Disable inline hints
-      end,
-      floating_window = false,
-      always_trigger = true,
-      bind = true,
-      handler_opts = { border = vim.g.borderStyle },
-
-      -- Add these settings to disable automatic triggering
-      toggle_key = nil,                 -- Disable default toggle key
-      toggle_key_flip_floatwin = nil,   -- Disable default float window toggle
-      auto_close_after = nil,           -- Disable auto-close
-      check_completion_visible = false, -- Disable checks for completion window
-      trigger_on_newline = false,       -- Disable trigger on newline
-      doc_lines = 0,                    -- Disable doc lines
-    },
-  },
-  { -- add ignore-comments & lookup rules
-    "chrisgrieser/nvim-rulebook",
-    keys = {
-      {
-        "<leader>rl",
-        function()
-          require("rulebook").lookupRule()
-        end,
-        desc = " Lookup Rule",
-      },
-      {
-        "<leader>ri",
-        function()
-          require("rulebook").ignoreRule()
-        end,
-        desc = "󰅜 Ignore Rule",
-      },
-      {
-        "<leader>ry",
-        function()
-          require("rulebook").yankDiagnosticCode()
-        end,
-        desc = "󰅍 Yank Diagnostic Code",
-      },
-    },
-  },
+  -- { -- lsp definitions & references count in the status line
+  --   "chrisgrieser/nvim-dr-lsp",
+  --   event = "LspAttach",
+  --   config = function()
+  --     u.addToLuaLine("sections", "lualine_x", require("dr-lsp").lspProgress)
+  --     u.addToLuaLine("sections", "lualine_c", {
+  --       require("dr-lsp").lspCount,
+  --       fmt = function(str)
+  --         return str:gsub("R", ""):gsub("D", " 󰄾"):gsub("LSP:", "󰈿")
+  --       end,
+  --     })
+  --   end,
+  -- },
+  -- { -- signature hints
+  --   "ray-x/lsp_signature.nvim",
+  --   event = "BufReadPre",
+  --   keys = {
+  --     { -- better signature view
+  --       "<A-g>",
+  --       function()
+  --         require("lsp_signature").toggle_float_win()
+  --       end,
+  --       mode = { "i", "n", "v" },
+  --       desc = "󰏪 LSP Signature",
+  --     },
+  --   },
+  --   opts = {
+  --     noice = false,
+  --     hint_prefix = "󰏪 ",
+  --     hint_scheme = "@variable.parameter",
+  --     hint_inline = function()
+  --       return false -- Disable inline hints
+  --     end,
+  --     floating_window = false,
+  --     always_trigger = true,
+  --     bind = true,
+  --     handler_opts = { border = vim.g.borderStyle },
+  --
+  --     -- Add these settings to disable automatic triggering
+  --     toggle_key = nil,                 -- Disable default toggle key
+  --     toggle_key_flip_floatwin = nil,   -- Disable default float window toggle
+  --     auto_close_after = nil,           -- Disable auto-close
+  --     check_completion_visible = false, -- Disable checks for completion window
+  --     trigger_on_newline = false,       -- Disable trigger on newline
+  --     doc_lines = 0,                    -- Disable doc lines
+  --   },
+  -- },
+  -- { -- add ignore-comments & lookup rules
+  --   "chrisgrieser/nvim-rulebook",
+  --   keys = {
+  --     {
+  --       "<leader>rl",
+  --       function()
+  --         require("rulebook").lookupRule()
+  --       end,
+  --       desc = " Lookup Rule",
+  --     },
+  --     {
+  --       "<leader>ri",
+  --       function()
+  --         require("rulebook").ignoreRule()
+  --       end,
+  --       desc = "󰅜 Ignore Rule",
+  --     },
+  --     {
+  --       "<leader>ry",
+  --       function()
+  --         require("rulebook").yankDiagnosticCode()
+  --       end,
+  --       desc = "󰅍 Yank Diagnostic Code",
+  --     },
+  --   },
+  -- },
 }
