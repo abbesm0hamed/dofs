@@ -1,32 +1,19 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
--- Auto-install lazy.nvim if not present
-if vim.fn.empty(vim.fn.glob(lazypath)) > 0 then
-  print("Installing lazy.nvim....")
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
+-- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- -- Auto-install lazy.nvim if not present
+-- if vim.fn.empty(vim.fn.glob(lazypath)) > 0 then
+--   print("Installing lazy.nvim....")
+--   vim.fn.system({
+--     "git",
+--     "clone",
+--     "--filter=blob:none",
+--     "https://github.com/folke/lazy.nvim.git",
+--     "--branch=stable", -- latest stable release
+--     lazypath,
+--   })
+-- end
+-- vim.opt.rtp:prepend(lazypath)
 
 return {
-  -- {
-  --   "folke/neodev.nvim",
-  --   event = { "BufReadPre", "BufNewFile" },
-  --   config = function()
-  --     local neodev_status_ok, neodev = pcall(require, "neodev")
-  --
-  --     if not neodev_status_ok then
-  --       return
-  --     end
-  --
-  --     neodev.setup()
-  --   end,
-  -- },
   {
     "VonHeikemen/lsp-zero.nvim",
     event = {
@@ -108,6 +95,23 @@ return {
               },
             }))
           end,
+          eslint = function()
+            require("lspconfig").eslint.setup({
+              on_attach = lsp_attach,
+              capabilities = require("cmp_nvim_lsp").default_capabilities(),
+              filetypes = {
+                "javascript",
+                "javascriptreact",
+                "javascript.jsx",
+                "typescript",
+                "typescriptreact",
+                "typescript.tsx",
+                "vue",
+                "svelte",
+                "astro"
+              },
+            })
+          end,
         },
       })
 
@@ -176,7 +180,7 @@ return {
       -- Setup individual language servers
       local lspconfig = require("lspconfig")
 
-      lspconfig.ts_ls.setup({})
+      lspconfig.vtsls.setup({})
       lspconfig.gopls.setup({})
       lspconfig.rust_analyzer.setup({})
       lspconfig.astro.setup({})
@@ -186,13 +190,7 @@ return {
           "html",
           "typescriptreact",
           "javascriptreact",
-          "typescript",
-          "javascript",
-          "css",
           "astro",
-          "sass",
-          "scss",
-          "less",
           "svelte",
           "vue",
         },
@@ -213,7 +211,7 @@ return {
         },
         servers = {
           ["lua_ls"] = { "lua" },
-          ["ts_ls"] = {
+          ["vtsls"] = {
             "javascript",
             "typescript",
             "typescriptreact",
@@ -225,13 +223,7 @@ return {
             "html",
             "typescriptreact",
             "javascriptreact",
-            "typescript",
-            "javascript",
-            "css",
             "astro",
-            "sass",
-            "scss",
-            "less",
             "svelte",
             "vue",
           },

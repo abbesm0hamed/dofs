@@ -139,7 +139,7 @@ return {
             horizontal = {
               prompt_position = "top",
               height = { 0.95, min = 13 },
-              width = 0.99,
+              width = 0.95,
               preview_cutoff = 70,
               preview_width = { 0.40, min = 30 },
             },

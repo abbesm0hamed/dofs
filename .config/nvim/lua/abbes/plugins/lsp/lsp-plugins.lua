@@ -2,6 +2,17 @@
 ---------------------------------------
 
 return {
+  {
+    "L3MON4D3/LuaSnip",
+    opts = {
+      update_events = { "TextChanged", "TextChangedI" },
+      fs_event_providers = { autocmd = false, libuv = false },
+    },
+    config = function(_, opts)
+      require("luasnip").setup(opts)
+      require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
+    end,
+  },
   { -- display inlay hints from LSP
     "lvimuser/lsp-inlayhints.nvim",
     init = function()

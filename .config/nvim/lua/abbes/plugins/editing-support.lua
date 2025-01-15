@@ -2,6 +2,25 @@ local u = require("abbes.config.utils")
 --------------------------------------------------------------------------------
 
 return {
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      local npairs = require("nvim-autopairs")
+      npairs.setup({
+        check_ts = true,
+        ts_config = {
+          lua = { "string", "source" },
+          javascript = { "string", "template_string" },
+        },
+      })
+
+      -- Make autopairs and completion work together
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      local cmp = require("cmp")
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+    end,
+  },
   { -- automatically set correct indent for file
     "nmac427/guess-indent.nvim",
     event = "BufReadPre",
@@ -464,36 +483,6 @@ return {
       -- { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       -- { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
-  },
-  {
-    "utilyre/barbecue.nvim",
-    lazy = true,
-    name = "barbecue",
-    version = "*",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "echasnovski/mini.icons",
-    },
-    opts = {},
-    config = function()
-      require("barbecue").setup({
-        create_autocmd = false, -- prevent barbecue from updating itself automatically
-      })
-
-      vim.api.nvim_create_autocmd({
-        "WinScrolled", -- or WinResized on NVIM-v0.9 and higher
-        "BufWinEnter",
-        "CursorHold",
-        "InsertLeave",
-        -- include this if you have set `show_modified` to `true`
-        -- "BufModifiedSet",
-      }, {
-        group = vim.api.nvim_create_augroup("barbecue.updater", {}),
-        callback = function()
-          require("barbecue.ui").update()
-        end,
-      })
-    end,
   },
   -- Lorem Ipsum generator for Neovim
   {
