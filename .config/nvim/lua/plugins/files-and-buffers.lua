@@ -62,24 +62,35 @@ return {
       { "<leader>ou", "<cmd>Outline<CR>", desc = "Toggle outline" },
     },
     opts = {
+      -- Appearance
       highlight_hovered_item = true,
       show_guides = true,
-      auto_preview = false,
       position = "right",
       relative_width = true,
       width = 25,
-      auto_close = false,
+      wrap = false,
+
+      -- Preview settings
+      auto_preview = true, -- Changed to true for better UX
+      preview_bg_highlight = "Pmenu",
+      auto_unfold_hover = true,
+
+      -- Symbol display
+      show_symbol_details = true,
       show_numbers = false,
       show_relative_numbers = false,
-      show_symbol_details = true,
-      preview_bg_highlight = "Pmenu",
-      autofold_depth = nil,
-      auto_unfold_hover = true,
-      fold_markers = { "", "" },
-      wrap = false,
-      keymaps = { -- These keymaps can be a string or a table for multiple keys
+
+      -- Folding
+      autofold_depth = 1, -- Added reasonable default
+      fold_markers = { "", "" },
+
+      -- Window behavior
+      auto_close = false, -- Keep false for better UX
+
+      -- Enhanced keymaps for better usability
+      keymaps = {
         close = { "<Esc>", "q" },
-        goto_location = "<Cr>",
+        goto_location = "<CR>",
         focus_location = "o",
         hover_symbol = "<C-space>",
         toggle_preview = "K",
@@ -91,38 +102,42 @@ return {
         unfold_all = "E",
         fold_reset = "R",
       },
+
+      -- Filtering
       lsp_blacklist = {},
       symbol_blacklist = {},
+
+      -- Enhanced symbols with modern icons
       symbols = {
-        File = { icon = "", hl = "@text.uri" },
-        Module = { icon = "", hl = "@namespace" },
-        Namespace = { icon = "", hl = "@namespace" },
-        Package = { icon = "", hl = "@namespace" },
-        Class = { icon = "𝓒", hl = "@type" },
-        Method = { icon = "ƒ", hl = "@method" },
-        Property = { icon = "", hl = "@method" },
-        Field = { icon = "", hl = "@field" },
-        Constructor = { icon = "", hl = "@constructor" },
-        Enum = { icon = "ℰ", hl = "@type" },
-        Interface = { icon = "ﰮ", hl = "@type" },
-        Function = { icon = "", hl = "@function" },
-        Variable = { icon = "", hl = "@constant" },
-        Constant = { icon = "", hl = "@constant" },
-        String = { icon = "𝓐", hl = "@string" },
-        Number = { icon = "#", hl = "@number" },
+        File = { icon = "󰈙", hl = "@text.uri" },
+        Module = { icon = "󰆧", hl = "@namespace" },
+        Namespace = { icon = "󰌗", hl = "@namespace" },
+        Package = { icon = "󰏖", hl = "@namespace" },
+        Class = { icon = "󰌗", hl = "@type" },
+        Method = { icon = "󰆧", hl = "@method" },
+        Property = { icon = "", hl = "@method" },
+        Field = { icon = "󰜢", hl = "@field" },
+        Constructor = { icon = "", hl = "@constructor" },
+        Enum = { icon = "󰒻", hl = "@type" },
+        Interface = { icon = "󰜢", hl = "@type" },
+        Function = { icon = "󰊕", hl = "@function" },
+        Variable = { icon = "󰀫", hl = "@constant" },
+        Constant = { icon = "󰏿", hl = "@constant" },
+        String = { icon = "󰀬", hl = "@string" },
+        Number = { icon = "󰎠", hl = "@number" },
         Boolean = { icon = "⊨", hl = "@boolean" },
-        Array = { icon = "", hl = "@constant" },
-        Object = { icon = "⦿", hl = "@type" },
-        Key = { icon = "🔐", hl = "@type" },
-        Null = { icon = "NULL", hl = "@type" },
-        EnumMember = { icon = "", hl = "@field" },
-        Struct = { icon = "𝓢", hl = "@type" },
-        Event = { icon = "🗲", hl = "@type" },
-        Operator = { icon = "+", hl = "@operator" },
-        TypeParameter = { icon = "𝙏", hl = "@parameter" },
-        Component = { icon = "", hl = "@function" },
-        Fragment = { icon = "", hl = "@constant" },
+        Array = { icon = "󰅪", hl = "@constant" },
+        Object = { icon = "󰅩", hl = "@type" },
+        Key = { icon = "󰌋", hl = "@type" },
+        Null = { icon = "󰟢", hl = "@type" },
+        EnumMember = { icon = "󰒻", hl = "@field" },
+        Struct = { icon = "󰌗", hl = "@type" },
+        Event = { icon = "󰉈", hl = "@type" },
+        Operator = { icon = "󰆕", hl = "@operator" },
+        TypeParameter = { icon = "󰊄", hl = "@parameter" },
+        Component = { icon = "󰅴", hl = "@function" },
+        Fragment = { icon = "󰅫", hl = "@constant" },
       },
     },
-  }
+  },
 }
