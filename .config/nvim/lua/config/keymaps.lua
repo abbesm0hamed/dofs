@@ -52,7 +52,7 @@ keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save Fi
 
 -- select and copy from file
 keymap.set("n", "<leader>vv", "ggVG", { desc = "Select All" })
-keymap.set("n", "<leader>ca", 'ggVG"+y', { desc = "Copy All to Clipboard" })
+keymap.set("n", "<leader><leader>ca", 'ggVG"+y', { desc = "Copy All to Clipboard", remap = false })
 
 -- Move Lines
 keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })

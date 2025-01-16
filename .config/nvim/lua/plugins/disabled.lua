@@ -6,4 +6,5 @@ return {
   { "sphamba/smear-cursor.nvim", enabled = false },
   { "echasnovski/mini.animate", enabled = false },
   { "ThePrimeagen/harpoon", enabled = false },
+  { "catppuccin/nvim", enabled = false },
 }

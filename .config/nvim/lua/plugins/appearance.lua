@@ -21,6 +21,10 @@ return {
     end,
   },
   {
+    "wurli/visimatch.nvim",
+    opts = {},
+  },
+  {
     "szw/vim-maximizer",
     event = "VeryLazy",
     keys = {
@@ -31,6 +35,11 @@ return {
     "Aasim-A/scrollEOF.nvim",
     event = "CursorMoved",
     opts = true,
+  },
+  {
+    "NvChad/nvim-colorizer.lua",
+    event = { "BufReadPre", "BufNewFile" },
+    config = true,
   },
   {
     "tzachar/highlight-undo.nvim",
@@ -54,35 +63,6 @@ return {
       -- Custom mapping for Alt + r to redo if not automatically set
       vim.keymap.set("n", "<A-u>", "<cmd>redo<CR>", { desc = "󰑎 Redo" })
     end,
-  },
-  { -- indentation guides
-    "lukas-reineke/indent-blankline.nvim",
-    event = "VeryLazy",
-    main = "ibl",
-    opts = {
-      scope = {
-        highlight = "Comment",
-        enabled = false,
-        show_start = false,
-        show_end = false,
-        show_exact_scope = true,
-      },
-      indent = { char = "│", tab_char = "│" },
-      exclude = {
-        filetypes = {
-          "undotree",
-          "help",
-          "dashboard",
-          "neo-tree",
-          "Trouble",
-          "trouble",
-          "lazy",
-          "mason",
-          "notify",
-          "toggleterm",
-        },
-      },
-    },
   },
   { -- scrollbar with information
     "lewis6991/satellite.nvim",
@@ -178,6 +158,35 @@ return {
       })
     end,
   },
+  -- { -- indentation guides
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   event = "VeryLazy",
+  --   main = "ibl",
+  --   opts = {
+  --     scope = {
+  --       highlight = "Comment",
+  --       enabled = false,
+  --       show_start = false,
+  --       show_end = false,
+  --       show_exact_scope = true,
+  --     },
+  --     indent = { char = "│", tab_char = "│" },
+  --     exclude = {
+  --       filetypes = {
+  --         "undotree",
+  --         "help",
+  --         "dashboard",
+  --         "neo-tree",
+  --         "Trouble",
+  --         "trouble",
+  --         "lazy",
+  --         "mason",
+  --         "notify",
+  --         "toggleterm",
+  --       },
+  --     },
+  --   },
+  -- },
   --
   -- plugin to create custom colorscheme
   -- {

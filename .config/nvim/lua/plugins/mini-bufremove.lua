@@ -1,6 +1,5 @@
 return {
   "echasnovski/mini.bufremove",
-
   keys = {
     {
       "<leader>bd",

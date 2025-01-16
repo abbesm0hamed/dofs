@@ -15,6 +15,7 @@ return {
       vim.g.loaded_netrwPlugin = 1
     end,
     opts = {
+
       dashboard = {
         formats = {
           key = function(item)
@@ -44,11 +45,38 @@ return {
           { section = "keys" },
         },
       },
-      -- Keep other features enabled
+
       scroll = { enabled = false },
-      bigfile = { enabled = false },
-      indent = { enabled = false },
-      input = { enabled = true },
+
+      bigfile = {
+        notify = true, -- show notification when big file detected
+        size = 1.5 * 1024 * 1024, -- 1.5MB
+        -- Enable or disable features when big file detected
+        ---@param ctx {buf: number, ft:string}
+        setup = function(ctx)
+          vim.cmd([[NoMatchParen]])
+          Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
+          vim.b.minianimate_disable = true
+          vim.schedule(function()
+            vim.bo[ctx.buf].syntax = ctx.ft
+          end)
+        end,
+      },
+
+      indent = {
+        animate = {
+          enabled = false,
+          style = "out",
+          easing = "linear",
+          duration = {
+            step = 20, -- ms per step
+            total = 500, -- maximum duration
+          },
+        },
+      },
+
+      input = { enabled = false },
+
       lazygit = {
         configure = true,
         -- extra configuration for lazygit that will be merged with the default
@@ -79,15 +107,42 @@ return {
           style = "lazygit",
         },
       },
+
       notifier = {
-        enabled = false,
+        enabled = true,
         timeout = 3000,
       },
-      quickfile = { enabled = false },
+
+      dim = {
+        ---@type snacks.scope.Config
+        scope = {
+          min_size = 5,
+          max_size = 20,
+          siblings = true,
+        },
+        -- animate scopes. Enabled by default for Neovim >= 0.10
+        -- Works on older versions but has to trigger redraws during animation.
+        ---@type snacks.animate.Config|{enabled?: boolean}
+        animate = {
+          enabled = vim.fn.has("nvim-0.10") == 1,
+          easing = "outQuad",
+          duration = {
+            step = 20, -- ms per step
+            total = 300, -- maximum duration
+          },
+        },
+        -- what buffers to dim
+        filter = function(buf)
+          return vim.g.snacks_dim ~= false and vim.b[buf].snacks_dim ~= false and vim.bo[buf].buftype == ""
+        end,
+      },
+
       statuscolumn = { enabled = false },
+
       words = {
         enabled = false,
       },
+
       picker = {
         prompt = " ",
         sources = {},
@@ -133,8 +188,8 @@ return {
               ["<Up>"] = { "list_up", mode = { "i", "n" } },
               ["<c-j>"] = { "list_down", mode = { "i", "n" } },
               ["<c-k>"] = { "list_up", mode = { "i", "n" } },
-              ["<c-n>"] = { "list_down", mode = { "i", "n" } },
-              ["<c-p>"] = { "list_up", mode = { "i", "n" } },
+              -- ["<c-n>"] = { "list_down", mode = { "i", "n" } },
+              -- ["<c-p>"] = { "list_up", mode = { "i", "n" } },
               ["<c-b>"] = { "preview_scroll_up", mode = { "i", "n" } },
               ["<c-d>"] = { "list_scroll_down", mode = { "i", "n" } },
               ["<c-f>"] = { "preview_scroll_down", mode = { "i", "n" } },
@@ -142,6 +197,7 @@ return {
               ["<c-u>"] = { "list_scroll_up", mode = { "i", "n" } },
               ["<ScrollWheelDown>"] = { "list_scroll_wheel_down", mode = { "i", "n" } },
               ["<ScrollWheelUp>"] = { "list_scroll_wheel_up", mode = { "i", "n" } },
+
               ["<c-v>"] = { "edit_vsplit", mode = { "i", "n" } },
               ["<c-s>"] = { "edit_split", mode = { "i", "n" } },
               ["<c-q>"] = { "qflist", mode = { "i", "n" } },
@@ -526,6 +582,21 @@ return {
           Snacks.picker.lsp_symbols()
         end,
         desc = "LSP Symbols",
+      },
+
+      {
+        "<leader>.",
+        function()
+          Snacks.scratch()
+        end,
+        desc = "Toggle Scratch Buffer",
+      },
+      {
+        "<leader>S",
+        function()
+          Snacks.scratch.select()
+        end,
+        desc = "Select Scratch Buffer",
       },
     },
     config = function(_, opts)

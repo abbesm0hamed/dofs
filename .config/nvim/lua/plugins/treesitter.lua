@@ -1,6 +1,10 @@
 return {
   -- treesitter is configured automatically by lazyVim already
   {
+    "nvim-treesitter/nvim-treesitter",
+    opts = { ensure_installed = { "go", "gomod", "gowork", "gosum" } },
+  },
+  {
     "nvim-treesitter/nvim-treesitter-textobjects",
     event = "VeryLazy",
     enabled = true,
