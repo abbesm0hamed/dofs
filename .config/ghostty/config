@@ -41,3 +41,67 @@
 # # which is explained in the docs for that config option.
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
+
+# Font Configuration
+font-family = Comic Code Nerd Font
+font-style-italic = Victor Mono Italic
+font-style-bold = Comic Code Nerd Font Bold
+font-style-bold-italic = VictorMono Nerd Font Italic Bold
+font-size = 12
+
+# Window Configuration
+window-save-state = never
+window-padding-x = 10
+window-padding-y = 10
+window-decoration = false
+window-theme = dark
+
+# Transparency and Focus
+background-opacity = 0.95
+unfocused-split-opacity = 0.90
+
+# Mouse Configuration
+mouse-hide-while-typing = true
+
+# keybindings
+# keybind = ctrl+s>r=reload_config
+# keybind = ctrl+s>x=close_surface
+#
+# keybind = ctrl+s>n=new_window
+#
+# # tabs 
+# keybind = ctrl+s>c=new_tab
+# keybind = ctrl+s>shift+l=next_tab
+# keybind = ctrl+s>shift+h=previous_tab
+# keybind = ctrl+s>comma=move_tab:-1
+# keybind = ctrl+s>period=move_tab:1
+#
+# # quick tab switch
+# keybind = ctrl+s>1=goto_tab:1
+# keybind = ctrl+s>2=goto_tab:2
+# keybind = ctrl+s>3=goto_tab:3
+# keybind = ctrl+s>4=goto_tab:4
+# keybind = ctrl+s>5=goto_tab:5
+# keybind = ctrl+s>6=goto_tab:6
+# keybind = ctrl+s>7=goto_tab:7
+# keybind = ctrl+s>8=goto_tab:8
+# keybind = ctrl+s>9=goto_tab:9
+#
+# # split
+# keybind = ctrl+s>\=new_split:right
+# keybind = ctrl+s>-=new_split:down
+#
+# keybind = ctrl+s>j=goto_split:bottom
+# keybind = ctrl+s>k=goto_split:top
+# keybind = ctrl+s>h=goto_split:left
+# keybind = ctrl+s>l=goto_split:right
+#
+# keybind = ctrl+s>z=toggle_split_zoom
+#
+# keybind = ctrl+s>e=equalize_splits
+
+# Cursor Configuration
+cursor-style = block
+
+# Theme
+theme = "Kanagawa Wave"
