@@ -263,6 +263,120 @@ return {
       require("treesj").setup(opts)
     end,
   },
+  {
+    "gbprod/yanky.nvim",
+    dependencies = { "ibhagwan/fzf-lua" },
+    opts = {
+      ring = {
+        history_length = 100,
+        storage = "memory",
+        sync_with_numbered_registers = true,
+        cancel_event = "update",
+      },
+      picker = {
+        select = {
+          action = nil, -- nil to use default put action
+        },
+        telescope = nil, -- disable telescope
+      },
+      system_clipboard = {
+        sync_with_ring = true,
+      },
+    },
+    keys = {
+      { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank text" },
+      { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after cursor" },
+      { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before cursor" },
+      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after selection" },
+      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before selection" },
+      { "<c-n>", "<Plug>(YankyCycleForward)", desc = "Cycle forward through yank history" },
+      { "<c-p>", "<Plug>(YankyCycleBackward)", desc = "Cycle backward through yank history" },
+      { "]p", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
+      { "[p", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
+      { "]P", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
+      { "[P", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
+      { ">p", "<Plug>(YankyPutIndentAfterShiftRight)", desc = "Put and indent right" },
+      { "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", desc = "Put and indent left" },
+      { ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put before and indent right" },
+      { "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", desc = "Put before and indent left" },
+      {
+        "<leader>p",
+        function()
+          require("fzf-lua").yanky()
+        end,
+        desc = "Paste from Yanky",
+      },
+    },
+  },
+  {
+    "kkharji/sqlite.lua",
+    lazy = true,
+    event = "VeryLazy",
+  },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    -- @type Flash.Config
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S",     mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      -- { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+    },
+  },
+  -- Lorem Ipsum generator for Neovim
+  {
+    "derektata/lorem.nvim",
+    cmd = { "Lorem", "LoremSentence", "LoremParagraph", "LoremWord" },
+    keys = {
+      { "<leader>il", "<cmd>Lorem<cr>", desc = "Insert Lorem text" },
+      { "<leader>is", "<cmd>LoremSentence<cr>", desc = "Insert Lorem sentence" },
+      { "<leader>ip", "<cmd>LoremParagraph<cr>", desc = "Insert Lorem paragraph" },
+      { "<leader>iw", "<cmd>LoremWord<cr>", desc = "Insert Lorem word" },
+    },
+    opts = {
+      sentenceLength = "mixed", -- mixed gives more variety
+      comma_chance = 0.3, -- slightly higher chance for commas
+      max_commas_per_sentence = 3,
+      word_list = nil, -- use default word list
+    },
+  },
+  -- { -- Multi Cursor
+  --   "mg979/vim-visual-multi",
+  --   keys = {
+  --     { "<D-j>", mode = { "n", "x" }, desc = "󰆿 Multi-Cursor (Cursor Word)" },
+  --     { "<D-a>", mode = { "n", "x" }, desc = "󰆿 Multi-Cursor (All)" },
+  --   },
+  --   init = function()
+  --     vim.g.VM_set_statusline = 0 -- using my version via lualine component
+  --     vim.g.VM_show_warnings = 0
+  --     vim.g.VM_silent_exit = 1
+  --     vim.g.VM_quit_after_leaving_insert_mode = 1 -- can use "reselect last" to restore
+  --     -- DOCS https://github.com/mg979/vim-visual-multi/blob/master/doc/vm-mappings.txt
+  --     vim.g.VM_maps = {
+  --       -- Enter Visual-Multi-Mode
+  --       ["Find Under"] = "<D-j>", -- select word under cursor
+  --       ["Visual Add"] = "<D-j>",
+  --       ["Reselect Last"] = "gV",
+  --       ["Select All"] = "<D-a>",
+  --       ["Visual All"] = "<D-a>",
+  --
+  --       -- Visual-Multi-Mode Mappings
+  --       ["Find Next"] = "<D-j>",
+  --       ["Find Prev"] = "<D-J>",
+  --       ["Skip Region"] = "n", -- [n]o & find next
+  --       ["Remove Region"] = "N", -- [N]o & goto prev
+  --       ["Find Operator"] = "s", -- operator, selects all regions found in textobj
+  --
+  --       ["Motion $"] = "L", -- consistent with my mappings
+  --       ["Motion ^"] = "H",
+  --     }
+  --   end,
+  -- },
+  --
   -- {
   --   "folke/which-key.nvim",
   --   event = "VeryLazy",
@@ -358,172 +472,6 @@ return {
   --
   --     -- Prevent unnecessary keymaps from interfering with which-key
   --     vim.keymap.set("o", "<LeftMouse>", "<Nop>")
-  --   end,
-  -- },
-  {
-    "kkharji/sqlite.lua",
-    lazy = true,
-    event = "VeryLazy",
-  },
-  {
-    "gbprod/yanky.nvim",
-    dependencies = { "kkharji/sqlite.lua" },
-    opts = {
-      highlight = { timer = 250 },
-      ring = { storage = "shada" or "sqlite" },
-    },
-    keys = {
-      -- stylua: ignore
-      { "<leader>p", function() require("telescope").extensions.yank_history.yank_history({}) end, desc = "Open Yank History" },
-      {
-        "y",
-        "<Plug>(YankyYank)",
-        mode = { "n", "x" },
-        desc = "Yank Text",
-      },
-      {
-        "p",
-        "<Plug>(YankyPutAfter)",
-        mode = { "n", "x" },
-        desc = "Put Yanked Text After Cursor",
-      },
-      {
-        "P",
-        "<Plug>(YankyPutBefore)",
-        mode = { "n", "x" },
-        desc = "Put Yanked Text Before Cursor",
-      },
-      {
-        "gp",
-        "<Plug>(YankyGPutAfter)",
-        mode = { "n", "x" },
-        desc = "Put Yanked Text After Selection",
-      },
-      {
-        "gP",
-        "<Plug>(YankyGPutBefore)",
-        mode = { "n", "x" },
-        desc = "Put Yanked Text Before Selection",
-      },
-      {
-        "[y",
-        "<Plug>(YankyCycleForward)",
-        desc = "Cycle Forward Through Yank History",
-      },
-      {
-        "]y",
-        "<Plug>(YankyCycleBackward)",
-        desc = "Cycle Backward Through Yank History",
-      },
-      {
-        "]p",
-        "<Plug>(YankyPutIndentAfterLinewise)",
-        desc = "Put Indented After Cursor (Linewise)",
-      },
-      {
-        "[p",
-        "<Plug>(YankyPutIndentBeforeLinewise)",
-        desc = "Put Indented Before Cursor (Linewise)",
-      },
-      {
-        "]P",
-        "<Plug>(YankyPutIndentAfterLinewise)",
-        desc = "Put Indented After Cursor (Linewise)",
-      },
-      {
-        "[P",
-        "<Plug>(YankyPutIndentBeforeLinewise)",
-        desc = "Put Indented Before Cursor (Linewise)",
-      },
-      {
-        ">p",
-        "<Plug>(YankyPutIndentAfterShiftRight)",
-        desc = "Put and Indent Right",
-      },
-      {
-        "<p",
-        "<Plug>(YankyPutIndentAfterShiftLeft)",
-        desc = "Put and Indent Left",
-      },
-      {
-        ">P",
-        "<Plug>(YankyPutIndentBeforeShiftRight)",
-        desc = "Put Before and Indent Right",
-      },
-      {
-        "<P",
-        "<Plug>(YankyPutIndentBeforeShiftLeft)",
-        desc = "Put Before and Indent Left",
-      },
-      {
-        "=p",
-        "<Plug>(YankyPutAfterFilter)",
-        desc = "Put After Applying a Filter",
-      },
-      {
-        "=P",
-        "<Plug>(YankyPutBeforeFilter)",
-        desc = "Put Before Applying a Filter",
-      },
-    },
-  },
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    -- @type Flash.Config
-    opts = {},
-    -- stylua: ignore
-    keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      -- { "S",     mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
-      -- { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
-      -- { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      -- { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
-    },
-  },
-  -- Lorem Ipsum generator for Neovim
-  {
-    "derektata/lorem.nvim",
-    lazy = true,
-    event = "VeryLazy",
-    config = function()
-      require("lorem").opts({
-        sentenceLength = "medium",
-        comma_chance = 0.2,
-        max_commas_per_sentence = 2,
-      })
-    end,
-  },
-  -- { -- Multi Cursor
-  --   "mg979/vim-visual-multi",
-  --   keys = {
-  --     { "<D-j>", mode = { "n", "x" }, desc = "󰆿 Multi-Cursor (Cursor Word)" },
-  --     { "<D-a>", mode = { "n", "x" }, desc = "󰆿 Multi-Cursor (All)" },
-  --   },
-  --   init = function()
-  --     vim.g.VM_set_statusline = 0 -- using my version via lualine component
-  --     vim.g.VM_show_warnings = 0
-  --     vim.g.VM_silent_exit = 1
-  --     vim.g.VM_quit_after_leaving_insert_mode = 1 -- can use "reselect last" to restore
-  --     -- DOCS https://github.com/mg979/vim-visual-multi/blob/master/doc/vm-mappings.txt
-  --     vim.g.VM_maps = {
-  --       -- Enter Visual-Multi-Mode
-  --       ["Find Under"] = "<D-j>", -- select word under cursor
-  --       ["Visual Add"] = "<D-j>",
-  --       ["Reselect Last"] = "gV",
-  --       ["Select All"] = "<D-a>",
-  --       ["Visual All"] = "<D-a>",
-  --
-  --       -- Visual-Multi-Mode Mappings
-  --       ["Find Next"] = "<D-j>",
-  --       ["Find Prev"] = "<D-J>",
-  --       ["Skip Region"] = "n", -- [n]o & find next
-  --       ["Remove Region"] = "N", -- [N]o & goto prev
-  --       ["Find Operator"] = "s", -- operator, selects all regions found in textobj
-  --
-  --       ["Motion $"] = "L", -- consistent with my mappings
-  --       ["Motion ^"] = "H",
-  --     }
   --   end,
   -- },
 }

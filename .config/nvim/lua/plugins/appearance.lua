@@ -1,23 +1,48 @@
 return {
   {
-    "folke/edgy.nvim",
-    ---@module 'edgy'
-    ---@param opts Edgy.Config
-    opts = function(_, opts)
-      for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
-        opts[pos] = opts[pos] or {}
-        table.insert(opts[pos], {
-          ft = "snacks_terminal",
-          size = { height = 0.4 },
-          title = "%{b:snacks_terminal.id}: %{b:term_title}",
-          filter = function(_buf, win)
-            return vim.w[win].snacks_win
-              and vim.w[win].snacks_win.position == pos
-              and vim.w[win].snacks_win.relative == "editor"
-              and not vim.w[win].trouble_preview
+    "Bekaboo/dropbar.nvim",
+    -- optional, but required for fuzzy finder support
+    dependencies = {
+      "ibhagwan/fzf-lua",
+    },
+    config = function()
+      require("dropbar").setup({
+        menu = {
+          -- Use fzf-lua for fuzzy finding
+          select = function(menu)
+            local selected = menu.items[menu.selected]
+            if not selected then
+              return
+            end
+            menu:close()
+            selected.handler(selected)
           end,
-        })
-      end
+          -- Use fzf for fuzzy search
+          fuzzy_finder = function(menu)
+            local items = menu.items
+            local selections = require("fzf-lua").fzf({
+              source = vim.tbl_map(function(item)
+                return item.text
+              end, items),
+            })
+            if selections then
+              for _, selection in ipairs(selections) do
+                for _, item in ipairs(items) do
+                  if item.text == selection then
+                    item.handler(item)
+                    break
+                  end
+                end
+              end
+            end
+            menu:close()
+          end,
+        },
+      })
+      local dropbar_api = require("dropbar.api")
+      vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+      vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
+      vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
     end,
   },
   {
@@ -158,40 +183,151 @@ return {
       })
     end,
   },
-  -- { -- indentation guides
-  --   "lukas-reineke/indent-blankline.nvim",
-  --   event = "VeryLazy",
-  --   main = "ibl",
-  --   opts = {
-  --     scope = {
-  --       highlight = "Comment",
-  --       enabled = false,
-  --       show_start = false,
-  --       show_end = false,
-  --       show_exact_scope = true,
-  --     },
-  --     indent = { char = "│", tab_char = "│" },
-  --     exclude = {
-  --       filetypes = {
-  --         "undotree",
-  --         "help",
-  --         "dashboard",
-  --         "neo-tree",
-  --         "Trouble",
-  --         "trouble",
-  --         "lazy",
-  --         "mason",
-  --         "notify",
-  --         "toggleterm",
-  --       },
-  --     },
-  --   },
-  -- },
   --
   -- plugin to create custom colorscheme
   -- {
   --   'rktjmp/lush.nvim',
   --   lazy = false,
   --   priority = 1001,
+  -- },
+  --
+  -- {
+  --   "folke/edgy.nvim",
+  --   event = "VeryLazy",
+  --   keys = {
+  --     {
+  --       "<leader>ue",
+  --       function()
+  --         require("edgy").toggle()
+  --       end,
+  --       desc = "Edgy Toggle",
+  --     },
+  --     -- stylua: ignore
+  --     { "<leader>uE", function() require("edgy").select() end, desc = "Edgy Select Window" },
+  --   },
+  --   opts = function()
+  --     local opts = {
+  --       animate = {
+  --         enabled = false,
+  --         fps = 100, -- frames per second
+  --         cps = 120, -- cells per second
+  --         on_begin = function()
+  --           vim.g.minianimate_disable = true
+  --         end,
+  --         on_end = function()
+  --           vim.g.minianimate_disable = false
+  --         end,
+  --         -- Spinner for pinned views that are loading.
+  --         -- if you have noice.nvim installed, you can use any spinner from it, like:
+  --         -- spinner = require("noice.util.spinners").spinners.circleFull,
+  --         spinner = {
+  --           frames = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+  --           interval = 80,
+  --         },
+  --       },
+  --       bottom = {
+  --         {
+  --           ft = "toggleterm",
+  --           size = { height = 0.4 },
+  --           filter = function(_win)
+  --             return vim.api.nvim_win_get_config(_win).relative == ""
+  --           end,
+  --         },
+  --         "Trouble",
+  --         { ft = "qf", title = "QuickFix" },
+  --         {
+  --           ft = "help",
+  --           size = { height = 20 },
+  --           -- don't open help files in edgy that we're editing
+  --           filter = function(_)
+  --             return vim.bo[vim.api.nvim_get_current_buf()].buftype == "help"
+  --           end,
+  --         },
+  --         { title = "Spectre", ft = "spectre_panel", size = { height = 0.4 } },
+  --         { title = "Neotest Output", ft = "neotest-output-panel", size = { height = 15 } },
+  --       },
+  --       left = {
+  --         { title = "Neotest Summary", ft = "neotest-summary" },
+  --         -- "neo-tree",
+  --       },
+  --       right = {
+  --         { title = "Grug Far", ft = "grug-far", size = { width = 0.4 } },
+  --       },
+  --       keys = {
+  --         -- increase width
+  --         ["<c-Right>"] = function(win)
+  --           win:resize("width", 2)
+  --         end,
+  --         -- decrease width
+  --         ["<c-Left>"] = function(win)
+  --           win:resize("width", -2)
+  --         end,
+  --         -- increase height
+  --         ["<c-Up>"] = function(win)
+  --           win:resize("height", 2)
+  --         end,
+  --         -- decrease height
+  --         ["<c-Down>"] = function(win)
+  --           win:resize("height", -2)
+  --         end,
+  --       },
+  --     }
+  --
+  --     if LazyVim.has("neo-tree.nvim") then
+  --       local pos = {
+  --         filesystem = "left",
+  --         buffers = "top",
+  --         git_status = "right",
+  --         document_symbols = "bottom",
+  --         diagnostics = "bottom",
+  --       }
+  --       local sources = LazyVim.opts("neo-tree.nvim").sources or {}
+  --       for i, v in ipairs(sources) do
+  --         table.insert(opts.left, i, {
+  --           title = "Neo-Tree " .. v:gsub("_", " "):gsub("^%l", string.upper),
+  --           ft = "neo-tree",
+  --           filter = function(buf)
+  --             return vim.b[buf].neo_tree_source == v
+  --           end,
+  --           pinned = true,
+  --           open = function()
+  --             vim.cmd(("Neotree show position=%s %s dir=%s"):format(pos[v] or "bottom", v, LazyVim.root()))
+  --           end,
+  --         })
+  --       end
+  --     end
+  --
+  --     -- trouble
+  --     for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
+  --       opts[pos] = opts[pos] or {}
+  --       table.insert(opts[pos], {
+  --         ft = "trouble",
+  --         filter = function(_, win)
+  --           return vim.w[win].trouble
+  --             and vim.w[win].trouble.position == pos
+  --             and vim.w[win].trouble.type == "split"
+  --             and vim.w[win].trouble.relative == "editor"
+  --             and not vim.w[win].trouble_preview
+  --         end,
+  --       })
+  --     end
+  --
+  --     -- snacks terminal
+  --     for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
+  --       opts[pos] = opts[pos] or {}
+  --       table.insert(opts[pos], {
+  --         ft = "snacks_terminal",
+  --         size = { height = 0.4 },
+  --         title = "%{b:snacks_terminal.id}: %{b:term_title}",
+  --         filter = function(_, win)
+  --           return vim.w[win].snacks_win
+  --             and vim.w[win].snacks_win.position == pos
+  --             and vim.w[win].snacks_win.relative == "editor"
+  --             and not vim.w[win].trouble_preview
+  --         end,
+  --       })
+  --     end
+  --     return opts
+  --   end,
   -- },
 }
