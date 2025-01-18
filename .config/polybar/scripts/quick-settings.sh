@@ -1,9 +1,25 @@
 #!/bin/bash
 
-# Cache file for audio sinks to improve performance
+# Cache directory and files
 CACHE_DIR="$HOME/.cache/quick-settings"
 SINKS_CACHE="$CACHE_DIR/audio_sinks"
+WIFI_CACHE="$CACHE_DIR/wifi_status"
+BT_CACHE="$CACHE_DIR/bluetooth_status"
+CACHE_TIMEOUT=5  # Cache timeout in seconds
+
 mkdir -p "$CACHE_DIR"
+
+# Helper function to check if cache is valid
+is_cache_valid() {
+    local cache_file="$1"
+    if [ ! -f "$cache_file" ]; then
+        return 1
+    fi
+    local current_time=$(date +%s)
+    local file_time=$(stat -c %Y "$cache_file")
+    local age=$((current_time - file_time))
+    [ $age -le $CACHE_TIMEOUT ]
+}
 
 # Function to get current brightness
 get_brightness() {
@@ -29,16 +45,42 @@ cache_audio_sinks() {
 
 # Function to get WiFi status and SSID
 get_wifi_status() {
+    if is_cache_valid "$WIFI_CACHE"; then
+        cat "$WIFI_CACHE"
+        return
+    fi
+
     if [[ $(nmcli radio wifi) == "enabled" ]]; then
         SSID=$(nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2)
         if [ -n "$SSID" ]; then
-            echo "on ($SSID)"
+            echo "on ($SSID)" > "$WIFI_CACHE"
         else
-            echo "on (disconnected)"
+            echo "on (disconnected)" > "$WIFI_CACHE"
         fi
     else
-        echo "off"
+        echo "off" > "$WIFI_CACHE"
     fi
+    cat "$WIFI_CACHE"
+}
+
+# Function to get bluetooth status and connected devices
+get_bluetooth_status() {
+    if is_cache_valid "$BT_CACHE"; then
+        cat "$BT_CACHE"
+        return
+    fi
+
+    if bluetoothctl show | grep -q "Powered: yes"; then
+        DEVICES=$(bluetoothctl devices Connected | wc -l)
+        if [ $DEVICES -gt 0 ]; then
+            echo "on ($DEVICES connected)" > "$BT_CACHE"
+        else
+            echo "on (no devices)" > "$BT_CACHE"
+        fi
+    else
+        echo "off" > "$BT_CACHE"
+    fi
+    cat "$BT_CACHE"
 }
 
 # Function to get airplane mode status
@@ -50,23 +92,9 @@ get_airplane_mode() {
     fi
 }
 
-# Function to get bluetooth status and connected devices
-get_bluetooth_status() {
-    if bluetoothctl show | grep -q "Powered: yes"; then
-        DEVICES=$(bluetoothctl devices Connected | wc -l)
-        if [ $DEVICES -gt 0 ]; then
-            echo "on ($DEVICES connected)"
-        else
-            echo "on (no devices)"
-        fi
-    else
-        echo "off"
-    fi
-}
-
 # Function to get night light status
 get_night_light() {
-    if pgrep redshift >/dev/null; then
+    if pgrep -x redshift >/dev/null; then
         echo "on"
     else
         echo "off"
@@ -75,11 +103,15 @@ get_night_light() {
 
 # Function to toggle night light
 toggle_night_light() {
-    if pgrep redshift >/dev/null; then
+    if pgrep -x redshift >/dev/null; then
         pkill redshift
-        redshift -x  # Reset screen temperature
+        # Reset screen temperature and cleanup
+        redshift -x
+        rm -f "$HOME/.config/redshift/pid"
     else
-        redshift -O 4500 -P &
+        # Start redshift with automatic location detection and smooth transitions
+        redshift -l geoclue2 -t 6500:3500 -r -P &
+        echo $! > "$HOME/.config/redshift/pid"
     fi
 }
 
@@ -95,14 +127,14 @@ get_power_profile() {
 # WiFi submenu
 wifi_menu() {
     if [[ $(nmcli radio wifi) == "enabled" ]]; then
-        # Update network list in background
-        nmcli device wifi rescan >/dev/null 2>&1 &
+        # Only rescan if cache is invalid
+        if ! is_cache_valid "$WIFI_CACHE"; then
+            nmcli device wifi rescan >/dev/null 2>&1 &
+        fi
         
-        # Get list of networks
-        networks=$(nmcli -f SSID,SIGNAL,SECURITY device wifi list | tail -n +2 | sed 's/  */ /g' | sort -k2 -nr)
-        
-        # Show network selection menu
-        chosen_network=$(echo -e "󰖩 Turn Off WiFi\n---\n$networks" | rofi -dmenu -p "WiFi Networks" | awk '{print $1}')
+        # Get list of networks with signal strength
+        networks=$(nmcli -f SSID,SIGNAL,SECURITY device wifi list | tail -n +2 | sort -k2 -nr | awk '{print $1 " (" $2 "% " $3 ")"}')
+        chosen_network=$(echo -e "󰖩 Turn Off WiFi\n---\n$networks" | rofi -dmenu -p "WiFi Networks")
         
         if [[ $chosen_network == "󰖩" ]]; then
             nmcli radio wifi off
@@ -217,8 +249,11 @@ power_profile_menu() {
     fi
 }
 
-# Start caching audio sinks in background
+# Start background caching
 cache_audio_sinks
+# Pre-cache other statuses
+get_wifi_status >/dev/null &
+get_bluetooth_status >/dev/null &
 
 # Create the main menu content
 create_menu() {
