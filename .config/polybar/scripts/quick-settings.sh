@@ -94,7 +94,7 @@ get_airplane_mode() {
 
 # Function to get night light status
 get_night_light() {
-    if pgrep -x redshift >/dev/null; then
+    if [ -f "$HOME/.config/redshift/pid" ] && pgrep -x redshift >/dev/null; then
         echo "on"
     else
         echo "off"
@@ -103,14 +103,16 @@ get_night_light() {
 
 # Function to toggle night light
 toggle_night_light() {
+    mkdir -p "$HOME/.config/redshift"
+    
     if pgrep -x redshift >/dev/null; then
         pkill redshift
         # Reset screen temperature and cleanup
         redshift -x
         rm -f "$HOME/.config/redshift/pid"
     else
-        # Start redshift with automatic location detection and smooth transitions
-        redshift -l geoclue2 -t 6500:3500 -r -P &
+        # Start redshift with fixed location and temperature values for better reliability
+        redshift -l 36.8:10.2 -t 6500:4200 -r -P &
         echo $! > "$HOME/.config/redshift/pid"
     fi
 }
