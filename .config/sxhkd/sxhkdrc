@@ -50,6 +50,10 @@ super + shift + b
 ctrl + alt + s
     flameshot gui
 
+# Quick Settings
+super + q
+    ~/.config/polybar/scripts/quick-settings.sh
+
 #Audio Keybindings
 XF86AudioRaiseVolume
     pactl set-sink-volume @DEFAULT_SINK@ +3%
