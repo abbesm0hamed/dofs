@@ -339,8 +339,8 @@ super + shift + s
 # ctrl + alt + w
 #      arcolinux-welcome-app
 
-super + alt + l + {o}
-    {~/.config/polybar/scripts/powermenu.sh}
+super + alt + {l, o}
+    {~/.config/polybar/scripts/quick-settings.sh, ~/.config/polybar/scripts/powermenu.sh}
 
 #archlinux-tweak-tool
 ctrl + alt + e
@@ -563,6 +563,10 @@ XF86MonBrightnessDown
 #Picom Toggle
 ctrl + alt + o
     ~/.config/picom/scripts/toggle-picom-inactive-opacity.sh
+
+#Quick Settings
+super + alt + l
+    ~/.config/polybar/scripts/quick-settings.sh
 
 #################################################################
 # SUPER + SHIFT KEYS
