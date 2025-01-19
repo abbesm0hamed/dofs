@@ -51,46 +51,34 @@ function setup_displays_and_workspaces {
 # Main execution
 setup_displays_and_workspaces
 
-# xrandr --output DP-1 --off --output DP-2 --mode 1920x1080 --pos 1920x415 --rotate normal --output DP-3 --primary --mode 1920x1080 --pos 0x884 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 1920x1495 --rotate normal
-run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 --rotate normal --output HDMI-2-0 --off
+# Kill existing instances of polybar and picom
+killall -q polybar picom dunst
 
-# the backgrounds below match more darker themes like moonfly
-# run feh --bg-fill $HOME/.config/backgrounds/store.jpg --bg-fill $HOME/.config/backgrounds/japan.jpg
-#
-# the backgrounds below matches the kanagawa theme
-run feh --no-fehbg --bg-fill "$BACKGROUND_PRIMARY" --bg-fill "$BACKGROUND_SECONDARY" &
-
-run killall polybar picom
-# polybar
-run ~/.config/polybar/launch_polybar.sh
-# compositor
-while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
-run picom --config ~/.config/picom/picom.conf --vsync
-
-# run ~/.config/eww/launch.sh
-
-#run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
-#autorandr horizontal
-#run caffeine
-# run stalonetray
-run pamac-tray
+# Start critical system services first
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run xfce4-power-manager
-run blueberry-tray
-run blueman-applet
-run nm-applet
-run numlockx on
-run volumeicon
+sleep 1
+
+# Set up displays and backgrounds
+run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 --rotate normal --output HDMI-2-0 --off
+run feh --no-fehbg --bg-fill "$BACKGROUND_PRIMARY" --bg-fill "$BACKGROUND_SECONDARY"
+
+# Start window manager related services
+run picom --config ~/.config/picom/picom.conf --vsync
+run ~/.config/polybar/launch_polybar.sh
+run sxhkd -c "$HOME/.config/sxhkd/sxhkdrc"
 run autotiling
-run dunst
+
+# Start system tray applications
+run pamac-tray
+run nm-applet
+run blueman-applet
+run blueberry-tray
+run volumeicon
+
+# Start user applications
+run numlockx on
+dunst &
 run variety
 run flameshot
 run redshift -c $HOME/.config/redshift/redshift.conf
-
-# run conky -c $HOME/.config/conky/conky.conf
-# you can set wallpapers in themes as well
-# run feh --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest2.jpg --bg-fill $HOME/.config/awesome/themes/mytheme/wallpapers/pineforest1.jpg
-# run nitrogen --restore
-#
-#sxhkd
-run sxhkd -c "$HOME/.config/sxhkd/sxhkdrc"

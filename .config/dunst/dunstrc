@@ -1,7 +1,7 @@
 [global]
     follow = mouse
     width = 350
-    offset = 10x40
+    offset = 5x39
     progress_bar = true
     progress_bar_height = 10
     progress_bar_frame_width = 1
