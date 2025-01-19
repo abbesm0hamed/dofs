@@ -85,6 +85,7 @@ run autotiling
 run dunst
 run variety
 run flameshot
+run redshift -c $HOME/.config/redshift/redshift.conf
 
 # run conky -c $HOME/.config/conky/conky.conf
 # you can set wallpapers in themes as well
