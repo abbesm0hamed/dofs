@@ -164,10 +164,10 @@ return {
           -- input window
           input = {
             keys = {
-              ["<Esc>"] = "close",
+              -- ["<Esc>"] = "close",
               -- to close the picker on ESC instead of going to normal mode,
               -- add the following keymap to your config
-              -- ["<Esc>"] = { "close", mode = { "n", "i" } },
+              ["<Esc>"] = { "close", mode = { "n", "i" } },
               ["<CR>"] = { "confirm", mode = { "i", "n" } },
               ["G"] = "list_bottom",
               ["gg"] = "list_top",
