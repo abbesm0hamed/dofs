@@ -1,1 +1,14 @@
 .config/awesome/awesome-wm-widgets
+
+# System and editor files
+*~
+.DS_Store
+.directory
+.Trash-*
+._*
+
+# IDE and editor specific files
+.idea/
+.vscode/
+*.swp
+*.swo
