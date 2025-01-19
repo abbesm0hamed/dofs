@@ -94,7 +94,7 @@ get_airplane_mode() {
 
 # Function to get night light status
 get_night_light() {
-    if pgrep -x redshift >/dev/null; then
+    if pgrep -x gammastep >/dev/null; then
         echo "on"
     else
         echo "off"
@@ -103,13 +103,13 @@ get_night_light() {
 
 # Function to toggle night light
 toggle_night_light() {
-    if pgrep -x redshift >/dev/null; then
-        pkill redshift
+    if pgrep -x gammastep >/dev/null; then
+        pkill gammastep
         # Reset screen temperature
-        redshift -x
+        gammastep -x
     else
-        # Start redshift with config file
-        redshift -c "$HOME/.config/redshift/redshift.conf" -P &
+        # Start gammastep with manual coordinates for Tunis
+        gammastep -l 36.8:10.2 -t 6500:3500 -P &
     fi
 }
 
