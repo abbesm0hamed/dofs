@@ -168,7 +168,7 @@ return {
               -- to close the picker on ESC instead of going to normal mode,
               -- add the following keymap to your config
               -- ["<Esc>"] = { "close", mode = { "n", "i" } },
-              ["<CR>"] = "confirm",
+              ["<CR>"] = { "confirm", mode = { "i", "n" } },
               ["G"] = "list_bottom",
               ["gg"] = "list_top",
               ["j"] = "list_down",
