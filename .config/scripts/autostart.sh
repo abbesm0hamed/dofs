@@ -24,7 +24,9 @@ function get_current_primary {
 function setup_displays_and_workspaces {
     local current_primary=$(get_current_primary)
     local new_primary
+    # Get both the current workspace and focused window ID
     local current_workspace=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' -r)
+    local focused_window=$(i3-msg -t get_tree | jq '.. | select(.focused? == true).id')
 
     if is_second_monitor_connected; then
         new_primary="HDMI-1-0"
@@ -44,8 +46,13 @@ function setup_displays_and_workspaces {
         done
     fi
 
-    # Restore the previously active workspace
+    # First switch to the target workspace
     i3-msg "workspace $current_workspace"
+    
+    # Then focus the previously focused window if it exists
+    if [ ! -z "$focused_window" ] && [ "$focused_window" != "null" ]; then
+        i3-msg "[con_id=$focused_window] focus"
+    fi
 }
 
 # Main execution
