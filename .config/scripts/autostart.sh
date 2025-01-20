@@ -48,7 +48,7 @@ function setup_displays_and_workspaces {
 
     # First switch to the target workspace
     i3-msg "workspace $current_workspace"
-    
+
     # Then focus the previously focused window if it exists
     if [ ! -z "$focused_window" ] && [ "$focused_window" != "null" ]; then
         i3-msg "[con_id=$focused_window] focus"
@@ -71,7 +71,7 @@ run xrandr --output HDMI-1-0 --primary --mode 1920x1080 --pos 1920x0 --rate 170 
 run feh --no-fehbg --bg-fill "$BACKGROUND_PRIMARY" --bg-fill "$BACKGROUND_SECONDARY"
 
 # Start window manager related services
-run picom --config ~/.config/picom/picom.conf --vsync
+run picom --config $PICOM_CONFIG --vsync
 run ~/.config/polybar/launch_polybar.sh
 run sxhkd -c "$HOME/.config/sxhkd/sxhkdrc"
 run autotiling
