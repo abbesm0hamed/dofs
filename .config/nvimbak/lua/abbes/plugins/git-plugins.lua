@@ -86,26 +86,26 @@ return {
         enhanced_diff_hl = true, -- Highlight word-level changes
         keymaps = {
           view = {
-            ["<leader>q"] = "<cmd>DiffviewClose<CR>",           -- Close with leader + q
+            ["<leader>q"] = "<cmd>DiffviewClose<CR>", -- Close with leader + q
             -- Choose the current (left) version
-            ["<leader>ch"] = actions.conflict_choose("ours"),   -- Choose current version
+            ["<leader>ch"] = actions.conflict_choose("ours"), -- Choose current version
             ["<leader>cl"] = actions.conflict_choose("theirs"), -- Choose incoming version
-            ["<leader>cb"] = actions.conflict_choose("base"),   -- Choose base version
-            ["<leader>ca"] = actions.conflict_choose("all"),    -- Choose all versions
-            ["<leader>cx"] = actions.conflict_choose("none"),   -- Choose none
+            ["<leader>cb"] = actions.conflict_choose("base"), -- Choose base version
+            ["<leader>ca"] = actions.conflict_choose("all"), -- Choose all versions
+            ["<leader>cx"] = actions.conflict_choose("none"), -- Choose none
             -- Direct buffer operations
-            ["do"] = "<cmd>diffget<cr>",                        -- Obtain the diff (get from other file)
-            ["dp"] = "<cmd>diffput<cr>",                        -- Put the diff (put to other file)
+            ["do"] = "<cmd>diffget<cr>", -- Obtain the diff (get from other file)
+            ["dp"] = "<cmd>diffput<cr>", -- Put the diff (put to other file)
           },
           file_panel = {
-            ["j"] = "NextEntry",      -- Down
-            ["k"] = "PrevEntry",      -- Up
+            ["j"] = "NextEntry", -- Down
+            ["k"] = "PrevEntry", -- Up
             ["<cr>"] = "SelectEntry", -- Open the diff for the selected entry
           },
           file_history_panel = {
             ["g!"] = "Options",
             ["<C-A-d>"] = "OpenInDiffview", -- Open selected commit in diffview
-            ["zR"] = "ExpandAll",           -- Expand all folders
+            ["zR"] = "ExpandAll", -- Expand all folders
           },
         },
       })
@@ -116,5 +116,5 @@ return {
       vim.keymap.set("n", "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", { desc = "Toggle Git diff file panel" })
       vim.keymap.set("n", "<leader>gdh", "<cmd>DiffviewFileHistory<CR>", { desc = "Open Git diff file history" })
     end,
-  }
+  },
 }

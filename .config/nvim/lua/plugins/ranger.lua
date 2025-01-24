@@ -1,5 +1,6 @@
 return {
   "kelly-lin/ranger.nvim",
+  event = "VeryLazy",
   config = function()
     local ranger_nvim = require("ranger-nvim")
     ranger_nvim.setup({
@@ -17,7 +18,7 @@ return {
         width = 1,
         x = 0.5,
         y = 0.5,
-      }
+      },
     })
     vim.api.nvim_set_keymap("n", "<leader>rr", "", {
       noremap = true,
