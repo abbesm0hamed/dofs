@@ -1,34 +1,70 @@
 #!/bin/bash
 
-# Replace with your location's latitude, longitude, and timezone
+# Your location coordinates
 latitude=36.7253
 longitude=10.2110
-timezone=Africa/Tunis
 
-# Calculate prayer times for today
-prayers=$(prayertimes --date today --latitude $latitude --longitude $longitude --timezone $timezone | awk '{print $2}')
+# Prayer names in order
+declare -a prayer_names=("Fajr" "Dhuhr" "Asr" "Maghrib" "Isha")
 
-# Get current time
+# Get current time in 24-hour format
 current_time=$(date +%H:%M)
 
-# Find the next prayer time
-next_prayer=""
-for prayer in $prayers; do
-	if [[ "$prayer" > "$current_time" ]]; then
-		next_prayer=$prayer
-		break
-	fi
-done
+# Fetch prayer times from API
+prayer_data=$(curl -s "http://api.aladhan.com/v1/calendar/$(date +%Y)/$(date +%m)?latitude=$latitude&longitude=$longitude&method=3")
 
-if [[ -z "$next_prayer" ]]; then
-	next_prayer=$(echo "$prayers" | head -n 1)
+# Check if curl request was successful
+if [ -z "$prayer_data" ]; then
+    echo "%{F#ff0000} Prayer times unavailable%{F-}"
+    exit 1
 fi
 
-# Calculate time left until the next prayer
-next_prayer_seconds=$(date -d "$next_prayer" +%s)
-current_seconds=$(date +%s)
-time_left_seconds=$((next_prayer_seconds - current_seconds))
+# Extract prayer times for today using jq
+day_data=$(echo "$prayer_data" | jq -r ".data[$(($(date +%-d)-1))]")
+if [ -z "$day_data" ] || [ "$day_data" = "null" ]; then
+    echo "%{F#ff0000} Prayer times unavailable%{F-}"
+    exit 1
+fi
+
+# Get prayer times
+fajr=$(echo "$day_data" | jq -r '.timings.Fajr' | cut -d' ' -f1)
+dhuhr=$(echo "$day_data" | jq -r '.timings.Dhuhr' | cut -d' ' -f1)
+asr=$(echo "$day_data" | jq -r '.timings.Asr' | cut -d' ' -f1)
+maghrib=$(echo "$day_data" | jq -r '.timings.Maghrib' | cut -d' ' -f1)
+isha=$(echo "$day_data" | jq -r '.timings.Isha' | cut -d' ' -f1)
+
+# Store times in array
+prayer_times=("$fajr" "$dhuhr" "$asr" "$maghrib" "$isha")
+
+# Find the next prayer
+next_prayer=""
+next_prayer_name=""
+for i in "${!prayer_times[@]}"; do
+    if [[ "${prayer_times[$i]}" > "$current_time" ]]; then
+        next_prayer="${prayer_times[$i]}"
+        next_prayer_name="${prayer_names[$i]}"
+        break
+    fi
+done
+
+# If no next prayer found today, it means the next prayer is tomorrow's Fajr
+if [[ -z "$next_prayer" ]]; then
+    next_prayer="${prayer_times[0]}"
+    next_prayer_name="${prayer_names[0]}"
+    # Add 24 hours to calculation
+    tomorrow_seconds=$(date -d "tomorrow $next_prayer" +%s)
+    current_seconds=$(date +%s)
+    time_left_seconds=$((tomorrow_seconds - current_seconds))
+else
+    # Calculate time difference
+    next_prayer_seconds=$(date -d "today $next_prayer" +%s)
+    current_seconds=$(date +%s)
+    time_left_seconds=$((next_prayer_seconds - current_seconds))
+fi
+
+# Calculate hours and minutes
 hours=$((time_left_seconds / 3600))
 minutes=$(((time_left_seconds % 3600) / 60))
 
-printf "%s in %02d:%02d\n" "$next_prayer" "$hours" "$minutes"
+# Output in a nice format with polybar color formatting and separator
+printf " %%{F#DCD7BA}|%%{F-} %%{F#7E9CD8}%s in %02d:%02d%%{F-}" "$next_prayer_name" "$hours" "$minutes"
