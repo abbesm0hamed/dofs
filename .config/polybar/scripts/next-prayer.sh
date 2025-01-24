@@ -1,8 +1,17 @@
 #!/bin/bash
 
-# Your location coordinates
-latitude=36.7253
-longitude=10.2110
+# Fetch current location using IP-based geolocation
+LOCATION=$(curl -s https://ipinfo.io | jq -r '.loc')
+
+# Check if location data is available
+if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
+    echo "%{F#ff0000} Location unavailable%{F-}"
+    exit 1
+fi
+
+# Extract latitude and longitude
+latitude=$(echo "$LOCATION" | cut -d',' -f1)
+longitude=$(echo "$LOCATION" | cut -d',' -f2)
 
 # Prayer names in order
 declare -a prayer_names=("Fajr" "Dhuhr" "Asr" "Maghrib" "Isha")
@@ -20,7 +29,7 @@ if [ -z "$prayer_data" ]; then
 fi
 
 # Extract prayer times for today using jq
-day_data=$(echo "$prayer_data" | jq -r ".data[$(($(date +%-d)-1))]")
+day_data=$(echo "$prayer_data" | jq -r ".data[$(($(date +%-d) - 1))]")
 if [ -z "$day_data" ] || [ "$day_data" = "null" ]; then
     echo "%{F#ff0000} Prayer times unavailable%{F-}"
     exit 1
@@ -52,17 +61,19 @@ if [[ -z "$next_prayer" ]]; then
     next_prayer="${prayer_times[0]}"
     next_prayer_name="${prayer_names[0]}"
     # Add 24 hours to calculation
-    tomorrow_seconds=$(date -d "tomorrow $next_prayer" +%s)
-    current_seconds=$(date +%s)
-    time_left_seconds=$((tomorrow_seconds - current_seconds))
+    next_prayer_seconds=$(date -d "tomorrow $next_prayer" +%s)
 else
-    # Calculate time difference
+    # Calculate time difference for today
     next_prayer_seconds=$(date -d "today $next_prayer" +%s)
-    current_seconds=$(date +%s)
-    time_left_seconds=$((next_prayer_seconds - current_seconds))
 fi
 
-# Calculate hours and minutes
+# Get current time in seconds
+current_seconds=$(date +%s)
+
+# Calculate time difference in seconds
+time_left_seconds=$((next_prayer_seconds - current_seconds))
+
+# Calculate hours and minutes accurately
 hours=$((time_left_seconds / 3600))
 minutes=$(((time_left_seconds % 3600) / 60))
 
