@@ -79,7 +79,7 @@ return {
         ["<C-k>"] = { "select_prev" },
 
         -- Selection and confirmation
-        ["<CR>"] = { "fallback", "accept" }, -- Will fallback to normal CR if no completion selected
+        ["<CR>"] = { "accept", "fallback" }, -- Try to accept first, then fallback to normal CR
         ["<C-y>"] = { "accept" },
         ["<C-l>"] = { "select_and_accept" },
 
