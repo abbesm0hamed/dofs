@@ -79,7 +79,7 @@ return {
         ["<C-k>"] = { "select_prev" },
 
         -- Selection and confirmation
-        ["<CR>"] = { "accept" },
+        ["<CR>"] = { "fallback", "accept" }, -- Will fallback to normal CR if no completion selected
         ["<C-y>"] = { "accept" },
         ["<C-l>"] = { "select_and_accept" },
 
@@ -171,15 +171,21 @@ return {
       require("blink.cmp").setup(opts)
     end,
   },
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    opts = function(_, opts)
-      table.insert(opts.sources, 1, {
-        name = "codeium",
-        group_index = 1,
-        priority = 100,
-      })
-    end,
-  },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   event = "InsertEnter",
+  --   opts = {
+  --     mapping = {
+  --       ["<CR>"] = require("cmp").mapping({
+  --         i = function(fallback)
+  --           if require("cmp").visible() then
+  --             require("cmp").confirm({ select = true })
+  --           else
+  --             fallback()
+  --           end
+  --         end,
+  --       }),
+  --     },
+  --   },
+  -- },
 }

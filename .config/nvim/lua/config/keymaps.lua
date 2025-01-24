@@ -10,6 +10,9 @@ local keymap = vim.keymap -- for conciseness
 ---------------------
 -- General Keymaps -------------------
 
+-- Fix Enter key in insert mode
+keymap.set("i", "<CR>", "<CR>", { desc = "Return to new line" })
+
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
