@@ -21,7 +21,7 @@ fi
 
 # Launch polybar on all connected monitors
 for m in $MONITORS; do
-  echo "Launching polybar on monitor: $m" >>"$HOME/.config/polybar/polybar.log"
+  # echo "Launching polybar on monitor: $m" >>"$HOME/.config/polybar/polybar.log"
   MONITOR=$m polybar -q -r top -c "$DIR"/config.ini >>"$HOME/.config/polybar/polybar.log" 2>&1 &
   MONITOR=$m polybar -q -r bottom -c "$DIR"/config.ini >>"$HOME/.config/polybar/polybar.log" 2>&1 &
 done
