@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fetch current location using IP-based geolocation
-LOCATION=$(curl -s https://ipinfo.io | jq -r '.loc')
+LOCATION=$(curl -s http://ip-api.com/json | jq -r '.lat,.lon' | paste -sd, -)
 
 # Check if location data is available
 if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
@@ -18,13 +18,19 @@ WEATHER_DATA=$(curl -s "https://api.open-meteo.com/v1/forecast?latitude=$LAT&lon
 
 # Check if weather data is available
 if [ -z "$WEATHER_DATA" ] || ! echo "$WEATHER_DATA" | jq -e '.current_weather' >/dev/null; then
-  echo "󰖙 Weather data unavailable" # Default icon and message
-  exit 1
+  # Fallback to wttr.in
+  WEATHER_DATA=$(curl -s "wttr.in/?format=j1")
+  if [ -z "$WEATHER_DATA" ] || ! echo "$WEATHER_DATA" | jq -e '.current_condition[0]' >/dev/null; then
+    echo "󰖙 Weather data unavailable" # Default icon and message
+    exit 1
+  fi
+  TEMP=$(echo "$WEATHER_DATA" | jq -r '.current_condition[0].temp_C')
+  WEATHER_CODE=$(echo "$WEATHER_DATA" | jq -r '.current_condition[0].weatherCode')
+else
+  # Parse weather data from Open-Meteo
+  TEMP=$(echo "$WEATHER_DATA" | jq -r '.current_weather.temperature')
+  WEATHER_CODE=$(echo "$WEATHER_DATA" | jq -r '.current_weather.weathercode')
 fi
-
-# Parse weather data
-TEMP=$(echo "$WEATHER_DATA" | jq -r '.current_weather.temperature')
-WEATHER_CODE=$(echo "$WEATHER_DATA" | jq -r '.current_weather.weathercode')
 
 # Map weather codes to Nerd Fonts or Unicode symbols
 case $WEATHER_CODE in

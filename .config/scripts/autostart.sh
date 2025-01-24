@@ -72,7 +72,7 @@ run feh --no-fehbg --bg-fill "$BACKGROUND_PRIMARY" --bg-fill "$BACKGROUND_SECOND
 
 # Start window manager related services
 run picom --config $PICOM_CONFIG --vsync
-run ~/.config/polybar/launch_polybar.sh
+run ~/.config/polybar/launch_polybar.sh # Ensure this script sets the MONITOR variable
 run sxhkd -c "$HOME/.config/sxhkd/sxhkdrc"
 run autotiling
 
@@ -88,4 +88,4 @@ run numlockx on
 dunst &
 run variety
 run flameshot
-run redshift -c $HOME/.config/redshift/redshift.conf
+run gammastep

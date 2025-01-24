@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fetch current location using IP-based geolocation
-LOCATION=$(curl -s https://ipinfo.io | jq -r '.loc')
+LOCATION=$(curl -s http://ip-api.com/json | jq -r '.lat,.lon' | paste -sd, -)
 
 # Check if location data is available
 if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
@@ -23,7 +23,7 @@ current_time=$(date +%H:%M)
 prayer_data=$(curl -s "http://api.aladhan.com/v1/calendar/$(date +%Y)/$(date +%m)?latitude=$latitude&longitude=$longitude&method=3")
 
 # Check if curl request was successful
-if [ -z "$prayer_data" ]; then
+if [ -z "$prayer_data" ] || ! echo "$prayer_data" | jq -e '.data' >/dev/null; then
     echo "%{F#ff0000} Prayer times unavailable%{F-}"
     exit 1
 fi
@@ -77,5 +77,5 @@ time_left_seconds=$((next_prayer_seconds - current_seconds))
 hours=$((time_left_seconds / 3600))
 minutes=$(((time_left_seconds % 3600) / 60))
 
-# Output in a nice format with polybar color formatting and separator
-printf " %%{F#DCD7BA}|%%{F-} %%{F#7E9CD8}%s in %02d:%02d%%{F-}" "$next_prayer_name" "$hours" "$minutes"
+# Output in a nice format with polybar color formatting (removed the left bar separator)
+printf "%%{F#7E9CD8}%s in %02d:%02d%%{F-}" "$next_prayer_name" "$hours" "$minutes"

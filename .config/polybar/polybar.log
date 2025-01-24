@@ -1,0 +1,25 @@
+Launching polybar on monitor: eDP-1
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: module/workspaces: Failed to reconnect socket (reason: Failed to connect to i3 at '/run/user/1000/i3/ipc-socket.1264': errno 2 (No such file or directory))
+polybar|error: module/workspaces: Failed to reconnect socket (reason: Failed to connect to i3 at '/run/user/1000/i3/ipc-socket.1264': errno 2 (No such file or directory))
+Launching polybar on monitor: eDP-1
+polybar|error: tray: Failed to put tray above 0x1800002 in the stack (XCB_MATCH (8))
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: module/workspaces: Failed to reconnect socket (reason: Failed to connect to i3 at '/run/user/1000/i3/ipc-socket.1264': errno 2 (No such file or directory))
+polybar|error: module/workspaces: Failed to reconnect socket (reason: Failed to connect to i3 at '/run/user/1000/i3/ipc-socket.1264': errno 2 (No such file or directory))
+Launching polybar on monitor: eDP-1
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: module/workspaces: Failed to reconnect socket (reason: Failed to connect to i3 at '/run/user/1000/i3/ipc-socket.1264': errno 2 (No such file or directory))
+polybar|error: module/workspaces: Failed to reconnect socket (reason: Failed to connect to i3 at '/run/user/1000/i3/ipc-socket.1264': errno 2 (No such file or directory))
+Launching polybar on monitor: eDP-1
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: module/workspaces: Failed to reconnect socket (reason: Failed to connect to i3 at '/run/user/1000/i3/ipc-socket.1264': errno 2 (No such file or directory))
+polybar|error: module/workspaces: Failed to reconnect socket (reason: Failed to connect to i3 at '/run/user/1000/i3/ipc-socket.1264': errno 2 (No such file or directory))
+Launching polybar on monitor: eDP-1
+polybar|error: tray: Failed to put tray above 0x2200002 in the stack (XCB_MATCH (8))
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
+polybar|error: background_manager: Root pixmap does not fully cover transparent areas. Pseudo-transparency may not fully work and instead just show a black background. Make sure you have a wallpaper set on all of your screens
