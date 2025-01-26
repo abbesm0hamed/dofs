@@ -2,37 +2,48 @@
 # KEYBOARD BINDINGS FOR ANY TWM
 #################################################################
 
-# software 
-#
-# alt + s + {n,t,l,g,k,a,o} 
-#   {nitrogen,telegram-desktop,lowriter,flatpak run org.gimp.GIMP,flatpak run org.kde.kdenlive,flatpak run org.audacityteam.Audacity,flatpak run com.obsproject.Studio}
-#
-# alt + m + {b,a,c,r,d,e}
-#   {bm.sh,dmconf,clipmenu,rofi-beats-linux, flatpak run org.mozilla.firefox snapdrop.net, emoji}
+# Software launcher shortcuts
+# alt + s + {key}: Launch various applications
+# n: nitrogen - Wallpaper manager
+# t: telegram - Messaging
+# l: libreoffice writer
+# g: GIMP - Image editor
+# k: kdenlive - Video editor
+# a: audacity - Audio editor
+# o: OBS Studio - Screen recorder
+
+# Media and utility shortcuts
+# alt + m + {key}: Quick access to various tools
+# b: Bookmark manager
+# a: Config manager
+# c: Clipboard manager
+# r: Music player
+# d: Firefox snapdrop
+# e: Emoji picker
 
 #################################################################
 # i3 specific
 #################################################################
 
+# Reload sxhkd configuration
 super + Escape
     pkill -USR1 -x sxhkd
 
+# Launch file manager
 super + shift + Return
     krusader
 
+# Video and podcast description tools
 alt + z; {a,s}
    {viddesc, poddesc}
 
+# Weather checker
 alt + x
 	wc.sh
 
-
+# Bookmark manager
 super + shift + b
     addbm.sh
-
-# super + r; {r,a}
-#     {ricer.sh, alchanger.sh}
-
 
 # Application Keybindings
 
@@ -47,14 +58,19 @@ super + shift + b
 # alt + n 
 #     flatpak run com.discordapp.Discord
 
+# Screenshot tool
 ctrl + alt + s
     flameshot gui
 
-# Quick Settings
+# Quick Settings panel
 super + q
     ~/.config/polybar/scripts/quick-settings.sh
 
-#Audio Keybindings
+#################################################################
+# AUDIO CONTROLS
+#################################################################
+
+# Volume controls - Both media keys and keyboard shortcuts
 XF86AudioRaiseVolume
     pactl set-sink-volume @DEFAULT_SINK@ +3%
 XF86AudioLowerVolume
@@ -66,27 +82,23 @@ alt + d
 alt + a
     pactl set-sink-volume @DEFAULT_SINK@ -3%
 
+# Media player controls - Both media keys and keyboard shortcuts
 XF86AudioPlay
     playerctl play-pause
-
 ctrl + alt + p
     playerctl play-pause
-
 XF86AudioNext
     playerctl next
-
 XF86AudioPrev
     playerctl previous
-
 ctrl + shift + period
     playerctl next
-
 ctrl + shift + comma
     playerctl previous
-
 XF86AudioStop
     playerctl stop
 
+# MPD specific controls
 alt + shift + {h,j,k,l}
    mpc {prev,next,play,pause}
 
@@ -555,6 +567,14 @@ XF86MonBrightnessDown
 ##################   DESKTOP SPECIFIC    ########################
 #################################################################
 #################################################################
+
+#################################################################
+# POLYBAR CONTROLS
+#################################################################
+
+# Toggle all bars WITH alt + ` key 
+alt + grave
+    ~/.config/polybar/scripts/toggle-bars.sh all
 
 #################################################################
 # CTRL + ALT KEYS

@@ -4,7 +4,8 @@ include $HOME/.config/i3/themes/kanagawa.conf
 # include $HOME/.config/i3/themes/custom.conf
 
 # exec --no-startup-id stalonetray &
-exec_always --no-startup-id $HOME/.config/scripts/autostart.sh
+exec_always --no-startup-id sleep 1 && $HOME/.config/polybar/launch_polybar.sh
+exec --no-startup-id $HOME/.config/scripts/autostart.sh
 exec_always --no-startup-id autotiling
 
 focus_on_window_activation focus

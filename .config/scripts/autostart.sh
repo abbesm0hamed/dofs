@@ -59,7 +59,7 @@ function setup_displays_and_workspaces {
 setup_displays_and_workspaces
 
 # Kill existing instances of polybar and picom
-killall -q polybar picom dunst
+killall -q picom dunst
 
 # Start critical system services first
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -72,7 +72,6 @@ run feh --no-fehbg --bg-fill "$BACKGROUND_PRIMARY" --bg-fill "$BACKGROUND_SECOND
 
 # Start window manager related services
 run picom --config $PICOM_CONFIG --vsync
-run ~/.config/polybar/launch_polybar.sh # Ensure this script sets the MONITOR variable
 run sxhkd -c "$HOME/.config/sxhkd/sxhkdrc"
 run autotiling
 
