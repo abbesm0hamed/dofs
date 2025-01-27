@@ -8,24 +8,23 @@
 ; mode = normal
 
 # Accepts only non-negative values.
-; framerate = 60
+framerate = 60
 
 # 'autosens' will attempt to decrease sensitivity if the bars peak. 1 = on, 0 = off
 # new as of 0.6.0 autosens of low values (dynamic range)
 # 'overshoot' allows bars to overshoot (in % of terminal height) without initiating autosens. DEPRECATED as of 0.6.0
-; autosens = 1
+autosens = 1
 ; overshoot = 20
 
 # Manual sensitivity in %. If autosens is enabled, this will only be the initial value.
 # 200 means double height. Accepts only non-negative values.
-; sensitivity = 100
+sensitivity = 100
 
 # The number of bars (0-512). 0 sets it to auto (fill up console).
 # Bars' width and space between bars in number of characters.
-; bars = 0
-; bar_width = 2
-; bar_spacing = 1
-# bar_height is only used for output in "noritake" format
+bars = 12
+bar_width = 6
+bar_spacing = 2
 ; bar_height = 32
 
 # For SDL width and space between bars is in pixels, defaults are:
@@ -68,8 +67,8 @@
 # For alsa 'source' will be the capture device.
 # For fifo 'source' will be the path to fifo-file.
 # For shmem 'source' will be /squeezelite-AA:BB:CC:DD:EE:FF where 'AA:BB:CC:DD:EE:FF' will be squeezelite's MAC address
-; method = pulse
-; source = auto
+method = pulse
+source = auto
 
 ; method = pipewire
 ; source = auto
@@ -106,7 +105,7 @@
 # 'sdl' uses the Simple DirectMedia Layer to render in a graphical context.
 # 'sdl_glsl' uses SDL to create an OpenGL context. Write your own shaders or
 # use one of the predefined ones.
-; method = ncurses
+method = ncurses
 
 # Orientation of the visualization. Can be 'bottom', 'top', 'left' or 'right'.
 # Default is 'bottom'. Other orientations are only supported on sdl and ncruses
@@ -119,7 +118,7 @@
 # 'mono' outputs left to right lowest to highest frequencies.
 # 'mono_option' set mono to either take input from 'left', 'right' or 'average'.
 # set 'reverse' to 1 to display frequencies the other way around.
-; channels = stereo
+channels = stereo
 ; mono_option = average
 ; reverse = 0
 
@@ -174,22 +173,19 @@
 
 # SDL and sdl_glsl only support hex code colors, these are the default:
 ; background = '#111111'
- foreground = '#bea1ff'
-
+; foreground = '#bea1ff'
 
 # Gradient mode, only hex defined colors are supported,
 # background must also be defined in hex or remain commented out. 1 = on, 0 = off.
 # You can define as many as 8 different colors. They range from bottom to top of screen
-;gradient = 8
-;gradient_count = 8
-;gradient_color_1 = '#6d2dab'
-;gradient_color_2 = '#52218a'
-;gradient_color_3 = '#3c176e'
-;gradient_color_4 = '#2b114f'
-;gradient_color_5 = '#1c0b31'
-;gradient_color_6 = '#0f0520'
-;gradient_color_7 = '#07020d'
-;gradient_color_8 = '#000000'
+gradient = 1
+gradient_count = 6
+gradient_color_1 = '#1F1F28'
+gradient_color_2 = '#2A2A37'
+gradient_color_3 = '#7E9CD8'
+gradient_color_4 = '#957FB8'
+gradient_color_5 = '#DCD7BA'
+gradient_color_6 = '#C34043'
 
 
 [smoothing]
@@ -216,7 +212,7 @@
 # Noise reduction, int 0 - 100. default 77
 # the raw visualization is very noisy, this factor adjusts the integral and gravity filters to keep the signal smooth
 # 100 will be very slow and smooth, 0 will be fast but noisy.
-; noise_reduction = 77
+noise_reduction = 77
 
 
 [eq]
@@ -224,8 +220,8 @@
 # This one is tricky. You can have as much keys as you want.
 # Remember to uncomment more than one key! More keys = more precision.
 # Look at readme.md on github for further explanations and examples.
-; 1 = 1 # bass
-; 2 = 1
-; 3 = 1 # midtone
-; 4 = 1
-; 5 = 1 # treble
+1 = 1.5
+2 = 1.2
+3 = 1
+4 = 1
+5 = 0.8

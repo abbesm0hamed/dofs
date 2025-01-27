@@ -12,3 +12,6 @@
 .vscode/
 *.swp
 *.swo
+
+# bootstrap arch yay
+./bootstrap/arch/yay
