@@ -4,13 +4,13 @@ A minimalist and elegant desktop environment built with i3 window manager, featu
 
 ## Screenshots
 
-![System Info and Resource Monitor](./config/screenshots/macchina-nvim-btop.png)
+![System Info and Resource Monitor](./.config/screenshots/macchina-nvim-btop.png)
 *System monitoring with macchina, neovim, and btop - all themed with Kanagawa colors*
 
-![Notifications and System Controls](./config/screenshots/dunst-volume.png)
+![Notifications and System Controls](./.config/screenshots/dunst-volume.png)
 *Dunst notifications and volume controls with Kanagawa theme*
 
-![Terminal Tools](./config/screenshots/ranger-ttyclock-cava.png)
+![Terminal Tools](./.config/screenshots/ranger-ttyclock-cava.png)
 *Terminal tools (ranger, ttyclock, cava) running in i3 with Kanagawa theme*
 
 ![ascii + notification with dunst](Pictures/Screenshots/ascii.png)
