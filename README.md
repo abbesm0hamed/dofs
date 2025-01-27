@@ -303,14 +303,12 @@ The following are the custom keybindings configured for Neovim:
 
 ### System Mode (Exit Menu)
 
-Press the configured key combination to enter system mode, then:
+Press `super + alt + o` to open the power menu, which provides options for:
 
-- `l` : Logout
-- `r` : Reboot
-- `h` : Hibernate
-- `s` : Sleep
-- `p` : Power off
-- `Escape` : Cancel
+- Logout
+- Reboot
+- Hibernate
+- Sleep
 
 ## Additional Features
 
@@ -326,4 +324,3 @@ Note: Some keybindings might be commented out in the config files. This document
 - [Polybar Config by Brannigan123](https://github.com/Brannigan123/polybar-config.git)
 - [Nvim Config by Allaman](https://github.com/Allaman/nvim)
 - [Chris Grieser Config](https://github.com/chrisgrieser/.config)
-
