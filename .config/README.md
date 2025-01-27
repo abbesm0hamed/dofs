@@ -13,7 +13,7 @@ A minimalist and elegant desktop environment built with i3 window manager, featu
 ![Terminal Tools](screenshots/ranger-ttyclock-cava.png)
 *Terminal tools (ranger, ttyclock, cava) running in i3 with Kanagawa theme*
 
-![ascii](Pictures/Screenshots/ascii.png)
+![ascii + notification with dunst](Pictures/Screenshots/ascii.png)
 
 ## Installation
 

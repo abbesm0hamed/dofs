@@ -1,45 +1,10 @@
-########################################################[{"success":true}]
-D BINDINGS FOR ANY TWM
-###############[{"success":true}]
-[0.213] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.ServiceUnknown] The name is not activatable
-[0.246] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.ServiceUnknown] The name is not activatable
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[0.264] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.ServiceUnknown] The name is not activatable
-[{"success":true}]
-[{"success":true}]
-[80.210] [PARSE ERROR] Unknown char after ESC: 0x6b
-[80.210] [PARSE ERROR] Unknown char after ESC: 0x5c
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-flameshot: info: Capture saved as /home/abbes/Pictures/Screenshots/ascii.png
-[{"success":true}]
-[{"success":true}]
-[{"success":true}]
-Opening in existing browser session.
-[0.239] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.ServiceUnknown] The name is not activatable
-[{"success":true}]
-###########
+#################################################################
+# KEYBOARD BINDINGS FOR ANY TWM
+#################################################################
+
+#################################################################
+# Screenshot tools
+#################################################################
 
 # Create Screenshots directory
 super + shift + z
@@ -56,10 +21,6 @@ alt + shift + s
 # GUI selection
 ctrl + alt + s
     flameshot gui
-
-# Quick Settings panel
-super + q
-    ~/.config/polybar/scripts/quick-settings.sh
 
 #################################################################
 # AUDIO CONTROLS
