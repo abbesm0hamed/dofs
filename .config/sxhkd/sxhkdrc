@@ -256,16 +256,17 @@ super + m
 super + Return
     kitty
 
-# #Wezterm
-# alt + Return 
-# 	wezterm
-
 # ghostty
 alt + Return 
 	ghostty
 
-#alacritty
-super + shift + w 
+
+# wezterm
+ctrl + alt + Return
+    wezterm
+
+# alacritty
+ctrl + alt + t
     alacritty
 
 #Xkill
@@ -362,14 +363,6 @@ ctrl + alt + u
 #Spotify
 # ctrl + alt + s
 #    spotify
-
-#alacritty
-ctrl + alt + Return
-    alacritty
-
-#alacritty
-ctrl + alt + t
-    alacritty
 
 #xcolor
 ctrl + alt + x
