@@ -7,22 +7,20 @@ A minimalist and elegant desktop environment built with i3 window manager, featu
 ![System Info and Resource Monitor](./.config/screenshots/macchina-nvim-btop.png)
 *System monitoring with macchina, neovim, and btop - all themed with Kanagawa colors*
 
-![Notifications and System Controls](./.config/screenshots/dunst-volume.png)
-*Dunst notifications and volume controls with Kanagawa theme*
+![nvim + bg ](./.config/screenshots/nvim-bg.png)
+*NVIM + setup*
 
 ![Terminal Tools](./.config/screenshots/ranger-ttyclock-cava.png)
 *Terminal tools (ranger, ttyclock, cava) running in i3 with Kanagawa theme*
 
-![ascii + notification with dunst](Pictures/Screenshots/ascii.png)
+![ascii + notification with dunst](./.config/screenshots/ascii.png)
 
 ## Installation
-
-
-
 
 ### Prerequisites
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
@@ -40,6 +38,7 @@ ansible-playbook -K software-installation-playbook.yml
 ```
 
 This will install:
+
 - Window Manager: i3-gaps, i3ass
 - Shell: zsh (set as default)
 - Development Tools: neovim, vscode, docker, git tools
@@ -50,6 +49,7 @@ This will install:
 - And many more essential packages
 
 3. Use GNU stow to create symlinks:
+
 ```bash
 cd ~/dofs
 stow .
@@ -71,6 +71,7 @@ The rice uses the Kanagawa color scheme, a dark theme that draws inspiration fro
 </div>
 
 ### Color Assignments
+
 - **Focused Windows**: Border and background `#7E9CD8` with text `#DCD7BA`
 - **Inactive Windows**: Border and background `#2A2A37` with text `#C8C093`
 - **Unfocused Windows**: Border and background `#1F1F28` with text `#727169`
@@ -82,6 +83,7 @@ The rice uses the Kanagawa color scheme, a dark theme that draws inspiration fro
 This document provides a comprehensive list of all keyboard shortcuts configured in the system.
 
 ## Table of Contents
+
 - [Window Management (i3)](#window-management-i3)
 - [Workspace Controls](#workspace-controls)
 - [Application Shortcuts](#application-shortcuts)
@@ -300,7 +302,9 @@ The following are the custom keybindings configured for Neovim:
 *Note: This is not an exhaustive list. There are more keybindings available in other plugins. Check the plugin documentation for more details.*
 
 ### System Mode (Exit Menu)
+
 Press the configured key combination to enter system mode, then:
+
 - `l` : Logout
 - `r` : Reboot
 - `h` : Hibernate
@@ -322,3 +326,4 @@ Note: Some keybindings might be commented out in the config files. This document
 - [Polybar Config by Brannigan123](https://github.com/Brannigan123/polybar-config.git)
 - [Nvim Config by Allaman](https://github.com/Allaman/nvim)
 - [Chris Grieser Config](https://github.com/chrisgrieser/.config)
+
