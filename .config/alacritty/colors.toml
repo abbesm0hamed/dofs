@@ -1,33 +1,38 @@
-# (Tokyo Night) color scheme for Emilia Rice
+# Kanagawa theme for Alacritty
 
 # Default colors
 [colors.primary]
-background = "#1a1b26"
-foreground = "#a9b1d6"
-
-# Cursor colors
-[colors.cursor]
-cursor = "#bb9af7"
-text = "#1a1b26"
+background = "#1F1F28"
+foreground = "#DCD7BA"
 
 # Normal colors
 [colors.normal]
-black = "#32344a"
-blue = "#7aa2f7"
-cyan = "#449dab"
-green = "#9ece6a"
-magenta = "#ad8ee6"
-red = "#f7768e"
-white = "#787c99"
-yellow = "#e0af68"
+black = "#090618"
+red = "#C34043"
+green = "#76946A"
+yellow = "#C0A36E"
+blue = "#7E9CD8"
+magenta = "#957FB8"
+cyan = "#6A9589"
+white = "#C8C093"
 
 # Bright colors
 [colors.bright]
-black = "#444b6a"
-blue = "#7da6ff"
-cyan = "#0db9d7"
-green = "#b9f27c"
-magenta = "#bb9af7"
-red = "#ff7a93"
-white = "#acb0d0"
-yellow = "#ff9e64"
+black = "#727169"
+red = "#E82424"
+green = "#98BB6C"
+yellow = "#E6C384"
+blue = "#7FB4CA"
+magenta = "#938AA9"
+cyan = "#7AA89F"
+white = "#DCD7BA"
+
+# Selection colors
+[colors.selection]
+background = "#2D4F67"
+text = "#C8C093"
+
+# Cursor colors
+[colors.cursor]
+cursor = "#C8C093"
+text = "#1F1F28"

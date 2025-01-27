@@ -1,9 +1,9 @@
 [font]
-size = 10
+size = 12
 
 builtin_box_drawing = true
 
-normal = { family = "JetBrainsMono NF", style = "Regular" }
-bold = { family = "JetBrainsMono NF", style = "Bold" }
-italic = { family = "JetBrainsMono NF", style = "Italic" }
-bold_italic = { family = "JetBrainsMono NF", style = "Bold Italic" }
+normal = { family = "CaskaydiaCove Nerd Font", style = "Regular" }
+bold = { family = "CaskaydiaCove Nerd Font", style = "Bold" }
+italic = { family = "VictorMono Nerd Font", style = "Italic" }
+bold_italic = { family = "VictorMono Nerd Font", style = "Bold Italic" }
