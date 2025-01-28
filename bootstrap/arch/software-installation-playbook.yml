@@ -171,6 +171,7 @@
             # - eww
             - polybar
             - feh
+            - variety
             - flameshot
             - dunst
             - kvantum

@@ -59,5 +59,7 @@ bindsym ISO_Next_Group exec pkill -SIGRTMIN+1 i3blocks
 # Autostart applications
 exec_always --no-startup-id sleep 1 && $HOME/.config/polybar/launch_polybar.sh
 exec --no-startup-id $HOME/.config/scripts/autostart.sh
+exec_always --no-startup-id $HOME/.config/scripts/setup_displays.sh
+exec_always --no-startup-id $HOME/.config/scripts/set_wallpaper.sh
 exec_always --no-startup-id autotiling
 exec --no-startup-id sxhkd

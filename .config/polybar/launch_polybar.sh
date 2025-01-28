@@ -5,13 +5,11 @@ DIR="$HOME/.config/polybar"
 # Terminate already running bar instances
 killall -q polybar
 
-# If above fails, try more aggressive kill
-if pgrep -x polybar >/dev/null; then
-    pkill -9 polybar
-fi
-
 # Wait until the processes have been shut down
-while pgrep -u $UID -x polybar >/dev/null; do sleep 0.5; done
+while pgrep -u $UID -x polybar >/dev/null; do 
+    sleep 0.1
+    killall -q polybar  # Keep trying to kill if first attempt failed
+done
 
 # Get the list of connected monitors
 MONITORS=$(xrandr --query | grep " connected" | cut -d" " -f1)
