@@ -34,6 +34,19 @@ echo 'Section "InputClass"
     Driver "libinput"
     Option "Tapping" "on"
     Option "ClickMethod" "clickfinger"
-EndSection' | sudo tee /etc/X11/xorg.conf.d/40-libinput.conf > /dev/null
+EndSection' | sudo tee /etc/X11/xorg.conf.d/40-libinput.conf >/dev/null
 
-echo "Touchpad configuration complete. Please restart the display manager or reboot for changes to take effect."
+# Create udev rule
+log_message "Creating udev rule for monitor hotplug..."
+sudo mkdir -p /etc/udev/rules.d/
+cat <<EOF | sudo tee /etc/udev/rules.d/95-monitor-hotplug.rules >/dev/null
+ACTION=="change", SUBSYSTEM=="drm", RUN+="/bin/bash -c 'export DISPLAY=:0; export XAUTHORITY=/home/$USER/.Xauthority; /home/$USER/.config/scripts/monitor-setup.sh'"
+EOF
+check_status "udev rule creation"
+
+# Reload udev rules
+log_message "Reloading udev rules..."
+sudo udevadm control --reload-rules
+check_status "udev rules reload"
+
+log_message "Installation completed successfully!"

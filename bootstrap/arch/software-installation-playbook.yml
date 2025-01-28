@@ -172,6 +172,7 @@
             # - eww
             - polybar
             - feh
+            - autorandr
             - variety
             - flameshot
             - dunst
