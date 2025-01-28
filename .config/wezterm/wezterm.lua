@@ -4,7 +4,7 @@ local config = {}
 
 -- Set the base font
 -- config.font = wezterm.font("JetBrains Mono Nerd Font", { italic = false })
-config.font = wezterm.font("FiraCode Nerd Font Complete", { italic = false })
+config.font = wezterm.font("FiraCode Nerd Font", { italic = false })
 
 -- Font rules for italic and bold italic
 config.font_rules = {
