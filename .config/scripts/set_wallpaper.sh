@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BACKGROUND_PRIMARY="$HOME/.config/backgrounds/old-war.jpeg"
-BACKGROUND_SECONDARY="$HOME/.config/backgrounds/rats.jpg"
+BACKGROUND_SECONDARY="$HOME/.config/backgrounds/horse-war.jpg"
 VARIETY_CONFIG="$HOME/.config/variety"
 
 # Function to check if the second monitor is connected
@@ -15,7 +15,7 @@ function get_random_wallpaper {
 }
 
 # Check if Variety is running and has a wallpaper set
-if pgrep -x "variety" > /dev/null && [ -f "$VARIETY_CONFIG/wallpaper/wallpaper.jpg.txt" ]; then
+if pgrep -x "variety" >/dev/null && [ -f "$VARIETY_CONFIG/wallpaper/wallpaper.jpg.txt" ]; then
     # Variety is running and has set a wallpaper, let it handle things
     exit 0
 else
@@ -23,16 +23,16 @@ else
     if command -v variety >/dev/null 2>&1; then
         # Create Variety config directory if it doesn't exist
         mkdir -p "$VARIETY_CONFIG"
-        
+
         # Set initial wallpaper with feh
         if is_second_monitor_connected; then
             feh --no-fehbg --bg-fill "$BACKGROUND_PRIMARY" --bg-fill "$BACKGROUND_SECONDARY"
         else
             feh --no-fehbg --bg-fill "$BACKGROUND_PRIMARY"
         fi
-        
+
         # Start Variety if it's not running
-        if ! pgrep -x "variety" > /dev/null; then
+        if ! pgrep -x "variety" >/dev/null; then
             variety --profile "$VARIETY_CONFIG" --set "$BACKGROUND_PRIMARY" &
             sleep 2
             variety --profile "$VARIETY_CONFIG" --add "$HOME/.config/backgrounds" &
