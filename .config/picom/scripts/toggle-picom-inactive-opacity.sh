@@ -1,8 +1,13 @@
+#!/bin/bash
+
+# Get user home directory
+USER_HOME=$(getent passwd $USER | cut -d: -f6)
+
 # Data.
 NO_DIM="inactive-opacity = 1.00;"
 DIM="inactive-opacity = 0.95;"
-FILENAME="/home/abbes/.config/picom/picom.conf"
-STATE_FILE="/home/abbes/.config/picom/read-mode-state"
+FILENAME="$USER_HOME/.config/picom/picom.conf"
+STATE_FILE="$USER_HOME/.config/picom/read-mode-state"
 
 # Clear the file contents.
 >$STATE_FILE

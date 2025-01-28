@@ -3,44 +3,8 @@
 # This template file has been automatically created at the following
 # path since Ghostty couldn't find any existing config files on your system:
 #
-#   /home/abbes/.config/ghostty/config
+#   $HOME/.config/ghostty/config
 #
-# The template does not set any default options, since Ghostty ships
-# with sensible defaults for all options. Users should only need to set
-# options that they want to change from the default.
-#
-# Run `ghostty +show-config --default --docs` to view a list of
-# all available config options and their default values.
-#
-# Additionally, each config option is also explained in detail
-# on Ghostty's website, at https://ghostty.org/docs/config.
-
-# Config syntax crash course
-# ==========================
-# # The config file consists of simple key-value pairs,
-# # separated by equals signs.
-# font-family = Iosevka
-# window-padding-x = 2
-#
-# # Spacing around the equals sign does not matter.
-# # All of these are identical:
-# key=value
-# key= value
-# key =value
-# key = value
-#
-# # Any line beginning with a # is a comment. It's not possible to put
-# # a comment after a config option, since it would be interpreted as a
-# # part of the value. For example, this will have a value of "#123abc":
-# background = #123abc
-#
-# # Empty values are used to reset config keys to default.
-# key =
-#
-# # Some config options have unique syntaxes for their value,
-# # which is explained in the docs for that config option.
-# # Just for example:
-# resize-overlay-duration = 4s 200ms
 
 # Font Configuration
 font-family = Comic Code Nerd Font
@@ -62,43 +26,6 @@ unfocused-split-opacity = 0.90
 
 # Mouse Configuration
 mouse-hide-while-typing = true
-
-# keybindings
-# keybind = ctrl+s>r=reload_config
-# keybind = ctrl+s>x=close_surface
-#
-# keybind = ctrl+s>n=new_window
-#
-# # tabs 
-# keybind = ctrl+s>c=new_tab
-# keybind = ctrl+s>shift+l=next_tab
-# keybind = ctrl+s>shift+h=previous_tab
-# keybind = ctrl+s>comma=move_tab:-1
-# keybind = ctrl+s>period=move_tab:1
-#
-# # quick tab switch
-# keybind = ctrl+s>1=goto_tab:1
-# keybind = ctrl+s>2=goto_tab:2
-# keybind = ctrl+s>3=goto_tab:3
-# keybind = ctrl+s>4=goto_tab:4
-# keybind = ctrl+s>5=goto_tab:5
-# keybind = ctrl+s>6=goto_tab:6
-# keybind = ctrl+s>7=goto_tab:7
-# keybind = ctrl+s>8=goto_tab:8
-# keybind = ctrl+s>9=goto_tab:9
-#
-# # split
-# keybind = ctrl+s>\=new_split:right
-# keybind = ctrl+s>-=new_split:down
-#
-# keybind = ctrl+s>j=goto_split:bottom
-# keybind = ctrl+s>k=goto_split:top
-# keybind = ctrl+s>h=goto_split:left
-# keybind = ctrl+s>l=goto_split:right
-#
-# keybind = ctrl+s>z=toggle_split_zoom
-#
-# keybind = ctrl+s>e=equalize_splits
 
 # Cursor Configuration
 cursor-style = block

@@ -131,7 +131,8 @@
             - fastfetch
             - tpm
             - tmuxifier
-            - nvm
+            # - nvm
+            - fnm-bin # nvm alternative
             - brightnessctl
             - power-profiles-daemon
             - postman-bin

@@ -28,7 +28,7 @@ run nm-applet
 run blueman-applet
 run pamac-tray
 run blueberry-tray
-run volumeicon
+# run volumeicon # if you have polybar then you don't need this
 
 # Start user applications
 run numlockx on

@@ -188,15 +188,11 @@ super + F11
 super + F12
     rofi -show drun
 
-alt + g
-    rofi-mpc
+# alt + g
+#     rofi-mpc
 
 alt + p
     rofi -show
-
-#Rofi theme selector
-super + r
-    rofi-theme-selector
 
 #Rofi theme selector
 ctrl + alt + r
@@ -218,11 +214,11 @@ super + g
     google-chrome-stable
 
 #Conky-toggle
-super + c
+super + alt + k
     conky-toggle
 
 #killall conky
-super + ctrl + c
+super + alt + c
     killall conky
 
 #Htop
@@ -233,11 +229,6 @@ super + ctrl + c
 super + x
     archlinux-logout
 
-#powermenu
-super + shift + x
-    arcolinux-powermenu
-
-
 #Urxvt
 super + t
     urxvt
@@ -247,8 +238,8 @@ super + v
     pavucontrol
 
 #Audio player
-super + m
-    lollypop
+# super + m
+#     lollypop
 
 ## Terminal emulators
 # super + Return
@@ -256,14 +247,13 @@ super + m
 super + Return
     kitty
 
-# ghostty
-alt + Return 
-	ghostty
-
-
 # wezterm
+alt + Return 
+	wezterm
+
+# ghostty
 ctrl + alt + Return
-    wezterm
+    ghostty
 
 # alacritty
 ctrl + alt + t
@@ -534,22 +524,12 @@ super + alt + l
     ~/.config/polybar/scripts/quick-settings.sh
 
 #################################################################
-# SUPER + SHIFT KEYS
+# SCRATCHPAD BINDINGS
 #################################################################
 
-
-#################################################################
-# SUPER + CTRL KEYS
-# Scratchpads
-#################################################################
-super + ctrl + b
-    i3run --class btop -- kitty --class btop,btop -e "btop" 
-
-super + ctrl + p
-    i3run --class ranger -- kitty --class ranger,ranger -e "ranger" 
-
-super + ctrl + l
-    i3run --class yazi -- kitty --class yazi,yazi -e "yazi" 
-
-super + ctrl + k
-    i3run --class kitty_scratchpad -- kitty --class kitty_scratchpad,kitty_scratchpad -e "kitty_scratchpad"
+# Scratchpad menu (super + ctrl + s followed by key)
+super + ctrl + s + {g,b,r,o}
+    ~/.config/scripts/toggle-scratchpad.sh {kitty_scratchpad "kitty --class kitty_scratchpad",\
+    btop "kitty --class btop -e btop",\
+    ranger "kitty --class ranger -e ranger",\
+    yazi "kitty --class yazi -e yazi"}

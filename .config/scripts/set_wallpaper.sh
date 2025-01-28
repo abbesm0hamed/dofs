@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BACKGROUND_PRIMARY="$HOME/.config/backgrounds/alien.jpg"
+BACKGROUND_PRIMARY="$HOME/.config/backgrounds/old-war.jpeg"
 BACKGROUND_SECONDARY="$HOME/.config/backgrounds/rats.jpg"
 VARIETY_CONFIG="$HOME/.config/variety"
 

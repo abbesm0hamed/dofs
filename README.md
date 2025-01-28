@@ -1,19 +1,20 @@
-# My Linux Rice Setup
+# My Arch Linux i3wm Rice Setup
 
 A minimalist and elegant desktop environment built with i3 window manager, featuring the beautiful Kanagawa color scheme. The setup emphasizes both aesthetics and functionality, with a cohesive dark theme inspired by The Great Wave off Kanagawa.
 
 ## Screenshots
 
-![System Info and Resource Monitor](./.config/screenshots/macchina-nvim-btop.png)
-*System monitoring with macchina, neovim, and btop - all themed with Kanagawa colors*
+![System Info and Resource Monitor](./.config/screenshots/cava-macchina-btop.png)
+*System stats with macchina, audio visualizer cava, and system monitor btop*
 
 ![nvim + bg ](./.config/screenshots/nvim-bg.png)
-*NVIM + setup*
+*Neovim with Kanagawa theme and custom background*
 
-![Terminal Tools](./.config/screenshots/ranger-ttyclock-cava.png)
-*Terminal tools (ranger, ttyclock, cava) running in i3 with Kanagawa theme*
+![Terminal Tools](./.config/screenshots/dunst-pipes-ttyclock.png)
+*Terminal tools (dunst, tty-clock, pipes.sh) running in i3 with Kanagawa theme*
 
-![ascii + notification with dunst](./.config/screenshots/ascii.png)
+![Terminal Tools](./.config/screenshots/nvim-ranger-cbonsai.png)
+*Ranger file manager and cbonsai*
 
 ## Installation
 
@@ -32,9 +33,12 @@ The repository includes an automated installation script using Ansible. To insta
 
 ```bash
 cd bootstrap/arch
-chmod +x install.sh software-installation-playbook.yml
+chmod +x install.sh software-installation-playbook.yml setup-monitor-hotplug.sh
 ./install.sh 
 ansible-playbook -K software-installation-playbook.yml
+
+# Set up automatic monitor detection and configuration
+sudo ./setup-monitor-hotplug.sh
 ```
 
 This will install:
@@ -47,6 +51,11 @@ This will install:
 - Fonts and Themes: nerd-fonts, lxappearance
 - Media Applications: mpv, vlc, gimp
 - And many more essential packages
+
+Additionally, the setup includes:
+- Automatic monitor detection and configuration
+- Dynamic workspace management when connecting/disconnecting displays
+- Automatic polybar adjustment for multi-monitor setups
 
 3. Use GNU stow to create symlinks:
 

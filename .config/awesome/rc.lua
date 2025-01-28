@@ -288,7 +288,7 @@ awful.screen.connect_for_each_screen(function(s)
 				show_current_level = true,
 				font = "sans 7",
 				display_notification = true,
-				warning_msg_title = "Abbes we have a problem",
+				warning_msg_title = "We have a problem",
 			}),
 			-- separator,
 			-- volume_widget({
