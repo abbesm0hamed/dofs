@@ -1,27 +1,27 @@
 -- lualine configuration
 local gray_palette = {
   darker = "#232324",
-  dark = "#403f41",
+  dark = "#363646",
   soft = "#5b5a5c",
   softer = "#828283",
 }
 local fg_colors = {
-  normal = "#87af87",
-  insert = "#cad3f5",
-  visual = "#a8e6cf",
-  command = "#ffd3b6",
+  normal = "#7E9CD8",
+  insert = "#a8e6cf",
+  visual = "#ffd3b6",
+  command = "#D27E99",
   Replace = "#ffb37e",
 }
 local bg_colors = {
-  normal = "#87af87",
-  insert = "#cad3f5",
-  visual = "#a8e6cf",
-  command = "#ffe2b6",
+  normal = "#7E9CD8",
+  insert = "#a8e6cf",
+  visual = "#ffd3b6",
+  command = "#D27E99",
   Replace = "#ffb37e",
 }
 local general_colors = {
   fg = "#000",
-  bg = "#303030",
+  bg = "#2A2A37",
   inactive_bg = "#2c3043",
 }
 
