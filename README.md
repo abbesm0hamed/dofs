@@ -53,6 +53,7 @@ This will install:
 - And many more essential packages
 
 Additionally, the setup includes:
+
 - Automatic monitor detection and configuration
 - Dynamic workspace management when connecting/disconnecting displays
 - Automatic polybar adjustment for multi-monitor setups
@@ -179,8 +180,8 @@ All screenshots are automatically saved to `~/Pictures/Screenshots` and copied t
 | `Super + b` | Open Brave browser |
 | `Super + g` | Open Google Chrome |
 | `Super + enter` | Kitty |
-| `Alt + enter` | Ghostty |
-| `Alt + Ctrl + enter` | Wezterm |
+| `Alt + enter` | Wezterm |
+| `Alt + Ctrl + enter` | Ghostty |
 | `Alt + Ctrl + t` | Alacritty |
 
 ### Neovim Keybindings
