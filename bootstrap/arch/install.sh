@@ -41,6 +41,7 @@ log_message "Creating udev rule for monitor hotplug..."
 sudo mkdir -p /etc/udev/rules.d/
 cat <<EOF | sudo tee /etc/udev/rules.d/95-monitor-hotplug.rules >/dev/null
 ACTION=="change", SUBSYSTEM=="drm", RUN+="/bin/bash -c 'export DISPLAY=:0; export XAUTHORITY=/home/$USER/.Xauthority; /home/$USER/.config/scripts/monitor-setup.sh'"
+ACTION=="change", SUBSYSTEM=="drm", RUN+="/bin/bash -c 'export DISPLAY=:0; export XAUTHORITY=/home/$USER/.Xauthority; /home/$USER/.config/scripts/setup_wallpaper.sh'"
 EOF
 check_status "udev rule creation"
 
