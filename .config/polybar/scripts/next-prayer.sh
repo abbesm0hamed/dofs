@@ -1,10 +1,41 @@
 #!/bin/bash
 
-# Fetch current location using IP-based geolocation
-LOCATION=$(curl -s http://ip-api.com/json | jq -r '.lat,.lon' | paste -sd, -)
+MAX_RETRIES=3
+RETRY_DELAY=2 # Delay in seconds between retries
 
-# Check if location data is available
-if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
+# Function to fetch location with retries
+fetch_location() {
+    for ((i = 1; i <= MAX_RETRIES; i++)); do
+        LOCATION=$(curl -s http://ip-api.com/json | jq -r '.lat,.lon' | paste -sd, -)
+        if [ ! -z "$LOCATION" ] && [ "$LOCATION" != "null" ]; then
+            return 0
+        fi
+        if [ $i -lt $MAX_RETRIES ]; then
+            sleep $RETRY_DELAY
+        fi
+    done
+    return 1
+}
+
+# Function to fetch prayer data with retries
+fetch_prayer_data() {
+    local latitude=$1
+    local longitude=$2
+
+    for ((i = 1; i <= MAX_RETRIES; i++)); do
+        prayer_data=$(curl -s "http://api.aladhan.com/v1/calendar/$(date +%Y)/$(date +%m)?latitude=$latitude&longitude=$longitude&method=3")
+        if [ ! -z "$prayer_data" ] && echo "$prayer_data" | jq -e '.data' >/dev/null; then
+            return 0
+        fi
+        if [ $i -lt $MAX_RETRIES ]; then
+            sleep $RETRY_DELAY
+        fi
+    done
+    return 1
+}
+
+# Try to fetch location
+if ! fetch_location; then
     echo "%{F#ff0000} Location unavailable%{F-}"
     exit 1
 fi
@@ -19,11 +50,8 @@ declare -a prayer_names=("Fajr" "Dhuhr" "Asr" "Maghrib" "Isha")
 # Get current time in 24-hour format
 current_time=$(date +%H:%M)
 
-# Fetch prayer times from API
-prayer_data=$(curl -s "http://api.aladhan.com/v1/calendar/$(date +%Y)/$(date +%m)?latitude=$latitude&longitude=$longitude&method=3")
-
-# Check if curl request was successful
-if [ -z "$prayer_data" ] || ! echo "$prayer_data" | jq -e '.data' >/dev/null; then
+# Try to fetch prayer data
+if ! fetch_prayer_data "$latitude" "$longitude"; then
     echo "%{F#ff0000} Prayer times unavailable%{F-}"
     exit 1
 fi
@@ -77,5 +105,5 @@ time_left_seconds=$((next_prayer_seconds - current_seconds))
 hours=$((time_left_seconds / 3600))
 minutes=$(((time_left_seconds % 3600) / 60))
 
-# Output in a nice format with polybar color formatting (removed the left bar separator)
+# Output in a nice format with polybar color formatting
 printf "%%{F#7E9CD8}%s in %02d:%02d%%{F-}" "$next_prayer_name" "$hours" "$minutes"

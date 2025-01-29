@@ -142,6 +142,7 @@
             - exa
             - fd
             - jq
+            - xrandr
             - geoclue2
             - gparted
             - espanso
