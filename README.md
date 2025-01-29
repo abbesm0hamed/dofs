@@ -16,6 +16,9 @@ A minimalist and elegant desktop environment built with i3 window manager, featu
 ![Terminal Tools](./.config/screenshots/nvim-ranger-cbonsai.png)
 *Ranger file manager and cbonsai*
 
+![Terminal Tools](./.config/screenshots/yazi-scratchpad.png)
+*Yazi file manager on scratchpad*
+
 ## Installation
 
 ### Prerequisites
