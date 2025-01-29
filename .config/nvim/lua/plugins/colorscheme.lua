@@ -44,6 +44,12 @@ return {
   },
   --new
   -- {
+  --   "dgox16/oldworld.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  -- },
+  --
+  -- {
   --   "ficcdaf/ashen.nvim",
   --   lazy = false,
   --   priority = 1000,
