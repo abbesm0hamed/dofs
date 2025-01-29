@@ -41,7 +41,7 @@ EOF
     log_message "Setting up sudo permissions..."
     cat >/etc/sudoers.d/monitor-hotplug <<'EOF'
 ALL ALL=(ALL) NOPASSWD: /home/*/.config/scripts/monitor-setup.sh
-ALL ALL=(ALL) NOPASSWD: /home/*/.config/scripts/setup_wallpaper.sh
+ALL ALL=(ALL) NOPASSWD: /home/*/.config/scripts/setup-wallpaper.sh
 EOF
     chmod 440 /etc/sudoers.d/monitor-hotplug
     check_status "sudoers configuration"

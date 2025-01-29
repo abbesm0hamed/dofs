@@ -2,7 +2,7 @@
 # neofetch
 # pfetch
 # uwufetch
-pokemon-colorscripts -r --no-title; sleep .1
+pokemon-colorscripts -r --no-title
 
 # Enable Powerlevel10k instant prompt
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -27,6 +27,17 @@ eval "$(zoxide init --cmd cd zsh)"
 
 # Add Powerlevel10k
 zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# Word jumping and other key bindings
+bindkey '^[[1;5D' backward-word    # Ctrl+Left
+bindkey '^[[1;5C' forward-word     # Ctrl+Right
+bindkey '^W' backward-kill-word    # Ctrl+W to delete word
+bindkey '^[b' backward-word        # Alt+B
+bindkey '^[f' forward-word         # Alt+F
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
+bindkey -e  # Emacs key bindings
 
 # Add zsh plugins with lazy loading
 zinit wait lucid for \
