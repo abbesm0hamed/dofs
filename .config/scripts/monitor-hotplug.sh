@@ -2,8 +2,6 @@
 
 # Configuration
 LOG_FILE="/tmp/monitor-setup.log"
-INTERNAL_DISPLAY="eDP-1"
-EXTERNAL_DISPLAY="HDMI-1-0"
 PRIMARY_RESOLUTION="1920x1080"
 PRIMARY_REFRESH="170"
 MAX_RETRIES=3
@@ -61,6 +59,18 @@ wait_for_x() {
     return 1
 }
 
+# Function to get internal display
+get_internal_display() {
+    # Try to identify internal display - usually contains eDP or LVDS
+    DISPLAY=:0 xrandr --query | grep -E "^(eDP|LVDS)[-0-9]*" | cut -d" " -f1 | head -n 1
+}
+
+# Function to get external displays
+get_external_displays() {
+    # Get all connected displays except internal ones
+    DISPLAY=:0 xrandr --query | grep " connected" | grep -vE "^(eDP|LVDS)[-0-9]*" | cut -d" " -f1
+}
+
 # Function to get display information
 get_display_info() {
     local display=$1
@@ -70,21 +80,25 @@ get_display_info() {
 
 # Function to detect displays and their capabilities
 detect_displays() {
-    local external_info=$(get_display_info "$EXTERNAL_DISPLAY")
-    local internal_info=$(get_display_info "$INTERNAL_DISPLAY")
+    local internal_display=$(get_internal_display)
+    local external_displays=$(get_external_displays)
 
-    if [[ "$external_info" == *" connected "* ]]; then
+    if [ -n "$external_displays" ]; then
+        # Get first external display and its best mode
+        local primary_external=$(echo "$external_displays" | head -n 1)
+        local external_info=$(get_display_info "$primary_external")
+
         # Get best available mode for external display
         local best_mode=$(echo "$external_info" | grep -oP '\d+x\d+' | head -1)
         local best_rate=$(echo "$external_info" | grep -oP '\d+\.\d+(?=\*)|\d+(?=\*)' | head -1)
 
         if [ ! -z "$best_mode" ] && [ ! -z "$best_rate" ]; then
-            echo "external:$best_mode:$best_rate"
+            echo "external:$primary_external:$best_mode:$best_rate:$internal_display"
         else
-            echo "external:$PRIMARY_RESOLUTION:$PRIMARY_REFRESH"
+            echo "external:$primary_external:$PRIMARY_RESOLUTION:$PRIMARY_REFRESH:$internal_display"
         fi
     else
-        echo "internal"
+        echo "internal:$internal_display"
     fi
 }
 
@@ -120,13 +134,13 @@ manage_workspaces() {
         for i in {1..10}; do
             DISPLAY=:0 i3-msg "workspace $i; move workspace to output $target_output"
             handle_error "Moving workspace $i" || log "Failed to move workspace $i"
-            sleep 0.2 # Small delay to ensure proper workspace movement
+            sleep 0.2
         done
 
         # Restore focus with verification
         if ! DISPLAY=:0 i3-msg "workspace $current_workspace"; then
             log "Failed to return to workspace $current_workspace"
-            DISPLAY=:0 i3-msg "workspace 1" # Fallback to workspace 1
+            DISPLAY=:0 i3-msg "workspace 1"
         fi
 
         if [ ! -z "$focused_window" ]; then
@@ -142,15 +156,17 @@ configure_displays() {
     local retry_count=0
 
     if [ "$mode" = "external" ]; then
-        local resolution=$(echo $display_info | cut -d: -f2)
-        local refresh_rate=$(echo $display_info | cut -d: -f3)
+        local external_display=$(echo $display_info | cut -d: -f2)
+        local resolution=$(echo $display_info | cut -d: -f3)
+        local refresh_rate=$(echo $display_info | cut -d: -f4)
+        local internal_display=$(echo $display_info | cut -d: -f5)
 
-        log "Setting up dual display mode (Resolution: $resolution, Refresh: $refresh_rate)"
+        log "Setting up dual display mode (External: $external_display, Resolution: $resolution, Refresh: $refresh_rate)"
 
         while [ $retry_count -lt $MAX_RETRIES ]; do
             if DISPLAY=:0 xrandr \
-                --output "$EXTERNAL_DISPLAY" --mode "$resolution" --rate "$refresh_rate" --pos 1920x0 \
-                --output "$INTERNAL_DISPLAY" --mode "$PRIMARY_RESOLUTION" --pos 0x0; then
+                --output "$external_display" --mode "$resolution" --rate "$refresh_rate" --pos 1920x0 \
+                --output "$internal_display" --mode "$PRIMARY_RESOLUTION" --pos 0x0; then
                 break
             fi
             retry_count=$((retry_count + 1))
@@ -158,14 +174,21 @@ configure_displays() {
             sleep $RETRY_DELAY
         done
 
-        manage_workspaces "$EXTERNAL_DISPLAY"
+        manage_workspaces "$external_display"
     else
+        local internal_display=$(echo $display_info | cut -d: -f2)
         log "Setting up internal display mode"
 
+        # Turn off all displays except internal
+        for display in $(DISPLAY=:0 xrandr --query | grep " connected" | cut -d" " -f1); do
+            if [ "$display" != "$internal_display" ]; then
+                DISPLAY=:0 xrandr --output "$display" --off
+            fi
+        done
+
+        # Configure internal display
         while [ $retry_count -lt $MAX_RETRIES ]; do
-            if DISPLAY=:0 xrandr \
-                --output "$INTERNAL_DISPLAY" --mode "$PRIMARY_RESOLUTION" --pos 0x0 \
-                --output "$EXTERNAL_DISPLAY" --off; then
+            if DISPLAY=:0 xrandr --output "$internal_display" --mode "$PRIMARY_RESOLUTION" --pos 0x0; then
                 break
             fi
             retry_count=$((retry_count + 1))
@@ -173,15 +196,14 @@ configure_displays() {
             sleep $RETRY_DELAY
         done
 
-        manage_workspaces "$INTERNAL_DISPLAY"
+        manage_workspaces "$internal_display"
     fi
 
     # Restart polybar with proper delay and verification
     pkill polybar
-    sleep 2 # Increased delay to ensure proper cleanup
+    sleep 2
     if ! $HOME/.config/polybar/launch_polybar.sh; then
         log "Failed to launch polybar"
-        # Retry polybar launch once
         sleep 1
         $HOME/.config/polybar/launch_polybar.sh
     fi

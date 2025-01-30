@@ -2,8 +2,6 @@
 
 # Monitor Configuration
 LOG_FILE="/tmp/monitor-setup.log"
-INTERNAL_DISPLAY="eDP-1"
-EXTERNAL_DISPLAY="HDMI-1-0"
 PRIMARY_RESOLUTION="1920x1080"
 PRIMARY_REFRESH="170"
 
@@ -16,6 +14,7 @@ CURRENT_CONFIG="$CONFIG_DIR/current_wallpapers.conf"
 declare -a DEFAULT_WALLPAPERS=(
     "$BACKGROUNDS_DIR/old-war.jpeg"
     "$BACKGROUNDS_DIR/horse-battle.jpg"
+    "$BACKGROUNDS_DIR/dragon.jpg"
 )
 
 # Lock file management
@@ -49,6 +48,18 @@ wait_for_x() {
     return 1
 }
 
+# Function to get internal display
+get_internal_display() {
+    # Try to identify internal display - usually contains eDP or LVDS
+    DISPLAY=:0 xrandr --query | grep -E "^(eDP|LVDS)[-0-9]*" | grep " connected" | cut -d" " -f1 | head -n 1
+}
+
+# Function to get external displays
+get_external_displays() {
+    # Get all connected displays except internal ones
+    DISPLAY=:0 xrandr --query | grep " connected" | grep -vE "^(eDP|LVDS)[-0-9]*" | cut -d" " -f1
+}
+
 # Function to get a random wallpaper
 get_random_wallpaper() {
     find "$BACKGROUNDS_DIR" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) | shuf -n 1
@@ -56,7 +67,18 @@ get_random_wallpaper() {
 
 # Function to get all connected monitors and their order
 get_monitor_order() {
-    DISPLAY=:0 xrandr | grep " connected" | cut -d " " -f1
+    local internal=$(get_internal_display)
+    local externals=$(get_external_displays)
+
+    # Start with internal display if it exists
+    if [ ! -z "$internal" ]; then
+        echo "$internal"
+    fi
+
+    # Then add external displays
+    if [ ! -z "$externals" ]; then
+        echo "$externals"
+    fi
 }
 
 # Function to set wallpapers using feh
@@ -93,12 +115,27 @@ set_wallpapers() {
     log "Set wallpapers: ${wallpapers[*]}"
 }
 
-# Function to detect displays
+# Function to detect displays and their capabilities
 detect_displays() {
-    if DISPLAY=:0 xrandr | grep "$EXTERNAL_DISPLAY connected" >/dev/null; then
-        echo "external"
+    local internal_display=$(get_internal_display)
+    local external_displays=$(get_external_displays)
+
+    if [ -n "$external_displays" ]; then
+        # Get first external display and its best mode
+        local primary_external=$(echo "$external_displays" | head -n 1)
+        local external_info=$(DISPLAY=:0 xrandr --query | grep "^$primary_external")
+
+        # Get best available mode for external display
+        local best_mode=$(echo "$external_info" | grep -oP '\d+x\d+' | head -1)
+        local best_rate=$(echo "$external_info" | grep -oP '\d+\.\d+(?=\*)|\d+(?=\*)' | head -1)
+
+        if [ ! -z "$best_mode" ] && [ ! -z "$best_rate" ]; then
+            echo "external:$primary_external:$best_mode:$best_rate:$internal_display"
+        else
+            echo "external:$primary_external:$PRIMARY_RESOLUTION:$PRIMARY_REFRESH:$internal_display"
+        fi
     else
-        echo "internal"
+        echo "internal:$internal_display"
     fi
 }
 
@@ -131,22 +168,35 @@ manage_workspaces() {
 
 # Function to configure displays
 configure_displays() {
-    local display_mode=$1
+    local display_info=$1
+    local mode=$(echo $display_info | cut -d: -f1)
 
-    if [ "$display_mode" = "external" ]; then
+    if [ "$mode" = "external" ]; then
+        local external_display=$(echo $display_info | cut -d: -f2)
+        local resolution=$(echo $display_info | cut -d: -f3)
+        local refresh_rate=$(echo $display_info | cut -d: -f4)
+        local internal_display=$(echo $display_info | cut -d: -f5)
+
         log "Setting up dual display mode"
         DISPLAY=:0 xrandr \
-            --output "$EXTERNAL_DISPLAY" --mode "$PRIMARY_RESOLUTION" --rate "$PRIMARY_REFRESH" --pos 1920x0 \
-            --output "$INTERNAL_DISPLAY" --mode "$PRIMARY_RESOLUTION" --pos 0x0 ||
+            --output "$external_display" --mode "$resolution" --rate "$refresh_rate" --pos 1920x0 \
+            --output "$internal_display" --mode "$PRIMARY_RESOLUTION" --pos 0x0 ||
             log "Failed to configure dual display mode"
-        manage_workspaces "$EXTERNAL_DISPLAY"
+        manage_workspaces "$external_display"
     else
+        local internal_display=$(echo $display_info | cut -d: -f2)
         log "Setting up internal display mode"
-        DISPLAY=:0 xrandr \
-            --output "$INTERNAL_DISPLAY" --mode "$PRIMARY_RESOLUTION" --pos 0x0 \
-            --output "$EXTERNAL_DISPLAY" --off ||
+
+        # Turn off all displays except internal
+        for display in $(DISPLAY=:0 xrandr --query | grep " connected" | cut -d" " -f1); do
+            if [ "$display" != "$internal_display" ]; then
+                DISPLAY=:0 xrandr --output "$display" --off
+            fi
+        done
+
+        DISPLAY=:0 xrandr --output "$internal_display" --mode "$PRIMARY_RESOLUTION" --pos 0x0 ||
             log "Failed to configure internal display mode"
-        manage_workspaces "$INTERNAL_DISPLAY"
+        manage_workspaces "$internal_display"
     fi
 
     # Set wallpapers after display configuration
@@ -167,8 +217,8 @@ main() {
         exit 1
     fi
 
-    display_mode=$(detect_displays)
-    configure_displays "$display_mode"
+    local display_info=$(detect_displays)
+    configure_displays "$display_info"
     log "Configuration completed"
 }
 
