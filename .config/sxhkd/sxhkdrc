@@ -62,7 +62,7 @@ alt + shift + {h,j,k,l}
 
 #movement
 
-super+{h,j,k,l}
+super + {h,j,k,l}
     i3-msg focus {left,down,up,right}
 
 super + shift + {h,j,k,l}

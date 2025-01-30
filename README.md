@@ -39,9 +39,6 @@ cd bootstrap/arch
 chmod +x install.sh software-installation-playbook.yml setup-monitor-hotplug.sh
 ./install.sh 
 ansible-playbook -K software-installation-playbook.yml
-
-# Set up automatic monitor detection and configuration
-sudo ./setup-monitor-hotplug.sh
 ```
 
 This will install:
