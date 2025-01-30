@@ -1,27 +1,27 @@
 #!/bin/bash
 
-# Configuration Paths
+# Monitor Configuration
 LOG_FILE="/tmp/monitor-setup.log"
+INTERNAL_DISPLAY="eDP-1"
+EXTERNAL_DISPLAY="HDMI-1-0"
+PRIMARY_RESOLUTION="1920x1080"
+PRIMARY_REFRESH="170"
+
+# Wallpaper Configuration
 BACKGROUNDS_DIR="$HOME/.config/backgrounds"
 CONFIG_DIR="$HOME/.config/wallpaper-manager"
 CURRENT_CONFIG="$CONFIG_DIR/current_wallpapers.conf"
-LOCK_FILE="/tmp/monitor-setup.lock"
 
-# Specific wallpapers for first three monitors (if they exist)
-declare -a PRIORITY_WALLPAPERS=(
+# Default wallpaper array - add more defaults as needed
+declare -a DEFAULT_WALLPAPERS=(
     "$BACKGROUNDS_DIR/old-war.jpeg"
     "$BACKGROUNDS_DIR/horse-battle.jpg"
-    "$BACKGROUNDS_DIR/dragon.jpg"
 )
 
-# Ensure required directories exist
-mkdir -p "$CONFIG_DIR"
-mkdir -p "$BACKGROUNDS_DIR"
-
 # Lock file management
+LOCK_FILE="/tmp/monitor-setup.lock"
 if [ -e "$LOCK_FILE" ]; then
     if kill -0 $(cat "$LOCK_FILE") 2>/dev/null; then
-        echo "Another instance is running"
         exit 1
     fi
 fi
@@ -38,153 +38,138 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Function to validate image file
-is_valid_image() {
-    local file="$1"
-    file --mime-type "$file" | grep -q "image/"
-}
-
-# Function to get a random wallpaper, excluding specific wallpapers
-get_random_wallpaper() {
-    local exclude=("$@")
-    local wallpaper
-    local max_attempts=10
-    local attempt=0
-
-    while [ $attempt -lt $max_attempts ]; do
-        wallpaper=$(find "$BACKGROUNDS_DIR" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) | shuf -n 1)
-
-        # Check if wallpaper is in exclude list
-        local excluded=false
-        for exc in "${exclude[@]}"; do
-            if [ "$wallpaper" = "$exc" ]; then
-                excluded=true
-                break
-            fi
-        done
-
-        if [ "$excluded" = false ] && [ -f "$wallpaper" ] && is_valid_image "$wallpaper"; then
-            echo "$wallpaper"
+# Function to ensure X server is ready
+wait_for_x() {
+    for i in {1..30}; do
+        if DISPLAY=:0 XAUTHORITY="$HOME/.Xauthority" xrandr >/dev/null 2>&1; then
             return 0
         fi
-        ((attempt++))
+        sleep 0.1
     done
-
-    # Fallback to first valid image found if no random selection works
-    find "$BACKGROUNDS_DIR" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) | head -n 1
+    return 1
 }
 
-# Function to get all connected monitors
-get_connected_monitors() {
-    DISPLAY=:0 xrandr --query | grep " connected" | cut -d " " -f1
+# Function to get a random wallpaper
+get_random_wallpaper() {
+    find "$BACKGROUNDS_DIR" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) | shuf -n 1
 }
 
-# Function to set wallpapers
+# Function to get all connected monitors and their order
+get_monitor_order() {
+    DISPLAY=:0 xrandr | grep " connected" | cut -d " " -f1
+}
+
+# Function to set wallpapers using feh
 set_wallpapers() {
-    local monitors=($(get_connected_monitors))
-    local num_monitors=${#monitors[@]}
+    local monitors=($(get_monitor_order))
     local feh_args=()
-    local used_wallpapers=()
-    local wallpaper=""
+    local wallpapers=()
 
-    log "Detected $num_monitors monitors: ${monitors[*]}"
-
-    # Build feh arguments for each monitor
-    for ((i = 0; i < num_monitors; i++)); do
-        if [ $i -lt ${#PRIORITY_WALLPAPERS[@]} ] && [ -f "${PRIORITY_WALLPAPERS[$i]}" ]; then
-            # Use priority wallpaper for first three monitors if available
-            wallpaper="${PRIORITY_WALLPAPERS[$i]}"
-            log "Using priority wallpaper for monitor $((i + 1)): $wallpaper"
+    # Loop through monitors and assign wallpapers
+    for ((i = 0; i < ${#monitors[@]}; i++)); do
+        if [ $i -lt ${#DEFAULT_WALLPAPERS[@]} ]; then
+            # Use default wallpaper if available
+            if [ -f "${DEFAULT_WALLPAPERS[$i]}" ]; then
+                wallpapers+=("${DEFAULT_WALLPAPERS[$i]}")
+            else
+                # Fallback to random if default doesn't exist
+                wallpapers+=("$(get_random_wallpaper)")
+            fi
         else
             # Use random wallpaper for additional monitors
-            wallpaper=$(get_random_wallpaper "${used_wallpapers[@]}")
-            log "Using random wallpaper for monitor $((i + 1)): $wallpaper"
+            wallpapers+=("$(get_random_wallpaper)")
         fi
+    done
 
-        used_wallpapers+=("$wallpaper")
+    # Build feh arguments
+    for wallpaper in "${wallpapers[@]}"; do
         feh_args+=(--bg-fill "$wallpaper")
     done
 
-    # Set the wallpapers using feh
-    if DISPLAY=:0 feh --no-fehbg "${feh_args[@]}"; then
-        log "Successfully set wallpapers"
+    # Set the wallpapers
+    DISPLAY=:0 feh --no-fehbg "${feh_args[@]}"
 
-        # Save current configuration
-        printf "%s\n" "${used_wallpapers[@]}" >"$CURRENT_CONFIG"
+    # Log wallpaper configuration
+    log "Set wallpapers: ${wallpapers[*]}"
+}
+
+# Function to detect displays
+detect_displays() {
+    if DISPLAY=:0 xrandr | grep "$EXTERNAL_DISPLAY connected" >/dev/null; then
+        echo "external"
     else
-        log "Failed to set wallpapers"
-        return 1
+        echo "internal"
     fi
 }
 
-# Function to handle display configuration
+# Function to get current primary display
+get_current_primary() {
+    DISPLAY=:0 xrandr | grep "primary" | cut -d" " -f1
+}
+
+# Function to handle workspace and window management
+manage_workspaces() {
+    local target_output=$1
+    local current_primary=$(get_current_primary)
+
+    if [ "$current_primary" != "$target_output" ]; then
+        log "Changing primary display from $current_primary to $target_output"
+
+        local current_workspace=$(DISPLAY=:0 i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' -r)
+        local focused_window=$(DISPLAY=:0 i3-msg -t get_tree | jq '.. | select(.focused? == true).id')
+
+        DISPLAY=:0 xrandr --output "$target_output" --primary || log "Failed to set primary display"
+
+        for i in {1..10}; do
+            DISPLAY=:0 i3-msg "workspace $i; move workspace to output $target_output" || log "Failed to move workspace $i"
+        done
+
+        DISPLAY=:0 i3-msg "workspace $current_workspace" || log "Failed to return to workspace $current_workspace"
+        [ ! -z "$focused_window" ] && DISPLAY=:0 i3-msg "[id=$focused_window] focus"
+    fi
+}
+
+# Function to configure displays
 configure_displays() {
-    local monitors=($(get_connected_monitors))
-    local primary_monitor="${monitors[0]}"
-    local num_monitors=${#monitors[@]}
-    local x_position=0
+    local display_mode=$1
 
-    log "Configuring $num_monitors displays"
-
-    # Configure each monitor
-    for monitor in "${monitors[@]}"; do
-        # Get preferred resolution and refresh rate
-        local preferred_mode=$(DISPLAY=:0 xrandr --query | grep -A1 "^$monitor" | tail -n1 | awk '{print $1}')
-        local refresh_rate=$(DISPLAY=:0 xrandr --query | grep -A1 "^$monitor" | tail -n1 | grep -o '[0-9.]\+\*' | tr -d '*')
-
-        if [ "$monitor" = "$primary_monitor" ]; then
-            DISPLAY=:0 xrandr --output "$monitor" --primary --mode "$preferred_mode" --pos "${x_position}x0" --rate "$refresh_rate"
-            log "Set $monitor as primary at position ${x_position}x0"
-        else
-            DISPLAY=:0 xrandr --output "$monitor" --mode "$preferred_mode" --pos "${x_position}x0" --rate "$refresh_rate"
-            log "Set $monitor at position ${x_position}x0"
-        fi
-
-        # Update x_position for next monitor
-        x_position=$((x_position + ${preferred_mode%x*}))
-    done
-
-    # Turn off disconnected outputs
-    DISPLAY=:0 xrandr --query | grep "disconnected" | cut -d " " -f1 | while read -r output; do
-        DISPLAY=:0 xrandr --output "$output" --off
-        log "Turned off disconnected output: $output"
-    done
-}
-
-# Function to restart window manager components
-restart_components() {
-    # Restart polybar if it exists
-    if command -v polybar >/dev/null 2>&1; then
-        pkill polybar
-        sleep 0.5
-        if [ -f "$HOME/.config/polybar/launch_polybar.sh" ]; then
-            $HOME/.config/polybar/launch_polybar.sh
-            log "Restarted polybar"
-        fi
+    if [ "$display_mode" = "external" ]; then
+        log "Setting up dual display mode"
+        DISPLAY=:0 xrandr \
+            --output "$EXTERNAL_DISPLAY" --mode "$PRIMARY_RESOLUTION" --rate "$PRIMARY_REFRESH" --pos 1920x0 \
+            --output "$INTERNAL_DISPLAY" --mode "$PRIMARY_RESOLUTION" --pos 0x0 ||
+            log "Failed to configure dual display mode"
+        manage_workspaces "$EXTERNAL_DISPLAY"
+    else
+        log "Setting up internal display mode"
+        DISPLAY=:0 xrandr \
+            --output "$INTERNAL_DISPLAY" --mode "$PRIMARY_RESOLUTION" --pos 0x0 \
+            --output "$EXTERNAL_DISPLAY" --off ||
+            log "Failed to configure internal display mode"
+        manage_workspaces "$INTERNAL_DISPLAY"
     fi
+
+    # Set wallpapers after display configuration
+    set_wallpapers
+
+    # Restart polybar
+    pkill polybar
+    sleep 0.5
+    $HOME/.config/polybar/launch_polybar.sh
 }
 
 # Main execution
 main() {
     log "Starting monitor and wallpaper configuration"
 
-    # Wait for X server
-    for i in {1..30}; do
-        if DISPLAY=:0 xrandr >/dev/null 2>&1; then
-            break
-        fi
-        sleep 0.1
-        if [ $i -eq 30 ]; then
-            log "Error: X server not ready"
-            exit 1
-        fi
-    done
+    if ! wait_for_x; then
+        log "Error: X server not ready"
+        exit 1
+    fi
 
-    configure_displays
-    set_wallpapers
-    restart_components
-
-    log "Configuration completed successfully"
+    display_mode=$(detect_displays)
+    configure_displays "$display_mode"
+    log "Configuration completed"
 }
 
 main

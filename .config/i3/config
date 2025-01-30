@@ -61,6 +61,5 @@ exec --no-startup-id $HOME/.config/scripts/autostart.sh
 exec_always --no-startup-id $HOME/.config/scripts/monitor-hotplug.sh
 exec_always --no-startup-id $HOME/.config/scripts/set-wallpaper.sh
 exec_always --no-startup-id autotiling
-exec_always --no-startup-id $HOME/.config/polybar/scripts/launch_polybar.sh
-# exec_always --no-startup-id sleep 1 && $HOME/.config/polybar/scripts/launch_polybar.sh
+exec_always --no-startup-id sleep 1 && $HOME/.config/polybar/scripts/launch_polybar.sh
 exec --no-startup-id sxhkd
