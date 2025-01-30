@@ -23,6 +23,8 @@ else
     run picom
 fi
 
+run autorandr --change
+
 # Start system tray applications
 run nm-applet
 run blueman-applet

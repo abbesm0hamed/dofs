@@ -83,7 +83,6 @@
             # render images on terminal
             - imagemagick
             - python-ueberzug
-            - arandr
             # - wezterm
             - tmux
             - gitmux
@@ -175,6 +174,8 @@
             - feh
             # - variety
             - autorandr
+            # - disper
+            - arandr
             - flameshot
             - dunst
             - kvantum
