@@ -2,10 +2,19 @@
 
 # Configuration
 LOG_FILE="/tmp/monitor-setup.log"
-INTERNAL_DISPLAY="eDP-1"
-declare -a POSSIBLE_EXTERNAL_DISPLAYS=("HDMI-1-0" "DP-1" "HDMI-1" "DP-1-0" "HDMI-2")
-PRIMARY_RESOLUTION="1920x1080"
-PRIMARY_REFRESH="170"
+# Remove hardcoded internal display assumption
+declare -a POSSIBLE_DISPLAYS=(
+    # Laptop displays
+    "eDP-1" "eDP1" "eDP-1-1"
+    # Common HDMI ports
+    "HDMI-1" "HDMI-2" "HDMI-3" "HDMI-1-0" "HDMI-2-0" "HDMI-0" "HDMI-A-0"
+    # DisplayPorts
+    "DP-1" "DP-2" "DP-3" "DP-1-0" "DP-2-0" "DP-0" "DisplayPort-0" "DisplayPort-1"
+    # DVI ports
+    "DVI-D-0" "DVI-D-1" "DVI-I-0" "DVI-I-1"
+    # Virtual displays
+    "VIRTUAL1"
+)
 MAX_RETRIES=3
 RETRY_DELAY=1
 
@@ -74,18 +83,25 @@ detect_displays() {
     local xrandr_output
     xrandr_output=$(DISPLAY=:0 xrandr --query)
 
-    # Always check internal display
-    if [[ "$xrandr_output" == *"$INTERNAL_DISPLAY connected"* ]]; then
-        connected_displays+=("$INTERNAL_DISPLAY")
+    # Get all connected displays from xrandr output
+    while read -r line; do
+        if [[ $line == *" connected "* ]]; then
+            display_name=$(echo "$line" | cut -d' ' -f1)
+            connected_displays+=("$display_name")
+        fi
+    done <<<"$xrandr_output"
+
+    # If no displays detected, try the possible display list as fallback
+    if [ ${#connected_displays[@]} -eq 0 ]; then
+        log "No displays detected through xrandr, trying fallback detection"
+        for display in "${POSSIBLE_DISPLAYS[@]}"; do
+            if [[ "$xrandr_output" == *"$display connected"* ]]; then
+                connected_displays+=("$display")
+            fi
+        done
     fi
 
-    # Check all possible external displays
-    for display in "${POSSIBLE_EXTERNAL_DISPLAYS[@]}"; do
-        if [[ "$xrandr_output" == *"$display connected"* ]]; then
-            connected_displays+=("$display")
-        fi
-    done
-
+    log "Detected displays: ${connected_displays[*]}"
     echo "${connected_displays[@]}"
 }
 
@@ -98,14 +114,27 @@ get_display_settings() {
     # Extract best mode and refresh rate
     local best_mode
     local best_rate
-    best_mode=$(echo "$info" | grep -oP '\d+x\d+' | head -1)
+
+    # Try to get the current mode first (marked with *)
+    best_mode=$(echo "$info" | grep -oP '\d+x\d+(?=.*\*)' | head -1)
     best_rate=$(echo "$info" | grep -oP '\d+\.\d+(?=\*)|\d+(?=\*)' | head -1)
 
+    # If no current mode, get the first available mode
     if [ -z "$best_mode" ]; then
-        best_mode="$PRIMARY_RESOLUTION"
+        best_mode=$(echo "$info" | grep -oP '\d+x\d+' | head -1)
     fi
     if [ -z "$best_rate" ]; then
-        best_rate="$PRIMARY_REFRESH"
+        best_rate=$(echo "$info" | grep -oP '\d+\.\d+(?=\s)|\d+(?=\s)' | head -1)
+    fi
+
+    # Use fallback values if nothing is detected
+    if [ -z "$best_mode" ]; then
+        best_mode="1920x1080"
+        log "Warning: Using fallback resolution for $display: $best_mode"
+    fi
+    if [ -z "$best_rate" ]; then
+        best_rate="60"
+        log "Warning: Using fallback refresh rate for $display: $best_rate"
     fi
 
     echo "$best_mode:$best_rate"
@@ -117,7 +146,7 @@ calculate_display_positions() {
     local position_x=0
     local position_y=0
     local layout=""
-    local max_width=3840
+    local max_width=3840 # Maximum horizontal space before wrapping
     local current_row_height=0
 
     for display in "${displays[@]}"; do
@@ -132,6 +161,7 @@ calculate_display_positions() {
         width=${resolution%x*}
         height=${resolution#*x}
 
+        # Wrap to next row if we exceed max width
         if ((position_x + width > max_width)) && ((position_x > 0)); then
             position_x=0
             position_y=$((position_y + current_row_height))
@@ -156,7 +186,7 @@ manage_workspaces() {
     local current_workspace
     current_workspace=$(DISPLAY=:0 i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' -r)
 
-    # Set primary display
+    # Set primary display (first connected display)
     DISPLAY=:0 xrandr --output "${displays[0]}" --primary
 
     # Handle workspace distribution based on number of displays
@@ -173,6 +203,7 @@ manage_workspaces() {
             workspace=$((end_workspace + 1))
         done
     else
+        # Special handling for more than 3 displays
         local display_index=0
         for display in "${displays[@]}"; do
             case $display_index in
@@ -263,4 +294,3 @@ main() {
 }
 
 main
-

@@ -53,13 +53,14 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # Keyboard layout switching
-exec_always --no-startup-id setxkbmap -layout us,ar -option grp:alt_shift_toggle
-bindsym ISO_Next_Group exec pkill -SIGRTMIN+1 i3blocks
+exec_always --no-startup-id "setxkbmap -layout us,ar -option grp:alt_shift_toggle"
+bindsym ISO_Next_Group exec --no-startup-id "setxkbmap -query | grep -q 'layout:\s\+us' && setxkbmap ar || setxkbmap us"
 
 # Autostart applications
 exec --no-startup-id $HOME/.config/scripts/autostart.sh
 exec_always --no-startup-id $HOME/.config/scripts/monitor-hotplug.sh
-exec_always --no-startup-id sleep 1 && $HOME/.config/polybar/launch_polybar.sh
 exec_always --no-startup-id $HOME/.config/scripts/set-wallpaper.sh
 exec_always --no-startup-id autotiling
+exec_always --no-startup-id $HOME/.config/polybar/scripts/launch_polybar.sh
+# exec_always --no-startup-id sleep 1 && $HOME/.config/polybar/scripts/launch_polybar.sh
 exec --no-startup-id sxhkd
