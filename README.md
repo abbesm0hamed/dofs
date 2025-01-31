@@ -4,14 +4,14 @@ A minimalist and elegant desktop environment built with i3 window manager, featu
 
 ## Screenshots
 
-![System Info and Resource Monitor](./.config/screenshots/cava-macchina-btop.png)
-*System stats with macchina, audio visualizer cava, and system monitor btop*
-
 ![nvim + bg ](./.config/screenshots/nvim-bg.png)
 *Neovim with Kanagawa theme and custom background*
 
 ![Terminal Tools](./.config/screenshots/dunst-pipes-ttyclock.png)
 *Terminal tools (dunst, tty-clock, pipes.sh) running in i3 with Kanagawa theme*
+
+![System Info and Resource Monitor](./.config/screenshots/cava-macchina-btop.png)
+*System stats with macchina, audio visualizer cava, and system monitor btop*
 
 ![Terminal Tools](./.config/screenshots/nvim-ranger-cbonsai.png)
 *Ranger file manager and cbonsai*
@@ -36,7 +36,7 @@ The repository includes an automated installation script using Ansible. To insta
 
 ```bash
 cd bootstrap/arch
-chmod +x install.sh software-installation-playbook.yml setup-monitor-hotplug.sh
+chmod +x install.sh software-installation-playbook.yml
 ./install.sh 
 ansible-playbook -K software-installation-playbook.yml
 ```
