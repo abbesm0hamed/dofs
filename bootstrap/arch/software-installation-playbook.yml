@@ -26,13 +26,26 @@
         chdir: "~/i3ass"
       become: yes
 
+    # First install base packages with pacman
     - name: Install essential packages
       block:
-        - name: Install essential packages from official repositories
-          command: "yay -Sy --noconfirm {{ item }}"
+        - name: Install essential base packages
+          command: "pacman -S --noconfirm base-devel git"
+          become: yes
+
+        - name: Install yay
+          become_user: "{{ ansible_user_id }}"
+          command: |
+            git clone https://aur.archlinux.org/yay.git
+            cd yay
+            makepkg -si --noconfirm
+          args:
+            creates: /usr/bin/yay
+
+        - name: Install remaining essential packages
+          become_user: "{{ ansible_user_id }}"
+          command: "yay -S --noconfirm {{ item }}"
           with_items:
-            - base-devel
-            - git
             - zsh
             - nodejs
             - npm
@@ -56,21 +69,23 @@
         name: "{{ current_user.stdout }}"
         shell: /usr/bin/zsh
 
+    # Install NVIDIA drivers with pacman
     - name: Install Nvidia GPU packages
       block:
         - name: Install Nvidia GPU packages
-          command: "yay -Sy --noconfirm {{ item }}"
+          command: "pacman -S --noconfirm {{ item }}"
           with_items:
             - nvidia
             - nvidia-lts
             - nvidia-settings
             - nvidia-utils
-          ignore_errors: yes
+          become: yes
 
     - name: Install development tools
       block:
         - name: Install development tools from official repositories
-          command: "yay -Sy --noconfirm {{ item }}"
+          become_user: "{{ ansible_user_id }}"
+          command: "yay -S --noconfirm {{ item }}"
           with_items:
             - stow
             - neofetch
@@ -117,7 +132,8 @@
     - name: Install AUR packages
       block:
         - name: Install AUR packages
-          command: "yay -Sy --noconfirm {{ item }}"
+          become_user: "{{ ansible_user_id }}"
+          command: "yay -S --noconfirm {{ item }}"
           with_items:
             - paximer
             - networkmanager
@@ -165,7 +181,8 @@
     - name: Install fonts and appearance tools
       block:
         - name: Install fonts and appearance tools from official repositories
-          command: "yay -Sy --noconfirm {{ item }}"
+          become_user: "{{ ansible_user_id }}"
+          command: "yay -S --noconfirm {{ item }}"
           with_items:
             # simplifying fonts
             # - nerd-fonts # whole fonts
@@ -175,7 +192,6 @@
             - ttf-font-awesome
             - ttf-material-design-iconic-font
             - ttf-feather
-
             - ttf-joypixels
             - rofi
             # - eww
@@ -195,7 +211,8 @@
     - name: Install network and communication tools
       block:
         - name: Install network and communication tools from official repositories
-          command: "yay -Sy --noconfirm {{ item }}"
+          become_user: "{{ ansible_user_id }}"
+          command: "yay -S --noconfirm {{ item }}"
           with_items:
             - discord
             - telegram-desktop
@@ -210,7 +227,8 @@
     - name: Install media and utility tools
       block:
         - name: Install media and utility tools from official repositories
-          command: "yay -Sy --noconfirm {{ item }}"
+          become_user: "{{ ansible_user_id }}"
+          command: "yay -S --noconfirm {{ item }}"
           with_items:
             - gimp
             - cheese
@@ -221,11 +239,11 @@
             - xpad
           ignore_errors: yes
 
-        - name: Enable Docker service
-          systemd:
-            name: docker
-            enabled: yes
-            state: started
+    - name: Enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
 
     - name: Shell configuration and customization
       block:
