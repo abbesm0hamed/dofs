@@ -72,6 +72,11 @@
     # Install NVIDIA drivers with pacman
     - name: Install Nvidia GPU packages
       block:
+        - name: Remove conflicting NVIDIA packages
+          command: "pacman -R --noconfirm nvidia-open-dkms"
+          become: yes
+          ignore_errors: yes
+
         - name: Install Nvidia GPU packages
           command: "pacman -S --noconfirm {{ item }}"
           with_items:
@@ -89,7 +94,7 @@
           with_items:
             - stow
             - neofetch
-            - pokemon-colorscripts
+            - pokemon-colorscripts-git
             - python-pip
             - sqlite
             - yazi
@@ -102,12 +107,12 @@
             - tmux
             - gitmux
             - lazygit
+            - lazydocker
             - nodejs-gitmoji-cli
             - fzf
             - ripgrep
             - docker
             - docker-compose
-            - lazydocker
             - github-cli
             - bat
             - tldr
@@ -161,7 +166,7 @@
             - xrandr
             - geoclue2
             - gparted
-            - espanso
+            - espanso-x11-git
             - conky
             - salawat-bin
             # - prayer-times
@@ -267,9 +272,22 @@
           debug:
             msg: "Please log out and log back in to use Zsh as your default shell."
 
+        - name: Get the current username
+          ansible.builtin.command:
+            cmd: whoami
+          register: current_user
+          become: false
+
+        - name: Create .tmux/plugins directory
+          ansible.builtin.file:
+            path: "/home/{{ current_user.stdout }}/.tmux/plugins"
+            state: directory
+            mode: "0755"
+          become: false
+
         - name: Install TPM (Tmux Plugin Manager)
           git:
             repo: https://github.com/tmux-plugins/tpm
-            dest: /home/{{ ansible_user_id }}/.tmux/plugins/tpm
+            dest: "/home/{{ current_user.stdout }}/.tmux/plugins/tpm"
             version: master
           become: false

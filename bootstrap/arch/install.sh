@@ -35,5 +35,3 @@ echo 'Section "InputClass"
     Option "Tapping" "on"
     Option "ClickMethod" "clickfinger"
 EndSection' | sudo tee /etc/X11/xorg.conf.d/40-libinput.conf >/dev/null
-
-log_message "Installation completed successfully!"
