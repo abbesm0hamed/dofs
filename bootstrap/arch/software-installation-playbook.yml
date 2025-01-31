@@ -102,7 +102,8 @@
             - luarocks
             # - alacritty
             - mpv
-            - ncdu
+            - ncdu # ncdu / => check how disk is filled
+            - pacman-contrib # to remove pacman cache => sudo paccache -rk3
             - keepassxc
             - btop
             - calibre
