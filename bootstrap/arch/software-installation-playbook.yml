@@ -167,7 +167,15 @@
         - name: Install fonts and appearance tools from official repositories
           command: "yay -S --noconfirm {{ item }}"
           with_items:
-            - nerd-fonts
+            # simplifying fonts
+            # - nerd-fonts # whole fonts
+            - ttf-jetbrains-mono-nerd
+            - ttf-victormono-nerd
+            - ttf-iosevka-nerd
+            - ttf-font-awesome
+            - ttf-material-design-iconic-font
+            - ttf-feather
+
             - ttf-joypixels
             - rofi
             # - eww
