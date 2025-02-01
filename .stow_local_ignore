@@ -1,0 +1,14 @@
+\.git
+\.gitignore
+^/README.*
+^/LICENSE.*
+\.DS_Store
+^/screenshots
+^/docs
+\.swp$
+\.bak$
+~$
+\.old$
+^/i3/config\.template
+^/i3/scripts/testing
+^/i3/local-config

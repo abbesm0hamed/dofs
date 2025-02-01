@@ -33,15 +33,6 @@
           command: "pacman -S --noconfirm base-devel git"
           become: yes
 
-        - name: Install yay
-          become_user: "{{ ansible_user_id }}"
-          command: |
-            git clone https://aur.archlinux.org/yay.git
-            cd yay
-            makepkg -si --noconfirm
-          args:
-            creates: /usr/bin/yay
-
         - name: Install remaining essential packages
           become_user: "{{ ansible_user_id }}"
           command: "yay -S --noconfirm {{ item }}"
@@ -85,6 +76,7 @@
             - nvidia-settings
             - nvidia-utils
           become: yes
+          ignore_errors: yes
 
     - name: Install development tools
       block:

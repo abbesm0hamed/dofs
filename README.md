@@ -63,6 +63,9 @@ Additionally, the setup includes:
 ```bash
 cd ~/dofs
 stow .
+
+> [!NOTE]
+> stow -D . # to undo symlinks
 ```
 
 ## Color Palette
