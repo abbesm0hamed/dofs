@@ -10,6 +10,9 @@ A minimalist and elegant desktop environment built with i3 window manager, featu
 ![Terminal Tools](./.config/screenshots/dunst-pipes-ttyclock.png)
 *Terminal tools (dunst, tty-clock, pipes.sh) running in i3 with Kanagawa theme*
 
+![System info + some software](./.config/screenshots/nvim-cava-fastfetch-dunst.png)
+*Nvim + cava + fastfetch + dunst*
+
 ![System Info and Resource Monitor](./.config/screenshots/cava-macchina-btop.png)
 *System stats with macchina, audio visualizer cava, and system monitor btop*
 
