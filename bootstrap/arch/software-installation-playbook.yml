@@ -26,6 +26,14 @@
         chdir: "~/i3ass"
       become: yes
 
+    # Install NVIDIA utils if you want
+    # - name: Install NVIDIA utilities
+    #   pacman:
+    #     name: nvidia-settings
+    #     state: present
+    #   become: yes
+    #   ignore_errors: yes
+
     # First install base packages with pacman
     - name: Install essential packages
       block:
@@ -59,24 +67,6 @@
       ansible.builtin.user:
         name: "{{ current_user.stdout }}"
         shell: /usr/bin/zsh
-
-    # Install NVIDIA drivers with pacman
-    - name: Install Nvidia GPU packages
-      block:
-        - name: Remove conflicting NVIDIA packages
-          command: "pacman -R --noconfirm nvidia-open-dkms"
-          become: yes
-          ignore_errors: yes
-
-        - name: Install Nvidia GPU packages
-          command: "pacman -S --noconfirm {{ item }}"
-          with_items:
-            - nvidia
-            - nvidia-lts
-            - nvidia-settings
-            - nvidia-utils
-          become: yes
-          ignore_errors: yes
 
     - name: Install development tools
       block:
