@@ -105,7 +105,7 @@ DEV_PACKAGES=(
     "base-devel"            # Development tools
     "git"                   # Version control
     "github-cli"            # GitHub CLI
-    "visual-studio-code-bin" # VS Code
+    # "visual-studio-code-bin" # VS Code
     "neovim"                # Text editor
     "luarocks"              # Lua package manager
     "nodejs"                # Node.js
@@ -126,14 +126,14 @@ DEV_PACKAGES=(
 # File Management and System Tools
 SYSTEM_PACKAGES=(
     "yazi"                  # Modern terminal file manager
-    "udiskie"               # Auto-mount USB drives
-    "gparted"               # Partition editor
-    "ncdu"                  # Disk usage analyzer
+    # "udiskie"               # Auto-mount USB drives
+    # "gparted"               # Partition editor
+    # "ncdu"                  # Disk usage analyzer
     "btop"                  # System monitor
     "power-profiles-daemon" # Power management
     "pacman-contrib"        # Pacman utilities
-    "woeusb"               # Windows USB creator
-    "balena-etcher"        # USB image writer
+    # "woeusb"               # Windows USB creator
+    # "balena-etcher"        # USB image writer
 )
 
 # CLI Tools and Utilities
@@ -165,11 +165,11 @@ FONT_PACKAGES=(
 NETWORK_PACKAGES=(
     "networkmanager"        # Network management
     "net-tools"             # Network utilities
-    "discord"               # Chat
-    "telegram-desktop"      # Messaging
-    "whatsapp-nativefier"   # WhatsApp
-    "slack-desktop"         # Team communication
-    "anydesk"               # Remote desktop
+    # "discord"               # Chat
+    # "telegram-desktop"      # Messaging
+    # "whatsapp-nativefier"   # WhatsApp
+    # "slack-desktop"         # Team communication
+    # "anydesk"               # Remote desktop
 )
 
 # Multimedia and Graphics
@@ -180,11 +180,11 @@ MULTIMEDIA_PACKAGES=(
     "pipewire-jack"         # JACK support
     "wireplumber"           # Session manager
     "pavucontrol"           # Audio control
-    "mpv"                   # Media player
-    "vlc"                   # Media player
-    "calibre"               # E-book management
-    "inkscape"              # Vector graphics
-    "cheese"                # Webcam tool
+    # "mpv"                   # Media player
+    # "vlc"                   # Media player
+    # "calibre"               # E-book management
+    # "inkscape"              # Vector graphics
+    # "cheese"                # Webcam tool
     "flameshot"             # Screenshot tool
     "imagemagick"           # Image manipulation
     "python-ueberzug"       # Image previews in terminal
@@ -208,7 +208,7 @@ EXTRA_PACKAGES=(
 
 # Browser and Web
 BROWSER_PACKAGES=(
-    "brave-bin"             # Browser
+    # "brave-bin"             # Browser
     "xdg-utils"             # Open default applications
 )
 

@@ -14,4 +14,4 @@
 *.swo
 
 # bootstrap arch yay
-./bootstrap/arch/yay
+bootstrap/arch/yay

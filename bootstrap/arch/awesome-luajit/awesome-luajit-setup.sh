@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Source the software setup script
+source "$(dirname "$0")/software-setup.sh"
+
+# Run monitor setup
+source "$(dirname "$0")/monitor-setup.sh"
+
+
 set -e  # Exit on any error
 
 # Function to check for required commands

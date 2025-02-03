@@ -1,0 +1,10 @@
+[Unit]
+Description=Monitor autorandr configuration changes
+
+[Path]
+PathChanged=/sys/class/drm/card0/card0-HDMI-A-1/status
+PathChanged=/sys/class/drm/card0/card0-DP-1/status
+Unit=autorandr.service
+
+[Install]
+WantedBy=graphical-session.target
