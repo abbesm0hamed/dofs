@@ -127,7 +127,7 @@
             - sxhkd
             - autotiling
             - brave-bin
-            - google-chrome
+            # - google-chrome
             - lxappearance
             - unrar
             - cava
@@ -155,12 +155,6 @@
             - picom
             # - picom-jonaburg-git
             - picom-simpleanims-git
-            # bluetooth libs
-            - bluez
-            - bluez-utils
-            # audio libs
-            - pulseaudio
-            - pulseaudio-bluetooth
             - pavucontrol
             - xdg-utils
           ignore_errors: yes
@@ -180,6 +174,8 @@
             - ttf-material-design-iconic-font
             - ttf-feather
             - ttf-joypixels
+            - ttf-lilex
+            # - ttf-space-mono-nerd
             - rofi
             # - eww
             - polybar
@@ -205,8 +201,8 @@
             - telegram-desktop
             - whatsapp-nativefier
             - slack-desktop
-            - zoom
-            - teams
+            # - zoom
+            # - teams
             - anydesk
             - net-tools
           ignore_errors: yes
@@ -217,13 +213,13 @@
           become_user: "{{ ansible_user_id }}"
           command: "yay -S --noconfirm {{ item }}"
           with_items:
-            - gimp
+            # - gimp
             - cheese
-            - audacity
+            # - audacity
             - ufw
             - ncmpcpp
-            - clamav
-            - xpad
+            # - clamav
+            # - xpad
           ignore_errors: yes
 
     - name: Enable Docker service
