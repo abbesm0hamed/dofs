@@ -1,31 +1,28 @@
 #!/bin/bash
 
 function run {
-    if ! pgrep $1; then
+    if ! pgrep -x "$1" >/dev/null; then
         "$@" &
     fi
 }
 
-# PICOM_CONFIG="$HOME/.config/picom/picom.conf"
-
-# Kill existing instances of dunst and picom
+# Kill existing instances
 killall -q picom dunst
 
-# Start critical system services first
+# Start critical system services
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run xfce4-power-manager
-sleep 1
 
-# Start system tray applications
+# Start essential system tray applications
 run nm-applet
 run blueman-applet
 run pamac-tray
-run blueberry-tray
-# run volumeicon # if you have polybar then you don't need this
 
-# Start user applications
+# Start minimal set of user applications
 run numlockx on
 dunst &
-run variety
 run flameshot
 run gammastep
+
+# Start minimal compositor without effects
+picom --no-fading --no-vsync --backend glx --unredir-if-possible &

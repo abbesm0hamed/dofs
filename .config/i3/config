@@ -8,10 +8,23 @@ set $mod Mod4
 floating_modifier $mod
 font pango:JetBrains Mono 8
 
-# Focus settings
-focus_on_window_activation focus
-workspace_auto_back_and_forth yes
-tiling_drag modifier titlebar
+# Maximum Performance Settings
+force_xinerama no
+force_focus_wrapping no
+popup_during_fullscreen smart
+focus_on_window_activation urgent
+mouse_warping none
+focus_follows_mouse no
+workspace_auto_back_and_forth no
+force_display_urgency_hint 0ms
+
+# Disable title bars for better performance
+default_border pixel 1
+default_floating_border pixel 1
+hide_edge_borders smart
+
+# Disable window title bars
+for_window [class="^.*"] border pixel 1
 
 # Floating mode settings
 bindsym $mod+Shift+f floating toggle
@@ -57,6 +70,7 @@ exec_always --no-startup-id "setxkbmap -layout us,ar -option grp:alt_shift_toggl
 bindsym ISO_Next_Group exec --no-startup-id "setxkbmap -query | grep -q 'layout:\s\+us' && setxkbmap ar || setxkbmap us"
 
 # Autostart applications
+exec --no-startup-id dbus-update-activation-environment --all
 exec --no-startup-id $HOME/.config/scripts/autostart.sh
 exec_always --no-startup-id $HOME/.config/scripts/setup-wallpaper.sh
 exec_always --no-startup-id sleep 2 && $HOME/.config/polybar/scripts/launch_polybar.sh
