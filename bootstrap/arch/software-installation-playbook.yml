@@ -155,9 +155,6 @@
             - picom
             # - picom-jonaburg-git
             - picom-simpleanims-git
-            # bluetooth libs
-            - bluez
-            - bluez-utils
             - pavucontrol
             - xdg-utils
           ignore_errors: yes
@@ -177,6 +174,7 @@
             - ttf-material-design-iconic-font
             - ttf-feather
             - ttf-joypixels
+            - ttf-lilex
             - rofi
             # - eww
             - polybar
