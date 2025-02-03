@@ -25,7 +25,7 @@ sensitivity = 100
 bars = 12
 bar_width = 6
 bar_spacing = 2
-; bar_height = 32
+; bar_height = 25
 
 # For SDL width and space between bars is in pixels, defaults are:
 ; bar_width = 20
