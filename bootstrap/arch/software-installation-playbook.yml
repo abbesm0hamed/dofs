@@ -175,6 +175,7 @@
             - ttf-feather
             - ttf-joypixels
             - ttf-lilex
+            # - ttf-space-mono-nerd
             - rofi
             # - eww
             - polybar
