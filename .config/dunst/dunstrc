@@ -1,7 +1,7 @@
 [global]
     follow = mouse
     width = 350
-    offset = 5x39
+    offset = 2x26
     progress_bar = true
     progress_bar_height = 10
     progress_bar_frame_width = 1
@@ -11,13 +11,13 @@
     shrink = no
     separator_height = 2
     padding = 15
-    horizontal_padding = 15
+    horizontal_padding = 10
     text_icon_padding = 15
     frame_width = 1
     frame_color = "#7E9CD8"
     separator_color = frame
     sort = yes
-    idle_threshold = 120
+    idle_threshold = 109
     font = JetBrains Mono Nerd Font Medium 10
     line_height = 0
     markup = full
