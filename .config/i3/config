@@ -6,7 +6,7 @@ include $HOME/.config/i3/themes/kanagawa.conf
 # Basic settings
 set $mod Mod4
 floating_modifier $mod
-font pango:JetBrains Mono 8
+font pango:JetBrains Mono Nerd Font 8
 
 # Maximum Performance Settings
 force_xinerama no
@@ -73,6 +73,12 @@ bindsym ISO_Next_Group exec --no-startup-id "setxkbmap -query | grep -q 'layout:
 exec --no-startup-id dbus-update-activation-environment --all
 exec --no-startup-id $HOME/.config/scripts/autostart.sh
 exec_always --no-startup-id $HOME/.config/scripts/setup-wallpaper.sh
-exec_always --no-startup-id sleep 2 && $HOME/.config/polybar/scripts/launch_polybar.sh
+# exec_always --no-startup-id sleep 2 && $HOME/.config/polybar/scripts/launch_polybar.sh
+# i3bar status configuration
+bar {
+    position bottom
+    status_command i3status
+    tray_output primary
+}
 exec_always --no-startup-id autotiling
 exec --no-startup-id sxhkd
