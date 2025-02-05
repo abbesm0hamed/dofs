@@ -6,7 +6,7 @@ include $HOME/.config/i3/themes/kanagawa.conf
 # Basic settings
 set $mod Mod4
 floating_modifier $mod
-font pango:JetBrains Mono Nerd Font 8
+font pango:Lilex Mono Nerd Font 8
 
 # Maximum Performance Settings
 force_xinerama no

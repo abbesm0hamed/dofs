@@ -2,11 +2,14 @@
 theme = "native"
 
 [icons]
-icons = "none"
+icons = "material-nf"
+
+[theme.overrides]
+separator = "   "
 
 [[block]]
 block = "net"
-format = " $device Dwn:$speed_down Up:$speed_up Sgl:$signal_strength "
+format = "󰖩 $speed_down 󰕒 $speed_up"
 interval = 5
 [[block.click]]
 button = "left"
@@ -15,40 +18,45 @@ cmd = "nm-connection-editor"
 [[block]]
 block = "cpu"
 interval = 1
-format = " CPU $utilization $frequency "
+format = "󰻠 $utilization"
 [[block.click]]
 button = "left"
 cmd = "gnome-system-monitor"
 
 [[block]]
 block = "memory"
-format = " MEM $mem_used_percents "
+format = "󰍛 $mem_used_percents"
 interval = 1
 warning_mem = 80
 critical_mem = 95
 
 [[block]]
 block = "temperature"
-format = " TEMP $average "
+format = "󱃃 $average"
 interval = 10
 chip = "*-isa-*"
 
 [[block]]
 block = "disk_space"
 path = "/"
-format = " FREE $available "
+format = "󰋊 $available"
 interval = 60
 warning = 20.0
 alert = 10.0
 
 [[block]]
 block = "battery"
-format = " BAT $percentage $time $power "
+format = " 󰁺 $percentage "              # Discharging (progresses from 󰁺 to 󰂁)
+charging_format = " 󰢜 $percentage "    # Charging
+full_format = " 󰁹 "                    # Full
+not_charging_format = " 󰂎 $percentage " # Not charging
+device = "DisplayDevice"
+driver = "upower"
 interval = 10
-device = "BAT1"
 
 [[block]]
 block = "sound"
+format = "󰕾 $volume"
 [[block.click]]
 button = "left"
 cmd = "pavucontrol"
@@ -57,22 +65,23 @@ cmd = "pavucontrol"
 block = "custom"
 command = "~/.config/i3status-rust/scripts/mic.sh"
 interval = 1
-format = " MIC $text "
+format = "󰍬 $text"
 [[block.click]]
 button = "left"
 cmd = "~/.config/i3status-rust/scripts/mic.sh 1"
 
 [[block]]
 block = "backlight"
+format = "󰃞 $brightness"
 device = "intel_backlight"
 
 [[block]]
 block = "custom"
 command = "~/.config/i3status-rust/scripts/updates-pacman.sh"
 interval = 60
-format = " PKG: $text "
+format = "󰏗 $text"
 
 [[block]]
 block = "time"
 interval = 1
-format = " $timestamp.datetime(f:'%Y-%m-%d %H:%M') "
+format = "$timestamp.datetime(f:'%a %d-%m %H:%M') "

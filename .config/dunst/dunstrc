@@ -1,7 +1,8 @@
 [global]
-    follow = mouse
+    follow = none
     width = 350
-    offset = 2x26
+    origin = top-right
+    offset = (0, 0)
     progress_bar = true
     progress_bar_height = 10
     progress_bar_frame_width = 1
