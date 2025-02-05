@@ -79,7 +79,10 @@ bar {
     position bottom
     status_command i3status-rs ~/.config/i3status-rust/config.toml
     tray_output primary
-    font pango:Lilex Nerd Font 10
+    font pango:JetBrains Mono Nerd Font 9
+    colors {
+        background #2A2A320
+    }
 }
 exec_always --no-startup-id autotiling
 exec --no-startup-id sxhkd
