@@ -178,7 +178,8 @@
             # - ttf-space-mono-nerd
             - rofi
             # - eww
-            - polybar
+            # - polybar
+            - i3status-rust
             - feh
             # - variety
             - autorandr
@@ -203,7 +204,7 @@
             - slack-desktop
             # - zoom
             # - teams
-            - anydesk
+            # - anydesk
             - net-tools
           ignore_errors: yes
 
@@ -214,7 +215,7 @@
           command: "yay -S --noconfirm {{ item }}"
           with_items:
             # - gimp
-            - cheese
+            # - cheese
             # - audacity
             - ufw
             - ncmpcpp

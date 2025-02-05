@@ -21,7 +21,7 @@ force_display_urgency_hint 0ms
 # Disable title bars for better performance
 default_border pixel 1
 default_floating_border pixel 1
-hide_edge_borders smart
+hide_edge_borders none
 
 # Disable window title bars
 for_window [class="^.*"] border pixel 1
@@ -74,11 +74,12 @@ exec --no-startup-id dbus-update-activation-environment --all
 exec --no-startup-id $HOME/.config/scripts/autostart.sh
 exec_always --no-startup-id $HOME/.config/scripts/setup-wallpaper.sh
 # exec_always --no-startup-id sleep 2 && $HOME/.config/polybar/scripts/launch_polybar.sh
-# i3bar status configuration
+# i3status-rust configuration
 bar {
     position bottom
-    status_command i3status
+    status_command i3status-rs ~/.config/i3status-rust/config.toml
     tray_output primary
+    font pango:Lilex Nerd Font 10
 }
 exec_always --no-startup-id autotiling
 exec --no-startup-id sxhkd
