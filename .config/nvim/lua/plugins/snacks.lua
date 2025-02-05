@@ -25,6 +25,8 @@ return {
         sections = {
           {
             header = [[
+
+
 ███╗   ███╗███████╗ ██████╗ ██╗   ██╗██╗ ██████╗
 ████╗ ████║██╔════╝██╔═══██╗██║   ██║██║██╔════╝
  ██╔████╔██║█████╗  ██║   ██║██║   ██║██║██║  ███╗
@@ -42,7 +44,7 @@ return {
           { title = "Sessions", padding = 1 },
           { section = "projects", padding = 1 },
           { title = "Bookmarks", padding = 1 },
-          { section = "keys" },
+          { section = "keys", limit = 3 },
         },
       },
 

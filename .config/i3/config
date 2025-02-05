@@ -18,16 +18,14 @@ focus_follows_mouse no
 workspace_auto_back_and_forth no
 force_display_urgency_hint 0ms
 
-# Disable title bars for better performance
-default_border pixel 1
-default_floating_border pixel 1
+# Window and title settings
+default_border normal
+default_floating_border normal
 hide_edge_borders none
 
-# Disable window title bars
-for_window [class="^.*"] border pixel 1
-
-# Floating mode settings
-bindsym $mod+Shift+f floating toggle
+# Title format
+for_window [class=".*"] title_format " %title"
+for_window [class=".*"] title_window_icon padding 3px
 
 # Workspaces
 set $ws1 "1"
@@ -79,10 +77,14 @@ bar {
     position bottom
     status_command i3status-rs ~/.config/i3status-rust/config.toml
     tray_output primary
-    font pango:JetBrains Mono Nerd Font 9
+    font pango:JetBrains Mono Nerd Font 8
     colors {
         background #2A2A320
     }
 }
-exec_always --no-startup-id autotiling
+# Default layout mode for workspaces
+workspace_layout tabbed
+
+# Commented out autotiling as it conflicts with manual layout management
+# exec_always --no-startup-id autotiling
 exec --no-startup-id sxhkd
