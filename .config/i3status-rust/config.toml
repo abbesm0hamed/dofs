@@ -9,7 +9,7 @@ separator = "  "
 
 [[block]]
 block = "net"
-format = "󰖩 $speed_down 󰕒 $speed_up"
+format = "󰖩 $speed_down  󰕒 $speed_up"
 interval = 5
 [[block.click]]
 button = "left"
@@ -79,6 +79,16 @@ block = "custom"
 command = "~/.config/i3status-rust/scripts/updates-pacman.sh"
 interval = 60
 format = "󰏗 $text"
+
+[[block]]
+block = "custom"
+command = "~/.config/i3status-rust/scripts/weather.sh"
+interval = 1800
+
+[[block]]
+block = "custom"
+command = "~/.config/i3status-rust/scripts/next-prayer.sh"
+interval = 60
 
 [[block]]
 block = "time"
