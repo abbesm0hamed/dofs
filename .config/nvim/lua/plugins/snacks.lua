@@ -535,7 +535,7 @@ return {
         desc = "Quickfix List",
       },
       {
-        "<leader>cS",
+        "<leader>uS",
         function()
           Snacks.picker.colorschemes()
         end,
