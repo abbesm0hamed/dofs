@@ -12,9 +12,9 @@ CURRENT_CONFIG="$CONFIG_DIR/current_wallpapers.conf"
 
 # Default wallpaper array - add more defaults as needed
 declare -a DEFAULT_WALLPAPERS=(
-    "$BACKGROUNDS_DIR/old-war.jpeg"
-    "$BACKGROUNDS_DIR/horse-battle.jpg"
-    "$BACKGROUNDS_DIR/dragon.jpg"
+    "$BACKGROUNDS_DIR/unknown.png"
+    "$BACKGROUNDS_DIR/html-selfclosed-tag.jpg"
+    "$BACKGROUNDS_DIR/ball.jpg"
 )
 
 # Lock file management
