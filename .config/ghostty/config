@@ -7,7 +7,7 @@
 #
 
 # Font Configuration
-font-family = Iosevka Nerd Font
+font-family = Commit Nerd Font
 font-style-italic = VictorMono Italic
 font-style-bold = Iosevka Nerd Font Bold
 font-style-bold-italic = VictorMono Nerd Font Italic Bold
@@ -15,8 +15,8 @@ font-size = 16
 
 # Window Configuration
 window-save-state = never
-window-padding-x = 10
-window-padding-y = 10
+# window-padding-x = 10
+# window-padding-y = 10
 window-decoration = false
 # Colors from Old World theme
 background = #161617
