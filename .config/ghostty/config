@@ -7,28 +7,56 @@
 #
 
 # Font Configuration
-font-family = Comic Code Nerd Font
-font-style-italic = Victor Mono Italic
-font-style-bold = Comic Code Nerd Font Bold
+font-family = Iosevka Nerd Font
+font-style-italic = VictorMono Italic
+font-style-bold = Iosevka Nerd Font Bold
 font-style-bold-italic = VictorMono Nerd Font Italic Bold
-font-size = 12
+font-size = 16
 
 # Window Configuration
 window-save-state = never
 window-padding-x = 10
 window-padding-y = 10
 window-decoration = false
-window-theme = dark
+# Colors from Old World theme
+background = #161617
+foreground = #FFFFFF
+
+
+# Theme
+# theme = "Kanagawa Wave"
+
+# New theme => old world
+# Normal colors
+palette = 0=#161617
+palette = 1=#E29ECA
+palette = 2=#90B99F
+palette = 3=#E6B99D
+palette = 4=#92A2D5
+palette = 5=#ACA1CF
+palette = 6=#85B5BA
+palette = 7=#C9C7CD
+
+# Bright colors
+palette = 8=#161617
+palette = 9=#E29ECA
+palette = 10=#90B99F
+palette = 11=#E6B99D
+palette = 12=#92A2D5
+palette = 13=#ACA1CF
+palette = 14=#85B5BA
+palette = 15=#C9C7CD
+
+# Window settings
+window-inherit-working-directory = true
+window-theme = ghostty
 
 # Transparency and Focus
-background-opacity = 0.95
-unfocused-split-opacity = 0.90
+background-opacity = 1.0
+unfocused-split-opacity = 0.95
 
 # Mouse Configuration
 mouse-hide-while-typing = true
 
 # Cursor Configuration
 cursor-style = block
-
-# Theme
-theme = "Kanagawa Wave"

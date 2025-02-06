@@ -5,7 +5,7 @@ theme = "native"
 icons = "material-nf"
 
 [theme.overrides]
-separator = "   "
+separator = "  "
 
 [[block]]
 block = "net"

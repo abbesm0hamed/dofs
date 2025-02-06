@@ -54,7 +54,7 @@ local checktime_group = augroup("checktime")
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = checktime_group,
   callback = function()
-    if not vim.bo.buftype == "" then
+    if vim.bo.buftype ~= "" then
       return -- Skip special buffers
     end
     vim.cmd("checktime")
@@ -63,15 +63,17 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 })
 
 -- Use a debounced version for CursorHold events
-local cursorhold_timer
+local cursorhold_group = augroup("cursorhold")
+local cursorhold_timer = nil
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-  group = checktime_group,
+  group = cursorhold_group,
   callback = function()
     if cursorhold_timer then
       vim.fn.timer_stop(cursorhold_timer)
+      cursorhold_timer = nil
     end
     cursorhold_timer = vim.fn.timer_start(1000, function()
-      if not vim.bo.buftype == "" then
+      if vim.bo.buftype ~= "" then
         return -- Skip special buffers
       end
       vim.cmd("checktime")
@@ -84,7 +86,7 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave" }, {
   group = augroup("refresh_file"),
   callback = function()
-    if not vim.bo.buftype == "" then
+    if vim.bo.buftype ~= "" then
       return -- Skip special buffers
     end
     vim.cmd("checktime")

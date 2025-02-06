@@ -186,6 +186,9 @@ install_packages \
     ttf-victormono-nerd \
     ttf-iosevka-nerd \
     ttf-font-awesome \
+    ttf-commit-mono \
+    ttf-nerd-fonts-symbols \
+    ttf-nerd-fonts-emoji \
     ttf-material-design-iconic-font \
     ttf-feather \
     ttf-joypixels \
