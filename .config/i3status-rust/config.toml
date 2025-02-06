@@ -57,8 +57,12 @@ interval = 10
 [[block]]
 block = "sound"
 driver = "pulseaudio"
-format = "󰕾 $volume"
+format = "{ $icon }$volume"
 show_volume_when_muted = true
+
+[block.mappings]
+muted = "󰖁"
+unmuted = "󰕾"
 
 [[block]]
 block = "custom"
