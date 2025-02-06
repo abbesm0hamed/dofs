@@ -84,11 +84,13 @@ format = "󰏗 $text"
 block = "custom"
 command = "~/.config/i3status-rust/scripts/weather.sh"
 interval = 1800
+format = "$text"
 
 [[block]]
 block = "custom"
 command = "~/.config/i3status-rust/scripts/next-prayer.sh"
 interval = 60
+format = "$text"
 
 [[block]]
 block = "time"
