@@ -327,6 +327,5 @@ Note: Some keybindings might be commented out in the config files. This document
 ## Inspiration
 
 - [The Linux Cast Dotfiles](https://gitlab.com/thelinuxcast/my-dots.git)
-- [Polybar Config by Brannigan123](https://github.com/Brannigan123/polybar-config.git)
 - [Nvim Config by Allaman](https://github.com/Allaman/nvim)
 - [Chris Grieser Config](https://github.com/chrisgrieser/.config)

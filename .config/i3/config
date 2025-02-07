@@ -8,7 +8,7 @@ set $mod Mod4
 floating_modifier $mod
 font pango:Lilex Nerd Font 10
 
-# Maximum Performance Settings
+# Performance Optimizations
 force_xinerama no
 force_focus_wrapping no
 popup_during_fullscreen smart
@@ -17,6 +17,13 @@ mouse_warping none
 focus_follows_mouse no
 workspace_auto_back_and_forth no
 force_display_urgency_hint 0ms
+
+# Additional Performance Settings
+title_align left
+for_window [all] title_window_icon on
+for_window [urgent=latest] focus
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
 
 # Window and title settings
 default_border normal
@@ -82,8 +89,18 @@ bar {
         background #2A2A320
     }
 }
-# Default layout mode for workspaces
-workspace_layout tabbed
+
+# Optimized workspace layouts
+workspace $ws1 output primary
+workspace $ws2 output primary
+
+# Default layout mode for all workspaces
+# workspace_layout tabbed
+
+# Set specific layouts for workspaces
+for_window [workspace=$ws1] layout default
+for_window [workspace=$ws2] layout tabbed
+for_window [workspace=$ws3] layout stacking
 
 # Commented out autotiling as it conflicts with manual layout management
 # exec_always --no-startup-id autotiling

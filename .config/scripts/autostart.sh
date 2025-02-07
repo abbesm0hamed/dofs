@@ -1,37 +1,44 @@
 #!/bin/bash
 
+# Improved process management function
 function run {
     if ! pgrep -x "$1" >/dev/null; then
-        "$@" &
+        if [ "$#" -gt 1 ]; then
+            "$@" &
+        else
+            "$1" &
+        fi
     fi
 }
 
-PICOM_CONFIG="$HOME/.config/picom/picom.conf"
-
-# Kill existing instances
+# Clean up existing processes
 killall -q picom dunst
 
-# Start critical system services
-run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-run xfce4-power-manager
+# Wait for processes to end
+while pgrep -u $UID -x picom >/dev/null; do sleep 0.1; done
+while pgrep -u $UID -x dunst >/dev/null; do sleep 0.1; done
 
-# Start window manager related services
+# Start critical system services with lower priority
+nice -n 10 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+# Optimize power management
+run xfce4-power-manager --no-daemon
+
+# Start compositor with optimized settings
+PICOM_CONFIG="$HOME/.config/picom/picom.conf"
 if [ -f "$PICOM_CONFIG" ]; then
-    run picom --config "$PICOM_CONFIG" --vsync
+    run picom --config "$PICOM_CONFIG" --vsync --backend glx --unredir-if-possible --use-damage
 else
-    run picom
+    run picom --vsync --backend glx --unredir-if-possible --use-damage
 fi
 
-# Start essential system tray applications
-run nm-applet
-run blueman-applet
-run pamac-tray
+# Start system tray applications with slight delays to prevent resource contention
+(sleep 1 && run nm-applet) &
+(sleep 1.5 && run blueman-applet) &
+(sleep 2 && run pamac-tray) &
 
-# Start minimal set of user applications
+# Start user applications
 run numlockx on
-dunst &
+run dunst
 run flameshot
-run gammastep
-
-# Start minimal compositor without effects
-picom --no-fading --no-vsync --backend glx --unredir-if-possible &
+run gammastep -l 36.8:10.2 # Adjusted for better performance
