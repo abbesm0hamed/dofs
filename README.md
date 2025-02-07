@@ -26,10 +26,10 @@ A minimalist and elegant desktop environment built with i3 window manager, featu
 
 ### Prerequisites
 
-1. Clone the repository:
+1. Clone the i3 branch from the repository:
 
 ```bash
-git clone https://github.com/abbesm0hamed/dofs.git ~/dofs
+git clone -b i3 https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
 ```
 
@@ -39,9 +39,8 @@ The repository includes an automated installation script using Ansible. To insta
 
 ```bash
 cd bootstrap/arch
-chmod +x install.sh software-installation-playbook.yml
-./install.sh 
-ansible-playbook -K software-installation-playbook.yml
+chmod +x install-setup.sh 
+./install-setup.sh 
 ```
 
 This will install:
