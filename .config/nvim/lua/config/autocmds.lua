@@ -81,15 +81,3 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
   end,
   desc = "Debounced check for external file changes",
 })
-
--- Optimize buffer refresh
-vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave" }, {
-  group = augroup("refresh_file"),
-  callback = function()
-    if vim.bo.buftype ~= "" then
-      return -- Skip special buffers
-    end
-    vim.cmd("checktime")
-  end,
-  desc = "Refresh file content after writing or leaving buffer",
-})

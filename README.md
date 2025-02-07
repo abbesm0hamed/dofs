@@ -1,35 +1,26 @@
 # My Arch Linux i3wm Rice Setup
 
-A minimalist and elegant desktop environment built with i3 window manager, featuring the beautiful Kanagawa color scheme. The setup emphasizes both aesthetics and functionality, with a cohesive dark theme inspired by The Great Wave off Kanagawa.
+A minimalist and elegant desktop environment built with i3 window manager for performance, featuring the beautiful Kanagawa color scheme. The setup emphasizes both aesthetics and functionality, with a cohesive dark theme inspired by The Great Wave off Kanagawa.
 
 ## Screenshots
 
-![nvim + bg ](./.config/screenshots/nvim-bg.png)
+![nvim + bg ](./.config/screenshots/i3-perf-bg-nvim.png)
 *Neovim with Kanagawa theme and custom background*
 
-![Terminal Tools](./.config/screenshots/dunst-pipes-ttyclock.png)
-*Terminal tools (dunst, tty-clock, pipes.sh) running in i3 with Kanagawa theme*
+![Terminal Tools](./.config/screenshots/i3-perf-macchina-pipes-nvim.png)
+*Terminal tools (macchina, nvim, pipes.sh) running in i3 with Kanagawa theme*
 
-![System info + some software](./.config/screenshots/nvim-cava-fastfetch-dunst.png)
-*Nvim + cava + fastfetch + dunst*
-
-![System Info and Resource Monitor](./.config/screenshots/cava-macchina-btop.png)
-*System stats with macchina, audio visualizer cava, and system monitor btop*
-
-![Terminal Tools](./.config/screenshots/nvim-ranger-cbonsai.png)
-*Ranger file manager and cbonsai*
-
-![Terminal Tools](./.config/screenshots/yazi-scratchpad.png)
+![Terminal Tools](./.config/screenshots/i3-perf-nvim-yazi.png)
 *Yazi file manager on scratchpad*
 
 ## Installation
 
 ### Prerequisites
 
-1. Clone the repository:
+1. Clone the i3-perf branch from the repository:
 
 ```bash
-git clone https://github.com/abbesm0hamed/dofs.git ~/dofs
+git clone -b i3-perf https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
 ```
 
@@ -39,14 +30,13 @@ The repository includes an automated installation script using Ansible. To insta
 
 ```bash
 cd bootstrap/arch
-chmod +x install.sh software-installation-playbook.yml
-./install.sh 
-ansible-playbook -K software-installation-playbook.yml
+chmod +x install-system.sh
+./install-system.sh 
 ```
 
 This will install:
 
-- Window Manager: i3-gaps, i3ass
+- Window Manager: i3, i3ass
 - Shell: zsh (set as default)
 - Development Tools: neovim, vscode, docker, git tools
 - Terminal Utilities: tmux, ranger, btop, cava
