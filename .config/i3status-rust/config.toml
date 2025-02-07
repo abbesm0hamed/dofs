@@ -9,7 +9,7 @@ separator = "  "
 
 [[block]]
 block = "net"
-format = "󰖩 $speed_down  󰕒 $speed_up"
+format = "󰇚 $speed_down  󰕒 $speed_up"
 interval = 5
 [[block.click]]
 button = "left"
@@ -47,7 +47,7 @@ alert = 10.0
 [[block]]
 block = "battery"
 format = "󰁺 $percentage"              # Discharging (progresses from 󰁺 to 󰂁)
-charging_format = " 󰢜 $percentage"    # Charging
+charging_format = "󰢜 $percentage"     # Charging
 full_format = "󰁹 Full"                # Full
 not_charging_format = "󰂎 $percentage" # Not charging
 device = "DisplayDevice"
@@ -57,7 +57,7 @@ interval = 10
 [[block]]
 block = "sound"
 driver = "pulseaudio"
-format = "{ $icon }$volume"
+format = "{$icon }$volume"
 show_volume_when_muted = true
 
 [block.mappings]
