@@ -11,7 +11,7 @@ font-family = Commit Nerd Font
 font-style-italic = VictorMono Italic
 font-style-bold = Iosevka Nerd Font Bold
 font-style-bold-italic = VictorMono Nerd Font Italic Bold
-font-size = 16
+font-size = 18
 
 # Window Configuration
 window-save-state = never
