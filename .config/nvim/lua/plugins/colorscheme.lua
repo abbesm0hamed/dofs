@@ -44,14 +44,14 @@ return {
   },
   --
   --new
-  {
-    "dgox16/oldworld.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {
-      variant = "oled",
-    },
-  },
+  -- {
+  --   "dgox16/oldworld.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     variant = "oled",
+  --   },
+  -- },
   --
   -- {
   --   "ficcdaf/ashen.nvim",

@@ -168,6 +168,7 @@ install_packages \
 # Install applications
 echo_step "Installing applications..."
 install_packages \
+    ladybrid \
     brave-bin \
     # visual-studio-code-bin \
     windsurf \
