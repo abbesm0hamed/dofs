@@ -184,7 +184,6 @@ bindsym {
     Control+Mod1+t exec archlinux-tweak-tool
     Control+Mod1+c exec catfish
     Control+Mod1+i exec nitrogen
-    Control+Mod1+m exec xfce4-settings-manager
     Control+Mod1+u exec pavucontrol
 }
 

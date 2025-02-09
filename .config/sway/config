@@ -79,3 +79,6 @@ workspace_layout tabbed
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
+# transparency 
+# for_window [app_id="kitty"] opacity 0.85 blur enable
+
