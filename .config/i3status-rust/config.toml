@@ -7,34 +7,40 @@ icons = "material-nf"
 [theme.overrides]
 separator = "  "
 
-[[block]]
-block = "net"
-format = "󰇚 $speed_down  󰕒 $speed_up"
-interval = 5
-[[block.click]]
-button = "left"
-cmd = "nm-connection-editor"
+# [[block]]
+# block = "net"
+# format = "󰇚 $speed_down  󰕒 $speed_up"
+# interval = 5
+# [[block.click]]
+# button = "left"
+# cmd = "nm-connection-editor"
+
+# [[block]]
+# block = "cpu"
+# interval = 1
+# format = "󰻠 $utilization"
+# [[block.click]]
+# button = "left"
+# cmd = "gnome-system-monitor"
+#
+# [[block]]
+# block = "memory"
+# format = "󰍛 $mem_used_percents"
+# interval = 1
+# warning_mem = 80
+# critical_mem = 95
+
+# [[block]]
+# block = "temperature"
+# format = "󱃃 $average"
+# interval = 10
+# chip = "*-isa-*"
 
 [[block]]
-block = "cpu"
-interval = 1
-format = "󰻠 $utilization"
-[[block.click]]
-button = "left"
-cmd = "gnome-system-monitor"
-
-[[block]]
-block = "memory"
-format = "󰍛 $mem_used_percents"
-interval = 1
-warning_mem = 80
-critical_mem = 95
-
-[[block]]
-block = "temperature"
-format = "󱃃 $average"
-interval = 10
-chip = "*-isa-*"
+block = "custom"
+command = "~/.config/i3status-rust/scripts/updates-pacman.sh"
+interval = 60
+format = "󰏗 $text"
 
 [[block]]
 block = "disk_space"
@@ -43,16 +49,6 @@ format = "󰋊 $available"
 interval = 60
 warning = 20.0
 alert = 10.0
-
-[[block]]
-block = "battery"
-format = "󰁺 $percentage"              # Discharging (progresses from 󰁺 to 󰂁)
-charging_format = "󰢜 $percentage"     # Charging
-full_format = "󰁹 Full"                # Full
-not_charging_format = "󰂎 $percentage" # Not charging
-device = "DisplayDevice"
-driver = "upower"
-interval = 10
 
 [[block]]
 block = "sound"
@@ -79,10 +75,14 @@ format = "󰃞 $brightness"
 device = "intel_backlight"
 
 [[block]]
-block = "custom"
-command = "~/.config/i3status-rust/scripts/updates-pacman.sh"
-interval = 60
-format = "󰏗 $text"
+block = "battery"
+format = "󰁺 $percentage"              # Discharging (progresses from 󰁺 to 󰂁)
+charging_format = "󰢜 $percentage"     # Charging
+full_format = "󰁹 Full"                # Full
+not_charging_format = "󰂎 $percentage" # Not charging
+device = "DisplayDevice"
+driver = "upower"
+interval = 10
 
 [[block]]
 block = "custom"
@@ -94,7 +94,7 @@ format = "$text"
 block = "custom"
 command = "~/.config/i3status-rust/scripts/next-prayer.sh"
 interval = 60
-format = "$text"
+format = "  $text"
 
 [[block]]
 block = "time"

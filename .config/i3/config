@@ -71,8 +71,8 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # Keyboard layout switching
-exec_always --no-startup-id "setxkbmap -layout us,ar -option grp:alt_shift_toggle"
-bindsym ISO_Next_Group exec --no-startup-id "setxkbmap -query | grep -q 'layout:\s\+us' && setxkbmap ar || setxkbmap us"
+exec_always --no-startup-id "setxkbmap -layout us,fr -option grp:alt_shift_toggle"
+bindsym ISO_Next_Group exec --no-startup-id "setxkbmap -query | grep -q 'layout:\s\+us' && setxkbmap fr || setxkbmap us"
 
 # Autostart applications
 exec --no-startup-id dbus-update-activation-environment --all
