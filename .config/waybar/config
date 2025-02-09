@@ -1,10 +1,11 @@
 {
-    "layer": "top",
-    "position": "top",
+    "layer": "bottom",
+    "position": "bottom",
     "height": 26,
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": [""],
     "modules-right": [
+        // "custom/night_mode",
         "sway/language",
         "custom/updates",
         "memory",
@@ -13,7 +14,6 @@
         "pulseaudio",
         "pulseaudio#microphone",
         "backlight",
-        "custom/night_mode",
         "battery",
         "custom/weather",
         "custom/prayer",
@@ -21,7 +21,7 @@
     ],
     "sway/workspaces": {
         "disable-scroll": true,
-        "format": "{name}"  
+        "format": "{name}"
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"

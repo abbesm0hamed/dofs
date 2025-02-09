@@ -167,6 +167,7 @@ install_packages \
     windsurf \
     discord \
     telegram-desktop \
+    slack-desktop \
     # postman-bin \
     # keepassxc \
     # mpv \
