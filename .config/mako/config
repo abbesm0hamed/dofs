@@ -1,0 +1,49 @@
+# Match Dunst configuration exactly
+layer=overlay
+anchor=top-right
+
+# Size and position
+width=350
+height=100
+margin=0,0
+padding=15,10
+default-timeout=10000
+
+# Appearance
+font=Lilex Mono Nerd Font Medium 10
+background-color=#1F1F28AA
+text-color=#DCD7BA
+border-size=1
+border-color=#7E9CD8
+
+# Icon settings
+icon-path=/usr/share/icons/Papirus-Dark
+max-icon-size=32
+icon-location=left
+
+# Text formatting
+markup=1
+format=%s\n%b
+actions=1
+
+# Progress bar
+progress-color=over #7E9CD8
+
+[urgency=low]
+background-color=#1F1F28AA
+text-color=#DCD7BA
+border-color=#7E9CD8
+default-timeout=10000
+
+[urgency=normal]
+background-color=#1F1F28AA
+text-color=#DCD7BA
+border-color=#7E9CD8
+default-timeout=10000
+
+[urgency=critical]
+background-color=#1F1F28AA
+text-color=#E82424
+border-color=#E82424
+default-timeout=0
+format=%s\n%b

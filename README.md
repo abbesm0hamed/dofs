@@ -17,10 +17,10 @@ A minimalist and elegant desktop environment built with i3 window manager for pe
 
 ### Prerequisites
 
-1. Clone the i3-perf branch from the repository:
+1. Clone the sway branch from the repository:
 
 ```bash
-git clone -b i3-perf https://github.com/abbesm0hamed/dofs.git ~/dofs
+git clone -b sway https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
 ```
 
@@ -29,19 +29,19 @@ cd ~/dofs
 The repository includes an automated installation script using Ansible. To install all required software:
 
 ```bash
-cd bootstrap/arch
+cd bootstrap/arch/sway
 chmod +x install-system.sh
 ./install-system.sh 
 ```
 
 This will install:
 
-- Window Manager: i3, i3ass
+- Window Manager: sway
 - Shell: zsh (set as default)
-- Development Tools: neovim, vscode, docker, git tools
+- Development Tools: neovim, docker, git tools
 - Terminal Utilities: tmux, ranger, btop, cava
-- System Tools: picom, polybar, rofi, dunst
-- Fonts and Themes: nerd-fonts, lxappearance
+- System Tools: waybar, wofi, dunst
+- Fonts and Themes: nerd-fonts
 - Media Applications: mpv, vlc, gimp
 - And many more essential packages
 

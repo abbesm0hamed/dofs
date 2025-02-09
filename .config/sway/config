@@ -1,0 +1,81 @@
+# Include configurations
+include $HOME/.config/sway/rules.conf
+include $HOME/.config/sway/modes.conf
+include $HOME/.config/sway/themes/kanagawa.conf
+include $HOME/.config/sway/keybindings
+
+# Basic settings
+set $mod Mod4
+floating_modifier $mod
+font pango:Lilex Nerd Font 10
+
+# Sway specific settings
+xwayland enable
+focus_follows_mouse no
+workspace_auto_back_and_forth no
+
+for_window [all] title_window_icon on
+for_window [class=".*"] border pixel 1
+default_border pixel 1
+smart_borders off
+# gaps inner 5
+# gaps outer 0
+
+# Title format settings
+for_window [class=".*"] title_format " %title"
+for_window [class=".*"] title_window_icon padding 3px
+
+# Workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Monitor configuration
+# Primary display (Laptop)
+output eDP-1 {
+    position 0 0
+    mode 1920x1080@60Hz
+    adaptive_sync on
+    scale 1
+}
+
+# External display (will be configured when connected)
+output HDMI-A-1 {
+    position 1920 0
+    mode 1920x1080@240Hz
+    scale 1
+    adaptive_sync on
+}
+
+# Keyboard layout switching (Sway syntax)
+input * {
+    xkb_layout "us,fr"
+    xkb_options "grp:alt_shift_toggle"
+}
+
+# Autostart applications
+exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec $HOME/.config/scripts/autostart.sh
+exec $HOME/.config/scripts/sway-wallpaper.sh
+
+# Optimized workspace layouts
+workspace $ws1 output primary
+workspace $ws2 output primary
+
+# Set specific layouts for workspaces
+workspace_layout tabbed
+# for_window [workspace=$ws1] layout default
+# for_window [workspace=$ws2] layout tabbed
+# for_window [workspace=$ws3] layout stacking
+
+# Window rules
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+

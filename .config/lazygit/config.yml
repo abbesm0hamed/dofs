@@ -1,0 +1,15 @@
+gui:
+  showIcons: true
+  theme:
+    selectedLineBgColor:
+      - reverse
+    selectedRangeBgColor:
+      - reverse
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+  branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --"
+os:
+  editCommand: 'nvim'
+  editCommandTemplate: '{{editor}} {{filename}}'

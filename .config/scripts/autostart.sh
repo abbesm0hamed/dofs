@@ -12,33 +12,40 @@ function run {
 }
 
 # Clean up existing processes
-killall -q picom dunst
+killall -q mako waybar
 
 # Wait for processes to end
-while pgrep -u $UID -x picom >/dev/null; do sleep 0.1; done
-while pgrep -u $UID -x dunst >/dev/null; do sleep 0.1; done
+while pgrep -u $UID -x mako >/dev/null || pgrep -u $UID -x waybar >/dev/null; do sleep 0.1; done
+
+# Start Waybar with restart capability
+sleep 1 && WAYLAND_DISPLAY=wayland-1 waybar -c ~/.config/waybar/config -s ~/.config/waybar/style.css 2>&1 | tee /tmp/waybar.log &
 
 # Start critical system services with lower priority
 nice -n 10 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # Optimize power management
-run xfce4-power-manager --no-daemon
+run powerprofilesctl set performance
 
-# Start compositor with optimized settings
-PICOM_CONFIG="$HOME/.config/picom/picom.conf"
-if [ -f "$PICOM_CONFIG" ]; then
-    run picom --config "$PICOM_CONFIG" --vsync --backend glx --unredir-if-possible --use-damage
-else
-    run picom --vsync --backend glx --unredir-if-possible --use-damage
-fi
+# Start notification daemon (mako for Wayland)
+run mako
 
 # Start system tray applications with slight delays to prevent resource contention
-(sleep 1 && run nm-applet) &
+(sleep 1 && run nm-applet --indicator) & # --indicator for better Wayland support
 (sleep 1.5 && run blueman-applet) &
+
 (sleep 2 && run pamac-tray) &
 
 # Start user applications
-run numlockx on
-run dunst
 run flameshot
-run gammastep -l 36.8:10.2 # Adjusted for better performance
+# run wlsunset -l 36.8 -L 10.2  # Wayland replacement for gammastep
+
+# Initialize Wayland-specific services
+run kanshi   # Automatic display management
+run wlsunset # Night light
+run wob      # On-screen display bars
+
+
+
+# Initialize XDG portals for better app integration
+run /usr/lib/xdg-desktop-portal-wlr &
+run /usr/lib/xdg-desktop-portal &
