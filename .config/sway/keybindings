@@ -62,8 +62,7 @@ bindsym {
     Control+Mod1+p exec pamac-manager
 
     # Quick Settings and Power
-    Mod4+Mod1+l exec ~/.config/wofi/scripts/quick-settings.sh
-    Mod4+Mod1+o exec ~/.config/wofi/scripts/powermenu.sh
+    Mod4+Mod1+l exec ~/.config/scripts/power-menu.sh
 }
 
 # MPD controls

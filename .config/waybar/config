@@ -6,6 +6,7 @@
     "modules-center": [""],
     "modules-right": [
         // "custom/night_mode",
+        // "custom/power"
         "sway/language",
         "custom/updates",
         "memory",
@@ -115,5 +116,10 @@
                 "today": "<span color='#ff6699'><b>{}</b></span>"
             }
         }
+    },
+    "custom/power": {
+        "format": " ⏻ ",
+        "on-click": "~/.config/scripts/power-menu.sh",
+        "tooltip": false
     }
 }

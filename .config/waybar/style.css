@@ -46,6 +46,7 @@ window#waybar {
 #custom-night_mode,
 #custom-weather,
 #custom-prayer,
+#custom-power,
 #language,
 #backlight {
     padding: 0 10px;
@@ -74,6 +75,18 @@ window#waybar {
 
 #network.disconnected {
     background: #f53c3c;
+}
+
+#custom-power {
+    color: #ff5555;
+    font-size: 14px;
+    padding: 0 4px;
+    /* margin: 6px 0px; */
+}
+
+#custom-power:hover {
+    color: #ff0000;
+    background-color: rgba(255, 85, 85, 0.1);
 }
 
 @keyframes blink {
