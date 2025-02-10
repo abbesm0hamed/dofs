@@ -1,13 +1,13 @@
 * {
-    font-family: "JetBrainsMono Nerd Font Medium";
+    font-family: "Lilex";
     font-size: 10pt;
 }
 
 window {
     margin: 0;
     background-color: #1F1F28;
-    border: 1px solid #54546D;
-    /* border-radius: 8px; */
+    border: 1px solid #3f4563;
+    border-radius: 0px;
     /* Ensure centering */
     position: fixed;
     top: 50%;
@@ -19,8 +19,9 @@ window {
     margin: 5px;
     padding: 8px 12px;
     background-color: #2A2A37;
+    border: 1px solid #3f4563;
+    border-radius: 0px;
     color: #DCD7BA;
-    border: none;
 }
 
 #inner-box {

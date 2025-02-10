@@ -1,49 +1,59 @@
-# Match Dunst configuration exactly
+# General configuration
 layer=overlay
 anchor=top-right
+sort=-time
+output=
+max-history=100
 
-# Size and position
+# Style
+font=Lilex Medium 11
 width=350
 height=100
-margin=0,0
-padding=15,10
-default-timeout=10000
-
-# Appearance
-font=Lilex Medium 10
-background-color=#1F1F28AA
-text-color=#DCD7BA
+margin=5,5
+padding=12,12
 border-size=1
-border-color=#7E9CD8
+border-radius=0
+border-color=${focused_color}
+progress-color=over ${focused_color}
+default-timeout=10000
+ignore-timeout=0
 
-# Icon settings
+# Colors from kanagawa theme
+background-color=${bg_color}F5
+text-color=${fg_color}
+
+# Icons
 icon-path=/usr/share/icons/Papirus-Dark
-max-icon-size=32
+max-icon-size=48
 icon-location=left
 
-# Text formatting
-markup=1
-format=%s\n%b
-actions=1
-
-# Progress bar
-progress-color=over #7E9CD8
-
+# Styling different urgency levels
 [urgency=low]
-background-color=#1F1F28AA
-text-color=#DCD7BA
-border-color=#7E9CD8
-default-timeout=10000
+border-color=${inactive_color}
+background-color=${bg_color}F0
+default-timeout=8000
 
 [urgency=normal]
-background-color=#1F1F28AA
-text-color=#DCD7BA
-border-color=#7E9CD8
+border-color=${focused_color}
+background-color=${bg_color}F5
 default-timeout=10000
 
-[urgency=critical]
-background-color=#1F1F28AA
-text-color=#E82424
-border-color=#E82424
+[urgency=high]
+border-color=${urgent_color}
+background-color=${bg_color}F8
+text-color=${red_fg}
 default-timeout=0
-format=%s\n%b
+
+# Special styling for desktop-entry
+[app-name=Spotify]
+border-color=${green_accent}
+background-color=${bg_color}F5
+
+[category=mpd]
+border-color=${green_accent}
+background-color=${bg_color}F5
+default-timeout=5000
+
+# Hide certain notifications
+[app-name=volume]
+invisible=1

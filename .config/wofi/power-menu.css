@@ -1,16 +1,20 @@
-window {
-    font-family: "Lilex";
+* {
+    box-sizing: border-box;
     font-size: 14px;
-    background-color: rgba(26, 27, 38, 0.9);
-    border-radius: 8px;
-    border: 2px solid #7E9CD8;
+    font-family: "Lilex";
+}
+
+window {
+    background-color: #1F1F28;
+    border-radius: 0px;
+    border: 1px solid #3f4563;
 }
 
 #input {
     margin: 5px;
     background-color: rgba(26, 27, 38, 0.6);
-    border: 1px solid #7E9CD8;
-    border-radius: 4px;
+    border: 1px solid #3f4563;
+    border-radius: 0px;
     color: #DCD7BA;
 }
 
