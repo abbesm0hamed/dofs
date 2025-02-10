@@ -1,0 +1,23 @@
+[manager]
+show_hidden = true
+
+[manager.prepend_keymap]
+"g" = "cd ~"
+"~" = "cd ~"
+
+[preview]
+tab_size = 2
+
+[plugin]
+
+[plugin.preload]
+
+[input]
+# Use a monospace font for better appearance
+font_family = "JetBrains Mono Nerd Font"
+font_size = 16
+
+[select]
+# Use the same font for consistency
+font_family = "JetBrains Mono Nerd Font"
+font_size = 16

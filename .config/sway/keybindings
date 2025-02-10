@@ -192,10 +192,10 @@ bindsym {
     Mod4+Mod1+minus scratchpad show
     Mod4+Shift+minus move scratchpad
 
-    # Show specific scratchpads
-    Mod4+grave [app_id="kitty-scratchpad"] scratchpad show
-    Mod4+u [app_id="btop-scratchpad"] scratchpad show
-    Mod4+y [app_id="yazi-scratchpad"] scratchpad show
+    # Scratchpad terminals
+    Mod4+grave exec ~/.config/scripts/toggle-scratchpad.sh kitty-scratchpad "kitty --name=kitty-scratchpad"
+    Mod4+u exec ~/.config/scripts/toggle-scratchpad.sh btop-scratchpad "kitty --name=btop-scratchpad btop"
+    Mod4+y exec ~/.config/scripts/toggle-scratchpad.sh yazi-scratchpad "kitty --name=yazi-scratchpad yazi"
 }
 
 # Alt shortcuts for Variety wallpaper control
