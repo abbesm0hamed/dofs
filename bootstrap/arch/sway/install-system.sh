@@ -155,9 +155,9 @@ cp "$(dirname "$0")/input.conf" "$HOME/.config/sway/config.d/"
 echo_step "Installing applications..."
 install_packages \
     kitty
-    # ghostty \
-    # alacritty \
-    # wezterm \
+# ghostty \
+# alacritty \
+# wezterm \
 
 # Install applications
 echo_step "Installing applications..."
@@ -167,12 +167,12 @@ install_packages \
     windsurf \
     discord \
     telegram-desktop \
-    slack-desktop \
-    # postman-bin \
-    # keepassxc \
-    # mpv \
-    # vlc \
-    # calibre \
+    slack-desktop
+# postman-bin \
+# keepassxc \
+# mpv \
+# vlc \
+# calibre \
 
 # Install fonts
 echo_step "Installing fonts..."
@@ -187,10 +187,10 @@ install_packages \
     ttf-material-design-iconic-font \
     ttf-feather \
     ttf-joypixels \
-    ttf-lilex \ 
-    ttf-cairo \  # Modern Arabic font with good readability
-    # ttf-amiri \          # Beautiful traditional Arabic font
-    # noto-fonts-arabic
+    ttf-lilex \
+    noto-fonts \ # has most readable arabic font
+# ttf-amiri \  # Beautiful traditional Arabic font
+# ttf-cairo \  # Modern Arabic font with good readability
 
 # Change default shell to zsh
 echo_step "Changing default shell to zsh..."

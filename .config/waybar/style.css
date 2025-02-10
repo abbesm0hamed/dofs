@@ -1,8 +1,8 @@
 * {
     border: none;
     border-radius: 0;
-    font-family: "Lilex Nerd Font";
-    font-size: 14;
+    font-size: 12px;
+    font-family: "Lilex Nerd Font", monospace;
     min-height: 0;
 }
 
@@ -94,4 +94,18 @@ window#waybar {
         background-color: #ffffff;
         color: #000000;
     }
+}
+
+
+#tray {
+    padding: 0 10px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
 }

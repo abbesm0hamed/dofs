@@ -37,7 +37,8 @@ run mako
 
 # Start user applications
 run flameshot
-run slack # Start Slack on workspace 9
+run slack   # Start Slack on workspace 9
+run discord # Start Discord on workspace 10
 # run wlsunset -l 36.8 -L 10.2  # Wayland replacement for gammastep
 
 # Initialize Wayland-specific services

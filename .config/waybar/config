@@ -1,7 +1,7 @@
 {
     "layer": "bottom",
     "position": "bottom",
-    "height": 24,
+    "height": 22,
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": [""],
     "modules-right": [
@@ -9,16 +9,17 @@
         // "custom/power"
         "sway/language",
         "custom/updates",
-        "memory",
-        "cpu",
-        "disk",
+        // "memory",
+        // "cpu",
+        // "disk",
         "pulseaudio",
         "pulseaudio#microphone",
         "backlight",
         "battery",
         "custom/weather",
         "custom/prayer",
-        "clock"
+        "clock",
+        "tray"
     ],
     "sway/workspaces": {
         "disable-scroll": true,
@@ -121,5 +122,11 @@
         "format": " ⏻ ",
         "on-click": "~/.config/scripts/power-menu.sh",
         "tooltip": false
+    },
+    "tray": {
+        "tray": {
+        "icon-size": 16,
+        "spacing": 10
+        }
     }
 }

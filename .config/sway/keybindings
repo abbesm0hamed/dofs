@@ -186,6 +186,18 @@ bindsym {
     Control+Mod1+u exec pavucontrol
 }
 
+# Application-specific scratchpads
+bindsym {
+    # General scratchpad controls
+    Mod4+Mod1+minus scratchpad show
+    Mod4+Shift+minus move scratchpad
+
+    # Show specific scratchpads
+    Mod4+grave [app_id="kitty-scratchpad"] scratchpad show
+    Mod4+u [app_id="btop-scratchpad"] scratchpad show
+    Mod4+y [app_id="yazi-scratchpad"] scratchpad show
+}
+
 # Alt shortcuts for Variety wallpaper control
 bindsym {
     Mod1+Shift+Left exec variety -p
