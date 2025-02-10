@@ -178,6 +178,7 @@ install_packages \
     # vlc \
     # calibre \
     discord \
+    slack-desktop \
     telegram-desktop
 
 # Install fonts
@@ -193,7 +194,8 @@ install_packages \
     ttf-material-design-iconic-font \
     ttf-feather \
     ttf-joypixels \
-    ttf-lilex
+    ttf-lilex \
+    noto-fonts \
 
 # Change default shell to zsh
 echo_step "Changing default shell to zsh..."

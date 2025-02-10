@@ -58,47 +58,7 @@ XF86AudioStop
 alt + shift + {h,j,k,l}
    mpc {prev,next,play,pause}
 
-#i3 Specific Keybindings
-
-#movement
-
-super + {h,j,k,l}
-    i3-msg focus {left,down,up,right}
-
-super + shift + {h,j,k,l}
-    i3-msg move {left,down,up,right}
-
-# Layout controls
-super + {z,x}
-    i3-msg split {v,h}
-
-# Switch between layouts
-super + w
-    i3-msg layout tabbed
-
-super + e
-    i3-msg layout toggle split
-
-super + s
-    i3-msg layout stacking
-
-super + f
-    i3-msg fullscreen toggle
-
-super + shift + space
-    i3-msg floating toggle
-
-super + space
-    i3-msg focus mode_toggle
-
-super + a
-    i3-msg focus parent
-
-
-#workspaces
-
-super + shift + b
-    i3-msg move workspace to output next
+# Window management bindings moved to i3 config
 
 #super + {1-9,0}
 #    /usr/local/bin/i3_workspace_swapper.sh {1-9,0}

@@ -2,6 +2,7 @@
 include $HOME/.config/i3/rules.conf
 include $HOME/.config/i3/modes.conf
 include $HOME/.config/i3/themes/kanagawa.conf
+include $HOME/.config/i3/keybindings.conf
 
 # Basic settings
 set $mod Mod4
@@ -30,6 +31,18 @@ default_border normal
 default_floating_border normal
 hide_edge_borders none
 
+# Optimized workspace layouts
+workspace $ws1 output primary
+workspace $ws2 output primary
+
+# Default layout mode for all workspaces
+workspace_layout tabbed
+
+# Set specific layouts for workspaces
+# for_window [workspace=$ws1] layout default
+# for_window [workspace=$ws2] layout tabbed
+# for_window [workspace=$ws3] layout stacking
+
 # Title format
 for_window [class=".*"] title_format " %title"
 for_window [class=".*"] title_window_icon padding 3px
@@ -45,30 +58,6 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
-
-# Switch to workspace
-bindsym $mod+1 workspace number $ws1
-bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
-bindsym $mod+4 workspace number $ws4
-bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
-bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
-bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
-
-# Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # Keyboard layout switching
 exec_always --no-startup-id "setxkbmap -layout us,fr -option grp:alt_shift_toggle"
@@ -90,18 +79,8 @@ bar {
     }
 }
 
-# Optimized workspace layouts
-workspace $ws1 output primary
-workspace $ws2 output primary
 
-# Default layout mode for all workspaces
-# workspace_layout tabbed
-
-# Set specific layouts for workspaces
-for_window [workspace=$ws1] layout default
-for_window [workspace=$ws2] layout tabbed
-for_window [workspace=$ws3] layout stacking
 
 # Commented out autotiling as it conflicts with manual layout management
 # exec_always --no-startup-id autotiling
-exec --no-startup-id sxhkd
+# exec --no-startup-id sxhkd

@@ -17,7 +17,7 @@ separator = "  "
 
 # [[block]]
 # block = "cpu"
-# interval = 1
+# interval = 5
 # format = "󰻠 $utilization"
 # [[block.click]]
 # button = "left"
@@ -26,14 +26,14 @@ separator = "  "
 # [[block]]
 # block = "memory"
 # format = "󰍛 $mem_used_percents"
-# interval = 1
+# interval = 5
 # warning_mem = 80
 # critical_mem = 95
 
 # [[block]]
 # block = "temperature"
 # format = "󱃃 $average"
-# interval = 10
+# interval = 50
 # chip = "*-isa-*"
 
 [[block]]
@@ -63,7 +63,7 @@ unmuted = "󰕾"
 [[block]]
 block = "custom"
 command = "~/.config/i3status-rust/scripts/mic.sh"
-interval = 1
+interval = 5
 format = "󰍬 $text"
 [[block.click]]
 button = "left"
@@ -80,14 +80,14 @@ format = "󰁺 $percentage"              # Discharging (progresses from 󰁺 to 
 charging_format = "󰢜 $percentage"     # Charging
 full_format = "󰁹 Full"                # Full
 not_charging_format = "󰂎 $percentage" # Not charging
-device = "DisplayDevice"
+device = "BAT1"
 driver = "upower"
-interval = 10
+interval = 30
 
 [[block]]
 block = "custom"
 command = "~/.config/i3status-rust/scripts/weather.sh"
-interval = 1800
+interval = 5800
 format = "$text"
 
 [[block]]
@@ -98,5 +98,5 @@ format = "  $text"
 
 [[block]]
 block = "time"
-interval = 1
+interval = 5
 format = "$timestamp.datetime(f:'%a, %d %b %H:%M') "
