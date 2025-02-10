@@ -60,8 +60,8 @@ set $ws9 "9"
 set $ws10 "10"
 
 # Keyboard layout switching
-exec_always --no-startup-id "setxkbmap -layout us,fr -option grp:alt_shift_toggle"
-bindsym ISO_Next_Group exec --no-startup-id "setxkbmap -query | grep -q 'layout:\s\+us' && setxkbmap fr || setxkbmap us"
+# exec_always --no-startup-id "setxkbmap -layout us,fr -option grp:alt_shift_toggle"
+# bindsym ISO_Next_Group exec --no-startup-id "setxkbmap -query | grep -q 'layout:\s\+us' && setxkbmap fr || setxkbmap us"
 
 # Autostart applications
 exec --no-startup-id dbus-update-activation-environment --all
