@@ -24,7 +24,7 @@ return {
     ---@type blink.cmp.Config
     opts = {
       snippets = {
-        expand = function(snippet, _)
+        expand = function(snippet)
           return LazyVim.cmp.expand(snippet)
         end,
       },
@@ -65,16 +65,8 @@ return {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
         compat = {},
+        default = { "lsp", "path", "snippets", "buffer" },
         cmdline = {},
-        -- default = { "lsp", "path", "snippets", "buffer" },
-        default = { "lazydev" },
-        providers = {
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            score_offset = 100, -- show at a higher priority than lsp
-          },
-        },
       },
 
       keymap = {
@@ -116,8 +108,6 @@ return {
     },
     ---@param opts blink.cmp.Config | { sources: { compat: string[] } }
     config = function(_, opts)
-      opts.appearance = opts.appearance or {}
-      opts.appearance.kind_icons = vim.tbl_extend("force", opts.appearance.kind_icons or {}, LazyVim.config.icons.kinds)
       -- setup compat sources
       local enabled = opts.sources.default
       for _, source in ipairs(opts.sources.compat or {}) do
@@ -180,12 +170,6 @@ return {
 
       require("blink.cmp").setup(opts)
     end,
-  },
-  {
-    "saghen/blink.compat",
-    optional = true, -- make optional so it's only enabled if any extras need it
-    opts = {},
-    version = not vim.g.lazyvim_blink_main and "*",
   },
   -- {
   --   "hrsh7th/nvim-cmp",

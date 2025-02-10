@@ -7,7 +7,7 @@ include $HOME/.config/sway/keybindings
 # Basic settings
 set $mod Mod4
 floating_modifier $mod
-font pango:Lilex Nerd Font 10
+font pango:Lilex 10
 
 # Sway specific settings
 xwayland enable

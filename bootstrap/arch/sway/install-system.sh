@@ -177,6 +177,7 @@ install_packages \
 # Install fonts
 echo_step "Installing fonts..."
 install_packages \
+    fontconfig \
     ttf-jetbrains-mono-nerd \
     ttf-victormono-nerd \
     ttf-iosevka-nerd \
