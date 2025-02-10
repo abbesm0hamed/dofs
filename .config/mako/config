@@ -10,7 +10,7 @@ padding=15,10
 default-timeout=10000
 
 # Appearance
-font=Lilex Mono Nerd Font Medium 10
+font=Lilex Medium 10
 background-color=#1F1F28AA
 text-color=#DCD7BA
 border-size=1
