@@ -15,16 +15,11 @@ xwayland enable
 focus_follows_mouse no
 workspace_auto_back_and_forth no
 
-for_window [all] title_window_icon on
-for_window [class=".*"] border pixel 1
-default_border pixel 1
+# for_window [class=".*"] border pixel 1
+# default_border pixel 1
 smart_borders off
 # gaps inner 5
 # gaps outer 0
-
-# Title format settings
-for_window [class=".*"] title_format " %title"
-for_window [class=".*"] title_window_icon padding 3px
 
 # Workspaces
 set $ws1 "1"

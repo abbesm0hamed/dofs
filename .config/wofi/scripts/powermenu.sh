@@ -23,7 +23,7 @@ case $chosen in
         systemctl reboot
         ;;
     $lock)
-        swaylock    # Changed from i3lock to swaylock
+        swaylock    
         ;;
     $suspend)
         systemctl suspend
@@ -32,6 +32,6 @@ case $chosen in
         systemctl hibernate
         ;;
     $logout)
-        swaymsg exit    # Changed from i3-msg to swaymsg
+        swaymsg exit    
         ;;
 esac

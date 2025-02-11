@@ -39,11 +39,10 @@ run mako
 run flameshot
 run slack   # Start Slack on workspace 9
 run discord # Start Discord on workspace 10
-# run wlsunset -l 36.8 -L 10.2  # Wayland replacement for gammastep
 
 # Initialize Wayland-specific services
 run kanshi # Automatic display management
-# run wlsunset # Night light
+# run wlsunset -l 36.8 -L 10.2  # Night light management
 run wob # On-screen display bars
 
 # Initialize XDG portals for better app integration

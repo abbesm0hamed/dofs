@@ -273,9 +273,9 @@ handle_selection() {
             case "$action" in
                 *"Shutdown"*) systemctl poweroff ;;
                 *"Reboot"*) systemctl reboot ;;
-                *"Logout"*) swaymsg exit ;;  # Changed from i3-msg to swaymsg
+                *"Logout"*) swaymsg exit ;;  
                 *"Suspend"*) systemctl suspend ;;
-                *"Lock"*) swaylock ;;  # Changed from i3lock to swaylock
+                *"Lock"*) swaylock ;;  
             esac
             ;;
     esac

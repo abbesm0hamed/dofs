@@ -105,10 +105,10 @@ install_packages \
     unrar \
     cava \
     nwg-look-bin
-# conky \
-# inkscape \
-# woeusb \
-# swhkd \
+    # conky \
+    # inkscape \
+    # woeusb \
+    # swhkd \
 
 # Install system utilities
 echo_step "Installing system utilities..."
@@ -120,7 +120,7 @@ install_packages \
     pavucontrol \
     xdg-utils \
     udiskie \ 
-# balena-etcher
+    # balena-etcher
 
 # Install Sway and Wayland tools
 echo_step "Installing Sway and Wayland tools..."
@@ -155,9 +155,9 @@ cp "$(dirname "$0")/input.conf" "$HOME/.config/sway/config.d/"
 echo_step "Installing applications..."
 install_packages \
     kitty
-# ghostty \
-# alacritty \
-# wezterm \
+    # ghostty \
+    # alacritty \
+    # wezterm \
 
 # Install applications
 echo_step "Installing applications..."
@@ -168,11 +168,11 @@ install_packages \
     discord \
     telegram-desktop \
     slack-desktop
-# postman-bin \
-# keepassxc \
-# mpv \
-# vlc \
-# calibre \
+    # postman-bin \
+    # keepassxc \
+    # mpv \
+    # vlc \
+    # calibre \
 
 # Install fonts
 echo_step "Installing fonts..."
@@ -189,9 +189,10 @@ install_packages \
     ttf-feather \
     ttf-joypixels \
     ttf-lilex \
-    noto-fonts \ # has most readable arabic font
-# ttf-amiri \  # Beautiful traditional Arabic font
-# ttf-cairo \  # Modern Arabic font with good readability
+    # arabic fonts
+    ttf-amiri \
+    # noto-fonts \ 
+    # ttf-cairo \ 
 
 # Change default shell to zsh
 echo_step "Changing default shell to zsh..."
