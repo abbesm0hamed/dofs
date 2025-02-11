@@ -2,7 +2,7 @@
 layer=overlay
 anchor=top-right
 sort=-time
-output=
+output=all
 max-history=100
 
 # Style
@@ -54,6 +54,23 @@ border-color=${green_accent}
 background-color=${bg_color}F5
 default-timeout=5000
 
-# Hide certain notifications
-[app-name=volume]
-invisible=1
+# Remove or comment out this section as it might interfere with notifications
+# [app-name=volume]
+# invisible=1
+
+# Add default criteria to catch all notifications
+[urgency=low]
+border-color=${inactive_color}
+background-color=${bg_color}F0
+default-timeout=8000
+
+[urgency=normal]
+border-color=${focused_color}
+background-color=${bg_color}F5
+default-timeout=10000
+
+[urgency=high]
+border-color=${urgent_color}
+background-color=${bg_color}F8
+text-color=${red_fg}
+default-timeout=0

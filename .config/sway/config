@@ -10,17 +10,6 @@ floating_modifier $mod
 font pango:Lilex 10
 # font pango:JetBrains Mono Nerd Font 10
 
-# Sway specific settings
-xwayland enable
-focus_follows_mouse no
-workspace_auto_back_and_forth no
-
-# for_window [class=".*"] border pixel 1
-# default_border pixel 1
-smart_borders off
-# gaps inner 5
-# gaps outer 0
-
 # Workspaces
 set $ws1 "1"
 set $ws2 "2"
@@ -61,19 +50,13 @@ exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSO
 exec $HOME/.config/scripts/autostart.sh
 exec $HOME/.config/scripts/sway-wallpaper.sh
 
+# Notification daemon
+exec_always --no-startup-id pkill mako; mako --config ~/.config/mako/config
+
+# Add these environment variables for better notification support
+exec_always --no-startup-id dbus-update-activation-environment --systemd --all
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
 # Optimized workspace layouts
 workspace $ws1 output primary
 workspace $ws2 output primary
-
-# Set specific layouts for workspaces
-workspace_layout tabbed
-# for_window [workspace=$ws1] layout default
-# for_window [workspace=$ws2] layout tabbed
-# for_window [workspace=$ws3] layout stacking
-
-# Window rules
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="task_dialog"] floating enable
-
-# Transparency settings
-for_window [app_id="kitty"] opacity 0.95

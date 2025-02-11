@@ -27,7 +27,7 @@ nice -n 10 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 run powerprofilesctl set performance
 
 # Start notification daemon (mako for Wayland)
-run mako
+sleep 1 && WAYLAND_DISPLAY=wayland-1 mako --config ~/.config/mako/config 2>&1 | tee /tmp/mako.log &
 
 # Start system tray applications with slight delays to prevent resource contention
 (sleep 1 && run nm-applet --indicator) & # --indicator for better Wayland support
