@@ -1,27 +1,27 @@
 -- lualine configuration
 local gray_palette = {
   darker = "#232324",
-  dark = "#403f41",
+  dark = "#363646",
   soft = "#5b5a5c",
   softer = "#828283",
 }
 local fg_colors = {
-  normal = "#87af87",
-  insert = "#cad3f5",
-  visual = "#a8e6cf",
-  command = "#ffd3b6",
+  normal = "#7E9CD8",
+  insert = "#a8e6cf",
+  visual = "#ffd3b6",
+  command = "#D27E99",
   Replace = "#ffb37e",
 }
 local bg_colors = {
-  normal = "#87af87",
-  insert = "#cad3f5",
-  visual = "#a8e6cf",
-  command = "#ffe2b6",
+  normal = "#7E9CD8",
+  insert = "#a8e6cf",
+  visual = "#ffd3b6",
+  command = "#D27E99",
   Replace = "#ffb37e",
 }
 local general_colors = {
   fg = "#000",
-  bg = "#303030",
+  bg = "#2A2A37",
   inactive_bg = "#2c3043",
 }
 
@@ -73,9 +73,9 @@ local lualineConfig = {
       {
         "filename",
         color = { bg = gray_palette.darker },
-        file_status = true, -- Displays file status (readonly status, modified status)
+        file_status = true,     -- Displays file status (readonly status, modified status)
         newfile_status = false, -- Display new file status (new file means no write after created)
-        path = 4, -- 0: Just the filename
+        path = 4,               -- 0: Just the filename
         -- 1: Relative path
         -- 2: Absolute path
         -- 3: Absolute path, with tilde as the home directory
@@ -84,10 +84,10 @@ local lualineConfig = {
         shorting_target = 40, -- Shortens path to leave 40 spaces in the window
         -- for other components. (terrible name, any suggestions?)
         symbols = {
-          modified = "[+]", -- Text to show when the file is modified.
-          readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+          modified = "[+]",      -- Text to show when the file is modified.
+          readonly = "[-]",      -- Text to show when the file is non-modifiable or readonly.
           unnamed = "[No Name]", -- Text to show for unnamed buffers.
-          newfile = "[New]", -- Text to show for newly created file before first write
+          newfile = "[New]",     -- Text to show for newly created file before first write
         },
       },
     },
@@ -124,7 +124,7 @@ local lualineConfig = {
       {
         "selectioncount",
         fmt = function(str)
-          return str ~= "" and "礪" .. str or ""
+          return str ~= "" and "󰒆 " .. str or ""
         end,
       },
       {

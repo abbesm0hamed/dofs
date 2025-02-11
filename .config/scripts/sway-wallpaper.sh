@@ -7,9 +7,10 @@ CURRENT_CONFIG="$CONFIG_DIR/current_wallpapers.conf"
 
 # Default wallpapers - add more as needed
 declare -a DEFAULT_WALLPAPERS=(
-    "$BACKGROUNDS_DIR/unknown.png"
+    "$BACKGROUNDS_DIR/spider-man.jpg"
     "$BACKGROUNDS_DIR/ball.jpg"
-    "$BACKGROUNDS_DIR/html-selfclosed-tag.jpg"
+    "$BACKGROUNDS_DIR/horse-battle.jpg"
+    "$BACKGROUNDS_DIR/dash-for-the-timber.jpeg"
 )
 
 # Create config directory if it doesn't exist

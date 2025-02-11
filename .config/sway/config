@@ -8,6 +8,7 @@ include $HOME/.config/sway/keybindings
 set $mod Mod4
 floating_modifier $mod
 font pango:Lilex 10
+# font pango:JetBrains Mono Nerd Font 10
 
 # Sway specific settings
 xwayland enable
@@ -55,10 +56,10 @@ output HDMI-A-1 {
 }
 
 # Keyboard layout switching (Sway syntax)
-input * {
-    xkb_layout "us,fr"
-    xkb_options "grp:alt_shift_toggle"
-}
+# input * {
+#     xkb_layout "us,fr"
+#     xkb_options "grp:alt_shift_toggle"
+# }
 
 # Autostart applications
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
