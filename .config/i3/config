@@ -47,17 +47,7 @@ workspace_layout tabbed
 for_window [class=".*"] title_format " %title"
 for_window [class=".*"] title_window_icon padding 3px
 
-# Workspaces
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+# Workspaces are defined in keybindings.conf
 
 # Keyboard layout switching
 # exec_always --no-startup-id "setxkbmap -layout us,fr -option grp:alt_shift_toggle"
