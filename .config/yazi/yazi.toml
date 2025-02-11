@@ -13,11 +13,9 @@ tab_size = 2
 [plugin.preload]
 
 [input]
-# Use a monospace font for better appearance
-font_family = "JetBrains Mono Nerd Font"
+font_family = "Lilex"
 font_size = 16
 
 [select]
-# Use the same font for consistency
-font_family = "JetBrains Mono Nerd Font"
+font_family = "Lilex"
 font_size = 16

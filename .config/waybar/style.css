@@ -18,9 +18,9 @@ window#waybar {
 }
 
 #workspaces button.focused {
-    background: #2f587e;
+    background: #285577;
     color: #fff;
-    border: #5481ab 1px solid;
+    border: #7E9CD8 1px solid;
 }
 
 #workspaces button.urgent {
@@ -30,7 +30,7 @@ window#waybar {
 }
 
 #mode {
-    background: #64727D;
+    background: #727169;
     padding: 0 5px;
     margin: 0 2px;
 }
@@ -96,16 +96,15 @@ window#waybar {
     }
 }
 
-
 #tray {
     padding: 0 10px;
 }
 
-#tray > .passive {
+#tray>.passive {
     -gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
+#tray>.needs-attention {
     -gtk-icon-effect: highlight;
     background-color: #eb4d4b;
 }
