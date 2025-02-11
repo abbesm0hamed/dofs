@@ -12,8 +12,8 @@ CURRENT_CONFIG="$CONFIG_DIR/current_wallpapers.conf"
 
 # Default wallpaper array - add more defaults as needed
 declare -a DEFAULT_WALLPAPERS=(
-    "$BACKGROUNDS_DIR/unknown.png"
-    "$BACKGROUNDS_DIR/html-selfclosed-tag.jpg"
+    "$BACKGROUNDS_DIR/spider-man.jpg"
+    "$BACKGROUNDS_DIR/groot.png"
     "$BACKGROUNDS_DIR/ball.jpg"
 )
 
