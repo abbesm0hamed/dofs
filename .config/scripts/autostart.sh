@@ -36,9 +36,8 @@ sleep 1 && WAYLAND_DISPLAY=wayland-1 mako --config ~/.config/mako/config 2>&1 | 
 (sleep 2 && run pamac-tray) &
 
 # Start user applications
-run flameshot
+run discord # Start Discord on workspace 8
 run slack   # Start Slack on workspace 9
-run discord # Start Discord on workspace 10
 
 # Initialize Wayland-specific services
 run kanshi # Automatic display management

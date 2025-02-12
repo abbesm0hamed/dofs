@@ -227,3 +227,12 @@ bindsym F12 exec xfce4-terminal --drop-down
 
 # Task manager
 bindsym Control+Shift+Escape exec xfce4-taskmanager
+
+# Full screenshot
+bindsym Print exec ~/.config/grimshot/grimshot-wrapper.sh screen
+
+# Area screenshot
+bindsym Shift+Print exec ~/.config/grimshot/grimshot-wrapper.sh area
+
+# Active window screenshot
+bindsym Alt+Print exec ~/.config/grimshot/grimshot-wrapper.sh active

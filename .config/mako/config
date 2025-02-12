@@ -9,18 +9,18 @@ max-history=100
 font=Lilex Medium 11
 width=350
 height=100
-margin=5,5
+margin=3,3
 padding=12,12
 border-size=1
 border-radius=0
-border-color=${focused_color}
-progress-color=over ${focused_color}
+border-color=#7E9CD8
+progress-color=over #7E9CD8
 default-timeout=10000
 ignore-timeout=0
 
 # Colors from kanagawa theme
-background-color=${bg_color}F5
-text-color=${fg_color}
+background-color=#2A2A37
+text-color=#FFFFFF
 
 # Icons
 icon-path=/usr/share/icons/Papirus-Dark
@@ -29,48 +29,44 @@ icon-location=left
 
 # Styling different urgency levels
 [urgency=low]
-border-color=${inactive_color}
-background-color=${bg_color}F0
+border-color=#7E9CD8
+background-color=#2A2A37
 default-timeout=8000
 
 [urgency=normal]
-border-color=${focused_color}
-background-color=${bg_color}F5
+border-color=#7E9CD8
+background-color=#2A2A37
 default-timeout=10000
 
 [urgency=high]
-border-color=${urgent_color}
-background-color=${bg_color}F8
-text-color=${red_fg}
+border-color=#C34043
+background-color=#2A2A37
+text-color=#DCD7BA
 default-timeout=0
 
 # Special styling for desktop-entry
 [app-name=Spotify]
-border-color=${green_accent}
-background-color=${bg_color}F5
+border-color=#7E9CD8
+background-color=#2A2A37
 
 [category=mpd]
-border-color=${green_accent}
-background-color=${bg_color}F5
+border-color=#7E9CD8
+background-color=#285577
 default-timeout=5000
 
-# Remove or comment out this section as it might interfere with notifications
-# [app-name=volume]
-# invisible=1
-
-# Add default criteria to catch all notifications
+# Default criteria to catch all notifications
 [urgency=low]
-border-color=${inactive_color}
-background-color=${bg_color}F0
+border-color=#7E9CD8
+background-color=#2A2A37
 default-timeout=8000
 
 [urgency=normal]
-border-color=${focused_color}
-background-color=${bg_color}F5
+border-color=#7E9CD8
+background-color=#2A2A37
 default-timeout=10000
 
 [urgency=high]
-border-color=${urgent_color}
-background-color=${bg_color}F8
-text-color=${red_fg}
+border-color=#C34043
+background-color=#2A2A37
+text-color=#DCD7BA
 default-timeout=0
