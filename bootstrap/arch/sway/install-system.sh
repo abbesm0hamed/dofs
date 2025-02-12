@@ -105,7 +105,8 @@ install_packages \
     unrar \
     cava \
     gowall \
-    nwg-look-bin
+    nwg-look-bin \
+    libreoffice-fresh \
     # conky \
     # inkscape \
     # woeusb \
