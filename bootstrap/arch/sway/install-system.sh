@@ -131,6 +131,9 @@ install_packages \
     swaybg \
     wofi \
     mako \
+    # screenshot packages
+    grim \
+    slurp \
     wl-clipboard \
     wf-recorder \
     kanshi \
@@ -142,9 +145,6 @@ install_packages \
     swaync \
     wob \
     xdg-desktop-portal-wlr \
-    # screenshot packages
-    grim \
-    slurp \
 
 # Configure input devices for Sway
 echo_step "Configuring input devices for Sway..."

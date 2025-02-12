@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source configuration
-CONFIG_FILE="$HOME/.config/grimshot/config.sh"
+CONFIG_FILE="$HOME/.config/grimslurp/config.sh"
 
 if [ -f "$CONFIG_FILE" ]; then
     source "$CONFIG_FILE"
