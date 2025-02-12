@@ -19,7 +19,7 @@ echo_success() {
 
 echo_error() {
     echo -e "${RED}==> ERROR: ${1}${NC}"
-    echo "$(date): $1" >> "$ERROR_LOG"
+    echo "$(date): $1" >>"$ERROR_LOG"
 }
 
 # Function to install packages with error handling
@@ -31,7 +31,7 @@ install_packages() {
             failed_packages+=("$package")
         fi
     done
-    
+
     if [ ${#failed_packages[@]} -ne 0 ]; then
         echo_error "The following packages failed to install:"
         printf '%s\n' "${failed_packages[@]}" | tee -a "$ERROR_LOG"
@@ -48,7 +48,7 @@ sudo pacman -S --needed base-devel git --noconfirm
 
 # Install yay AUR helper
 echo_step "Installing yay AUR helper..."
-if ! command -v yay &> /dev/null; then
+if ! command -v yay &>/dev/null; then
     git clone https://aur.archlinux.org/yay.git
     cd yay
     makepkg -si --noconfirm
@@ -84,6 +84,7 @@ echo_step "Installing shell and development tools..."
 install_packages \
     zsh \
     nodejs \
+    bun \
     npm \
     python \
     python-pip \
@@ -118,8 +119,7 @@ install_packages \
     jq \
     ncdu \
     pacman-contrib \
-    # inkscape \
-    # woeusb \
+    \
     virtualbox \
     the_silver_searcher \
     xrandr \
@@ -132,7 +132,8 @@ install_packages \
     fnm-bin \
     unrar \
     cava \
-    lxappearance
+    lxappearance # inkscape \
+# woeusb \
 
 # Install system utilities
 echo_step "Installing system utilities..."
@@ -143,8 +144,8 @@ install_packages \
     gparted \
     pavucontrol \
     xdg-utils \
-    udiskie \
-    # balena-etcher
+    udiskie
+# balena-etcher
 
 # Install window manager and desktop tools
 echo_step "Installing window manager and desktop tools..."
@@ -153,7 +154,7 @@ install_packages \
     sxhkd \
     autotiling \
     rofi \
-    # polybar \
+    \
     i3status-rust \
     dunst \
     picom-simpleanims-git \
@@ -163,23 +164,24 @@ install_packages \
     xcolor \
     autorandr \
     arandr \
-    kvantum
+    kvantum # polybar \
 
 # Install applications
 echo_step "Installing applications..."
 install_packages \
     ladybrid \
     brave-bin \
-    # visual-studio-code-bin \
+    \
     windsurf \
-    # postman-bin \
-    # keepassxc \
-    # mpv \
-    # vlc \
-    # calibre \
+    \
     discord \
     slack-desktop \
-    telegram-desktop
+    telegram-desktop # visual-studio-code-bin \
+# postman-bin \
+# keepassxc \
+# mpv \
+# vlc \
+# calibre \
 
 # Install fonts
 echo_step "Installing fonts..."
@@ -195,7 +197,7 @@ install_packages \
     ttf-feather \
     ttf-joypixels \
     ttf-lilex \
-    noto-fonts \
+    noto-fonts
 
 # Change default shell to zsh
 echo_step "Changing default shell to zsh..."
