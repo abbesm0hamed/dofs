@@ -2,6 +2,7 @@
 include $HOME/.config/sway/rules.conf
 include $HOME/.config/sway/modes.conf
 include $HOME/.config/sway/themes/kanagawa.conf
+include $HOME/.config/sway/workspaces.conf
 include $HOME/.config/sway/keybindings
 
 # Basic settings
@@ -9,18 +10,6 @@ set $mod Mod4
 floating_modifier $mod
 font pango:Lilex 10
 # font pango:JetBrains Mono Nerd Font 10
-
-# Workspaces
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
 
 # Monitor configuration
 # Primary display (Laptop)
@@ -40,10 +29,10 @@ output HDMI-A-1 {
 }
 
 # Keyboard layout switching (Sway syntax)
-# input * {
-#     xkb_layout "us,fr"
-#     xkb_options "grp:alt_shift_toggle"
-# }
+input * {
+    xkb_layout "us,fr"
+    xkb_options "grp:win_space_toggle"
+}
 
 # Autostart applications
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
@@ -56,7 +45,3 @@ exec_always --no-startup-id pkill mako; mako --config ~/.config/mako/config
 # Add these environment variables for better notification support
 exec_always --no-startup-id dbus-update-activation-environment --systemd --all
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-
-# Optimized workspace layouts
-workspace $ws1 output primary
-workspace $ws2 output primary
