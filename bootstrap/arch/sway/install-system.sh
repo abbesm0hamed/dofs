@@ -119,7 +119,7 @@ install_packages \
     gparted \
     pavucontrol \
     xdg-utils \
-    udiskie \ 
+    udiskie \
     # balena-etcher
 
 # Install Sway and Wayland tools
@@ -132,19 +132,19 @@ install_packages \
     wofi \
     mako \
     wl-clipboard \
-    grim \
-    slurp \
     wf-recorder \
     kanshi \
     wayshot \
     wlogout \
     fuzzel \
-    foot \
     wlsunset \
     hyprpicker-git \
     swaync \
     wob \
-    xdg-desktop-portal-wlr
+    xdg-desktop-portal-wlr \
+    # screenshot packages
+    grim \
+    slurp \
 
 # Configure input devices for Sway
 echo_step "Configuring input devices for Sway..."

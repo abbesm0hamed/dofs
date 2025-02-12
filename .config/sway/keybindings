@@ -1,11 +1,3 @@
-# Screenshot tools
-bindsym {
-    Mod4+Shift+z exec mkdir -p "$HOME/Pictures/Screenshots"
-    Mod1+Mod4+s exec flameshot screen
-    Mod1+Shift+s exec flameshot full
-    Control+Mod1+s exec flameshot gui
-}
-
 # Brightness controls
 bindsym {
     XF86MonBrightnessUp exec brightnessctl set +5%
@@ -215,12 +207,6 @@ bindsym {
     Mod1+Shift+u exec wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)
 }
 
-# Additional screenshots
-bindsym {
-    Control+Print exec xfce4-screenshooter
-    Control+Shift+Print exec gnome-screenshot -i
-}
-
 # Terminal dropdown
 bindsym F12 exec xfce4-terminal --drop-down
 
@@ -228,11 +214,11 @@ bindsym F12 exec xfce4-terminal --drop-down
 # Task manager
 bindsym Control+Shift+Escape exec xfce4-taskmanager
 
-# Full screenshot
-bindsym Print exec ~/.config/grimshot/grimshot-wrapper.sh screen
-
-# Area screenshot
-bindsym Shift+Print exec ~/.config/grimshot/grimshot-wrapper.sh area
-
-# Active window screenshot
-bindsym Alt+Print exec ~/.config/grimshot/grimshot-wrapper.sh active
+# Screenshot keybindings
+bindsym {
+    Print exec ~/.config/grimslurp/scripts/screenshot.sh screen # Full screenshot
+    Shift+Print exec ~/.config/grimslurp/scripts/screenshot.sh area # Area screenshot
+    Alt+Print exec ~/.config/grimslurp/scripts/screenshot.sh active # Active window screenshot
+    Control+Print exec xfce4-screenshooter
+    Control+Shift+Print exec gnome-screenshot -i
+}
