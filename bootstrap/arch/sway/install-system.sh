@@ -104,6 +104,7 @@ install_packages \
     fnm-bin \
     unrar \
     cava \
+    gowall \
     nwg-look-bin
     # conky \
     # inkscape \
