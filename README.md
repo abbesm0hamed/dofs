@@ -36,11 +36,11 @@ chmod +x install-system.sh
 
 This will install:
 
-- Window Manager: i3, i3ass
+- Window Manager: i3
 - Shell: zsh (set as default)
 - Development Tools: neovim, vscode, docker, git tools
 - Terminal Utilities: tmux, ranger, btop, cava
-- System Tools: picom, polybar, rofi, dunst
+- System Tools: picom, i3status-rust, rofi, dunst
 - Fonts and Themes: nerd-fonts, lxappearance
 - Media Applications: mpv, vlc, gimp
 - And many more essential packages
