@@ -119,7 +119,6 @@ install_packages \
     jq \
     ncdu \
     pacman-contrib \
-    \
     virtualbox \
     the_silver_searcher \
     xrandr \
@@ -132,8 +131,26 @@ install_packages \
     fnm-bin \
     unrar \
     cava \
-    lxappearance # inkscape \
-# woeusb \
+    lxappearance
+# woeusb # inkscape \
+
+# Install TPM if it doesn't exist
+echo_step "Checking for Tmux Plugin Manager (TPM)..."
+TPM_PATH="$HOME/.tmux/plugins/tpm"
+if [ ! -d "$TPM_PATH" ]; then
+    echo_step "Installing TPM..."
+    git clone https://github.com/tmux-plugins/tpm "$TPM_PATH"
+    if [ $? -eq 0 ]; then
+        echo_success "TPM installed successfully"
+        # Make TPM executable
+        chmod +x "$TPM_PATH/tpm"
+        chmod +x "$TPM_PATH/scripts/install_plugins.sh"
+    else
+        echo_error "Failed to install TPM"
+    fi
+else
+    echo_success "TPM is already installed"
+fi
 
 # Install system utilities
 echo_step "Installing system utilities..."
@@ -164,24 +181,23 @@ install_packages \
     xcolor \
     autorandr \
     arandr \
-    kvantum # polybar \
+    kvantum # polybar
 
 # Install applications
 echo_step "Installing applications..."
 install_packages \
     ladybrid \
     brave-bin \
-    \
     windsurf \
-    \
     discord \
     slack-desktop \
-    telegram-desktop # visual-studio-code-bin \
-# postman-bin \
-# keepassxc \
+    telegram-desktop
+# calibre \
 # mpv \
 # vlc \
-# calibre \
+# keepassxc \
+# postman-bin \
+# visual-studio-code-bin \
 
 # Install fonts
 echo_step "Installing fonts..."
