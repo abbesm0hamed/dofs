@@ -37,21 +37,21 @@ return {
             ]],
           },
           { section = "startup" },
-          { title = "MRU", padding = 1 },
-          { section = "recent_files", limit = 3, padding = 1 },
-          { title = "MRU CWD ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
-          { section = "recent_files", cwd = true, limit = 3, padding = 1 },
-          { title = "Sessions", padding = 1 },
-          { section = "projects", padding = 1 },
-          { title = "Bookmarks", padding = 1 },
-          { section = "keys", limit = 3 },
+          { title = "MRU",            padding = 1 },
+          { section = "recent_files", limit = 3,                            padding = 1 },
+          { title = "MRU CWD ",       file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
+          { section = "recent_files", cwd = true,                           limit = 3,  padding = 1 },
+          { title = "Sessions",       padding = 1 },
+          { section = "projects",     padding = 1 },
+          { title = "Bookmarks",      padding = 1 },
+          { section = "keys",         limit = 3 },
         },
       },
 
       scroll = { enabled = false },
 
       bigfile = {
-        notify = true, -- show notification when big file detected
+        notify = true,            -- show notification when big file detected
         size = 1.5 * 1024 * 1024, -- 1.5MB
         -- Enable or disable features when big file detected
         ---@param ctx {buf: number, ft:string}
@@ -71,7 +71,7 @@ return {
           style = "out",
           easing = "linear",
           duration = {
-            step = 20, -- ms per step
+            step = 20,   -- ms per step
             total = 500, -- maximum duration
           },
         },
@@ -129,7 +129,7 @@ return {
           enabled = vim.fn.has("nvim-0.10") == 1,
           easing = "outQuad",
           duration = {
-            step = 20, -- ms per step
+            step = 20,   -- ms per step
             total = 300, -- maximum duration
           },
         },
@@ -156,6 +156,13 @@ return {
           end,
         },
         ui_select = true, -- replace `vim.ui.select` with the snacks picker
+        toggles = {
+          follow = "f",
+          hidden = "h",
+          ignored = "i",
+          modified = "m",
+          regex = { icon = "R", value = false },
+        },
         previewers = {
           file = {
             max_size = 1024 * 1024, -- 1MB

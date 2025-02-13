@@ -180,6 +180,8 @@ return {
               ["?"] = "toggle_help",
               ["<a-m>"] = { "toggle_maximize", mode = { "i", "n" } },
               ["<a-p>"] = { "toggle_preview", mode = { "i", "n" } },
+              ["<a-i>"] = { "toggle_ignored", mode = { "i", "n" } },
+              ["<a-h>"] = { "toggle_hidden", mode = { "i", "n" } },
               ["<a-w>"] = { "cycle_win", mode = { "i", "n" } },
               ["<C-w>"] = { "<c-s-w>", mode = { "i" }, expr = true, desc = "delete word" },
               ["<C-Up>"] = { "history_back", mode = { "i", "n" } },
@@ -203,8 +205,6 @@ return {
               ["<c-v>"] = { "edit_vsplit", mode = { "i", "n" } },
               ["<c-s>"] = { "edit_split", mode = { "i", "n" } },
               ["<c-q>"] = { "qflist", mode = { "i", "n" } },
-              ["<a-i>"] = { "toggle_ignored", mode = { "i", "n" } },
-              ["<a-h>"] = { "toggle_hidden", mode = { "i", "n" } },
             },
             b = {
               minipairs_disable = true,
