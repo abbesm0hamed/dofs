@@ -39,8 +39,8 @@ fi
 (sleep 1.1 && run blueberry-tray) &
 
 # Start user applications
+# run gammastep -l 36.8:10.2 # Adjusted for Tunisia location
 run numlockx on
 run dunst
 run variety
 run flameshot
-run gammastep -l 36.8:10.2 # Adjusted for Tunisia location
