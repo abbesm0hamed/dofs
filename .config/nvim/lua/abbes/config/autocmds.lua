@@ -9,7 +9,7 @@ end
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
   callback = function()
-    vim.highlight.on_yank({ timeout = 200 })  -- Set a shorter timeout
+    vim.highlight.on_yank({ timeout = 200 }) -- Set a shorter timeout
   end,
 })
 
@@ -45,7 +45,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = checktime_group,
   callback = function()
     if not vim.bo.buftype == "" then
-      return  -- Skip special buffers
+      return -- Skip special buffers
     end
     vim.cmd("checktime")
   end,
@@ -62,7 +62,7 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
     end
     cursorhold_timer = vim.fn.timer_start(1000, function()
       if not vim.bo.buftype == "" then
-        return  -- Skip special buffers
+        return -- Skip special buffers
       end
       vim.cmd("checktime")
     end)
@@ -75,9 +75,23 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave" }, {
   group = augroup("refresh_file"),
   callback = function()
     if not vim.bo.buftype == "" then
-      return  -- Skip special buffers
+      return -- Skip special buffers
     end
     vim.cmd("checktime")
   end,
   desc = "Refresh file content after writing or leaving buffer",
+})
+
+-- git-conflict plugin autocmd
+-- When a conflict is detected by this plugin a User autocommand is fired called GitConflictDetected.
+-- When this is resolved another command is fired called GitConflictResolved.
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'GitConflictDetected',
+  callback = function()
+    vim.notify('Conflict detected in ' .. vim.fn.expand('<afile>'))
+    vim.keymap.set('n', 'cww', function()
+      engage.conflict_buster()
+      create_buffer_local_mappings()
+    end)
+  end
 })
