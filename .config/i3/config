@@ -1,19 +1,37 @@
 # Include configurations
 include $HOME/.config/i3/rules.conf
-include $HOME/.config/i3/themes/kanagawa.conf
-include $HOME/.config/i3/workspaces.conf
+include $HOME/.config/i3/modes.conf
 include $HOME/.config/i3/keybindings.conf
+include $HOME/.config/i3/themes/kanagawa.conf
+
+# Workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
 
 # Basic settings
 set $mod Mod4
 floating_modifier $mod
 font pango:Lilex 10
 
+# Keyboard layout switching
+# exec_always --no-startup-id "setxkbmap -layout us,ar -option grp:alt_shift_toggle"
+# bindsym ISO_Next_Group exec --no-startup-id "setxkbmap -query | grep -q 'layout:\s\+us' && setxkbmap ar || setxkbmap us"
+
 # Autostart applications
-exec --no-startup-id dbus-update-activation-environment --all
+exec_always --no-startup-id dbus-update-activation-environment --all
 exec --no-startup-id $HOME/.config/scripts/autostart.sh
 exec_always --no-startup-id $HOME/.config/scripts/setup-wallpaper.sh
-# exec_always --no-startup-id sleep 2 && $HOME/.config/polybar/scripts/launch_polybar.sh
+# exec_always --no-startup-id sleep 1 && $HOME/.config/polybar/scripts/launch_polybar.sh
 # i3status-rust configuration
 bar {
     position bottom
@@ -24,6 +42,5 @@ bar {
         background #2A2A320
     }
 }
-# Commented out autotiling as it conflicts with manual layout management
 # exec_always --no-startup-id autotiling
 # exec --no-startup-id sxhkd

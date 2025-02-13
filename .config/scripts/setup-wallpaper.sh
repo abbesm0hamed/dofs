@@ -12,9 +12,10 @@ CURRENT_CONFIG="$CONFIG_DIR/current_wallpapers.conf"
 
 # Default wallpaper array - add more defaults as needed
 declare -a DEFAULT_WALLPAPERS=(
-    "$BACKGROUNDS_DIR/spider-man.png"
+    "$BACKGROUNDS_DIR/spider-man.jpg"
     "$BACKGROUNDS_DIR/ball.jpg"
-    "$BACKGROUNDS_DIR/groot.jpg"
+    "$BACKGROUNDS_DIR/also-spiderman.jpg"
+    "$BACKGROUNDS_DIR/unknown.png"
 )
 
 # Lock file management
@@ -223,3 +224,4 @@ main() {
 }
 
 main
+
