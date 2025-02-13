@@ -1,4 +1,5 @@
 {
+  "Abstract-cs": { "branch": "main", "commit": "c35d6187cc8c9208961d92e07155422fbeb08012" },
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
   "LuaSnip": { "branch": "master", "commit": "c9b9a22904c97d0eb69ccb9bab76037838326817" },
   "auto-session": { "branch": "main", "commit": "9c3f977aafb56bd73ba0d082c4dcbdba5666faf3" },
@@ -34,7 +35,6 @@
   "lsp-inlayhints.nvim": { "branch": "main", "commit": "d981f65c9ae0b6062176f0accb9c151daeda6f16" },
   "lsp-zero.nvim": { "branch": "v4.x", "commit": "baff1ca10ecad7efe04f02f06d2647dd2ae90074" },
   "lualine.nvim": { "branch": "master", "commit": "f4f791f67e70d378a754d02da068231d2352e5bc" },
-  "makurai-nvim": { "branch": "main", "commit": "8fe07dd5d836b4dd5c6fbc8c48d604fe3a12b8b9" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "805c31ec6bfb557975143712ecff6956d3227141" },
   "mason-null-ls.nvim": { "branch": "main", "commit": "de19726de7260c68d94691afb057fa73d3cc53e7" },
   "mason-tool-installer.nvim": { "branch": "main", "commit": "374c78d3ebb5c53f43ea6bd906b6587b5e899b9e" },

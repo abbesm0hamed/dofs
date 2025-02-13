@@ -36,7 +36,73 @@ return {
     end,
   },
   --
-  -- second best
+  -- second best -- jellybeans with kanagawa bg xD
+  -- {
+  --   "wtfox/jellybeans.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   opts = {
+  --     style = "dark",
+  --     transparent = true,
+  --     italics = true,
+  --     flat_ui = true,
+  --     plugins = {
+  --       all = false,
+  --       auto = true,
+  --     },
+  --     on_highlights = function(highlights, colors)
+  --     end,
+  --     on_colors = function(c)
+  --       local light_bg = "#ffffff"
+  --       local dark_bg = "#1F1F28"
+  --       c.background = vim.o.background == "light" and light_bg or dark_bg
+  --     end,
+  --   },
+  --   config = function(_, opts)          -- Add opts parameter here
+  --     require("jellybeans").setup(opts) -- Pass opts to setup
+  --     vim.cmd.colorscheme("jellybeans")
+  --   end,
+  -- },
+  --
+  -- third best
+  -- {
+  --   "bluz71/vim-moonfly-colors",
+  --   event = "VimEnter",
+  --   name = "moonfly",
+  --   priority = 1000,
+  --   config = function()
+  --     -- Moonfly configuration
+  --     vim.g.moonflyCursorColor = true
+  --     vim.g.moonflyItalics = true
+  --     vim.g.moonflyNormalFloat = true
+  --     vim.g.moonflyTerminalColors = true
+  --     vim.g.moonflyVirtualTextColor = true
+  --     vim.g.moonflyUndercurls = true
+  --     vim.g.moonflyVertSplits = true
+  --
+  --     -- Reduce used colors
+  --     vim.g.moonflyWinSeparator = 1
+  --
+  --     -- Set colorscheme
+  --     vim.cmd.colorscheme("moonfly")
+  --
+  --     -- Override function and search highlights to include italics
+  --     vim.api.nvim_set_hl(0, "Function", { italic = true })
+  --     vim.api.nvim_set_hl(0, "Search", { italic = true })
+  --   end,
+  -- },
+  --
+  -- {
+  --   "bluz71/vim-nightfly-colors",
+  --   name = "nightfly",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme("nightfly")
+  --   end,
+  -- },
+  --
   -- {
   --   "Skardyy/makurai-nvim",
   --   lazy = false,
@@ -46,7 +112,6 @@ return {
   --   end,
   -- },
   --
-  --new
   -- {
   --   "ficcdaf/ashen.nvim",
   --   lazy = false,
@@ -152,15 +217,6 @@ return {
   --   end,
   -- },
   --
-  -- {
-  --   "wtfox/jellybeans.nvim",
-  --   priority = 1000,
-  --   config = function()
-  --     require("jellybeans").setup()
-  --     vim.cmd.colorscheme("jellybeans")
-  --   end,
-  -- },
-  --
   -- lackluster
   -- {
   --   "slugbyte/lackluster.nvim",
@@ -187,7 +243,7 @@ return {
   --         blue = "default",
   --         red = "default",
   --         -- WARN: Watchout! messing with grays is probs a bad idea, its very easy to shoot yourself in the foot!
-  --         -- black = "default",
+  --         black = "#1F1F28",
   --         -- gray1 = "default",
   --         -- gray2 = "default",
   --         -- gray3 = "default",
@@ -235,43 +291,7 @@ return {
   --     vim.cmd("colorscheme yorumi")
   --   end,
   -- },
-  -- top 1
-  -- {
-  --   "bluz71/vim-moonfly-colors",
-  --   event = "VimEnter",
-  --   name = "moonfly",
-  --   priority = 1000,
-  --   config = function()
-  --     -- Moonfly configuration
-  --     vim.g.moonflyCursorColor = true
-  --     vim.g.moonflyItalics = true
-  --     vim.g.moonflyNormalFloat = true
-  --     vim.g.moonflyTerminalColors = true
-  --     vim.g.moonflyVirtualTextColor = true
-  --     vim.g.moonflyUndercurls = true
-  --     vim.g.moonflyVertSplits = true
   --
-  --     -- Reduce used colors
-  --     vim.g.moonflyWinSeparator = 1
-  --
-  --     -- Set colorscheme
-  --     vim.cmd.colorscheme("moonfly")
-  --
-  --     -- Override function and search highlights to include italics
-  --     vim.api.nvim_set_hl(0, "Function", { italic = true })
-  --     vim.api.nvim_set_hl(0, "Search", { italic = true })
-  --   end,
-  -- },
-  -- {
-  --   "bluz71/vim-nightfly-colors",
-  --   name = "nightfly",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme("nightfly")
-  --   end,
-  -- },
-  -- top 2
   -- vimbones = light
   -- neobones = dark
   -- {
@@ -298,7 +318,7 @@ return {
   --     vim.opt.background = "dark" -- light | dark
   --   end,
   -- },
-  -- top 3
+  --
   -- {
   --   "blazkowolf/gruber-darker.nvim",
   --   lazy = false,
@@ -323,7 +343,7 @@ return {
   --     require("gruber-darker").setup({})
   --   end,
   -- },
-  -- top 4
+  --
   -- {
   --   "kevinm6/kurayami.nvim",
   --   event = "VimEnter", -- load plugin on VimEnter or
@@ -422,6 +442,7 @@ return {
   --     })
   --   end,
   -- },
+  --
   -- {
   --   "Abstract-IDE/Abstract-cs",
   --   priority = 1000,
@@ -431,17 +452,21 @@ return {
   --     vim.cmd([[colorscheme abscs]])
   --   end,
   -- },
+  --
   -- {
   --   "embark-theme/vim",
   --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
   --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   event = "VimEnter",
   --   config = function()
   --     vim.cmd.colorscheme("embark")
   --   end,
   -- },
+  --
   -- {
   --   "rose-pine/neovim",
   --   lazy = false,
+  --   event = "VimEnter",
   --   priority = 1000, -- make sure to load this before all the other start plugins
   --   config = function()
   --     -- load the colorscheme here
@@ -452,12 +477,14 @@ return {
   -- {
   --   "oxfist/night-owl.nvim",
   --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   event = "VimEnter",
   --   priority = 1000, -- make sure to load this before all the other start plugins
   --   config = function()
   --     -- load the colorscheme here
   --     vim.cmd.colorscheme("night-owl")
   --   end,
   -- },
+  --
   -- tokyo
   -- {
   --   "folke/tokyonight.nvim",
@@ -468,62 +495,69 @@ return {
   --     vim.cmd[[colorscheme tokyonight-moon]]
   --   end,
   -- },
+  --
   -- {
   --   "tiagovla/tokyodark.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
   --   opts = {
-  --     transparent_background = false,    -- set background to transparent
-  --     gamma = 1.00,                      -- adjust the brightness of the theme
+  --     transparent_background = false,
+  --     gamma = 1.00,
   --     styles = {
-  --       comments = { italic = true },    -- style for comments
-  --       keywords = { italic = true },    -- style for keywords
-  --       identifiers = { italic = true }, -- style for identifiers
-  --       functions = {},                  -- style for functions
-  --       variables = {},                  -- style for variables
+  --       comments = { italic = true },
+  --       keywords = { italic = true },
+  --       identifiers = { italic = true },
+  --       functions = {},
+  --       variables = {},
   --     },
-  --     custom_highlights = function(hl, p)
-  --       return {
-  --           ["LspInlayHint"] = { bg = "#1C1C2A", fg = "#9AA0A7" },
-  --           ["@module"] = { link = "TSType" },
-  --           ["@property"] = { link = "Identifier" },
-  --           ["@variable"] = { fg = "#Afa8ea" },
-  --           ["@lsp.type.variable"] = { fg = "#Afa8ea" },
-  --           ["FloatTitle"] = { link = "Blue" },
-  --           ["TelescopeBorder"] = { link = "TSType" },
-  --           ["TelescopePreviewBorder"] = { fg = "#4A5057" },
-  --           ["TelescopePreviewTitle"] = { link = "Blue" },
-  --           ["TelescopePromptBorder"] = { fg = "#4A5057" },
-  --           ["TelescopePromptTitle"] = { link = "Blue" },
-  --           ["TelescopeResultsBorder"] = { fg = "#4A5057" },
-  --           ["TelescopeResultsTitle"] = { link = "Blue" },
-  --           ["CmpItemKindCopilot"] = { fg = "#6CC644" },
-  --           ["NoiceLspProgressSpinner"] = { bg = "#1C1C2A" },
-  --           ["NoiceLspProgressClient"] = { bg = "#1C1C2A" },
-  --           ["NoiceLspProgressTitle"] = { bg = "#1C1C2A" },
-  --           ["NoiceMini"] = { bg = "#1C1C2A" },
-  --           ["NoiceCmdlineIconSearch"] = { link = "Blue" },
-  --       }
+  --     on_colors = function(colors)
+  --       -- Kanagawa background colors
+  --       colors.bg = "#1F1F28"             -- sumiInk1
+  --       colors.bg_dark = "#16161D"        -- sumiInk0
+  --       colors.bg_float = "#2A2A37"       -- sumiInk2
+  --       colors.bg_popup = "#2A2A37"       -- sumiInk2
+  --       colors.bg_search = "#2D4F67"      -- waveBlue2
+  --       colors.bg_visual = "#223249"      -- waveBlue1
+  --       colors.bg_highlight = "#363646"   -- sumiInk3
+  --       colors.terminal_black = "#16161D" -- sumiInk0
   --     end,
-  --     custom_palette = {} or function(palette)
-  --       return {}
-  --     end, -- extend palette
+  --     on_highlights = function(hl, c)
+  --       -- Kanagawa-specific highlights
+  --       hl.Normal = { bg = c.bg, fg = c.fg }
+  --       hl.NormalFloat = { bg = c.bg_float }
+  --       hl.LspInlayHint = { bg = c.bg, fg = c.comment }
+  --       hl["@module"] = { fg = c.blue }
+  --       hl["@property"] = { fg = c.magenta2 }
+  --       hl["@variable"] = { fg = c.blue0 }
+  --       hl["@lsp.type.variable"] = { fg = c.blue0 }
+  --
+  --       -- Telescope colors
+  --       hl.FloatTitle = { fg = c.blue }
+  --       hl.TelescopeBorder = { fg = c.dark5 }
+  --       hl.TelescopePreviewBorder = { fg = c.dark5 }
+  --       hl.TelescopePreviewTitle = { fg = c.blue }
+  --       hl.TelescopePromptBorder = { fg = c.dark5 }
+  --       hl.TelescopePromptTitle = { fg = c.blue }
+  --       hl.TelescopeResultsBorder = { fg = c.dark5 }
+  --       hl.TelescopeResultsTitle = { fg = c.blue }
+  --
+  --       -- Copilot and Noice
+  --       hl.CmpItemKindCopilot = { fg = c.green }
+  --       hl.NoiceLspProgressSpinner = { bg = c.bg_float }
+  --       hl.NoiceLspProgressClient = { bg = c.bg_float }
+  --       hl.NoiceLspProgressTitle = { bg = c.bg_float }
+  --       hl.NoiceMini = { bg = c.bg_float }
+  --       hl.NoiceCmdlineIconSearch = { fg = c.blue }
+  --     end,
   --     terminal_colors = true,
   --   },
   --   config = function(_, opts)
-  --     require("tokyodark").setup(opts) -- calling setup is optional
+  --     require("tokyodark").setup(opts)
   --     vim.cmd([[colorscheme tokyodark]])
   --   end,
   -- },
-  -- {
-  --   "metalelf0/jellybeans-nvim",
-  --   dependencies = {
-  --     "rktjmp/lush.nvim",
-  --   },
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme("jellybeans-nvim")
-  --   end,
-  -- },
+  --
   -- {
   --   "loctvl842/monokai-pro.nvim",
   --   dependencies = {
