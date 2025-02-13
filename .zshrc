@@ -173,6 +173,7 @@ alias ff="fastfetch"
 alias dc="sudo docker-compose"
 alias dr="sudo docker"
 alias yup="yay -Syu"
+alias yrcns="yay -Rcns"
 alias ..="cd .."
 
 #===============================================================================
