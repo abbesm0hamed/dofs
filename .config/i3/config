@@ -1,7 +1,7 @@
 # Include configurations
 include $HOME/.config/i3/rules.conf
-include $HOME/.config/i3/modes.conf
 include $HOME/.config/i3/themes/kanagawa.conf
+include $HOME/.config/i3/workspaces.conf
 include $HOME/.config/i3/keybindings.conf
 
 # Basic settings
@@ -12,14 +12,14 @@ font pango:Lilex 10
 # Autostart applications
 exec --no-startup-id dbus-update-activation-environment --all
 exec --no-startup-id $HOME/.config/scripts/autostart.sh
-# exec --no-startup-id $HOME/.config/scripts/setup-wallpaper.sh
+exec_always --no-startup-id $HOME/.config/scripts/setup-wallpaper.sh
 # exec_always --no-startup-id sleep 2 && $HOME/.config/polybar/scripts/launch_polybar.sh
 # i3status-rust configuration
 bar {
     position bottom
     status_command i3status-rs ~/.config/i3status-rust/config.toml
     tray_output primary
-    font pango:Lilex Font 10
+    font pango:Lilex 10
     colors {
         background #2A2A320
     }

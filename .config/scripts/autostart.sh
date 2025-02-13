@@ -1,5 +1,4 @@
 #!/bin/bash
-# Improved process management function
 function run {
     if ! pgrep -x "$1" >/dev/null; then
         if [ "$#" -gt 1 ]; then
@@ -10,9 +9,6 @@ function run {
     fi
 }
 
-# Wait for X server to be fully ready
-sleep 2
-
 # Clean up existing processes
 killall -q picom dunst
 # Wait for processes to end
@@ -21,9 +17,6 @@ while pgrep -u $UID -x dunst >/dev/null; do sleep 0.1; done
 
 # Start critical system services with lower priority
 nice -n 10 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-
-# Setup monitors and wallpaper
-(sleep 1 && $HOME/.config/scripts/setup-wallpaper.sh) &
 
 # Optimize power management
 run xfce4-power-manager --no-daemon
@@ -45,4 +38,3 @@ fi
 run numlockx on
 run dunst
 run flameshot
-
