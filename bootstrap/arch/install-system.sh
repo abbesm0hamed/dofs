@@ -19,7 +19,7 @@ echo_success() {
 
 echo_error() {
     echo -e "${RED}==> ERROR: ${1}${NC}"
-    echo "$(date): $1" >> "$ERROR_LOG"
+    echo "$(date): $1" >>"$ERROR_LOG"
 }
 
 # Function to install packages with error handling
@@ -31,7 +31,7 @@ install_packages() {
             failed_packages+=("$package")
         fi
     done
-    
+
     if [ ${#failed_packages[@]} -ne 0 ]; then
         echo_error "The following packages failed to install:"
         printf '%s\n' "${failed_packages[@]}" | tee -a "$ERROR_LOG"
@@ -48,7 +48,7 @@ sudo pacman -S --needed base-devel git --noconfirm
 
 # Install yay AUR helper
 echo_step "Installing yay AUR helper..."
-if ! command -v yay &> /dev/null; then
+if ! command -v yay &>/dev/null; then
     git clone https://aur.archlinux.org/yay.git
     cd yay
     makepkg -si --noconfirm
@@ -118,8 +118,7 @@ install_packages \
     jq \
     ncdu \
     pacman-contrib \
-    # inkscape \
-    # woeusb \
+    \
     virtualbox \
     the_silver_searcher \
     xrandr \
@@ -133,6 +132,26 @@ install_packages \
     unrar \
     cava \
     lxappearance
+# woeusb \
+# inkscape \
+
+# Install TPM if it doesn't exist
+echo_step "Checking for Tmux Plugin Manager (TPM)..."
+TPM_PATH="$HOME/.tmux/plugins/tpm"
+if [ ! -d "$TPM_PATH" ]; then
+    echo_step "Installing TPM..."
+    git clone https://github.com/tmux-plugins/tpm "$TPM_PATH"
+    if [ $? -eq 0 ]; then
+        echo_success "TPM installed successfully"
+        # Make TPM executable
+        chmod +x "$TPM_PATH/tpm"
+        chmod +x "$TPM_PATH/scripts/install_plugins.sh"
+    else
+        echo_error "Failed to install TPM"
+    fi
+else
+    echo_success "TPM is already installed"
+fi
 
 # Install system utilities
 echo_step "Installing system utilities..."

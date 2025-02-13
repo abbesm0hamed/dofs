@@ -5,22 +5,22 @@ A minimalist and elegant desktop environment built with i3 window manager, featu
 ## Screenshots
 
 ![nvim + bg ](./.config/screenshots/nvim-bg.png)
-*Neovim with Kanagawa theme and custom background*
+_Neovim with Kanagawa theme and custom background_
 
 ![Terminal Tools](./.config/screenshots/dunst-pipes-ttyclock.png)
-*Terminal tools (dunst, tty-clock, pipes.sh) running in i3 with Kanagawa theme*
+_Terminal tools (dunst, tty-clock, pipes.sh) running in i3 with Kanagawa theme_
 
 ![System info + some software](./.config/screenshots/nvim-cava-fastfetch-dunst.png)
-*Nvim + cava + fastfetch + dunst*
+_Nvim + cava + fastfetch + dunst_
 
 ![System Info and Resource Monitor](./.config/screenshots/cava-macchina-btop.png)
-*System stats with macchina, audio visualizer cava, and system monitor btop*
+_System stats with macchina, audio visualizer cava, and system monitor btop_
 
 ![Terminal Tools](./.config/screenshots/nvim-ranger-cbonsai.png)
-*Ranger file manager and cbonsai*
+_Ranger file manager and cbonsai_
 
 ![Terminal Tools](./.config/screenshots/yazi-scratchpad.png)
-*Yazi file manager on scratchpad*
+_Yazi file manager on scratchpad_
 
 ## Installation
 
@@ -39,13 +39,13 @@ The repository includes an automated installation script using Ansible. To insta
 
 ```bash
 cd bootstrap/arch
-chmod +x install-setup.sh 
-./install-setup.sh 
+chmod +x install-setup.sh
+./install-setup.sh
 ```
 
 This will install:
 
-- Window Manager: i3-gaps, i3ass
+- Window Manager: i3, i3ass
 - Shell: zsh (set as default)
 - Development Tools: neovim, vscode, docker, git tools
 - Terminal Utilities: tmux, ranger, btop, cava
@@ -109,212 +109,212 @@ This document provides a comprehensive list of all keyboard shortcuts configured
 
 ## Window Management (i3)
 
-| Keybinding | Action |
-|------------|--------|
-| `Super + h/j/k/l` | Focus left/down/up/right |
-| `Super + Shift + h/j/k/l` | Move window left/down/up/right |
-| `Super + z` | Split vertically |
-| `Super + x` | Split horizontally |
-| `Super + f` | Toggle fullscreen |
-| `Super + Shift + f` | Toggle floating mode |
-| `Super + Space` | Toggle focus between floating/tiling |
-| `Super + a` | Focus parent |
-| `Super + Ctrl + h/j/k/l` | Resize window |
-| `Super + y` | Toggle polybar |
+| Keybinding                | Action                               |
+| ------------------------- | ------------------------------------ |
+| `Super + h/j/k/l`         | Focus left/down/up/right             |
+| `Super + Shift + h/j/k/l` | Move window left/down/up/right       |
+| `Super + z`               | Split vertically                     |
+| `Super + x`               | Split horizontally                   |
+| `Super + f`               | Toggle fullscreen                    |
+| `Super + Shift + f`       | Toggle floating mode                 |
+| `Super + Space`           | Toggle focus between floating/tiling |
+| `Super + a`               | Focus parent                         |
+| `Super + Ctrl + h/j/k/l`  | Resize window                        |
+| `Super + y`               | Toggle polybar                       |
 
 ## Workspace Controls
 
-| Keybinding | Action |
-|------------|--------|
-| `Super + (1-9,0)` | Switch to workspace 1-10 |
+| Keybinding                | Action                           |
+| ------------------------- | -------------------------------- |
+| `Super + (1-9,0)`         | Switch to workspace 1-10         |
 | `Super + Shift + (1-9,0)` | Move container to workspace 1-10 |
-| `Super + Shift + b` | Move workspace to next output |
+| `Super + Shift + b`       | Move workspace to next output    |
 
 ## Application Shortcuts
 
-| Keybinding | Action |
-|------------|--------|
-| `Super + Shift + Return` | Launch Krusader |
-| `Super + F1` | Launch Vivaldi |
-| `Super + F2` | Launch Atom |
-| `Super + F3` | Launch Inkscape |
-| `Super + F4` | Launch GIMP |
-| `Super + F5` | Launch Meld |
-| `Super + F6` | Launch VLC |
-| `Super + F7` | Launch VirtualBox |
-| `Super + g` | Launch Google Chrome |
-| `Ctrl + Alt + s` | Launch Flameshot GUI |
-| `Super + q` | Quick Settings panel |
+| Keybinding               | Action               |
+| ------------------------ | -------------------- |
+| `Super + Shift + Return` | Launch Krusader      |
+| `Super + F1`             | Launch Vivaldi       |
+| `Super + F2`             | Launch Atom          |
+| `Super + F3`             | Launch Inkscape      |
+| `Super + F4`             | Launch GIMP          |
+| `Super + F5`             | Launch Meld          |
+| `Super + F6`             | Launch VLC           |
+| `Super + F7`             | Launch VirtualBox    |
+| `Super + g`              | Launch Google Chrome |
+| `Ctrl + Alt + s`         | Launch Flameshot GUI |
+| `Super + q`              | Quick Settings panel |
 
 ## Media Controls
 
-| Keybinding | Action |
-|------------|--------|
-| `XF86AudioRaiseVolume` / `Alt + d` | Volume up |
-| `XF86AudioLowerVolume` / `Alt + a` | Volume down |
-| `XF86AudioMute` | Toggle mute |
-| `XF86AudioPlay` / `Ctrl + Alt + p` | Play/Pause |
-| `XF86AudioNext` / `Ctrl + Shift + .` | Next track |
-| `XF86AudioPrev` / `Ctrl + Shift + ,` | Previous track |
-| `Alt + Shift + h/j/k/l` | MPD: Previous/Next/Play/Pause |
+| Keybinding                           | Action                        |
+| ------------------------------------ | ----------------------------- |
+| `XF86AudioRaiseVolume` / `Alt + d`   | Volume up                     |
+| `XF86AudioLowerVolume` / `Alt + a`   | Volume down                   |
+| `XF86AudioMute`                      | Toggle mute                   |
+| `XF86AudioPlay` / `Ctrl + Alt + p`   | Play/Pause                    |
+| `XF86AudioNext` / `Ctrl + Shift + .` | Next track                    |
+| `XF86AudioPrev` / `Ctrl + Shift + ,` | Previous track                |
+| `Alt + Shift + h/j/k/l`              | MPD: Previous/Next/Play/Pause |
 
 ## System Controls
 
-| Keybinding | Action |
-|------------|--------|
-| `Super + Shift + q` | Kill focused window |
-| `Super + Shift + c` | Reload i3 config |
-| `Super + Shift + r` | Restart i3 |
-| `Super + Escape` | Reload sxhkd configuration |
+| Keybinding          | Action                     |
+| ------------------- | -------------------------- |
+| `Super + Shift + q` | Kill focused window        |
+| `Super + Shift + c` | Reload i3 config           |
+| `Super + Shift + r` | Restart i3                 |
+| `Super + Escape`    | Reload sxhkd configuration |
 
 ## Screenshots
 
-| Key Combination | Action |
-|----------------|--------|
+| Key Combination     | Action                       |
+| ------------------- | ---------------------------- |
 | `Super + Shift + Z` | Create Screenshots directory |
-| `Alt + Super + S` | Active window screenshot |
-| `Alt + Shift + S` | Full screenshot |
-| `Ctrl + Alt + S` | GUI selection tool |
+| `Alt + Super + S`   | Active window screenshot     |
+| `Alt + Shift + S`   | Full screenshot              |
+| `Ctrl + Alt + S`    | GUI selection tool           |
 
 All screenshots are automatically saved to `~/Pictures/Screenshots` and copied to clipboard.
 
 ## Applications
 
-| Key Combination | Action |
-|----------------|--------|
-| `Super + b` | Open Brave browser |
-| `Super + g` | Open Google Chrome |
-| `Super + enter` | Kitty |
-| `Alt + enter` | Wezterm |
-| `Alt + Ctrl + enter` | Ghostty |
-| `Alt + Ctrl + t` | Alacritty |
+| Key Combination      | Action             |
+| -------------------- | ------------------ |
+| `Super + b`          | Open Brave browser |
+| `Super + g`          | Open Google Chrome |
+| `Super + enter`      | Kitty              |
+| `Alt + enter`        | Wezterm            |
+| `Alt + Ctrl + enter` | Ghostty            |
+| `Alt + Ctrl + t`     | Alacritty          |
 
 ### Neovim Keybindings
 
 The following are the custom keybindings configured for Neovim:
 
-| Keybinding | Mode | Description |
-|------------|------|-------------|
-| `<Space>` | All | Leader key |
-| `<leader>w` | Normal | Save file |
-| `J` | Visual | Move line down |
-| `K` | Visual | Move line up |
-| `jk` | Insert | Exit insert mode (ESC) |
-| `<leader>q` | Normal | Quit Neovim |
-| `+` | Normal | Increment number |
-| `-` | Normal | Decrement number |
-| `<C-a>` | Normal | Select all text |
-| `<` / `>` | Visual | Indent/Unindent selection |
-| `te` | Normal | New tab |
-| `<leader>sh` | Normal | Split window horizontally |
-| `<leader>sv` | Normal | Split window vertically |
-| `<C-h/j/k/l>` | Normal | Navigate between splits |
-| `<leader>th` | Normal | Change splits to horizontal |
-| `<leader>tk` | Normal | Change splits to vertical |
-| `<C-Up/Down/Left/Right>` | Normal | Resize window |
-| `<Tab>` / `<S-Tab>` | Normal | Next/Previous buffer |
-| `<leader>x` | Normal | Close buffer |
-| `<A-p>` | Normal | Pin buffer |
-| `<leader>co` | Normal/Visual | Toggle comment |
-| `<leader>b` | Normal | Toggle Neotree |
-| `<leader>nb` | Normal | Show Neotree buffer in float |
-| `<leader>ff` | Normal | Telescope find files |
-| `<leader>fg` | Normal | Telescope live grep |
-| `<leader>fr` | Normal | Telescope recent files |
-| `<leader>fb` | Normal | Telescope buffers |
-| `<leader>S` | Normal | Toggle Spectre |
-| `<leader>sw` | Normal/Visual | Search current word |
-| `<leader>sp` | Normal | Search in current file |
+| Keybinding               | Mode          | Description                  |
+| ------------------------ | ------------- | ---------------------------- |
+| `<Space>`                | All           | Leader key                   |
+| `<leader>w`              | Normal        | Save file                    |
+| `J`                      | Visual        | Move line down               |
+| `K`                      | Visual        | Move line up                 |
+| `jk`                     | Insert        | Exit insert mode (ESC)       |
+| `<leader>q`              | Normal        | Quit Neovim                  |
+| `+`                      | Normal        | Increment number             |
+| `-`                      | Normal        | Decrement number             |
+| `<C-a>`                  | Normal        | Select all text              |
+| `<` / `>`                | Visual        | Indent/Unindent selection    |
+| `te`                     | Normal        | New tab                      |
+| `<leader>sh`             | Normal        | Split window horizontally    |
+| `<leader>sv`             | Normal        | Split window vertically      |
+| `<C-h/j/k/l>`            | Normal        | Navigate between splits      |
+| `<leader>th`             | Normal        | Change splits to horizontal  |
+| `<leader>tk`             | Normal        | Change splits to vertical    |
+| `<C-Up/Down/Left/Right>` | Normal        | Resize window                |
+| `<Tab>` / `<S-Tab>`      | Normal        | Next/Previous buffer         |
+| `<leader>x`              | Normal        | Close buffer                 |
+| `<A-p>`                  | Normal        | Pin buffer                   |
+| `<leader>co`             | Normal/Visual | Toggle comment               |
+| `<leader>b`              | Normal        | Toggle Neotree               |
+| `<leader>nb`             | Normal        | Show Neotree buffer in float |
+| `<leader>ff`             | Normal        | Telescope find files         |
+| `<leader>fg`             | Normal        | Telescope live grep          |
+| `<leader>fr`             | Normal        | Telescope recent files       |
+| `<leader>fb`             | Normal        | Telescope buffers            |
+| `<leader>S`              | Normal        | Toggle Spectre               |
+| `<leader>sw`             | Normal/Visual | Search current word          |
+| `<leader>sp`             | Normal        | Search in current file       |
 
 #### Git Integration Keybindings
 
-| Keybinding | Mode | Description |
-|------------|------|-------------|
-| `ga` | Normal | Stage hunk |
-| `ga` | Visual | Stage selection |
-| `gA` | Normal | Stage entire buffer |
-| `<leader>gv` | Normal | Toggle deleted lines view |
-| `<leader>ua` | Normal | Undo last stage |
-| `<leader>uh` | Normal | Reset hunk |
-| `<leader>ub` | Normal | Reset buffer |
-| `<leader>ob` | Normal | Toggle git blame |
-| `gh` | Normal | Next hunk |
-| `gH` | Normal | Previous hunk |
-| `gh` | Visual/Operator | Select hunk |
+| Keybinding   | Mode            | Description               |
+| ------------ | --------------- | ------------------------- |
+| `ga`         | Normal          | Stage hunk                |
+| `ga`         | Visual          | Stage selection           |
+| `gA`         | Normal          | Stage entire buffer       |
+| `<leader>gv` | Normal          | Toggle deleted lines view |
+| `<leader>ua` | Normal          | Undo last stage           |
+| `<leader>uh` | Normal          | Reset hunk                |
+| `<leader>ub` | Normal          | Reset buffer              |
+| `<leader>ob` | Normal          | Toggle git blame          |
+| `gh`         | Normal          | Next hunk                 |
+| `gH`         | Normal          | Previous hunk             |
+| `gh`         | Visual/Operator | Select hunk               |
 
 #### DiffView Keybindings
 
-| Keybinding | Mode | Description |
-|------------|------|-------------|
-| `<leader>q` | Normal | Close DiffView |
-| `<leader>ch` | Normal | Choose current version in conflict |
+| Keybinding   | Mode   | Description                         |
+| ------------ | ------ | ----------------------------------- |
+| `<leader>q`  | Normal | Close DiffView                      |
+| `<leader>ch` | Normal | Choose current version in conflict  |
 | `<leader>cl` | Normal | Choose incoming version in conflict |
-| `<leader>cb` | Normal | Choose base version in conflict |
-| `<leader>ca` | Normal | Choose all versions in conflict |
-| `<leader>cx` | Normal | Choose none in conflict |
-| `do` | Normal | Get diff from other file |
-| `dp` | Normal | Put diff to other file |
-| `j/k` | Normal | Navigate entries in file panel |
-| `<cr>` | Normal | Select entry in file panel |
+| `<leader>cb` | Normal | Choose base version in conflict     |
+| `<leader>ca` | Normal | Choose all versions in conflict     |
+| `<leader>cx` | Normal | Choose none in conflict             |
+| `do`         | Normal | Get diff from other file            |
+| `dp`         | Normal | Put diff to other file              |
+| `j/k`        | Normal | Navigate entries in file panel      |
+| `<cr>`       | Normal | Select entry in file panel          |
 
 #### File Operations Keybindings
 
-| Keybinding | Mode | Description |
-|------------|------|-------------|
-| `<C-p>` | Normal | Copy file path (with ~) |
-| `<C-t>` | Normal | Copy relative path |
-| `<C-n>` | Normal | Copy filename |
-| `<C-r>` | Normal | Rename file |
-| `<D-m>` | Normal | Move file |
+| Keybinding  | Mode   | Description                     |
+| ----------- | ------ | ------------------------------- |
+| `<C-p>`     | Normal | Copy file path (with ~)         |
+| `<C-t>`     | Normal | Copy relative path              |
+| `<C-n>`     | Normal | Copy filename                   |
+| `<C-r>`     | Normal | Rename file                     |
+| `<D-m>`     | Normal | Move file                       |
 | `<leader>x` | Normal | Make file executable (chmod +x) |
-| `<A-d>` | Normal | Duplicate file |
-| `<D-BS>` | Normal | Move file to trash |
-| `<D-n>` | Normal | Create new file |
-| `X` | Visual | Move selection to new file |
-| `-` | Normal | Open parent directory (Oil) |
+| `<A-d>`     | Normal | Duplicate file                  |
+| `<D-BS>`    | Normal | Move file to trash              |
+| `<D-n>`     | Normal | Create new file                 |
+| `X`         | Visual | Move selection to new file      |
+| `-`         | Normal | Open parent directory (Oil)     |
 
 #### Editing Support Keybindings
 
-| Keybinding | Mode | Description |
-|------------|------|-------------|
-| `gcc` | Normal | Toggle line comment |
-| `Q` | Normal | Comment at end of line |
-| `qO` | Normal | Comment above |
-| `qo` | Normal | Comment below |
-| `<leader>ut` | Normal | Toggle Undotree |
-| `<leader>tp` | Normal | Toggle Puppeteer |
-| `<leader>tj` | Normal | Toggle split/join lines |
+| Keybinding   | Mode   | Description                        |
+| ------------ | ------ | ---------------------------------- |
+| `gcc`        | Normal | Toggle line comment                |
+| `Q`          | Normal | Comment at end of line             |
+| `qO`         | Normal | Comment above                      |
+| `qo`         | Normal | Comment below                      |
+| `<leader>ut` | Normal | Toggle Undotree                    |
+| `<leader>tp` | Normal | Toggle Puppeteer                   |
+| `<leader>tj` | Normal | Toggle split/join lines            |
 | `<leader>tJ` | Normal | Split line (markdown, applescript) |
 
 #### Mini Plugins Keybindings
 
-| Keybinding | Mode | Description |
-|------------|------|-------------|
-| `gsa` | Normal/Visual | Add surrounding |
-| `gsd` | Normal | Delete surrounding |
-| `gsf` | Normal | Find surrounding (right) |
-| `gsF` | Normal | Find surrounding (left) |
-| `gsh` | Normal | Highlight surrounding |
-| `gsr` | Normal | Replace surrounding |
-| `gsn` | Normal | Update surrounding lines |
+| Keybinding | Mode          | Description              |
+| ---------- | ------------- | ------------------------ |
+| `gsa`      | Normal/Visual | Add surrounding          |
+| `gsd`      | Normal        | Delete surrounding       |
+| `gsf`      | Normal        | Find surrounding (right) |
+| `gsF`      | Normal        | Find surrounding (left)  |
+| `gsh`      | Normal        | Highlight surrounding    |
+| `gsr`      | Normal        | Replace surrounding      |
+| `gsn`      | Normal        | Update surrounding lines |
 
 #### Outline Navigation
 
-| Keybinding | Mode | Description |
-|------------|------|-------------|
+| Keybinding   | Mode   | Description    |
+| ------------ | ------ | -------------- |
 | `<leader>ou` | Normal | Toggle outline |
-| `<Esc>`, `q` | Normal | Close outline |
-| `<CR>` | Normal | Go to location |
-| `o` | Normal | Focus location |
-| `<C-space>` | Normal | Hover symbol |
-| `K` | Normal | Toggle preview |
-| `r` | Normal | Rename symbol |
-| `a` | Normal | Code actions |
-| `h` | Normal | Fold |
-| `l` | Normal | Unfold |
-| `W` | Normal | Fold all |
+| `<Esc>`, `q` | Normal | Close outline  |
+| `<CR>`       | Normal | Go to location |
+| `o`          | Normal | Focus location |
+| `<C-space>`  | Normal | Hover symbol   |
+| `K`          | Normal | Toggle preview |
+| `r`          | Normal | Rename symbol  |
+| `a`          | Normal | Code actions   |
+| `h`          | Normal | Fold           |
+| `l`          | Normal | Unfold         |
+| `W`          | Normal | Fold all       |
 
-*Note: This is not an exhaustive list. There are more keybindings available in other plugins. Check the plugin documentation for more details.*
+_Note: This is not an exhaustive list. There are more keybindings available in other plugins. Check the plugin documentation for more details._
 
 ### System Mode (Exit Menu)
 
