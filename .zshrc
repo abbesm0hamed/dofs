@@ -70,7 +70,8 @@ zinit wait lucid for \
     zsh-users/zsh-autosuggestions \
     blockf atpull'zinit creinstall -q .' \
     zsh-users/zsh-completions \
-    kutsan/zsh-system-clipboard
+    kutsan/zsh-system-clipboard \
+    peterhurford/up.zsh
 
 # FZF Tab Completion
 zinit wait lucid for \
@@ -99,29 +100,55 @@ zinit wait"2" lucid for \
 # Keybindings
 #===============================================================================
 
-# Emacs Mode
+# Emacs Mode (Default editing mode)
 bindkey -e
 
 # Navigation
-bindkey '^[[1;5D' backward-word     # Ctrl+Left
-bindkey '^[[1;5C' forward-word      # Ctrl+Right
-bindkey '^[b' backward-word         # Alt+B
-bindkey '^[f' forward-word          # Alt+F
+bindkey '^[[1;5D' backward-word     # ⌃← (Ctrl + Left Arrow) - Move backward one word
+bindkey '^[[1;5C' forward-word      # ⌃→ (Ctrl + Right Arrow) - Move forward one word
+bindkey '^[b' backward-word         # ⌥b (Alt + B) - Move backward one word
+bindkey '^[f' forward-word          # ⌥f (Alt + F) - Move forward one word
 
 # History Navigation
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
+bindkey '^p' history-search-backward # ⌃p (Ctrl + P) - Previous command matching current input
+bindkey '^n' history-search-forward # ⌃n (Ctrl + N) - Next command matching current input
 
 # Text Manipulation
-bindkey '^W' backward-kill-word     # Standard Ctrl+W
-bindkey '^[d' kill-word            # Alt+D for forward kill
-bindkey '^[w' copy-region-as-kill  # Alt+W for copy region
-bindkey '^[W' copy-prev-word       # Alt+Shift+W for copy word
+bindkey '^W' backward-kill-word     # ⌃w (Ctrl + W) - Delete word backward
+bindkey '^[d' kill-word            # ⌥d (Alt + D) - Delete word forward
+bindkey '^[w' copy-region-as-kill  # ⌥w (Alt + W) - Copy region
+bindkey '^[W' copy-prev-word       # ⌥⇧w (Alt + Shift + W) - Copy paste previous word
 
 # System Clipboard Operations
-bindkey '^k' kill-line             # Cut to end of line
-bindkey '^u' backward-kill-line    # Cut to start of line
-bindkey '^y' yank                  # Paste
+bindkey '^k' kill-line             # ⌃k (Ctrl + K) - Cut from cursor to end of line
+bindkey '^u' backward-kill-line    # ⌃u (Ctrl + U) - Cut from cursor to start of line
+bindkey '^y' yank                  # ⌃y (Ctrl + Y) - Paste cut/copied text
+
+# Directory Navigation with Up Plugin
+# Define the up-directory widget
+function up-directory() {
+    cd ..
+    zle reset-prompt
+}
+zle -N up-directory
+
+# Define the up-directory-multiple widget
+function up-directory-multiple() {
+    echo -n "Go up by: "
+    read -k level
+    if [[ $level =~ [0-9] ]]; then
+        for i in $(seq 1 $level); do
+            cd ..
+        done
+    fi
+    zle reset-prompt
+}
+zle -N up-directory-multiple
+
+# ⌃↑ (Ctrl + Up Arrow) - Go up one directory
+bindkey '^[[1;5A' up-directory
+# ⌃⇧↑ (Ctrl + Shift + Up Arrow) - Go up multiple directories
+bindkey '^[[1;6A' up-directory-multiple
 
 #===============================================================================
 # Completion System
