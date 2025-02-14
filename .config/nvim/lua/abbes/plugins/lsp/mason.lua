@@ -35,7 +35,6 @@ return {
       "neovim/nvim-lspconfig",
     },
     config = function()
-      local lsp_zero = require("lsp-zero")
       require("mason-lspconfig").setup({
         ensure_installed = {
           "vtsls",
@@ -53,20 +52,6 @@ return {
           "pyright",
         },
         automatic_installation = true,
-        handlers = {
-          lsp_zero.default_setup,
-          vtsls = function()
-            require("lspconfig").vtsls.setup({
-              single_file_support = false,
-              settings = {
-                documentFormatting = true,
-                format = {
-                  enable = true,
-                },
-              },
-            })
-          end,
-        },
       })
     end,
   },
@@ -80,10 +65,10 @@ return {
           -- Formatters
           "stylua",
           "prettier",
+          "biome",
           "gofumpt",
           "golines",
           -- Linters
-          "eslint_d",
           "golangci-lint",
           "shellcheck",
           "editorconfig-checker",
