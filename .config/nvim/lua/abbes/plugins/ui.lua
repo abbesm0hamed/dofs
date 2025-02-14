@@ -1,4 +1,8 @@
 return {
+  {
+    "wurli/visimatch.nvim",
+    opts = {},
+  },
   -- {
   --   "nvim-tree/nvim-web-devicons",
   --   config = function()
@@ -12,8 +16,4 @@ return {
   --     })
   --   end,
   -- },
-  {
-    "wurli/visimatch.nvim",
-    opts = {},
-  },
 }

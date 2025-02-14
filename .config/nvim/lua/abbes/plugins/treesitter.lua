@@ -43,68 +43,136 @@ return {
       { "<c-space>", desc = "Increment Selection" },
       { "<bs>",      desc = "Decrement Selection", mode = "x" },
     },
-    opts = {
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
-      indent = { enable = true },
-      -- Remove the fold setting from here since you're using native folding
-      -- fold = { enable = true },
-      sync_install = false,
-      ensure_installed = {
-        "go",
-        "gomod",
-        "gowork",
-        "gosum",
-        "bash",
-        "c",
-        "diff",
-        "html",
-        "javascript",
-        "jsdoc",
-        "astro",
-        "typescript",
-        "tsx",
-        "xml",
-        "json",
-        "vue",
-        "rust",
-        "jsonc",
-        "lua",
-        "luadoc",
-        "luap",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        -- "regex",
-        "toml",
-        "vim",
-        "vimdoc",
-        "yaml",
-        "dockerfile",
-      },
-      ignore_install = { "regex" },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          scope_incremental = false,
-          node_decremental = "<bs>",
+    opts = function()
+      -- Helper function to check if files of a certain type exist
+      local function has_files(extension)
+        return vim.fn.empty(vim.fn.glob("*." .. extension)) == 0
+      end
+
+      -- Helper function to check if a command exists
+      local function have(cmd)
+        return vim.fn.executable(cmd) == 1
+      end
+
+      -- Add custom filetype detection
+      vim.filetype.add({
+        extension = {
+          rasi = "rasi",
+          rofi = "rasi",
+          wofi = "rasi",
         },
-      },
-      textobjects = {
-        move = {
+        filename = {
+          ["vifmrc"] = "vim",
+        },
+        pattern = {
+          -- Config files
+          [".*/sway/config"] = "swayconfig",
+          [".*/waybar/config"] = "jsonc",
+          [".*/mako/config"] = "dosini",
+          [".*/kitty/.+%.conf"] = "kitty",
+          -- Environment files
+          ["%.env.*"] = "sh",
+          ["%.env%.[%w_.-]+"] = "sh",
+        },
+      })
+
+      -- Register bash parser for kitty config
+      vim.treesitter.language.register("bash", "kitty")
+
+      -- Base configuration
+      local config = {
+        highlight = {
           enable = true,
-          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
-          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
-          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
-          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+          additional_vim_regex_highlighting = false,
         },
-      },
-    },
+        indent = { enable = true },
+        sync_install = false,
+        ensure_installed = {
+          -- Always installed languages
+          "vim",
+          "vimdoc",
+          "lua",
+          "luadoc",
+          "luap",
+          "query",
+        },
+        ignore_install = { "regex" },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<C-space>",
+            node_incremental = "<C-space>",
+            scope_incremental = false,
+            node_decremental = "<bs>",
+          },
+        },
+        textobjects = {
+          move = {
+            enable = true,
+            goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
+            goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
+            goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
+            goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+          },
+        },
+      }
+
+      -- Conditional language installations
+      local conditional_languages = {
+        { exts = { "js", "jsx", "mjs" }, parser = { "javascript", "jsdoc" } },
+        { exts = { "ts", "tsx" }, parser = { "typescript", "tsx" } },
+        { exts = { "vue" }, parser = { "vue" } },
+        { exts = { "astro" }, parser = { "astro" } },
+        { exts = { "go", "mod", "sum", "work" }, parser = { "go", "gomod", "gosum", "gowork" } },
+        { exts = { "rs" }, parser = { "rust" } },
+        { exts = { "py" }, parser = { "python" } },
+        { exts = { "html" }, parser = { "html" } },
+        { exts = { "json", "jsonc" }, parser = { "json", "jsonc" } },
+        { exts = { "toml" }, parser = { "toml" } },
+        { exts = { "yaml", "yml" }, parser = { "yaml" } },
+        { exts = { "md", "markdown" }, parser = { "markdown", "markdown_inline" } },
+        { exts = { "sh", "bash", "zsh" }, parser = { "bash" } },
+        { exts = { "dockerfile", "Dockerfile" }, parser = { "dockerfile" } },
+        -- Add rasi if rofi or wofi is installed
+        { exts = { "rasi" }, parser = { "rasi" }, check = function() return have("rofi") or have("wofi") end },
+      }
+
+      -- Add languages if corresponding files exist
+      for _, lang in ipairs(conditional_languages) do
+        -- If there's a check function, use it
+        if lang.check and lang.check() then
+          for _, parser in ipairs(lang.parser) do
+            table.insert(config.ensure_installed, parser)
+          end
+        else
+          -- Otherwise check file extensions
+          for _, ext in ipairs(lang.exts) do
+            if has_files(ext) then
+              for _, parser in ipairs(lang.parser) do
+                table.insert(config.ensure_installed, parser)
+              end
+              break
+            end
+          end
+        end
+      end
+
+      -- Check for specific config files
+      local config_files = {
+        -- Use bash parser for config files since it handles shell-like syntax well
+        { pattern = ".*/sway/config", parser = "bash" },
+        { pattern = ".*/kitty/.+%.conf", parser = "bash" },
+        { pattern = "%.env.*", parser = "bash" },
+      }
+
+      for _, cfg in ipairs(config_files) do
+        if vim.fn.empty(vim.fn.glob(cfg.pattern)) == 0 then
+          table.insert(config.ensure_installed, cfg.parser)
+        end
+      end
+
+      return config
+    end,
     config = function(_, opts)
       if type(opts.ensure_installed) == "table" then
         local added = {}

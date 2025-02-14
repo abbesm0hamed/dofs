@@ -1,13 +1,15 @@
 return {
-  "folke/todo-comments.nvim",
-  event = "VeryLazy",
-  cmd = { "TodoTrouble", "TodoTelescope" },
-  config = true,
-  optional = true,
-  -- stylua: ignore
-  keys = {
-    { "<leader>st", function() Snacks.picker.todo_comments() end,                                          desc = "Todo" },
-    { "<leader>sT", function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
+  {
+    "folke/todo-comments.nvim",
+    event = "VeryLazy",
+    cmd = { "TodoTrouble", "TodoTelescope" },
+    config = true,
+    -- optional = true,
+    -- stylua: ignore
+    keys = {
+      { "<leader>st", function() Snacks.picker.todo_comments() end,                                          desc = "Todo" },
+      { "<leader>sT", function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
+    }
   },
   {
     "LudoPinelli/comment-box.nvim",

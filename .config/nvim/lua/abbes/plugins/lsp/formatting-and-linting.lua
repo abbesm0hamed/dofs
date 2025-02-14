@@ -1,200 +1,102 @@
-local u = require("abbes.config.utils")
-vim.g.mapleader = " "
-
--- use formatting from conform.nvim
-local ftToFormatter = {
-  applescript = { "trim_whitespace", "trim_newlines", "squeeze_blanks" },
-  lua = { "stylua" },
-  markdown = { "markdown-toc", "markdownlint", "injected" },
-  sh = { "shfmt" },
-  bib = { "bibtex-tidy" },
-  css = { "squeeze_blanks" }, -- since the css formatter does not support that
-  go = { "goimports", "gofumpt" },
-  html = { "emmet-ls" },
-}
--- use formatting from the LSP
-local lspFormatFt = {
-  "javascript",
-  "typescript",
-  "json",
-  "jsonc",
-  "toml",
-  "yaml",
-  "html",
-  "python",
-  "css",
-  "go",
-  "rs",
-  "cpp",
-}
-
-local autoIndentFt = {
-  "query",
-  "applescript",
-}
-
-local function flatten(tbl)
-  local result = {}
-  for _, v in ipairs(tbl) do
-    if type(v) == "table" then
-      for _, inner in ipairs(flatten(v)) do
-        table.insert(result, inner)
-      end
-    else
-      table.insert(result, v)
-    end
-  end
-  return result
-end
-
-local function listConformFormatters(formattersByFt)
-  local notClis = { "trim_whitespace", "trim_newlines", "squeeze_blanks", "injected" }
-  local formatters = flatten(vim.tbl_values(formattersByFt))
-  formatters = vim.tbl_filter(function(f)
-    return not vim.tbl_contains(notClis, f)
-  end, formatters)
-  table.sort(formatters)
-  return vim.fn.uniq(formatters)
-end
-
-local conformOpts = {
-  formatters_by_ft = ftToFormatter,
-  format_on_save = {
-    lsp_fallback = true,
-    async = false,
-    timeout_ms = 2000,
-  },
-  formatters = {
-    ["bibtex-tidy"] = {
-      prepend_args = {
-        "--tab",
-        "--curly",
-        "--no-align",
-        "--no-wrap",
-        "--drop-all-caps",
-        "--numeric",
-        "--trailing-commas",
-        "--no-escape",
-        "--duplicates",
-        "--sort-fields",
-        "--remove-empty-fields",
-        "--omit=month,issn,abstract",
-      },
-    },
-  },
-}
-
-local function formattingFunc(bufnr)
-  if not bufnr then
-    bufnr = 0
-  end
-  local bufname = vim.api.nvim_buf_get_name(bufnr)
-  if vim.bo[bufnr].buftype ~= "" or not vim.loop.fs_stat(bufname) or not vim.api.nvim_buf_is_valid(bufnr) then
-    return
-  end
-  local ft = vim.bo[bufnr].filetype
-  local useLsp = vim.tbl_contains(lspFormatFt, ft) and "always" or false
-
-  if string.match(bufname, "%.env$") then
-    return
-  end
-  if vim.tbl_contains(autoIndentFt, ft) then
-    u.normal("gg=G``")
-  end
-
-  if ft == "typescript" then
-    local actions = {
-      "source.fixAll.ts",
-      "source.addMissingImports.ts",
-      "source.removeUnusedImports.ts",
-      "source.organizeImports.biome",
-    }
-    for i = 0, #actions do
-      vim.defer_fn(function()
-        if i < #actions then
-          vim.lsp.buf.code_action({ context = { only = { actions[i] } }, apply = true })
-        else
-          require("conform").format({ lsp_fallback = useLsp })
-        end
-      end, i * 60)
-    end
-    return
-  end
-
-  require("conform").format({ lsp_fallback = useLsp }, function()
-    if ft == "python" then
-      vim.lsp.buf.code_action({ context = { only = { "source.fixAll.ruff" } }, apply = true })
-    end
-  end)
-end
-
 return {
   {
-    "stevearc/conform.nvim",
-    -- event = { "BufWritePre" },
-    cmd = "ConformInfo",
-    mason_dependencies = listConformFormatters(ftToFormatter),
-    config = function()
-      local conform = require("conform")
-      require("conform.formatters.injected").options.ignore_errors = true
-      conform.setup(conformOpts)
-      vim.api.nvim_create_autocmd("FocusLost", {
-        callback = function(ctx)
-          formattingFunc(ctx.buf)
-        end,
-      })
-    end,
+    "stevearc/conform.nvim",   -- Fast formatter
+    event = { "BufWritePre" }, -- Load only before saving
+    cmd = { "ConformInfo" },
     keys = {
-      { "<leader>mp", formattingFunc, desc = "󰒕 Format & Save", mode = { "n", "v", "x" } },
+      {
+        "<leader>fm",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        desc = "󰉢 Format",
+      },
+    },
+    opts = {
+      -- Define formatters per filetype
+      formatters_by_ft = {
+        lua = { "stylua" },
+        -- Frontend
+        javascript = { "prettierd" },
+        typescript = { "prettierd" },
+        javascriptreact = { "prettierd" },
+        typescriptreact = { "prettierd" },
+        vue = { "prettierd" },
+        html = { "prettierd" },
+        css = { "prettierd" },
+        scss = { "prettierd" },
+        markdown = { "prettierd" },
+        yaml = { "prettierd" },
+        json = { "prettierd" },
+        jsonc = { "prettierd" },
+        -- Go
+        go = { "gofumpt", "goimports" },
+        -- Shell
+        sh = { "shfmt" },
+        bash = { "shfmt" },
+        zsh = { "shfmt" },
+      },
+      -- Use faster formatters where possible
+      formatters = {
+        prettierd = {
+          env = {
+            PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/utils/linting-and-formatting/.prettierrc.json"),
+          },
+          -- Fallback to prettier if prettierd fails
+          condition = function(ctx)
+            return vim.fn.executable("prettierd") == 1
+          end,
+        },
+        prettier = {
+          -- Only use prettier as fallback
+          condition = function(ctx)
+            return vim.fn.executable("prettierd") == 0
+          end,
+        },
+        shfmt = {
+          args = { "-i", "2", "-ci" },
+        },
+      },
+      -- Format on save (synchronous)
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+      },
+      -- Async formatting after save
+      format_after_save = {
+        lsp_fallback = true,
+        async = true,
+      },
+      -- Don't log formatting
+      notify_on_error = false,
+      -- Cache formatters for better performance
+      cache_disabled = false,
     },
   },
   {
-    "nvimtools/none-ls.nvim",
-    lazy = true,
-    dependencies = { "jay-babu/mason-null-ls.nvim" },
+    "mfussenegger/nvim-lint", -- Async linter
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local mason_null_ls = require("mason-null-ls")
-      local null_ls = require("null-ls")
-      local null_ls_utils = require("null-ls.utils")
+      local lint = require("lint")
 
-      mason_null_ls.setup({
-        ensure_installed = {
-          "prettier",
-          "stylua",
-          "eslint_d",
-        },
-        automatic_installation = true,
-      })
+      -- Use built-in linters
+      lint.linters_by_ft = {
+        javascript = { "eslint" },
+        typescript = { "eslint" },
+        javascriptreact = { "eslint" },
+        typescriptreact = { "eslint" },
+        vue = { "eslint" },
+        go = { "staticcheck" }, -- Use staticcheck instead of golangci-lint
+        sh = { "shellcheck" },
+        lua = { "luacheck" },
+      }
 
-      local formatting = null_ls.builtins.formatting
-      local diagnostics = null_ls.builtins.diagnostics
-
-      null_ls.setup({
-        root_dir = null_ls_utils.root_pattern(".null-ls-root", "Makefile", ".git", "package.json"),
-        sources = {
-          formatting.prettier.with({
-            extra_filetypes = {
-              "svelte",
-              "typescript",
-              "typescriptreact",
-            },
-            extra_args = {
-              "--single-quote",
-              "--jsx-single-quote",
-            },
-          }),
-          formatting.stylua,
-          formatting.black,
-          diagnostics.pylint,
-          diagnostics.eslint_d.with({
-            condition = function(utils)
-              return utils.root_has_file({
-                ".eslintrc.js",
-                ".eslintrc.cjs",
-              })
-            end,
-          }),
-        },
+      -- Create autocommand for linting
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
+        callback = function()
+          require("lint").try_lint()
+        end,
       })
     end,
   },

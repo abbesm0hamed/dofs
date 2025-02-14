@@ -124,7 +124,7 @@ local lualineConfig = {
       {
         "selectioncount",
         fmt = function(str)
-          return str ~= "" and "礪" .. str or ""
+          return str ~= "" and "󰒆 " .. str or ""
         end,
       },
       {

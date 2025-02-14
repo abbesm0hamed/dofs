@@ -1,17 +1,14 @@
 return {
   {
     "williamboman/mason.nvim",
+    cmd = "Mason",
+    keys = {
+      { "<leader>cm", "<cmd>Mason<cr>", desc = " Mason" },
+    },
+    build = ":MasonUpdate",
+    event = "VeryLazy",
     config = function()
-      -- import mason
-      local mason = require("mason")
-
-      opts = {
-        keys = {
-          { "<leader>mn", vim.cmd.Mason, desc = " Mason" },
-        },
-      }
-      -- enable mason and configure icons
-      mason.setup({
+      require("mason").setup({
         ui = {
           border = vim.g.borderStyle,
           height = 0.85,
@@ -21,7 +18,7 @@ return {
             package_pending = "󰔟",
             package_uninstalled = "✗",
           },
-          keymaps = { -- consistent with keymaps for lazy.nvim
+          keymaps = {
             uninstall_package = "x",
             toggle_help = "?",
             toggle_package_expand = "<Tab>",
@@ -32,15 +29,14 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    opts = {
-      auto_install = true,
+    event = "VeryLazy",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
     },
     config = function()
       local lsp_zero = require("lsp-zero")
-
-      local mason_lspconfig = require("mason-lspconfig")
-      mason_lspconfig.setup({
-        -- list of servers for mason to install
+      require("mason-lspconfig").setup({
         ensure_installed = {
           "vtsls",
           "emmet_ls",
@@ -56,57 +52,54 @@ return {
           "prismals",
           "pyright",
         },
-        -- auto-install configured servers (with lspconfig)
-        automatic_installation = true, -- not the same as ensure_installed
+        automatic_installation = true,
         handlers = {
           lsp_zero.default_setup,
           vtsls = function()
-            local lspconfig = require("lspconfig")
-
-            lspconfig.vtsls.setup({
+            require("lspconfig").vtsls.setup({
               single_file_support = false,
               settings = {
-                documentFormatting = true, -- Ensure formatting is enabled
+                documentFormatting = true,
                 format = {
                   enable = true,
                 },
               },
             })
           end,
-        }
+        },
       })
     end,
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = "williamboman/mason.nvim",
+    event = "VeryLazy",
     config = function()
-      local mason_tool_installer = require("mason-tool-installer")
-      mason_tool_installer.setup({
+      require("mason-tool-installer").setup({
         ensure_installed = {
-          "lua-language-server",
-          "vim-language-server",
-          "gopls",
+          -- Formatters
           "stylua",
-          "shellcheck",
-          "editorconfig-checker",
+          "prettier",
           "gofumpt",
           "golines",
+          -- Linters
+          "eslint_d",
+          "golangci-lint",
+          "shellcheck",
+          "editorconfig-checker",
+          "vint",
+          -- Go tools
           "gomodifytags",
           "gotests",
           "impl",
           "json-to-struct",
-          "misspell",
           "revive",
-          "shellcheck",
-          "shfmt",
           "staticcheck",
-          "vint",
-          "golangci-lint",
-          "prettier", -- prettier formatter
-          "stylua",   -- lua formatter
-          "eslint_d", -- js linter
-          "bash-language-server",
+          -- Shell
+          "shfmt",
         },
+        auto_update = true,
+        run_on_start = true,
       })
     end,
   },

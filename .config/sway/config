@@ -1,9 +1,9 @@
 # Include configurations
+include $HOME/.config/sway/workspaces.conf
 include $HOME/.config/sway/rules.conf
 include $HOME/.config/sway/modes.conf
-include $HOME/.config/sway/themes/kanagawa.conf
-include $HOME/.config/sway/workspaces.conf
 include $HOME/.config/sway/keybindings
+include $HOME/.config/sway/themes/kanagawa.conf
 
 # Basic settings
 set $mod Mod4
@@ -39,9 +39,8 @@ exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSO
 exec $HOME/.config/scripts/autostart.sh
 exec $HOME/.config/scripts/sway-wallpaper.sh
 
-# Notification daemon
-exec_always --no-startup-id pkill mako; mako --config ~/.config/mako/config
-
 # Add these environment variables for better notification support
 exec_always --no-startup-id dbus-update-activation-environment --systemd --all
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+# Notification daemon
+exec_always --no-startup-id pkill mako; mako --config ~/.config/mako/config

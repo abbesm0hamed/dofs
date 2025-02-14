@@ -41,8 +41,8 @@ run slack   # Start Slack on workspace 9
 
 # Initialize Wayland-specific services
 run kanshi # Automatic display management
-# run wlsunset -l 36.8 -L 10.2  # Night light management
 run wob # On-screen display bars
+# run wlsunset -l 36.8 -L 10.2  # Night light management
 
 # Initialize XDG portals for better app integration
 run /usr/lib/xdg-desktop-portal-wlr &

@@ -6,26 +6,26 @@ return {
     branch = "v4.x",
     dependencies = {
       -- LSP Support
-      { 
+      {
         "neovim/nvim-lspconfig",
         event = "VeryLazy",
         config = function()
           -- Set up capabilities properly
           local capabilities = vim.lsp.protocol.make_client_capabilities()
           capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-          
+
           -- Disable file watcher
           capabilities.workspace = {
             didChangeWatchedFiles = {
               dynamicRegistration = false
             }
           }
-          
+
           -- Make capabilities available globally
           vim.g.lsp_capabilities = capabilities
         end,
       },
-      { 
+      {
         "williamboman/mason.nvim",
         cmd = "Mason",
         opts = {
@@ -33,20 +33,16 @@ return {
           max_concurrent_installers = 4,
         },
       },
-      { 
-        "williamboman/mason-lspconfig.nvim",
-        event = "VeryLazy",
-      },
       -- Autocompletion
-      { 
+      {
         "hrsh7th/nvim-cmp",
         event = "InsertEnter",
         dependencies = {
-          { "hrsh7th/cmp-buffer", event = "InsertEnter" },
-          { "hrsh7th/cmp-path", event = "InsertEnter" },
+          { "hrsh7th/cmp-buffer",       event = "InsertEnter" },
+          { "hrsh7th/cmp-path",         event = "InsertEnter" },
           { "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
-          { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-          { "hrsh7th/cmp-nvim-lua", ft = "lua" },
+          { "hrsh7th/cmp-nvim-lsp",     event = "InsertEnter" },
+          { "hrsh7th/cmp-nvim-lua",     ft = "lua" },
         },
         opts = {
           preselect = "none",
@@ -56,7 +52,7 @@ return {
         },
       },
       -- Snippets
-      { 
+      {
         "L3MON4D3/LuaSnip",
         event = "InsertEnter",
         dependencies = {
@@ -163,16 +159,16 @@ return {
           { name = "buffer",  keyword_length = 3 },
         },
         window = {
-          --   completion = cmp.config.window.bordered({
-          --     winhighlight = winhighlight.winhighlight,
-          --     border = "single",
-          --     side_padding = 0,
-          --   }),
-          --   documentation = cmp.config.window.bordered({
-          --     winhighlight = winhighlight.winhighlight,
-          --     border = "single",
-          --     side_padding = 1,
-          --   }),
+          -- completion = cmp.config.window.bordered({
+          --   winhighlight = winhighlight.winhighlight,
+          --   border = "single",
+          --   side_padding = 0,
+          -- }),
+          -- documentation = cmp.config.window.bordered({
+          --   winhighlight = winhighlight.winhighlight,
+          --   border = "single",
+          --   side_padding = 1,
+          -- }),
         },
         mapping = cmp.mapping.preset.insert({
           ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
