@@ -4,6 +4,7 @@ include ~/.config/sway/rules.conf
 include ~/.config/sway/modes.conf
 include ~/.config/sway/screens.conf
 include ~/.config/sway/input.conf
+include ~/.config/sway/wallpapers.conf
 include ~/.config/sway/keybindings
 include ~/.config/sway/themes/kanagawa.conf
 
