@@ -150,6 +150,7 @@ install_packages \
     swayidle \
     swaybg \
     wofi \
+    wlogout \
     mako \
     # screenshot packages
     grim \
@@ -171,8 +172,7 @@ echo_step "Configuring input devices for Sway..."
 mkdir -p "$HOME/.config/sway/config.d"
 cp "$(dirname "$0")/input.conf" "$HOME/.config/sway/config.d/"
 
-# Install terminals emulators
-echo_step "Installing applications..."
+echo_step "Installing terminals emulators..."
 install_packages \
     kitty
     # ghostty \
@@ -182,8 +182,9 @@ install_packages \
 # Install applications
 echo_step "Installing applications..."
 install_packages \
-    ladybird \
-    brave-bin \
+    # ladybird \
+    # brave-bin \
+    zen-browser-bin \
     windsurf \
     discord \
     telegram-desktop \

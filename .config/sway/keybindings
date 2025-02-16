@@ -50,11 +50,8 @@ bindsym {
     # Settings and System
     Mod4+v exec pavucontrol
     Control+Mod1+x exec xcolor
-    Mod4+x exec wlogout
+    Mod4+Shift+x exec wlogout
     Control+Mod1+p exec pamac-manager
-
-    # Quick Settings and Power
-    Mod4+Mod1+l exec ~/.config/scripts/power-menu.sh
 }
 
 # MPD controls
