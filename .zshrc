@@ -199,9 +199,11 @@ alias txfr="tmuxifier"
 alias ff="fastfetch"
 alias dc="sudo docker-compose"
 alias dr="sudo docker"
-alias yup="yay -Syu"
-alias yrcns="yay -Rcns"
 alias ..="cd .."
+# yay Aliases
+alias yup="yay -Syu"
+alias yRcns="yay -Rcns"
+alias ySy="yay -Sy"
 
 #===============================================================================
 # Environment Configuration
