@@ -145,7 +145,7 @@ bindsym {
 
 # Workspace controls
 bindsym {
-    # Switch to workspace
+    # Switch to workspace (on the focused output)
     Mod4+1 workspace number 1
     Mod4+2 workspace number 2
     Mod4+3 workspace number 3
@@ -157,7 +157,7 @@ bindsym {
     Mod4+9 workspace number 9
     Mod4+0 workspace number 10
 
-    # Move focused container to workspace
+    # Move focused container to workspace (on the focused output)
     Mod4+Shift+1 move container to workspace number 1
     Mod4+Shift+2 move container to workspace number 2
     Mod4+Shift+3 move container to workspace number 3
@@ -168,6 +168,12 @@ bindsym {
     Mod4+Shift+8 move container to workspace number 8
     Mod4+Shift+9 move container to workspace number 9
     Mod4+Shift+0 move container to workspace number 10
+}
+
+# Monitor focus switching
+bindsym {
+    Mod4+comma focus output left # ,
+    Mod4+period focus output right # .
 }
 
 # Control + Alt shortcuts

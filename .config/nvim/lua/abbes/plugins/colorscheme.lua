@@ -7,15 +7,15 @@ return {
   --   priority = 1000,
   --   config = function()
   --     require("kanagawa").setup({
-  --       compile = false,  -- enable compiling the colorscheme
+  --       compile = false, -- enable compiling the colorscheme
   --       undercurl = true, -- enable undercurls
   --       commentStyle = { italic = true },
   --       functionStyle = { italic = false, bold = false },
   --       keywordStyle = { italic = false },
   --       statementStyle = { bold = true },
   --       typeStyle = {},
-  --       transparent = false,   -- do not set background color
-  --       dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
+  --       transparent = false, -- do not set background color
+  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
   --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
   --       colors = {
   --         -- add/modify theme and palette colors
@@ -25,8 +25,8 @@ return {
   --       overrides = function(colors) -- add/modify highlights
   --         return {}
   --       end,
-  --       theme = "wave",  -- Load "wave" theme when 'background' option is not set
-  --       background = {   -- map the value of 'background' option to a theme
+  --       theme = "wave", -- Load "wave" theme when 'background' option is not set
+  --       background = { -- map the value of 'background' option to a theme
   --         dark = "wave", -- try "dragon" !
   --         light = "lotus",
   --       },
@@ -51,15 +51,14 @@ return {
         all = false,
         auto = true,
       },
-      on_highlights = function(highlights, colors)
-      end,
+      on_highlights = function(highlights, colors) end,
       on_colors = function(c)
         local light_bg = "#ffffff"
         local dark_bg = "#1F1F28"
         c.background = vim.o.background == "light" and light_bg or dark_bg
       end,
     },
-    config = function(_, opts)          -- Add opts parameter here
+    config = function(_, opts) -- Add opts parameter here
       require("jellybeans").setup(opts) -- Pass opts to setup
       vim.cmd.colorscheme("jellybeans")
     end,

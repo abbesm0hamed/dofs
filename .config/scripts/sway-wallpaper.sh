@@ -16,26 +16,17 @@ declare -a DEFAULT_WALLPAPERS=(
 # Create config directory if it doesn't exist
 mkdir -p "$CONFIG_DIR"
 
-# Kill any existing swaybg instances
-pkill swaybg
+# Kill any existing swaybg instances more efficiently
+pkill -x swaybg
 
-# Get all connected outputs in order
+# Get all connected outputs in order (more efficient jq query)
 readarray -t OUTPUTS < <(swaymsg -t get_outputs | jq -r '.[] | select(.active == true) | .name')
 
-# Set wallpapers for each output in order
+# Launch all swaybg instances in parallel
 for i in "${!OUTPUTS[@]}"; do
-    # Use the wallpaper at the same index, or wrap around if we run out
     WALLPAPER="${DEFAULT_WALLPAPERS[$i % ${#DEFAULT_WALLPAPERS[@]}]}"
-
-    # Verify the wallpaper file exists
-    if [ ! -f "$WALLPAPER" ]; then
-        echo "Warning: Wallpaper $WALLPAPER not found"
-        continue
-    fi
-
-    # Launch swaybg for this output
-    swaybg -o "${OUTPUTS[$i]}" -i "$WALLPAPER" -m fill &
+    [ -f "$WALLPAPER" ] && swaybg -o "${OUTPUTS[$i]}" -i "$WALLPAPER" -m fill &
 done
 
 # Save current wallpaper configuration
-printf "%s\n" "${WALLPAPERS[@]}" >"$CURRENT_CONFIG"
+printf "%s\n" "${WALLPAPERS[@]}" > "$CURRENT_CONFIG" &

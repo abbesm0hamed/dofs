@@ -1,9 +1,11 @@
 # Include configurations
-include $HOME/.config/sway/workspaces.conf
-include $HOME/.config/sway/rules.conf
-include $HOME/.config/sway/modes.conf
-include $HOME/.config/sway/keybindings
-include $HOME/.config/sway/themes/kanagawa.conf
+include ~/.config/sway/workspaces.conf
+include ~/.config/sway/rules.conf
+include ~/.config/sway/modes.conf
+include ~/.config/sway/screens.conf
+include ~/.config/sway/input.conf
+include ~/.config/sway/keybindings
+include ~/.config/sway/themes/kanagawa.conf
 
 # Basic settings
 set $mod Mod4
@@ -11,36 +13,38 @@ floating_modifier $mod
 font pango:Lilex 10
 # font pango:JetBrains Mono Nerd Font 10
 
-# Monitor configuration
-# Primary display (Laptop)
-output eDP-1 {
-    position 0 0
-    mode 1920x1080@60Hz
-    adaptive_sync on
-    scale 1
+# Replace the current wob setup with this
+set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
+exec rm -f $WOBSOCK && mkfifo $WOBSOCK 2>/dev/null || notify-send -u normal "WOB Setup" "Failed to create WOB FIFO"
+exec tail -f $WOBSOCK | wob &
+
+# Clean up the pipe on exit
+exec_always rm -f $SWAYSOCK.wob
+
+# Critical environment setup
+exec systemctl --user import-environment SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# Notification daemon must start early
+exec --no-startup-id mako
+
+# Critical services that should start immediately
+exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Immediate visual and system components
+exec_always $HOME/.config/scripts/sway-wallpaper.sh
+exec --no-startup-id waybar
+
+# System tray components (grouped together)
+exec --no-startup-id nm-applet --indicator
+exec --no-startup-id blueman-applet
+exec --no-startup-id pamac-tray
+
+# Then start the rest of user applications
+exec sleep 1 && $HOME/.config/scripts/autostart.sh
+
+# Add near the top after basic settings
+exec_always {
+    date >> ~/.sway-startup.log 2>/dev/null
+    echo "Starting Sway session" >> ~/.sway-startup.log 2>/dev/null
 }
-
-# External display (will be configured when connected)
-output HDMI-A-1 {
-    position 1920 0
-    mode 1920x1080@240Hz
-    scale 1
-    adaptive_sync on
-}
-
-# Keyboard layout switching (Sway syntax)
-input * {
-    xkb_layout "us,fr"
-    xkb_options "grp:win_space_toggle"
-}
-
-# Autostart applications
-exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec $HOME/.config/scripts/autostart.sh
-exec $HOME/.config/scripts/sway-wallpaper.sh
-
-# Add these environment variables for better notification support
-exec_always --no-startup-id dbus-update-activation-environment --systemd --all
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-# Notification daemon
-exec_always --no-startup-id pkill mako; mako --config ~/.config/mako/config

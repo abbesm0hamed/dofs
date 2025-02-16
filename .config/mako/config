@@ -52,7 +52,8 @@ background-color=#2A2A37
 [category=mpd]
 border-color=#7E9CD8
 background-color=#285577
-default-timeout=5000
+default-timeout=2000
+group-by=category
 
 # Default criteria to catch all notifications
 [urgency=low]
@@ -70,3 +71,16 @@ border-color=#C34043
 background-color=#2A2A37
 text-color=#DCD7BA
 default-timeout=0
+
+# Add these at the top of your mako config
+[category=system]
+background-color=#2A2A37
+border-color=#7E9CD8
+default-timeout=5000
+group-by=category
+
+[app-name=autostart.sh]
+background-color=#2A2A37
+border-color=#7E9CD8
+default-timeout=3000
+group-by=app-name
