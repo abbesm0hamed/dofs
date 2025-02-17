@@ -61,7 +61,6 @@ echo_step "Installing shell and development tools..."
 install_packages \
   zsh \
   nodejs \
-  bun \
   npm \
   python \
   python-pip \
@@ -112,6 +111,9 @@ install_packages \
 # inkscape \
 # woeusb \
 # swhkd \
+
+echo_step "Installing bun..."
+curl -fsSL https://bun.sh/install | bash
 
 # Install TPM if it doesn't exist
 echo_step "Checking for Tmux Plugin Manager (TPM)..."
