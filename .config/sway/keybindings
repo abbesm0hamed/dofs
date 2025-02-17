@@ -13,6 +13,9 @@ bindsym {
     Mod1+a exec pactl set-sink-volume @DEFAULT_SINK@ -3%
 }
 
+# Language control
+bindsym Mod4+Ctrl+Alt+space input "*" xkb_switch_layout next
+
 # Night mode toggle
 bindsym Mod4+n exec ~/.config/scripts/toggle-nightmode.sh
 
