@@ -1,0 +1,58 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "source": "~/.config/fastfetch/sway.png",
+    "type": "kitty",
+  },
+  "output": {
+    "separator": " → ",
+    "keyColor": "blue",
+    "separatorColor": "white",
+    "key.width": 12,
+  },
+  "modules": [
+    "title",
+    "separator",
+    {
+      "type": "os",
+      "format": "{2} {3}",
+    },
+    {
+      "type": "packages",
+      "format": "{1}",
+    },
+    {
+      "type": "shell",
+      "format": "{1}",
+    },
+    "de",
+    "wm",
+    {
+      "type": "terminal",
+      "format": "{1}",
+    },
+    {
+      "type": "cpu",
+      "format": "{1} {2}",
+    },
+    {
+      "type": "gpu",
+      "format": "{1} {2}",
+    },
+    {
+      "type": "memory",
+      "format": "{1} / {2}B ({3}%)",
+    },
+    {
+      "type": "disk",
+      "format": "{1} / {2}B ({3}%)",
+    },
+    {
+      "type": "colors",
+      "symbol": "circle",
+      "padding": {
+        "left": 2,
+      },
+    },
+  ],
+}

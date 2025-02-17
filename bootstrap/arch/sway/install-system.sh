@@ -61,6 +61,7 @@ echo_step "Installing shell and development tools..."
 install_packages \
   zsh \
   nodejs \
+  bun \
   npm \
   python \
   python-pip \
@@ -191,10 +192,10 @@ install_packages \
   telegram-desktop \
   slack-desktop \
   \
-  # keepassxc \
-  # mpv # postman-bin \
-# calibre # brave-bin \
-# vlc \
+  # vlc \
+  # postman-bin # mpv \
+# brave-bin # calibre \
+# keepassxc \
 # ladybird \
 
 # Install fonts
