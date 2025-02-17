@@ -33,7 +33,6 @@ exec --no-startup-id mako
 exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # Immediate visual and system components
-exec_always $HOME/.config/scripts/sway-wallpaper.sh
 exec --no-startup-id waybar
 
 # System tray components (grouped together)

@@ -40,7 +40,8 @@ bindsym {
 
     # Browsers
     Mod4+b exec brave
-    Mod4+g exec google-chrome-stable
+    Mod4+z exec zen-browser
+    # Mod4+g exec google-chrome-stable
 
     # Communication
     Mod4+d exec discord
