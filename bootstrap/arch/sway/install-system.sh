@@ -113,7 +113,16 @@ install_packages \
 # swhkd \
 
 echo_step "Installing bun..."
-curl -fsSL https://bun.sh/install | bash
+if ! command -v bun &> /dev/null; then
+    curl -fsSL https://bun.sh/install | bash
+    if ! command -v bun &> /dev/null; then
+        echo "Bun installation failed!"
+        exit 1
+    fi
+    echo "Bun installed successfully!"
+else
+    echo "Bun is already installed"
+fi
 
 # Install TPM if it doesn't exist
 echo_step "Checking for Tmux Plugin Manager (TPM)..."
