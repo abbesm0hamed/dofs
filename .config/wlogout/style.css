@@ -9,10 +9,9 @@ window {
 }
 
 button {
-  color: #fff;
-  /* text color */
-  background-color: #2a2a37;
-  border: 1px solid #1f1f28;
+  color: #FFF;
+  background-color: #1F1F28;
+  border: 1px solid #454554;
   outline: none;
   box-shadow: none;
   margin: 10px;

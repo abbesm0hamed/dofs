@@ -152,6 +152,7 @@ install_packages \
   power-profiles-daemon \
   gparted \
   less \
+  filezilla \
   pavucontrol \
   xdg-utils \
   udiskie
@@ -205,10 +206,10 @@ install_packages \
   insomnia \
   posting \
   \
-  # brave-bin \
-  # keepassxc # vlc \
-# postman-bin # mpv \
-# calibre \
+  # calibre \
+  # vlc # keepassxc \
+# mpv # postman-bin \
+# brave-bin \
 # ladybird \
 
 # Install fonts
