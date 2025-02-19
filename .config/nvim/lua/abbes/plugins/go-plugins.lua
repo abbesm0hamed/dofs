@@ -12,7 +12,7 @@ return {
       require("gopher").setup(opts)
     end,
     build = function()
-      vim.cmd [[silent! GoInstallDeps]]
+      vim.cmd([[silent! GoInstallDeps]])
       vim.keymap.set("n", "<leader>gts", "<cmd>GoTagAdd json<CR>", { desc = "Add tag json to go struct" })
       vim.keymap.set("n", "<leader>gty", "<cmd>GoTagAdd yaml<CR>", { desc = "Add tag yaml to go struct" })
     end,
@@ -23,14 +23,13 @@ return {
       "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
-      "VonHeikemen/lsp-zero.nvim",
     },
     config = function()
       require("go").setup()
     end,
     event = { "CmdlineEnter" },
     ft = { "go", "gomod" },
-    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries }
+    build = ':lua require("go.install").update_all_sync()',
   },
   {
     "nvim-neotest/neotest",
@@ -47,5 +46,5 @@ return {
         },
       },
     },
-  }
+  },
 }

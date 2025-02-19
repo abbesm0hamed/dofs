@@ -156,6 +156,11 @@ return {
           end,
         },
         ui_select = true, -- replace `vim.ui.select` with the snacks picker
+      live_filter = {
+        enabled = true,
+        min_chars = 0,
+        update_delay = 0,
+      },
         previewers = {
           file = {
             max_size = 1024 * 1024, -- 1MB

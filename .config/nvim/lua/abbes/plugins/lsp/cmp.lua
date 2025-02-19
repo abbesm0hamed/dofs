@@ -33,7 +33,7 @@ return {
         ["<S-Tab>"] = { "select_prev" },
         ["<C-j>"] = { "select_next" },
         ["<C-k>"] = { "select_prev" },
-        ["<CR>"] = { "accept", "fallback" },
+        ["<CR>"] = { "fallback" }
       },
 
       appearance = {

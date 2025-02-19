@@ -1,13 +1,21 @@
 return {
   {
     "stevearc/conform.nvim",   -- Fast formatter
-    event = { "BufWritePre" }, -- Load only before saving
+    event="VeryLazy",
+    lazy = true,
     cmd = { "ConformInfo" },
     keys = {
       {
         "<leader>fm",
         function()
-          require("conform").format({ async = true, lsp_fallback = true })
+          local conform = require("conform")
+          -- Save cursor position
+          local cursor = vim.api.nvim_win_get_cursor(0)
+          conform.format({ async = true, lsp_fallback = true })
+          -- Restore cursor position after format
+          vim.schedule(function()
+            pcall(vim.api.nvim_win_set_cursor, 0, cursor)
+          end)
         end,
         desc = "󰉢 Format",
       },
@@ -40,30 +48,34 @@ return {
       -- Use faster formatters where possible
       formatters = {
         biome = {
-          condition = function(ctx)
-            return vim.fn.findfile("biome.json", ".;") ~= "" or vim.fn.executable("biome") == 1
-          end,
+          -- Cache biome availability check
+          condition = (function()
+            local has_biome = nil
+            return function(ctx)
+              if has_biome == nil then
+                has_biome = vim.fn.findfile("biome.json", ".;") ~= "" or vim.fn.executable("biome") == 1
+              end
+              return has_biome
+            end
+          end)(),
         },
         prettier = {
-          -- Only use prettier as fallback when biome is not available
-          condition = function(ctx)
-            return vim.fn.findfile("biome.json", ".;") == ""
-          end,
+          -- Cache prettier fallback check
+          condition = (function()
+            local no_biome = nil
+            return function(ctx)
+              if no_biome == nil then
+                no_biome = vim.fn.findfile("biome.json", ".;") == ""
+              end
+              return no_biome
+            end
+          end)(),
         },
         shfmt = {
           args = { "-i", "2", "-ci" },
         },
       },
-      -- Format on save (synchronous)
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
-      -- Async formatting after save
-      format_after_save = {
-        lsp_fallback = true,
-        async = true,
-      },
+      -- Format on save disabled - using manual formatting only
       -- Don't log formatting
       notify_on_error = false,
       -- Cache formatters for better performance
