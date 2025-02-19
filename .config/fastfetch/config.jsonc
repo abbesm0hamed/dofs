@@ -8,8 +8,6 @@
   },
   "output": {
     "separator": " → ",
-    "keyColor": "blue",
-    "separatorColor": "white",
     "key.width": 12
   },
   "modules": [
@@ -20,63 +18,64 @@
       "format": "{2} {3}"
     },
     {
+      "type": "kernel",
+      "format": "{1}"
+    },
+    {
+      "type": "uptime",
+      "format": "{1}h {2}m"
+    },
+    {
       "type": "packages",
       "format": "{1} packages installed"
     },
     {
       "type": "shell",
-      "format": "Shell: {1}"
+      "format": "{1}"
     },
     {
       "type": "de",
-      "format": "DE: {1}"
+      "format": "{1}"
     },
     {
       "type": "wm",
-      "format": "WM: {1}"
+      "format": "{1}"
     },
     {
       "type": "terminal",
-      "format": "Terminal: {1}"
-    },
-    {
-      "type": "cpu",
-      "format": "CPU: {1} {2}"
-    },
-    {
-      "type": "gpu",
-      "format": "GPU: {1} {2}"
-    },
-    {
-      "type": "memory",
-      "format": "Memory: {1} / {2}B ({3}%)"
-    },
-    {
-      "type": "disk",
-      "format": "Disk: {1} / {2}B ({3}%)"
-    },
-    {
-      "type": "colors",
-      "symbol": "circle",
-      "padding": {
-        "left": 2
-      }
-    },
-    {
-      "type": "uptime",
-      "format": "Uptime: {1}h {2}m"
+      "format": "{1}"
     },
     {
       "type": "resolution",
-      "format": "Resolution: {1}"
+      "format": "{1}"
     },
     {
-      "type": "kernel",
-      "format": "Kernel: {1}"
+      "type": "cpu",
+      "format": "{1} {2}"
+    },
+    {
+      "type": "gpu",
+      "format": "{1} {2}"
+    },
+    {
+      "type": "memory",
+      "format": "{1} / {2}B ({3}%)"
+    },
+    {
+      "type": "disk",
+      "format": "{1} / {2}B ({3}%)"
     },
     {
       "type": "localtime",
-      "format": "Local Time: {1}"
+      "format": "{1}"
+    },
+    "separator",
+    {
+      "type": "colors",
+      "symbol": "background",
+      "padding": {
+        "left": 2
+      }
     }
   ]
 }
