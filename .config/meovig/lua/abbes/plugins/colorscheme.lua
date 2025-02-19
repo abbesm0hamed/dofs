@@ -1,68 +1,68 @@
 return {
   -- best
-  -- {
-  --   "rebelot/kanagawa.nvim",
-  --   lazy = true,
-  --   event = "VimEnter",
-  --   priority = 1000,
-  --   config = function()
-  --     require("kanagawa").setup({
-  --       compile = false, -- enable compiling the colorscheme
-  --       undercurl = true, -- enable undercurls
-  --       commentStyle = { italic = true },
-  --       functionStyle = { italic = false, bold = false },
-  --       keywordStyle = { italic = false },
-  --       statementStyle = { bold = true },
-  --       typeStyle = {},
-  --       transparent = false, -- do not set background color
-  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-  --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
-  --       colors = {
-  --         -- add/modify theme and palette colors
-  --         palette = {},
-  --         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-  --       },
-  --       overrides = function(colors) -- add/modify highlights
-  --         return {}
-  --       end,
-  --       theme = "wave", -- Load "wave" theme when 'background' option is not set
-  --       background = { -- map the value of 'background' option to a theme
-  --         dark = "wave", -- try "dragon" !
-  --         light = "lotus",
-  --       },
-  --     })
-  --
-  --     vim.cmd("colorscheme kanagawa")
-  --   end,
-  -- },
-  --
-  -- second best -- jellybeans with kanagawa bg xD
   {
-    "wtfox/jellybeans.nvim",
+    "rebelot/kanagawa.nvim",
     lazy = true,
     event = "VimEnter",
     priority = 1000,
-    opts = {
-      style = "dark",
-      transparent = true,
-      italics = true,
-      flat_ui = true,
-      plugins = {
-        all = false,
-        auto = true,
-      },
-      on_highlights = function(highlights, colors) end,
-      on_colors = function(c)
-        local light_bg = "#ffffff"
-        local dark_bg = "#1F1F28"
-        c.background = vim.o.background == "light" and light_bg or dark_bg
-      end,
-    },
-    config = function(_, opts) -- Add opts parameter here
-      require("jellybeans").setup(opts) -- Pass opts to setup
-      vim.cmd.colorscheme("jellybeans")
+    config = function()
+      require("kanagawa").setup({
+        compile = false, -- enable compiling the colorscheme
+        undercurl = true, -- enable undercurls
+        commentStyle = { italic = true },
+        functionStyle = { italic = false, bold = false },
+        keywordStyle = { italic = false },
+        statementStyle = { bold = true },
+        typeStyle = {},
+        transparent = false, -- do not set background color
+        dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+        terminalColors = true, -- define vim.g.terminal_color_{0,17}
+        colors = {
+          -- add/modify theme and palette colors
+          palette = {},
+          theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+        },
+        overrides = function(colors) -- add/modify highlights
+          return {}
+        end,
+        theme = "wave", -- Load "wave" theme when 'background' option is not set
+        background = { -- map the value of 'background' option to a theme
+          dark = "wave", -- try "dragon" !
+          light = "lotus",
+        },
+      })
+
+      vim.cmd("colorscheme kanagawa")
     end,
   },
+  --
+  -- second best -- jellybeans with kanagawa bg xD
+  -- {
+  --   "wtfox/jellybeans.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   opts = {
+  --     style = "dark",
+  --     transparent = true,
+  --     italics = true,
+  --     flat_ui = true,
+  --     plugins = {
+  --       all = false,
+  --       auto = true,
+  --     },
+  --     on_highlights = function(highlights, colors) end,
+  --     on_colors = function(c)
+  --       local light_bg = "#ffffff"
+  --       local dark_bg = "#1F1F28"
+  --       c.background = vim.o.background == "light" and light_bg or dark_bg
+  --     end,
+  --   },
+  --   config = function(_, opts) -- Add opts parameter here
+  --     require("jellybeans").setup(opts) -- Pass opts to setup
+  --     vim.cmd.colorscheme("jellybeans")
+  --   end,
+  -- },
   --
   -- third best
   -- {
@@ -99,6 +99,19 @@ return {
   --   priority = 1000,
   --   config = function()
   --     vim.cmd.colorscheme("nightfly")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "neanias/everforest-nvim",
+  --   event = "VimEnter",
+  --   lazy = false,
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   -- Optional; default configuration will be used if setup isn't called.
+  --   config = function()
+  --     require("everforest").setup({
+  --       -- Your config here
+  --     })
   --   end,
   -- },
   --

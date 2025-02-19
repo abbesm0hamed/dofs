@@ -1,1 +1,0 @@
-# MEOVIG on 💤 LazyVim 

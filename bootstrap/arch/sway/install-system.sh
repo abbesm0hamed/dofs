@@ -203,14 +203,13 @@ install_packages \
   discord \
   telegram-desktop \
   slack-desktop \
-  insomnia \
   posting \
-  \
-  # calibre \
-  # vlc # keepassxc \
-# mpv # postman-bin \
-# brave-bin \
-# ladybird \
+  postman-bin
+# keepassxc \
+# brave-bin # mpv \
+# calibre # vlc \
+# # ladybird \
+# insomnia \
 
 # Install fonts
 echo_step "Installing fonts..."
