@@ -1,58 +1,82 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "logo": {
-    "source": "~/.config/fastfetch/sway.png",
-    "type": "kitty",
+    "source": "~/.config/fastfetch/pow.png",
+    "width": 45,
+    "height": 15,
+    "type": "kitty"
   },
   "output": {
     "separator": " → ",
     "keyColor": "blue",
     "separatorColor": "white",
-    "key.width": 12,
+    "key.width": 12
   },
   "modules": [
     "title",
     "separator",
     {
       "type": "os",
-      "format": "{2} {3}",
+      "format": "{2} {3}"
     },
     {
       "type": "packages",
-      "format": "{1}",
+      "format": "{1} packages installed"
     },
     {
       "type": "shell",
-      "format": "{1}",
+      "format": "Shell: {1}"
     },
-    "de",
-    "wm",
+    {
+      "type": "de",
+      "format": "DE: {1}"
+    },
+    {
+      "type": "wm",
+      "format": "WM: {1}"
+    },
     {
       "type": "terminal",
-      "format": "{1}",
+      "format": "Terminal: {1}"
     },
     {
       "type": "cpu",
-      "format": "{1} {2}",
+      "format": "CPU: {1} {2}"
     },
     {
       "type": "gpu",
-      "format": "{1} {2}",
+      "format": "GPU: {1} {2}"
     },
     {
       "type": "memory",
-      "format": "{1} / {2}B ({3}%)",
+      "format": "Memory: {1} / {2}B ({3}%)"
     },
     {
       "type": "disk",
-      "format": "{1} / {2}B ({3}%)",
+      "format": "Disk: {1} / {2}B ({3}%)"
     },
     {
       "type": "colors",
       "symbol": "circle",
       "padding": {
-        "left": 2,
-      },
+        "left": 2
+      }
     },
-  ],
+    {
+      "type": "uptime",
+      "format": "Uptime: {1}h {2}m"
+    },
+    {
+      "type": "resolution",
+      "format": "Resolution: {1}"
+    },
+    {
+      "type": "kernel",
+      "format": "Kernel: {1}"
+    },
+    {
+      "type": "localtime",
+      "format": "Local Time: {1}"
+    }
+  ]
 }
