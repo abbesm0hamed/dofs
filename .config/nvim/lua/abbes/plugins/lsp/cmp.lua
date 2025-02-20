@@ -29,12 +29,13 @@ return {
       -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
       -- See the full "keymap" documentation for information on defining your own keymap.
       keymap = {
-        preset = "enter",
+        preset = "default",
         ["<Tab>"] = { "select_next" },
         ["<S-Tab>"] = { "select_prev" },
         ["<C-j>"] = { "select_next" },
         ["<C-k>"] = { "select_prev" },
-        ["<CR>"] = { "accept" }
+        ["<CR>"] = { "fallback" },
+        ["<C-y>"] = { "accept" },
       },
 
       appearance = {
