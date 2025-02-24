@@ -189,7 +189,8 @@ cp "$(dirname "$0")/input.conf" "$HOME/.config/sway/config.d/"
 
 echo_step "Installing terminals emulators..."
 install_packages \
-  kitty
+  kitty \
+  termuis
 # ghostty \
 # alacritty \
 # wezterm \
