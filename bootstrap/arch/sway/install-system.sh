@@ -217,7 +217,7 @@ echo_step "Installing fonts..."
 install_packages \
   fontconfig \
   ttf-jetbrains-mono-nerd \
-  ttf-victormono-nerd \
+  ttf-victor-mono-nerd \
   ttf-iosevka-nerd \
   ttf-font-awesome \
   ttf-commit-mono \
