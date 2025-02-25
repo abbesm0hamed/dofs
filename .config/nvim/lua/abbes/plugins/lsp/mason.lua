@@ -2,90 +2,71 @@ return {
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
-    keys = {
-      { "<leader>cm", "<cmd>Mason<cr>", desc = " Mason" },
-    },
+    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
     build = ":MasonUpdate",
-    event = "VeryLazy",
-    config = function()
-      require("mason").setup({
-        ui = {
-          border = vim.g.borderStyle,
-          height = 0.85,
-          width = 0.8,
-          icons = {
-            package_installed = "✓",
-            package_pending = "󰔟",
-            package_uninstalled = "✗",
-          },
-          keymaps = {
-            uninstall_package = "x",
-            toggle_help = "?",
-            toggle_package_expand = "<Tab>",
-          },
-        },
-      })
+    opts = {
+      ensure_installed = {
+        -- LSP servers
+        "lua-language-server",
+        "vtsls",
+        "gopls",
+        "rust-analyzer",
+        "pyright",
+        "emmet-ls",
+        "tailwindcss-language-server",
+        "html-lsp",
+        "css-lsp",
+
+        -- Formatters
+        "stylua",
+        "biome",
+        "prettier",
+        "gofumpt",
+        "goimports",
+        "shfmt",
+        "isort",
+        "black",
+
+        -- Linters
+        "luacheck",
+        "eslint_d",
+        "golangci-lint",
+        "shellcheck",
+        "flake8",
+      },
+      ui = {
+        border = "rounded",
+        width = 0.8,
+        height = 0.8,
+      },
+      install_root_dir = vim.fn.stdpath("data") .. "/mason",
+    },
+    config = function(_, opts)
+      require("mason").setup(opts)
+
+      local registry = require("mason-registry")
+      local function ensure_installed()
+        for _, tool in ipairs(opts.ensure_installed) do
+          local p = registry.get_package(tool)
+          if not p:is_installed() then
+            p:install()
+          end
+        end
+      end
+
+      if registry.refresh then
+        registry.refresh(ensure_installed)
+      else
+        ensure_installed()
+      end
     end,
   },
+  -- Mason-LSPConfig integration
   {
     "williamboman/mason-lspconfig.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "neovim/nvim-lspconfig",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {
+      automatic_installation = true,
     },
-    config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "vtsls",
-          "emmet_ls",
-          "html",
-          "cssls",
-          "tailwindcss",
-          "svelte",
-          "lua_ls",
-          "graphql",
-          "gopls",
-          "vuels",
-          "yamlls",
-          "prismals",
-          "pyright",
-        },
-        automatic_installation = true,
-      })
-    end,
-  },
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = "williamboman/mason.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("mason-tool-installer").setup({
-        ensure_installed = {
-          -- Formatters
-          "stylua",
-          "prettier",
-          "biome",
-          "gofumpt",
-          "golines",
-          -- Linters
-          "golangci-lint",
-          "shellcheck",
-          "editorconfig-checker",
-          "vint",
-          -- Go tools
-          "gomodifytags",
-          "gotests",
-          "impl",
-          "json-to-struct",
-          "revive",
-          "staticcheck",
-          -- Shell
-          "shfmt",
-        },
-        auto_update = true,
-        run_on_start = true,
-      })
-    end,
   },
 }

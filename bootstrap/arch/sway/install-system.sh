@@ -106,11 +106,11 @@ install_packages \
   cava \
   gowall \
   nwg-look-bin \
-  libreoffice-fresh
-# conky \
-# inkscape \
-# woeusb \
-# swhkd \
+  libreoffice-fresh \
+  # conky \
+  # inkscape \
+  # woeusb \
+  # swhkd \
 
 echo_step "Installing bun..."
 if ! command -v bun &>/dev/null; then
@@ -155,8 +155,8 @@ install_packages \
   filezilla \
   pavucontrol \
   xdg-utils \
-  udiskie
-# balena-etcher
+  udiskie \
+  # balena-etcher
 
 # Install Sway and Wayland tools
 echo_step "Installing Sway and Wayland tools..."
@@ -190,27 +190,29 @@ cp "$(dirname "$0")/input.conf" "$HOME/.config/sway/config.d/"
 echo_step "Installing terminals emulators..."
 install_packages \
   kitty \
-  termuis
-# ghostty \
-# alacritty \
-# wezterm \
+  termuis \
+  # ghostty \
+  # alacritty \
+  # wezterm \
 
 # Install applications
 echo_step "Installing applications..."
 install_packages \
-  \
   zen-browser-bin \
   windsurf \
   discord \
   telegram-desktop \
+  whatsapp-for-linux \
   slack-desktop \
   posting \
-  postman-bin
-# keepassxc \
-# brave-bin # mpv \
-# calibre # vlc \
-# # ladybird \
-# insomnia \
+  postman-bin \
+  # ladybird \
+  # keepassxc \
+  # brave-bin \ 
+  # mpv \
+  # calibre \ 
+  # vlc \
+  # insomnia \
 
 # Install fonts
 echo_step "Installing fonts..."
@@ -226,11 +228,11 @@ install_packages \
   ttf-material-design-iconic-font \
   ttf-feather \
   ttf-joypixels \
-  ttf-lilex
-# arabic fonts
-ttf-amiri
-# noto-fonts \
-# ttf-cairo \
+  ttf-lilex \
+  ttf-amiri \
+  # arabic fonts
+  # noto-fonts \
+  # ttf-cairo \
 
 # Change default shell to zsh
 echo_step "Changing default shell to zsh..."

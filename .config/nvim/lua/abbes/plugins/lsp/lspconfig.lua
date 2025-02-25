@@ -1,7 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    event = "VeryLazy",
+    event = "BufReadPre", -- Load earlier for better responsiveness
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -10,14 +10,12 @@ return {
     config = function()
       -- Set up capabilities
       local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-      -- Disable file watcher
+      -- Disable file watcher for performance
       capabilities.workspace = {
         didChangeWatchedFiles = {
           dynamicRegistration = false,
         },
       }
-
       -- Make capabilities available globally
       vim.g.lsp_capabilities = capabilities
 
@@ -26,33 +24,35 @@ return {
         local opts = { buffer = bufnr }
         local km = vim.keymap
 
-        km.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
-        km.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-        km.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-        km.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-        km.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-        km.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
-        km.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-        km.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-        km.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
-        km.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+        -- Set up keymaps
+        km.set("n", "K", vim.lsp.buf.hover, opts)
+        km.set("n", "gd", vim.lsp.buf.definition, opts)
+        km.set("n", "gD", vim.lsp.buf.declaration, opts)
+        km.set("n", "gi", vim.lsp.buf.implementation, opts)
+        km.set("n", "go", vim.lsp.buf.type_definition, opts)
+        km.set("n", "gr", vim.lsp.buf.references, opts)
+        km.set("n", "gs", vim.lsp.buf.signature_help, opts)
+        km.set("n", "<F2>", vim.lsp.buf.rename, opts)
 
-        -- Set up formatting on save
-        if client.server_capabilities.documentFormattingProvider then
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
-            end,
-          })
+        -- Use conform.nvim for formatting instead of LSP
+        -- This avoids conflicts with your formatting config
+        km.set({ "n", "x" }, "<F3>", function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end, opts)
+
+        km.set("n", "<F4>", vim.lsp.buf.code_action, opts)
+
+        -- Disable LSP formatting when using conform.nvim
+        if client.name ~= "null-ls" then
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
         end
       end
 
       -- Configure LSP servers
       local lspconfig = require("lspconfig")
 
-      -- Lua LSP
+      -- Lua LSP with optimized settings
       lspconfig.lua_ls.setup({
         on_attach = on_attach,
         capabilities = capabilities,
@@ -64,36 +64,123 @@ return {
             workspace = {
               library = vim.api.nvim_get_runtime_file("", true),
               checkThirdParty = false,
+              -- Improve performance with max files
+              maxPreload = 2000,
+              preloadFileSize = 1000,
             },
             telemetry = { enable = false },
-            format = {
+            -- Let conform.nvim handle formatting
+            format = { enable = false },
+          },
+        },
+      })
+
+      -- TypeScript/JavaScript with optimized settings
+      lspconfig.vtsls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          typescript = {
+            updateImportsOnFileMove = { enabled = "always" },
+            suggest = {
+              completeFunctionCalls = true,
+            },
+            -- Performance optimizations
+            disableAutomaticTypeAcquisition = true,
+          },
+          javascript = {
+            updateImportsOnFileMove = { enabled = "always" },
+            suggest = {
+              completeFunctionCalls = true,
+            },
+          },
+          -- Let conform.nvim handle formatting
+          documentFormatting = false,
+          format = { enable = false },
+        },
+        -- Speed up startup
+        init_options = {
+          hostInfo = "neovim",
+          maxTsServerMemory = 4096,
+          disableAutomaticTypingAcquisition = true,
+        },
+      })
+
+      -- Go with optimized settings
+      lspconfig.gopls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          gopls = {
+            gofumpt = false, -- Let conform.nvim handle this
+            analyses = {
+              unusedparams = true,
+            },
+            staticcheck = true,
+            -- Performance optimizations
+            buildFlags = { "-tags=integration" },
+            expandWorkspaceToModule = false,
+            experimentalWorkspaceModule = false,
+            allowImplicitNetworkAccess = false,
+            allowModfileModifications = true,
+            collectUsage = false, -- Reduce memory usage
+            directoryFilters = { "-node_modules", "-vendor" },
+          },
+        },
+      })
+
+      -- Rust with optimized settings
+      lspconfig.rust_analyzer.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              buildScripts = {
+                enable = false, -- Improves performance
+              },
+              features = "all",
+            },
+            procMacro = {
               enable = true,
-              defaultConfig = {
-                indent_style = "space",
-                indent_size = "4",
+            },
+            -- Performance optimizations
+            checkOnSave = {
+              command = "clippy",
+              extraArgs = { "--no-deps" },
+            },
+            diagnostics = {
+              disabled = { "unresolved-proc-macro" },
+            },
+          },
+        },
+      })
+
+      -- Python with optimized settings
+      lspconfig.pyright.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = "workspace",
+              useLibraryCodeForTypes = true,
+              -- Performance optimizations
+              typeCheckingMode = "basic",
+              indexing = false,
+              inlayHints = {
+                variableTypes = false,
+                functionReturnTypes = false,
               },
             },
           },
         },
       })
 
-      -- TypeScript/JavaScript
-      lspconfig.vtsls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          documentFormatting = true,
-          format = { enable = true },
-        },
-      })
-
-      -- Other LSPs with default config
+      -- Other LSPs with default config (avoid duplicates)
       local servers = {
-        "gopls",
-        "lua_ls",
-        "vtsls",
         "clangd",
-        "rust_analyzer",
         "astro",
         "graphql",
         "html",
@@ -103,14 +190,23 @@ return {
         "vuels",
         "yamlls",
         "prismals",
-        "pyright",
       }
 
       for _, server in ipairs(servers) do
-        lspconfig[server].setup({
-          on_attach = on_attach,
-          capabilities = capabilities,
-        })
+        if
+          not (
+            server == "lua_ls"
+            or server == "vtsls"
+            or server == "gopls"
+            or server == "rust_analyzer"
+            or server == "pyright"
+          )
+        then
+          lspconfig[server].setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+          })
+        end
       end
 
       -- Special setup for emmet_ls
@@ -133,7 +229,21 @@ return {
           },
         },
       })
+
+      -- Optimize LSP UI
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+
+      vim.lsp.handlers["textDocument/signatureHelp"] =
+        vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+
+      -- Performance optimization for LSP diagnostics
+      vim.diagnostic.config({
+        virtual_text = { spacing = 4, prefix = "●" },
+        severity_sort = true,
+        update_in_insert = false, -- Improves performance while typing
+        underline = true,
+        float = { border = "rounded" },
+      })
     end,
   },
 }
-

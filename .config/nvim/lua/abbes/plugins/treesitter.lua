@@ -3,7 +3,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
     version = false,
     build = ":TSUpdate",
-    event = "VeryLazy",
     init = function(plugin)
       -- Load treesitter only when needed
       require("lazy.core.loader").add_to_rtp(plugin)
@@ -41,17 +40,31 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
       { "<c-space>", desc = "Increment Selection" },
-      { "<bs>",      desc = "Decrement Selection", mode = "x" },
+      { "<bs>", desc = "Decrement Selection", mode = "x" },
     },
     opts = function()
-      -- Helper function to check if files of a certain type exist
+      -- Create a file extension detection cache
+      local extension_cache = {}
+
+      -- Helper function to check if files of a certain type exist (with caching)
       local function has_files(extension)
-        return vim.fn.empty(vim.fn.glob("*." .. extension)) == 0
+        if extension_cache[extension] ~= nil then
+          return extension_cache[extension]
+        end
+        local result = vim.fn.empty(vim.fn.glob("*." .. extension)) == 0
+        extension_cache[extension] = result
+        return result
       end
 
-      -- Helper function to check if a command exists
+      -- Helper function to check if a command exists (with caching)
+      local command_cache = {}
       local function have(cmd)
-        return vim.fn.executable(cmd) == 1
+        if command_cache[cmd] ~= nil then
+          return command_cache[cmd]
+        end
+        local result = vim.fn.executable(cmd) == 1
+        command_cache[cmd] = result
+        return result
       end
 
       -- Add custom filetype detection
@@ -117,7 +130,50 @@ return {
         },
       }
 
-      -- Conditional language installations
+      -- Map formatters/linters to parsers for better integration
+      local formatter_parser_map = {
+        -- JavaScript ecosystem
+        ["biome"] = { "javascript", "typescript", "tsx" },
+        ["prettier"] = { "javascript", "typescript", "tsx", "html", "css", "yaml", "json", "jsonc", "markdown" },
+        ["eslint"] = { "javascript", "typescript", "tsx" },
+        -- Other languages
+        ["stylua"] = { "lua" },
+        ["black"] = { "python" },
+        ["isort"] = { "python" },
+        ["flake8"] = { "python" },
+        ["gofumpt"] = { "go" },
+        ["goimports"] = { "go" },
+        ["golangci_lint"] = { "go" },
+        ["rustfmt"] = { "rust" },
+        ["shellcheck"] = { "bash" },
+        ["shfmt"] = { "bash" },
+        ["markdownlint"] = { "markdown", "markdown_inline" },
+      }
+
+      -- Check formatters/linters and add corresponding parsers
+      local formatters_to_check = {
+        "biome",
+        "prettier",
+        "eslint",
+        "stylua",
+        "black",
+        "isort",
+        "gofumpt",
+        "goimports",
+        "rustfmt",
+        "shellcheck",
+        "shfmt",
+      }
+
+      for _, formatter in ipairs(formatters_to_check) do
+        if have(formatter) and formatter_parser_map[formatter] then
+          for _, parser in ipairs(formatter_parser_map[formatter]) do
+            table.insert(config.ensure_installed, parser)
+          end
+        end
+      end
+
+      -- Conditional language installations with more efficient checking
       local conditional_languages = {
         { exts = { "js", "jsx", "mjs" }, parser = { "javascript", "jsdoc" } },
         { exts = { "ts", "tsx" }, parser = { "typescript", "tsx" } },
@@ -134,7 +190,13 @@ return {
         { exts = { "sh", "bash", "zsh" }, parser = { "bash" } },
         { exts = { "dockerfile", "Dockerfile" }, parser = { "dockerfile" } },
         -- Add rasi if rofi or wofi is installed
-        { exts = { "rasi" }, parser = { "rasi" }, check = function() return have("rofi") or have("wofi") end },
+        {
+          exts = { "rasi" },
+          parser = { "rasi" },
+          check = function()
+            return have("rofi") or have("wofi")
+          end,
+        },
       }
 
       -- Add languages if corresponding files exist
@@ -175,6 +237,7 @@ return {
     end,
     config = function(_, opts)
       if type(opts.ensure_installed) == "table" then
+        -- Deduplicate the ensure_installed list
         local added = {}
         opts.ensure_installed = vim.tbl_filter(function(lang)
           if added[lang] then
@@ -185,44 +248,22 @@ return {
         end, opts.ensure_installed)
       end
       require("nvim-treesitter.configs").setup(opts)
+
+      -- Setup parser install on new file types
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          local ft = vim.bo.filetype
+          -- Check if we need to install parsers for this filetype
+          local parsers = require("nvim-treesitter.parsers")
+          if parsers.get_parser_configs()[ft] and not parsers.has_parser(ft) then
+            vim.defer_fn(function()
+              vim.cmd("TSInstall " .. ft)
+            end, 1000) -- Delay to avoid disrupting workflow
+          end
+        end,
+      })
     end,
   },
-  -- { -- sticky context lines at the top to show the current section of code
-  --   "nvim-treesitter/nvim-treesitter-context",
-  --   dependencies = "nvim-treesitter/nvim-treesitter",
-  --   event = "VeryLazy",
-  --   keys = {
-  --     {
-  --       "gk",
-  --       function()
-  --         require("treesitter-context").go_to_context()
-  --       end,
-  --       desc = " Goto Context",
-  --     },
-  --   },
-  --   opts = {
-  --     max_lines = 4,
-  --     multiline_threshold = 1, -- only show 1 line per context
-  --
-  --     -- disable in markdown, PENDING https://github.com/nvim-treesitter/nvim-treesitter-context/issues/289
-  --     on_attach = function()
-  --       vim.defer_fn(function()
-  --         if vim.bo.filetype == "markdown" then
-  --           return false
-  --         end
-  --       end, 1)
-  --     end,
-  --   },
-  --   init = function()
-  --     vim.api.nvim_create_autocmd("ColorScheme", {
-  --       callback = function()
-  --         -- adds grey underline
-  --         local grey = u.getHighlightValue("Comment", "fg")
-  --         vim.api.nvim_set_hl(0, "TreesitterContextBottom", { special = grey, underline = true })
-  --       end,
-  --     })
-  --   end,
-  -- },
   {
     "RRethy/nvim-treesitter-endwise",
     dependencies = "nvim-treesitter/nvim-treesitter",
@@ -245,10 +286,60 @@ return {
   {
     "windwp/nvim-ts-autotag",
     dependencies = "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
-    opts = {},
-    config = function()
-      require("nvim-ts-autotag").setup({})
-    end,
+    event = "InsertEnter", -- More specific than VeryLazy for better performance
+    opts = {
+      autotag = {
+        enable = true,
+        enable_rename = true,
+        enable_close = true,
+        enable_close_on_slash = true,
+        filetypes = {
+          "html",
+          "xml",
+          "jsx",
+          "tsx",
+          "javascriptreact",
+          "typescriptreact",
+          "svelte",
+          "vue",
+          "astro",
+          "php",
+          "markdown",
+        },
+      },
+    },
   },
+  -- {
+  --   "nvim-treesitter/nvim-treesitter-context",
+  --   dependencies = "nvim-treesitter/nvim-treesitter",
+  --   event = "BufReadPost",
+  --   keys = {
+  --     {
+  --       "gk",
+  --       function()
+  --         require("treesitter-context").go_to_context()
+  --       end,
+  --       desc = " Goto Context",
+  --     },
+  --   },
+  --   opts = {
+  --     max_lines = 4,
+  --     multiline_threshold = 1, -- only show 1 line per context
+  --     -- Optimize performance by checking filetype on attach
+  --     on_attach = function(bufnr)
+  --       local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+  --       -- Disable in specific filetypes
+  --       return ft ~= "markdown" and ft ~= "help"
+  --     end,
+  --   },
+  --   init = function()
+  --     vim.api.nvim_create_autocmd("ColorScheme", {
+  --       callback = function()
+  --         -- adds grey underline
+  --         local grey = vim.api.nvim_get_hl_by_name("Comment", true).foreground
+  --         vim.api.nvim_set_hl(0, "TreesitterContextBottom", { special = grey, underline = true })
+  --       end,
+  --     })
+  --   end,
+  -- },
 }
