@@ -190,6 +190,7 @@ return {
         end
       end
       lint.linters_by_ft = opts.linters_by_ft
+      lint.linters.eslint.ignore_exitcode = true  -- Prevents showing errors when eslint exits with non-zero status
 
       -- Improved debouncing with variable timeout based on event
       function M.debounce(ms, fn)
