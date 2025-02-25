@@ -151,7 +151,7 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = "UIEnter",
-    enabled = false,
+    -- enabled = false,
     dependencies = {
       "echasnovski/mini.icons",
     },
