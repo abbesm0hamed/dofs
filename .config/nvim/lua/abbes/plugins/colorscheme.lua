@@ -378,7 +378,7 @@ return {
   -- top 5
   -- {
   --   "Shatur/neovim-ayu",
-  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
   --   priority = 1000, -- make sure to load this before all the other start plugins
   --   opts = {
   --     theme = "ayu",
@@ -413,11 +413,11 @@ return {
   --   lazy = false,
   --   priority = 1000,
   --   config = function()
-  --     vim.g.adwaita_darker = true              -- for darker version
+  --     vim.g.adwaita_darker = true -- for darker version
   --     vim.g.adwaita_disable_cursorline = false -- to disable cursorline
-  --     vim.g.adwaita_transparent = false        -- makes the background transparent
-  --     vim.cmd('colorscheme adwaita')
-  --   end
+  --     vim.g.adwaita_transparent = false -- makes the background transparent
+  --     vim.cmd("colorscheme adwaita")
+  --   end,
   -- },
   -- --
   -- this also has one of the best light colorschemes
@@ -429,8 +429,8 @@ return {
   --       -- Theme comes in two styles `modus_operandi` and `modus_vivendi`
   --       -- `auto` will automatically set style based on background set with vim.o.background
   --       style = "auto",
-  --       variant = "default",  -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
-  --       transparent = false,  -- Transparent background (as supported by the terminal)
+  --       variant = "default", -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
+  --       transparent = false, -- Transparent background (as supported by the terminal)
   --       dim_inactive = false, -- "non-current" windows are dimmed
   --       styles = {
   --         -- Style to be applied to different syntax groups
@@ -627,28 +627,28 @@ return {
   --
   -- no-clown-fiesta
   -- {
-  --   'aktersnurra/no-clown-fiesta.nvim',
+  --   "aktersnurra/no-clown-fiesta.nvim",
   --   priority = 1000, -- Load colorscheme before other plugins
-  --   lazy = false,    -- Load during startup
+  --   lazy = false, -- Load during startup
   --   config = function()
-  --     require('no-clown-fiesta').setup({
+  --     require("no-clown-fiesta").setup({
   --       -- Default config
   --       transparent = false, -- Enable transparent background
   --       styles = {
   --         -- Styling choices for syntax elements
-  --         comments = {},     -- Style for comments
-  --         keywords = {},     -- Style for keywords
-  --         functions = {},    -- Style for functions
-  --         variables = {},    -- Style for variables
-  --         type = {},         -- Style for type annotations
+  --         comments = {}, -- Style for comments
+  --         keywords = {}, -- Style for keywords
+  --         functions = {}, -- Style for functions
+  --         variables = {}, -- Style for variables
+  --         type = {}, -- Style for type annotations
   --         virtual_text = {}, -- Style for virtual text
   --       },
   --       -- Enable/disable specific features
   --       features = {
-  --         syntax = true,          -- Enable basic syntax highlighting
-  --         treesitter = true,      -- Enable TreeSitter support
+  --         syntax = true, -- Enable basic syntax highlighting
+  --         treesitter = true, -- Enable TreeSitter support
   --         semantic_tokens = true, -- Enable LSP semantic tokens
-  --         diagnostic = true,      -- Style diagnostic messages
+  --         diagnostic = true, -- Style diagnostic messages
   --       },
   --       -- Optional: Override specific highlight groups
   --       highlights = {
@@ -658,7 +658,7 @@ return {
   --     })
   --
   --     -- Set the colorscheme
-  --     vim.cmd.colorscheme('no-clown-fiesta')
+  --     vim.cmd.colorscheme("no-clown-fiesta")
   --   end,
   -- },
   --
