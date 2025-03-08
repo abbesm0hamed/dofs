@@ -1,1 +1,1 @@
-## This is MynEoVimconfiG
+# MEOVIG on 💤 LazyVim 

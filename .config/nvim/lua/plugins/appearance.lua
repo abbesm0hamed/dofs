@@ -1,51 +1,5 @@
 return {
   {
-    "Bekaboo/dropbar.nvim",
-    -- optional, but required for fuzzy finder support
-    dependencies = {
-      "ibhagwan/fzf-lua",
-    },
-    config = function()
-      require("dropbar").setup({
-        menu = {
-          -- Use fzf-lua for fuzzy finding
-          select = function(menu)
-            local selected = menu.items[menu.selected]
-            if not selected then
-              return
-            end
-            menu:close()
-            selected.handler(selected)
-          end,
-          -- Use fzf for fuzzy search
-          fuzzy_finder = function(menu)
-            local items = menu.items
-            local selections = require("fzf-lua").fzf({
-              source = vim.tbl_map(function(item)
-                return item.text
-              end, items),
-            })
-            if selections then
-              for _, selection in ipairs(selections) do
-                for _, item in ipairs(items) do
-                  if item.text == selection then
-                    item.handler(item)
-                    break
-                  end
-                end
-              end
-            end
-            menu:close()
-          end,
-        },
-      })
-      local dropbar_api = require("dropbar.api")
-      vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
-      vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
-      vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
-    end,
-  },
-  {
     "wurli/visimatch.nvim",
     opts = {},
   },
@@ -328,6 +282,53 @@ return {
   --       })
   --     end
   --     return opts
+  --   end,
+  -- },
+  --
+  -- {
+  --   "Bekaboo/dropbar.nvim",
+  --   -- optional, but required for fuzzy finder support
+  --   dependencies = {
+  --     "ibhagwan/fzf-lua",
+  --   },
+  --   config = function()
+  --     require("dropbar").setup({
+  --       menu = {
+  --         -- Use fzf-lua for fuzzy finding
+  --         select = function(menu)
+  --           local selected = menu.items[menu.selected]
+  --           if not selected then
+  --             return
+  --           end
+  --           menu:close()
+  --           selected.handler(selected)
+  --         end,
+  --         -- Use fzf for fuzzy search
+  --         fuzzy_finder = function(menu)
+  --           local items = menu.items
+  --           local selections = require("fzf-lua").fzf({
+  --             source = vim.tbl_map(function(item)
+  --               return item.text
+  --             end, items),
+  --           })
+  --           if selections then
+  --             for _, selection in ipairs(selections) do
+  --               for _, item in ipairs(items) do
+  --                 if item.text == selection then
+  --                   item.handler(item)
+  --                   break
+  --                 end
+  --               end
+  --             end
+  --           end
+  --           menu:close()
+  --         end,
+  --       },
+  --     })
+  --     local dropbar_api = require("dropbar.api")
+  --     vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+  --     vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
+  --     vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
   --   end,
   -- },
 }

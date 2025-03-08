@@ -150,7 +150,8 @@ local lualineConfig = {
 return {
   {
     "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
+    event = "UIEnter",
+    -- enabled = false,
     dependencies = {
       "echasnovski/mini.icons",
     },
