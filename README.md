@@ -1,4 +1,4 @@
-# My Arch Linux i3wm Rice Setup
+# My Arch Linux Sway Rice Setup
 
 A minimalist and elegant desktop environment built with sway window manager for performance, featuring the beautiful Kanagawa color scheme. The setup emphasizes both aesthetics and functionality, with a cohesive dark theme inspired by The Great Wave off Kanagawa.
 
