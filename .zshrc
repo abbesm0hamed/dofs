@@ -8,7 +8,7 @@
 # neofetch
 # pfetch
 # uwufetch
-# pokemon-colorscripts -r --no-title
+pokemon-colorscripts -r --no-title
 
 #===============================================================================
 # Terminal Cursor Configuration
@@ -204,6 +204,8 @@ alias ..="cd .."
 alias yup="yay -Syu"
 alias yRcns="yay -Rcns"
 alias ySy="yay -Sy"
+# php composer with docker
+alias composer="docker run --rm -v $(pwd):/app -w /app composer/composer"
 
 #===============================================================================
 # Environment Configuration
