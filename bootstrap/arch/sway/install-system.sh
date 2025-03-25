@@ -56,6 +56,20 @@ if ! command -v yay &>/dev/null; then
   rm -rf yay
 fi
 
+# Install php version manager phpenv
+echo_step "Installing php version manager phpenv..."
+git clone https://github.com/phpenv/phpenv.git ~/.phpenv
+git clone https://github.com/php-build/php-build.git ~/.phpenv/plugins/php-build
+if [ -d "/tmp/php-build" ]; then
+  echo "Current /tmp/php-build ownership:"
+  ls -l /tmp/php-build
+  sudo chown -R $USER:$USER /tmp/php-build
+  chmod -R u+w /tmp/php-build
+  echo_success "Phpenv build directory permissions fixed"
+else
+  echo_error "Phpenv build directory not found"
+fi
+
 # Install shell and development tools
 echo_step "Installing shell and development tools..."
 install_packages \

@@ -205,7 +205,10 @@ alias yup="yay -Syu"
 alias yRcns="yay -Rcns"
 alias ySy="yay -Sy"
 # php composer with docker
-alias composer="docker run --rm -v $(pwd):/app -w /app composer/composer"
+alias php='docker exec -it php_container php'
+alias composer='docker exec -it php_container composer'
+alias artisan="docker exec -it php_container php artisan"
+alias php-shell='docker exec -it php_container zsh'
 
 #===============================================================================
 # Environment Configuration
@@ -267,3 +270,12 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 source /usr/share/nvm/init-nvm.sh
+
+# Add asdf to shell
+export PATH="$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
+. $HOME/.asdf/asdf.sh
+
+export PATH="$HOME/.phpenv/bin:$PATH"
+eval "$(phpenv init -)"
+export PATH="$HOME/.phpenv/bin:$PATH"
+eval "$(phpenv init -)"
