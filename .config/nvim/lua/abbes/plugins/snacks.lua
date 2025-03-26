@@ -37,21 +37,23 @@ return {
             ]],
           },
           { section = "startup" },
-          { title = "MRU",            padding = 1 },
-          { section = "recent_files", limit = 3,                            padding = 1 },
-          { title = "MRU CWD ",       file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
-          { section = "recent_files", cwd = true,                           limit = 3,  padding = 1 },
-          { title = "Sessions",       padding = 1 },
-          { section = "projects",     padding = 1 },
-          { title = "Bookmarks",      padding = 1 },
-          { section = "keys",         limit = 3 },
+          { title = "MRU", padding = 1 },
+          { section = "recent_files", limit = 3, padding = 1 },
+          { title = "MRU CWD ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
+          { section = "recent_files", cwd = true, limit = 3, padding = 1 },
+          { title = "Sessions", padding = 1 },
+          { section = "projects", padding = 1 },
+          { title = "Bookmarks", padding = 1 },
+          { section = "keys", limit = 3 },
         },
       },
 
-      scroll = { enabled = false },
+      scroll = {
+        enabled = false,
+      },
 
       bigfile = {
-        notify = true,            -- show notification when big file detected
+        notify = true, -- show notification when big file detected
         size = 1.5 * 1024 * 1024, -- 1.5MB
         -- Enable or disable features when big file detected
         ---@param ctx {buf: number, ft:string}
@@ -65,19 +67,40 @@ return {
         end,
       },
 
+      statuscolumn = {
+        enabled = false,
+        left = { "mark", "sign" },
+        right = { "fold", "git" },
+        folds = {
+          open = true,
+          git_hl = false,
+        },
+        git = {
+          patterns = { "GitSign", "MiniDiffSign" },
+        },
+        refresh = 50,
+      },
+
       indent = {
         animate = {
           enabled = false,
           style = "out",
           easing = "linear",
           duration = {
-            step = 20,   -- ms per step
+            step = 20, -- ms per step
             total = 500, -- maximum duration
           },
         },
       },
 
-      input = { enabled = false },
+      input = {
+        enabled = false,
+      },
+
+      quickfile = {
+        enabled = true,
+        exclude = { "latex" },
+      },
 
       lazygit = {
         configure = true,
@@ -129,7 +152,7 @@ return {
           enabled = vim.fn.has("nvim-0.10") == 1,
           easing = "outQuad",
           duration = {
-            step = 20,   -- ms per step
+            step = 20, -- ms per step
             total = 300, -- maximum duration
           },
         },
@@ -139,10 +162,43 @@ return {
         end,
       },
 
-      statuscolumn = { enabled = false },
-
       words = {
         enabled = false,
+        highlight = {
+          whole = true,
+          partial = false,
+          hl = "Search",
+        },
+        throttle = 200,
+        min_length = 3,
+        max_highlight = 100,
+        filter = function(buf)
+          return vim.bo[buf].buftype == "" and vim.bo[buf].filetype ~= "markdown"
+        end,
+      },
+
+      terminal = {
+        enabled = true, -- Enable the terminal module (optional, enabled by default if configured)
+        win = {
+          position = "bottom", -- Position of the terminal window (options: "bottom", "top", "left", "right", "float")
+          size = 0.3, -- Size as a fraction of the editor (e.g., 0.3 = 30% of height for bottom/top)
+          relative = "editor", -- Relative to the editor (default)
+          border = "single", -- Border style for floating terminals (if position = "float")
+        },
+        shell = vim.o.shell, -- Use the default shell (e.g., bash, zsh, cmd.exe, etc.)
+        auto_insert = true, -- Automatically enter insert mode when opening the terminal
+        auto_close = true, -- Automatically close the terminal buffer when the process exits
+        start_insert = true, -- Start in insert mode when opening a new terminal
+      },
+
+      explorer = {
+        enabled = true,
+        replace_netrw = true,
+        win = {
+          position = "right",
+          size = 30,
+          relative = "editor",
+        },
       },
 
       picker = {
@@ -156,11 +212,11 @@ return {
           end,
         },
         ui_select = true, -- replace `vim.ui.select` with the snacks picker
-      live_filter = {
-        enabled = true,
-        min_chars = 0,
-        update_delay = 0,
-      },
+        live_filter = {
+          enabled = true,
+          min_chars = 0,
+          update_delay = 0,
+        },
         previewers = {
           file = {
             max_size = 1024 * 1024, -- 1MB
@@ -331,6 +387,37 @@ return {
       },
     },
     keys = {
+      -- explorer
+      {
+        "<leader>fe",
+        function()
+          require("snacks").explorer({})
+        end,
+        desc = "Open File Explorer",
+      },
+      -- lazygit
+      {
+        "<leader>lg",
+        function()
+          require("snacks").lazygit({
+            win = {
+              style = "float",
+              size = { height = 0.9, width = 0.9 },
+              border = "rounded",
+            },
+          })
+        end,
+        desc = "LazyGit (Floating)",
+      },
+      -- terminal
+      {
+        "<C-/>",
+        function()
+          require("snacks.terminal").toggle()
+        end,
+        desc = "Toggle Terminal",
+      },
+      -- picker
       {
         "<leader>,",
         function()
