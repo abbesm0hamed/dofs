@@ -1,3 +1,13 @@
+local function term_nav(direction)
+  return function()
+    local cur_win = vim.api.nvim_get_current_win()
+    vim.cmd("wincmd " .. direction)
+    if vim.api.nvim_get_current_win() == cur_win then
+      vim.notify("No window in that direction", vim.log.levels.INFO)
+    end
+  end
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -179,12 +189,6 @@ return {
 
       terminal = {
         enabled = true, -- Enable the terminal module (optional, enabled by default if configured)
-        win = {
-          position = "bottom", -- Position of the terminal window (options: "bottom", "top", "left", "right", "float")
-          size = 0.3, -- Size as a fraction of the editor (e.g., 0.3 = 30% of height for bottom/top)
-          relative = "editor", -- Relative to the editor (default)
-          border = "single", -- Border style for floating terminals (if position = "float")
-        },
         shell = vim.o.shell, -- Use the default shell (e.g., bash, zsh, cmd.exe, etc.)
         auto_insert = true, -- Automatically enter insert mode when opening the terminal
         auto_close = true, -- Automatically close the terminal buffer when the process exits
@@ -411,7 +415,7 @@ return {
       },
       -- terminal
       {
-        "<C-/>",
+        "<A-i>",
         function()
           require("snacks.terminal").toggle()
         end,
