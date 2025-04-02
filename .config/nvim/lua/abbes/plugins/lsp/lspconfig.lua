@@ -8,7 +8,6 @@ return {
       "saghen/blink.cmp",
     },
     config = function()
-      -- Set up capabilities with blink.cmp
       local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
       capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
       vim.g.lsp_capabilities = capabilities
@@ -175,7 +174,6 @@ return {
         },
       })
 
-      -- UI adjustments
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
       vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
