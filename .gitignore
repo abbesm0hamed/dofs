@@ -15,3 +15,5 @@
 
 # bootstrap arch yay
 ./bootstrap/arch/yay
+
+.tmuxifier
