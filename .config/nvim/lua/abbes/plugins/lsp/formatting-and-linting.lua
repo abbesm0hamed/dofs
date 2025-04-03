@@ -21,6 +21,7 @@ return {
       },
     },
     opts = {
+      -- Define formatters per filetype
       formatters_by_ft = {
         lua = { "stylua" },
         -- Frontend - Using the new syntax with stop_after_first option
@@ -49,22 +50,11 @@ return {
         rust = { "rustfmt" },
       },
       -- NEW: This option allows nvim to stop after the first successful formatter
-      -- format_on_save = {
-      --   lsp_fallback = true,
-      --   timeout_ms = 500,
-      --   stop_after_first = true,
-      --   filter = function(bufnr)
-      --     local allowlist = {
-      --       "lua",
-      --       -- "javascript", "typescript", "javascriptreact", "typescriptreact",
-      --       -- "json", "jsonc", "css", "scss", "html", "vue", "markdown", "yaml",
-      --       -- "go", "rust", "python", "sh", "bash", "zsh"
-      --     }
-      --     local filetype = vim.bo[bufnr].filetype
-      --     return vim.tbl_contains(allowlist, filetype)
-      --   end,
-      -- },
-      format_on_save = false,
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+        stop_after_first = true, -- This will make conform try biome first, then prettier
+      },
       formatters = {
         biome = {
           condition = (function()

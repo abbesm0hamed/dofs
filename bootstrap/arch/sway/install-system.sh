@@ -120,11 +120,13 @@ install_packages \
   cava \
   gowall \
   nwg-look-bin \
-  libreoffice-fresh
-# conky \
+  libreoffice-fresh \
+  cups \ 
+cups-filters \ 
+cups-pdf
 # inkscape \
+# swhkd # conky \
 # woeusb \
-# swhkd \
 
 echo_step "Installing bun..."
 if ! command -v bun &>/dev/null; then
