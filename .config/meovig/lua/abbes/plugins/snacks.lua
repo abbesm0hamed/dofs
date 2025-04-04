@@ -74,21 +74,15 @@ return {
       },
       indent = {
         enabled = true,
-        size = 4,
-        type = "space",
-        guides = {
-          enable = true,
-          highlight = "IndentBlanklineChar",
+        indent = {
+          char = "▎",
         },
-        smart = true,
+        scope = {
+          char = "▎",
+          only_current = true,
+        },
         animate = {
           enabled = false,
-          style = "out",
-          easing = "linear",
-          duration = {
-            step = 20, -- ms per step
-            total = 500, -- maximum duration
-          },
         },
       },
       input = { enabled = false },
@@ -128,7 +122,12 @@ return {
       },
       notifier = {
         enabled = true,
-        timeout = 3000,
+        timeout = 7500,
+        sort = { "added" }, -- sort only by time
+        width = { min = 12, max = 0.5 },
+        height = { min = 1, max = 0.5 },
+        icons = { error = "󰅚", warn = "", info = "󰋽", debug = "󰃤", trace = "󰓗" },
+        top_down = false,
       },
       dim = {
         ---@type snacks.scope.Config
@@ -367,27 +366,7 @@ return {
           },
         },
       },
-      bufdelete = {
-        enabled = true,
-        preserve_window_layout = { "terminal" },
-        next_buffer_on_delete = function(bufnr)
-          return require("snacks.bufdelete").get_next_valid_buffer()
-        end,
-        vim_cmd_delete_buffer = "bdelete!",
-        keys = {
-          { "<leader>bd", "<cmd>lua require('snacks.bufdelete').delete_buffer()<CR>", desc = "Delete Buffer" },
-          {
-            "<leader>bD",
-            "<cmd>lua require('snacks.bufdelete').delete_buffer(true)<CR>",
-            desc = "Delete Buffer (Force)",
-          },
-          {
-            "<leader>bo",
-            "<cmd>lua require('snacks.bufdelete').delete_other_buffers()<CR>",
-            desc = "Delete Other Buffers",
-          },
-        },
-      },
+      bufdelete = { enabled = true },
       zen = {
         -- Set to false to disable zen mode
         enabled = true,
@@ -743,6 +722,28 @@ return {
           Snacks.scratch.select()
         end,
         desc = "Select Scratch Buffer",
+      },
+      -- bufdelete
+      {
+        "<leader>bd",
+        function()
+          Snacks.bufdelete()
+        end,
+        desc = "Delete Buffer",
+      },
+      {
+        "<leader>bD",
+        function()
+          Snacks.bufdelete.all()
+        end,
+        desc = "Delete Buffer (Force)",
+      },
+      {
+        "<leader>bo",
+        function()
+          Snacks.bufdelete.other()
+        end,
+        desc = "Delete Other Buffers",
       },
     },
   },
