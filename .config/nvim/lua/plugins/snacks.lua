@@ -1,13 +1,3 @@
-local function term_nav(direction)
-  return function()
-    local cur_win = vim.api.nvim_get_current_win()
-    vim.cmd("wincmd " .. direction)
-    if vim.api.nvim_get_current_win() == cur_win then
-      vim.notify("No window in that direction", vim.log.levels.INFO)
-    end
-  end
-end
-
 return {
   {
     "folke/snacks.nvim",

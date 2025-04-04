@@ -1,13 +1,3 @@
-local function term_nav(direction)
-  return function()
-    local cur_win = vim.api.nvim_get_current_win()
-    vim.cmd("wincmd " .. direction)
-    if vim.api.nvim_get_current_win() == cur_win then
-      vim.notify("No window in that direction", vim.log.levels.INFO)
-    end
-  end
-end
-
 return {
   {
     "folke/snacks.nvim",
@@ -17,15 +7,12 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      "folke/zen-mode.nvim", -- Add Zen Mode as a dependency
     },
     init = function()
-      -- disable other dashboards to avoid conflicts
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
     end,
     opts = {
-
       dashboard = {
         formats = {
           key = function(item)
@@ -57,11 +44,7 @@ return {
           { section = "keys", limit = 3 },
         },
       },
-
-      scroll = {
-        enabled = false,
-      },
-
+      scroll = { enabled = false },
       bigfile = {
         notify = true, -- show notification when big file detected
         size = 1.5 * 1024 * 1024, -- 1.5MB
@@ -76,7 +59,6 @@ return {
           end)
         end,
       },
-
       statuscolumn = {
         enabled = true,
         left = { "mark", "sign" },
@@ -90,8 +72,15 @@ return {
         },
         refresh = 50,
       },
-
       indent = {
+        enabled = true,
+        size = 4,
+        type = "space",
+        guides = {
+          enable = true,
+          highlight = "IndentBlanklineChar",
+        },
+        smart = true,
         animate = {
           enabled = false,
           style = "out",
@@ -102,16 +91,11 @@ return {
           },
         },
       },
-
-      input = {
-        enabled = false,
-      },
-
+      input = { enabled = false },
       quickfile = {
         enabled = true,
         exclude = { "latex" },
       },
-
       lazygit = {
         configure = true,
         -- extra configuration for lazygit that will be merged with the default
@@ -142,12 +126,10 @@ return {
           style = "lazygit",
         },
       },
-
       notifier = {
         enabled = true,
         timeout = 3000,
       },
-
       dim = {
         ---@type snacks.scope.Config
         scope = {
@@ -171,7 +153,6 @@ return {
           return vim.g.snacks_dim ~= false and vim.b[buf].snacks_dim ~= false and vim.bo[buf].buftype == ""
         end,
       },
-
       words = {
         enabled = false,
         highlight = {
@@ -186,7 +167,6 @@ return {
           return vim.bo[buf].buftype == "" and vim.bo[buf].filetype ~= "markdown"
         end,
       },
-
       terminal = {
         enabled = true, -- Enable the terminal module (optional, enabled by default if configured)
         shell = vim.o.shell, -- Use the default shell (e.g., bash, zsh, cmd.exe, etc.)
@@ -194,7 +174,6 @@ return {
         auto_close = true, -- Automatically close the terminal buffer when the process exits
         start_insert = true, -- Start in insert mode when opening a new terminal
       },
-
       explorer = {
         enabled = true,
         replace_netrw = true,
@@ -204,7 +183,6 @@ return {
           relative = "editor",
         },
       },
-
       picker = {
         prompt = " ",
         sources = {},
@@ -388,6 +366,76 @@ return {
             Variable = "󰀫 ",
           },
         },
+      },
+      bufdelete = {
+        enabled = true,
+        preserve_window_layout = { "terminal" },
+        next_buffer_on_delete = function(bufnr)
+          return require("snacks.bufdelete").get_next_valid_buffer()
+        end,
+        vim_cmd_delete_buffer = "bdelete!",
+        keys = {
+          { "<leader>bd", "<cmd>lua require('snacks.bufdelete').delete_buffer()<CR>", desc = "Delete Buffer" },
+          {
+            "<leader>bD",
+            "<cmd>lua require('snacks.bufdelete').delete_buffer(true)<CR>",
+            desc = "Delete Buffer (Force)",
+          },
+          {
+            "<leader>bo",
+            "<cmd>lua require('snacks.bufdelete').delete_other_buffers()<CR>",
+            desc = "Delete Other Buffers",
+          },
+        },
+      },
+      zen = {
+        -- Set to false to disable zen mode
+        enabled = true,
+
+        -- Zen mode window settings
+        window = {
+          backdrop = 0.95, -- shade the backdrop of the zen window
+          width = 0.85, -- width of the zen window
+          height = 0.85, -- height of the zen window
+          options = {
+            signcolumn = "no", -- disable signcolumn
+            number = false, -- disable number column
+            relativenumber = false, -- disable relative numbers
+            cursorline = false, -- disable cursorline
+            cursorcolumn = false, -- disable cursor column
+            foldcolumn = "0", -- disable fold column
+            list = false, -- disable whitespace characters
+          },
+        },
+
+        -- Zen mode plugins
+        plugins = {
+          -- disable tmux status
+          tmux = { enabled = true },
+
+          -- disable status and tab lines
+          gitsigns = { enabled = true },
+          diagnostics = { enabled = false },
+          statusline = { enabled = false, hidden = true },
+          tabline = { enabled = false, hidden = true },
+
+          -- smooth scrolling options
+          smooth_scroll = { enabled = true },
+        },
+
+        -- Key mappings for zen mode
+        keys = {
+          { "<leader>tz", "<cmd>lua require('snacks.zen').toggle()<CR>", desc = "Toggle Zen Mode" },
+        },
+
+        -- Zen mode hooks
+        on_open = function(win)
+          -- custom logic to run when entering zen mode
+        end,
+
+        on_close = function()
+          -- custom logic to run when exiting zen mode
+        end,
       },
     },
     keys = {
@@ -697,12 +745,5 @@ return {
         desc = "Select Scratch Buffer",
       },
     },
-    config = function(_, opts)
-      local snacks = require("snacks")
-      snacks.setup(opts)
-
-      -- Set up Zen Mode keybinding
-      vim.api.nvim_set_keymap("n", "tz", "<cmd>ZenMode<CR>", { noremap = true, silent = true })
-    end,
   },
 }
