@@ -1,11 +1,11 @@
 return {
-  { -- automatically set correct indent for file
-    "nmac427/guess-indent.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require("guess-indent").setup({})
-    end,
-  },
+  -- { -- automatically set correct indent for file
+  --   "nmac427/guess-indent.nvim",
+  --   event = { "BufReadPre", "BufNewFile" },
+  --   config = function()
+  --     require("guess-indent").setup({})
+  --   end,
+  -- },
   { -- comment
     "numToStr/Comment.nvim",
     event = { "BufReadPre", "BufNewFile" },
