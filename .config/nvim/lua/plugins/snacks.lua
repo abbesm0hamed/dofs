@@ -1,3 +1,13 @@
+local function term_nav(direction)
+  return function()
+    local cur_win = vim.api.nvim_get_current_win()
+    vim.cmd("wincmd " .. direction)
+    if vim.api.nvim_get_current_win() == cur_win then
+      vim.notify("No window in that direction", vim.log.levels.INFO)
+    end
+  end
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -7,15 +17,12 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      "folke/zen-mode.nvim", -- Add Zen Mode as a dependency
     },
     init = function()
-      -- disable other dashboards to avoid conflicts
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
     end,
     opts = {
-
       dashboard = {
         formats = {
           key = function(item)
@@ -37,21 +44,19 @@ return {
             ]],
           },
           { section = "startup" },
-          { title = "MRU",            padding = 1 },
-          { section = "recent_files", limit = 3,                            padding = 1 },
-          { title = "MRU CWD ",       file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
-          { section = "recent_files", cwd = true,                           limit = 3,  padding = 1 },
-          { title = "Sessions",       padding = 1 },
-          { section = "projects",     padding = 1 },
-          { title = "Bookmarks",      padding = 1 },
-          { section = "keys",         limit = 3 },
+          { title = "MRU", padding = 1 },
+          { section = "recent_files", limit = 3, padding = 1 },
+          { title = "MRU CWD ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
+          { section = "recent_files", cwd = true, limit = 3, padding = 1 },
+          { title = "Sessions", padding = 1 },
+          { section = "projects", padding = 1 },
+          { title = "Bookmarks", padding = 1 },
+          { section = "keys", limit = 3 },
         },
       },
-
       scroll = { enabled = false },
-
       bigfile = {
-        notify = true,            -- show notification when big file detected
+        notify = true, -- show notification when big file detected
         size = 1.5 * 1024 * 1024, -- 1.5MB
         -- Enable or disable features when big file detected
         ---@param ctx {buf: number, ft:string}
@@ -64,21 +69,43 @@ return {
           end)
         end,
       },
-
+      statuscolumn = {
+        enabled = true,
+        left = { "mark", "sign" },
+        right = { "fold", "git" },
+        folds = {
+          open = true,
+          git_hl = false,
+        },
+        git = {
+          patterns = { "GitSign", "MiniDiffSign" },
+        },
+        refresh = 50,
+      },
       indent = {
+        enabled = true,
+        size = 4,
+        type = "space",
+        guides = {
+          enable = true,
+          highlight = "IndentBlanklineChar",
+        },
+        smart = true,
         animate = {
           enabled = false,
           style = "out",
           easing = "linear",
           duration = {
-            step = 20,   -- ms per step
+            step = 20, -- ms per step
             total = 500, -- maximum duration
           },
         },
       },
-
       input = { enabled = false },
-
+      quickfile = {
+        enabled = true,
+        exclude = { "latex" },
+      },
       lazygit = {
         configure = true,
         -- extra configuration for lazygit that will be merged with the default
@@ -109,12 +136,10 @@ return {
           style = "lazygit",
         },
       },
-
       notifier = {
         enabled = true,
         timeout = 3000,
       },
-
       dim = {
         ---@type snacks.scope.Config
         scope = {
@@ -129,7 +154,7 @@ return {
           enabled = vim.fn.has("nvim-0.10") == 1,
           easing = "outQuad",
           duration = {
-            step = 20,   -- ms per step
+            step = 20, -- ms per step
             total = 300, -- maximum duration
           },
         },
@@ -138,13 +163,36 @@ return {
           return vim.g.snacks_dim ~= false and vim.b[buf].snacks_dim ~= false and vim.bo[buf].buftype == ""
         end,
       },
-
-      statuscolumn = { enabled = false },
-
       words = {
         enabled = false,
+        highlight = {
+          whole = true,
+          partial = false,
+          hl = "Search",
+        },
+        throttle = 200,
+        min_length = 3,
+        max_highlight = 100,
+        filter = function(buf)
+          return vim.bo[buf].buftype == "" and vim.bo[buf].filetype ~= "markdown"
+        end,
       },
-
+      terminal = {
+        enabled = true, -- Enable the terminal module (optional, enabled by default if configured)
+        shell = vim.o.shell, -- Use the default shell (e.g., bash, zsh, cmd.exe, etc.)
+        auto_insert = true, -- Automatically enter insert mode when opening the terminal
+        auto_close = true, -- Automatically close the terminal buffer when the process exits
+        start_insert = true, -- Start in insert mode when opening a new terminal
+      },
+      explorer = {
+        enabled = true,
+        replace_netrw = true,
+        win = {
+          position = "right",
+          size = 30,
+          relative = "editor",
+        },
+      },
       picker = {
         prompt = " ",
         sources = {},
@@ -156,12 +204,10 @@ return {
           end,
         },
         ui_select = true, -- replace `vim.ui.select` with the snacks picker
-        toggles = {
-          follow = "f",
-          hidden = "h",
-          ignored = "i",
-          modified = "m",
-          regex = { icon = "R", value = false },
+        live_filter = {
+          enabled = true,
+          min_chars = 0,
+          update_delay = 0,
         },
         previewers = {
           file = {
@@ -187,6 +233,8 @@ return {
               ["?"] = "toggle_help",
               ["<a-m>"] = { "toggle_maximize", mode = { "i", "n" } },
               ["<a-p>"] = { "toggle_preview", mode = { "i", "n" } },
+              ["<a-i>"] = { "toggle_ignored", mode = { "i", "n" } },
+              ["<a-h>"] = { "toggle_hidden", mode = { "i", "n" } },
               ["<a-w>"] = { "cycle_win", mode = { "i", "n" } },
               ["<C-w>"] = { "<c-s-w>", mode = { "i" }, expr = true, desc = "delete word" },
               ["<C-Up>"] = { "history_back", mode = { "i", "n" } },
@@ -210,8 +258,6 @@ return {
               ["<c-v>"] = { "edit_vsplit", mode = { "i", "n" } },
               ["<c-s>"] = { "edit_split", mode = { "i", "n" } },
               ["<c-q>"] = { "qflist", mode = { "i", "n" } },
-              ["<a-i>"] = { "toggle_ignored", mode = { "i", "n" } },
-              ["<a-h>"] = { "toggle_hidden", mode = { "i", "n" } },
             },
             b = {
               minipairs_disable = true,
@@ -331,8 +377,109 @@ return {
           },
         },
       },
+      bufdelete = {
+        enabled = true,
+        preserve_window_layout = { "terminal" },
+        next_buffer_on_delete = function(bufnr)
+          return require("snacks.bufdelete").get_next_valid_buffer()
+        end,
+        vim_cmd_delete_buffer = "bdelete!",
+        keys = {
+          { "<leader>bd", "<cmd>lua require('snacks.bufdelete').delete_buffer()<CR>", desc = "Delete Buffer" },
+          {
+            "<leader>bD",
+            "<cmd>lua require('snacks.bufdelete').delete_buffer(true)<CR>",
+            desc = "Delete Buffer (Force)",
+          },
+          {
+            "<leader>bo",
+            "<cmd>lua require('snacks.bufdelete').delete_other_buffers()<CR>",
+            desc = "Delete Other Buffers",
+          },
+        },
+      },
+      zen = {
+        -- Set to false to disable zen mode
+        enabled = true,
+
+        -- Zen mode window settings
+        window = {
+          backdrop = 0.95, -- shade the backdrop of the zen window
+          width = 0.85, -- width of the zen window
+          height = 0.85, -- height of the zen window
+          options = {
+            signcolumn = "no", -- disable signcolumn
+            number = false, -- disable number column
+            relativenumber = false, -- disable relative numbers
+            cursorline = false, -- disable cursorline
+            cursorcolumn = false, -- disable cursor column
+            foldcolumn = "0", -- disable fold column
+            list = false, -- disable whitespace characters
+          },
+        },
+
+        -- Zen mode plugins
+        plugins = {
+          -- disable tmux status
+          tmux = { enabled = true },
+
+          -- disable status and tab lines
+          gitsigns = { enabled = true },
+          diagnostics = { enabled = false },
+          statusline = { enabled = false, hidden = true },
+          tabline = { enabled = false, hidden = true },
+
+          -- smooth scrolling options
+          smooth_scroll = { enabled = true },
+        },
+
+        -- Key mappings for zen mode
+        keys = {
+          { "<leader>tz", "<cmd>lua require('snacks.zen').toggle()<CR>", desc = "Toggle Zen Mode" },
+        },
+
+        -- Zen mode hooks
+        on_open = function(win)
+          -- custom logic to run when entering zen mode
+        end,
+
+        on_close = function()
+          -- custom logic to run when exiting zen mode
+        end,
+      },
     },
     keys = {
+      -- explorer
+      {
+        "<leader>fe",
+        function()
+          require("snacks").explorer({})
+        end,
+        desc = "Open File Explorer",
+      },
+      -- lazygit
+      {
+        "<leader>lg",
+        function()
+          require("snacks").lazygit({
+            win = {
+              style = "float",
+              size = { height = 0.9, width = 0.9 },
+              border = "rounded",
+            },
+          })
+        end,
+        desc = "LazyGit (Floating)",
+      },
+      -- terminal
+      {
+        "<A-i>",
+        function()
+          require("snacks.terminal").toggle()
+        end,
+        desc = "Toggle Terminal",
+      },
+      -- picker
       {
         "<leader>,",
         function()
@@ -608,12 +755,5 @@ return {
         desc = "Select Scratch Buffer",
       },
     },
-    config = function(_, opts)
-      local snacks = require("snacks")
-      snacks.setup(opts)
-
-      -- Set up Zen Mode keybinding
-      vim.api.nvim_set_keymap("n", "tz", "<cmd>ZenMode<CR>", { noremap = true, silent = true })
-    end,
   },
 }

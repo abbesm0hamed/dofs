@@ -56,35 +56,35 @@ return {
   --     disable_virtual_lines = false,
   --   },
   -- },
-  { -- indentation guides
-    "lukas-reineke/indent-blankline.nvim",
-    event = "VeryLazy",
-    main = "ibl",
-    opts = {
-      scope = {
-        highlight = "Comment",
-        enabled = false,
-        show_start = false,
-        show_end = false,
-        show_exact_scope = true,
-      },
-      indent = { char = "│", tab_char = "│" },
-      exclude = {
-        filetypes = {
-          "undotree",
-          "help",
-          "dashboard",
-          "neo-tree",
-          "Trouble",
-          "trouble",
-          "lazy",
-          "mason",
-          "notify",
-          "toggleterm",
-        },
-      },
-    },
-  },
+  -- { -- indentation guides
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   event = "VeryLazy",
+  --   main = "ibl",
+  --   opts = {
+  --     scope = {
+  --       highlight = "Comment",
+  --       enabled = false,
+  --       show_start = false,
+  --       show_end = false,
+  --       show_exact_scope = true,
+  --     },
+  --     indent = { char = "│", tab_char = "│" },
+  --     exclude = {
+  --       filetypes = {
+  --         "undotree",
+  --         "help",
+  --         "dashboard",
+  --         "neo-tree",
+  --         "Trouble",
+  --         "trouble",
+  --         "lazy",
+  --         "mason",
+  --         "notify",
+  --         "toggleterm",
+  --       },
+  --     },
+  --   },
+  -- },
   -- { -- scrollbar with information
   --   "lewis6991/satellite.nvim",
   --   -- commit = "5d33376", -- TODO following versions require nvim 0.10
@@ -127,7 +127,7 @@ return {
   --     end,
   --   },
   -- },
-  {                        -- rainbow brackets
+  { -- rainbow brackets
     "hiphish/rainbow-delimiters.nvim",
     event = "BufReadPost", -- later does not load on first buffer
     lazy = true,
@@ -175,7 +175,7 @@ return {
           ccc.picker.css_hsl,
           ccc.picker.ansi_escape({ meaning1 = "bright" }),
         },
-        alpha_show = "hide",           -- needed when highlighter.lsp is set to true
+        alpha_show = "hide", -- needed when highlighter.lsp is set to true
         recognize = { output = true }, -- automatically recognize color format under cursor
         inputs = { ccc.input.hsl },
         outputs = {
@@ -210,7 +210,7 @@ return {
       end
     end,
     keys = {
-      { "<Tab>",   "j", ft = "DressingSelect" },
+      { "<Tab>", "j", ft = "DressingSelect" },
       { "<S-Tab>", "k", ft = "DressingSelect" },
     },
     opts = {
