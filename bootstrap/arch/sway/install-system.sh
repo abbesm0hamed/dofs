@@ -121,9 +121,9 @@ install_packages \
   gowall \
   nwg-look-bin \
   libreoffice-fresh \
-  cups \ 
-cups-filters \ 
-cups-pdf
+  cups \
+  cups-filters \
+  cups-pdf
 # inkscape \
 # swhkd # conky \
 # woeusb \

@@ -1,14 +1,4 @@
-local sourceIcons = {
-  buffer = "󰽙",
-  cmdline = "󰘳",
-  emoji = "󰞅",
-  luasnip = "",
-  nvim_lsp = "󰒕",
-  path = "",
-  emmet_ls = "󰌝",
-}
-
-local trigger_text = ";" -- Define trigger_text for snippets
+local trigger_text = ";"
 
 return {
   {
