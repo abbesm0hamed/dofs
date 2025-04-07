@@ -6,11 +6,11 @@ output=all
 max-history=100
 
 # Style
-font=Lilex Medium 11
+font=Lilex Medium 10
 width=350
-height=100
-margin=3,3
-padding=12,12
+height=150
+margin=0,0
+padding=14,16
 border-size=1
 border-radius=0
 border-color=#7E9CD8
