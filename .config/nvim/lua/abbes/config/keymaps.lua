@@ -23,24 +23,24 @@ keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- incremen
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
 
 -- window management
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })                -- make split windows equal width & height
-keymap.set("n", "<leader>sc", "<cmd>close<CR>", { desc = "Close current split" })           -- close current split window
-keymap.set("n", "<C-Up>", ":resize +4<CR>", { desc = "Increase window height" })            -- increase window height
-keymap.set("n", "<C-Down>", ":resize -4<CR>", { desc = "Decrease window height" })          -- decrease window height
+keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
+keymap.set("n", "<leader>sc", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
+keymap.set("n", "<C-Up>", ":resize +4<CR>", { desc = "Increase window height" }) -- increase window height
+keymap.set("n", "<C-Down>", ":resize -4<CR>", { desc = "Decrease window height" }) -- decrease window height
 keymap.set("n", "<C-Right>", ":vertical resize +4<CR>", { desc = "Increase window width" }) -- increase window width
-keymap.set("n", "<C-Left>", ":vertical resize -4<CR>", { desc = "Decrease window width" })  -- decrease window width
+keymap.set("n", "<C-Left>", ":vertical resize -4<CR>", { desc = "Decrease window width" }) -- decrease window width
 keymap.set("n", "<C-k>", "<C-W>k", { desc = "Jump to Previous Horizontal Tab", remap = true })
 keymap.set("n", "<C-j>", "<C-W>j", { desc = "Jump to Next Horizontal Tab", remap = true })
 
-keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })                     -- open new tab
-keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })              -- close current tab
-keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })                     --  go to next tab
-keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })                 --  go to previous tab
+keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" }) -- open new tab
+keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" }) -- close current tab
+keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
+keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
 -- buffers
 keymap.set("n", "[b", ":bprev<CR>", { desc = "Jump to previous buffer", noremap = true, silent = true }) --  go to previous tab
-keymap.set("n", "]b", ":bnext<CR>", { desc = "Jump to next buffer", noremap = true, silent = true })     --  move current buffer to new tab
+keymap.set("n", "]b", ":bnext<CR>", { desc = "Jump to next buffer", noremap = true, silent = true }) --  move current buffer to new tab
 
 -- save file
 keymap.set({ "n" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
@@ -48,7 +48,7 @@ keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save Fi
 
 -- select and copy from file
 keymap.set("n", "<leader>vv", "ggVG", { desc = "Select All" })
-keymap.set("n", "<leader>ca", "ggVG\"+y", { desc = "Copy All to Clipboard" })
+keymap.set("n", "<leader>ca", 'ggVG"+y', { desc = "Copy All to Clipboard" })
 
 -- Move Lines
 keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
@@ -126,4 +126,7 @@ keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab
 keymap.set("n", "Q", "q", { noremap = true, silent = true })
 
 -- save a mark
-keymap.set('n', 'M', 'm', { noremap = true, silent = true })
+keymap.set("n", "M", "m", { noremap = true, silent = true })
+
+-- augment code ai
+keymap.set("i", "<A-y>", "<cmd>call augment#Accept()<cr>", { noremap = true, silent = true })

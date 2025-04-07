@@ -109,9 +109,19 @@ return {
           emoji = {
             module = "blink-emoji",
             name = "Emoji",
-            score_offset = 93,
-            min_keyword_length = 1,
-            opts = { insert = true },
+            score_offset = 15, -- Tune by preference
+            opts = {
+              insert = true,
+              -- trigger = ":",
+            }, -- Insert emoji (default) or complete its name
+            should_show_items = function()
+              return vim.tbl_contains(
+                -- Enable emoji completion only for git commits and markdown.
+                -- By default, enabled for all file-types.
+                { "gitcommit", "markdown" },
+                vim.o.filetype
+              )
+            end,
           },
           dictionary = {
             module = "blink-cmp-dictionary",
@@ -133,10 +143,10 @@ return {
 
       opts.completion = {
         menu = {
-          border = "none", 
+          border = "none",
         },
         documentation = {
-          auto_show = false, 
+          auto_show = false,
           window = {
             border = "none",
           },
@@ -146,10 +156,10 @@ return {
       opts.snippets = {
         preset = "luasnip",
       }
-        
+
       opts.keymap = {
         preset = "default",
-        ["<Tab>"] = { "accept", "snippet_forward", "fallback" }, 
+        ["<Tab>"] = { "accept", "snippet_forward", "fallback" },
         ["<S-Tab>"] = { "snippet_backward", "fallback" },
         ["<Up>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
@@ -157,7 +167,7 @@ return {
         ["<C-j>"] = { "select_next", "fallback" },
         ["<S-k>"] = { "scroll_documentation_up", "fallback" },
         ["<S-j>"] = { "scroll_documentation_down", "fallback" },
-        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" }, 
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
         ["<C-e>"] = { "hide", "fallback" },
       }
 
