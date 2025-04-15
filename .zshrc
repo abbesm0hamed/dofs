@@ -269,8 +269,6 @@ export SDKMAN_DIR="$HOME/.sdkman"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-source /usr/share/nvm/init-nvm.sh
-
 # Add asdf to shell
 export PATH="$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
 . $HOME/.asdf/asdf.sh
