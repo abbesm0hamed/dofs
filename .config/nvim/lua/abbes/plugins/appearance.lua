@@ -127,16 +127,16 @@ return {
   --     end,
   --   },
   -- },
-  { -- rainbow brackets
-    "hiphish/rainbow-delimiters.nvim",
-    event = "BufReadPost", -- later does not load on first buffer
-    lazy = true,
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    main = "rainbow-delimiters.setup",
-    init = function()
-      u.colorschemeMod("RainbowDelimiterRed", { fg = "#7e8a95" })
-    end,
-  },
+  -- { -- rainbow brackets
+  --   "hiphish/rainbow-delimiters.nvim",
+  --   event = "BufReadPost", -- later does not load on first buffer
+  --   lazy = true,
+  --   dependencies = "nvim-treesitter/nvim-treesitter",
+  --   main = "rainbow-delimiters.setup",
+  --   init = function()
+  --     u.colorschemeMod("RainbowDelimiterRed", { fg = "#7e8a95" })
+  --   end,
+  -- },
   { -- emphasized headers & code blocks in markdown
     "lukas-reineke/headlines.nvim",
     lazy = true,

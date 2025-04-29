@@ -99,6 +99,11 @@ return {
           additional_vim_regex_highlighting = false,
         },
         indent = { enable = true },
+        rainbow = {
+          enable = true,
+          extended_mode = true, -- Highlight non-bracket delimiters like HTML tags
+          max_file_lines = nil, -- Do not limit by line count
+        },
         sync_install = false,
         ensure_installed = {
           -- Always installed languages
