@@ -442,7 +442,7 @@ return {
       },
       -- terminal
       {
-        "<A-i>",
+        "<C-/>",
         function()
           require("snacks.terminal").toggle()
         end,
