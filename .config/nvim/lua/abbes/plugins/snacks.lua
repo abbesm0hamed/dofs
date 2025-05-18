@@ -166,13 +166,6 @@ return {
           return vim.bo[buf].buftype == "" and vim.bo[buf].filetype ~= "markdown"
         end,
       },
-      terminal = {
-        enabled = true, -- Enable the terminal module (optional, enabled by default if configured)
-        shell = vim.o.shell, -- Use the default shell (e.g., bash, zsh, cmd.exe, etc.)
-        auto_insert = true, -- Automatically enter insert mode when opening the terminal
-        auto_close = true, -- Automatically close the terminal buffer when the process exits
-        start_insert = true, -- Start in insert mode when opening a new terminal
-      },
       explorer = {
         enabled = true,
         replace_netrw = true,
@@ -439,14 +432,6 @@ return {
           })
         end,
         desc = "LazyGit (Floating)",
-      },
-      -- terminal
-      {
-        "<C-/>",
-        function()
-          require("snacks.terminal").toggle()
-        end,
-        desc = "Toggle Terminal",
       },
       -- picker
       {

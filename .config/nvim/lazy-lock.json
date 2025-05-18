@@ -4,6 +4,7 @@
   "augment.vim": { "branch": "main", "commit": "97418c9dfc1918fa9bdd23863ea3d2e49130727f" },
   "auto-session": { "branch": "main", "commit": "00334ee24b9a05001ad50221c8daffbeedaa0842" },
   "autosave.nvim": { "branch": "main", "commit": "61c09b496672e8d6c6dd920e7372058e8e255cf5" },
+  "betterTerm.nvim": { "branch": "main", "commit": "3d2bf53a7f951c655a8e58afb33f16bc0bcdc700" },
   "blink-cmp-dictionary": { "branch": "master", "commit": "43e0fbe8d273f92a87c58aa958c51c95557d20c4" },
   "blink-emoji.nvim": { "branch": "master", "commit": "a77aebc092ebece1eed108f301452ae774d6b67a" },
   "blink.cmp": { "branch": "main", "commit": "022521a8910a5543b0251b21c9e1a1e989745796" },
