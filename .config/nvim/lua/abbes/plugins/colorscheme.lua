@@ -36,33 +36,115 @@ return {
   --   end,
   -- },
   --
-  -- second best -- jellybeans with kanagawa bg xD
+  -- vague close to kanagawa
   {
-    "wtfox/jellybeans.nvim",
-    lazy = true,
-    event = "VimEnter",
-    priority = 1000,
-    opts = {
-      style = "dark",
-      transparent = true,
-      italics = false,
-      flat_ui = true,
-      plugins = {
-        all = false,
-        auto = true,
-      },
-      on_highlights = function(highlights, colors) end,
-      on_colors = function(c)
-        local light_bg = "#ffffff"
-        local dark_bg = "#1F1F28" -- Kanagawa dark background
-        c.background = vim.o.background == "light" and light_bg or dark_bg
-      end,
-    },
-    config = function(_, opts)
-      require("jellybeans").setup(opts)
-      vim.cmd([[colorscheme jellybeans]]) -- switch from muted to mono
+    "vague2k/vague.nvim",
+    config = function()
+      require("vague").setup({
+        transparent = false, -- don't set background
+        style = {
+          boolean = "bold",
+          number = "none",
+          float = "none",
+          error = "bold",
+          comments = "italic",
+          conditionals = "none",
+          functions = "none",
+          headings = "bold",
+          operators = "none",
+          strings = "italic",
+          variables = "none",
+
+          keywords = "none",
+          keyword_return = "italic",
+          keywords_loop = "none",
+          keywords_label = "none",
+          keywords_exception = "none",
+
+          builtin_constants = "bold",
+          builtin_functions = "none",
+          builtin_types = "bold",
+          builtin_variables = "none",
+        },
+        plugins = {
+          cmp = {
+            match = "bold",
+            match_fuzzy = "bold",
+          },
+          dashboard = {
+            footer = "italic",
+          },
+          lsp = {
+            diagnostic_error = "bold",
+            diagnostic_hint = "none",
+            diagnostic_info = "italic",
+            diagnostic_warn = "bold",
+          },
+          neotest = {
+            focused = "bold",
+            adapter_name = "bold",
+          },
+          telescope = {
+            match = "bold",
+          },
+        },
+        colors = {
+          bg = "#1f1f28", -- Kanagawa background
+          fg = "#cdcdcd", -- Original vague-like text color
+          floatBorder = "#444455", -- Subtle dark border
+          line = "#252530", -- Slightly brighter line for contrast
+          comment = "#606079", -- Vague native comment tone
+          builtin = "#b4d4cf", -- Soft cyan
+          func = "#c48282", -- Vague’s dusty pink
+          string = "#e8b589", -- Warm beige from vague
+          number = "#e0a363", -- Burnt orange
+          property = "#c3c3d5", -- Light lilac-gray
+          constant = "#aeaed1", -- Periwinkle
+          parameter = "#bb9dbd", -- Muted lavender
+          visual = "#333738", -- Vague’s original, good contrast
+          error = "#d8647e", -- Red with softness
+          warning = "#f3be7c", -- Gold
+          hint = "#7e98e8", -- Pastel blue
+          operator = "#90a0b5", -- Soft steel blue
+          keyword = "#6e94b2", -- Washed blue
+          type = "#9bb4bc", -- Cyan-ish teal
+          search = "#405065", -- Blue-gray for search
+          plus = "#7fa563", -- Soft green
+          delta = "#f3be7c", -- Match warning for diff
+        },
+      })
+
+      vim.cmd.colorscheme("vague") -- ✅ activate it
     end,
   },
+  --
+  -- second best -- jellybeans with kanagawa bg xD
+  -- {
+  --   "wtfox/jellybeans.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   opts = {
+  --     style = "dark",
+  --     transparent = true,
+  --     italics = false,
+  --     flat_ui = true,
+  --     plugins = {
+  --       all = false,
+  --       auto = true,
+  --     },
+  --     on_highlights = function(highlights, colors) end,
+  --     on_colors = function(c)
+  --       local light_bg = "#ffffff"
+  --       local dark_bg = "#1F1F28" -- Kanagawa dark background
+  --       c.background = vim.o.background == "light" and light_bg or dark_bg
+  --     end,
+  --   },
+  --   config = function(_, opts)
+  --     require("jellybeans").setup(opts)
+  --     vim.cmd([[colorscheme jellybeans]]) -- switch from muted to mono
+  --   end,
+  -- },
   --
   -- kanagawa evolution kanso
   -- {
