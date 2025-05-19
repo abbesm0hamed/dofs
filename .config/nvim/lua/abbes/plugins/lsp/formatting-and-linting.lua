@@ -21,6 +21,7 @@ return {
       },
     },
     opts = {
+      lint_delay = 100,
       -- Define formatters per filetype
       formatters_by_ft = {
         lua = { "stylua" },
@@ -50,11 +51,16 @@ return {
         rust = { "rustfmt" },
       },
       -- NEW: This option allows nvim to stop after the first successful formatter
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-        stop_after_first = true, -- This will make conform try biome first, then prettier
-      },
+      format_on_save = function(bufnr)
+        if vim.g.format_on_save == false then
+          return
+        end
+        return {
+          timeout_ms = 500,
+          lsp_fallback = true,
+          stop_after_first = true,
+        }
+      end,
       formatters = {
         biome = {
           condition = (function()
@@ -82,17 +88,27 @@ return {
           end)(),
         },
         prettier = {
-          condition = function(ctx)
-            local file_path = ctx.filename
-            local root_dir = vim.fn.fnamemodify(file_path, ":h")
+          condition = (function()
+            local prettier_cache = {}
+            return function(ctx)
+              local file_path = ctx.filename
+              local root_dir = vim.fn.fnamemodify(file_path, ":h")
 
-            return vim.fn.findfile(".prettierrc", root_dir .. ";") ~= ""
-              or vim.fn.findfile(".prettierrc.js", root_dir .. ";") ~= ""
-              or vim.fn.findfile(".prettierrc.json", root_dir .. ";") ~= ""
-              or vim.fn.findfile(".prettierrc.yml", root_dir .. ";") ~= ""
-              or vim.fn.findfile("prettier.config.js", root_dir .. ";") ~= ""
-              or vim.fn.glob(root_dir .. "/package.json") ~= "" -- might have prettier config
-          end,
+              if prettier_cache[root_dir] ~= nil then
+                return prettier_cache[root_dir]
+              end
+
+              local has_prettier = vim.fn.findfile(".prettierrc", root_dir .. ";") ~= ""
+                or vim.fn.findfile(".prettierrc.js", root_dir .. ";") ~= ""
+                or vim.fn.findfile(".prettierrc.json", root_dir .. ";") ~= ""
+                or vim.fn.findfile(".prettierrc.yml", root_dir .. ";") ~= ""
+                or vim.fn.findfile("prettier.config.js", root_dir .. ";") ~= ""
+                or vim.fn.glob(root_dir .. "/package.json") ~= ""
+
+              prettier_cache[root_dir] = has_prettier
+              return has_prettier
+            end
+          end)(),
         },
         shfmt = {
           args = { "-i", "2", "-ci" },
@@ -126,7 +142,7 @@ return {
         shellcheck = { args = { "--severity=warning" } },
       },
     },
-    config = function(_, opts)  -- Changed from *_*, *opts* to _, opts
+    config = function(_, opts) -- Changed from *_*, *opts* to _, opts
       local lint = require("lint")
       lint.linters_by_ft = opts.linters_by_ft
       for name, linter in pairs(opts.linters) do

@@ -130,3 +130,8 @@ keymap.set("n", "M", "m", { noremap = true, silent = true })
 
 -- augment code ai
 keymap.set("i", "<A-y>", "<cmd>call augment#Accept()<cr>", { noremap = true, silent = true })
+
+keymap.set("n", "<leader>tf", function()
+  vim.g.format_on_save = not vim.g.format_on_save
+  print("Format on save: " .. tostring(vim.g.format_on_save))
+end, { desc = "Toggle Format on Save" })

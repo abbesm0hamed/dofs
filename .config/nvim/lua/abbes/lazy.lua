@@ -15,9 +15,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({ { import = "abbes.plugins" }, { import = "abbes.plugins.lsp" } }, {
   checker = {
     enabled = true,
-    notify = false,
+    notify = true,
+    frequency = 3600,
   },
   change_detection = {
-    notify = false,
+    notify = true,
   },
 })

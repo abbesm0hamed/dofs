@@ -36,89 +36,128 @@ return {
   --   end,
   -- },
   --
-  -- vague close to kanagawa
+  -- vague with kanagawa bg
+  -- {
+  --   "vague2k/vague.nvim",
+  --   config = function()
+  --     require("vague").setup({
+  --       transparent = false, -- don't set background
+  --       style = {
+  --         boolean = "bold",
+  --         number = "none",
+  --         float = "none",
+  --         error = "bold",
+  --         comments = "italic",
+  --         conditionals = "bold", -- Changed to bold for better clarity
+  --         functions = "none",
+  --         headings = "bold",
+  --         operators = "none",
+  --         strings = "italic",
+  --         variables = "none",
+  --         keywords = "bold", -- Changed to bold for better visibility
+  --         keyword_return = "italic",
+  --         keywords_loop = "bold", -- Changed to bold for better structure visibility
+  --         keywords_label = "bold", -- Changed to bold
+  --         keywords_exception = "bold", -- Changed to bold for important elements
+  --         builtin_constants = "bold",
+  --         builtin_functions = "none",
+  --         builtin_types = "bold",
+  --         builtin_variables = "none",
+  --       },
+  --       plugins = {
+  --         cmp = {
+  --           match = "bold",
+  --           match_fuzzy = "bold",
+  --         },
+  --         dashboard = {
+  --           footer = "italic",
+  --         },
+  --         lsp = {
+  --           diagnostic_error = "bold",
+  --           diagnostic_hint = "italic", -- Changed to italic for differentiation
+  --           diagnostic_info = "italic",
+  --           diagnostic_warn = "bold",
+  --         },
+  --         neotest = {
+  --           focused = "bold",
+  --           adapter_name = "bold",
+  --         },
+  --         telescope = {
+  --           match = "bold",
+  --         },
+  --       },
+  --       colors = {
+  --         bg = "#1f1f28", -- Keeping Kanagawa warm dark
+  --         fg = "#c8c5bd", -- Keeping the softer than pure white
+  --         floatBorder = "#3d3d4f", -- Slightly increased contrast
+  --         line = "#2a2a37", -- Kept the same
+  --         comment = "#8a889c", -- Increased brightness for better readability
+  --         builtin = "#a8d2ca", -- Enhanced contrast
+  --         func = "#c59595", -- Brightened for better visibility
+  --         string = "#dfc08e", -- Slightly brighter for better contrast
+  --         number = "#e3a065", -- Brightened for better visibility
+  --         property = "#c0c0d6", -- Enhanced contrast
+  --         constant = "#b5b5dd", -- Brighter for better visibility
+  --         parameter = "#d0b6d0", -- Brightened for better readability
+  --         visual = "#3a3a52", -- Slightly increased contrast
+  --         error = "#e66a78", -- Brighter for better visibility
+  --         warning = "#f0c070", -- Enhanced contrast
+  --         hint = "#8ba3e8", -- Brightened for better visibility
+  --         operator = "#aab2c2", -- Enhanced contrast
+  --         keyword = "#8da0cb", -- Brightened for clarity
+  --         type = "#9ebcb0", -- Enhanced contrast
+  --         search = "#465675", -- Brightened for better visibility
+  --         plus = "#84b57e", -- Enhanced contrast
+  --         delta = "#eac285", -- Brightened for better visibility
+  --       },
+  --     })
+  --     vim.cmd.colorscheme("vague") -- ✅ activate it
+  --   end,
+  -- },
+  --
+  -- catppuccin with kanagawa bg
   {
-    "vague2k/vague.nvim",
-    config = function()
-      require("vague").setup({
-        transparent = false, -- don't set background
-        style = {
-          boolean = "bold",
-          number = "none",
-          float = "none",
-          error = "bold",
-          comments = "italic",
-          conditionals = "none",
-          functions = "none",
-          headings = "bold",
-          operators = "none",
-          strings = "italic",
-          variables = "none",
-
-          keywords = "none",
-          keyword_return = "italic",
-          keywords_loop = "none",
-          keywords_label = "none",
-          keywords_exception = "none",
-
-          builtin_constants = "bold",
-          builtin_functions = "none",
-          builtin_types = "bold",
-          builtin_variables = "none",
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      flavour = "mocha", -- you can try "macchiato" too
+      transparent_background = false,
+      background = {
+        dark = "mocha",
+        light = "latte",
+      },
+      styles = {
+        comments = { "italic" },
+        functions = {},
+        keywords = { "italic" },
+        strings = {},
+        variables = {},
+      },
+      color_overrides = {
+        mocha = {
+          base = "#1f1f28", -- Kanagawa base
+          mantle = "#1f1f28",
+          crust = "#191922",
         },
-        plugins = {
-          cmp = {
-            match = "bold",
-            match_fuzzy = "bold",
-          },
-          dashboard = {
-            footer = "italic",
-          },
-          lsp = {
-            diagnostic_error = "bold",
-            diagnostic_hint = "none",
-            diagnostic_info = "italic",
-            diagnostic_warn = "bold",
-          },
-          neotest = {
-            focused = "bold",
-            adapter_name = "bold",
-          },
-          telescope = {
-            match = "bold",
-          },
-        },
-        colors = {
-          bg = "#1f1f28", -- Kanagawa background
-          fg = "#cdcdcd", -- Original vague-like text color
-          floatBorder = "#444455", -- Subtle dark border
-          line = "#252530", -- Slightly brighter line for contrast
-          comment = "#606079", -- Vague native comment tone
-          builtin = "#b4d4cf", -- Soft cyan
-          func = "#c48282", -- Vague’s dusty pink
-          string = "#e8b589", -- Warm beige from vague
-          number = "#e0a363", -- Burnt orange
-          property = "#c3c3d5", -- Light lilac-gray
-          constant = "#aeaed1", -- Periwinkle
-          parameter = "#bb9dbd", -- Muted lavender
-          visual = "#333738", -- Vague’s original, good contrast
-          error = "#d8647e", -- Red with softness
-          warning = "#f3be7c", -- Gold
-          hint = "#7e98e8", -- Pastel blue
-          operator = "#90a0b5", -- Soft steel blue
-          keyword = "#6e94b2", -- Washed blue
-          type = "#9bb4bc", -- Cyan-ish teal
-          search = "#405065", -- Blue-gray for search
-          plus = "#7fa563", -- Soft green
-          delta = "#f3be7c", -- Match warning for diff
-        },
-      })
-
-      vim.cmd.colorscheme("vague") -- ✅ activate it
+      },
+      custom_highlights = function(colors)
+        return {
+          Normal = { bg = colors.base },
+          NormalNC = { bg = colors.base },
+          FloatBorder = { fg = colors.surface1, bg = colors.base },
+          Pmenu = { bg = colors.surface0 },
+        }
+      end,
+    },
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin")
     end,
   },
   --
-  -- second best -- jellybeans with kanagawa bg xD
+  -- jellybeans with kanagawa bg xD
   -- {
   --   "wtfox/jellybeans.nvim",
   --   lazy = true,

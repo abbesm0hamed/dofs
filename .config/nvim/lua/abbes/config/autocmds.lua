@@ -85,13 +85,23 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave" }, {
 -- git-conflict plugin autocmd
 -- When a conflict is detected by this plugin a User autocommand is fired called GitConflictDetected.
 -- When this is resolved another command is fired called GitConflictResolved.
-vim.api.nvim_create_autocmd('User', {
-  pattern = 'GitConflictDetected',
+vim.api.nvim_create_autocmd("User", {
+  pattern = "GitConflictDetected",
   callback = function()
-    vim.notify('Conflict detected in ' .. vim.fn.expand('<afile>'))
-    vim.keymap.set('n', 'cww', function()
+    vim.notify("Conflict detected in " .. vim.fn.expand("<afile>"))
+    vim.keymap.set("n", "cww", function()
       engage.conflict_buster()
       create_buffer_local_mappings()
     end)
-  end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function(args)
+    require("conform").format({
+      bufnr = args.buf,
+      async = false,
+      lsp_fallback = true,
+    })
+  end,
 })
