@@ -1,8 +1,15 @@
 -- This file is automatically loaded by lazyvim.config.init.
-
 -- Helper function to create autogroups
 local function augroup(name)
   return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
+end
+
+-- Common function for checktime operations to avoid code duplication
+local function check_file_changes()
+  if vim.bo.buftype ~= "" then
+    return -- Skip special buffers
+  end
+  vim.cmd("checktime")
 end
 
 -- Highlight on yank
@@ -43,12 +50,7 @@ local checktime_group = augroup("checktime")
 -- Optimize file change detection events
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = checktime_group,
-  callback = function()
-    if not vim.bo.buftype == "" then
-      return -- Skip special buffers
-    end
-    vim.cmd("checktime")
-  end,
+  callback = check_file_changes,
   desc = "Check if buffers were changed externally",
 })
 
@@ -61,10 +63,7 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       vim.fn.timer_stop(cursorhold_timer)
     end
     cursorhold_timer = vim.fn.timer_start(1000, function()
-      if not vim.bo.buftype == "" then
-        return -- Skip special buffers
-      end
-      vim.cmd("checktime")
+      check_file_changes()
     end)
   end,
   desc = "Debounced check for external file changes",
@@ -73,12 +72,7 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 -- Optimize buffer refresh
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave" }, {
   group = augroup("refresh_file"),
-  callback = function()
-    if not vim.bo.buftype == "" then
-      return -- Skip special buffers
-    end
-    vim.cmd("checktime")
-  end,
+  callback = check_file_changes,
   desc = "Refresh file content after writing or leaving buffer",
 })
 
@@ -89,19 +83,34 @@ vim.api.nvim_create_autocmd("User", {
   pattern = "GitConflictDetected",
   callback = function()
     vim.notify("Conflict detected in " .. vim.fn.expand("<afile>"))
-    vim.keymap.set("n", "cww", function()
-      engage.conflict_buster()
-      create_buffer_local_mappings()
-    end)
+    -- Safely require the module if it exists
+    local ok, engage = pcall(require, "git-conflict.engage")
+    if ok then
+      vim.keymap.set("n", "cww", function()
+        engage.conflict_buster()
+        -- Only call this function if it exists
+        if type(create_buffer_local_mappings) == "function" then
+          create_buffer_local_mappings()
+        end
+      end)
+    else
+      vim.notify("git-conflict.engage module not found", vim.log.levels.WARN)
+    end
   end,
 })
 
+-- Format on save with conform (if using this method, disable format_on_save in conform config)
 vim.api.nvim_create_autocmd("BufWritePre", {
+  group = augroup("format_on_save"),
   callback = function(args)
-    require("conform").format({
-      bufnr = args.buf,
-      async = false,
-      lsp_fallback = true,
-    })
+    -- Use pcall to prevent errors if conform is not available
+    local status, conform = pcall(require, "conform")
+    if status then
+      conform.format({
+        bufnr = args.buf,
+        async = false,
+        lsp_fallback = true,
+      })
+    end
   end,
 })
