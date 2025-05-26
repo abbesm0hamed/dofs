@@ -47,9 +47,9 @@ vim.api.nvim_create_autocmd("User", {
 -- File change detection
 local checktime_group = augroup("checktime")
 
--- Optimize file change detection events
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-  group = checktime_group,
+-- Only check on focus gained
+vim.api.nvim_create_autocmd("FocusGained", {
+  group = augroup("checktime"),
   callback = check_file_changes,
   desc = "Check if buffers were changed externally",
 })
@@ -95,22 +95,6 @@ vim.api.nvim_create_autocmd("User", {
       end)
     else
       vim.notify("git-conflict.engage module not found", vim.log.levels.WARN)
-    end
-  end,
-})
-
--- Format on save with conform (if using this method, disable format_on_save in conform config)
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = augroup("format_on_save"),
-  callback = function(args)
-    -- Use pcall to prevent errors if conform is not available
-    local status, conform = pcall(require, "conform")
-    if status then
-      conform.format({
-        bufnr = args.buf,
-        async = false,
-        lsp_fallback = true,
-      })
     end
   end,
 })

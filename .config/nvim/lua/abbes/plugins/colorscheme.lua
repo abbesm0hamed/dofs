@@ -1,40 +1,40 @@
 return {
   -- best
-  -- {
-  --   "rebelot/kanagawa.nvim",
-  --   lazy = true,
-  --   event = "VimEnter",
-  --   priority = 1000,
-  --   config = function()
-  --     require("kanagawa").setup({
-  --       compile = false, -- enable compiling the colorscheme
-  --       undercurl = true, -- enable undercurls
-  --       commentStyle = { italic = true },
-  --       functionStyle = { italic = false, bold = false },
-  --       keywordStyle = { italic = false },
-  --       statementStyle = { bold = true },
-  --       typeStyle = {},
-  --       transparent = false, -- do not set background color
-  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-  --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
-  --       colors = {
-  --         -- add/modify theme and palette colors
-  --         palette = {},
-  --         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-  --       },
-  --       overrides = function(colors) -- add/modify highlights
-  --         return {}
-  --       end,
-  --       theme = "wave", -- Load "wave" theme when 'background' option is not set
-  --       background = { -- map the value of 'background' option to a theme
-  --         dark = "wave", -- try "dragon" !
-  --         light = "lotus",
-  --       },
-  --     })
-  --
-  --     vim.cmd("colorscheme kanagawa")
-  --   end,
-  -- },
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = true,
+    event = "VimEnter",
+    priority = 1000,
+    config = function()
+      require("kanagawa").setup({
+        compile = false, -- enable compiling the colorscheme
+        undercurl = true, -- enable undercurls
+        commentStyle = { italic = true },
+        functionStyle = { italic = false, bold = false },
+        keywordStyle = { italic = false },
+        statementStyle = { bold = true },
+        typeStyle = {},
+        transparent = false, -- do not set background color
+        dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+        terminalColors = true, -- define vim.g.terminal_color_{0,17}
+        colors = {
+          -- add/modify theme and palette colors
+          palette = {},
+          theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+        },
+        overrides = function(colors) -- add/modify highlights
+          return {}
+        end,
+        theme = "wave", -- Load "wave" theme when 'background' option is not set
+        background = { -- map the value of 'background' option to a theme
+          dark = "wave", -- try "dragon" !
+          light = "lotus",
+        },
+      })
+
+      vim.cmd("colorscheme kanagawa")
+    end,
+  },
   --
   -- vague with kanagawa bg
   -- {
@@ -116,46 +116,46 @@ return {
   -- },
   --
   -- catppuccin with kanagawa bg
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = false,
-    priority = 1000,
-    opts = {
-      flavour = "mocha", -- you can try "macchiato" too
-      transparent_background = false,
-      background = {
-        dark = "mocha",
-        light = "latte",
-      },
-      styles = {
-        comments = { "italic" },
-        functions = {},
-        keywords = { "italic" },
-        strings = {},
-        variables = {},
-      },
-      color_overrides = {
-        mocha = {
-          base = "#1f1f28", -- Kanagawa base
-          mantle = "#1f1f28",
-          crust = "#191922",
-        },
-      },
-      custom_highlights = function(colors)
-        return {
-          Normal = { bg = colors.base },
-          NormalNC = { bg = colors.base },
-          FloatBorder = { fg = colors.surface1, bg = colors.base },
-          Pmenu = { bg = colors.surface0 },
-        }
-      end,
-    },
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
-    end,
-  },
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     flavour = "mocha", -- you can try "macchiato" too
+  --     transparent_background = false,
+  --     background = {
+  --       dark = "mocha",
+  --       light = "latte",
+  --     },
+  --     styles = {
+  --       comments = { "italic" },
+  --       functions = {},
+  --       keywords = { "italic" },
+  --       strings = {},
+  --       variables = {},
+  --     },
+  --     color_overrides = {
+  --       mocha = {
+  --         base = "#1f1f28", -- Kanagawa base
+  --         mantle = "#1f1f28",
+  --         crust = "#191922",
+  --       },
+  --     },
+  --     custom_highlights = function(colors)
+  --       return {
+  --         Normal = { bg = colors.base },
+  --         NormalNC = { bg = colors.base },
+  --         FloatBorder = { fg = colors.surface1, bg = colors.base },
+  --         Pmenu = { bg = colors.surface0 },
+  --       }
+  --     end,
+  --   },
+  --   config = function(_, opts)
+  --     require("catppuccin").setup(opts)
+  --     vim.cmd.colorscheme("catppuccin")
+  --   end,
+  -- },
   --
   -- jellybeans with kanagawa bg xD
   -- {
