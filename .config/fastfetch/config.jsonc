@@ -1,101 +1,128 @@
+/*
+HyDE provides xdg/share/fastfetch/presets/hyde/*.config.jsonc files for different layouts. 
+You can also create your own config.jsonc file in the same directory to create a custom theme. 
+
+To test HyDE's fastfetch theme, run:
+fastfetch --config hyde/*.jsonc
+
+*/
 {
 	"$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
 	"logo": {
-		"type": "auto",
 		"source": "~/.config/fastfetch/wolf.png",
-		"width": 30,
-		"padding": {
-			"top": 3,
-			"left": 2
-		}
+		"height": 18
+	},
+	"display": {
+		"separator": " : "
 	},
 	"modules": [
-		"break",
 		{
-			"type": "custom",
-			"format": "wolfie"
+			"type": "command",
+			"key": "  ",
+			"keyColor": "blue",
+			"text": "splash=$(hyprctl splash);echo $splash"
 		},
 		{
 			"type": "custom",
-			"format": "----------"
+			"format": "┌──────────────────────────────────────────┐"
 		},
 		{
-			"type": "custom",
-			"format": "\u001b[90m┌───────────────────────────────────────────────┐"
+			"type": "chassis",
+			"key": "  󰇺 Chassis",
+			"format": "{1} {2} {3}"
 		},
 		{
 			"type": "os",
+			"key": "  󰣇 OS",
 			"format": "{2}",
-			"key": "  distro",
-			"keyColor": "yellow"
+			"keyColor": "red"
 		},
 		{
 			"type": "kernel",
-			"key": "  system",
-			"keyColor": "yellow"
+			"key": "   Kernel",
+			"format": "{2}",
+			"keyColor": "red"
 		},
 		{
 			"type": "packages",
-			"key": "󰏗  packages",
+			"key": "  󰏗 Packages",
+			"keyColor": "green"
+		},
+		{
+			"type": "display",
+			"key": "  󰍹 Display",
+			"format": "{1}x{2} @ {3}Hz [{7}]",
+			"keyColor": "green"
+		},
+		{
+			"type": "terminal",
+			"key": "   Terminal",
+			"keyColor": "yellow"
+		},
+		{
+			"type": "wm",
+			"key": "  󱗃 WM",
+			"format": "{2}",
 			"keyColor": "yellow"
 		},
 		{
 			"type": "custom",
-			"format": "\u001b[90m└───────────────────────────────────────────────┘"
+			"format": "└──────────────────────────────────────────┘"
 		},
-
 		"break",
 		{
+			"type": "title",
+			"key": "  ",
+			"format": "{6} {7} {8}"
+		},
+		{
 			"type": "custom",
-			"format": "\u001b[90m┌───────────────────────────────────────────────┐"
+			"format": "┌──────────────────────────────────────────┐"
 		},
 		{
 			"type": "cpu",
-			"key": "  cpu",
-			"keyColor": "green",
-			"format": "{vendor} {name}"
+			"format": "{1} @ {7}",
+			"key": "   CPU",
+			"keyColor": "blue"
 		},
 		{
 			"type": "gpu",
-			"key": "󰢮  gpu",
-			"keyColor": "green",
-			"format": "{vendor} {name}"
+			"format": "{1} {2}",
+			"key": "  󰊴 GPU",
+			"keyColor": "blue"
 		},
 		{
-			"type": "memory",
-			"key": "  ram",
-			"keyColor": "green"
-		},
-		{
-			"type": "custom",
-			"format": "\u001b[90m└───────────────────────────────────────────────┘"
-		},
-
-		"break",
-		{
-			"type": "custom",
-			"format": "\u001b[90m┌───────────────────────────────────────────────┐"
-		},
-		{
-			"type": "uptime",
-			"key": "  uptime",
+			"type": "gpu",
+			"format": "{3}",
+			"key": "   GPU Driver",
 			"keyColor": "magenta"
 		},
 		{
-			"type": "datetime",
-			"key": "  date",
-			"keyColor": "magenta",
-			"format": "{day-in-month}.{month-pretty}.{year} {hour-pretty}:{minute-pretty}"
+			"type": "memory",
+			"key": "   Memory ",
+			"keyColor": "magenta"
+		},
+		{
+			"type": "disk",
+			"key": "  󱦟 OS Age ",
+			"folders": "/",
+			"keyColor": "red",
+			"format": "{days} days"
+		},
+		{
+			"type": "uptime",
+			"key": "  󱫐 Uptime ",
+			"keyColor": "red"
 		},
 		{
 			"type": "custom",
-			"format": "\u001b[90m└───────────────────────────────────────────────┘"
+			"format": "└──────────────────────────────────────────┘"
 		},
 		{
-			"type": "custom",
-			"format": "\u001b[31m⬤ \u001b[32m⬤ \u001b[33m⬤ \u001b[34m⬤ \u001b[35m⬤ \u001b[36m⬤\u001b[0m"
+			"type": "colors",
+			"paddingLeft": 2,
+			"symbol": "circle"
 		},
-
 		"break"
 	]
 }
