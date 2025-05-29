@@ -169,19 +169,21 @@ install_packages \
   gparted \
   less \
   filezilla \
+  dolphin \
   pavucontrol \
   xdg-utils \
   udiskie
 # balena-etcher
 
-# Install Sway and Wayland tools
-echo_step "Installing Sway and Wayland tools..."
+# Install Hyprland and Wayland tools
+echo_step "Installing Hyprland and Wayland tools..."
 install_packages \
-  sway \
-  swaylock \
-  swayidle \
-  swaybg \
+  hyprland \
+  hyprlock \
+  hypridle \
+  hyprpaper \
   wofi \
+  rofi-wayland \
   wlogout \
   mako \
   grim \
@@ -196,12 +198,13 @@ install_packages \
   hyprpicker-git \
   swaync \
   wob \
-  xdg-desktop-portal-wlr
-
-# Configure input devices for Sway
-echo_step "Configuring input devices for Sway..."
-mkdir -p "$HOME/.config/sway/config.d"
-cp "$(dirname "$0")/input.conf" "$HOME/.config/sway/config.d/"
+  xdg-desktop-portal-hyprland \
+  qt5-wayland \
+  qt6-wayland \
+  waybar \
+  cliphist \
+  hyprshot \
+  swww
 
 echo_step "Installing terminals emulators..."
 install_packages \
@@ -275,4 +278,4 @@ else
 fi
 
 echo_success "Please reboot your system to apply all changes."
-echo_success "After reboot, your system will be ready with all the installed software."
+echo_success "After reboot, your system will be ready with Hyprland and all the installed software."
