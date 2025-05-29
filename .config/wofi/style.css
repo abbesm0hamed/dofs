@@ -1,6 +1,6 @@
 * {
-    font-family: "JetBrainsMono Nerd Font", "Lilex", monospace;
-    font-size: 10pt;
+    font-family: "Lilex";
+    font-size: 11pt;
     font-weight: 400;
 }
 
@@ -11,8 +11,7 @@ window {
     background-color: #1f1f28;
     border: 2px solid #54546d;
     border-radius: 0px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    opacity: 0.95;
+    opacity: 1;
 }
 
 /* Input field styling */
@@ -23,18 +22,10 @@ window {
     border: 2px solid #223249;
     border-radius: 0px;
     color: #dcd7ba;
-    caret-color: #7fb4ca;
-    selection-background-color: #2d4f67;
-    selection-color: #dcd7ba;
 }
 
 #input:focus {
     border-color: #7fb4ca;
-    box-shadow: 0 0 10px rgba(127, 180, 202, 0.3);
-}
-
-#input::placeholder {
-    color: #727169;
 }
 
 /* Container styling */
@@ -42,7 +33,6 @@ window {
     margin: 0px 20px 20px 20px;
     padding: 0;
     background-color: transparent;
-    border-radius: 15px;
 }
 
 #outer-box {
@@ -58,14 +48,13 @@ window {
     background-color: transparent;
 }
 
-/* Individual entry styling */
+/* Individual entry styling - minimal, no animations */
 #entry {
     padding: 15px 20px;
     margin: 0 0 8px 0;
     background-color: #16161d;
     border: 2px solid transparent;
     border-radius: 0px;
-    transition: all 0.2s ease;
 }
 
 #entry:last-child {
@@ -75,13 +64,11 @@ window {
 #entry:hover {
     background-color: #2d4f67;
     border-color: #7fb4ca;
-    transform: translateX(5px);
 }
 
 #entry:selected {
     background-color: #2d4f67;
     border-color: #7fb4ca;
-    box-shadow: 0 4px 15px rgba(127, 180, 202, 0.2);
 }
 
 /* Text styling */
@@ -89,71 +76,19 @@ window {
     margin: 0;
     padding: 0;
     color: #dcd7ba;
-    font-weight: 500;
-}
-
-#entry:hover #text {
-    color: #dcd7ba;
-}
-
-#entry:selected #text {
-    color: #dcd7ba;
-    font-weight: 600;
 }
 
 /* Icon styling */
 #img {
     margin-right: 15px;
-    border-radius: 0px;
-    transition: all 0.2s ease;
-}
-
-#entry:hover #img {
-    transform: scale(1.1);
-}
-
-#entry:selected #img {
-    transform: scale(1.1);
 }
 
 /* Scrollbar styling */
 scrollbar {
     background-color: transparent;
-    border-radius: 0px;
 }
 
 scrollbar slider {
     background-color: #7e9cd8;
-    border-radius: 10px;
     min-height: 20px;
-}
-
-scrollbar slider:hover {
-    background-color: #957fb8;
-}
-
-/* Additional enhancements for modern look */
-#entry:nth-child(odd) {
-    background-color: #16161d;
-}
-
-#entry:nth-child(even) {
-    background-color: #1a1a21;
-}
-
-/* Subtle animation on window appearance */
-window {
-    animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -60%);
-    }
-
-    to {
-        opacity: 0.95;
-        transform: translate(-50%, -50%);
-    }
 }

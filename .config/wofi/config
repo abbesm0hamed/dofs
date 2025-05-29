@@ -1,24 +1,17 @@
-# Wofi Configuration - Kanagawa Theme
-width=900
-height=600
+# Wofi Configuration - Simple and Stable
+width=40%
+height=50%
 show=drun
-prompt=❯ Apps
+prompt=Applications:
 layer=overlay
 location=center
 term=foot
 columns=1
 lines=8
 allow_images=true
-image_size=36
+image_size=40
 insensitive=true
 gtk_dark=true
-sort_order=alphabetical
-matching=fuzzy
-no_actions=true
-allow_markup=true
-parse_search=true
-content_halign=fill
-orientation=vertical
 
 # Key bindings
 key_up=Up
@@ -28,10 +21,3 @@ key_right=Right
 key_forward=Tab
 key_backward=ISO_Left_Tab
 key_exit=Escape
-key_submit=Return
-
-# Performance and behavior
-exec_search=false
-hide_scroll=false
-print_command=false
-single_click=false
