@@ -209,6 +209,8 @@ alias php='docker exec -it php_container php'
 alias composer='docker exec -it php_container composer'
 alias artisan='docker exec -it php_container php artisan' # if this didn't work try php artisan
 alias php-shell='docker exec -it php_container zsh'
+# tmux aliases
+alias txsrc="tmux source-file ~/.tmux.conf"
 
 #===============================================================================
 # Environment Configuration
