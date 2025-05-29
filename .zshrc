@@ -187,6 +187,22 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 #===============================================================================
+# Tmux Auto-start Configuration
+#===============================================================================
+
+# Tmux session management functions
+tmux_smart_attach() {
+    if [[ -z "$TMUX" ]]; then
+        # Try to attach to existing session, create new one if none exists
+        if tmux has-session -t main 2>/dev/null; then
+            exec tmux attach-session -t main
+        else
+            exec tmux new-session -s main
+        fi
+    fi
+}
+
+#===============================================================================
 # Aliases
 #===============================================================================
 alias ls='ls --color'
@@ -194,8 +210,6 @@ alias c='clear'
 alias v="nvim"
 alias ll="lsd -la"
 alias lg="lazygit"
-alias tx="tmux"
-alias txfr="tmuxifier"
 alias ff="fastfetch"
 alias dc="sudo docker-compose"
 alias dr="sudo docker"
@@ -209,7 +223,14 @@ alias php='docker exec -it php_container php'
 alias composer='docker exec -it php_container composer'
 alias artisan='docker exec -it php_container php artisan' # if this didn't work try php artisan
 alias php-shell='docker exec -it php_container zsh'
-# tmux aliases
+# Enhanced tmux aliases 
+alias txfr="tmuxifier"
+alias tm="tmux_smart_attach"
+alias ta="tmux attach-session -t"
+alias tn="tmux new-session -s"
+alias tl="tmux list-sessions"
+alias tk="tmux kill-session -t"
+alias tka="tmux kill-server"  # Kill all sessions
 alias txsrc="tmux source-file ~/.tmux.conf"
 
 #===============================================================================
