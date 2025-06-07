@@ -66,7 +66,7 @@ install_packages \
   gowall \
   nwg-look-bin \
   libreoffice-fresh
-
+# dolphin \
 # swhkd \
 # woeusb # inkscape \
 # conky \

@@ -1,0 +1,6 @@
+2025/06/07-15:41:16.741 4c6 Reusing MANIFEST /home/abbes/.config/Slack/Local Storage/leveldb/MANIFEST-000001
+2025/06/07-15:41:16.741 4c6 Recovering log #3
+2025/06/07-15:41:16.743 4c6 Reusing old log /home/abbes/.config/Slack/Local Storage/leveldb/000003.log 
+2025/06/07-15:43:17.172 4c5 Level-0 table #5: started
+2025/06/07-15:43:17.176 4c5 Level-0 table #5: 19461 bytes OK
+2025/06/07-15:43:17.177 4c5 Delete type=0 #3

@@ -1,0 +1,72 @@
+filetype: crystal
+
+detect:
+    filename: "\\.cr$"
+
+rules:
+    # Asciibetical list of reserved words
+    - statement: "\\b(abstract|alias|as|asm|begin|break|case|class|def|do|else|elsif|end|ensure|enum|extend|for|fun|if|in|include|instance_sizeof|lib|loop|macro|module|next|of|out|pointerof|private|protected|raise|require|rescue|return|select|self|sizeof|spawn|struct|super|then|type|typeof|uninitialized|union|unless|until|verbatim|when|while|with|yield)\\b"
+      # Constants
+    - constant: "\\b(true|false|nil)\\b"
+    - constant.number: "\\b[0-9]+\\b"
+      # Ones that can't be in the same regex because they include non-words.
+      # The nil? one has to be after the constants.
+    - statement: "\\b(nil\\?|as(\\?|\\b)|is_a\\?|responds_to\\?)"
+    - type: "(\\$|@|@@)?\\b[A-Z]+[0-9A-Z_a-z]*"
+      # Crystal "symbols"
+    - constant:  "([ 	]|^):[0-9A-Z_]+\\b"
+      # Some unique things we want to stand out
+    - constant: "\\b(__FILE__|__LINE__)\\b"
+      # Regular expressions
+    - constant: "/([^/]|(\\\\/))*/[iomx]*|%r\\{([^}]|(\\\\}))*\\}[iomx]*"
+
+      # Shell command expansion is in `backticks` or like %x{this}.  These are
+      # "double-quotish" (to use a perlism).
+    - constant.string: "`[^`]*`|%x\\{[^}]*\\}"
+
+    - constant.string:
+        start: "`"
+        end: "`"
+        rules: []
+
+    - constant.string:
+        start: "%x\\{"
+        end: "\\}"
+        rules: []
+
+    - constant.string:
+        start: "\""
+        end: "\""
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+            - symbol.brackets:
+                start: "#\\{"
+                end: "\\}"
+                rules:
+                    - default: ".*"
+
+    - constant.string:
+        start: "'"
+        end: "'"
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+
+    - comment:
+        start: "#"
+        end: "$"
+        rules:
+            - todo: "(TODO|XXX|FIXME):?"
+
+    - comment.bright:
+        start: "##"
+        end: "$"
+        rules:
+            - todo: "(TODO|XXX|FIXME):?"
+
+    - constant:
+        start: "<<-?'?EOT'?"
+        end: "^EOT"
+        rules: []
+

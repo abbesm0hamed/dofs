@@ -1,0 +1,48 @@
+filetype: haskell
+
+detect:
+    filename: "\\.hs$"
+
+rules:
+    # Keywords
+    - statement: "\\b(as|case|of|class|data|default|deriving|do|forall|foreign|hiding|if|then|else|import|infix|infixl|infixr|instance|let|in|mdo|module|newtype|qualified|type|where)\\b"
+
+      # Various symbols
+    - symbol: "(\\||@|!|:|_|~|=|\\\\|;|\\(\\)|,|\\[|\\]|\\{|\\})"
+
+      # Operators
+    - symbol.operator: "(==|/=|&&|\\|\\||<|>|<=|>=)"
+
+      # Various symbols
+    - special: "(->|<-)"
+    - symbol: "\\.|\\$"
+
+      # Data constructors
+    - constant.bool: "\\b(True|False)\\b"
+    - constant: "\\b(Nothing|Just|Left|Right|LT|EQ|GT)\\b"
+
+      # Data classes
+    - identifier.class: "\\b(Read|Show|Enum|Eq|Ord|Data|Bounded|Typeable|Num|Real|Fractional|Integral|RealFrac|Floating|RealFloat|Monad|MonadPlus|Functor|Foldable|Additive|Zip)[ ]"
+
+      # Strings
+    - constant.string:
+        start: "\""
+        end: "\""
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+
+      # Comments
+    - comment:
+        start: "--"
+        end: "$"
+        rules:
+            - todo: "(TODO|XXX|FIXME):?"
+
+    - comment:
+        start: "\\{-"
+        end: "-\\}"
+        rules:
+            - todo: "(TODO|XXX|FIXME):?"
+
+    - identifier.micro: "undefined"
