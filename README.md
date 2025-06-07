@@ -1,39 +1,48 @@
-# My Arch Linux Sway Rice Setup
+# My CachyOS Hyprland Rice Setup
 
-A minimalist and elegant desktop environment built with sway window manager for performance, featuring the beautiful Kanagawa color scheme. The setup emphasizes both aesthetics and functionality, with a cohesive dark theme inspired by The Great Wave off Kanagawa.
+A minimalist and elegant desktop environment built with Hyprland wayland compositor for performance, featuring the beautiful Kanagawa color scheme. The setup emphasizes both aesthetics and functionality.
 
 ## Screenshots
 
-![nvim + yazi + bg ](./.config/screenshots/sway-nvim-yazi.png)
-_Neovim with Kanagawa theme and yazi Terminal based file manager_
+![nvim + fastfetch + bg ](./.config/screenshots/fastfetch-nvim-bg.png)
+_Neovim with Moonfly theme_
 
-![Terminal Tools](./.config/screenshots/sway-pipes-neofetch.png)
-_Terminal tools (neofetch, pipes.sh) running in i3 with Kanagawa theme_
-
-## Installation
+## Installation for fish shell
+```bash
+bash -c "$(curl -s https://end-4.github.io/dots-hyprland-wiki/setup.sh)"
+```
 
 ### Prerequisites
 
-1. Clone the sway branch from the repository:
+1. Clone the repository:
 
 ```bash
-git clone -b sway https://github.com/abbesm0hamed/dofs.git ~/dofs
+git clone https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
 ```
 
-2. Automated Software Installation
+2. Base Configuration with end-4/dots-hyprland
 
-The repository includes an automated installation script using Ansible. To install all required software:
+This setup is based on the excellent [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) configuration. The base configuration provides:
+
+- Modern Hyprland wayland compositor setup
+- Advanced window management and animations
+- Beautiful UI components and theming
+- Optimized performance tweaks for CachyOS
+
+3. Automated Software Installation
+
+The repository includes an automated installation script. To install all required software on CachyOS:
 
 ```bash
-cd bootstrap/arch/sway
+cd bootstrap/cachyos/hyprland
 chmod +x install-system.sh
 ./install-system.sh
 ```
 
 This will install:
 
-- Window Manager: sway
+- Window Manager: Hyprland
 - Shell: zsh (set as default)
 - Development Tools: neovim, docker, git tools
 - Terminal Utilities: tmux, ranger, btop, cava
@@ -46,9 +55,10 @@ Additionally, the setup includes:
 
 - Automatic monitor detection and configuration
 - Dynamic workspace management when connecting/disconnecting displays
-- Automatic polybar adjustment for multi-monitor setups
+- Smooth animations and window transitions
+- Advanced window rules and workspace management
 
-3. Use GNU stow to create symlinks:
+4. Use GNU stow to create symlinks:
 
 ```bash
 cd ~/dofs
@@ -87,7 +97,7 @@ This document provides a comprehensive list of all keyboard shortcuts configured
 
 ## Table of Contents
 
-- [Window Management (i3)](#window-management-i3)
+- [Window Management (Hyprland)](#window-management-hyprland)
 - [Workspace Controls](#workspace-controls)
 - [Application Shortcuts](#application-shortcuts)
 - [Media Controls](#media-controls)
@@ -95,7 +105,7 @@ This document provides a comprehensive list of all keyboard shortcuts configured
 - [Screenshots](#screenshots)
 - [Applications](#applications)
 
-## Window Management (i3)
+## Window Management (Hyprland)
 
 | Keybinding                | Action                               |
 | ------------------------- | ------------------------------------ |
@@ -107,8 +117,9 @@ This document provides a comprehensive list of all keyboard shortcuts configured
 | `Super + Shift + f`       | Toggle floating mode                 |
 | `Super + Space`           | Toggle focus between floating/tiling |
 | `Super + a`               | Focus parent                         |
-| `Super + Ctrl + h/j/k/l`  | Resize window                        |
-| `Super + y`               | Toggle polybar                       |
+| `Super + equal`           | Resize window (+30 width, +60 height) |
+| `Super + minus`           | Resize window (-30 width, -60 height) |
+| `Super + y`               | Toggle waybar                        |
 
 ## Workspace Controls
 
@@ -148,12 +159,12 @@ This document provides a comprehensive list of all keyboard shortcuts configured
 
 ## System Controls
 
-| Keybinding          | Action                     |
-| ------------------- | -------------------------- |
-| `Super + Shift + q` | Kill focused window        |
-| `Super + Shift + c` | Reload i3 config           |
-| `Super + Shift + r` | Restart i3                 |
-| `Super + Escape`    | Reload sxhkd configuration |
+| Keybinding          | Action                        |
+| ------------------- | ----------------------------- |
+| `Super + Shift + q` | Kill focused window           |
+| `Super + Shift + c` | Reload Hyprland config        |
+| `Super + Shift + r` | Restart Hyprland              |
+| `Super + Escape`    | Reload keybind configuration  |
 
 ## Screenshots
 
@@ -316,13 +327,16 @@ Press `super + alt + o` to open the power menu, which provides options for:
 ## Additional Features
 
 - **Keyboard Layout**: Toggle between US and Arabic layouts using `Alt + Shift`
-- **Auto-tiling**: Enabled by default
+- **Auto-tiling**: Enabled by default with advanced Hyprland tiling
 - **Workspace Auto Back and Forth**: Enabled
+- **Smooth Animations**: Hyprland's advanced animation system
+- **Optimized for CachyOS**: Performance tweaks for the CachyOS kernel
 
 Note: Some keybindings might be commented out in the config files. This documentation shows only the active keybindings.
 
 ## Inspiration
 
+- [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) - Base configuration
 - [The Linux Cast Dotfiles](https://gitlab.com/thelinuxcast/my-dots.git)
 - [Nvim Config by Allaman](https://github.com/Allaman/nvim)
 - [Chris Grieser Config](https://github.com/chrisgrieser/.config)
