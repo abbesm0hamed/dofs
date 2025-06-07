@@ -56,7 +56,7 @@ alias pcu='paru -Qu'
 
 # Enhanced tmux aliases 
 alias txfr="tmuxifier"
-alias tm="tmux_smart_attach"
+alias tm="tmux"
 alias ta="tmux attach-session -t"
 alias tn="tmux new-session -s"
 alias tl="tmux list-sessions"
