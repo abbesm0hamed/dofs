@@ -131,6 +131,11 @@ keymap.set("n", "M", "m", { noremap = true, silent = true })
 -- augment code ai
 keymap.set("i", "<A-y>", "<cmd>call augment#Accept()<cr>", { noremap = true, silent = true })
 
+-- Initialize the variable if it doesn't exist
+if vim.g.format_on_save == nil then
+  vim.g.format_on_save = true
+end
+
 keymap.set("n", "<leader>tf", function()
   vim.g.format_on_save = not vim.g.format_on_save
   print("Format on save: " .. tostring(vim.g.format_on_save))
