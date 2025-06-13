@@ -70,7 +70,6 @@ return {
         injected = {
           options = { ignore_errors = true },
         },
-        -- Biome: only run when config exists
         biome = {
           condition = function(self, ctx)
             return vim.fs.find({ "biome.json", "biome.jsonc" }, {
@@ -78,11 +77,22 @@ return {
               upward = true,
             })[1]
           end,
+          prepend_args = function(self, ctx)
+            -- Only add default args if no biome config exists
+            local has_config = vim.fs.find({ "biome.json", "biome.jsonc" }, {
+              path = ctx.filename,
+              upward = true,
+            })[1]
+            if not has_config then
+              return { "--indent-style", "space", "--indent-width", "2" }
+            end
+            return {}
+          end,
         },
-        -- Prettier: only run when config exists
         prettier = {
           condition = function(self, ctx)
-            return vim.fs.find({
+            -- Run if config exists OR if no biome config exists (fallback)
+            local has_prettier_config = vim.fs.find({
               ".prettierrc",
               ".prettierrc.js",
               ".prettierrc.json",
@@ -94,15 +104,87 @@ return {
               path = ctx.filename,
               upward = true,
             })[1]
+
+            local has_biome_config = vim.fs.find({ "biome.json", "biome.jsonc" }, {
+              path = ctx.filename,
+              upward = true,
+            })[1]
+
+            return has_prettier_config or not has_biome_config
+          end,
+          prepend_args = function(self, ctx)
+            -- Only add default args if no prettier config exists
+            local has_config = vim.fs.find({
+              ".prettierrc",
+              ".prettierrc.js",
+              ".prettierrc.json",
+              ".prettierrc.yml",
+              ".prettierrc.yaml",
+              "prettier.config.js",
+            }, {
+              path = ctx.filename,
+              upward = true,
+            })[1]
+
+            -- Check package.json for prettier config
+            local package_json = vim.fs.find({ "package.json" }, {
+              path = ctx.filename,
+              upward = true,
+            })[1]
+
+            local has_package_prettier_config = false
+            if package_json then
+              local ok, content = pcall(vim.fn.readfile, package_json)
+              if ok then
+                local json_str = table.concat(content, "")
+                local ok_json, parsed = pcall(vim.json.decode, json_str)
+                if ok_json and parsed.prettier then
+                  has_package_prettier_config = true
+                end
+              end
+            end
+
+            if not has_config and not has_package_prettier_config then
+              return { "--tab-width", "2", "--use-tabs", "false" }
+            end
+            return {}
           end,
         },
-        -- Shell formatting with your preferred args
+        -- Shell formatting with 2-space indent
         shfmt = {
           prepend_args = { "-i", "2", "-ci" },
         },
         -- Black with fast mode
         black = {
           prepend_args = { "--fast" },
+        },
+        -- Stylua with 2-space default
+        stylua = {
+          prepend_args = function(self, ctx)
+            -- Only add default args if no stylua.toml exists
+            local has_config = vim.fs.find({ "stylua.toml", ".stylua.toml" }, {
+              path = ctx.filename,
+              upward = true,
+            })[1]
+            if not has_config then
+              return { "--indent-type", "Spaces", "--indent-width", "2" }
+            end
+            return {}
+          end,
+        },
+        -- Rustfmt with 2-space default
+        rustfmt = {
+          prepend_args = function(self, ctx)
+            -- Only add default args if no rustfmt.toml exists
+            local has_config = vim.fs.find({ "rustfmt.toml", ".rustfmt.toml" }, {
+              path = ctx.filename,
+              upward = true,
+            })[1]
+            if not has_config then
+              return { "--config", "tab_spaces=2,hard_tabs=false" }
+            end
+            return {}
+          end,
         },
       },
     },
