@@ -8,9 +8,21 @@ A minimalist and elegant desktop environment built with Hyprland wayland composi
 _Neovim with Moonfly theme_
 
 ## Installation for fish shell
+
 ```bash
 bash -c "$(curl -s https://end-4.github.io/dots-hyprland-wiki/setup.sh)"
 ```
+
+## updating hyprland config
+
+check end4 wiki/websites for update process
+
+```bash
+cd .cache/dots-hyprland
+./install.sh
+```
+
+watch out for rsync updates to avoid having custom config overwritten
 
 ### Prerequisites
 
@@ -107,19 +119,19 @@ This document provides a comprehensive list of all keyboard shortcuts configured
 
 ## Window Management (Hyprland)
 
-| Keybinding                | Action                               |
-| ------------------------- | ------------------------------------ |
-| `Super + h/j/k/l`         | Focus left/down/up/right             |
-| `Super + Shift + h/j/k/l` | Move window left/down/up/right       |
-| `Super + z`               | Split vertically                     |
-| `Super + x`               | Split horizontally                   |
-| `Super + f`               | Toggle fullscreen                    |
-| `Super + Shift + f`       | Toggle floating mode                 |
-| `Super + Space`           | Toggle focus between floating/tiling |
-| `Super + a`               | Focus parent                         |
+| Keybinding                | Action                                |
+| ------------------------- | ------------------------------------- |
+| `Super + h/j/k/l`         | Focus left/down/up/right              |
+| `Super + Shift + h/j/k/l` | Move window left/down/up/right        |
+| `Super + z`               | Split vertically                      |
+| `Super + x`               | Split horizontally                    |
+| `Super + f`               | Toggle fullscreen                     |
+| `Super + Shift + f`       | Toggle floating mode                  |
+| `Super + Space`           | Toggle focus between floating/tiling  |
+| `Super + a`               | Focus parent                          |
 | `Super + equal`           | Resize window (+30 width, +60 height) |
 | `Super + minus`           | Resize window (-30 width, -60 height) |
-| `Super + y`               | Toggle waybar                        |
+| `Super + y`               | Toggle waybar                         |
 
 ## Workspace Controls
 
@@ -159,12 +171,12 @@ This document provides a comprehensive list of all keyboard shortcuts configured
 
 ## System Controls
 
-| Keybinding          | Action                        |
-| ------------------- | ----------------------------- |
-| `Super + Shift + q` | Kill focused window           |
-| `Super + Shift + c` | Reload Hyprland config        |
-| `Super + Shift + r` | Restart Hyprland              |
-| `Super + Escape`    | Reload keybind configuration  |
+| Keybinding          | Action                       |
+| ------------------- | ---------------------------- |
+| `Super + Shift + q` | Kill focused window          |
+| `Super + Shift + c` | Reload Hyprland config       |
+| `Super + Shift + r` | Restart Hyprland             |
+| `Super + Escape`    | Reload keybind configuration |
 
 ## Screenshots
 
