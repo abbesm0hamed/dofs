@@ -1,6 +1,7 @@
 return {
   { -- convenience file operations
     "chrisgrieser/nvim-genghis",
+    lazy = true,
     dependencies = "stevearc/dressing.nvim",
     init = function()
       vim.g.genghis_disable_commands = true
@@ -21,6 +22,7 @@ return {
   },
   {
     "stevearc/oil.nvim",
+    lazy = true,
     opts = {
       view_options = {
         -- Show files and directories that start with "."
@@ -124,5 +126,5 @@ return {
         Fragment = { icon = "", hl = "@constant" },
       },
     },
-  }
+  },
 }

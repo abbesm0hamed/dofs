@@ -1,4 +1,58 @@
 return {
+  {
+    "bluz71/vim-moonfly-colors",
+    event = "VimEnter",
+    name = "moonfly",
+    priority = 1000,
+    config = function()
+      -- Moonfly configuration
+      vim.g.moonflyCursorColor = true
+      vim.g.moonflyItalics = true
+      vim.g.moonflyNormalFloat = true
+      vim.g.moonflyTerminalColors = true
+      vim.g.moonflyVirtualTextColor = true
+      vim.g.moonflyUndercurls = true
+      vim.g.moonflyVertSplits = true
+      vim.g.moonflyTransparent = true -- CHANGED: Use correct moonfly transparency option
+      -- Reduce used colors
+      vim.g.moonflyWinSeparator = 1
+      -- Set colorscheme
+      vim.cmd.colorscheme("moonfly")
+
+      -- Override function and search highlights to include italics
+      vim.api.nvim_set_hl(0, "Function", { italic = true })
+      vim.api.nvim_set_hl(0, "Search", { italic = true })
+
+      -- Additional transparency overrides for better blur effect
+      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+      vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+      vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
+      vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
+      vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+      vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
+
+      -- File tree transparency (if using nvim-tree or neo-tree)
+      vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+
+      -- Telescope transparency
+      vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
+
+      -- Keep some elements slightly visible for readability
+      vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1e2124" })
+      vim.api.nvim_set_hl(0, "TabLine", { bg = "#1e2124" })
+      vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2d3142" })
+      vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#2d3142" })
+    end,
+  },
   -- best
   -- {
   --   "rebelot/kanagawa.nvim",
@@ -342,63 +396,6 @@ return {
   --     require("black-metal").load()
   --   end,
   -- },
-  --
-  --
-  -- third best
-  {
-    "bluz71/vim-moonfly-colors",
-    event = "VimEnter",
-    name = "moonfly",
-    priority = 1000,
-    config = function()
-      -- Moonfly configuration
-      vim.g.moonflyCursorColor = true
-      vim.g.moonflyItalics = true
-      vim.g.moonflyNormalFloat = true
-      vim.g.moonflyTerminalColors = true
-      vim.g.moonflyVirtualTextColor = true
-      vim.g.moonflyUndercurls = true
-      vim.g.moonflyVertSplits = true
-      vim.g.moonflyTransparent = true -- CHANGED: Use correct moonfly transparency option
-      -- Reduce used colors
-      vim.g.moonflyWinSeparator = 1
-      -- Set colorscheme
-      vim.cmd.colorscheme("moonfly")
-
-      -- Override function and search highlights to include italics
-      vim.api.nvim_set_hl(0, "Function", { italic = true })
-      vim.api.nvim_set_hl(0, "Search", { italic = true })
-
-      -- Additional transparency overrides for better blur effect
-      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
-      vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
-      vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
-      vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-      vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
-
-      -- File tree transparency (if using nvim-tree or neo-tree)
-      vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
-
-      -- Telescope transparency
-      vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
-
-      -- Keep some elements slightly visible for readability
-      vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1e2124" })
-      vim.api.nvim_set_hl(0, "TabLine", { bg = "#1e2124" })
-      vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2d3142" })
-      vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#2d3142" })
-    end,
-  },
   --
   -- {
   --   "bluz71/vim-nightfly-colors",

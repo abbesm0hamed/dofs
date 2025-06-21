@@ -1,37 +1,55 @@
 return {
   {
-    -- support for go dev not LSP
-    -- support structs for eg
+    -- Go development support with struct tags, implements, etc.
     "olexsmir/gopher.nvim",
     ft = "go",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
-    config = function(_, opts)
-      require("gopher").setup(opts)
-    end,
+    opts = {},
     build = function()
-      vim.cmd([[silent! GoInstallDeps]])
-      vim.keymap.set("n", "<leader>gts", "<cmd>GoTagAdd json<CR>", { desc = "Add tag json to go struct" })
-      vim.keymap.set("n", "<leader>gty", "<cmd>GoTagAdd yaml<CR>", { desc = "Add tag yaml to go struct" })
+      vim.cmd.GoInstallDeps()
     end,
+    keys = {
+      { "<leader>gts", "<cmd>GoTagAdd json<cr>", desc = "Add JSON tags", ft = "go" },
+      { "<leader>gty", "<cmd>GoTagAdd yaml<cr>", desc = "Add YAML tags", ft = "go" },
+      { "<leader>gtr", "<cmd>GoTagRm<cr>", desc = "Remove tags", ft = "go" },
+      { "<leader>gie", "<cmd>GoIfErr<cr>", desc = "Add if err", ft = "go" },
+      { "<leader>gim", "<cmd>GoImpl<cr>", desc = "Generate interface implementation", ft = "go" },
+    },
   },
   {
+    -- Comprehensive Go tooling and LSP enhancements
     "ray-x/go.nvim",
+    ft = { "go", "gomod", "gowork", "gotmpl" },
     dependencies = {
       "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
     },
-    config = function()
-      require("go").setup()
-    end,
-    event = { "CmdlineEnter" },
-    ft = { "go", "gomod" },
+    opts = {
+      -- Disable features handled by other plugins or not needed
+      goimports = "gopls", -- Use gopls for imports
+      fillstruct = "gopls", -- Use gopls for struct filling
+      dap_debug = false, -- Disable if you don't use DAP
+      dap_debug_gui = false,
+      test_runner = "go", -- Use basic go test, neotest handles advanced testing
+      run_in_floaterm = false, -- Disable if you don't use floaterm
+      trouble = false, -- Disable if you don't use trouble.nvim
+      luasnip = false, -- Disable if you don't use luasnip
+    },
     build = ':lua require("go.install").update_all_sync()',
+    keys = {
+      { "<leader>gr", "<cmd>GoRun<cr>", desc = "Go run", ft = "go" },
+      { "<leader>gb", "<cmd>GoBuild<cr>", desc = "Go build", ft = "go" },
+      { "<leader>gt", "<cmd>GoTest<cr>", desc = "Go test", ft = "go" },
+      { "<leader>gT", "<cmd>GoTestPkg<cr>", desc = "Go test package", ft = "go" },
+      { "<leader>gc", "<cmd>GoCoverage<cr>", desc = "Go coverage", ft = "go" },
+    },
   },
   {
+    -- Enhanced testing with Go support
     "nvim-neotest/neotest",
     optional = true,
     dependencies = {
@@ -40,8 +58,10 @@ return {
     opts = {
       adapters = {
         ["neotest-go"] = {
-          -- Here we can set options for neotest-go, e.g.
-          -- args = { "-tags=integration" }
+          experimental = {
+            test_table = true, -- Enable table-driven tests support
+          },
+          args = { "-count=1", "-timeout=60s", "-race" },
           recursive_run = true,
         },
       },

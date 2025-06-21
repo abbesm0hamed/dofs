@@ -1,12 +1,19 @@
 return {
   {
     "leath-dub/snipe.nvim",
+    lazy = true,
     keys = {
-      { "'", function() require("snipe").open_buffer_menu() end, desc = "Open Snipe buffer menu" }
+      {
+        "'",
+        function()
+          require("snipe").open_buffer_menu()
+        end,
+        desc = "Open Snipe buffer menu",
+      },
     },
     opts = {},
     config = function()
-      require('snipe').setup({
+      require("snipe").setup({
         ui = {
           max_height = -1, -- -1 means dynamic height
           -- Where to place the ui window
@@ -63,7 +70,7 @@ return {
         },
         -- The default sort used for the buffers
         -- Can be any of "last", (sort buffers by last accessed) "default" (sort buffers by its number)
-        sort = "default"
+        sort = "default",
       })
     end,
   },

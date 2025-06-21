@@ -4,23 +4,27 @@ return {
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
-    config = function()
-      require("lazydocker").setup({
-        height = 0.9,
-        width = 0.9,
-        popup_window = {
-          border = "rounded",
-          title = "LazyDocker",
-          title_align = "center",
-        },
-      })
-
-      -- Updated command name to match the actual plugin command
-      vim.keymap.set("n", "<leader>ld", "<cmd>Lazydocker<CR>", {
-        silent = true,
-        noremap = true,
+    cmd = "Lazydocker",
+    keys = {
+      {
+        "<leader>ld",
+        function()
+          -- Try the plugin command first
+          local ok, _ = pcall(vim.cmd, "Lazydocker")
+          if not ok then
+            -- Fallback to opening lazydocker in betterTerm
+            require("betterTerm").open(3) -- Use terminal slot 3 for lazydocker
+            vim.defer_fn(function()
+              vim.cmd("startinsert")
+              vim.api.nvim_feedkeys("lazydocker\r", "t", false)
+            end, 100)
+          end
+        end,
         desc = "Open LazyDocker",
-      })
+      },
+    },
+    config = function()
+      require("lazydocker").setup()
     end,
-  }
+  },
 }

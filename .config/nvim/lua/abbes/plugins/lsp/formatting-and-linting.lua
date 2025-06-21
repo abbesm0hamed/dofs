@@ -2,188 +2,48 @@ return {
   {
     "stevearc/conform.nvim",
     event = "BufReadPre",
-    lazy = true,
-    cmd = { "ConformInfo" },
     keys = {
       {
         "<leader>fm",
         function()
-          require("conform").format({
-            async = true,
-            lsp_format = "fallback",
-            timeout_ms = 3000,
-          })
+          require("conform").format({ async = true, timeout_ms = 3000 })
         end,
         desc = "󰉢 Format",
       },
-      {
-        "<leader>cF",
-        function()
-          require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
-        end,
-        mode = { "n", "v" },
-        desc = "Format Injected Langs",
-      },
     },
     opts = {
-      default_format_opts = {
-        timeout_ms = 3000,
-        async = false,
-        quiet = false,
-        lsp_format = "fallback",
-      },
       formatters_by_ft = {
         lua = { "stylua" },
-        -- Frontend
         javascript = { "biome", "prettier", stop_after_first = true },
         typescript = { "biome", "prettier", stop_after_first = true },
         javascriptreact = { "biome", "prettier", stop_after_first = true },
         typescriptreact = { "biome", "prettier", stop_after_first = true },
         json = { "biome", "prettier", stop_after_first = true },
-        jsonc = { "biome", "prettier", stop_after_first = true },
         vue = { "prettier" },
         html = { "prettier" },
         css = { "prettier" },
-        scss = { "prettier" },
         markdown = { "prettier" },
-        yaml = { "prettier" },
-        -- Backend
-        go = { "gofumpt", "goimports" },
-        python = { "isort", "black" },
+        go = { "gofumpt" },
+        python = { "black" },
         rust = { "rustfmt" },
-        -- Shell
         sh = { "shfmt" },
-        bash = { "shfmt" },
-        zsh = { "shfmt" },
       },
-      -- Format on save (respects the toggle)
-      format_on_save = function(bufnr)
-        if vim.g.format_on_save == false then
-          return false
-        end
-        return {
-          timeout_ms = 500,
-          lsp_format = "fallback",
-        }
-      end,
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_format = "fallback",
+      },
       formatters = {
-        injected = {
-          options = { ignore_errors = true },
-        },
         biome = {
-          condition = function(self, ctx)
-            return vim.fs.find({ "biome.json", "biome.jsonc" }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
-          end,
-          prepend_args = function(self, ctx)
-            -- Only add default args if no biome config exists
-            local has_config = vim.fs.find({ "biome.json", "biome.jsonc" }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
-            if not has_config then
-              return { "--indent-style", "space", "--indent-width", "2" }
-            end
-            return {}
+          condition = function(_, ctx)
+            return vim.fs.find({ "biome.json" }, { path = ctx.filename, upward = true })[1]
           end,
         },
         prettier = {
-          condition = function(self, ctx)
-            -- Run if config exists OR if no biome config exists (fallback)
-            local has_prettier_config = vim.fs.find({
-              ".prettierrc",
-              ".prettierrc.js",
-              ".prettierrc.json",
-              ".prettierrc.yml",
-              ".prettierrc.yaml",
-              "prettier.config.js",
-              "package.json",
-            }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
-
-            local has_biome_config = vim.fs.find({ "biome.json", "biome.jsonc" }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
-
-            return has_prettier_config or not has_biome_config
-          end,
-          prepend_args = function(self, ctx)
-            -- Only add default args if no prettier config exists
-            local has_config = vim.fs.find({
-              ".prettierrc",
-              ".prettierrc.js",
-              ".prettierrc.json",
-              ".prettierrc.yml",
-              ".prettierrc.yaml",
-              "prettier.config.js",
-            }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
-
-            -- Check package.json for prettier config
-            local package_json = vim.fs.find({ "package.json" }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
-
-            local has_package_prettier_config = false
-            if package_json then
-              local ok, content = pcall(vim.fn.readfile, package_json)
-              if ok then
-                local json_str = table.concat(content, "")
-                local ok_json, parsed = pcall(vim.json.decode, json_str)
-                if ok_json and parsed.prettier then
-                  has_package_prettier_config = true
-                end
-              end
-            end
-
-            if not has_config and not has_package_prettier_config then
-              return { "--tab-width", "2", "--use-tabs", "false" }
-            end
-            return {}
-          end,
-        },
-        -- Shell formatting with 2-space indent
-        shfmt = {
-          prepend_args = { "-i", "2", "-ci" },
-        },
-        -- Black with fast mode
-        black = {
-          prepend_args = { "--fast" },
-        },
-        -- Stylua with 2-space default
-        stylua = {
-          prepend_args = function(self, ctx)
-            -- Only add default args if no stylua.toml exists
-            local has_config = vim.fs.find({ "stylua.toml", ".stylua.toml" }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
-            if not has_config then
-              return { "--indent-type", "Spaces", "--indent-width", "2" }
-            end
-            return {}
-          end,
-        },
-        -- Rustfmt with 2-space default
-        rustfmt = {
-          prepend_args = function(self, ctx)
-            -- Only add default args if no rustfmt.toml exists
-            local has_config = vim.fs.find({ "rustfmt.toml", ".rustfmt.toml" }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
-            if not has_config then
-              return { "--config", "tab_spaces=2,hard_tabs=false" }
-            end
-            return {}
+          condition = function(_, ctx)
+            local has_prettier =
+              vim.fs.find({ ".prettierrc", "prettier.config.js" }, { path = ctx.filename, upward = true })[1]
+            local has_biome = vim.fs.find({ "biome.json" }, { path = ctx.filename, upward = true })[1]
+            return has_prettier or not has_biome
           end,
         },
       },
@@ -191,10 +51,8 @@ return {
   },
   {
     "mfussenegger/nvim-lint",
-    event = { "BufReadPost", "BufWritePost", "InsertLeave" },
+    event = { "BufReadPost", "BufWritePost" },
     opts = {
-      -- Event to trigger linters
-      events = { "BufWritePost", "BufReadPost", "InsertLeave" },
       linters_by_ft = {
         lua = { "luacheck" },
         python = { "flake8" },
@@ -204,99 +62,39 @@ return {
         typescriptreact = { "eslint" },
         go = { "golangci_lint" },
         sh = { "shellcheck" },
-        bash = { "shellcheck" },
-        zsh = { "shellcheck" },
-        markdown = { "markdownlint" },
-        -- Use the "*" filetype to run linters on all filetypes.
-        -- ['*'] = { 'global linter' },
-        -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
-        -- ['_'] = { 'fallback linter' },
       },
       linters = {
-        shellcheck = {
-          prepend_args = { "--severity=warning" },
-        },
-        -- ESLint: only run when config exists
         eslint = {
           condition = function(ctx)
-            return vim.fs.find({
-              ".eslintrc",
-              ".eslintrc.js",
-              ".eslintrc.json",
-              ".eslintrc.yml",
-              ".eslintrc.yaml",
-              "eslint.config.js",
-              "eslint.config.mjs",
-              "eslint.config.cjs",
-            }, {
-              path = ctx.filename,
-              upward = true,
-            })[1]
+            return vim.fs.find({ ".eslintrc", "eslint.config.js" }, { path = ctx.filename, upward = true })[1]
           end,
         },
       },
     },
     config = function(_, opts)
-      local M = {}
       local lint = require("lint")
-
-      for name, linter in pairs(opts.linters) do
-        if type(linter) == "table" and type(lint.linters[name]) == "table" then
-          lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
-          if type(linter.prepend_args) == "table" then
-            lint.linters[name].args = lint.linters[name].args or {}
-            vim.list_extend(lint.linters[name].args, linter.prepend_args)
-          end
-        else
-          lint.linters[name] = linter
-        end
-      end
       lint.linters_by_ft = opts.linters_by_ft
 
-      function M.debounce(ms, fn)
-        local timer = vim.uv.new_timer()
-        return function(...)
-          local argv = { ... }
-          timer:start(ms, 0, function()
-            timer:stop()
-            vim.schedule_wrap(fn)(unpack(argv))
+      -- Apply linter configurations
+      for name, linter in pairs(opts.linters) do
+        if lint.linters[name] then
+          lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
+        end
+      end
+
+      -- Simple debounced lint function
+      local timer = vim.uv.new_timer()
+      local function lint_file()
+        timer:start(100, 0, function()
+          timer:stop()
+          vim.schedule(function()
+            lint.try_lint()
           end)
-        end
+        end)
       end
 
-      function M.lint()
-        -- Use nvim-lint's logic first:
-        -- * checks if linters exist for the full filetype first
-        -- * otherwise will split filetype by "." and add all those linters
-        -- * this differs from conform.nvim which only uses the first filetype that has a formatter
-        local names = lint._resolve_linter_by_ft(vim.bo.filetype)
-        -- Create a copy of the names table to avoid modifying the original.
-        names = vim.list_extend({}, names)
-        -- Add fallback linters.
-        if #names == 0 then
-          vim.list_extend(names, lint.linters_by_ft["_"] or {})
-        end
-        -- Add global linters.
-        vim.list_extend(names, lint.linters_by_ft["*"] or {})
-        -- Filter out linters that don't exist or don't match the condition.
-        local ctx = { filename = vim.api.nvim_buf_get_name(0) }
-        ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
-        names = vim.tbl_filter(function(name)
-          local linter = lint.linters[name]
-          if not linter then
-            vim.notify("Linter not found: " .. name, vim.log.levels.WARN, { title = "nvim-lint" })
-          end
-          return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
-        end, names)
-        -- Run linters.
-        if #names > 0 then
-          lint.try_lint(names)
-        end
-      end
-
-      vim.api.nvim_create_autocmd(opts.events, {
-        group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
-        callback = M.debounce(100, M.lint),
+      vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, {
+        callback = lint_file,
       })
     end,
   },
