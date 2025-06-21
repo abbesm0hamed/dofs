@@ -21,7 +21,7 @@ end
 alias pamcan=pacman
 alias lns="ln -s" # target file location -> desitnation file location
 alias ll="ls -la"
-alias v="nvim ."
+alias v="nvim"
 alias c="clear"
 alias ll="lsd -la"
 alias lg="lazygit"
