@@ -109,18 +109,9 @@ return {
             module = "blink.cmp.sources.buffer",
             min_keyword_length = 3, -- Increased to reduce noise
             score_offset = 15,
-            -- Performance: Limit buffer scanning
+            -- Performance: Limit buffer scanning with keyword pattern
             keyword_pattern = [[\k\+]], -- More specific pattern
-            get_bufnrs = function()
-              local bufs = {}
-              for _, win in ipairs(api.nvim_list_wins()) do
-                local buf = api.nvim_win_get_buf(win)
-                if api.nvim_buf_is_loaded(buf) and api.nvim_buf_get_option(buf, "buflisted") then
-                  table.insert(bufs, buf)
-                end
-              end
-              return bufs
-            end,
+            -- Removed get_bufnrs as it's not a valid field for blink.cmp buffer source
           },
           path = {
             name = "Path",
