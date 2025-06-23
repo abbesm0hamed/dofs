@@ -66,7 +66,10 @@ alias txsrc="tmux source-file ~/.tmux.conf"
 alias diskusg="df -h | grep /dev/nvme0n1p2"
 
 zoxide init fish | source
+
 fnm env | source
+
+set -gx PATH $PATH $HOME/go/bin
 
 # function fish_prompt
 #   set_color cyan; echo (pwd)
