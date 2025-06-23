@@ -109,9 +109,7 @@ return {
             module = "blink.cmp.sources.buffer",
             min_keyword_length = 3, -- Increased to reduce noise
             score_offset = 15,
-            -- Performance: Limit buffer scanning with keyword pattern
-            keyword_pattern = [[\k\+]], -- More specific pattern
-            -- Removed get_bufnrs as it's not a valid field for blink.cmp buffer source
+            -- Buffer source automatically handles keyword detection
           },
           path = {
             name = "Path",
@@ -192,14 +190,6 @@ return {
             max_height = 20, -- Limit documentation height
           },
         },
-        -- Performance: Optimize completion triggering
-        trigger = {
-          keyword_length = 2, -- Global minimum keyword length
-          signature_help = {
-            enabled = true,
-            trigger_characters = { "(", "," },
-          },
-        },
       }
 
       opts.snippets = {
@@ -226,9 +216,6 @@ return {
         -- Performance: Add quick accept without menu
         ["<C-y>"] = { "accept", "fallback" },
       }
-
-      -- Performance: Add debouncing for better responsiveness
-      opts.completion.trigger.show_delay_ms = 50 -- Small delay to debounce rapid typing
 
       return opts
     end,
