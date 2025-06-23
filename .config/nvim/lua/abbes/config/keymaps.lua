@@ -24,7 +24,7 @@ keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
 
 -- window management
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
-keymap.set("n", "<leader>sc", "<cmd>close<CR>", { desc = "Close current split" })
+keymap.set("n", "<leader>dw", "<cmd>close<CR>", { desc = "Close current split" })
 keymap.set("n", "<C-Up>", ":resize +4<CR>", { desc = "Increase window height" })
 keymap.set("n", "<C-Down>", ":resize -4<CR>", { desc = "Decrease window height" })
 keymap.set("n", "<C-Right>", ":vertical resize +4<CR>", { desc = "Increase window width" })
