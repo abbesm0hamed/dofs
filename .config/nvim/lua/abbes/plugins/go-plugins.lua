@@ -9,7 +9,13 @@ return {
     },
     opts = {},
     build = function()
-      vim.cmd.GoInstallDeps()
+      -- Add error handling and delay to prevent startup issues
+      vim.defer_fn(function()
+        local ok, err = pcall(vim.cmd.GoInstallDeps)
+        if not ok then
+          vim.notify("gopher.nvim: " .. tostring(err), vim.log.levels.WARN)
+        end
+      end, 100)
     end,
     keys = {
       { "<leader>gts", "<cmd>GoTagAdd json<cr>", desc = "Add JSON tags", ft = "go" },
@@ -38,8 +44,27 @@ return {
       run_in_floaterm = false, -- Disable if you don't use floaterm
       trouble = false, -- Disable if you don't use trouble.nvim
       luasnip = false, -- Disable if you don't use luasnip
+      -- Prevent conflicts with other plugins
+      lsp_cfg = false, -- Don't let go.nvim configure LSP
+      lsp_keymaps = false, -- Use your own keymaps
+      diagnostic = {
+        underline = false, -- Prevent diagnostic conflicts
+        virtual_text = false,
+        signs = false,
+      },
     },
-    build = ':lua require("go.install").update_all_sync()',
+    build = function()
+      -- Safer build process with error handling
+      vim.defer_fn(function()
+        local ok, go_install = pcall(require, "go.install")
+        if ok then
+          local install_ok, err = pcall(go_install.update_all_sync)
+          if not install_ok then
+            vim.notify("go.nvim install failed: " .. tostring(err), vim.log.levels.WARN)
+          end
+        end
+      end, 200)
+    end,
     keys = {
       { "<leader>gr", "<cmd>GoRun<cr>", desc = "Go run", ft = "go" },
       { "<leader>gb", "<cmd>GoBuild<cr>", desc = "Go build", ft = "go" },
