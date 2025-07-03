@@ -66,6 +66,7 @@ install_packages \
   gowall \
   nwg-look-bin \
   libreoffice-fresh
+# zed-git \
 # dolphin \
 # swhkd \
 # woeusb # inkscape \
@@ -117,6 +118,7 @@ install_packages \
   gparted \
   less \
   filezilla \
+  zip \
   xdg-utils \
   udiskie
 # balena-etcher
@@ -150,8 +152,10 @@ install_packages \
   whatsapp-for-linux \
   thunderbird \
   slack-desktop \
+  teams \
   posting \
-  postman-bin
+  postman-bin \
+  tableplus \
 # ladybird \
 # keepassxc \
 # brave-bin \
