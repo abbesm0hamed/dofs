@@ -131,16 +131,16 @@ keymap.set("n", "Q", "q", { desc = "Record Macro" })
 -- augment code ai
 keymap.set("i", "<A-y>", "<cmd>call augment#Accept()<cr>", { silent = true })
 
+-- keymap.set("n", "<leader>tf", function()
+--   vim.g.format_on_save = not vim.g.format_on_save
+--   local status = vim.g.format_on_save and "enabled" or "disabled"
+--   vim.notify("Format on save " .. status, vim.log.levels.INFO)
+-- end, { desc = "Toggle Format on Save" })
+--
 -- Format on save toggle
-if vim.g.format_on_save == nil then
-  vim.g.format_on_save = true
-end
-
-keymap.set("n", "<leader>tf", function()
-  vim.g.format_on_save = not vim.g.format_on_save
-  local status = vim.g.format_on_save and "enabled" or "disabled"
-  vim.notify("Format on save " .. status, vim.log.levels.INFO)
-end, { desc = "Toggle Format on Save" })
+-- if vim.g.format_on_save == nil then
+--   vim.g.format_on_save = true
+-- end
 
 -- Additional performance-oriented mappings
 

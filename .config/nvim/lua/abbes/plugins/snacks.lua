@@ -122,7 +122,7 @@ return {
       },
       notifier = {
         enabled = true,
-        timeout = 1000,
+        timeout = 3000,
         sort = { "added" }, -- sort only by time
         width = { min = 12, max = 0.5 },
         height = { min = 1, max = 0.5 },

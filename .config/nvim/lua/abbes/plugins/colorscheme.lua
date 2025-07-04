@@ -1,4 +1,100 @@
 return {
+  -- best
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     require("kanagawa").setup({
+  --       compile = false, -- enable compiling the colorscheme
+  --       undercurl = true, -- enable undercurls
+  --       commentStyle = { italic = true },
+  --       functionStyle = { italic = false, bold = false },
+  --       keywordStyle = { italic = false },
+  --       statementStyle = { bold = true },
+  --       typeStyle = {},
+  --       transparent = true, -- do not set background color
+  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+  --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
+  --       colors = {
+  --         -- add/modify theme and palette colors
+  --         palette = {},
+  --         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+  --       },
+  --       overrides = function(colors) -- add/modify highlights
+  --         return {}
+  --       end,
+  --       theme = "wave", -- Load "wave" theme when 'background' option is not set
+  --       background = { -- map the value of 'background' option to a theme
+  --         dark = "wave", -- try "dragon" !
+  --         light = "lotus",
+  --       },
+  --     })
+  --
+  --     vim.cmd("colorscheme kanagawa")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "wnkz/monoglow.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd("colorscheme monoglow")
+  --
+  --     local function set_hi(group, opts)
+  --       vim.api.nvim_set_hl(0, group, opts)
+  --     end
+  --
+  --     local none = "none"
+  --
+  --     -- 🌿 Transparent background groups
+  --     for _, group in ipairs({
+  --       "Normal",
+  --       "NormalNC",
+  --       "NormalFloat",
+  --       "FloatBorder",
+  --       "TelescopeNormal",
+  --       "TelescopeBorder",
+  --       "NvimTreeNormal",
+  --       "SignColumn",
+  --       "VertSplit",
+  --       "StatusLine",
+  --       "LineNr",
+  --     }) do
+  --       set_hi(group, { bg = none })
+  --     end
+  --
+  --     -- 🎨 Soft & Modern Colors
+  --     set_hi("Comment", { fg = "#6e738d", italic = true }) -- muted steel blue
+  --     set_hi("Constant", { fg = "#d0a9f5" }) -- light purple
+  --     set_hi("String", { fg = "#a7c080", italic = true }) -- olive green
+  --     set_hi("Function", { fg = "#8bd5ca" }) -- cyan blue
+  --     set_hi("Identifier", { fg = "#f5c2e7" }) -- rose pink
+  --     set_hi("Statement", { fg = "#91acd1", bold = true }) -- sky blue
+  --     set_hi("Keyword", { fg = "#cba6f7", bold = true }) -- soft violet
+  --     set_hi("Type", { fg = "#b5e8e0" }) -- mint
+  --     set_hi("Special", { fg = "#f9b482" }) -- peach
+  --     set_hi("Error", { fg = "#ec6a88", bold = true }) -- punchy red
+  --     set_hi("WarningMsg", { fg = "#f9e2af", bold = true }) -- pale yellow
+  --     set_hi("DiagnosticHint", { fg = "#89dceb", italic = true }) -- pastel cyan
+  --
+  --     -- 🪞 Line numbers & cursor lines
+  --     set_hi("LineNr", { fg = "#4b5263" }) -- faded grey-blue
+  --     set_hi("CursorLine", { bg = "#2a2e3f" }) -- slightly visible line highlight
+  --     set_hi("CursorLineNr", { fg = "#ffffff", bold = true })
+  --
+  --     -- 🧩 UI Components
+  --     set_hi("StatusLine", { fg = "#a6accd", bg = none })
+  --     set_hi("VertSplit", { fg = "#3c4452", bg = none })
+  --
+  --     -- ✅ Final touch
+  --     vim.opt.termguicolors = true
+  --     vim.opt.background = "dark"
+  --   end,
+  -- },
+  --
   {
     "bluz71/vim-moonfly-colors",
     event = "VimEnter",
@@ -53,40 +149,72 @@ return {
       vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#2d3142" })
     end,
   },
-  -- best
+  --
+  -- kanagawa evolution kanso
   -- {
-  --   "rebelot/kanagawa.nvim",
+  --   "webhooked/kanso.nvim",
   --   lazy = true,
   --   event = "VimEnter",
   --   priority = 1000,
   --   config = function()
-  --     require("kanagawa").setup({
-  --       compile = false, -- enable compiling the colorscheme
-  --       undercurl = true, -- enable undercurls
+  --     require("kanso").setup({
+  --       compile = false,
+  --       undercurl = true,
   --       commentStyle = { italic = true },
-  --       functionStyle = { italic = false, bold = false },
-  --       keywordStyle = { italic = false },
-  --       statementStyle = { bold = true },
+  --       functionStyle = {},
+  --       keywordStyle = { italic = true },
+  --       statementStyle = {},
   --       typeStyle = {},
-  --       transparent = true, -- do not set background color
-  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-  --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
+  --       disableItalics = false,
+  --       transparent = true,
+  --       dimInactive = false,
+  --       terminalColors = true,
   --       colors = {
-  --         -- add/modify theme and palette colors
   --         palette = {},
-  --         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+  --         theme = { zen = {}, pearl = {}, ink = {}, all = {} },
   --       },
-  --       overrides = function(colors) -- add/modify highlights
-  --         return {}
+  --       overrides = function(colors)
+  --         return {
+  --           -- Transparent backgrounds
+  --           Normal = { bg = "NONE" },
+  --           NormalNC = { bg = "NONE" },
+  --           NormalFloat = { bg = "NONE" },
+  --           FloatBorder = { bg = "NONE", fg = colors.fg },
+  --           Pmenu = { bg = "NONE", fg = colors.fg },
+  --           PmenuSel = { bg = colors.palette.surface1 or "#44475a", fg = colors.fg },
+  --           StatusLine = { bg = "NONE", fg = colors.fg },
+  --           SignColumn = { bg = "NONE" },
+  --           VertSplit = { bg = "NONE", fg = "#444444" },
+  --
+  --           -- Improved colors
+  --           Comment = { fg = "#7f849c", italic = true },
+  --           String = { fg = "#a6e3a1" },
+  --           Keyword = { fg = "#cba6f7", italic = true },
+  --           Function = { fg = "#89b4fa" },
+  --           Identifier = { fg = "#f2cdcd" },
+  --           Type = { fg = "#f9e2af" },
+  --           Number = { fg = "#fab387" },
+  --
+  --           LineNr = { fg = "#555555", bg = "NONE" },
+  --           CursorLineNr = { fg = "#ffffff", bold = true },
+  --
+  --           -- Optional: subtle background for cursor line
+  --           CursorLine = { bg = "#1a1a1a" },
+  --
+  --           -- Git signs (if using gitsigns)
+  --           GitSignsAdd = { fg = "#a6e3a1", bg = "NONE" },
+  --           GitSignsChange = { fg = "#f9e2af", bg = "NONE" },
+  --           GitSignsDelete = { fg = "#f38ba8", bg = "NONE" },
+  --         }
   --       end,
-  --       theme = "wave", -- Load "wave" theme when 'background' option is not set
-  --       background = { -- map the value of 'background' option to a theme
-  --         dark = "wave", -- try "dragon" !
-  --         light = "lotus",
+  --       theme = "zen",
+  --       background = {
+  --         dark = "zen",
+  --         light = "pearl",
   --       },
   --     })
   --
-  --     vim.cmd("colorscheme kanagawa")
+  --     vim.cmd("colorscheme kanso")
   --   end,
   -- },
   --
@@ -95,24 +223,24 @@ return {
   --   "vague2k/vague.nvim",
   --   config = function()
   --     require("vague").setup({
-  --       transparent = false, -- don't set background
+  --       transparent = true,
   --       style = {
   --         boolean = "bold",
   --         number = "none",
   --         float = "none",
   --         error = "bold",
   --         comments = "italic",
-  --         conditionals = "bold", -- Changed to bold for better clarity
+  --         conditionals = "bold",
   --         functions = "none",
   --         headings = "bold",
   --         operators = "none",
   --         strings = "italic",
   --         variables = "none",
-  --         keywords = "bold", -- Changed to bold for better visibility
+  --         keywords = "bold",
   --         keyword_return = "italic",
-  --         keywords_loop = "bold", -- Changed to bold for better structure visibility
-  --         keywords_label = "bold", -- Changed to bold
-  --         keywords_exception = "bold", -- Changed to bold for important elements
+  --         keywords_loop = "bold",
+  --         keywords_label = "bold",
+  --         keywords_exception = "bold",
   --         builtin_constants = "bold",
   --         builtin_functions = "none",
   --         builtin_types = "bold",
@@ -128,7 +256,7 @@ return {
   --         },
   --         lsp = {
   --           diagnostic_error = "bold",
-  --           diagnostic_hint = "italic", -- Changed to italic for differentiation
+  --           diagnostic_hint = "italic",
   --           diagnostic_info = "italic",
   --           diagnostic_warn = "bold",
   --         },
@@ -141,31 +269,31 @@ return {
   --         },
   --       },
   --       colors = {
-  --         bg = "#1f1f28", -- Keeping Kanagawa warm dark
-  --         fg = "#c8c5bd", -- Keeping the softer than pure white
-  --         floatBorder = "#3d3d4f", -- Slightly increased contrast
-  --         line = "#2a2a37", -- Kept the same
-  --         comment = "#8a889c", -- Increased brightness for better readability
-  --         builtin = "#a8d2ca", -- Enhanced contrast
-  --         func = "#c59595", -- Brightened for better visibility
-  --         string = "#dfc08e", -- Slightly brighter for better contrast
-  --         number = "#e3a065", -- Brightened for better visibility
-  --         property = "#c0c0d6", -- Enhanced contrast
-  --         constant = "#b5b5dd", -- Brighter for better visibility
-  --         parameter = "#d0b6d0", -- Brightened for better readability
-  --         visual = "#3a3a52", -- Slightly increased contrast
-  --         error = "#e66a78", -- Brighter for better visibility
-  --         warning = "#f0c070", -- Enhanced contrast
-  --         hint = "#8ba3e8", -- Brightened for better visibility
-  --         operator = "#aab2c2", -- Enhanced contrast
-  --         keyword = "#8da0cb", -- Brightened for clarity
-  --         type = "#9ebcb0", -- Enhanced contrast
-  --         search = "#465675", -- Brightened for better visibility
-  --         plus = "#84b57e", -- Enhanced contrast
-  --         delta = "#eac285", -- Brightened for better visibility
+  --         bg = "none",
+  --         floatBorder = "none",
+  --         line = "none",
+  --         visual = "#4a5568", -- better contrast for visual selection
+  --         fg = "#c9d1d9", -- softer off-white, less blue tint
+  --         comment = "#6e7681", -- more neutral gray for comments
+  --         builtin = "#9ca3af", -- muted slate gray
+  --         func = "#a8b5d1", -- gentle periwinkle
+  --         string = "#c2a679", -- warm amber for strings
+  --         number = "#b8a5c7", -- soft lavender for numbers
+  --         property = "#b4c2d9", -- soft powder blue
+  --         constant = "#d4a574", -- muted peach
+  --         parameter = "#c4b5bd", -- dusty rose gray
+  --         error = "#d19a9a", -- gentle coral
+  --         warning = "#d4bb7c", -- muted gold
+  --         hint = "#7db3d8", -- soft sky blue
+  --         operator = "#9da5b4", -- neutral blue-gray
+  --         keyword = "#a6b3d4", -- soft periwinkle
+  --         type = "#c2a679", -- warm amber for types
+  --         search = "#4a5568", -- stronger contrast for search highlights
+  --         plus = "#b8a5c7", -- soft lavender instead of green
+  --         delta = "#d4a574", -- muted peach
   --       },
   --     })
-  --     vim.cmd.colorscheme("vague") -- ✅ activate it
+  --     vim.cmd.colorscheme("vague")
   --   end,
   -- },
   --
@@ -248,70 +376,6 @@ return {
   --   end,
   -- },
   --
-  -- jellybeans with kanagawa bg xD
-  -- {
-  --   "wtfox/jellybeans.nvim",
-  --   lazy = true,
-  --   event = "VimEnter",
-  --   priority = 1000,
-  --   opts = {
-  --     style = "dark",
-  --     transparent = true,
-  --     italics = false,
-  --     flat_ui = true,
-  --     plugins = {
-  --       all = false,
-  --       auto = true,
-  --     },
-  --     on_highlights = function(highlights, colors) end,
-  --     on_colors = function(c)
-  --       local light_bg = "#ffffff"
-  --       local dark_bg = "#1F1F28" -- Kanagawa dark background
-  --       c.background = vim.o.background == "light" and light_bg or dark_bg
-  --     end,
-  --   },
-  --   config = function(_, opts)
-  --     require("jellybeans").setup(opts)
-  --     vim.cmd([[colorscheme jellybeans]]) -- switch from muted to mono
-  --   end,
-  -- },
-  --
-  -- kanagawa evolution kanso
-  -- {
-  --   "webhooked/kanso.nvim",
-  --   lazy = true,
-  --   event = "VimEnter",
-  --   priority = 1000,
-  --   config = function()
-  --     require("kanso").setup({
-  --       compile = false, -- enable compiling the colorscheme
-  --       undercurl = true, -- enable undercurls
-  --       commentStyle = { italic = true },
-  --       functionStyle = {},
-  --       keywordStyle = { italic = true },
-  --       statementStyle = {},
-  --       typeStyle = {},
-  --       disableItalics = false,
-  --       transparent = false, -- do not set background color
-  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-  --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
-  --       colors = { -- add/modify theme and palette colors
-  --         palette = {},
-  --         theme = { zen = {}, pearl = {}, ink = {}, all = {} },
-  --       },
-  --       overrides = function(colors) -- add/modify highlights
-  --         return {}
-  --       end,
-  --       theme = "zen", -- Load "zen" theme
-  --       background = { -- map the value of 'background' option to a theme
-  --         dark = "zen", -- try "ink" !
-  --         light = "pearl",
-  --       },
-  --     })
-  --
-  --     vim.cmd("colorscheme kanso")
-  --   end,
-  -- },
   --
   -- black metal theme
   -- {
@@ -344,7 +408,7 @@ return {
   --       -- Keymap (in normal mode) to toggle between light and dark variants.
   --       toggle_variant_key = nil,
   --       -- Don't set background
-  --       transparent = false,
+  --       transparent = true,
   --
   --       -----DIAGNOSTICS and CODE STYLE-----
   --       --
@@ -397,6 +461,34 @@ return {
   --   end,
   -- },
   --
+  -- jellybeans with kanagawa bg xD
+  -- {
+  --   "wtfox/jellybeans.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   opts = {
+  --     style = "dark",
+  --     transparent = true,
+  --     italics = false,
+  --     flat_ui = true,
+  --     plugins = {
+  --       all = false,
+  --       auto = true,
+  --     },
+  --     on_highlights = function(highlights, colors) end,
+  --     on_colors = function(c)
+  --       local light_bg = "#ffffff"
+  --       local dark_bg = "#1F1F28" -- Kanagawa dark background
+  --       c.background = vim.o.background == "light" and light_bg or dark_bg
+  --     end,
+  --   },
+  --   config = function(_, opts)
+  --     require("jellybeans").setup(opts)
+  --     vim.cmd([[colorscheme jellybeans]]) -- switch from muted to mono
+  --   end,
+  -- },
+  --
   -- {
   --   "bluz71/vim-nightfly-colors",
   --   name = "nightfly",
@@ -436,16 +528,6 @@ return {
   --   -- configuration is optional!
   --   init = function()
   --     vim.cmd("colorscheme ashen")
-  --   end
-  -- },
-  --
-  -- {
-  --   "wnkz/monoglow.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   opts = {},
-  --   config = function()
-  --     vim.cmd([[colorscheme monoglow]])
   --   end,
   -- },
   --
@@ -683,13 +765,43 @@ return {
   -- top 5
   -- {
   --   "Shatur/neovim-ayu",
-  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   lazy = false,
+  --   priority = 1000,
   --   opts = {
-  --     theme = "ayu",
+  --     theme = "mirage", -- "mirage" is cooler and more muted than "dark"
+  --     overrides = function()
+  --       local muted_fg = "#A0A8B0"
+  --       local soft_blue = "#7AA2F7"
+  --       local dark_bg = "none"
+  --
+  --       return {
+  --         Normal = { fg = muted_fg, bg = dark_bg },
+  --         NormalNC = { bg = dark_bg },
+  --         NormalFloat = { bg = dark_bg },
+  --         FloatBorder = { fg = muted_fg, bg = dark_bg },
+  --         VertSplit = { fg = muted_fg, bg = dark_bg },
+  --         SignColumn = { bg = dark_bg },
+  --
+  --         Comment = { fg = "#5C6370", italic = true },
+  --         Keyword = { fg = soft_blue, italic = true },
+  --         Type = { fg = muted_fg },
+  --         Identifier = { fg = muted_fg },
+  --         Function = { fg = soft_blue },
+  --         String = { fg = muted_fg },
+  --
+  --         TelescopeBorder = { fg = muted_fg, bg = dark_bg },
+  --         TelescopePromptTitle = { fg = soft_blue },
+  --         TelescopeResultsTitle = { fg = muted_fg },
+  --         TelescopePreviewTitle = { fg = muted_fg },
+  --
+  --         CmpItemKindCopilot = { fg = soft_blue },
+  --         NoiceMini = { bg = dark_bg },
+  --       }
+  --     end,
   --   },
-  --   config = function()
-  --     vim.cmd.colorscheme("ayu")
+  --   config = function(_, opts)
+  --     require("ayu").setup(opts)
+  --     vim.cmd("colorscheme ayu")
   --   end,
   -- },
   -- {
@@ -765,7 +877,6 @@ return {
   --   priority = 1000,
   --   lazy = false,
   --   config = function()
-  --     -- load the colorscheme here
   --     vim.cmd([[colorscheme abscs]])
   --   end,
   -- },
@@ -819,53 +930,43 @@ return {
   --   event = "VimEnter",
   --   priority = 1000,
   --   opts = {
-  --     transparent_background = false,
-  --     gamma = 1.00,
+  --     transparent_background = true,
+  --     gamma = 1.0,
   --     styles = {
   --       comments = { italic = true },
   --       keywords = { italic = true },
-  --       identifiers = { italic = true },
+  --       identifiers = {},
   --       functions = {},
   --       variables = {},
   --     },
-  --     on_colors = function(colors)
-  --       -- Kanagawa background colors
-  --       colors.bg = "#1F1F28"             -- sumiInk1
-  --       colors.bg_dark = "#16161D"        -- sumiInk0
-  --       colors.bg_float = "#2A2A37"       -- sumiInk2
-  --       colors.bg_popup = "#2A2A37"       -- sumiInk2
-  --       colors.bg_search = "#2D4F67"      -- waveBlue2
-  --       colors.bg_visual = "#223249"      -- waveBlue1
-  --       colors.bg_highlight = "#363646"   -- sumiInk3
-  --       colors.terminal_black = "#16161D" -- sumiInk0
-  --     end,
   --     on_highlights = function(hl, c)
-  --       -- Kanagawa-specific highlights
-  --       hl.Normal = { bg = c.bg, fg = c.fg }
-  --       hl.NormalFloat = { bg = c.bg_float }
-  --       hl.LspInlayHint = { bg = c.bg, fg = c.comment }
-  --       hl["@module"] = { fg = c.blue }
-  --       hl["@property"] = { fg = c.magenta2 }
-  --       hl["@variable"] = { fg = c.blue0 }
-  --       hl["@lsp.type.variable"] = { fg = c.blue0 }
+  --       local grey = "#A0A8B0"
+  --       local blue = "#7AA2F7"
+  --       local dark = "#1E1E2E"
   --
-  --       -- Telescope colors
-  --       hl.FloatTitle = { fg = c.blue }
-  --       hl.TelescopeBorder = { fg = c.dark5 }
-  --       hl.TelescopePreviewBorder = { fg = c.dark5 }
-  --       hl.TelescopePreviewTitle = { fg = c.blue }
-  --       hl.TelescopePromptBorder = { fg = c.dark5 }
-  --       hl.TelescopePromptTitle = { fg = c.blue }
-  --       hl.TelescopeResultsBorder = { fg = c.dark5 }
-  --       hl.TelescopeResultsTitle = { fg = c.blue }
+  --       hl.Normal = { bg = "none", fg = grey }
+  --       hl.NormalNC = { bg = "none" }
+  --       hl.NormalFloat = { bg = "none" }
+  --       hl.FloatBorder = { fg = grey, bg = "none" }
+  --       hl.VertSplit = { fg = grey, bg = "none" }
+  --       hl.SignColumn = { bg = "none" }
   --
-  --       -- Copilot and Noice
-  --       hl.CmpItemKindCopilot = { fg = c.green }
-  --       hl.NoiceLspProgressSpinner = { bg = c.bg_float }
-  --       hl.NoiceLspProgressClient = { bg = c.bg_float }
-  --       hl.NoiceLspProgressTitle = { bg = c.bg_float }
-  --       hl.NoiceMini = { bg = c.bg_float }
-  --       hl.NoiceCmdlineIconSearch = { fg = c.blue }
+  --       hl["@comment"] = { fg = "#5C6370", italic = true }
+  --       hl["@keyword"] = { fg = blue, italic = true }
+  --       hl["@type"] = { fg = grey }
+  --       hl["@variable"] = { fg = grey }
+  --       hl["@function"] = { fg = blue }
+  --       hl["@string"] = { fg = grey }
+  --
+  --       -- Telescope
+  --       hl.TelescopeBorder = { fg = grey, bg = "none" }
+  --       hl.TelescopePromptTitle = { fg = blue }
+  --       hl.TelescopeResultsTitle = { fg = grey }
+  --       hl.TelescopePreviewTitle = { fg = grey }
+  --
+  --       -- Others
+  --       hl.CmpItemKindCopilot = { fg = blue }
+  --       hl.NoiceMini = { bg = "none" }
   --     end,
   --     terminal_colors = true,
   --   },
@@ -884,27 +985,27 @@ return {
   --   priority = 1000,
   --   config = function()
   --     require("monokai-pro").setup({
-  --       transparent_background = false,
+  --       transparent_background = true,
   --       terminal_colors = true,
   --       devicons = true, -- highlight the icons of `nvim-web-devicons`
   --       styles = {
   --         comment = { italic = true },
-  --         keyword = { italic = true },       -- any other keyword
-  --         type = { italic = true },          -- (preferred) int, long, char, etc
-  --         storageclass = { italic = true },  -- static, register, volatile, etc
-  --         structure = { italic = true },     -- struct, union, enum, etc
-  --         parameter = { italic = true },     -- parameter pass in function
+  --         keyword = { italic = true }, -- any other keyword
+  --         type = { italic = true }, -- (preferred) int, long, char, etc
+  --         storageclass = { italic = true }, -- static, register, volatile, etc
+  --         structure = { italic = true }, -- struct, union, enum, etc
+  --         parameter = { italic = true }, -- parameter pass in function
   --         annotation = { italic = true },
   --         tag_attribute = { italic = true }, -- attribute of tag in reactjs
   --       },
-  --       filter = "pro",                      -- classic | octagon | pro | machine | ristretto | spectrum
+  --       filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
   --       -- Enable this will disable filter option
   --       day_night = {
-  --         enable = false,            -- turn off by default
-  --         day_filter = "pro",        -- classic | octagon | pro | machine | ristretto | spectrum
+  --         enable = false, -- turn off by default
+  --         day_filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
   --         night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
   --       },
-  --       inc_search = "background",   -- underline | background
+  --       inc_search = "background", -- underline | background
   --       background_clear = {
   --         -- "float_win",
   --         "toggleterm",
