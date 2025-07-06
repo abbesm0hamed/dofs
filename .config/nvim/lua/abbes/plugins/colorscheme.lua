@@ -1,4 +1,60 @@
 return {
+  -- best of the best
+  -- {
+  --   "bluz71/vim-moonfly-colors",
+  --   event = "VimEnter",
+  --   name = "moonfly",
+  --   priority = 1000,
+  --   config = function()
+  --     -- Moonfly configuration
+  --     vim.g.moonflyCursorColor = true
+  --     vim.g.moonflyItalics = true
+  --     vim.g.moonflyNormalFloat = true
+  --     vim.g.moonflyTerminalColors = true
+  --     vim.g.moonflyVirtualTextColor = true
+  --     vim.g.moonflyUndercurls = true
+  --     vim.g.moonflyVertSplits = true
+  --     vim.g.moonflyTransparent = true -- CHANGED: Use correct moonfly transparency option
+  --     -- Reduce used colors
+  --     vim.g.moonflyWinSeparator = 1
+  --     -- Set colorscheme
+  --     vim.cmd.colorscheme("moonfly")
+  --
+  --     -- Override function and search highlights to include italics
+  --     vim.api.nvim_set_hl(0, "Function", { italic = true })
+  --     vim.api.nvim_set_hl(0, "Search", { italic = true })
+  --
+  --     -- Additional transparency overrides for better blur effect
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
+  --
+  --     -- File tree transparency (if using nvim-tree or neo-tree)
+  --     vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+  --
+  --     -- Telescope transparency
+  --     vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
+  --
+  --     -- Keep some elements slightly visible for readability
+  --     vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1e2124" })
+  --     vim.api.nvim_set_hl(0, "TabLine", { bg = "#1e2124" })
+  --     vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2d3142" })
+  --     vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#2d3142" })
+  --   end,
+  -- },
+  --
   -- best
   -- {
   --   "rebelot/kanagawa.nvim",
@@ -36,6 +92,96 @@ return {
   --   end,
   -- },
   --
+  {
+    "vague2k/vague.nvim",
+    config = function()
+      require("vague").setup({
+        transparent = true,
+        style = {
+          boolean = "bold",
+          number = "none",
+          float = "none",
+          error = "bold",
+          comments = "italic",
+          conditionals = "bold",
+          functions = "none",
+          headings = "bold",
+          operators = "none",
+          strings = "italic",
+          variables = "none",
+          keywords = "bold",
+          keyword_return = "italic",
+          keywords_loop = "bold",
+          keywords_label = "bold",
+          keywords_exception = "bold",
+          builtin_constants = "bold",
+          builtin_functions = "none",
+          builtin_types = "bold",
+          builtin_variables = "none",
+        },
+        plugins = {
+          cmp = {
+            match = "bold",
+            match_fuzzy = "bold",
+          },
+          dashboard = {
+            footer = "italic",
+          },
+          lsp = {
+            diagnostic_error = "bold",
+            diagnostic_hint = "italic",
+            diagnostic_info = "italic",
+            diagnostic_warn = "bold",
+          },
+          neotest = {
+            focused = "bold",
+            adapter_name = "bold",
+          },
+          telescope = {
+            match = "bold",
+          },
+        },
+        colors = {
+          bg = "none",
+          floatBorder = "none",
+          line = "none",
+          visual = "#3a3a3a",
+          fg = "#c2c2c2",
+          comment = "#6b6b6b",
+          builtin = "#7fa8c2",
+          func = "#a8b8d1",
+          string = "#c2a8a8",
+          number = "#c2a8d1",
+          property = "#8fc2a8",
+          constant = "#c2a8c2",
+          parameter = "#a8c2a8",
+          error = "#d1a8a8",
+          warning = "#d1c2a8",
+          hint = "#a8c2d1",
+          operator = "#969696",
+          keyword = "#a8b8d1",
+          type = "#b8d1a8",
+          search = "#3a3a3a",
+          plus = "#b8d1a8",
+          delta = "#d1b8a8",
+        },
+      })
+      vim.cmd.colorscheme("vague")
+    end,
+  },
+  --
+  -- {
+  --   "ficcdaf/ashen.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     transparent = true, -- ✅ Enable transparent background
+  --   },
+  --   init = function()
+  --     vim.cmd("colorscheme ashen")
+  --   end,
+  -- },
+  --
   -- {
   --   "wnkz/monoglow.nvim",
   --   lazy = false,
@@ -49,7 +195,6 @@ return {
   --
   --     local none = "none"
   --
-  --     -- 🌿 Transparent background groups
   --     for _, group in ipairs({
   --       "Normal",
   --       "NormalNC",
@@ -66,89 +211,30 @@ return {
   --       set_hi(group, { bg = none })
   --     end
   --
-  --     -- 🎨 Soft & Modern Colors
-  --     set_hi("Comment", { fg = "#6e738d", italic = true }) -- muted steel blue
-  --     set_hi("Constant", { fg = "#d0a9f5" }) -- light purple
-  --     set_hi("String", { fg = "#a7c080", italic = true }) -- olive green
-  --     set_hi("Function", { fg = "#8bd5ca" }) -- cyan blue
-  --     set_hi("Identifier", { fg = "#f5c2e7" }) -- rose pink
-  --     set_hi("Statement", { fg = "#91acd1", bold = true }) -- sky blue
-  --     set_hi("Keyword", { fg = "#cba6f7", bold = true }) -- soft violet
-  --     set_hi("Type", { fg = "#b5e8e0" }) -- mint
-  --     set_hi("Special", { fg = "#f9b482" }) -- peach
-  --     set_hi("Error", { fg = "#ec6a88", bold = true }) -- punchy red
-  --     set_hi("WarningMsg", { fg = "#f9e2af", bold = true }) -- pale yellow
-  --     set_hi("DiagnosticHint", { fg = "#89dceb", italic = true }) -- pastel cyan
+  --     set_hi("Comment", { fg = "#798098", italic = true }) -- soft slate blue
+  --     set_hi("Constant", { fg = "#c6b4f0" }) -- gentle lavender
+  --     set_hi("String", { fg = "#b4d298", italic = true }) -- calm herb green
+  --     set_hi("Function", { fg = "#a0cfd2" }) -- mild aqua
+  --     set_hi("Identifier", { fg = "#e3b0c7" }) -- gentle rose
+  --     set_hi("Statement", { fg = "#9ab3d4", bold = true }) -- muted sky
+  --     set_hi("Keyword", { fg = "#cbb8f0", bold = true }) -- elegant violet
+  --     set_hi("Type", { fg = "#c4e4dc" }) -- mint mist
+  --     set_hi("Special", { fg = "#eac7a1" }) -- warm sand
+  --     set_hi("Error", { fg = "#dd6e78", bold = true }) -- soft red
+  --     set_hi("WarningMsg", { fg = "#e8d29f", bold = true }) -- pastel yellow
+  --     set_hi("DiagnosticHint", { fg = "#a4d6e5", italic = true }) -- sky ice
   --
-  --     -- 🪞 Line numbers & cursor lines
-  --     set_hi("LineNr", { fg = "#4b5263" }) -- faded grey-blue
-  --     set_hi("CursorLine", { bg = "#2a2e3f" }) -- slightly visible line highlight
-  --     set_hi("CursorLineNr", { fg = "#ffffff", bold = true })
+  --     set_hi("LineNr", { fg = "#545b6b" }) -- muted grey-blue
+  --     set_hi("CursorLine", { bg = "#26293c" }) -- faint background
+  --     set_hi("CursorLineNr", { fg = "#ffffff", bold = true }) -- clear line number
   --
-  --     -- 🧩 UI Components
-  --     set_hi("StatusLine", { fg = "#a6accd", bg = none })
-  --     set_hi("VertSplit", { fg = "#3c4452", bg = none })
+  --     set_hi("StatusLine", { fg = "#b0b6cc", bg = none }) -- cool gray
+  --     set_hi("VertSplit", { fg = "#404856", bg = none }) -- subtle divider
   --
-  --     -- ✅ Final touch
   --     vim.opt.termguicolors = true
   --     vim.opt.background = "dark"
   --   end,
   -- },
-  --
-  {
-    "bluz71/vim-moonfly-colors",
-    event = "VimEnter",
-    name = "moonfly",
-    priority = 1000,
-    config = function()
-      -- Moonfly configuration
-      vim.g.moonflyCursorColor = true
-      vim.g.moonflyItalics = true
-      vim.g.moonflyNormalFloat = true
-      vim.g.moonflyTerminalColors = true
-      vim.g.moonflyVirtualTextColor = true
-      vim.g.moonflyUndercurls = true
-      vim.g.moonflyVertSplits = true
-      vim.g.moonflyTransparent = true -- CHANGED: Use correct moonfly transparency option
-      -- Reduce used colors
-      vim.g.moonflyWinSeparator = 1
-      -- Set colorscheme
-      vim.cmd.colorscheme("moonfly")
-
-      -- Override function and search highlights to include italics
-      vim.api.nvim_set_hl(0, "Function", { italic = true })
-      vim.api.nvim_set_hl(0, "Search", { italic = true })
-
-      -- Additional transparency overrides for better blur effect
-      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
-      vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
-      vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
-      vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-      vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
-
-      -- File tree transparency (if using nvim-tree or neo-tree)
-      vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
-
-      -- Telescope transparency
-      vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
-
-      -- Keep some elements slightly visible for readability
-      vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1e2124" })
-      vim.api.nvim_set_hl(0, "TabLine", { bg = "#1e2124" })
-      vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2d3142" })
-      vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#2d3142" })
-    end,
-  },
   --
   -- kanagawa evolution kanso
   -- {
@@ -215,85 +301,6 @@ return {
   --     })
   --
   --     vim.cmd("colorscheme kanso")
-  --   end,
-  -- },
-  --
-  -- vague with kanagawa bg
-  -- {
-  --   "vague2k/vague.nvim",
-  --   config = function()
-  --     require("vague").setup({
-  --       transparent = true,
-  --       style = {
-  --         boolean = "bold",
-  --         number = "none",
-  --         float = "none",
-  --         error = "bold",
-  --         comments = "italic",
-  --         conditionals = "bold",
-  --         functions = "none",
-  --         headings = "bold",
-  --         operators = "none",
-  --         strings = "italic",
-  --         variables = "none",
-  --         keywords = "bold",
-  --         keyword_return = "italic",
-  --         keywords_loop = "bold",
-  --         keywords_label = "bold",
-  --         keywords_exception = "bold",
-  --         builtin_constants = "bold",
-  --         builtin_functions = "none",
-  --         builtin_types = "bold",
-  --         builtin_variables = "none",
-  --       },
-  --       plugins = {
-  --         cmp = {
-  --           match = "bold",
-  --           match_fuzzy = "bold",
-  --         },
-  --         dashboard = {
-  --           footer = "italic",
-  --         },
-  --         lsp = {
-  --           diagnostic_error = "bold",
-  --           diagnostic_hint = "italic",
-  --           diagnostic_info = "italic",
-  --           diagnostic_warn = "bold",
-  --         },
-  --         neotest = {
-  --           focused = "bold",
-  --           adapter_name = "bold",
-  --         },
-  --         telescope = {
-  --           match = "bold",
-  --         },
-  --       },
-  --       colors = {
-  --         bg = "none",
-  --         floatBorder = "none",
-  --         line = "none",
-  --         visual = "#4a5568", -- better contrast for visual selection
-  --         fg = "#c9d1d9", -- softer off-white, less blue tint
-  --         comment = "#6e7681", -- more neutral gray for comments
-  --         builtin = "#9ca3af", -- muted slate gray
-  --         func = "#a8b5d1", -- gentle periwinkle
-  --         string = "#c2a679", -- warm amber for strings
-  --         number = "#b8a5c7", -- soft lavender for numbers
-  --         property = "#b4c2d9", -- soft powder blue
-  --         constant = "#d4a574", -- muted peach
-  --         parameter = "#c4b5bd", -- dusty rose gray
-  --         error = "#d19a9a", -- gentle coral
-  --         warning = "#d4bb7c", -- muted gold
-  --         hint = "#7db3d8", -- soft sky blue
-  --         operator = "#9da5b4", -- neutral blue-gray
-  --         keyword = "#a6b3d4", -- soft periwinkle
-  --         type = "#c2a679", -- warm amber for types
-  --         search = "#4a5568", -- stronger contrast for search highlights
-  --         plus = "#b8a5c7", -- soft lavender instead of green
-  --         delta = "#d4a574", -- muted peach
-  --       },
-  --     })
-  --     vim.cmd.colorscheme("vague")
   --   end,
   -- },
   --
@@ -518,16 +525,6 @@ return {
   --   priority = 1000,
   --   config = function()
   --     vim.cmd("colorscheme makurai")
-  --   end,
-  -- },
-  --
-  -- {
-  --   "ficcdaf/ashen.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   -- configuration is optional!
-  --   init = function()
-  --     vim.cmd("colorscheme ashen")
   --   end,
   -- },
   --

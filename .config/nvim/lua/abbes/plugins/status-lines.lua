@@ -1,28 +1,28 @@
 -- lualine configuration
 local gray_palette = {
-  darker = "#232324",
-  dark = "#363646",
-  soft = "#5b5a5c",
-  softer = "#828283",
+  darker = "#2a2a2a",
+  dark = "#3a3a3a",
+  soft = "#4a4a4a",
+  softer = "#5a5a5a",
 }
 local fg_colors = {
-  normal = "#7E9CD8",
-  insert = "#a8e6cf",
-  visual = "#ffd3b6",
-  command = "#D27E99",
-  Replace = "#ffb37e",
+  normal = "#a8b8d1",
+  insert = "#8fc2a8",
+  visual = "#c2a8a8",
+  command = "#c2a8c2",
+  Replace = "#d1b8a8",
 }
 local bg_colors = {
-  normal = "#7E9CD8",
-  insert = "#a8e6cf",
-  visual = "#ffd3b6",
-  command = "#D27E99",
-  Replace = "#ffb37e",
+  normal = "#a8b8d1",
+  insert = "#8fc2a8",
+  visual = "#c2a8a8",
+  command = "#c2a8c2",
+  Replace = "#d1b8a8",
 }
 local general_colors = {
-  fg = "#000",
-  bg = "#2A2A37",
-  inactive_bg = "#2c3043",
+  fg = "#b8b8b8",
+  bg = "#2a2a2a",
+  inactive_bg = "#2c2c2c",
 }
 
 local meovig_lualine = {
@@ -94,7 +94,7 @@ local lualineConfig = {
     lualine_c = {
       {
         "branch",
-        icon = { "", align = "left" },
+        icon = { "", align = "left" },
         color = { bg = gray_palette.dark },
       },
       {
@@ -107,13 +107,13 @@ local lualineConfig = {
       {
         "diagnostics",
         color = { bg = gray_palette.dark },
-        symbols = { error = "󰅚 ", warn = " ", info = "󰋽 ", hint = "󰘥 " },
+        symbols = { error = "󰅚 ", warn = " ", info = "󰋽 ", hint = "󰘥 " },
       },
       {
         -- line count
         color = { bg = gray_palette.darker },
         function()
-          return vim.api.nvim_buf_line_count(0) .. " "
+          return vim.api.nvim_buf_line_count(0) .. " "
         end,
         cond = function()
           return vim.bo.buftype == ""
