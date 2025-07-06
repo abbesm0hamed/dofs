@@ -1,59 +1,59 @@
 return {
   -- best of the best
-  -- {
-  --   "bluz71/vim-moonfly-colors",
-  --   event = "VimEnter",
-  --   name = "moonfly",
-  --   priority = 1000,
-  --   config = function()
-  --     -- Moonfly configuration
-  --     vim.g.moonflyCursorColor = true
-  --     vim.g.moonflyItalics = true
-  --     vim.g.moonflyNormalFloat = true
-  --     vim.g.moonflyTerminalColors = true
-  --     vim.g.moonflyVirtualTextColor = true
-  --     vim.g.moonflyUndercurls = true
-  --     vim.g.moonflyVertSplits = true
-  --     vim.g.moonflyTransparent = true -- CHANGED: Use correct moonfly transparency option
-  --     -- Reduce used colors
-  --     vim.g.moonflyWinSeparator = 1
-  --     -- Set colorscheme
-  --     vim.cmd.colorscheme("moonfly")
-  --
-  --     -- Override function and search highlights to include italics
-  --     vim.api.nvim_set_hl(0, "Function", { italic = true })
-  --     vim.api.nvim_set_hl(0, "Search", { italic = true })
-  --
-  --     -- Additional transparency overrides for better blur effect
-  --     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
-  --
-  --     -- File tree transparency (if using nvim-tree or neo-tree)
-  --     vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
-  --
-  --     -- Telescope transparency
-  --     vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
-  --
-  --     -- Keep some elements slightly visible for readability
-  --     vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1e2124" })
-  --     vim.api.nvim_set_hl(0, "TabLine", { bg = "#1e2124" })
-  --     vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2d3142" })
-  --     vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#2d3142" })
-  --   end,
-  -- },
+  {
+    "bluz71/vim-moonfly-colors",
+    event = "VimEnter",
+    name = "moonfly",
+    priority = 1000,
+    config = function()
+      -- Moonfly configuration
+      vim.g.moonflyCursorColor = true
+      vim.g.moonflyItalics = true
+      vim.g.moonflyNormalFloat = true
+      vim.g.moonflyTerminalColors = true
+      vim.g.moonflyVirtualTextColor = true
+      vim.g.moonflyUndercurls = true
+      vim.g.moonflyVertSplits = true
+      vim.g.moonflyTransparent = true -- CHANGED: Use correct moonfly transparency option
+      -- Reduce used colors
+      vim.g.moonflyWinSeparator = 1
+      -- Set colorscheme
+      vim.cmd.colorscheme("moonfly")
+
+      -- Override function and search highlights to include italics
+      vim.api.nvim_set_hl(0, "Function", { italic = true })
+      vim.api.nvim_set_hl(0, "Search", { italic = true })
+
+      -- Additional transparency overrides for better blur effect
+      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+      vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+      vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
+      vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
+      vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+      vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
+
+      -- File tree transparency (if using nvim-tree or neo-tree)
+      vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+
+      -- Telescope transparency
+      vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
+
+      -- Keep some elements slightly visible for readability
+      vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1e2124" })
+      vim.api.nvim_set_hl(0, "TabLine", { bg = "#1e2124" })
+      vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2d3142" })
+      vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#2d3142" })
+    end,
+  },
   --
   -- best
   -- {
@@ -92,83 +92,159 @@ return {
   --   end,
   -- },
   --
-  {
-    "vague2k/vague.nvim",
-    config = function()
-      require("vague").setup({
-        transparent = true,
-        style = {
-          boolean = "bold",
-          number = "none",
-          float = "none",
-          error = "bold",
-          comments = "italic",
-          conditionals = "bold",
-          functions = "none",
-          headings = "bold",
-          operators = "none",
-          strings = "italic",
-          variables = "none",
-          keywords = "bold",
-          keyword_return = "italic",
-          keywords_loop = "bold",
-          keywords_label = "bold",
-          keywords_exception = "bold",
-          builtin_constants = "bold",
-          builtin_functions = "none",
-          builtin_types = "bold",
-          builtin_variables = "none",
-        },
-        plugins = {
-          cmp = {
-            match = "bold",
-            match_fuzzy = "bold",
-          },
-          dashboard = {
-            footer = "italic",
-          },
-          lsp = {
-            diagnostic_error = "bold",
-            diagnostic_hint = "italic",
-            diagnostic_info = "italic",
-            diagnostic_warn = "bold",
-          },
-          neotest = {
-            focused = "bold",
-            adapter_name = "bold",
-          },
-          telescope = {
-            match = "bold",
-          },
-        },
-        colors = {
-          bg = "none",
-          floatBorder = "none",
-          line = "none",
-          visual = "#3a3a3a",
-          fg = "#c2c2c2",
-          comment = "#6b6b6b",
-          builtin = "#7fa8c2",
-          func = "#a8b8d1",
-          string = "#c2a8a8",
-          number = "#c2a8d1",
-          property = "#8fc2a8",
-          constant = "#c2a8c2",
-          parameter = "#a8c2a8",
-          error = "#d1a8a8",
-          warning = "#d1c2a8",
-          hint = "#a8c2d1",
-          operator = "#969696",
-          keyword = "#a8b8d1",
-          type = "#b8d1a8",
-          search = "#3a3a3a",
-          plus = "#b8d1a8",
-          delta = "#d1b8a8",
-        },
-      })
-      vim.cmd.colorscheme("vague")
-    end,
-  },
+  -- {
+  --   "vague2k/vague.nvim",
+  --   config = function()
+  --     require("vague").setup({
+  --       transparent = true,
+  --       style = {
+  --         boolean = "bold",
+  --         number = "none",
+  --         float = "none",
+  --         error = "bold",
+  --         comments = "italic",
+  --         conditionals = "bold",
+  --         functions = "none",
+  --         headings = "bold",
+  --         operators = "none",
+  --         strings = "italic",
+  --         variables = "none",
+  --         keywords = "bold",
+  --         keyword_return = "italic",
+  --         keywords_loop = "bold",
+  --         keywords_label = "bold",
+  --         keywords_exception = "bold",
+  --         builtin_constants = "bold",
+  --         builtin_functions = "none",
+  --         builtin_types = "bold",
+  --         builtin_variables = "none",
+  --       },
+  --       plugins = {
+  --         cmp = {
+  --           match = "bold",
+  --           match_fuzzy = "bold",
+  --         },
+  --         dashboard = {
+  --           footer = "italic",
+  --         },
+  --         lsp = {
+  --           diagnostic_error = "bold",
+  --           diagnostic_hint = "italic",
+  --           diagnostic_info = "italic",
+  --           diagnostic_warn = "bold",
+  --         },
+  --         neotest = {
+  --           focused = "bold",
+  --           adapter_name = "bold",
+  --         },
+  --         telescope = {
+  --           match = "bold",
+  --         },
+  --       },
+  --       colors = {
+  --         bg = "none",
+  --         floatBorder = "none",
+  --         line = "none",
+  --         visual = "#3c3c3c",
+  --         fg = "#e0e0e0",
+  --         comment = "#777777",
+  --         builtin = "#89b4fa",
+  --         func = "#82aaff",
+  --         string = "#f4b8e4",
+  --         number = "#f2cdcd",
+  --         property = "#a6e3a1",
+  --         constant = "#fab387",
+  --         parameter = "#94e2d5",
+  --         error = "#f38ba8",
+  --         warning = "#f9e2af",
+  --         hint = "#89dceb",
+  --         operator = "#cdd6f4",
+  --         keyword = "#cba6f7",
+  --         type = "#a6e3a1",
+  --         search = "#3a3a3a",
+  --         plus = "#a6e3a1",
+  --         delta = "#fab387",
+  --       },
+  --     })
+  --     vim.cmd.colorscheme("vague")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "dasupradyumna/midnight.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     -- Load the colorscheme
+  --     vim.cmd("colorscheme midnight")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --   end,
+  -- },
+  --
+  -- {
+  --   "CosecSecCot/midnight-desert.nvim",
+  --   dependencies = {
+  --     "rktjmp/lush.nvim",
+  --   },
+  --   config = function()
+  --     -- Load the colorscheme
+  --     vim.cmd("colorscheme midnight-desert")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --   end,
+  -- },
+  --
+  -- {
+  --   "dgox16/oldworld.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   event = "VimEnter",
+  --   config = function()
+  --     -- Load the colorscheme with oled variant
+  --     require("oldworld").setup({
+  --       variant = "oled", -- Use the OLED variant for deeper contrast
+  --       highlight_overrides = {
+  --         -- Ensure transparent background for key highlight groups
+  --         Normal = { bg = "NONE", ctermbg = "NONE" },
+  --         NormalFloat = { bg = "NONE", ctermbg = "NONE" },
+  --         SignColumn = { bg = "NONE", ctermbg = "NONE" },
+  --         LineNr = { bg = "NONE", ctermbg = "NONE" },
+  --         EndOfBuffer = { bg = "NONE", ctermbg = "NONE" },
+  --       },
+  --     })
+  --     vim.cmd.colorscheme("oldworld")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "datsfilipe/vesper.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   event = "VimEnter",
+  --   config = function()
+  --     -- Load the colorscheme
+  --     require("vesper").setup({}) -- Default setup, can be customized if needed
+  --     vim.cmd.colorscheme("vesper")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --   end,
+  -- },
   --
   -- {
   --   "ficcdaf/ashen.nvim",
@@ -383,6 +459,24 @@ return {
   --   end,
   -- },
   --
+  -- {
+  --   "phha/zenburn.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   event = "VimEnter",
+  --   config = function()
+  --     -- Load the colorscheme
+  --     require("zenburn").setup({})
+  --     vim.cmd.colorscheme("zenburn")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --   end,
+  -- },
   --
   -- black metal theme
   -- {
@@ -668,16 +762,7 @@ return {
   --     vim.cmd('colorscheme flexoki-dark')
   --   end,
   -- },
-  -- {
-  --   "CosecSecCot/midnight-desert.nvim",
-  --   dependencies = {
-  --     "rktjmp/lush.nvim",
-  --   },
-  --   config = function()
-  --     vim.cmd("colorscheme midnight-desert")
-  --   end,
-  --   -- no setup function required
-  -- },
+  --
   -- {
   --   "yorumicolors/yorumi.nvim",
   --   event = "VimEnter",
@@ -701,10 +786,11 @@ return {
   --     vim.cmd.colorscheme("zenbones")
   --   end,
   -- },
+  --
   -- {
   --   "nyoom-engineering/oxocarbon.nvim",
-  --   lazy = false,          -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000,       -- make sure to load this before all the other start plugins
+  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
   --   opts = {
   --     background = "dark", -- dark or light
   --   },
@@ -880,11 +966,19 @@ return {
   --
   -- {
   --   "embark-theme/vim",
-  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   lazy = false,
+  --   priority = 1000,
   --   event = "VimEnter",
   --   config = function()
+  --     -- Load the colorscheme
   --     vim.cmd.colorscheme("embark")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
   --   end,
   -- },
   --
