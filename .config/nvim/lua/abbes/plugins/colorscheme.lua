@@ -88,7 +88,170 @@ return {
   --       },
   --     })
   --
-  --     vim.cmd("colorscheme kanagawa")
+  --     vim.cmd("colorscheme kanagawa-dragon")
+  --   end,
+  -- },
+  -- {
+  --   "thesimonho/kanagawa-paper.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   init = function()
+  --     vim.cmd.colorscheme("kanagawa-paper-ink")
+  --   end,
+  --   opts = {
+  --     undercurl = true,
+  --     transparent = true,
+  --     gutter = false,
+  --     diag_background = true,
+  --     dim_inactive = false,
+  --     terminal_colors = true,
+  --     cache = false,
+  --
+  --     styles = {
+  --       comment = { italic = true },
+  --       functions = { italic = false },
+  --       keyword = { italic = false, bold = false },
+  --       statement = { italic = false, bold = false },
+  --       type = { italic = false },
+  --     },
+  --
+  --     colors = {
+  --       palette = {},
+  --       theme = {
+  --         ink = {},
+  --         canvas = {},
+  --       },
+  --     },
+  --
+  --     color_offset = {
+  --       ink = { brightness = 0, saturation = 0 },
+  --       canvas = { brightness = 0, saturation = 0 },
+  --     },
+  --
+  --     overrides = function(colors)
+  --       return {}
+  --     end,
+  --
+  --     auto_plugins = true,
+  --     all_plugins = package.loaded.lazy == nil,
+  --
+  --     plugins = {
+  --       -- examples:
+  --       -- rainbow_delimiters = true,
+  --       -- which_key = false,
+  --     },
+  --
+  --     integrations = {
+  --       wezterm = {
+  --         enabled = false,
+  --         path = (os.getenv("TEMP") or "/tmp") .. "/nvim-theme",
+  --       },
+  --     },
+  --   },
+  -- },
+  --
+  -- {
+  --   "rose-pine/neovim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     require("rose-pine").setup({
+  --       variant = "auto", -- options: "main", "moon", "dawn", or "auto" (respects system theme)
+  --       styles = {
+  --         transparency = true, -- Enables transparency for supported highlight groups
+  --       },
+  --     })
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme rose-pine]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "bettervim/yugen.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.o.background = "dark"
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme yugen]])
+  --   end,
+  -- },
+  --
+  -- I like this 1
+  -- {
+  --   "ilof2/posterpole.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     require("posterpole").setup({
+  --       transparent = true,
+  --     })
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme posterpole]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "mellow-theme/mellow.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.g.mellow_transparent = true
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme mellow]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "yazeed1s/minimal.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.g.minimal_transparent_background = true
+  --     vim.g.minimal_italic_comments = true
+  --     vim.g.minimal_italic_functions = false
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme minimal]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "fynnfluegge/monet.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000, -- Ensure it loads before other plugins
+  --   config = function()
+  --     require("monet").setup({
+  --       transparent_background = true, -- Enable transparency for supported highlight groups
+  --       dark_mode = true, -- Use dark mode (set to false for light mode)
+  --       styles = {
+  --         comments = { italic = true }, -- Enable italic comments
+  --         keywords = { italic = false },
+  --         functions = { italic = false },
+  --         variables = { italic = false },
+  --       },
+  --     })
+  --     -- Additional transparency for core UI elements
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     -- Load the colorscheme
+  --     vim.cmd([[colorscheme monet]])
   --   end,
   -- },
   --
@@ -780,7 +943,7 @@ return {
   --   priority = 1000,
   --   lazy = false,
   --   dependencies = {
-  --     "rktjmp/lush.nvim"
+  --     "rktjmp/lush.nvim",
   --   },
   --   config = function()
   --     vim.cmd.colorscheme("zenbones")
@@ -829,7 +992,7 @@ return {
   -- {
   --   "kevinm6/kurayami.nvim",
   --   event = "VimEnter", -- load plugin on VimEnter or
-  --   lazy = false,       --   don't lazy load plugin
+  --   lazy = false, --   don't lazy load plugin
   --   priority = 1000,
   --   config = function()
   --     vim.cmd.colorscheme("kurayami") -- this is enough to initialize and load plugin
@@ -887,6 +1050,7 @@ return {
   --     vim.cmd("colorscheme ayu")
   --   end,
   -- },
+  --
   -- {
   --   "kvrohit/rasmus.nvim",
   --   lazy = false,
@@ -895,19 +1059,21 @@ return {
   --     vim.cmd("colorscheme rasmus")
   --   end,
   -- },
+  --
   -- github
   -- {
-  --   'projekt0n/github-nvim-theme',
-  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   "projekt0n/github-nvim-theme",
+  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
   --   priority = 1000, -- make sure to load this before all the other start plugins
   --   config = function()
-  --     require('github-theme').setup({
+  --     require("github-theme").setup({
   --       -- ...
   --     })
   --
-  --     vim.cmd('colorscheme github_dark_default')
+  --     vim.cmd("colorscheme github_dark_default")
   --   end,
-  -- }
+  -- },
+  --
   -- {
   --   "Mofiqul/adwaita.nvim",
   --   lazy = false,
@@ -919,7 +1085,7 @@ return {
   --     vim.cmd("colorscheme adwaita")
   --   end,
   -- },
-  -- --
+  --
   -- this also has one of the best light colorschemes
   -- {
   --   "miikanissi/modus-themes.nvim",
@@ -957,9 +1123,14 @@ return {
   --
   -- {
   --   "Abstract-IDE/Abstract-cs",
-  --   priority = 1000,
   --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
   --   config = function()
+  --     vim.o.background = "dark"
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
   --     vim.cmd([[colorscheme abscs]])
   --   end,
   -- },
@@ -979,17 +1150,6 @@ return {
   --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
   --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
   --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
-  --   end,
-  -- },
-  --
-  -- {
-  --   "rose-pine/neovim",
-  --   lazy = false,
-  --   event = "VimEnter",
-  --   priority = 1000, -- make sure to load this before all the other start plugins
-  --   config = function()
-  --     -- load the colorscheme here
-  --     vim.cmd([[colorscheme rose-pine]])
   --   end,
   -- },
   --
@@ -1130,7 +1290,7 @@ return {
   --   config = function()
   --     require("no-clown-fiesta").setup({
   --       -- Default config
-  --       transparent = false, -- Enable transparent background
+  --       transparent = true, -- Enable transparent background
   --       styles = {
   --         -- Styling choices for syntax elements
   --         comments = {}, -- Style for comments
