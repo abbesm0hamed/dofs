@@ -4,7 +4,7 @@ A minimalist and elegant desktop environment built with Hyprland wayland composi
 
 ## Screenshots
 
-![nvim + fastfetch + bg ](./.config/screenshots/fastfetch-nvim-bg.png)
+![nvim + fastfetch + bg ](./.config/screenshots/hyprland-setup.png)
 _Neovim with Moonfly theme_
 
 ## Installation for fish shell
