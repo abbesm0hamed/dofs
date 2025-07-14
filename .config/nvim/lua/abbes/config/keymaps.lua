@@ -6,9 +6,6 @@ local keymap = vim.keymap -- for conciseness
 ---------------------
 -- General Keymaps -------------------
 
--- use Alt c to exit insert mode (fast and smooth)
-keymap.set("i", "<A-c>", "<ESC>", { desc = "Exit insert mode with Alt c" })
-
 -- delete single character without copying into register
 -- keymap.set("n", "x", '"_x')
 
