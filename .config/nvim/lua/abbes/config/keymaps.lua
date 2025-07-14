@@ -6,8 +6,8 @@ local keymap = vim.keymap -- for conciseness
 ---------------------
 -- General Keymaps -------------------
 
--- use jk to exit insert mode (fast and smooth)
-keymap.set("i", "<A-c>", "<ESC>", { desc = "Exit insert mode with Alt cjk" })
+-- use Alt c to exit insert mode (fast and smooth)
+keymap.set("i", "<A-c>", "<ESC>", { desc = "Exit insert mode with Alt c" })
 
 -- delete single character without copying into register
 -- keymap.set("n", "x", '"_x')
@@ -103,8 +103,8 @@ keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 keymap.set("n", "<leader>ui", vim.show_pos, { desc = "Inspect pos" })
 
 -- Terminal mappings (optimized for smooth operation)
--- Use jk in terminal mode for consistency
-keymap.set("t", "jk", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+-- Use Alt c in terminal mode for consistency
+keymap.set("t", "<A-c>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 
 -- Window navigation from terminal
 keymap.set("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
