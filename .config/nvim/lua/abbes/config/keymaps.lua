@@ -8,6 +8,8 @@ local keymap = vim.keymap -- for conciseness
 
 -- delete single character without copying into register
 -- keymap.set("n", "x", '"_x')
+--
+keymap.set("i", ";;", "<Esc>")
 
 -- Mason
 keymap.set("n", "<leader>mn", "<cmd>Mason<CR>", { desc = " Mason" })
