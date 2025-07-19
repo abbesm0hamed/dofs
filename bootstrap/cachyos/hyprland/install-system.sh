@@ -154,14 +154,15 @@ install_packages \
   slack-desktop \
   teams \
   posting \
-  postman-bin \
-  tableplus \
-# ladybird \
+  apidog-bin \
+  tableplus
+# postman-bin \
 # keepassxc \
-# brave-bin \
 # mpv \
-# calibre \
 # vlc \
+# ladybird \
+# brave-bin \
+# calibre \
 # insomnia \
 
 # Install fonts
