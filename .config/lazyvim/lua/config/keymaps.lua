@@ -55,7 +55,7 @@ keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save Fi
 
 -- select and copy from file
 keymap.set("n", "<leader>vv", "ggVG", { desc = "Select All" })
-keymap.set("n", "<leader>va", 'ggVG"+y', { desc = "Copy All to Clipboard", remap = false })
+keymap.set("n", "<leader>vc", 'ggVG"+y', { desc = "Copy All to Clipboard", remap = false })
 
 -- Move Lines
 keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
@@ -108,7 +108,7 @@ keymap.set("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
 keymap.set("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
 keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
 keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
-keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+-- keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 keymap.set("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- windows

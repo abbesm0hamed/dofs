@@ -7,11 +7,11 @@
 #
 
 # Font Configuration
-font-family = Commit Nerd Font
+font-family = SpaceMono Nerd Font
 font-style-italic = VictorMono Italic
-font-style-bold = Iosevka Nerd Font Bold
+font-style-bold = SpaceMono Nerd Font Bold
 font-style-bold-italic = VictorMono Nerd Font Italic Bold
-font-size = 18
+font-size = 14
 
 # Window Configuration
 window-save-state = never
@@ -52,7 +52,7 @@ window-inherit-working-directory = true
 window-theme = ghostty
 
 # Transparency and Focus
-background-opacity = 1.0
+background-opacity = 0.94
 unfocused-split-opacity = 0.95
 
 # Mouse Configuration

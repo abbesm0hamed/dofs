@@ -14,6 +14,9 @@ keymap.set("i", ";;", "<Esc>")
 -- Mason
 keymap.set("n", "<leader>mn", "<cmd>Mason<CR>", { desc = " Mason" })
 
+-- use jk to exit insert mode
+keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+
 -- layout - Fixed typo
 keymap.set("n", "<A-z>", ":lua vim.wo.wrap = not vim.wo.wrap<CR>", { desc = "Wrap text" })
 

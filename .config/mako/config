@@ -1,11 +1,53 @@
-max-visible=10
-layer=top
-font=Sarasa UI SC 10
-background-color=#4c566add
-text-color=#d8dee9
-border-color=#434c5e
-border-radius=7
-max-icon-size=48
-default-timeout=10000
+# Mako notification daemon configuration
+
+# Layout
+max-visible=5
+layer=overlay
 anchor=top-right
-margin=20
+margin=10
+width=350
+height=100
+
+# Styling (matching your color scheme)
+background-color=#141415dd
+text-color=#cdcdcd
+border-color=#89b4fa
+border-size=1
+border-radius=0
+padding=15
+
+# Font
+font=SpaceMono Nerd Font 10
+
+# Icons
+max-icon-size=48
+icon-path=/usr/share/icons/Adwaita
+
+# Timing
+default-timeout=8000
+ignore-timeout=1
+
+# History (keep notifications for waybar script)
+max-history=50
+
+# Grouping
+group-by=app-name
+
+# Urgency levels
+[urgency=low]
+background-color=#141415dd
+text-color=#90a0b5
+border-color=#606079
+default-timeout=4000
+
+[urgency=normal]
+background-color=#141415dd
+text-color=#cdcdcd
+border-color=#7e98e8
+default-timeout=8000
+
+[urgency=critical]
+background-color=#141415dd
+text-color=#cdcdcd
+border-color=#d8647e
+default-timeout=0

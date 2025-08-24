@@ -204,38 +204,36 @@ All screenshots are automatically saved to `~/Pictures/Screenshots` and copied t
 
 The following are the custom keybindings configured for Neovim:
 
-| Keybinding               | Mode          | Description                  |
-| ------------------------ | ------------- | ---------------------------- |
-| `<Space>`                | All           | Leader key                   |
-| `<leader>w`              | Normal        | Save file                    |
-| `J`                      | Visual        | Move line down               |
-| `K`                      | Visual        | Move line up                 |
-| `jk`                     | Insert        | Exit insert mode (ESC)       |
-| `<leader>q`              | Normal        | Quit Neovim                  |
-| `+`                      | Normal        | Increment number             |
-| `-`                      | Normal        | Decrement number             |
-| `<C-a>`                  | Normal        | Select all text              |
-| `<` / `>`                | Visual        | Indent/Unindent selection    |
-| `te`                     | Normal        | New tab                      |
-| `<leader>sh`             | Normal        | Split window horizontally    |
-| `<leader>sv`             | Normal        | Split window vertically      |
-| `<C-h/j/k/l>`            | Normal        | Navigate between splits      |
-| `<leader>th`             | Normal        | Change splits to horizontal  |
-| `<leader>tk`             | Normal        | Change splits to vertical    |
-| `<C-Up/Down/Left/Right>` | Normal        | Resize window                |
-| `<Tab>` / `<S-Tab>`      | Normal        | Next/Previous buffer         |
-| `<leader>x`              | Normal        | Close buffer                 |
-| `<A-p>`                  | Normal        | Pin buffer                   |
-| `<leader>co`             | Normal/Visual | Toggle comment               |
-| `<leader>b`              | Normal        | Toggle Neotree               |
-| `<leader>nb`             | Normal        | Show Neotree buffer in float |
-| `<leader>ff`             | Normal        | Telescope find files         |
-| `<leader>fg`             | Normal        | Telescope live grep          |
-| `<leader>fr`             | Normal        | Telescope recent files       |
-| `<leader>fb`             | Normal        | Telescope buffers            |
-| `<leader>S`              | Normal        | Toggle Spectre               |
-| `<leader>sw`             | Normal/Visual | Search current word          |
-| `<leader>sp`             | Normal        | Search in current file       |
+| Keybinding               | Mode          | Description                 |
+| ------------------------ | ------------- | --------------------------- |
+| `<Space>`                | All           | Leader key                  |
+| `<leader>w`              | Normal        | Save file                   |
+| `J`                      | Visual        | Move line down              |
+| `K`                      | Visual        | Move line up                |
+| `jk`                     | Insert        | Exit insert mode (ESC)      |
+| `<leader>q`              | Normal        | Quit Neovim                 |
+| `+`                      | Normal        | Increment number            |
+| `-`                      | Normal        | Decrement number            |
+| `<C-a>`                  | Normal        | Select all text             |
+| `<` / `>`                | Visual        | Indent/Unindent selection   |
+| `te`                     | Normal        | New tab                     |
+| `<leader>sh`             | Normal        | Split window horizontally   |
+| `<leader>sv`             | Normal        | Split window vertically     |
+| `<C-h/j/k/l>`            | Normal        | Navigate between splits     |
+| `<leader>th`             | Normal        | Change splits to horizontal |
+| `<leader>tk`             | Normal        | Change splits to vertical   |
+| `<C-Up/Down/Left/Right>` | Normal        | Resize window               |
+| `<Tab>` / `<S-Tab>`      | Normal        | Next/Previous buffer        |
+| `<leader>x`              | Normal        | Close buffer                |
+| `<A-p>`                  | Normal        | Pin buffer                  |
+| `<leader>co`             | Normal/Visual | Toggle comment              |
+| `<leader>ff`             | Normal        | Telescope find files        |
+| `<leader>fg`             | Normal        | Telescope live grep         |
+| `<leader>fr`             | Normal        | Telescope recent files      |
+| `<leader>fb`             | Normal        | Telescope buffers           |
+| `<leader>S`              | Normal        | Toggle Spectre              |
+| `<leader>sw`             | Normal/Visual | Search current word         |
+| `<leader>sp`             | Normal        | Search in current file      |
 
 #### Git Integration Keybindings
 

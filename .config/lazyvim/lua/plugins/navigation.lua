@@ -2,11 +2,17 @@ return {
   {
     "leath-dub/snipe.nvim",
     keys = {
-      { "'", function() require("snipe").open_buffer_menu() end, desc = "Open Snipe buffer menu" }
+      {
+        "'",
+        function()
+          require("snipe").open_buffer_menu()
+        end,
+        desc = "Open Snipe buffer menu",
+      },
     },
     opts = {},
     config = function()
-      require('snipe').setup({
+      require("snipe").setup({
         ui = {
           max_height = -1, -- -1 means dynamic height
           -- Where to place the ui window
@@ -21,10 +27,10 @@ return {
             border = "single", -- use "rounded" for rounded border
           },
 
-          -- Preselect the currently open buffer
+          -- Preselecp the currently open buffer
           preselect_current = true,
 
-          -- Changes how the items are aligned: e.g. "<tag> foo    " vs "<tag>    foo"
+          -- Changes hpw the items are aligned: e.g. "<tag> foo    " vs "<tag>    foo"
           text_align = "left",
         },
         hints = {
@@ -63,7 +69,7 @@ return {
         },
         -- The default sort used for the buffers
         -- Can be any of "last", (sort buffers by last accessed) "default" (sort buffers by its number)
-        sort = "default"
+        sort = "default",
       })
     end,
   },

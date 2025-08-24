@@ -3,72 +3,883 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "kanagawa",
+      colorscheme = "vague",
     },
   },
   -- best
   {
-    "rebelot/kanagawa.nvim",
-    lazy = true,
-    event = "VimEnter",
-    priority = 1000,
+    "vague2k/vague.nvim",
     config = function()
-      require("kanagawa").setup({
-        compile = false,  -- enable compiling the colorscheme
-        undercurl = true, -- enable undercurls
-        commentStyle = { italic = true },
-        functionStyle = { italic = false, bold = false },
-        keywordStyle = { italic = false },
-        statementStyle = { bold = true },
-        typeStyle = {},
-        transparent = false,   -- do not set background color
-        dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
-        terminalColors = true, -- define vim.g.terminal_color_{0,17}
-        colors = {
-          -- add/modify theme and palette colors
-          palette = {},
-          theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+      require("vague").setup({
+        transparent = true, -- don't set background
+        -- disable bold/italic globally in `style`
+        bold = true,
+        italic = true,
+        style = {
+          -- "none" is the same thing as default. But "italic" and "bold" are also valid options
+          boolean = "bold",
+          number = "none",
+          float = "none",
+          error = "bold",
+          comments = "italic",
+          conditionals = "none",
+          functions = "none",
+          headings = "bold",
+          operators = "none",
+          strings = "italic",
+          variables = "none",
+
+          -- keywords
+          keywords = "none",
+          keyword_return = "italic",
+          keywords_loop = "none",
+          keywords_label = "none",
+          keywords_exception = "none",
+
+          -- builtin
+          builtin_constants = "bold",
+          builtin_functions = "none",
+          builtin_types = "bold",
+          builtin_variables = "none",
         },
-        overrides = function(colors) -- add/modify highlights
-          return {}
-        end,
-        theme = "wave",  -- Load "wave" theme when 'background' option is not set
-        background = {   -- map the value of 'background' option to a theme
-          dark = "wave", -- try "dragon" !
-          light = "lotus",
+        -- plugin styles where applicable
+        -- make an issue/pr if you'd like to see more styling options!
+        plugins = {
+          cmp = {
+            match = "bold",
+            match_fuzzy = "bold",
+          },
+          dashboard = {
+            footer = "italic",
+          },
+          lsp = {
+            diagnostic_error = "bold",
+            diagnostic_hint = "none",
+            diagnostic_info = "italic",
+            diagnostic_ok = "none",
+            diagnostic_warn = "bold",
+          },
+          neotest = {
+            focused = "bold",
+            adapter_name = "bold",
+          },
+          telescope = {
+            match = "bold",
+          },
+        },
+
+        -- Override highlights or add new highlights
+        on_highlights = function(highlights, colors) end,
+
+        -- Override colors
+        colors = {
+          bg = "#141415",
+          fg = "#cdcdcd",
+          floatBorder = "#878787",
+          line = "#252530",
+          comment = "#606079",
+          builtin = "#b4d4cf",
+          func = "#c48282",
+          string = "#e8b589",
+          number = "#e0a363",
+          property = "#c3c3d5",
+          constant = "#aeaed1",
+          parameter = "#bb9dbd",
+          visual = "#333738",
+          error = "#d8647e",
+          warning = "#f3be7c",
+          hint = "#7e98e8",
+          operator = "#90a0b5",
+          keyword = "#6e94b2",
+          type = "#9bb4bc",
+          search = "#405065",
+          plus = "#7fa563",
+          delta = "#f3be7c",
         },
       })
-
-      vim.cmd("colorscheme kanagawa")
+      vim.cmd.colorscheme("vague")
     end,
   },
-  --new
+  --
+  -- best of the best
+  -- {
+  --   "bluz71/vim-moonfly-colors",
+  --   event = "VimEnter",
+  --   name = "moonfly",
+  --   priority = 1000,
+  --   config = function()
+  --     -- Moonfly configuration
+  --     vim.g.moonflyCursorColor = true
+  --     vim.g.moonflyItalics = true
+  --     vim.g.moonflyNormalFloat = true
+  --     vim.g.moonflyTerminalColors = true
+  --     vim.g.moonflyVirtualTextColor = true
+  --     vim.g.moonflyUndercurls = true
+  --     vim.g.moonflyVertSplits = true
+  --     vim.g.moonflyTransparent = true -- CHANGED: Use correct moonfly transparency option
+  --     -- Reduce used colors
+  --     vim.g.moonflyWinSeparator = 1
+  --     -- Set colorscheme
+  --     vim.cmd.colorscheme("moonfly")
+  --
+  --     -- Override function and search highlights to include italics
+  --     vim.api.nvim_set_hl(0, "Function", { italic = true })
+  --     vim.api.nvim_set_hl(0, "Search", { italic = true })
+  --
+  --     -- Additional transparency overrides for better blur effect
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
+  --
+  --     -- File tree transparency (if using nvim-tree or neo-tree)
+  --     vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+  --
+  --     -- Telescope transparency
+  --     vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
+  --
+  --     -- Keep some elements slightly visible for readability
+  --     vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1e2124" })
+  --     vim.api.nvim_set_hl(0, "TabLine", { bg = "#1e2124" })
+  --     vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2d3142" })
+  --     vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#2d3142" })
+  --   end,
+  -- },
+  --
+  -- best
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     require("kanagawa").setup({
+  --       compile = false, -- enable compiling the colorscheme
+  --       undercurl = true, -- enable undercurls
+  --       commentStyle = { italic = true },
+  --       functionStyle = { italic = false, bold = false },
+  --       keywordStyle = { italic = false },
+  --       statementStyle = { bold = true },
+  --       typeStyle = {},
+  --       transparent = true, -- do not set background color
+  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+  --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
+  --       colors = {
+  --         -- add/modify theme and palette colors
+  --         palette = {},
+  --         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+  --       },
+  --       overrides = function(colors) -- add/modify highlights
+  --         return {}
+  --       end,
+  --       theme = "wave", -- Load "wave" theme when 'background' option is not set
+  --       background = { -- map the value of 'background' option to a theme
+  --         dark = "wave", -- try "dragon" !
+  --         light = "lotus",
+  --       },
+  --     })
+  --
+  --     vim.cmd("colorscheme kanagawa-dragon")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "thesimonho/kanagawa-paper.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   init = function()
+  --     vim.cmd.colorscheme("kanagawa-paper-ink")
+  --   end,
+  --   opts = {
+  --     undercurl = true,
+  --     transparent = true,
+  --     gutter = false,
+  --     diag_background = true,
+  --     dim_inactive = false,
+  --     terminal_colors = true,
+  --     cache = false,
+  --
+  --     styles = {
+  --       comment = { italic = true },
+  --       functions = { italic = false },
+  --       keyword = { italic = false, bold = false },
+  --       statement = { italic = false, bold = false },
+  --       type = { italic = false },
+  --     },
+  --
+  --     colors = {
+  --       palette = {},
+  --       theme = {
+  --         ink = {},
+  --         canvas = {},
+  --       },
+  --     },
+  --
+  --     color_offset = {
+  --       ink = { brightness = 0, saturation = 0 },
+  --       canvas = { brightness = 0, saturation = 0 },
+  --     },
+  --
+  --     overrides = function(colors)
+  --       return {}
+  --     end,
+  --
+  --     auto_plugins = true,
+  --     all_plugins = package.loaded.lazy == nil,
+  --
+  --     plugins = {
+  --       -- examples:
+  --       -- rainbow_delimiters = true,
+  --       -- which_key = false,
+  --     },
+  --
+  --     integrations = {
+  --       wezterm = {
+  --         enabled = false,
+  --         path = (os.getenv("TEMP") or "/tmp") .. "/nvim-theme",
+  --       },
+  --     },
+  --   },
+  -- },
+  --
+  -- {
+  --   "rose-pine/neovim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     require("rose-pine").setup({
+  --       variant = "auto", -- options: "main", "moon", "dawn", or "auto" (respects system theme)
+  --       styles = {
+  --         transparency = true, -- Enables transparency for supported highlight groups
+  --       },
+  --     })
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme rose-pine]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "projekt0n/github-nvim-theme",
+  --   name = "github-theme",
+  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     require("github-theme").setup({
+  --       options = {
+  --         -- Compiled file's destination location
+  --         compile_path = vim.fn.stdpath("cache") .. "/github-theme",
+  --         compile_file_suffix = "_compiled", -- Compiled file suffix
+  --         hide_end_of_buffer = true, -- Hide the '~' character at the end of the buffer for a cleaner look
+  --         hide_nc_statusline = true, -- Override the underline style for non-active statuslines
+  --         transparent = true, -- Disable setting bg (make neovim's background transparent)
+  --         terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+  --         dim_inactive = false, -- Non focused panes set to alternative background
+  --         module_default = true, -- Default enable value for modules
+  --         styles = { -- Style to be applied to different syntax groups
+  --           comments = "NONE", -- Value is any valid attr-list value `:help attr-list`
+  --           functions = "NONE",
+  --           keywords = "NONE",
+  --           variables = "NONE",
+  --           conditionals = "NONE",
+  --           constants = "NONE",
+  --           numbers = "NONE",
+  --           operators = "NONE",
+  --           strings = "NONE",
+  --           types = "NONE",
+  --         },
+  --         inverse = { -- Inverse highlight for different types
+  --           match_paren = false,
+  --           visual = false,
+  --           search = false,
+  --         },
+  --         darken = { -- Darken floating windows and sidebar-like windows
+  --           floats = true,
+  --           sidebars = {
+  --             enable = true,
+  --             list = {}, -- Apply dark background to specific windows
+  --           },
+  --         },
+  --         modules = { -- List of various plugins and additional options
+  --           -- ...
+  --         },
+  --       },
+  --       palettes = {},
+  --       specs = {},
+  --       groups = {},
+  --     })
+  --
+  --     vim.cmd("colorscheme github_dark_high_contrast")
+  --   end,
+  -- },
+  --
+  -- I like it
+  -- {
+  --   "mellow-theme/mellow.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.g.mellow_transparent = true
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme mellow]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "vim-scripts/Spacegray.vim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.cmd([[colorscheme spacegray]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "everviolet/nvim",
+  --   name = "evergarden",
+  --   priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
+  --   config = function()
+  --     require("evergarden").setup({
+  --       theme = {
+  --         variant = "winter", -- 'winter'|'fall'|'spring'|'summer'
+  --         accent = "green",
+  --       },
+  --       editor = {
+  --         transparent_background = true,
+  --         override_terminal = true,
+  --         sign = { color = "none" },
+  --         float = {
+  --           color = "mantle",
+  --           invert_border = false,
+  --         },
+  --         completion = {
+  --           color = "surface0",
+  --         },
+  --       },
+  --       style = {
+  --         tabline = { "reverse" },
+  --         search = { "italic", "reverse" },
+  --         incsearch = { "italic", "reverse" },
+  --         types = { "italic" },
+  --         keyword = { "italic" },
+  --         comment = { "italic" },
+  --       },
+  --       overrides = {},
+  --       color_overrides = {},
+  --     })
+  --     vim.cmd("colorscheme evergarden")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "bettervim/yugen.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.o.background = "dark"
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme yugen]])
+  --   end,
+  -- },
+  --
+  -- I like this 1
+  -- {
+  --   "ilof2/posterpole.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     require("posterpole").setup({
+  --       transparent = true,
+  --     })
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme posterpole]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "yazeed1s/minimal.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.g.minimal_transparent_background = true
+  --     vim.g.minimal_italic_comments = true
+  --     vim.g.minimal_italic_functions = false
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     vim.cmd([[colorscheme minimal]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "fynnfluegge/monet.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000, -- Ensure it loads before other plugins
+  --   config = function()
+  --     require("monet").setup({
+  --       transparent_background = true, -- Enable transparency for supported highlight groups
+  --       dark_mode = true, -- Use dark mode (set to false for light mode)
+  --       styles = {
+  --         comments = { italic = true }, -- Enable italic comments
+  --         keywords = { italic = false },
+  --         functions = { italic = false },
+  --         variables = { italic = false },
+  --       },
+  --     })
+  --     -- Additional transparency for core UI elements
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
+  --     -- Load the colorscheme
+  --     vim.cmd([[colorscheme monet]])
+  --   end,
+  -- },
+  --
+  -- {
+  --   "dasupradyumna/midnight.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     -- Load the colorscheme
+  --     vim.cmd("colorscheme midnight")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --   end,
+  -- },
+  --
+  -- {
+  --   "CosecSecCot/midnight-desert.nvim",
+  --   dependencies = {
+  --     "rktjmp/lush.nvim",
+  --   },
+  --   config = function()
+  --     -- Load the colorscheme
+  --     vim.cmd("colorscheme midnight-desert")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --   end,
+  -- },
+  --
   -- {
   --   "dgox16/oldworld.nvim",
   --   lazy = false,
   --   priority = 1000,
-  --   opts = {
-  --     variant = "oled",
-  --   },
+  --   event = "VimEnter",
+  --   config = function()
+  --     -- Load the colorscheme with oled variant
+  --     require("oldworld").setup({
+  --       variant = "oled", -- Use the OLED variant for deeper contrast
+  --       highlight_overrides = {
+  --         -- Ensure transparent background for key highlight groups
+  --         Normal = { bg = "NONE", ctermbg = "NONE" },
+  --         NormalFloat = { bg = "NONE", ctermbg = "NONE" },
+  --         SignColumn = { bg = "NONE", ctermbg = "NONE" },
+  --         LineNr = { bg = "NONE", ctermbg = "NONE" },
+  --         EndOfBuffer = { bg = "NONE", ctermbg = "NONE" },
+  --       },
+  --     })
+  --     vim.cmd.colorscheme("oldworld")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "datsfilipe/vesper.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   event = "VimEnter",
+  --   config = function()
+  --     -- Load the colorscheme
+  --     require("vesper").setup({}) -- Default setup, can be customized if needed
+  --     vim.cmd.colorscheme("vesper")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --   end,
   -- },
   --
   -- {
   --   "ficcdaf/ashen.nvim",
   --   lazy = false,
   --   priority = 1000,
-  --   -- configuration is optional!
+  --   opts = {
+  --     transparent = true, -- ✅ Enable transparent background
+  --   },
   --   init = function()
   --     vim.cmd("colorscheme ashen")
-  --   end
+  --   end,
   -- },
   --
   -- {
   --   "wnkz/monoglow.nvim",
   --   lazy = false,
   --   priority = 1000,
-  --   opts = {},
   --   config = function()
-  --     vim.cmd([[colorscheme monoglow]])
+  --     vim.cmd("colorscheme monoglow")
+  --
+  --     local function set_hi(group, opts)
+  --       vim.api.nvim_set_hl(0, group, opts)
+  --     end
+  --
+  --     local none = "none"
+  --
+  --     for _, group in ipairs({
+  --       "Normal",
+  --       "NormalNC",
+  --       "NormalFloat",
+  --       "FloatBorder",
+  --       "TelescopeNormal",
+  --       "TelescopeBorder",
+  --       "NvimTreeNormal",
+  --       "SignColumn",
+  --       "VertSplit",
+  --       "StatusLine",
+  --       "LineNr",
+  --     }) do
+  --       set_hi(group, { bg = none })
+  --     end
+  --
+  --     set_hi("Comment", { fg = "#798098", italic = true }) -- soft slate blue
+  --     set_hi("Constant", { fg = "#c6b4f0" }) -- gentle lavender
+  --     set_hi("String", { fg = "#b4d298", italic = true }) -- calm herb green
+  --     set_hi("Function", { fg = "#a0cfd2" }) -- mild aqua
+  --     set_hi("Identifier", { fg = "#e3b0c7" }) -- gentle rose
+  --     set_hi("Statement", { fg = "#9ab3d4", bold = true }) -- muted sky
+  --     set_hi("Keyword", { fg = "#cbb8f0", bold = true }) -- elegant violet
+  --     set_hi("Type", { fg = "#c4e4dc" }) -- mint mist
+  --     set_hi("Special", { fg = "#eac7a1" }) -- warm sand
+  --     set_hi("Error", { fg = "#dd6e78", bold = true }) -- soft red
+  --     set_hi("WarningMsg", { fg = "#e8d29f", bold = true }) -- pastel yellow
+  --     set_hi("DiagnosticHint", { fg = "#a4d6e5", italic = true }) -- sky ice
+  --
+  --     set_hi("LineNr", { fg = "#545b6b" }) -- muted grey-blue
+  --     set_hi("CursorLine", { bg = "#26293c" }) -- faint background
+  --     set_hi("CursorLineNr", { fg = "#ffffff", bold = true }) -- clear line number
+  --
+  --     set_hi("StatusLine", { fg = "#b0b6cc", bg = none }) -- cool gray
+  --     set_hi("VertSplit", { fg = "#404856", bg = none }) -- subtle divider
+  --
+  --     vim.opt.termguicolors = true
+  --     vim.opt.background = "dark"
+  --   end,
+  -- },
+  --
+  -- kanagawa evolution kanso
+  -- {
+  --   "webhooked/kanso.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     require("kanso").setup({
+  --       bold = true, -- enable bold fonts
+  --       italics = true, -- enable italics
+  --       compile = false, -- enable compiling the colorscheme
+  --       undercurl = true, -- enable undercurls
+  --       commentStyle = { italic = true },
+  --       functionStyle = {},
+  --       keywordStyle = { italic = true },
+  --       statementStyle = {},
+  --       typeStyle = {},
+  --       transparent = true, -- do not set background color
+  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+  --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
+  --       colors = { -- add/modify theme and palette colors
+  --         palette = {},
+  --         theme = { zen = {}, pearl = {}, ink = {}, all = {} },
+  --       },
+  --       overrides = function(colors) -- add/modify highlights
+  --         return {}
+  --       end,
+  --       theme = "zen", -- Load "zen" theme
+  --       background = { -- map the value of 'background' option to a theme
+  --         dark = "zen", -- try "ink" !
+  --         light = "pearl", -- try "mist" !
+  --       },
+  --     })
+  --
+  --     vim.cmd("colorscheme kanso")
+  --   end,
+  -- },
+  --
+  -- catppuccin with kanagawa bg
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     flavour = "mocha", -- you can try "macchiato" too
+  --     transparent_background = true, -- CHANGED: Enable transparency
+  --     background = {
+  --       dark = "mocha",
+  --       light = "latte",
+  --     },
+  --     styles = {
+  --       comments = { "italic" },
+  --       functions = {},
+  --       keywords = { "italic" },
+  --       strings = {},
+  --       variables = {},
+  --     },
+  --     color_overrides = {
+  --       mocha = {
+  --         base = "#1f1f28", -- Kanagawa base
+  --         mantle = "#1f1f28",
+  --         crust = "#191922",
+  --       },
+  --     },
+  --     custom_highlights = function(colors)
+  --       return {
+  --         -- Main transparency
+  --         Normal = { bg = "none" },
+  --         NormalNC = { bg = "none" },
+  --         NormalFloat = { bg = "none" },
+  --         FloatBorder = { fg = colors.surface1, bg = "none" },
+  --
+  --         -- Popup menus
+  --         Pmenu = { bg = "none" },
+  --         PmenuSbar = { bg = "none" },
+  --         PmenuSel = { bg = colors.surface0 }, -- Keep selection visible
+  --         PmenuThumb = { bg = colors.surface0 },
+  --
+  --         -- Sidebars and trees
+  --         NvimTreeNormal = { bg = "none" },
+  --         NvimTreeNormalNC = { bg = "none" },
+  --         NeoTreeNormal = { bg = "none" },
+  --         NeoTreeNormalNC = { bg = "none" },
+  --
+  --         -- Telescope
+  --         TelescopeNormal = { bg = "none" },
+  --         TelescopeBorder = { bg = "none" },
+  --         TelescopePromptNormal = { bg = "none" },
+  --         TelescopeResultsNormal = { bg = "none" },
+  --         TelescopePreviewNormal = { bg = "none" },
+  --
+  --         -- Tab and status lines
+  --         TabLineFill = { bg = "none" },
+  --         StatusLine = { bg = colors.mantle }, -- Keep slightly visible
+  --         TabLine = { bg = colors.mantle },
+  --
+  --         -- Signs and columns
+  --         SignColumn = { bg = "none" },
+  --         FoldColumn = { bg = "none" },
+  --
+  --         -- Special windows
+  --         WhichKeyFloat = { bg = "none" },
+  --         LspFloatWinNormal = { bg = "none" },
+  --         DiagnosticFloatingError = { bg = "none" },
+  --         DiagnosticFloatingWarn = { bg = "none" },
+  --         DiagnosticFloatingInfo = { bg = "none" },
+  --         DiagnosticFloatingHint = { bg = "none" },
+  --       }
+  --     end,
+  --   },
+  --   config = function(_, opts)
+  --     require("catppuccin").setup(opts)
+  --     vim.cmd.colorscheme("catppuccin")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "phha/zenburn.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   event = "VimEnter",
+  --   config = function()
+  --     -- Load the colorscheme
+  --     require("zenburn").setup({})
+  --     vim.cmd.colorscheme("zenburn")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+  --   end,
+  -- },
+  --
+  -- black metal theme
+  -- {
+  --   "metalelf0/black-metal-theme-neovim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require("black-metal").setup({
+  --       theme = "immortal",
+  --       -- Can be one of: 'light' | 'dark', or set via vim.o.background
+  --       variant = "dark",
+  --       -- Use an alternate, darker bg
+  --       alt_bg = false,
+  --       -- If true, docstrings will be highlighted like strings, otherwise they will be
+  --       -- highlighted like comments. Note, behavior is dependent on the language server.
+  --       colored_docstrings = true,
+  --       -- If true, highlights the {sign,fold} column the same as cursorline
+  --       cursorline_gutter = true,
+  --       -- If true, highlights the gutter darker than the bg
+  --       dark_gutter = false,
+  --       -- if true favor treesitter highlights over semantic highlights
+  --       favor_treesitter_hl = false,
+  --       -- Don't set background of floating windows. Recommended for when using floating
+  --       -- windows with borders.
+  --       plain_float = false,
+  --       -- Show the end-of-buffer character
+  --       show_eob = true,
+  --       -- If true, enable the vim terminal colors
+  --       term_colors = true,
+  --       -- Keymap (in normal mode) to toggle between light and dark variants.
+  --       toggle_variant_key = nil,
+  --       -- Don't set background
+  --       transparent = true,
+  --
+  --       -----DIAGNOSTICS and CODE STYLE-----
+  --       --
+  --       diagnostics = {
+  --         darker = true, -- Darker colors for diagnostic
+  --         undercurl = true, -- Use undercurl for diagnostics
+  --         background = true, -- Use background color for virtual text
+  --       },
+  --       -- The following table accepts values the same as the `gui` option for normal
+  --       -- highlights. For example, `bold`, `italic`, `underline`, `none`.
+  --       code_style = {
+  --         comments = "italic",
+  --         conditionals = "none",
+  --         functions = "none",
+  --         keywords = "none",
+  --         headings = "bold", -- Markdown headings
+  --         operators = "none",
+  --         keyword_return = "none",
+  --         strings = "none",
+  --         variables = "none",
+  --       },
+  --
+  --       -----PLUGINS-----
+  --       --
+  --       -- The following options allow for more control over some plugin appearances.
+  --       plugin = {
+  --         lualine = {
+  --           -- Bold lualine_a sections
+  --           bold = true,
+  --           -- Don't set section/component backgrounds. Recommended to not set
+  --           -- section/component separators.
+  --           plain = false,
+  --         },
+  --         cmp = { -- works for nvim.cmp and blink.nvim
+  --           -- Don't highlight lsp-kind items. Only the current selection will be highlighted.
+  --           plain = false,
+  --           -- Reverse lsp-kind items' highlights in blink/cmp menu.
+  --           reverse = false,
+  --         },
+  --       },
+  --
+  --       -- CUSTOM HIGHLIGHTS --
+  --       --
+  --       -- Override default colors
+  --       colors = {},
+  --       -- Override highlight groups
+  --       highlights = {},
+  --     })
+  --     require("black-metal").load()
+  --   end,
+  -- },
+  --
+  -- jellybeans
+  -- {
+  --   "wtfox/jellybeans.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   opts = {
+  --     style = "dark",
+  --     transparent = true,
+  --     italics = false,
+  --     flat_ui = true,
+  --     plugins = {
+  --       all = false,
+  --       auto = true,
+  --     },
+  --     on_highlights = function(highlights, colors) end,
+  --   },
+  --   config = function(_, opts)
+  --     require("jellybeans").setup(opts)
+  --     vim.cmd([[colorscheme jellybeans]]) -- switch from muted to mono
+  --   end,
+  -- },
+  --
+  -- {
+  --   "bluz71/vim-nightfly-colors",
+  --   name = "nightfly",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme("nightfly")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "neanias/everforest-nvim",
+  --   event = "VimEnter",
+  --   lazy = false,
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   -- Optional; default configuration will be used if setup isn't called.
+  --   config = function()
+  --     require("everforest").setup({
+  --       -- Your config here
+  --     })
+  --   end,
+  -- },
+  --
+  -- {
+  --   "Skardyy/makurai-nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd("colorscheme makurai")
   --   end,
   -- },
   --
@@ -157,15 +968,6 @@ return {
   --   end,
   -- },
   --
-  -- {
-  --   "wtfox/jellybeans.nvim",
-  --   priority = 1000,
-  --   config = function()
-  --     require("jellybeans").setup()
-  --     vim.cmd.colorscheme("jellybeans")
-  --   end,
-  -- },
-  --
   -- lackluster
   -- {
   --   "slugbyte/lackluster.nvim",
@@ -192,7 +994,7 @@ return {
   --         blue = "default",
   --         red = "default",
   --         -- WARN: Watchout! messing with grays is probs a bad idea, its very easy to shoot yourself in the foot!
-  --         -- black = "default",
+  --         black = "#1F1F28",
   --         -- gray1 = "default",
   --         -- gray2 = "default",
   --         -- gray3 = "default",
@@ -221,16 +1023,7 @@ return {
   --     vim.cmd('colorscheme flexoki-dark')
   --   end,
   -- },
-  -- {
-  --   "CosecSecCot/midnight-desert.nvim",
-  --   dependencies = {
-  --     "rktjmp/lush.nvim",
-  --   },
-  --   config = function()
-  --     vim.cmd("colorscheme midnight-desert")
-  --   end,
-  --   -- no setup function required
-  -- },
+  --
   -- {
   --   "yorumicolors/yorumi.nvim",
   --   event = "VimEnter",
@@ -240,43 +1033,7 @@ return {
   --     vim.cmd("colorscheme yorumi")
   --   end,
   -- },
-  -- top 1
-  -- {
-  --   "bluz71/vim-moonfly-colors",
-  --   event = "VimEnter",
-  --   name = "moonfly",
-  --   priority = 1000,
-  --   config = function()
-  --     -- Moonfly configuration
-  --     vim.g.moonflyCursorColor = true
-  --     vim.g.moonflyItalics = true
-  --     vim.g.moonflyNormalFloat = true
-  --     vim.g.moonflyTerminalColors = true
-  --     vim.g.moonflyVirtualTextColor = true
-  --     vim.g.moonflyUndercurls = true
-  --     vim.g.moonflyVertSplits = true
   --
-  --     -- Reduce used colors
-  --     vim.g.moonflyWinSeparator = 1
-  --
-  --     -- Set colorscheme
-  --     vim.cmd.colorscheme("moonfly")
-  --
-  --     -- Override function and search highlights to include italics
-  --     vim.api.nvim_set_hl(0, "Function", { italic = true })
-  --     vim.api.nvim_set_hl(0, "Search", { italic = true })
-  --   end,
-  -- },
-  -- {
-  --   "bluz71/vim-nightfly-colors",
-  --   name = "nightfly",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme("nightfly")
-  --   end,
-  -- },
-  -- top 2
   -- vimbones = light
   -- neobones = dark
   -- {
@@ -284,16 +1041,17 @@ return {
   --   priority = 1000,
   --   lazy = false,
   --   dependencies = {
-  --     "rktjmp/lush.nvim"
+  --     "rktjmp/lush.nvim",
   --   },
   --   config = function()
   --     vim.cmd.colorscheme("zenbones")
   --   end,
   -- },
+  --
   -- {
   --   "nyoom-engineering/oxocarbon.nvim",
-  --   lazy = false,          -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000,       -- make sure to load this before all the other start plugins
+  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
   --   opts = {
   --     background = "dark", -- dark or light
   --   },
@@ -303,7 +1061,7 @@ return {
   --     vim.opt.background = "dark" -- light | dark
   --   end,
   -- },
-  -- top 3
+  --
   -- {
   --   "blazkowolf/gruber-darker.nvim",
   --   lazy = false,
@@ -328,11 +1086,11 @@ return {
   --     require("gruber-darker").setup({})
   --   end,
   -- },
-  -- top 4
+  --
   -- {
   --   "kevinm6/kurayami.nvim",
   --   event = "VimEnter", -- load plugin on VimEnter or
-  --   lazy = false,       --   don't lazy load plugin
+  --   lazy = false, --   don't lazy load plugin
   --   priority = 1000,
   --   config = function()
   --     vim.cmd.colorscheme("kurayami") -- this is enough to initialize and load plugin
@@ -351,15 +1109,46 @@ return {
   -- top 5
   -- {
   --   "Shatur/neovim-ayu",
-  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   lazy = false,
+  --   priority = 1000,
   --   opts = {
-  --     theme = "ayu",
+  --     theme = "mirage", -- "mirage" is cooler and more muted than "dark"
+  --     overrides = function()
+  --       local muted_fg = "#A0A8B0"
+  --       local soft_blue = "#7AA2F7"
+  --       local dark_bg = "none"
+  --
+  --       return {
+  --         Normal = { fg = muted_fg, bg = dark_bg },
+  --         NormalNC = { bg = dark_bg },
+  --         NormalFloat = { bg = dark_bg },
+  --         FloatBorder = { fg = muted_fg, bg = dark_bg },
+  --         VertSplit = { fg = muted_fg, bg = dark_bg },
+  --         SignColumn = { bg = dark_bg },
+  --
+  --         Comment = { fg = "#5C6370", italic = true },
+  --         Keyword = { fg = soft_blue, italic = true },
+  --         Type = { fg = muted_fg },
+  --         Identifier = { fg = muted_fg },
+  --         Function = { fg = soft_blue },
+  --         String = { fg = muted_fg },
+  --
+  --         TelescopeBorder = { fg = muted_fg, bg = dark_bg },
+  --         TelescopePromptTitle = { fg = soft_blue },
+  --         TelescopeResultsTitle = { fg = muted_fg },
+  --         TelescopePreviewTitle = { fg = muted_fg },
+  --
+  --         CmpItemKindCopilot = { fg = soft_blue },
+  --         NoiceMini = { bg = dark_bg },
+  --       }
+  --     end,
   --   },
-  --   config = function()
-  --     vim.cmd.colorscheme("ayu")
+  --   config = function(_, opts)
+  --     require("ayu").setup(opts)
+  --     vim.cmd("colorscheme ayu")
   --   end,
   -- },
+  --
   -- {
   --   "kvrohit/rasmus.nvim",
   --   lazy = false,
@@ -368,31 +1157,19 @@ return {
   --     vim.cmd("colorscheme rasmus")
   --   end,
   -- },
-  -- github
-  -- {
-  --   'projekt0n/github-nvim-theme',
-  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000, -- make sure to load this before all the other start plugins
-  --   config = function()
-  --     require('github-theme').setup({
-  --       -- ...
-  --     })
   --
-  --     vim.cmd('colorscheme github_dark_default')
-  --   end,
-  -- }
   -- {
   --   "Mofiqul/adwaita.nvim",
   --   lazy = false,
   --   priority = 1000,
   --   config = function()
-  --     vim.g.adwaita_darker = true              -- for darker version
+  --     vim.g.adwaita_darker = true -- for darker version
   --     vim.g.adwaita_disable_cursorline = false -- to disable cursorline
-  --     vim.g.adwaita_transparent = false        -- makes the background transparent
-  --     vim.cmd('colorscheme adwaita')
-  --   end
+  --     vim.g.adwaita_transparent = false -- makes the background transparent
+  --     vim.cmd("colorscheme adwaita")
+  --   end,
   -- },
-  -- --
+  --
   -- this also has one of the best light colorschemes
   -- {
   --   "miikanissi/modus-themes.nvim",
@@ -402,8 +1179,8 @@ return {
   --       -- Theme comes in two styles `modus_operandi` and `modus_vivendi`
   --       -- `auto` will automatically set style based on background set with vim.o.background
   --       style = "auto",
-  --       variant = "default",  -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
-  --       transparent = false,  -- Transparent background (as supported by the terminal)
+  --       variant = "default", -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
+  --       transparent = false, -- Transparent background (as supported by the terminal)
   --       dim_inactive = false, -- "non-current" windows are dimmed
   --       styles = {
   --         -- Style to be applied to different syntax groups
@@ -427,42 +1204,50 @@ return {
   --     })
   --   end,
   -- },
+  --
   -- {
   --   "Abstract-IDE/Abstract-cs",
-  --   priority = 1000,
   --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
   --   config = function()
-  --     -- load the colorscheme here
+  --     vim.o.background = "dark"
+  --     vim.cmd("hi Normal guibg=NONE")
+  --     vim.cmd("hi NormalFloat guibg=NONE")
+  --     vim.cmd("hi FloatBorder guibg=NONE")
   --     vim.cmd([[colorscheme abscs]])
   --   end,
   -- },
+  --
   -- {
   --   "embark-theme/vim",
-  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-  --   priority = 1000, -- make sure to load this before all the other start plugins
-  --   config = function()
-  --     vim.cmd.colorscheme("embark")
-  --   end,
-  -- },
-  -- {
-  --   "rose-pine/neovim",
   --   lazy = false,
-  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   priority = 1000,
+  --   event = "VimEnter",
   --   config = function()
-  --     -- load the colorscheme here
-  --     vim.cmd([[colorscheme rose-pine]])
+  --     -- Load the colorscheme
+  --     vim.cmd.colorscheme("embark")
+  --
+  --     -- Set transparent background by overriding relevant highlights
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
   --   end,
   -- },
   --
   -- {
   --   "oxfist/night-owl.nvim",
   --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   event = "VimEnter",
   --   priority = 1000, -- make sure to load this before all the other start plugins
   --   config = function()
   --     -- load the colorscheme here
   --     vim.cmd.colorscheme("night-owl")
   --   end,
   -- },
+  --
   -- tokyo
   -- {
   --   "folke/tokyonight.nvim",
@@ -473,62 +1258,59 @@ return {
   --     vim.cmd[[colorscheme tokyonight-moon]]
   --   end,
   -- },
+  --
   -- {
   --   "tiagovla/tokyodark.nvim",
+  --   lazy = true,
+  --   event = "VimEnter",
+  --   priority = 1000,
   --   opts = {
-  --     transparent_background = false,    -- set background to transparent
-  --     gamma = 1.00,                      -- adjust the brightness of the theme
+  --     transparent_background = true,
+  --     gamma = 1.0,
   --     styles = {
-  --       comments = { italic = true },    -- style for comments
-  --       keywords = { italic = true },    -- style for keywords
-  --       identifiers = { italic = true }, -- style for identifiers
-  --       functions = {},                  -- style for functions
-  --       variables = {},                  -- style for variables
+  --       comments = { italic = true },
+  --       keywords = { italic = true },
+  --       identifiers = {},
+  --       functions = {},
+  --       variables = {},
   --     },
-  --     custom_highlights = function(hl, p)
-  --       return {
-  --           ["LspInlayHint"] = { bg = "#1C1C2A", fg = "#9AA0A7" },
-  --           ["@module"] = { link = "TSType" },
-  --           ["@property"] = { link = "Identifier" },
-  --           ["@variable"] = { fg = "#Afa8ea" },
-  --           ["@lsp.type.variable"] = { fg = "#Afa8ea" },
-  --           ["FloatTitle"] = { link = "Blue" },
-  --           ["TelescopeBorder"] = { link = "TSType" },
-  --           ["TelescopePreviewBorder"] = { fg = "#4A5057" },
-  --           ["TelescopePreviewTitle"] = { link = "Blue" },
-  --           ["TelescopePromptBorder"] = { fg = "#4A5057" },
-  --           ["TelescopePromptTitle"] = { link = "Blue" },
-  --           ["TelescopeResultsBorder"] = { fg = "#4A5057" },
-  --           ["TelescopeResultsTitle"] = { link = "Blue" },
-  --           ["CmpItemKindCopilot"] = { fg = "#6CC644" },
-  --           ["NoiceLspProgressSpinner"] = { bg = "#1C1C2A" },
-  --           ["NoiceLspProgressClient"] = { bg = "#1C1C2A" },
-  --           ["NoiceLspProgressTitle"] = { bg = "#1C1C2A" },
-  --           ["NoiceMini"] = { bg = "#1C1C2A" },
-  --           ["NoiceCmdlineIconSearch"] = { link = "Blue" },
-  --       }
+  --     on_highlights = function(hl, c)
+  --       local grey = "#A0A8B0"
+  --       local blue = "#7AA2F7"
+  --       local dark = "#1E1E2E"
+  --
+  --       hl.Normal = { bg = "none", fg = grey }
+  --       hl.NormalNC = { bg = "none" }
+  --       hl.NormalFloat = { bg = "none" }
+  --       hl.FloatBorder = { fg = grey, bg = "none" }
+  --       hl.VertSplit = { fg = grey, bg = "none" }
+  --       hl.SignColumn = { bg = "none" }
+  --
+  --       hl["@comment"] = { fg = "#5C6370", italic = true }
+  --       hl["@keyword"] = { fg = blue, italic = true }
+  --       hl["@type"] = { fg = grey }
+  --       hl["@variable"] = { fg = grey }
+  --       hl["@function"] = { fg = blue }
+  --       hl["@string"] = { fg = grey }
+  --
+  --       -- Telescope
+  --       hl.TelescopeBorder = { fg = grey, bg = "none" }
+  --       hl.TelescopePromptTitle = { fg = blue }
+  --       hl.TelescopeResultsTitle = { fg = grey }
+  --       hl.TelescopePreviewTitle = { fg = grey }
+  --
+  --       -- Others
+  --       hl.CmpItemKindCopilot = { fg = blue }
+  --       hl.NoiceMini = { bg = "none" }
   --     end,
-  --     custom_palette = {} or function(palette)
-  --       return {}
-  --     end, -- extend palette
   --     terminal_colors = true,
   --   },
   --   config = function(_, opts)
-  --     require("tokyodark").setup(opts) -- calling setup is optional
+  --     require("tokyodark").setup(opts)
   --     vim.cmd([[colorscheme tokyodark]])
   --   end,
   -- },
-  -- {
-  --   "metalelf0/jellybeans-nvim",
-  --   dependencies = {
-  --     "rktjmp/lush.nvim",
-  --   },
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme("jellybeans-nvim")
-  --   end,
-  -- },
+  --
   -- {
   --   "loctvl842/monokai-pro.nvim",
   --   dependencies = {
@@ -538,27 +1320,27 @@ return {
   --   priority = 1000,
   --   config = function()
   --     require("monokai-pro").setup({
-  --       transparent_background = false,
+  --       transparent_background = true,
   --       terminal_colors = true,
   --       devicons = true, -- highlight the icons of `nvim-web-devicons`
   --       styles = {
   --         comment = { italic = true },
-  --         keyword = { italic = true },       -- any other keyword
-  --         type = { italic = true },          -- (preferred) int, long, char, etc
-  --         storageclass = { italic = true },  -- static, register, volatile, etc
-  --         structure = { italic = true },     -- struct, union, enum, etc
-  --         parameter = { italic = true },     -- parameter pass in function
+  --         keyword = { italic = true }, -- any other keyword
+  --         type = { italic = true }, -- (preferred) int, long, char, etc
+  --         storageclass = { italic = true }, -- static, register, volatile, etc
+  --         structure = { italic = true }, -- struct, union, enum, etc
+  --         parameter = { italic = true }, -- parameter pass in function
   --         annotation = { italic = true },
   --         tag_attribute = { italic = true }, -- attribute of tag in reactjs
   --       },
-  --       filter = "pro",                      -- classic | octagon | pro | machine | ristretto | spectrum
+  --       filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
   --       -- Enable this will disable filter option
   --       day_night = {
-  --         enable = false,            -- turn off by default
-  --         day_filter = "pro",        -- classic | octagon | pro | machine | ristretto | spectrum
+  --         enable = false, -- turn off by default
+  --         day_filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
   --         night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
   --       },
-  --       inc_search = "background",   -- underline | background
+  --       inc_search = "background", -- underline | background
   --       background_clear = {
   --         -- "float_win",
   --         "toggleterm",
@@ -586,28 +1368,28 @@ return {
   --
   -- no-clown-fiesta
   -- {
-  --   'aktersnurra/no-clown-fiesta.nvim',
+  --   "aktersnurra/no-clown-fiesta.nvim",
   --   priority = 1000, -- Load colorscheme before other plugins
-  --   lazy = false,    -- Load during startup
+  --   lazy = false, -- Load during startup
   --   config = function()
-  --     require('no-clown-fiesta').setup({
+  --     require("no-clown-fiesta").setup({
   --       -- Default config
-  --       transparent = false, -- Enable transparent background
+  --       transparent = true, -- Enable transparent background
   --       styles = {
   --         -- Styling choices for syntax elements
-  --         comments = {},     -- Style for comments
-  --         keywords = {},     -- Style for keywords
-  --         functions = {},    -- Style for functions
-  --         variables = {},    -- Style for variables
-  --         type = {},         -- Style for type annotations
+  --         comments = {}, -- Style for comments
+  --         keywords = {}, -- Style for keywords
+  --         functions = {}, -- Style for functions
+  --         variables = {}, -- Style for variables
+  --         type = {}, -- Style for type annotations
   --         virtual_text = {}, -- Style for virtual text
   --       },
   --       -- Enable/disable specific features
   --       features = {
-  --         syntax = true,          -- Enable basic syntax highlighting
-  --         treesitter = true,      -- Enable TreeSitter support
+  --         syntax = true, -- Enable basic syntax highlighting
+  --         treesitter = true, -- Enable TreeSitter support
   --         semantic_tokens = true, -- Enable LSP semantic tokens
-  --         diagnostic = true,      -- Style diagnostic messages
+  --         diagnostic = true, -- Style diagnostic messages
   --       },
   --       -- Optional: Override specific highlight groups
   --       highlights = {
@@ -617,32 +1399,8 @@ return {
   --     })
   --
   --     -- Set the colorscheme
-  --     vim.cmd.colorscheme('no-clown-fiesta')
+  --     vim.cmd.colorscheme("no-clown-fiesta")
   --   end,
-  -- },
-  --
-  -- gruvbox dark hard
-  -- {
-  --   "wincent/base16-nvim",
-  --   lazy = false,    -- load at start
-  --   priority = 1000, -- load first
-  --   config = function()
-  --     vim.cmd([[colorscheme base16-gruvbox-dark-hard]])
-  --     vim.o.background = 'dark'
-  --     -- XXX: hi Normal ctermbg=NONE
-  --     -- Make comments more prominent -- they are important.
-  --     local bools = vim.api.nvim_get_hl(0, { name = 'Boolean' })
-  --     vim.api.nvim_set_hl(0, 'Comment', bools)
-  --     -- Make it clearly visible which argument we're at.
-  --     local marked = vim.api.nvim_get_hl(0, { name = 'PMenu' })
-  --     vim.api.nvim_set_hl(0, 'LspSignatureActiveParameter',
-  --       { fg = marked.fg, bg = marked.bg, ctermfg = marked.ctermfg, ctermbg = marked.ctermbg, bold = true })
-  --     -- XXX
-  --     -- Would be nice to customize the highlighting of warnings and the like to make
-  --     -- them less glaring. But alas
-  --     -- https://github.com/nvim-lua/lsp_extensions.nvim/issues/21
-  --     -- call Base16hi("CocHintSign", g:base16_gui03, "", g:base16_cterm03, "", "", "")
-  --   end
   -- },
   --
   -- {
@@ -651,6 +1409,18 @@ return {
   --   priority = 1000,
   --   config = function()
   --     vim.cmd("colorscheme pinkmare")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "tjdevries/colorbuddy.nvim",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   config = function()
+  --     -- vim.cmd.colorscheme("colorbuddy")
+  --     -- or
+  --     vim.cmd.colorscheme("gruvbuddy")
   --   end,
   -- },
 }

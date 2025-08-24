@@ -33,7 +33,7 @@ return {
 
             ]],
           },
-          { section = "startup" },
+          -- { section = "startup" },
           { title = "MRU", padding = 1 },
           { section = "recent_files", limit = 3, padding = 1 },
           { title = "MRU CWD ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
@@ -41,7 +41,7 @@ return {
           { title = "Sessions", padding = 1 },
           { section = "projects", padding = 1 },
           { title = "Bookmarks", padding = 1 },
-          { section = "keys", limit = 3 },
+          -- { section = "keys", limit = 3 },
         },
       },
       scroll = { enabled = false },
@@ -60,7 +60,7 @@ return {
         end,
       },
       statuscolumn = {
-        enabled = true,
+        enabled = false,
         left = { "mark", "sign" },
         right = { "fold", "git" },
         folds = {
@@ -122,7 +122,7 @@ return {
       },
       notifier = {
         enabled = true,
-        timeout = 7500,
+        timeout = 3000,
         sort = { "added" }, -- sort only by time
         width = { min = 12, max = 0.5 },
         height = { min = 1, max = 0.5 },
