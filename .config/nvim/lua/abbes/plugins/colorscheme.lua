@@ -1,98 +1,98 @@
 return {
   -- vague 4 the win
-  {
-    "vague2k/vague.nvim",
-    config = function()
-      require("vague").setup({
-        transparent = true, -- don't set background
-        -- disable bold/italic globally in `style`
-        bold = true,
-        italic = true,
-        style = {
-          -- "none" is the same thing as default. But "italic" and "bold" are also valid options
-          boolean = "bold",
-          number = "none",
-          float = "none",
-          error = "bold",
-          comments = "italic",
-          conditionals = "none",
-          functions = "none",
-          headings = "bold",
-          operators = "none",
-          strings = "italic",
-          variables = "none",
-
-          -- keywords
-          keywords = "none",
-          keyword_return = "italic",
-          keywords_loop = "none",
-          keywords_label = "none",
-          keywords_exception = "none",
-
-          -- builtin
-          builtin_constants = "bold",
-          builtin_functions = "none",
-          builtin_types = "bold",
-          builtin_variables = "none",
-        },
-        -- plugin styles where applicable
-        -- make an issue/pr if you'd like to see more styling options!
-        plugins = {
-          cmp = {
-            match = "bold",
-            match_fuzzy = "bold",
-          },
-          dashboard = {
-            footer = "italic",
-          },
-          lsp = {
-            diagnostic_error = "bold",
-            diagnostic_hint = "none",
-            diagnostic_info = "italic",
-            diagnostic_ok = "none",
-            diagnostic_warn = "bold",
-          },
-          neotest = {
-            focused = "bold",
-            adapter_name = "bold",
-          },
-          telescope = {
-            match = "bold",
-          },
-        },
-
-        -- Override highlights or add new highlights
-        on_highlights = function(highlights, colors) end,
-
-        -- Override colors
-        colors = {
-          bg = "#141415",
-          fg = "#cdcdcd",
-          floatBorder = "#878787",
-          line = "#252530",
-          comment = "#606079",
-          builtin = "#b4d4cf",
-          func = "#c48282",
-          string = "#e8b589",
-          number = "#e0a363",
-          property = "#c3c3d5",
-          constant = "#aeaed1",
-          parameter = "#bb9dbd",
-          visual = "#333738",
-          error = "#d8647e",
-          warning = "#f3be7c",
-          hint = "#7e98e8",
-          operator = "#90a0b5",
-          keyword = "#6e94b2",
-          type = "#9bb4bc",
-          search = "#405065",
-          plus = "#7fa563",
-          delta = "#f3be7c",
-        },
-      })
-      vim.cmd.colorscheme("vague")
-    end,
-  },
+  -- {
+  --   "vague2k/vague.nvim",
+  --   config = function()
+  --     require("vague").setup({
+  --       transparent = true, -- don't set background
+  --       -- disable bold/italic globally in `style`
+  --       bold = true,
+  --       italic = true,
+  --       style = {
+  --         -- "none" is the same thing as default. But "italic" and "bold" are also valid options
+  --         boolean = "bold",
+  --         number = "none",
+  --         float = "none",
+  --         error = "bold",
+  --         comments = "italic",
+  --         conditionals = "none",
+  --         functions = "none",
+  --         headings = "bold",
+  --         operators = "none",
+  --         strings = "italic",
+  --         variables = "none",
+  --
+  --         -- keywords
+  --         keywords = "none",
+  --         keyword_return = "italic",
+  --         keywords_loop = "none",
+  --         keywords_label = "none",
+  --         keywords_exception = "none",
+  --
+  --         -- builtin
+  --         builtin_constants = "bold",
+  --         builtin_functions = "none",
+  --         builtin_types = "bold",
+  --         builtin_variables = "none",
+  --       },
+  --       -- plugin styles where applicable
+  --       -- make an issue/pr if you'd like to see more styling options!
+  --       plugins = {
+  --         cmp = {
+  --           match = "bold",
+  --           match_fuzzy = "bold",
+  --         },
+  --         dashboard = {
+  --           footer = "italic",
+  --         },
+  --         lsp = {
+  --           diagnostic_error = "bold",
+  --           diagnostic_hint = "none",
+  --           diagnostic_info = "italic",
+  --           diagnostic_ok = "none",
+  --           diagnostic_warn = "bold",
+  --         },
+  --         neotest = {
+  --           focused = "bold",
+  --           adapter_name = "bold",
+  --         },
+  --         telescope = {
+  --           match = "bold",
+  --         },
+  --       },
+  --
+  --       -- Override highlights or add new highlights
+  --       on_highlights = function(highlights, colors) end,
+  --
+  --       -- Override colors
+  --       colors = {
+  --         bg = "#141415",
+  --         fg = "#cdcdcd",
+  --         floatBorder = "#878787",
+  --         line = "#252530",
+  --         comment = "#606079",
+  --         builtin = "#b4d4cf",
+  --         func = "#c48282",
+  --         string = "#e8b589",
+  --         number = "#e0a363",
+  --         property = "#c3c3d5",
+  --         constant = "#aeaed1",
+  --         parameter = "#bb9dbd",
+  --         visual = "#333738",
+  --         error = "#d8647e",
+  --         warning = "#f3be7c",
+  --         hint = "#7e98e8",
+  --         operator = "#90a0b5",
+  --         keyword = "#6e94b2",
+  --         type = "#9bb4bc",
+  --         search = "#405065",
+  --         plus = "#7fa563",
+  --         delta = "#f3be7c",
+  --       },
+  --     })
+  --     vim.cmd.colorscheme("vague")
+  --   end,
+  -- },
   --
   -- best of the best
   -- {
@@ -640,83 +640,83 @@ return {
   -- },
   --
   -- catppuccin with kanagawa bg
-  -- {
-  --   "catppuccin/nvim",
-  --   name = "catppuccin",
-  --   lazy = false,
-  --   priority = 1000,
-  --   opts = {
-  --     flavour = "mocha", -- you can try "macchiato" too
-  --     transparent_background = true, -- CHANGED: Enable transparency
-  --     background = {
-  --       dark = "mocha",
-  --       light = "latte",
-  --     },
-  --     styles = {
-  --       comments = { "italic" },
-  --       functions = {},
-  --       keywords = { "italic" },
-  --       strings = {},
-  --       variables = {},
-  --     },
-  --     color_overrides = {
-  --       mocha = {
-  --         base = "#1f1f28", -- Kanagawa base
-  --         mantle = "#1f1f28",
-  --         crust = "#191922",
-  --       },
-  --     },
-  --     custom_highlights = function(colors)
-  --       return {
-  --         -- Main transparency
-  --         Normal = { bg = "none" },
-  --         NormalNC = { bg = "none" },
-  --         NormalFloat = { bg = "none" },
-  --         FloatBorder = { fg = colors.surface1, bg = "none" },
-  --
-  --         -- Popup menus
-  --         Pmenu = { bg = "none" },
-  --         PmenuSbar = { bg = "none" },
-  --         PmenuSel = { bg = colors.surface0 }, -- Keep selection visible
-  --         PmenuThumb = { bg = colors.surface0 },
-  --
-  --         -- Sidebars and trees
-  --         NvimTreeNormal = { bg = "none" },
-  --         NvimTreeNormalNC = { bg = "none" },
-  --         NeoTreeNormal = { bg = "none" },
-  --         NeoTreeNormalNC = { bg = "none" },
-  --
-  --         -- Telescope
-  --         TelescopeNormal = { bg = "none" },
-  --         TelescopeBorder = { bg = "none" },
-  --         TelescopePromptNormal = { bg = "none" },
-  --         TelescopeResultsNormal = { bg = "none" },
-  --         TelescopePreviewNormal = { bg = "none" },
-  --
-  --         -- Tab and status lines
-  --         TabLineFill = { bg = "none" },
-  --         StatusLine = { bg = colors.mantle }, -- Keep slightly visible
-  --         TabLine = { bg = colors.mantle },
-  --
-  --         -- Signs and columns
-  --         SignColumn = { bg = "none" },
-  --         FoldColumn = { bg = "none" },
-  --
-  --         -- Special windows
-  --         WhichKeyFloat = { bg = "none" },
-  --         LspFloatWinNormal = { bg = "none" },
-  --         DiagnosticFloatingError = { bg = "none" },
-  --         DiagnosticFloatingWarn = { bg = "none" },
-  --         DiagnosticFloatingInfo = { bg = "none" },
-  --         DiagnosticFloatingHint = { bg = "none" },
-  --       }
-  --     end,
-  --   },
-  --   config = function(_, opts)
-  --     require("catppuccin").setup(opts)
-  --     vim.cmd.colorscheme("catppuccin")
-  --   end,
-  -- },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      flavour = "mocha", -- you can try "macchiato" too
+      transparent_background = true, -- CHANGED: Enable transparency
+      background = {
+        dark = "mocha",
+        light = "latte",
+      },
+      styles = {
+        comments = { "italic" },
+        functions = {},
+        keywords = { "italic" },
+        strings = {},
+        variables = {},
+      },
+      color_overrides = {
+        mocha = {
+          base = "#1f1f28", -- Kanagawa base
+          mantle = "#1f1f28",
+          crust = "#191922",
+        },
+      },
+      custom_highlights = function(colors)
+        return {
+          -- Main transparency
+          Normal = { bg = "none" },
+          NormalNC = { bg = "none" },
+          NormalFloat = { bg = "none" },
+          FloatBorder = { fg = colors.surface1, bg = "none" },
+
+          -- Popup menus
+          Pmenu = { bg = "none" },
+          PmenuSbar = { bg = "none" },
+          PmenuSel = { bg = colors.surface0 }, -- Keep selection visible
+          PmenuThumb = { bg = colors.surface0 },
+
+          -- Sidebars and trees
+          NvimTreeNormal = { bg = "none" },
+          NvimTreeNormalNC = { bg = "none" },
+          NeoTreeNormal = { bg = "none" },
+          NeoTreeNormalNC = { bg = "none" },
+
+          -- Telescope
+          TelescopeNormal = { bg = "none" },
+          TelescopeBorder = { bg = "none" },
+          TelescopePromptNormal = { bg = "none" },
+          TelescopeResultsNormal = { bg = "none" },
+          TelescopePreviewNormal = { bg = "none" },
+
+          -- Tab and status lines
+          TabLineFill = { bg = "none" },
+          StatusLine = { bg = colors.mantle }, -- Keep slightly visible
+          TabLine = { bg = colors.mantle },
+
+          -- Signs and columns
+          SignColumn = { bg = "none" },
+          FoldColumn = { bg = "none" },
+
+          -- Special windows
+          WhichKeyFloat = { bg = "none" },
+          LspFloatWinNormal = { bg = "none" },
+          DiagnosticFloatingError = { bg = "none" },
+          DiagnosticFloatingWarn = { bg = "none" },
+          DiagnosticFloatingInfo = { bg = "none" },
+          DiagnosticFloatingHint = { bg = "none" },
+        }
+      end,
+    },
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin")
+    end,
+  },
   --
   -- {
   --   "phha/zenburn.nvim",

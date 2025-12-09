@@ -1,0 +1,15 @@
+# Desktop applications
+chromium
+zen-browser-bin
+nautilus
+slack-desktop
+discord
+tableplus
+zathura
+switcheroo
+localsend
+zip
+xz
+unzip
+p7zip
+jq

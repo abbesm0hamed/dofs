@@ -1,0 +1,12 @@
+# System/base packages 
+network-manager-applet
+bluez
+bluez-utils
+openssh
+fish
+starship
+autorandr
+xdg-utils
+xdg-user-dirs
+power-profiles-daemon
+pacman-contrib

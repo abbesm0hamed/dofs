@@ -1,0 +1,271 @@
+/* Catppuccin Mocha theme for Waybar */
+
+:root {
+  /* Base colors */
+  --crust: #11111b;
+  --mantle: #181825;
+  --base: #1e1e2e;
+  
+  /* Surface colors */
+  --surface0: #313244;
+  --surface1: #45475a;
+  --surface2: #585b70;
+  
+  /* Overlay colors */
+  --overlay0: #6c7086;
+  --overlay1: #7f849c;
+  --overlay2: #9399b2;
+  
+  /* Text colors */
+  --subtext0: #a6adc8;
+  --subtext1: #bac2de;
+  --text: #cdd6f4;
+  
+  /* Accent colors */
+  --rosewater: #f5e0dc;
+  --flamingo: #f2cdcd;
+  --pink: #f5c2e7;
+  --mauve: #cba6f7;
+  --red: #f38ba8;
+  --maroon: #eba0ac;
+  --peach: #fab387;
+  --yellow: #f9e2af;
+  --green: #a6e3a1;
+  --teal: #94e2d5;
+  --sky: #89dceb;
+  --sapphire: #74c7ec;
+  --blue: #89b4fa;
+  --lavender: #b4befe;
+}
+
+/* Main window */
+window#waybar {
+  background: var(--base);
+  color: var(--text);
+  border-bottom: 1px solid var(--surface1);
+}
+
+/* All modules default styling */
+.modules-left,
+.modules-center,
+.modules-right {
+  background: transparent;
+}
+
+/* Individual modules */
+#workspaces,
+#window,
+#clock,
+#battery,
+#cpu,
+#memory,
+#network,
+#bluetooth,
+#temperature,
+#language,
+#backlight,
+#wireplumber,
+#custom-idle_inhibitor,
+#custom-storage,
+#custom-next-prayer,
+#custom-notifications,
+#custom-power,
+#custom-recording,
+#custom-fingerprint {
+  background: transparent;
+  color: var(--text);
+  padding: 0px 4px;
+}
+
+/* Workspaces */
+#workspaces {
+  padding: 0;
+}
+
+#workspaces button {
+  color: var(--overlay0);
+  padding: 4px 2px;
+  margin: 0 0px;
+  border-radius: 0px;
+  transition: all 0.2s ease;
+  min-width: 24px;
+}
+
+#workspaces button.focused {
+  color: var(--blue);
+}
+
+#workspaces button.urgent {
+  color: var(--red);
+}
+
+/* Clock - center highlight */
+#clock {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 0px;
+  background-color: var(--surface0);
+  border-bottom: 1px solid var(--surface1);
+  border-right: 2px dotted var(--overlay0);
+  border-left: 2px dotted var(--overlay0);
+}
+
+#cpu,
+#custom-notifications {
+  border-right: 2px dotted var(--overlay0);
+}
+
+#custom-next-prayer {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 0px;
+  background-color: var(--surface0);
+  border-bottom: 1px solid var(--surface1);
+  border-right: 2px dotted var(--overlay0);
+  border-left: 2px dotted var(--overlay0);
+}
+
+/* Battery states */
+#battery.warning {
+  color: var(--yellow);
+}
+
+#battery.critical {
+  color: var(--red);
+}
+
+#battery.charging {
+  color: var(--green);
+}
+
+/* Temperature states */
+#temperature.critical {
+  color: var(--red);
+}
+
+/* System tray */
+#tray {
+  padding: 0 8px;
+  margin: 0px 4px;
+  border-right: 2px dotted var(--overlay0);
+  border-left: 2px dotted var(--overlay0);
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+#custom-power:hover {
+  color: var(--red);
+}
+
+#custom-idle_inhibitor {
+  margin-right: 4px;
+}
+
+#custom-idle_inhibitor:hover {
+  color: var(--blue);
+}
+
+/* Window title */
+#window {
+  color: var(--text);
+  font-style: italic;
+}
+
+/* Tooltip */
+tooltip {
+  background: var(--surface0);
+  border: 1px solid var(--surface1);
+  border-radius: 0px;
+}
+
+tooltip label {
+  padding: 6px 10px;
+}
+
+/* Subtle hover effects */
+#battery:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#network:hover,
+#bluetooth:hover,
+#custom-notifications:hover,
+#backlight:hover,
+#wireplumber:hover,
+#custom-storage:hover,
+#custom-fingerprint:hover {
+  color: var(--blue);
+  border-radius: 0px;
+  transition: background 0.2s ease;
+}
+
+/* Fingerprint module */
+#custom-fingerprint {
+  color: var(--yellow);
+  background: var(--surface2);
+  border-radius: 0px;
+  padding: 0px 2px;
+  margin: 0 2px;
+  transition: all 0.2s ease;
+  animation: pulse 2s infinite;
+}
+
+#custom-fingerprint:hover {
+  background: var(--yellow);
+  color: var(--base);
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Recording indicator */
+#custom-recording {
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+#custom-recording.inactive {
+  color: var(--text);
+}
+
+#custom-recording.recording {
+  animation: pulse 1.5s infinite;
+  color: #ff4757;
+}
+
+#custom-recording.recording-audio {
+  animation: pulse 1s infinite;
+  color: #ff4757;
+}
+
+#custom-recording.recording-audio-only {
+  animation: pulse 0.8s infinite;
+  color: #ff4757;
+}
+
+#custom-recording.inactive:hover {
+  color: var(--blue);
+}
+
+#custom-recording.recording:hover,
+#custom-recording.recording-audio-only:hover,
+#custom-recording.recording-audio:hover {
+  color: var(--blue);
+}

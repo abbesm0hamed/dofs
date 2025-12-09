@@ -1,107 +1,216 @@
-# My CachyOS Hyprland Rice Setup
+# dofs - Arch/CachyOS Dotfiles with Niri & Catppuccin Mocha
 
-A minimalist and elegant desktop environment built with Hyprland wayland compositor for performance, featuring the beautiful Kanagawa color scheme. The setup emphasizes both aesthetics and functionality.
+A unified, reproducible dotfiles setup for Arch Linux (CachyOS) featuring:
 
-## Screenshots
+- **Niri** window manager (Wayland compositor)
+- **Catppuccin Mocha** unified theme system
+- **Walker** application launcher
+- **Mako** notification daemon
+- **Waybar** status bar
+- **Fish** shell with **Starship** prompt
+- One-command reproducible setup via `yay` and declarative package lists
 
-![nvim + fastfetch + bg ](./.config/screenshots/hyprland-setup.png)
-_Neovim with Moonfly theme_
+## Quick Start
 
-## Installation for fish shell
-
-```bash
-bash -c "$(curl -s https://end-4.github.io/dots-hyprland-wiki/setup.sh)"
-```
-
-## updating hyprland config
-
-check end4 wiki/websites for update process
-
-```bash
-cd .cache/dots-hyprland
-./install.sh
-```
-
-watch out for rsync updates to avoid having custom config overwritten
-
-### Prerequisites
-
-1. Clone the repository:
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
 ```
 
-2. Base Configuration with end-4/dots-hyprland
-
-This setup is based on the excellent [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) configuration. The base configuration provides:
-
-- Modern Hyprland wayland compositor setup
-- Advanced window management and animations
-- Beautiful UI components and theming
-- Optimized performance tweaks for CachyOS
-
-3. Automated Software Installation
-
-The repository includes an automated installation script. To install all required software on CachyOS:
+### 2. Run Bootstrap (One Command Setup)
 
 ```bash
-cd bootstrap/cachyos/hyprland
-chmod +x install-system.sh
-./install-system.sh
+bash scripts/bootstrap-arch.sh
 ```
 
-This will install:
+This will:
+- Ensure `yay` is installed
+- Install all packages from declarative lists
+- Create symlinks for all dotfiles
+- Apply the unified Catppuccin Mocha theme
 
-- Window Manager: Hyprland
-- Shell: zsh (set as default)
-- Development Tools: neovim, docker, git tools
-- Terminal Utilities: tmux, ranger, btop, cava
-- System Tools: waybar, wofi, mako
-- Fonts and Themes: nerd-fonts...
-- Media Applications: mpv, vlc, gimp
-- And many more essential packages
-
-Additionally, the setup includes:
-
-- Automatic monitor detection and configuration
-- Dynamic workspace management when connecting/disconnecting displays
-- Smooth animations and window transitions
-- Advanced window rules and workspace management
-
-4. Use GNU stow to create symlinks:
+### 3. Reboot and Enjoy
 
 ```bash
-cd ~/dofs
-stow .
-
-> [!NOTE]
-> stow -D . # to undo symlinks
+reboot
 ```
 
-## Color Palette
+## What Gets Installed
 
-The rice uses the Kanagawa color scheme, a dark theme that draws inspiration from the traditional colors of Japanese painting:
+### System Packages
+- Base development tools, git, network manager
+- Fish shell, Starship prompt
+- Bluetooth, SSH, power management tools
 
-<div style="display: flex; gap: 10px; flex-wrap: wrap; padding: 10px; background: #1F1F28; border-radius: 5px;">
-    <div style="padding: 20px 30px; color: white; border-radius: 3px; background: #7E9CD8">Focused (#7E9CD8)</div>
-    <div style="padding: 20px 30px; color: white; border-radius: 3px; background: #2A2A37">Inactive (#2A2A37)</div>
-    <div style="padding: 20px 30px; color: white; border-radius: 3px; background: #1F1F28">Background (#1F1F28)</div>
-    <div style="padding: 20px 30px; color: white; border-radius: 3px; background: #C34043">Urgent (#C34043)</div>
-    <div style="padding: 20px 30px; color: black; border-radius: 3px; background: #DCD7BA">Text (#DCD7BA)</div>
-    <div style="padding: 20px 30px; color: white; border-radius: 3px; background: #957FB8">Indicator (#957FB8)</div>
-    <div style="padding: 20px 30px; color: white; border-radius: 3px; background: #727169">Unfocused (#727169)</div>
-    <div style="padding: 20px 30px; color: white; border-radius: 3px; background: #C8C093">Inactive Text (#C8C093)</div>
-</div>
+### Development Tools
+- Node.js (fnm), Python, Rust, Go
+- Docker, Kubernetes, Terraform
+- Neovim, code quality tools, debuggers
 
-### Color Assignments
+### Desktop Applications
+- Chromium, Zen Browser
+- Nautilus file manager
+- Slack, Discord
+- Zathura PDF viewer
+- And many more...
 
-- **Focused Windows**: Border and background `#7E9CD8` with text `#DCD7BA`
-- **Inactive Windows**: Border and background `#2A2A37` with text `#C8C093`
-- **Unfocused Windows**: Border and background `#1F1F28` with text `#727169`
-- **Urgent Windows**: Border and background `#C34043` with text `#DCD7BA`
-- **Default Background**: `#1F1F28`
+### Wayland Stack
+- **Niri** compositor
+- **Walker** launcher
+- **Waybar** status bar
+- **Mako** notifications
+- Screenshot, recording, clipboard tools
+
+## Catppuccin Mocha Theme
+
+All components use a unified **Catppuccin Mocha** theme with 28 carefully selected colors:
+
+- **Primary Background**: #1e1e2e
+- **Primary Text**: #cdd6f4
+- **Primary Accent**: #89b4fa (blue)
+- **Alerts**: #f38ba8 (red)
+- **Success**: #a6e3a1 (green)
+
+### Themed Components
+- Niri window borders
+- Waybar status bar
+- Mako notifications
+- Walker launcher
+- Terminal colors
+
+### Manage Themes
+
+```bash
+# List available themes
+dofs/scripts/theme-manager.sh list
+
+# Apply a theme
+dofs/scripts/theme-manager.sh set catppuccin-mocha
+
+# Check current theme
+dofs/scripts/theme-manager.sh current
+```
+
+## Directory Structure
+
+```
+dofs/
+├── .config/                    # Configuration files
+│   ├── niri/                   # Niri window manager config
+│   ├── waybar/                 # Status bar config
+│   ├── mako/                   # Notification daemon config
+│   ├── walker/                 # Application launcher config
+│   ├── fish/                   # Fish shell config
+│   ├── starship/               # Starship prompt config
+│   ├── nvim/                   # Neovim config
+│   ├── theme/                  # Theme system
+│   │   └── catppuccin-mocha/   # Catppuccin Mocha theme
+│   └── [other configs]/
+├── packages/                   # Declarative package lists
+│   ├── system.txt              # System packages
+│   ├── development.txt         # Dev tools
+│   ├── desktop.txt             # Desktop apps
+│   └── wayland.txt             # Wayland stack
+├── scripts/                    # Installation and management scripts
+│   ├── bootstrap-arch.sh       # Main bootstrap script
+│   ├── install-system.sh       # System packages installer
+│   ├── install-development.sh  # Dev tools installer
+│   ├── install-desktop.sh      # Desktop apps installer
+│   ├── install-wayland.sh      # Wayland stack installer
+│   └── theme-manager.sh        # Theme management script
+└── README.md                   # This file
+```
+
+## Keybindings
+
+### Window Management (Niri)
+- `Mod+H/J/K/L` - Focus left/down/up/right
+- `Mod+Shift+H/J/K/L` - Move window
+- `Mod+Return` - Open terminal (Ghostty)
+- `Alt+P` - Open application launcher (Walker)
+- `Alt+Ctrl+L` - Lock screen (Swaylock)
+
+### Workspaces
+- `Mod+1-9` - Switch to workspace
+- `Mod+Shift+1-9` - Move window to workspace
+- `Mod+Tab` - Toggle overview
+
+### System
+- `Alt+Space` - System controls menu
+- `Alt+S` - Settings menu
+- `Alt+L` - Power menu
+- `Print` - Screenshot (region)
+- `Shift+Print` - Screenshot (window)
+- `Ctrl+Print` - Screenshot (screen)
+
+See `.config/niri/config.kdl` for complete keybindings.
+
+## Customization
+
+### Add a New Package
+
+Edit the relevant file in `packages/`:
+
+```bash
+# Add to development tools
+echo "my-new-package" >> packages/development.txt
+
+# Reinstall
+bash scripts/install-development.sh
+```
+
+### Create a New Theme
+
+```bash
+# Copy existing theme
+cp -r .config/theme/catppuccin-mocha .config/theme/my-theme
+
+# Edit colors in my-theme/theme.toml
+vim .config/theme/my-theme/theme.toml
+
+# Apply the theme
+bash scripts/theme-manager.sh set my-theme
+```
+
+### Modify Niri Config
+
+Edit `.config/niri/config.kdl` and reload:
+
+```bash
+niri msg action reload-config
+```
+
+## Troubleshooting
+
+### Niri won't start
+- Check if Wayland is supported: `echo $WAYLAND_DISPLAY`
+- Verify Niri is installed: `which niri`
+- Check logs: `journalctl -u niri`
+
+### Theme not applying
+- Ensure theme files exist: `ls .config/theme/catppuccin-mocha/`
+- Manually apply: `bash scripts/theme-manager.sh set catppuccin-mocha`
+- Check Waybar reload: `pgrep waybar`
+
+### Packages not installing
+- Ensure yay is installed: `which yay`
+- Check internet connection
+- Try manual install: `yay -S package-name`
+
+## Documentation
+
+- **[THEME_SYSTEM.md](../THEME_SYSTEM.md)** - Detailed theme system documentation
+- **[UNIFIED_THEME_SUMMARY.md](../UNIFIED_THEME_SUMMARY.md)** - Theme implementation summary
+- **[migration_from_nixos_to_arch.md](../migration_from_nixos_to_arch.md)** - Full migration plan from NixOS
+
+## Inspiration & Credits
+
+- **Omarchy** - Theme system architecture
+- **Catppuccin** - Beautiful color palette
+- **Niri** - Modern Wayland compositor
+- **Arch Linux** - Solid foundation
 
 ## Keybindings Documentation
 

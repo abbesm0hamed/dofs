@@ -8,7 +8,7 @@ return {
       function()
         require("conform").format({ async = true, timeout_ms = 3000 })
       end,
-      desc = "󰉢 Format",
+      desc = "Format",
     },
   },
   opts = {
@@ -30,23 +30,21 @@ return {
       sh = { "shfmt" },
       yaml = { "prettier" },
       toml = { "taplo" },
-      -- Add more as needed
-      -- graphql         = { "prettier" },
-      -- csharp          = { "csharpier" },
     },
-    format_on_save = {
-      timeout_ms = 3000,
-      lsp_format = "fallback",
-    },
+    format_on_save = { timeout_ms = 3000, lsp_format = "fallback" },
     formatters = {
       biome = {
-        condition = function(_, ctx)
-          return vim.fs.find({ "biome.json", "biome.jsonc" }, { path = ctx.filename, upward = true })[1]
+        command = "biome",
+        args = { "format", "--stdin-file-path", "$FILENAME" },
+        stdin = true,
+        condition = function(_, _)
+          local out = vim.system({ "biome", "format", "--stdin-file-path", "dummy.js" }, { stdin = "" }):wait()
+          return out.code == 0
         end,
       },
       prettier = {
         condition = function(_, ctx)
-          local prettier_files = {
+          local p_files = {
             ".prettierrc",
             ".prettierrc.json",
             ".prettierrc.js",
@@ -56,26 +54,18 @@ return {
             ".prettierrc.yaml",
             ".prettierrc.yml",
           }
-          local has_prettier = vim.fs.find(prettier_files, { path = ctx.filename, upward = true })[1]
-          local has_biome = vim.fs.find({ "biome.json", "biome.jsonc" }, { path = ctx.filename, upward = true })[1]
-          return has_prettier or not has_biome
+          local has_p = vim.fs.find(p_files, { path = ctx.filename, upward = true })[1]
+          local has_b = vim.fs.find({ "biome.json", "biome.jsonc" }, { path = ctx.filename, upward = true })[1]
+          return has_p or not has_b
         end,
       },
-      goimports = {
-        prepend_args = { "-local", "github.com/your-org" },
-      },
-      gofumpt = {
-        prepend_args = { "-extra" },
-      },
-      shfmt = {
-        prepend_args = { "-i", "2", "-ci" },
-      },
-      black = {
-        prepend_args = { "--fast" },
-      },
-      isort = {
-        prepend_args = { "--profile", "black" },
-      },
+      stylua = { command = "stylua" },
+      taplo = { command = "taplo" },
+      shfmt = { command = "shfmt", prepend_args = { "-i", "2", "-ci" } },
+      goimports = { command = "goimports", prepend_args = { "-local", "github.com/your-org" } },
+      gofumpt = { command = "gofumpt", prepend_args = { "-extra" } },
+      black = { command = "black", prepend_args = { "--fast" } },
+      isort = { command = "isort", prepend_args = { "--profile", "black" } },
     },
   },
 }

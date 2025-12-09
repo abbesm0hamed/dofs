@@ -1,0 +1,25 @@
+# Wayland / Niri stack
+niri
+walker
+mako
+waybar
+swww
+swaybg
+grim
+slurp
+wl-clipboard
+wf-recorder
+satty
+swaylock-effects
+swayidle
+wlogout
+wob
+cliphist
+hyprshot
+swayosd
+gammastep
+wlsunset
+brightnessctl
+libnotify
+xdg-desktop-portal-wlr
+xdg-desktop-portal-gtk

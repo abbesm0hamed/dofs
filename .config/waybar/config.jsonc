@@ -1,0 +1,378 @@
+{
+    // -------------------------------------------------------------------------
+    // Global configuration
+    // -------------------------------------------------------------------------
+    "layer": "top",
+    "position": "top",
+    "output": ["eDP-1", "HDMI-A-1"], // Commented out to work with any display
+    "height": 31,
+    "margin-left": 0,
+    "margin-bottom": 0,
+    "margin-right": 0,
+    "spacing": 4,
+    "font-family": "SpaceMono",
+    "font-size": 12,
+    "font-weight": 400,
+    "modules-left": [
+        //"custom/rofi",
+        //"mpd"
+        "niri/window"
+    ],
+    "modules-center": [
+        "clock",
+        "niri/workspaces",
+        "custom/next-prayer",
+        "custom/notifications"
+        // "custom/weather"
+        //"custom/gammastep"
+    ],
+    "modules-right": [
+        // "custom/fingerprint",
+        "tray",
+        "custom/storage",
+        "memory",
+        "cpu",
+        "niri/language",
+        "backlight",
+        "wireplumber",
+        "custom/mic",
+        "custom/recording",
+        // "network",
+        // "bluetooth",
+        "battery",
+        "custom/idle_inhibitor",
+        "custom/power"
+        // "temperature",
+        // "pulseaudio",
+    ],
+    // -------------------------------------------------------------------------
+    // Modules
+    // -------------------------------------------------------------------------
+    "temperature": {
+        // "thermal-zone": 1,
+        "interval": 4,
+        //"hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": " {temperatureC}°C",
+        "format-critical": "  {temperatureC}°C",
+        "format": "{icon}  {temperatureC}°C",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ],
+        "max-length": 7,
+        "min-length": 7,
+        "on-click": "xsensors"
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {percentage}%",
+        "on-click": "ghostty -e btop"
+    },
+    "battery": {
+        "interval": 2,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon}{capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-full": "󰁹 {capacity}%",
+        "format-alt": "{icon} {capacity}% • {time}",
+        "format-icons": {
+            "default": [
+                "󰂎 ",
+                "󰁺 ",
+                "󰁻 ",
+                "󰁼 ",
+                "󰁽 ",
+                "󰁾 ",
+                "󰁿 ",
+                "󰂀 ",
+                "󰂁 ",
+                "󰂂 ",
+                "󰁹 "
+            ],
+            "charging": [
+                "󰢟 ",
+                "󰢜 ",
+                "󰂆 ",
+                "󰂇 ",
+                "󰂈 ",
+                "󰢝 ",
+                "󰂉 ",
+                "󰢞 ",
+                "󰂊 ",
+                "󰂋 ",
+                "󰂅 "
+            ]
+        },
+        "tooltip-format": "Battery: {capacity}%\nTime: {time}\nPower: {power}W"
+    },
+    "network": {
+        "format-wifi": "󰤨 ",
+        "format-ethernet": "󰛳 ",
+        "format-linked": "󰤭 ",
+        "format-disconnected": "󰤭 ",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
+        "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)\nFrequency: {frequency}MHz\nSignal: {signaldBm}dBm\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
+        "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "nm-connection-editor",
+        "on-click-right": "wl-copy $(ip route get 1.1.1.1 | grep -oP 'src \\K\\S+')",
+        "interval": 5
+    },
+    "custom/storage": {
+        "format": "󰋊 {}",
+        "format-alt": "{percentage}% 󰋊",
+        "format-alt-click": "click-right",
+        "return-type": "json",
+        "interval": 60,
+        "exec": "~/.config/waybar/modules/storage.sh"
+    },
+    "custom/next-prayer": {
+        "format": "{}",
+        "interval": 60,
+        "exec": "~/.config/waybar/scripts/next-prayer.sh",
+        "tooltip": true,
+        "tooltip-format": "Next Prayer: {}"
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon}{percent}%",
+        "format-icons": [
+            "󰃞 ",
+            "󰃟 ",
+            "󰃠 " 
+        ],
+        "on-scroll-down": "current=$(brightnessctl g); max=$(brightnessctl m); min=$((max * 5 / 100)); new=$((current - max * 5 / 100)); [ $new -lt $min ] && new=$min; brightnessctl s $new",
+        "on-scroll-up": "brightnessctl s +5%"
+    },
+    "bluetooth": {
+        "format": "󰂯",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "format-on": "󰂯",
+        "format-connected": "󰂱",
+        "format-connected-battery": "󰂱",
+        "tooltip-format": "Bluetooth: {status}\nController: {controller_alias}\nConnections: {num_connections}",
+        "tooltip-format-connected": "Bluetooth: Connected\nDevice: {device_alias}\nController: {controller_alias}\nConnections: {num_connections}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias} ({device_address})",
+        "tooltip-format-enumerate-connected-battery": "{device_alias} ({device_address}) - {device_battery_percentage}%",
+        "tooltip-format-disabled": "Bluetooth: Disabled",
+        "tooltip-format-off": "Bluetooth: Off",
+        "on-click": "blueman-manager",
+        "on-click-right": "bluetoothctl power toggle"
+    },
+    "custom/idle_inhibitor": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "if pgrep swayidle >/dev/null; then echo '{\"text\":\"󰅶\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"󰾪\",\"tooltip\":\"Idle: OFF\"}'; fi",
+        "interval": 5,
+        "on-click": "if pgrep swayidle; then pkill swayidle; else swayidle -w timeout 600 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors' & fi"
+    },
+    "custom/weather": {
+        "format": "{}",
+        "format-alt": "{alt}: {}",
+        "format-alt-click": "click-right",
+        "interval": 3600,
+        "exec": "curl -s 'https://wttr.in/?format=1'",
+        //"return-type": "json",
+        //"exec": "~/.config/waybar/modules/weather.sh",
+        "exec-if": "ping wttr.in -c1"
+    },
+    "custom/power": {
+        "format": " ",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/power-menu.sh"
+    },
+    "custom/notifications": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "<span foreground='#f9e2af'>󰂚</span>",
+            "none": "󰂛"
+        },
+        "return-type": "json",
+        "exec-if": "which makoctl",
+        "exec": "if makoctl list | grep -q .; then echo '{\"text\":\"󰂚\"}'; else echo '{\"text\":\"󰂛\"}'; fi",
+        "on-click": "makoctl dismiss",
+        "on-click-right": "makoctl dismiss --all",
+        "interval": 5
+    },
+    "custom/fingerprint": {
+        "format": " 󰈷 ",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/fingerprint-status.sh",
+        "interval": 30,
+        "on-click": "ghostty --title='Fingerprint Setup' -e bash -c '/home/abbes/.config/waybar/scripts/fingerprint-setup.sh setup; read -p \"Press Enter to close...\"'",
+        "tooltip": true
+    },
+    "clock": {
+        "format": "{:%d, %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "today-format": "<b>{}</b>"
+    },
+    "custom/gammastep": {
+        "interval": 5,
+        "return-type": "json",
+        "exec": "if unit_status=\"$(systemctl --user is-active gammastep)\"; then status=\"$unit_status ($(journalctl --user -u gammastep.service -g 'Period: ' | tail -1 | cut -d ':' -f6 | xargs))\"; else status=\"$unit_status\"; fi; echo \"{\\\"text\\\": \\\"${status:-inactive}\\\", \\\"tooltip\\\": \\\"Gammastep is ${status:-inactive}\\\"}\"",
+        "format": "{icon}",
+        "format-icons": {
+            "activating": "󰁪 ",
+            "deactivating": "󰁪 ",
+            "inactive": "? ",
+            "active (Night)": " ",
+            "active (Nighttime)": " ",
+            "active (Transition (Night)": " ",
+            "active (Transition (Nighttime)": " ",
+            "active (Day)": " ",
+            "active (Daytime)": " ",
+            "active (Transition (Day)": " ",
+            "active (Transition (Daytime)": " "
+        },
+        "on-click": "systemctl --user is-active gammastep && systemctl --user stop gammastep || systemctl --user start gammastep"
+    },
+    "cpu": {
+        "interval": 1,
+        "format": " {usage}%",
+        "max-length": 5
+    },
+    "mpd": {
+        "max-length": 25,
+        "format": "<span foreground='#bb9af7'></span> {title}",
+        "format-paused": " {title}",
+        "format-stopped": "<span foreground='#bb9af7'></span>",
+        "format-disconnected": "",
+        "on-click": "mpc --quiet toggle",
+        "on-click-right": "mpc update; mpc ls | mpc add",
+        "on-click-middle": "ghostty -e ncmpcpp",
+        "on-scroll-up": "mpc --quiet prev",
+        "on-scroll-down": "mpc --quiet next",
+        "smooth-scrolling-threshold": 5,
+        "tooltip-format": "{title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%H:%M:%S})"
+    },
+    "custom/title": {
+        "format": "{}",
+        "interval": 0,
+        "return-type": "json",
+        //"max-length": 35,
+        "tooltip": false
+    },
+    "custom/title#name": {
+        "format": "{}",
+        "interval": 0,
+        "return-type": "json",
+        "max-length": 35,
+        "exec": "$HOME/.scripts/title"
+    },
+    "niri/workspaces": {
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10"
+            // "urgent": "",
+            // "focused": "",
+            // "default": ""
+        },
+        "on-click": "activate",
+        "on-scroll-up": "niri msg action focus-workspace-up",
+        "on-scroll-down": "niri msg action focus-workspace-down"
+    },
+    "niri/window": {
+        "max-length": 100,
+        "separate-outputs": true
+    },
+    // "pulseaudio": {
+    //     "scroll-step": 3, // %, can be a float
+    //     "format": "{icon} {volume}% {format_source}",
+    //     "format-bluetooth": "{volume}% {icon} {format_source}",
+    //     "format-bluetooth-muted": " {icon} {format_source}",
+    //     "format-muted": " {format_source}",
+    //     //"format-source": "{volume}% ",
+    //     //"format-source-muted": "",
+    //     "format-source": "",
+    //     "format-source-muted": "",
+    //     "format-icons": {
+    //         "headphone": "",
+    //         "hands-free": "",
+    //         "headset": "",
+    //         "phone": "",
+    //         "portable": "",
+    //         "car": "",
+    //         "default": [
+    //             "",
+    //             "",
+    //             ""
+    //         ]
+    //     },
+    //     "on-click": "pavucontrol",
+    //     "on-click-right": "amixer sset Master toggle"
+    // },
+    "wireplumber": {
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "format": "{icon}{volume}%",
+        "format-muted": "<span foreground='#fab387'> </span>",
+        // "format-icons": [ "<span foreground='#fab387'> </span>" ]
+        "format-icons": {
+            "headphone": " ",
+            "hands-free": " ",
+            "headset": " ",
+            "phone": " ",
+            "muted": "  ", 
+            "portable": " ",
+            "car": " ",
+            "default": [
+                " ",
+                " ",
+                " "
+            ]
+        }
+    },
+    "custom/mic": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/mic-status.sh",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "interval": 1
+    },
+    "tray": {
+        "icon-size": 14,
+        "spacing": 6,
+        "show-passive-items": true,
+        "reverse-direction": true,
+        "on-update": "",
+        "smooth-scrolling-threshold": 1
+    },
+    "niri/language": {
+        "format": "󰌌 {}",
+        "format-en": "EN",
+        "format-fr": "FR",
+        "tooltip-format": "Language: {long}"
+    },
+    "custom/recording": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/recording-indicator.sh",
+        "interval": 1,
+        "signal": 8,
+        "tooltip": true,
+        "on-click": "~/.config/niri/scripts/screencast.sh stop"
+    }
+}
