@@ -3,7 +3,7 @@ nodejs
 npm
 pnpm
 yarn
-fnm-bin
+fnm
 bun-bin
 python
 python-pip

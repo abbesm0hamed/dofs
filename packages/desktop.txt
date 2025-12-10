@@ -8,6 +8,7 @@ tableplus
 zathura
 switcheroo
 localsend
+ghostty
 zip
 xz
 unzip

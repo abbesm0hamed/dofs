@@ -12,6 +12,14 @@ A unified, reproducible dotfiles setup for Arch Linux (CachyOS) featuring:
 
 ## Quick Start
 
+> **⚠️ IMPORTANT: Installation Recommendation**
+> 
+> Install this setup on **fresh CachyOS with NO desktop environment** (minimal/CLI installation).
+> 
+> **DO NOT** install on XFCE or any other desktop environment - this will cause conflicts and bloat.
+> 
+> 📖 **See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for complete step-by-step instructions.**
+
 ### 1. Clone the Repository
 
 ```bash
@@ -30,12 +38,59 @@ This will:
 - Install all packages from declarative lists
 - Create symlinks for all dotfiles
 - Apply the unified Catppuccin Mocha theme
+- Validate the entire setup
+
+**Time**: ~20-30 minutes
 
 ### 3. Reboot and Enjoy
 
 ```bash
 reboot
 ```
+
+## ⚡ Optimizations
+
+This setup includes:
+
+### Niri Best Practices
+- ✅ **xwayland-satellite** for X11 app compatibility (Discord, Steam, etc.)
+- ✅ **xdg-desktop-portal-gnome** for better screen sharing
+- ✅ **7-phase optimized autostart** with proper service ordering
+- ✅ **Live config reload** support
+
+### CachyOS Optimizations
+- ✅ **game-performance** wrapper for automatic gaming optimization
+- ✅ **Flat mouse acceleration** for precise control
+- ✅ **Wayland-native environment** for all apps
+- ✅ **Optimized kernel** (linux-cachyos)
+
+### Single-Command Installation
+- ✅ One command installs everything
+- ✅ Automatic validation before completion
+- ✅ Declarative package management
+- ✅ Reproducible setup
+
+See [OPTIMIZATIONS.md](OPTIMIZATIONS.md) for complete details.
+
+## 🎮 Gaming Setup
+
+### Steam
+Add to launch options:
+```
+game-performance %command%
+```
+
+### Lutris/Heroic
+Use the wrapper script:
+```
+~/dofs/scripts/game-launcher.sh %command%
+```
+
+**Benefits:**
+- Automatic performance CPU governor
+- Wayland-native gaming support
+- Lower latency and better FPS
+- HDR support (when available)
 
 ## What Gets Installed
 

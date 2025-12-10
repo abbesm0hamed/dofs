@@ -1,0 +1,45 @@
+# Wayland Environment Variables for Niri
+# Source this file in your shell profile or let Niri session handle it
+
+# Force Wayland for Qt applications
+export QT_QPA_PLATFORM=wayland
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+
+# Force Wayland for GTK applications  
+export GDK_BACKEND=wayland
+
+# Force Wayland for SDL2 applications
+export SDL_VIDEODRIVER=wayland
+
+# Force Wayland for Clutter applications
+export CLUTTER_BACKEND=wayland
+
+# Firefox Wayland
+export MOZ_ENABLE_WAYLAND=1
+
+# Electron apps (VS Code, Discord, etc.)
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+
+# Java applications
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# XDG specifications
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=niri
+
+# Cursor theme
+export XCURSOR_THEME=Adwaita
+export XCURSOR_SIZE=24
+
+# CachyOS optimizations
+# Enable AMD P-State EPP (for AMD CPUs)
+# This is handled by kernel parameters, but we set the preference here
+export AMD_PSTATE_EPP=balance_performance
+
+# Gaming optimizations (applied by game-launcher.sh when needed)
+# export PROTON_ENABLE_WAYLAND=1
+# export PROTON_NO_WM_DECORATION=1
+# export PROTON_ENABLE_HDR=1
+
+# Niri-specific
+export NIRI_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/niri/config.kdl"

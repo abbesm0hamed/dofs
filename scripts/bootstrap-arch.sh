@@ -98,7 +98,15 @@ main() {
   setup_symlinks
   apply_theme
 
+  log_step "Validating setup"
+  bash "${SCRIPT_DIR}/validate-setup.sh" || log_error "Validation failed - please review errors"
+
   log_done "Bootstrap finished - your Arch setup is ready!"
+  log_info "Next steps:"
+  log_info "  1. Reboot your system"
+  log_info "  2. Niri will start automatically"
+  log_info "  3. Press Mod+Return to open terminal"
+  log_info "  4. Press Alt+P to open application launcher"
 }
 
 main "$@"

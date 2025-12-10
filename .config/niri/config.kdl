@@ -42,8 +42,9 @@ input {
     mouse {
         // off
         // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
+        // Disable mouse acceleration for gaming and precise control
+        accel-speed 0.0
+        accel-profile "flat"
         // scroll-method "no-scroll"
     }
 
@@ -257,20 +258,9 @@ layout {
     }
 }
 
-// Add lines like this to spawn processes at startup.
-// Note that running niri as a session supports xdg-desktop-autostart,
-// which may be more convenient to use.
-// See the binds section below for more spawn examples.
-
-
-spawn-at-startup "sh" "-c" "swaybg -i ~/.config/backgrounds/blurry-snaky.jpg -m fill &" 
-spawn-at-startup "sh" "-c" "sleep 0.3 && swww-daemon && swww img ~/.config/backgrounds/snaky.jpg --transition-type fade --transition-fps 60 --transition-duration 0.5"  // Start daemon and immediately load wallpaper
-spawn-at-startup "xwayland-satellite"
-spawn-at-startup "sh" "-c" "~/.config/waybar/waybar.sh" // sleep 0.5s in script
-spawn-at-startup "sh" "-c" "sleep 1 && zen &"
-spawn-at-startup "sh" "-c" "sleep 1.5 && mako &"
-spawn-at-startup "sh" "-c" "sleep 2.5 && wl-paste --type text --watch cliphist store &"
-spawn-at-startup "sh" "-c" "sleep 2.5 && wl-paste --type image --watch cliphist store &"
+// Spawn processes at startup
+// Using centralized autostart script for better service management
+spawn-at-startup "bash" "-c" "~/.config/niri/scripts/autostart.sh"
 
 // Communication apps (uncomment as needed)
 // spawn-at-startup "bash" "-c" "sleep 4 && slack"
