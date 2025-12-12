@@ -1,7 +1,8 @@
 # Desktop applications
-chromium
 zen-browser-bin
 nautilus
+gvfs
+ffmpegthumbnailer
 slack-desktop
 discord
 tableplus

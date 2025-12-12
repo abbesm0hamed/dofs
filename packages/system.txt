@@ -1,8 +1,15 @@
 # System/base packages 
 network-manager-applet
+fprintd
+imagemagick
+pam-u2f
+libfido2
+stow
 bluez
 bluez-utils
 openssh
+avahi
+nss-mdns
 fish
 starship
 autorandr

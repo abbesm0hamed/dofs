@@ -30,7 +30,7 @@ check_fprintd() {
 
 # Function to detect fingerprint device
 detect_device() {
-    local device=$(fprintd-list 2>/dev/null | grep "found" | head -1)
+    local device=$(fprintd-list "$USER" 2>/dev/null | grep "found" | head -1)
     if [[ -z "$device" ]]; then
         print_color $RED "❌ No fingerprint device detected!"
         print_color $YELLOW "Make sure your fingerprint sensor is supported and drivers are installed."

@@ -1,7 +1,6 @@
 # Wayland / Niri stack
 niri
 fuzzel
-elephant
 mako
 waybar
 swww
@@ -13,11 +12,10 @@ wf-recorder
 satty
 swaylock-effects
 swayidle
+swayosd
 wlogout
 wob
 cliphist
-hyprshot
-swayosd
 gammastep
 wlsunset
 brightnessctl
@@ -25,3 +23,5 @@ libnotify
 xdg-desktop-portal-gtk
 wlr-randr
 blueman
+playerctl
+pamixer

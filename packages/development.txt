@@ -32,4 +32,8 @@ bat
 fzf
 ripgrep
 zoxide
+eza
+fd
+btop
+fastfetch
 ranger

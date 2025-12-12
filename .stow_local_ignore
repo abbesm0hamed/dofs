@@ -9,6 +9,7 @@
 \.bak$
 ~$
 \.old$
-^/i3/config\.template
-^/i3/scripts/testing
-^/i3/local-config
+^/scripts
+^/packages
+^/install.sh
+^/install.log

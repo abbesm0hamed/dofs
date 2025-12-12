@@ -26,21 +26,21 @@ git clone https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
 ```
 
-### 2. Run Bootstrap (One Command Setup)
+### 2. Run Installation (One Command Setup)
 
 ```bash
-bash scripts/bootstrap-arch.sh
+./install.sh
 ```
 
 This will:
 
 - Ensure `yay` is installed
-- Install all packages from declarative lists
-- Create symlinks for all dotfiles
+- Install all packages from lists (system, desktop, wayland, etc.)
+- Stow all dotfiles to `~/.config`
 - Apply the unified Catppuccin Mocha theme
-- Validate the entire setup
+- Enable the Niri session in your display manager
 
-**Time**: ~20-30 minutes
+**Time**: ~15-20 minutes
 
 ### 3. Reboot and Enjoy
 
@@ -163,7 +163,7 @@ dofs/scripts/theme-manager.sh current
 
 ```
 dofs/
-├── .config/                    # Configuration files
+├── .config/                    # Configuration files (stowed to ~/.config)
 │   ├── niri/                   # Niri window manager config
 │   ├── waybar/                 # Status bar config
 │   ├── mako/                   # Notification daemon config
@@ -178,13 +178,11 @@ dofs/
 │   ├── development.txt         # Dev tools
 │   ├── desktop.txt             # Desktop apps
 │   └── wayland.txt             # Wayland stack
-├── scripts/                    # Installation and management scripts
-│   ├── bootstrap-arch.sh       # Main bootstrap script
-│   ├── install-system.sh       # System packages installer
-│   ├── install-development.sh  # Dev tools installer
-│   ├── install-desktop.sh      # Desktop apps installer
-│   ├── install-wayland.sh      # Wayland stack installer
-│   └── theme-manager.sh        # Theme management script
+├── scripts/                    # Utility scripts
+│   ├── setup-display-manager.sh # Niri session setup
+│   ├── theme-manager.sh        # Theme management script
+│   └── legacy/                 # Archived scripts
+├── install.sh                  # Main installation script
 └── README.md                   # This file
 ```
 
@@ -278,7 +276,7 @@ niri msg action reload-config
 bash scripts/verify-installation.sh
 
 # View installation log
-cat /tmp/niri-bootstrap.log
+cat ~/install.log
 
 # Check autostart log (after logging into niri)
 cat $XDG_RUNTIME_DIR/niri-autostart.log
@@ -315,8 +313,10 @@ waybar &
 
 **Can't switch back to Gnome:**
 
-- At login screen, click the gear icon (session selector)
-- Select "GNOME" or "GNOME on Xorg"
+-  2. At login screen, select 'Niri' from session menu
+  3. Log in with your credentials
+  4. Press Mod+Return to open terminal
+  5. Press Mod+P to open application launcher
 
 **For detailed troubleshooting, see [INSTALLATION_TROUBLESHOOTING.md](INSTALLATION_TROUBLESHOOTING.md)**
 
@@ -347,66 +347,48 @@ This document provides a comprehensive list of all keyboard shortcuts configured
 - [Screenshots](#screenshots)
 - [Applications](#applications)
 
-## Window Management (Hyprland)
+## Window Management (Niri)
 
 | Keybinding                | Action                                |
 | ------------------------- | ------------------------------------- |
-| `Super + h/j/k/l`         | Focus left/down/up/right              |
-| `Super + Shift + h/j/k/l` | Move window left/down/up/right        |
-| `Super + z`               | Split vertically                      |
-| `Super + x`               | Split horizontally                    |
-| `Super + f`               | Toggle fullscreen                     |
-| `Super + Shift + f`       | Toggle floating mode                  |
-| `Super + Space`           | Toggle focus between floating/tiling  |
-| `Super + a`               | Focus parent                          |
-| `Super + equal`           | Resize window (+30 width, +60 height) |
-| `Super + minus`           | Resize window (-30 width, -60 height) |
-| `Super + y`               | Toggle waybar                         |
+| `Mod + h/j/k/l`           | Focus left/down/up/right              |
+| `Mod + Shift + h/j/k/l`   | Move window left/down/up/right        |
+| `Mod + f`                 | Toggle maximized                      |
+| `Mod + equal`             | Resize window (+ width)               |
+| `Mod + minus`             | Resize window (- width)               |
 
 ## Workspace Controls
 
 | Keybinding                | Action                           |
 | ------------------------- | -------------------------------- |
-| `Super + (1-9,0)`         | Switch to workspace 1-10         |
-| `Super + Shift + (1-9,0)` | Move container to workspace 1-10 |
-| `Super + Shift + b`       | Move workspace to next output    |
+| `Mod + (1-9)`             | Switch to workspace 1-9          |
+| `Mod + Shift + (1-9)`     | Move window to workspace 1-9     |
+| `Mod + Tab`               | Toggle overview                  |
 
 ## Application Shortcuts
 
 | Keybinding               | Action               |
 | ------------------------ | -------------------- |
-| `Super + Shift + Return` | Launch Krusader      |
-| `Super + F1`             | Launch Vivaldi       |
-| `Super + F2`             | Launch Atom          |
-| `Super + F3`             | Launch Inkscape      |
-| `Super + F4`             | Launch GIMP          |
-| `Super + F5`             | Launch Meld          |
-| `Super + F6`             | Launch VLC           |
-| `Super + F7`             | Launch VirtualBox    |
-| `Super + g`              | Launch Google Chrome |
-| `Ctrl + Alt + s`         | Launch Flameshot GUI |
-| `Super + q`              | Quick Settings panel |
+| `Mod + Return`           | Launch Ghostty       |
+| `Mod + P`                | Launch Fuzzel        |
+| `Alt + Z`                | Launch Zen Browser   |
+| `Alt + E`                | Launch Nautilus      |
+| `Alt + Ctrl + L`         | Launch Swaylock      |
 
 ## Media Controls
 
 | Keybinding                           | Action                        |
 | ------------------------------------ | ----------------------------- |
-| `XF86AudioRaiseVolume` / `Alt + d`   | Volume up                     |
-| `XF86AudioLowerVolume` / `Alt + a`   | Volume down                   |
+| `XF86AudioRaiseVolume`               | Volume up                     |
+| `XF86AudioLowerVolume`               | Volume down                   |
 | `XF86AudioMute`                      | Toggle mute                   |
-| `XF86AudioPlay` / `Ctrl + Alt + p`   | Play/Pause                    |
-| `XF86AudioNext` / `Ctrl + Shift + .` | Next track                    |
-| `XF86AudioPrev` / `Ctrl + Shift + ,` | Previous track                |
-| `Alt + Shift + h/j/k/l`              | MPD: Previous/Next/Play/Pause |
 
 ## System Controls
 
 | Keybinding          | Action                       |
 | ------------------- | ---------------------------- |
-| `Super + Shift + q` | Kill focused window          |
-| `Super + Shift + c` | Reload Hyprland config       |
-| `Super + Shift + r` | Restart Hyprland             |
-| `Super + Escape`    | Reload keybind configuration |
+| `Mod + Shift + q`   | Close window                 |
+| `Mod + Shift + e`   | Quit Niri (Logout)           |
 
 ## Screenshots
 
@@ -567,16 +549,16 @@ Press `super + alt + o` to open the power menu, which provides options for:
 ## Additional Features
 
 - **Keyboard Layout**: Toggle between US and Arabic layouts using `Alt + Shift`
-- **Auto-tiling**: Enabled by default with advanced Hyprland tiling
+- **Auto-tiling**: Dynamic tiling layout
 - **Workspace Auto Back and Forth**: Enabled
-- **Smooth Animations**: Hyprland's advanced animation system
+- **Smooth Animations**: Advanced animation system
 - **Optimized for CachyOS**: Performance tweaks for the CachyOS kernel
 
 Note: Some keybindings might be commented out in the config files. This documentation shows only the active keybindings.
 
 ## Inspiration
 
-- [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) - Base configuration
+- [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) - Base configuration (adapted for Niri)
 - [The Linux Cast Dotfiles](https://gitlab.com/thelinuxcast/my-dots.git)
 - [Nvim Config by Allaman](https://github.com/Allaman/nvim)
 - [Chris Grieser Config](https://github.com/chrisgrieser/.config)
