@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # System Controls Menu for Niri
 # Usage: system-controls.sh

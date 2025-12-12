@@ -1,55 +1,48 @@
-/* ===== Waybar Minimal CSS ===== */
-/* Unified Catppuccin Mocha theme colors */
+/* Catppuccin Mocha theme for Waybar */
 
-/* Base colors */
-@define-color crust #11111b;
-@define-color mantle #181825;
-@define-color base #1e1e2e;
-
-/* Surface colors */
-@define-color surface0 #313244;
-@define-color surface1 #45475a;
-@define-color surface2 #585b70;
-
-/* Overlay colors */
-@define-color overlay0 #6c7086;
-@define-color overlay1 #7f849c;
-@define-color overlay2 #9399b2;
-
-/* Text colors */
-@define-color subtext0 #a6adc8;
-@define-color subtext1 #bac2de;
-@define-color text #cdd6f4;
-
-/* Accent colors */
-@define-color rosewater #f5e0dc;
-@define-color flamingo #f2cdcd;
-@define-color pink #f5c2e7;
-@define-color mauve #cba6f7;
-@define-color red #f38ba8;
-@define-color maroon #eba0ac;
-@define-color peach #fab387;
-@define-color yellow #f9e2af;
-@define-color green #a6e3a1;
-@define-color teal #94e2d5;
-@define-color sky #89dceb;
-@define-color sapphire #74c7ec;
-@define-color blue #89b4fa;
-@define-color lavender #b4befe;
-
-* {
-  font-family: "SpaceMono Nerd Font", monospace;
-  font-size: 14px;
-  min-height: 0;
-  border: none;
-  border-radius: 0;
+:root {
+  /* Base colors */
+  --crust: #11111b;
+  --mantle: #181825;
+  --base: #1e1e2e;
+  
+  /* Surface colors */
+  --surface0: #313244;
+  --surface1: #45475a;
+  --surface2: #585b70;
+  
+  /* Overlay colors */
+  --overlay0: #6c7086;
+  --overlay1: #7f849c;
+  --overlay2: #9399b2;
+  
+  /* Text colors */
+  --subtext0: #a6adc8;
+  --subtext1: #bac2de;
+  --text: #cdd6f4;
+  
+  /* Accent colors */
+  --rosewater: #f5e0dc;
+  --flamingo: #f2cdcd;
+  --pink: #f5c2e7;
+  --mauve: #cba6f7;
+  --red: #f38ba8;
+  --maroon: #eba0ac;
+  --peach: #fab387;
+  --yellow: #f9e2af;
+  --green: #a6e3a1;
+  --teal: #94e2d5;
+  --sky: #89dceb;
+  --sapphire: #74c7ec;
+  --blue: #89b4fa;
+  --lavender: #b4befe;
 }
 
 /* Main window */
 window#waybar {
-  background: @base;
-  color: @text;
-  border-bottom: 1px solid @surface1;
+  background: var(--base);
+  color: var(--text);
+  border-bottom: 1px solid var(--surface1);
 }
 
 /* All modules default styling */
@@ -57,14 +50,6 @@ window#waybar {
 .modules-center,
 .modules-right {
   background: transparent;
-}
-
-.modules-left>widget:first-child>* {
-  margin-left: 8px;
-}
-
-.modules-right>widget:last-child>* {
-  margin-right: 3px;
 }
 
 /* Individual modules */
@@ -88,7 +73,7 @@ window#waybar {
 #custom-recording,
 #custom-fingerprint {
   background: transparent;
-  color: @text;
+  color: var(--text);
   padding: 0px 4px;
 }
 
@@ -98,7 +83,7 @@ window#waybar {
 }
 
 #workspaces button {
-  color: @overlay0;
+  color: var(--overlay0);
   padding: 4px 2px;
   margin: 0 0px;
   border-radius: 0px;
@@ -107,11 +92,11 @@ window#waybar {
 }
 
 #workspaces button.focused {
-  color: @blue;
+  color: var(--blue);
 }
 
 #workspaces button.urgent {
-  color: @red;
+  color: var(--red);
 }
 
 /* Clock - center highlight */
@@ -119,63 +104,63 @@ window#waybar {
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 0px;
-  background-color: @surface0;
-  border-bottom: 1px solid @surface1;
-  border-right: 2px dotted @overlay0;
-  border-left: 2px dotted @overlay0;
+  background-color: var(--surface0);
+  border-bottom: 1px solid var(--surface1);
+  border-right: 2px dotted var(--overlay0);
+  border-left: 2px dotted var(--overlay0);
 }
 
 #cpu,
 #custom-notifications {
-  border-right: 2px dotted @overlay0;
+  border-right: 2px dotted var(--overlay0);
 }
 
 #custom-next-prayer {
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 0px;
-  background-color: @surface0;
-  border-bottom: 1px solid @surface1;
-  border-right: 2px dotted @overlay0;
-  border-left: 2px dotted @overlay0;
+  background-color: var(--surface0);
+  border-bottom: 1px solid var(--surface1);
+  border-right: 2px dotted var(--overlay0);
+  border-left: 2px dotted var(--overlay0);
 }
 
 /* Battery states */
 #battery.warning {
-  color: @yellow;
+  color: var(--yellow);
 }
 
 #battery.critical {
-  color: @red;
+  color: var(--red);
 }
 
 #battery.charging {
-  color: @green;
+  color: var(--green);
 }
 
 /* Temperature states */
 #temperature.critical {
-  color: @red;
+  color: var(--red);
 }
 
 /* System tray */
 #tray {
   padding: 0 8px;
   margin: 0px 4px;
-  border-right: 2px dotted @overlay0;
-  border-left: 2px dotted @overlay0;
+  border-right: 2px dotted var(--overlay0);
+  border-left: 2px dotted var(--overlay0);
 }
 
-#tray>.passive {
+#tray > .passive {
   -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
+#tray > .needs-attention {
   -gtk-icon-effect: highlight;
 }
 
 #custom-power:hover {
-  color: @red;
+  color: var(--red);
 }
 
 #custom-idle_inhibitor {
@@ -183,19 +168,19 @@ window#waybar {
 }
 
 #custom-idle_inhibitor:hover {
-  color: @blue;
+  color: var(--blue);
 }
 
 /* Window title */
 #window {
-  color: @text;
+  color: var(--text);
   font-style: italic;
 }
 
 /* Tooltip */
 tooltip {
-  background: @surface0;
-  border: 1px solid @surface1;
+  background: var(--surface0);
+  border: 1px solid var(--surface1);
   border-radius: 0px;
 }
 
@@ -215,15 +200,15 @@ tooltip label {
 #wireplumber:hover,
 #custom-storage:hover,
 #custom-fingerprint:hover {
-  color: @blue;
+  color: var(--blue);
   border-radius: 0px;
   transition: background 0.2s ease;
 }
 
-/* Fingerprint module - only shows when not setup */
+/* Fingerprint module */
 #custom-fingerprint {
-  color: @yellow;
-  background: @surface2;
+  color: var(--yellow);
+  background: var(--surface2);
   border-radius: 0px;
   padding: 0px 2px;
   margin: 0 2px;
@@ -232,26 +217,24 @@ tooltip label {
 }
 
 #custom-fingerprint:hover {
-  background: @yellow;
-  color: @base;
+  background: var(--yellow);
+  color: var(--base);
 }
 
-/* Subtle pulse animation to draw attention */
+/* Pulse animation */
 @keyframes pulse {
   0% {
     opacity: 1;
   }
-
   50% {
     opacity: 0.7;
   }
-
   100% {
     opacity: 1;
   }
 }
 
-/* Recording indicator - always visible with different states */
+/* Recording indicator */
 #custom-recording {
   font-weight: bold;
   font-size: 14px;
@@ -259,7 +242,7 @@ tooltip label {
 }
 
 #custom-recording.inactive {
-  color: @text;
+  color: var(--text);
 }
 
 #custom-recording.recording {
@@ -278,11 +261,11 @@ tooltip label {
 }
 
 #custom-recording.inactive:hover {
-  color: @blue;
+  color: var(--blue);
 }
 
 #custom-recording.recording:hover,
 #custom-recording.recording-audio-only:hover,
 #custom-recording.recording-audio:hover {
-  color: @blue;
+  color: var(--blue);
 }

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Screen recording script for Niri with Audio Support and Recording Indicators
 # Usage: screencast.sh [region|screen|region-audio|screen-audio|stop]

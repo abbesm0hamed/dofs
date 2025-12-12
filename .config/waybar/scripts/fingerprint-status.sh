@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Fingerprint Status Script for Waybar
 # Shows fingerprint setup indicator only when not configured

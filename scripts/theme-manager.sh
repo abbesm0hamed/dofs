@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Theme Manager for dofs
 # Manages unified Catppuccin Mocha theme across all components
@@ -55,32 +55,32 @@ list_themes() {
 # Set a theme
 set_theme() {
     local theme_name="$1"
-    
+
     if [ -z "$theme_name" ]; then
         log_error "Theme name required"
         return 1
     fi
-    
+
     local theme_path="$THEME_DIR/$theme_name"
-    
+
     if [ ! -d "$theme_path" ]; then
         log_error "Theme not found: $theme_name"
         return 1
     fi
-    
+
     log_step "Setting theme: $theme_name"
-    
+
     # Create symlink to current theme
     mkdir -p "$(dirname "$CURRENT_THEME_LINK")"
     ln -nsf "$theme_path" "$CURRENT_THEME_LINK"
     log_success "Theme symlink created"
-    
+
     # Apply theme to each component
     apply_niri_theme "$theme_path"
     apply_waybar_theme "$theme_path"
     apply_mako_theme "$theme_path"
-    apply_walker_theme "$theme_path"
-    
+    apply_fuzzel_theme "$theme_path"
+
     log_success "Theme '$theme_name' applied successfully"
 }
 
@@ -88,22 +88,30 @@ set_theme() {
 apply_niri_theme() {
     local theme_path="$1"
     local niri_conf="$theme_path/niri.conf"
-    
+
     if [ ! -f "$niri_conf" ]; then
         log_warning "Niri theme file not found: $niri_conf"
         return 0
     fi
-    
+
     log_step "Applying Niri theme..."
-    
-    # Create a symlink or copy the niri theme file
+
+    # Create niri config directory if it doesn't exist
     mkdir -p "$CONFIG_DIR/niri"
+
+    # Copy the niri theme file
     cp "$niri_conf" "$CONFIG_DIR/niri/theme.conf"
-    
-    # Reload Niri if running
-    if command -v niri >/dev/null && pgrep -x niri >/dev/null; then
-        niri msg action reload-config 2>/dev/null || true
-        log_success "Niri reloaded"
+
+    # Reload Niri if running (don't fail if not running)
+    if command -v niri >/dev/null 2>&1; then
+        if pgrep -x niri >/dev/null 2>&1; then
+            niri msg action reload-config 2>/dev/null || log_warning "Could not reload niri config"
+            log_success "Niri reloaded"
+        else
+            log_success "Niri theme applied (niri not running)"
+        fi
+    else
+        log_warning "Niri not installed yet, theme will be applied on first start"
     fi
 }
 
@@ -111,17 +119,17 @@ apply_niri_theme() {
 apply_waybar_theme() {
     local theme_path="$1"
     local waybar_css="$theme_path/waybar.css"
-    
+
     if [ ! -f "$waybar_css" ]; then
         log_warning "Waybar theme file not found: $waybar_css"
         return 0
     fi
-    
+
     log_step "Applying Waybar theme..."
-    
+
     mkdir -p "$CONFIG_DIR/waybar"
     cp "$waybar_css" "$CONFIG_DIR/waybar/theme.css"
-    
+
     # Reload Waybar
     if command -v waybar >/dev/null; then
         pkill -f waybar || true
@@ -135,17 +143,17 @@ apply_waybar_theme() {
 apply_mako_theme() {
     local theme_path="$1"
     local mako_ini="$theme_path/mako.ini"
-    
+
     if [ ! -f "$mako_ini" ]; then
         log_warning "Mako theme file not found: $mako_ini"
         return 0
     fi
-    
+
     log_step "Applying Mako theme..."
-    
+
     mkdir -p "$CONFIG_DIR/mako"
     cp "$mako_ini" "$CONFIG_DIR/mako/config"
-    
+
     # Reload Mako
     if command -v makoctl >/dev/null; then
         makoctl reload
@@ -153,22 +161,22 @@ apply_mako_theme() {
     fi
 }
 
-# Apply Walker theme
-apply_walker_theme() {
+# Apply fuzzel theme
+apply_fuzzel_theme() {
     local theme_path="$1"
-    local walker_toml="$theme_path/walker.toml"
-    
-    if [ ! -f "$walker_toml" ]; then
-        log_warning "Walker theme file not found: $walker_toml"
+    local fuzzel_toml="$theme_path/fuzzel.toml"
+
+    if [ ! -f "$fuzzel_toml" ]; then
+        log_warning "fuzzel theme file not found: $fuzzel_toml"
         return 0
     fi
-    
-    log_step "Applying Walker theme..."
-    
-    mkdir -p "$CONFIG_DIR/walker"
-    cp "$walker_toml" "$CONFIG_DIR/walker/theme.toml"
-    
-    log_success "Walker theme applied"
+
+    log_step "Applying fuzzel theme..."
+
+    mkdir -p "$CONFIG_DIR/fuzzel"
+    cp "$fuzzel_toml" "$CONFIG_DIR/fuzzel/theme.toml"
+
+    log_success "fuzzel theme applied"
 }
 
 # Get current theme
@@ -192,7 +200,7 @@ case "${1:-}" in
         echo "Current theme: $(get_current_theme)"
         ;;
     *)
-        cat << EOF
+        cat <<EOF
 Theme Manager - Unified theme system for dofs
 
 Usage: $(basename "$0") <command> [args]

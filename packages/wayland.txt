@@ -1,6 +1,7 @@
 # Wayland / Niri stack
 niri
-walker
+fuzzel
+elephant
 mako
 waybar
 swww
@@ -23,3 +24,4 @@ brightnessctl
 libnotify
 xdg-desktop-portal-gtk
 wlr-randr
+blueman

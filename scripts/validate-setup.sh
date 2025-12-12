@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Niri Setup Validation Script
 # Checks that everything is properly configured before first boot
 
@@ -37,7 +37,7 @@ success() {
 echo "[1/7] Checking critical packages..."
 
 check_package() {
-    if command -v "$1" &> /dev/null || pacman -Q "$1" &> /dev/null 2>&1; then
+    if command -v "$1" &>/dev/null || pacman -Q "$1" &>/dev/null 2>&1; then
         success "$1 installed"
         return 0
     else
@@ -49,7 +49,7 @@ check_package() {
 check_package "niri"
 check_package "waybar"
 check_package "mako"
-check_package "walker"
+check_package "fuzzel"
 check_package "xwayland-satellite"
 check_package "swaylock"
 check_package "swayidle"
@@ -64,7 +64,7 @@ echo ""
 echo "[2/7] Validating Niri configuration..."
 
 if [ -f ~/.config/niri/config.kdl ]; then
-    if command -v niri &> /dev/null; then
+    if command -v niri &>/dev/null; then
         if niri validate ~/.config/niri/config.kdl 2>&1; then
             success "Niri config is valid"
         else
@@ -92,7 +92,7 @@ check_script() {
         else
             error "$(basename "$1") is not executable - run: chmod +x $1"
         fi
-        
+
         # Check for bash syntax errors
         if bash -n "$1" 2>&1; then
             success "$(basename "$1") has no syntax errors"
@@ -133,7 +133,7 @@ check_symlink() {
 check_symlink ~/.config/niri
 check_symlink ~/.config/waybar
 check_symlink ~/.config/mako
-check_symlink ~/.config/walker
+check_symlink ~/.config/fuzzel
 
 echo ""
 
@@ -178,7 +178,7 @@ echo ""
 
 echo "[7/7] Checking system services..."
 
-if systemctl --user is-enabled pipewire &> /dev/null; then
+if systemctl --user is-enabled pipewire &>/dev/null; then
     success "PipeWire is enabled"
 else
     warning "PipeWire is not enabled - run: systemctl --user enable pipewire pipewire-pulse wireplumber"

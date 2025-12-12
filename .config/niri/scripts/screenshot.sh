@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Screenshot script for Niri with Satty integration
 # Usage: screenshot.sh [region|window|screen]

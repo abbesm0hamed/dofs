@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-# Optimized Niri Autostart Script
-# Follows Niri best practices with proper service ordering
+#!/bin/bash
 
 set -euo pipefail
 
@@ -29,12 +27,13 @@ sleep 1
 echo "[Phase 1] Starting critical system services..."
 
 # XWayland support (CRITICAL - must start before X11 apps)
-if command -v xwayland-satellite &> /dev/null; then
+if command -v xwayland-satellite &>/dev/null; then
     echo "  → Starting xwayland-satellite..."
     xwayland-satellite &
     sleep 0.5
 else
     echo "  ⚠ xwayland-satellite not found - X11 apps won't work"
+    echo "  Install with: yay -S xwayland-satellite"
 fi
 
 # Polkit authentication agent (CRITICAL - needed for GUI sudo)
@@ -59,8 +58,7 @@ pkill -9 xdg-desktop-portal || true
 
 sleep 0.5
 
-# Start portals (for screen sharing, file pickers, etc.)
-if command -v xdg-desktop-portal-gnome &> /dev/null; then
+if command -v xdg-desktop-portal-gnome &>/dev/null; then
     echo "  → Starting xdg-desktop-portal-gnome..."
     /usr/lib/xdg-desktop-portal-gnome &
     sleep 0.5
@@ -77,16 +75,23 @@ sleep 1
 echo "[Phase 3] Starting UI components..."
 
 # Notification daemon
-if command -v mako &> /dev/null; then
+if command -v mako &>/dev/null; then
     echo "  → Starting mako..."
     mako &
     sleep 0.3
 fi
 
 # Status bar
-if command -v waybar &> /dev/null; then
+if command -v waybar &>/dev/null; then
     echo "  → Starting waybar..."
     waybar &
+    sleep 0.3
+fi
+
+# Fuzzel application launcher service
+if command -v fuzzel &>/dev/null; then
+    echo "  → Starting fuzzel service..."
+    fuzzel &
     sleep 0.3
 fi
 
@@ -97,41 +102,64 @@ fi
 echo "[Phase 4] Starting system tray apps..."
 
 # Network manager
-if command -v nm-applet &> /dev/null; then
+if command -v nm-applet &>/dev/null; then
     echo "  → Starting nm-applet..."
     nm-applet --indicator &
     sleep 0.2
 fi
 
 # Bluetooth
-if command -v blueman-applet &> /dev/null; then
+if command -v blueman-applet &>/dev/null; then
     echo "  → Starting blueman-applet..."
     blueman-applet &
     sleep 0.2
 fi
 
 # ============================================================================
-# Phase 5: Wallpaper
+# Phase 5: Dual Wallpaper Setup
 # ============================================================================
 
-echo "[Phase 5] Setting wallpaper..."
+echo "[Phase 5] Setting up dual wallpaper..."
 
-# Initialize swww daemon
-if command -v swww &> /dev/null; then
-    echo "  → Starting swww daemon..."
-    swww init &
-    sleep 1
-    
-    # Set wallpaper if it exists
-    WALLPAPER="${HOME}/.config/backgrounds/default.jpg"
-    if [ -f "$WALLPAPER" ]; then
-        echo "  → Loading wallpaper: $WALLPAPER"
-        swww img "$WALLPAPER" --transition-type fade --transition-fps 60 --transition-duration 1 &
+# Backdrop wallpaper with swaybg (stationary in overview)
+if command -v swaybg &>/dev/null; then
+    BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-snaky.jpg"
+    if [ -f "$BACKDROP_WALLPAPER" ]; then
+        echo "  → Starting swaybg backdrop: $BACKDROP_WALLPAPER"
+        swaybg -i "$BACKDROP_WALLPAPER" -m fill &
+        sleep 0.3
     else
-        echo "  ⚠ Wallpaper not found: $WALLPAPER"
-        # Fallback to solid color
-        swww img <(convert -size 1920x1080 xc:'#1e1e2e' png:-) &
+        echo "  ⚠ Backdrop wallpaper not found: $BACKDROP_WALLPAPER"
+        echo "  → Using solid color backdrop"
+        swaybg -c '#1e1e2e' &
+        sleep 0.3
     fi
+else
+    echo "  ⚠ swaybg not found - install with: yay -S swaybg"
+fi
+
+# Foreground wallpaper with swww (moves with workspaces)
+if command -v swww &>/dev/null; then
+    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/snaky.jpg"
+    echo "  → Starting swww daemon..."
+    swww-daemon &
+    sleep 0.5
+
+    if [ -f "$FOREGROUND_WALLPAPER" ]; then
+        echo "  → Loading foreground wallpaper: $FOREGROUND_WALLPAPER"
+        swww img "$FOREGROUND_WALLPAPER" --transition-type fade --transition-fps 60 --transition-duration 0.5 &
+    else
+        echo "  ⚠ Foreground wallpaper not found: $FOREGROUND_WALLPAPER"
+        # Try default.jpg as fallback
+        if [ -f "${HOME}/.config/backgrounds/default.jpg" ]; then
+            swww img "${HOME}/.config/backgrounds/default.jpg" --transition-type fade --transition-fps 60 --transition-duration 0.5 &
+        else
+            echo "  → Using transparent background for swww"
+            swww clear '#00000000' &
+        fi
+    fi
+else
+    echo "  ⚠ swww not found - install with: yay -S swww"
 fi
 
 # ============================================================================
@@ -141,7 +169,7 @@ fi
 echo "[Phase 6] Starting utilities..."
 
 # Clipboard manager
-if command -v cliphist &> /dev/null && command -v wl-paste &> /dev/null; then
+if command -v cliphist &>/dev/null && command -v wl-paste &>/dev/null; then
     echo "  → Starting clipboard manager..."
     wl-paste --type text --watch cliphist store &
     wl-paste --type image --watch cliphist store &
@@ -149,7 +177,7 @@ if command -v cliphist &> /dev/null && command -v wl-paste &> /dev/null; then
 fi
 
 # Idle manager (screen timeout and lock)
-if command -v swayidle &> /dev/null; then
+if command -v swayidle &>/dev/null; then
     echo "  → Starting swayidle..."
     swayidle -w \
         timeout 600 'niri msg action power-off-monitors' \
@@ -165,9 +193,9 @@ fi
 echo "[Phase 7] Starting optional services..."
 
 # Gammastep (blue light filter)
-if command -v gammastep &> /dev/null; then
+if command -v gammastep &>/dev/null; then
     echo "  → Starting gammastep..."
-    gammastep -l 0:0 &  # Auto-detect location or set your coords
+    gammastep -l 0:0 & # Auto-detect location or set your coords
 fi
 
 # ============================================================================

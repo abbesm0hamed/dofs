@@ -1,10 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Power menu options with Nerd Font icons
 options="󰌾 Lock\n󰗽 Logout\n󰤄 Suspend\n󰜉 Reboot\n󰐥 Shutdown"
 
-# Show walker menu and get selection
-selected=$(echo -e "$options" | walker --dmenu --prompt="󰐥 Power: " --width=32 --lines=5)
+selected=$(echo -e "$options" | fuzzel --dmenu --prompt="󰐥 Power: " --width=32 --lines=5)
 
 case $selected in
     "󰌾 Lock")

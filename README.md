@@ -4,7 +4,6 @@ A unified, reproducible dotfiles setup for Arch Linux (CachyOS) featuring:
 
 - **Niri** window manager (Wayland compositor)
 - **Catppuccin Mocha** unified theme system
-- **Walker** application launcher
 - **Mako** notification daemon
 - **Waybar** status bar
 - **Fish** shell with **Starship** prompt
@@ -13,11 +12,11 @@ A unified, reproducible dotfiles setup for Arch Linux (CachyOS) featuring:
 ## Quick Start
 
 > **⚠️ IMPORTANT: Installation Recommendation**
-> 
+>
 > Install this setup on **fresh CachyOS with NO desktop environment** (minimal/CLI installation).
-> 
+>
 > **DO NOT** install on XFCE or any other desktop environment - this will cause conflicts and bloat.
-> 
+>
 > 📖 **See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for complete step-by-step instructions.**
 
 ### 1. Clone the Repository
@@ -34,6 +33,7 @@ bash scripts/bootstrap-arch.sh
 ```
 
 This will:
+
 - Ensure `yay` is installed
 - Install all packages from declarative lists
 - Create symlinks for all dotfiles
@@ -53,18 +53,21 @@ reboot
 This setup includes:
 
 ### Niri Best Practices
+
 - ✅ **xwayland-satellite** for X11 app compatibility (Discord, Steam, etc.)
 - ✅ **xdg-desktop-portal-gnome** for better screen sharing
 - ✅ **7-phase optimized autostart** with proper service ordering
 - ✅ **Live config reload** support
 
 ### CachyOS Optimizations
+
 - ✅ **game-performance** wrapper for automatic gaming optimization
 - ✅ **Flat mouse acceleration** for precise control
 - ✅ **Wayland-native environment** for all apps
 - ✅ **Optimized kernel** (linux-cachyos)
 
 ### Single-Command Installation
+
 - ✅ One command installs everything
 - ✅ Automatic validation before completion
 - ✅ Declarative package management
@@ -75,18 +78,23 @@ See [OPTIMIZATIONS.md](OPTIMIZATIONS.md) for complete details.
 ## 🎮 Gaming Setup
 
 ### Steam
+
 Add to launch options:
+
 ```
 game-performance %command%
 ```
 
 ### Lutris/Heroic
+
 Use the wrapper script:
+
 ```
 ~/dofs/scripts/game-launcher.sh %command%
 ```
 
 **Benefits:**
+
 - Automatic performance CPU governor
 - Wayland-native gaming support
 - Lower latency and better FPS
@@ -95,16 +103,19 @@ Use the wrapper script:
 ## What Gets Installed
 
 ### System Packages
+
 - Base development tools, git, network manager
 - Fish shell, Starship prompt
 - Bluetooth, SSH, power management tools
 
 ### Development Tools
+
 - Node.js (fnm), Python, Rust, Go
 - Docker, Kubernetes, Terraform
 - Neovim, code quality tools, debuggers
 
 ### Desktop Applications
+
 - Chromium, Zen Browser
 - Nautilus file manager
 - Slack, Discord
@@ -112,8 +123,8 @@ Use the wrapper script:
 - And many more...
 
 ### Wayland Stack
+
 - **Niri** compositor
-- **Walker** launcher
 - **Waybar** status bar
 - **Mako** notifications
 - Screenshot, recording, clipboard tools
@@ -129,10 +140,10 @@ All components use a unified **Catppuccin Mocha** theme with 28 carefully select
 - **Success**: #a6e3a1 (green)
 
 ### Themed Components
+
 - Niri window borders
 - Waybar status bar
 - Mako notifications
-- Walker launcher
 - Terminal colors
 
 ### Manage Themes
@@ -156,7 +167,6 @@ dofs/
 │   ├── niri/                   # Niri window manager config
 │   ├── waybar/                 # Status bar config
 │   ├── mako/                   # Notification daemon config
-│   ├── walker/                 # Application launcher config
 │   ├── fish/                   # Fish shell config
 │   ├── starship/               # Starship prompt config
 │   ├── nvim/                   # Neovim config
@@ -181,18 +191,20 @@ dofs/
 ## Keybindings
 
 ### Window Management (Niri)
+
 - `Mod+H/J/K/L` - Focus left/down/up/right
 - `Mod+Shift+H/J/K/L` - Move window
 - `Mod+Return` - Open terminal (Ghostty)
-- `Alt+P` - Open application launcher (Walker)
 - `Alt+Ctrl+L` - Lock screen (Swaylock)
 
 ### Workspaces
+
 - `Mod+1-9` - Switch to workspace
 - `Mod+Shift+1-9` - Move window to workspace
 - `Mod+Tab` - Toggle overview
 
 ### System
+
 - `Alt+Space` - System controls menu
 - `Alt+S` - Settings menu
 - `Alt+L` - Power menu
@@ -240,19 +252,73 @@ niri msg action reload-config
 ## Troubleshooting
 
 ### Niri won't start
+
 - Check if Wayland is supported: `echo $WAYLAND_DISPLAY`
 - Verify Niri is installed: `which niri`
 - Check logs: `journalctl -u niri`
 
 ### Theme not applying
+
 - Ensure theme files exist: `ls .config/theme/catppuccin-mocha/`
 - Manually apply: `bash scripts/theme-manager.sh set catppuccin-mocha`
 - Check Waybar reload: `pgrep waybar`
 
 ### Packages not installing
+
 - Ensure yay is installed: `which yay`
 - Check internet connection
 - Try manual install: `yay -S package-name`
+
+## Troubleshooting
+
+### Quick Diagnostics
+
+```bash
+# Check if everything is installed correctly
+bash scripts/verify-installation.sh
+
+# View installation log
+cat /tmp/niri-bootstrap.log
+
+# Check autostart log (after logging into niri)
+cat $XDG_RUNTIME_DIR/niri-autostart.log
+```
+
+### Common Issues
+
+**Niri won't start / black screen:**
+
+```bash
+# Validate config
+niri validate --config ~/.config/niri/config.kdl
+
+# Check if niri is installed
+which niri
+
+# Re-run display manager setup
+sudo bash scripts/setup-display-manager.sh
+```
+
+**Theme not applied:**
+
+```bash
+# Re-apply theme
+bash scripts/theme-manager.sh set catppuccin-mocha
+```
+
+**Waybar not showing:**
+
+```bash
+# Start waybar manually
+waybar &
+```
+
+**Can't switch back to Gnome:**
+
+- At login screen, click the gear icon (session selector)
+- Select "GNOME" or "GNOME on Xorg"
+
+**For detailed troubleshooting, see [INSTALLATION_TROUBLESHOOTING.md](INSTALLATION_TROUBLESHOOTING.md)**
 
 ## Documentation
 

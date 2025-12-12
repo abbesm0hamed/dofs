@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # CachyOS Gaming Optimization Wrapper
 # Uses game-performance to boost performance during gaming
 

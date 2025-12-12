@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Fingerprint Setup Script
 # Provides easy fingerprint management with colored output

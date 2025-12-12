@@ -1,5 +1,5 @@
 # Catppuccin Mocha Theme Configuration
-# A unified theme system for Niri, Waybar, Mako, Walker, and other components
+# A unified theme system for Niri, Waybar, Mako, Fuzzel, and other components
 
 [colors]
 # Catppuccin Mocha Palette
@@ -46,30 +46,30 @@ light_mode = false
 
 # Component-specific overrides can be added here
 [niri]
-border_active = "#89b4fa"      # blue
-border_inactive = "#45475a"    # surface1
-border_urgent = "#f38ba8"      # red
-background = "#1e1e2e"         # base
+border_active = "#89b4fa"   # blue
+border_inactive = "#45475a" # surface1
+border_urgent = "#f38ba8"   # red
+background = "#1e1e2e"      # base
 
 [waybar]
-background = "#1e1e2e"         # base
-foreground = "#cdd6f4"         # text
-accent = "#89b4fa"             # blue
-surface = "#313244"            # surface0
+background = "#1e1e2e" # base
+foreground = "#cdd6f4" # text
+accent = "#89b4fa"     # blue
+surface = "#313244"    # surface0
 
 [mako]
-background = "#1e1e2e"         # base
-foreground = "#cdd6f4"         # text
-border = "#89b4fa"             # blue
-critical_border = "#f38ba8"    # red
+background = "#1e1e2e"      # base
+foreground = "#cdd6f4"      # text
+border = "#89b4fa"          # blue
+critical_border = "#f38ba8" # red
 
-[walker]
-background = "#1e1e2e"         # base
-foreground = "#cdd6f4"         # text
-selection = "#313244"          # surface0
-accent = "#89b4fa"             # blue
+[fuzzel]
+background = "#1e1e2e" # base
+foreground = "#cdd6f4" # text
+selection = "#313244"  # surface0
+accent = "#89b4fa"     # blue
 
 [terminal]
-background = "#1e1e2e"         # base
-foreground = "#cdd6f4"         # text
-cursor = "#89b4fa"             # blue
+background = "#1e1e2e" # base
+foreground = "#cdd6f4" # text
+cursor = "#89b4fa"     # blue

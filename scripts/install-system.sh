@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -29,3 +29,38 @@ run_install() {
 install_system() {
   run_install "system" "${PACKAGES_DIR}/system.txt"
 }
+
+install_wayland() {
+  run_install "wayland" "${PACKAGES_DIR}/wayland.txt"
+}
+
+install_desktop() {
+  run_install "desktop" "${PACKAGES_DIR}/desktop.txt"
+}
+
+install_development() {
+  if [[ -f "${PACKAGES_DIR}/development.txt" ]]; then
+    run_install "development" "${PACKAGES_DIR}/development.txt"
+  fi
+}
+
+main() {
+  log_step "Starting package installation"
+  
+  # Update system first
+  log_step "Updating system packages"
+  yay -Syu --noconfirm
+  
+  # Install packages in order
+  install_system
+  install_wayland
+  install_desktop
+  install_development
+  
+  log_done "All packages installed successfully!"
+}
+
+# Run if executed directly
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

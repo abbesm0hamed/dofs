@@ -4,7 +4,10 @@
     // -------------------------------------------------------------------------
     "layer": "top",
     "position": "top",
-    "output": ["eDP-1", "HDMI-A-1"], // Commented out to work with any display
+    "output": [
+        "eDP-1",
+        "HDMI-A-1"
+    ], // Commented out to work with any display
     "height": 31,
     "margin-left": 0,
     "margin-bottom": 0,
@@ -27,7 +30,7 @@
         //"custom/gammastep"
     ],
     "modules-right": [
-        // "custom/fingerprint",
+        "custom/fingerprint",
         "tray",
         "custom/storage",
         "memory",
@@ -147,7 +150,7 @@
         "format-icons": [
             "󰃞 ",
             "󰃟 ",
-            "󰃠 " 
+            "󰃠 "
         ],
         "on-scroll-down": "current=$(brightnessctl g); max=$(brightnessctl m); min=$((max * 5 / 100)); new=$((current - max * 5 / 100)); [ $new -lt $min ] && new=$min; brightnessctl s $new",
         "on-scroll-up": "brightnessctl s +5%"
@@ -335,7 +338,7 @@
             "hands-free": " ",
             "headset": " ",
             "phone": " ",
-            "muted": "  ", 
+            "muted": "  ",
             "portable": " ",
             "car": " ",
             "default": [

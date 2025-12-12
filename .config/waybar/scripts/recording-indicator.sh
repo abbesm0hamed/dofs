@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Recording indicator script for Waybar
 # Shows recording status with visual indicator using Nerd Font icons

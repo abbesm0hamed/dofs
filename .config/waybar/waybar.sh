@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 if pidof waybar >/dev/null; then
   killall waybar
   # Wait for processes to actually terminate

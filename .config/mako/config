@@ -1,4 +1,4 @@
-# Mako notification daemon configuration
+# Catppuccin Mocha theme for Mako notification daemon
 
 # Layout
 max-visible=5
@@ -8,9 +8,9 @@ margin=10
 width=350
 height=100
 
-# Styling (matching your color scheme)
-background-color=#141415dd
-text-color=#cdcdcd
+# Styling (Catppuccin Mocha)
+background-color=#1e1e2edd
+text-color=#cdd6f4
 border-color=#89b4fa
 border-size=1
 border-radius=0
@@ -35,19 +35,19 @@ group-by=app-name
 
 # Urgency levels
 [urgency=low]
-background-color=#141415dd
-text-color=#90a0b5
-border-color=#606079
+background-color=#1e1e2edd
+text-color=#9399b2
+border-color=#6c7086
 default-timeout=4000
 
 [urgency=normal]
-background-color=#141415dd
-text-color=#cdcdcd
-border-color=#7e98e8
+background-color=#1e1e2edd
+text-color=#cdd6f4
+border-color=#89b4fa
 default-timeout=8000
 
 [urgency=critical]
-background-color=#141415dd
-text-color=#cdcdcd
-border-color=#d8647e
+background-color=#1e1e2edd
+text-color=#cdd6f4
+border-color=#f38ba8
 default-timeout=0

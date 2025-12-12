@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Clipboard manager using cliphist and walker
+# Clipboard manager using cliphist and fuzzel
 # Shows clipboard history and allows selection
 
-# Get clipboard history and show in walker
-SELECTION=$(cliphist list | walker --dmenu --prompt="Clipboard: " --width=60)
+# Get clipboard history and show in fuzzel
+SELECTION=$(cliphist list | fuzzel --dmenu --prompt="Clipboard: " --width=60)
 
 if [ -n "$SELECTION" ]; then
     # Copy selected item back to clipboard

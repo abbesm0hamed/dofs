@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Basic swayidle command with timeouts
 swayidle -w \
