@@ -44,39 +44,17 @@ else
     echo "  ⚠ Polkit agent not found"
 fi
 
-sleep 0.5
-
-# ============================================================================
-# Phase 2: XDG Desktop Portals
-# ============================================================================
-
-echo "[Phase 2] Starting XDG desktop portals..."
-
-# Kill existing portals
-pkill -9 xdg-desktop-portal-gtk || true
-pkill -9 xdg-desktop-portal-gnome || true
-pkill -9 xdg-desktop-portal || true
+# Import environment variables into systemd user session (CRITICAL - needed for portals)
+echo "  → Importing environment to systemd..."
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
 sleep 0.5
 
-# Start GTK portal (works with all DEs, provides Nautilus file chooser)
-if command -v xdg-desktop-portal-gtk &>/dev/null; then
-    echo "  → Starting xdg-desktop-portal-gtk..."
-    /usr/lib/xdg-desktop-portal-gtk &
-    sleep 0.5
-else
-    echo "  ⚠ xdg-desktop-portal-gtk not found"
-fi
-
-echo "  → Starting xdg-desktop-portal..."
-/usr/lib/xdg-desktop-portal -r &
-sleep 1
-
 # ============================================================================
-# Phase 3: User Interface Components
+# Phase 2: User Interface Components
 # ============================================================================
 
-echo "[Phase 3] Starting UI components..."
+echo "[Phase 2] Starting UI components..."
 
 # Notification daemon
 if command -v mako &>/dev/null; then
@@ -100,10 +78,10 @@ if command -v fuzzel &>/dev/null; then
 fi
 
 # ============================================================================
-# Phase 4: System Tray Applications
+# Phase 3: System Tray Applications
 # ============================================================================
 
-echo "[Phase 4] Starting system tray apps..."
+echo "[Phase 3] Starting system tray apps..."
 
 # Network manager
 if command -v nm-applet &>/dev/null; then
@@ -120,10 +98,10 @@ if command -v blueman-applet &>/dev/null; then
 fi
 
 # ============================================================================
-# Phase 5: Dual Wallpaper Setup
+# Phase 4: Dual Wallpaper Setup
 # ============================================================================
 
-echo "[Phase 5] Setting up dual wallpaper..."
+echo "[Phase 4] Setting up dual wallpaper..."
 
 # Backdrop wallpaper with swaybg (stationary in overview)
 if command -v swaybg &>/dev/null; then
@@ -167,10 +145,10 @@ else
 fi
 
 # ============================================================================
-# Phase 6: Utilities
+# Phase 5: Utilities
 # ============================================================================
 
-echo "[Phase 6] Starting utilities..."
+echo "[Phase 5] Starting utilities..."
 
 # Clipboard manager
 if command -v cliphist &>/dev/null && command -v wl-paste &>/dev/null; then
@@ -191,10 +169,10 @@ if command -v swayidle &>/dev/null; then
 fi
 
 # ============================================================================
-# Phase 7: Optional Services
+# Phase 6: Optional Services
 # ============================================================================
 
-echo "[Phase 7] Starting optional services..."
+echo "[Phase 6] Starting optional services..."
 
 # Gammastep (blue light filter)
 if command -v gammastep &>/dev/null; then

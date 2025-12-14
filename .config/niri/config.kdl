@@ -145,7 +145,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="zen-beta"
+    match app-id="zen"
     open-on-workspace "browser"
     open-maximized true
 }
@@ -184,7 +184,7 @@ hotkey-overlay {
 
 binds {
     Mod+Return { spawn "ghostty"; }
-    Alt+Z { spawn "zen"; }
+    Alt+Z { spawn "zen-browser"; }
     Mod+P { spawn "fuzzel"; }    
     Alt+Ctrl+L { spawn "swaylock"; }
     Alt+E { spawn "nautilus"; }

@@ -42,6 +42,11 @@ create_niri_session() {
     log_step "Creating niri session file..."
     
     local session_file="/usr/share/wayland-sessions/niri.desktop"
+
+    if [ -f "$session_file" ]; then
+        log_success "$session_file already exists"
+        return 0
+    fi
     
     sudo tee "$session_file" > /dev/null << 'EOF'
 [Desktop Entry]
@@ -59,7 +64,30 @@ EOF
 create_niri_session_wrapper() {
     log_step "Creating niri-session wrapper..."
     
+    local system_session="/usr/bin/niri-session"
     local wrapper="/usr/local/bin/niri-session"
+
+    if [ -x "$system_session" ]; then
+        if [ -e "$wrapper" ]; then
+            local backup="${wrapper}.dofs.bak"
+            if [ -e "$backup" ]; then
+                backup="${wrapper}.dofs.bak.$(date +%s)"
+            fi
+
+            log_warning "$wrapper exists and may shadow $system_session"
+            sudo mv "$wrapper" "$backup"
+            log_success "Moved old wrapper to $backup"
+        fi
+
+        log_success "Using system niri-session ($system_session)"
+        return 0
+    fi
+
+    if [ -f "$wrapper" ]; then
+        sudo chmod +x "$wrapper"
+        log_success "niri-session wrapper already exists: $wrapper"
+        return 0
+    fi
     
     sudo tee "$wrapper" > /dev/null << 'EOF'
 #!/bin/sh
@@ -80,6 +108,10 @@ export MOZ_ENABLE_WAYLAND=1
 
 # Electron apps
 export ELECTRON_OZONE_PLATFORM_HINT=wayland
+
+# Import environment into systemd user session (CRITICAL for portals)
+# This allows systemd services like xdg-desktop-portal-gtk to access the display
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
 
 # Start niri
 exec niri

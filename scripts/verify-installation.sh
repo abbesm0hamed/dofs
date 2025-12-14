@@ -165,28 +165,59 @@ else
     log_warning "Run: sudo bash scripts/setup-display-manager.sh"
 fi
 
-if [ -f "/usr/local/bin/niri-session" ]; then
-    if [ -x "/usr/local/bin/niri-session" ]; then
-        log_success "niri-session wrapper exists and is executable"
-    else
-        log_warning "niri-session wrapper not executable"
-    fi
+if [ -x "/usr/bin/niri-session" ]; then
+    log_success "niri-session exists: /usr/bin/niri-session"
+elif [ -x "/usr/local/bin/niri-session" ]; then
+    log_success "niri-session exists: /usr/local/bin/niri-session"
+elif [ -f "/usr/bin/niri-session" ] || [ -f "/usr/local/bin/niri-session" ]; then
+    log_warning "niri-session exists but is not executable"
 else
-    log_warning "niri-session wrapper not found"
+    log_warning "niri-session not found"
 fi
 
 # Check 8: XDG portals
 log_step "Checking XDG desktop portals..."
-if pacman -Qq xdg-desktop-portal &>/dev/null; then
+if pacman -Qq xdg-desktop-portal &> /dev/null; then
     log_success "xdg-desktop-portal installed"
 else
     log_error "xdg-desktop-portal not installed"
 fi
 
-if pacman -Qq xdg-desktop-portal-gnome &>/dev/null; then
+if pacman -Qq xdg-desktop-portal-gtk &> /dev/null; then
+    log_success "xdg-desktop-portal-gtk installed"
+else
+    log_warning "xdg-desktop-portal-gtk not installed"
+fi
+
+if pacman -Qq xdg-desktop-portal-gnome &> /dev/null; then
     log_success "xdg-desktop-portal-gnome installed"
 else
-    log_warning "xdg-desktop-portal-gnome not installed (recommended)"
+    log_warning "xdg-desktop-portal-gnome not installed (optional)"
+fi
+
+# Check portal configuration
+if [ -f "$HOME/.config/xdg-desktop-portal/niri-portals.conf" ]; then
+    log_success "Portal configuration exists"
+else
+    log_warning "Portal configuration not found"
+fi
+
+# Runtime check (only if in a session)
+if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    log_step "Checking portal services (runtime)..."
+    
+    if systemctl --user is-active xdg-desktop-portal.service &> /dev/null; then
+        log_success "xdg-desktop-portal service is running"
+    else
+        log_warning "xdg-desktop-portal service not running"
+    fi
+    
+    if systemctl --user is-active xdg-desktop-portal-gtk.service &> /dev/null; then
+        log_success "xdg-desktop-portal-gtk service is running"
+    else
+        log_warning "xdg-desktop-portal-gtk service not running"
+        log_warning "File pickers may not work - check: systemctl --user status xdg-desktop-portal-gtk"
+    fi
 fi
 
 # Check 9: Audio system

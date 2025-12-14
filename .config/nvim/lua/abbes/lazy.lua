@@ -13,7 +13,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({ { import = "abbes.plugins" }, { import = "abbes.plugins.lsp" } }, {
-  lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json", -- Move lock file to writable data directory
   checker = {
     enabled = true,
     notify = true,
