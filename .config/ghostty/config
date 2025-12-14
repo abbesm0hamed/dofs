@@ -16,7 +16,8 @@ window-decoration = false
 
 # Window settings
 window-inherit-working-directory = true
-window-theme = ghostty
+# window-theme = ghostty
+config-file = theme
 
 # Transparency and Focus
 background-opacity = 1

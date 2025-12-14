@@ -1,23 +1,15 @@
-# dofs - Arch/CachyOS Dotfiles with Niri & Catppuccin Mocha
+# dofs - Arch/CachyOS Dotfiles with Niri & default 
 
 A unified, reproducible dotfiles setup for Arch Linux (CachyOS) featuring:
 
 - **Niri** window manager (Wayland compositor)
-- **Catppuccin Mocha** unified theme system
+- **default ** unified theme system
 - **Mako** notification daemon
 - **Waybar** status bar
 - **Fish** shell with **Starship** prompt
 - One-command reproducible setup via `yay` and declarative package lists
 
 ## Quick Start
-
-> **⚠️ IMPORTANT: Installation Recommendation**
->
-> Install this setup on **fresh CachyOS with NO desktop environment** (minimal/CLI installation).
->
-> **DO NOT** install on XFCE or any other desktop environment - this will cause conflicts and bloat.
->
-> 📖 **See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for complete step-by-step instructions.**
 
 ### 1. Clone the Repository
 
@@ -37,7 +29,7 @@ This will:
 - Ensure `yay` is installed
 - Install all packages from lists (system, desktop, wayland, etc.)
 - Stow all dotfiles to `~/.config`
-- Apply the unified Catppuccin Mocha theme
+- Apply the unified default  theme
 - Enable the Niri session in your display manager
 
 **Time**: ~15-20 minutes
@@ -72,8 +64,6 @@ This setup includes:
 - ✅ Automatic validation before completion
 - ✅ Declarative package management
 - ✅ Reproducible setup
-
-See [OPTIMIZATIONS.md](OPTIMIZATIONS.md) for complete details.
 
 ## 🎮 Gaming Setup
 
@@ -129,9 +119,9 @@ Use the wrapper script:
 - **Mako** notifications
 - Screenshot, recording, clipboard tools
 
-## Catppuccin Mocha Theme
+## default Theme
 
-All components use a unified **Catppuccin Mocha** theme with 28 carefully selected colors:
+All components use a unified **default** theme with 28 carefully selected colors:
 
 - **Primary Background**: #1e1e2e
 - **Primary Text**: #cdd6f4
@@ -153,7 +143,7 @@ All components use a unified **Catppuccin Mocha** theme with 28 carefully select
 dofs/scripts/theme-manager.sh list
 
 # Apply a theme
-dofs/scripts/theme-manager.sh set catppuccin-mocha
+dofs/scripts/theme-manager.sh set default
 
 # Check current theme
 dofs/scripts/theme-manager.sh current
@@ -171,7 +161,7 @@ dofs/
 │   ├── starship/               # Starship prompt config
 │   ├── nvim/                   # Neovim config
 │   ├── theme/                  # Theme system
-│   │   └── catppuccin-mocha/   # Catppuccin Mocha theme
+│   │   └── default/            # Default theme
 │   └── [other configs]/
 ├── packages/                   # Declarative package lists
 │   ├── system.txt              # System packages
@@ -230,7 +220,7 @@ bash scripts/install-development.sh
 
 ```bash
 # Copy existing theme
-cp -r .config/theme/catppuccin-mocha .config/theme/my-theme
+cp -r .config/theme/default .config/theme/my-theme
 
 # Edit colors in my-theme/theme.toml
 vim .config/theme/my-theme/theme.toml
@@ -257,8 +247,8 @@ niri msg action reload-config
 
 ### Theme not applying
 
-- Ensure theme files exist: `ls .config/theme/catppuccin-mocha/`
-- Manually apply: `bash scripts/theme-manager.sh set catppuccin-mocha`
+- Ensure theme files exist: `ls .config/theme/default/`
+- Manually apply: `bash scripts/theme-manager.sh set default`
 - Check Waybar reload: `pgrep waybar`
 
 ### Packages not installing
@@ -301,7 +291,7 @@ sudo bash scripts/setup-display-manager.sh
 
 ```bash
 # Re-apply theme
-bash scripts/theme-manager.sh set catppuccin-mocha
+bash scripts/theme-manager.sh set default
 ```
 
 **Waybar not showing:**
@@ -318,17 +308,8 @@ waybar &
   4. Press Mod+Return to open terminal
   5. Press Mod+P to open application launcher
 
-**For detailed troubleshooting, see [INSTALLATION_TROUBLESHOOTING.md](INSTALLATION_TROUBLESHOOTING.md)**
-
-## Documentation
-
-- **[THEME_SYSTEM.md](../THEME_SYSTEM.md)** - Detailed theme system documentation
-- **[UNIFIED_THEME_SUMMARY.md](../UNIFIED_THEME_SUMMARY.md)** - Theme implementation summary
-- **[migration_from_nixos_to_arch.md](../migration_from_nixos_to_arch.md)** - Full migration plan from NixOS
-
 ## Inspiration & Credits
 
-- **Omarchy** - Theme system architecture
 - **Catppuccin** - Beautiful color palette
 - **Niri** - Modern Wayland compositor
 - **Arch Linux** - Solid foundation

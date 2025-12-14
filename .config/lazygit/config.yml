@@ -14,7 +14,7 @@ gui:
   commandLogSize: 8
   splitDirection: "auto"
   language: "en"
-  # Colors (Catppuccin Mocha theme)
+  # Colors (default theme)
   theme:
     activeBorderColor:
       - "#89b4fa"

@@ -1,8 +1,8 @@
 #!/bin/bash
-if pidof waybar >/dev/null; then
-  killall waybar
+if pgrep -x waybar >/dev/null 2>&1; then
+  pkill -x waybar || true
   # Wait for processes to actually terminate
-  while pidof waybar >/dev/null; do
+  while pgrep -x waybar >/dev/null 2>&1; do
     sleep 0.1
   done
   sleep 0.2

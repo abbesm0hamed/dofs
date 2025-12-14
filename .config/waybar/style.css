@@ -1,55 +1,19 @@
+@import "../theme-current/waybar.css";
+
 /* ===== Waybar Minimal CSS ===== */
-/* Unified Catppuccin Mocha theme colors */
-
-/* Base colors */
-@define-color crust #11111b;
-@define-color mantle #181825;
-@define-color base #1e1e2e;
-
-/* Surface colors */
-@define-color surface0 #313244;
-@define-color surface1 #45475a;
-@define-color surface2 #585b70;
-
-/* Overlay colors */
-@define-color overlay0 #6c7086;
-@define-color overlay1 #7f849c;
-@define-color overlay2 #9399b2;
-
-/* Text colors */
-@define-color subtext0 #a6adc8;
-@define-color subtext1 #bac2de;
-@define-color text #cdd6f4;
-
-/* Accent colors */
-@define-color rosewater #f5e0dc;
-@define-color flamingo #f2cdcd;
-@define-color pink #f5c2e7;
-@define-color mauve #cba6f7;
-@define-color red #f38ba8;
-@define-color maroon #eba0ac;
-@define-color peach #fab387;
-@define-color yellow #f9e2af;
-@define-color green #a6e3a1;
-@define-color teal #94e2d5;
-@define-color sky #89dceb;
-@define-color sapphire #74c7ec;
-@define-color blue #89b4fa;
-@define-color lavender #b4befe;
 
 * {
-  font-family: "SpaceMono Nerd Font", monospace;
+  font-family: "Space Mono", monospace;
   font-size: 14px;
   min-height: 0;
   border: none;
   border-radius: 0;
 }
 
-/* Main window */
 window#waybar {
-  background: @base;
+  background: @bar_bg;
   color: @text;
-  border-bottom: 1px solid @surface1;
+  border-bottom: 1px solid @bar_border;
 }
 
 /* All modules default styling */
@@ -59,11 +23,11 @@ window#waybar {
   background: transparent;
 }
 
-.modules-left>widget:first-child>* {
+.modules-left > widget:first-child > * {
   margin-left: 8px;
 }
 
-.modules-right>widget:last-child>* {
+.modules-right > widget:last-child > * {
   margin-right: 3px;
 }
 
@@ -223,7 +187,7 @@ tooltip label {
 /* Fingerprint module - only shows when not setup */
 #custom-fingerprint {
   color: @yellow;
-  background: @surface2;
+  background: @fingerprint_bg;
   border-radius: 0px;
   padding: 0px 2px;
   margin: 0 2px;
@@ -233,7 +197,7 @@ tooltip label {
 
 #custom-fingerprint:hover {
   background: @yellow;
-  color: @base;
+  color: @module_bg;
 }
 
 /* Subtle pulse animation to draw attention */
@@ -264,17 +228,17 @@ tooltip label {
 
 #custom-recording.recording {
   animation: pulse 1.5s infinite;
-  color: #ff4757;
+  color: @recording_red;
 }
 
 #custom-recording.recording-audio {
   animation: pulse 1s infinite;
-  color: #ff4757;
+  color: @recording_red;
 }
 
 #custom-recording.recording-audio-only {
   animation: pulse 0.8s infinite;
-  color: #ff4757;
+  color: @recording_red;
 }
 
 #custom-recording.inactive:hover {

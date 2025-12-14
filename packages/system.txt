@@ -1,5 +1,6 @@
 # System/base packages 
 network-manager-applet
+networkmanager
 fprintd
 imagemagick
 pam-u2f
@@ -10,9 +11,13 @@ bluez-utils
 openssh
 avahi
 nss-mdns
+curl
+ffmpeg
+iputils
 fish
 starship
 autorandr
+lm_sensors
 xdg-utils
 xdg-user-dirs
 power-profiles-daemon
@@ -26,9 +31,15 @@ wireplumber
 pavucontrol
 xdg-desktop-portal
 xdg-desktop-portal-gnome
+gnome-keyring
 qt5-wayland
 qt6-wayland
 xwayland-satellite
 wev
 nwg-look
 game-performance
+udiskie
+ttf-space-mono
+ttf-victor-mono
+ttf-nerd-fonts-symbols
+ttf-nerd-fonts-symbols-mono

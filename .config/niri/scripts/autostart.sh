@@ -53,15 +53,19 @@ sleep 0.5
 echo "[Phase 2] Starting XDG desktop portals..."
 
 # Kill existing portals
+pkill -9 xdg-desktop-portal-gtk || true
 pkill -9 xdg-desktop-portal-gnome || true
 pkill -9 xdg-desktop-portal || true
 
 sleep 0.5
 
-if command -v xdg-desktop-portal-gnome &>/dev/null; then
-    echo "  → Starting xdg-desktop-portal-gnome..."
-    /usr/lib/xdg-desktop-portal-gnome &
+# Start GTK portal (works with all DEs, provides Nautilus file chooser)
+if command -v xdg-desktop-portal-gtk &>/dev/null; then
+    echo "  → Starting xdg-desktop-portal-gtk..."
+    /usr/lib/xdg-desktop-portal-gtk &
     sleep 0.5
+else
+    echo "  ⚠ xdg-desktop-portal-gtk not found"
 fi
 
 echo "  → Starting xdg-desktop-portal..."

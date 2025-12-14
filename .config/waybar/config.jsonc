@@ -1,13 +1,10 @@
 {
-    // -------------------------------------------------------------------------
-    // Global configuration
-    // -------------------------------------------------------------------------
     "layer": "top",
     "position": "top",
     "output": [
         "eDP-1",
         "HDMI-A-1"
-    ], // Commented out to work with any display
+    ], 
     "height": 31,
     "margin-left": 0,
     "margin-bottom": 0,
@@ -30,7 +27,7 @@
         //"custom/gammastep"
     ],
     "modules-right": [
-        "custom/fingerprint",
+        // "custom/fingerprint",
         "tray",
         "custom/storage",
         "memory",
@@ -174,9 +171,9 @@
     "custom/idle_inhibitor": {
         "format": "{}",
         "return-type": "json",
-        "exec": "if pgrep swayidle >/dev/null; then echo '{\"text\":\"󰅶\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"󰾪\",\"tooltip\":\"Idle: OFF\"}'; fi",
+        "exec": "if systemctl --user is-active --quiet swayidle.service 2>/dev/null || pgrep -x swayidle >/dev/null 2>&1; then echo '{\"text\":\"󰅶\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"󰾪\",\"tooltip\":\"Idle: OFF\"}'; fi",
         "interval": 5,
-        "on-click": "if pgrep swayidle; then pkill swayidle; else swayidle -w timeout 600 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors' & fi"
+        "on-click": "if systemctl --user is-active --quiet swayidle.service 2>/dev/null; then systemctl --user stop swayidle.service; elif pgrep -x swayidle >/dev/null 2>&1; then pkill -x swayidle; else if systemctl --user list-unit-files swayidle.service >/dev/null 2>&1; then systemctl --user start swayidle.service; else swayidle -w timeout 600 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors' & fi; fi"
     },
     "custom/weather": {
         "format": "{}",
@@ -201,7 +198,7 @@
             "none": "󰂛"
         },
         "return-type": "json",
-        "exec-if": "which makoctl",
+        "exec-if": "command -v makoctl",
         "exec": "if makoctl list | grep -q .; then echo '{\"text\":\"󰂚\"}'; else echo '{\"text\":\"󰂛\"}'; fi",
         "on-click": "makoctl dismiss",
         "on-click-right": "makoctl dismiss --all",
@@ -212,7 +209,7 @@
         "return-type": "json",
         "exec": "~/.config/waybar/scripts/fingerprint-status.sh",
         "interval": 30,
-        "on-click": "ghostty --title='Fingerprint Setup' -e bash -c '/home/abbes/.config/waybar/scripts/fingerprint-setup.sh setup; read -p \"Press Enter to close...\"'",
+        "on-click": "ghostty --title='Fingerprint Setup' -e bash -c '$HOME/.config/waybar/scripts/fingerprint-setup.sh setup; read -p \"Press Enter to close...\"'",
         "tooltip": true
     },
     "clock": {

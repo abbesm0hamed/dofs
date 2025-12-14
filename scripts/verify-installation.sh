@@ -18,11 +18,11 @@ log_step() { echo -e "${BLUE}→${NC} $1"; }
 log_success() { echo -e "${GREEN}✓${NC} $1"; }
 log_error() {
     echo -e "${RED}✗${NC} $1"
-    ((ERRORS++))
+    ((ERRORS+=1))
 }
 log_warning() {
     echo -e "${YELLOW}⚠${NC} $1"
-    ((WARNINGS++))
+    ((WARNINGS+=1))
 }
 
 echo "========================================"
@@ -78,7 +78,6 @@ CONFIG_DIRS=(
     "mako"
     "fuzzel"
     "fish"
-    "starship"
 )
 
 for dir in "${CONFIG_DIRS[@]}"; do
@@ -95,6 +94,20 @@ for dir in "${CONFIG_DIRS[@]}"; do
         log_error "$dir not found"
     fi
 done
+
+log_step "Checking Starship configuration..."
+if [ -L "$HOME/.config/starship.toml" ]; then
+    target=$(readlink "$HOME/.config/starship.toml")
+    if [ -f "$target" ]; then
+        log_success "starship.toml → $target"
+    else
+        log_error "starship.toml symlink broken (points to non-existent: $target)"
+    fi
+elif [ -f "$HOME/.config/starship.toml" ]; then
+    log_warning "starship.toml exists but is not a symlink"
+else
+    log_warning "starship.toml not found"
+fi
 
 # Check 4: Niri config validation
 log_step "Validating niri configuration..."
@@ -117,7 +130,7 @@ fi
 log_step "Checking theme files..."
 THEME_FILES=(
     "$HOME/.config/niri/theme.conf"
-    "$HOME/.config/waybar/theme.css"
+    "$HOME/.config/theme-current/waybar.css"
     "$HOME/.config/mako/config"
 )
 
@@ -229,8 +242,8 @@ else
     echo "Installation incomplete. Please fix errors above."
     echo ""
     echo "Common fixes:"
-    echo "  - Re-run bootstrap: bash scripts/bootstrap-arch.sh"
-    echo "  - Check logs: cat /tmp/niri-bootstrap.log"
+    echo "  - Re-run installer: bash install.sh"
+    echo "  - Check logs: cat ~/install.log"
     echo "  - Manual package install: yay -S <package-name>"
     exit 1
 fi

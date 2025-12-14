@@ -25,12 +25,12 @@ log_success() {
 
 log_error() {
     echo -e "${RED}✗${NC} $1"
-    ((ERRORS++))
+    ((ERRORS+=1))
 }
 
 log_warning() {
     echo -e "${YELLOW}⚠${NC} $1"
-    ((WARNINGS++))
+    ((WARNINGS+=1))
 }
 
 echo "========================================"

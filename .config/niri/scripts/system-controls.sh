@@ -3,9 +3,25 @@
 # System Controls Menu for Niri
 # Usage: system-controls.sh
 
+is_user_unit_active() {
+    local unit="$1"
+    systemctl --user is-active --quiet "$unit" 2>/dev/null
+}
+
+is_proc_running() {
+    local exe="$1"
+    pgrep -x "$exe" >/dev/null 2>&1
+}
+
+night_light_is_on() {
+    is_proc_running gammastep || is_proc_running gammastep-indicator || is_proc_running redshift
+}
+
 # Function to check if a service/feature is active
 check_idle_mode() {
-    if pgrep -f "swayidle" >/dev/null; then
+    if is_user_unit_active swayidle.service; then
+        echo "  Idle Mode: ON" # nf-fa-moon_o
+    elif is_proc_running swayidle; then
         echo "  Idle Mode: ON" # nf-fa-moon_o
     else
         echo "  Idle Mode: OFF" # nf-fa-eye (awake)
@@ -13,7 +29,7 @@ check_idle_mode() {
 }
 
 check_night_light() {
-    if pgrep -f "gammastep\|redshift" >/dev/null; then
+    if night_light_is_on; then
         echo "  Night Light: ON" # nf-fa-lightbulb_o
     else
         echo "  Night Light: OFF" # nf-fa-circle (dark)
@@ -21,10 +37,18 @@ check_night_light() {
 }
 
 check_notifications() {
-    if pgrep -f "swaync\|mako" >/dev/null; then
-        echo "  Notifications: ON" # nf-fa-bell
+    if command -v makoctl >/dev/null 2>&1; then
+        if makoctl mode 2>/dev/null | grep -qx "do-not-disturb"; then
+            echo "  Notifications: OFF" # nf-fa-bell_slash
+        else
+            echo "  Notifications: ON" # nf-fa-bell
+        fi
     else
-        echo "  Notifications: OFF" # nf-fa-bell_slash
+        if pgrep -x mako >/dev/null 2>&1; then
+            echo "  Notifications: ON" # nf-fa-bell
+        else
+            echo "  Notifications: OFF" # nf-fa-bell_slash
+        fi
     fi
 }
 
@@ -46,22 +70,31 @@ check_bluetooth() {
 
 # Function to toggle idle mode
 toggle_idle_mode() {
-    if pgrep -f "swayidle" >/dev/null; then
-        pkill swayidle
+    if is_user_unit_active swayidle.service; then
+        systemctl --user stop swayidle.service
+        notify-send "System Controls" "Idle mode disabled" -i "system-suspend"
+    elif is_proc_running swayidle; then
+        pkill -x swayidle
         notify-send "System Controls" "Idle mode disabled" -i "system-suspend"
     else
-        swayidle -w \
-            timeout 300 'swaylock -f' \
-            timeout 600 'niri msg action power-off-monitors' \
-            resume 'niri msg action power-on-monitors' &
+        if systemctl --user list-unit-files swayidle.service >/dev/null 2>&1; then
+            systemctl --user start swayidle.service
+        else
+            swayidle -w \
+                timeout 300 'swaylock -f' \
+                timeout 600 'niri msg action power-off-monitors' \
+                resume 'niri msg action power-on-monitors' &
+        fi
         notify-send "System Controls" "Idle mode enabled" -i "system-suspend"
     fi
 }
 
 # Function to toggle night light
 toggle_night_light() {
-    if pgrep -f "gammastep" >/dev/null; then
-        pkill gammastep
+    if night_light_is_on; then
+        pkill -x gammastep 2>/dev/null || true
+        pkill -x gammastep-indicator 2>/dev/null || true
+        pkill -x redshift 2>/dev/null || true
         notify-send "System Controls" "Night light disabled" -i "weather-clear-night"
     else
         gammastep -O 4700 &
@@ -71,11 +104,16 @@ toggle_night_light() {
 
 # Function to toggle notifications
 toggle_notifications() {
-    if pgrep -f "swaync" >/dev/null; then
-        swaync-client -d
+    if ! command -v makoctl >/dev/null 2>&1; then
+        notify-send "System Controls" "makoctl not found"
+        return 0
+    fi
+
+    makoctl mode -t do-not-disturb
+
+    if makoctl mode 2>/dev/null | grep -qx "do-not-disturb"; then
         notify-send "System Controls" "Notifications disabled"
     else
-        swaync &
         notify-send "System Controls" "Notifications enabled"
     fi
 }

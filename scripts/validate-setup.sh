@@ -4,6 +4,9 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
 ERRORS=0
 WARNINGS=0
 
@@ -18,12 +21,12 @@ NC='\033[0m' # No Color
 
 error() {
     echo -e "${RED}✗ ERROR: $1${NC}"
-    ((ERRORS++))
+    ((ERRORS+=1))
 }
 
 warning() {
     echo -e "${YELLOW}⚠ WARNING: $1${NC}"
-    ((WARNINGS++))
+    ((WARNINGS+=1))
 }
 
 success() {
@@ -105,8 +108,8 @@ check_script() {
 }
 
 check_script ~/.config/niri/scripts/autostart.sh
-check_script ~/dofs/scripts/bootstrap-arch.sh
-check_script ~/dofs/scripts/theme-manager.sh
+check_script "${REPO_ROOT}/install.sh"
+check_script "${REPO_ROOT}/scripts/theme-manager.sh"
 
 echo ""
 
@@ -149,10 +152,10 @@ else
     error "Niri theme config not found"
 fi
 
-if [ -d ~/.config/theme/catppuccin-mocha ]; then
-    success "Catppuccin Mocha theme exists"
+if [ -d ~/.config/theme/default ]; then
+    success "Default theme exists"
 else
-    warning "Catppuccin Mocha theme directory not found"
+    warning "Default theme directory not found"
 fi
 
 echo ""

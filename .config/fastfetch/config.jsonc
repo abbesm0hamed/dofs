@@ -20,7 +20,7 @@ fastfetch --config hyde/*.jsonc
 			"type": "command",
 			"key": "  ",
 			"keyColor": "blue",
-			"text": "splash=$(hyprctl splash);echo $splash"
+			"text": "niri --version 2>/dev/null || echo niri"
 		},
 		{
 			"type": "custom",

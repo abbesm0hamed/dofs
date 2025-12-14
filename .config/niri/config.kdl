@@ -52,7 +52,7 @@ overview {
     workspace-shadow {
         off
     }
-    backdrop-color "transparent"
+    backdrop-color "#111318"
 }
 
 layer-rule {
@@ -72,7 +72,7 @@ cursor {
 
 layout {
     gaps 10
-    background-color "transparent"
+    background-color "#111318"
     center-focused-column "never"
 
     preset-column-widths {
@@ -222,7 +222,7 @@ binds {
     
     // System Controls
     Alt+Space { spawn "~/.config/niri/scripts/system-controls.sh"; }
-    Alt+Ctrl+Shift+Space { spawn "~/.config/niri/scripts/theme-menu.sh"; }
+    Alt+Ctrl+Shift+Space { spawn "bash" "~/.config/niri/scripts/theme-menu.sh"; }
     Alt+S { spawn "~/.config/niri/scripts/settings-menu.sh"; }
     Alt+L { spawn "~/.config/waybar/scripts/power-menu.sh"; }
     
