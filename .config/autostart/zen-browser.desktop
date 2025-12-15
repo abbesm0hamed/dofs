@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Zen Browser
+Comment=Launch Zen Browser on login
+Exec=zen %u
+TryExec=zen
+Terminal=false
+X-GNOME-Autostart-enabled=true
+X-KDE-autostart-after=panel

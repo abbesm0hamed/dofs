@@ -39,3 +39,4 @@ fastfetch
 ranger
 lazygit
 lazydocker
+tmux

@@ -63,6 +63,7 @@ layer-rule {
 layer-rule {
     match namespace="swww"
 }
+
 cursor {
     xcursor-theme "Adwaita"
     xcursor-size 24
@@ -71,7 +72,7 @@ cursor {
 }
 
 layout {
-    gaps 10
+    gaps 0
     background-color "#111318"
     center-focused-column "never"
 
@@ -110,7 +111,7 @@ prefer-no-csd
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 animations {
-    // slowdown 1.0
+    // slowdown 1
 
     workspace-switch {
         spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
@@ -145,20 +146,15 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^(code|Code|VSCodium|zen-browser|google-chrome|chromium|firefox|discord|steam)$"#
+    match app-id=r#"^(code|Code|VSCodium|discord|steam)$"#
     default-column-width { proportion 1.0; }
 }
 
 window-rule {
-    match app-id="zen"
+    match app-id=r#"^(zen|zen-browser|firefox|chromium|google-chrome|brave)$"#
     open-on-workspace "browser"
+    default-column-width { proportion 1.0; }
     open-maximized true
-}
-
-window-rule {
-    match app-id=r#"^(firefox|chromium|google-chrome|brave)$"#
-    open-on-workspace "browser"
-    default-column-width { proportion 1.0; }
 }
 
 window-rule {
@@ -200,7 +196,7 @@ binds {
     Alt+W { spawn "chromium" "--app=https://web.whatsapp.com"; }
     Alt+N { spawn "chromium" "--app=https://notion.so"; }
     Alt+F { spawn "chromium" "--app=https://figma.com"; }
-    
+
     // Screenshots
     // Built-in screenshot fallbacks (basic functionality)
     Mod+Shift+S { screenshot-screen; }

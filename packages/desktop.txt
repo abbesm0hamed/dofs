@@ -16,3 +16,4 @@ xz
 unzip
 7zip
 jq
+cava

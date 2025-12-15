@@ -1,5 +1,8 @@
 # dofs - Arch/CachyOS Dotfiles with Niri & default 
 
+![Niri overview](.config/screenshots/niri-overview.png)
+![Neovim + fastfetch](.config/screenshots/nvim-fastfetch.png)
+
 A unified, reproducible dotfiles setup for Arch Linux (CachyOS) featuring:
 
 - **Niri** window manager (Wayland compositor)
@@ -48,14 +51,8 @@ This setup includes:
 
 - ✅ **xwayland-satellite** for X11 app compatibility (Discord, Steam, etc.)
 - ✅ **xdg-desktop-portal-gnome** for better screen sharing
-- ✅ **7-phase optimized autostart** with proper service ordering
-- ✅ **Live config reload** support
-
-### CachyOS Optimizations
-
-- ✅ **Flat mouse acceleration** for precise control
-- ✅ **Wayland-native environment** for all apps
-- ✅ **Optimized kernel** (linux-cachyos)
+- ✅ **greetd-tuigreet** dispaly manager
+- ✅ **optimized autostart** with proper service ordering
 
 ### Single-Command Installation
 
@@ -64,25 +61,19 @@ This setup includes:
 - ✅ Declarative package management
 - ✅ Reproducible setup
 
-**Benefits:**
-
-- Automatic performance CPU governor
-- Lower latency and better FPS
-- HDR support (when available)
-
 ## What Gets Installed
 
 ### System Packages
 
 - Base development tools, git, network manager
 - Fish shell, Starship prompt
-- Bluetooth, SSH, power management tools
+- Bluetooth, SSH, power management tools...
 
 ### Development Tools
 
 - Node.js (fnm), Python, Rust, Go
 - Docker, Kubernetes, Terraform
-- Neovim, code quality tools, debuggers
+- Neovim, code quality tools, debuggers...
 
 ### Desktop Applications
 
@@ -99,23 +90,6 @@ This setup includes:
 - **Mako** notifications
 - Screenshot, recording, clipboard tools
 
-## default Theme
-
-All components use a unified **default** theme with 28 carefully selected colors:
-
-- **Primary Background**: #1e1e2e
-- **Primary Text**: #cdd6f4
-- **Primary Accent**: #89b4fa (blue)
-- **Alerts**: #f38ba8 (red)
-- **Success**: #a6e3a1 (green)
-
-### Themed Components
-
-- Niri window borders
-- Waybar status bar
-- Mako notifications
-- Terminal colors
-
 ### Manage Themes
 
 ```bash
@@ -128,59 +102,6 @@ dofs/scripts/theme-manager.sh set default
 # Check current theme
 dofs/scripts/theme-manager.sh current
 ```
-
-## Directory Structure
-
-```
-dofs/
-├── .config/                    # Configuration files (stowed to ~/.config)
-│   ├── niri/                   # Niri window manager config
-│   ├── waybar/                 # Status bar config
-│   ├── mako/                   # Notification daemon config
-│   ├── fish/                   # Fish shell config
-│   ├── starship/               # Starship prompt config
-│   ├── nvim/                   # Neovim config
-│   ├── theme/                  # Theme system
-│   │   └── default/            # Default theme
-│   └── [other configs]/
-├── packages/                   # Declarative package lists
-│   ├── system.txt              # System packages
-│   ├── development.txt         # Dev tools
-│   ├── desktop.txt             # Desktop apps
-│   └── wayland.txt             # Wayland stack
-├── scripts/                    # Utility scripts
-│   ├── setup-display-manager.sh # Niri session setup
-│   ├── theme-manager.sh        # Theme management script
-│   └── legacy/                 # Archived scripts
-├── install.sh                  # Main installation script
-└── README.md                   # This file
-```
-
-## Keybindings
-
-### Window Management (Niri)
-
-- `Mod+H/J/K/L` - Focus left/down/up/right
-- `Mod+Shift+H/J/K/L` - Move window
-- `Mod+Return` - Open terminal (Ghostty)
-- `Alt+Ctrl+L` - Lock screen (Swaylock)
-
-### Workspaces
-
-- `Mod+1-9` - Switch to workspace
-- `Mod+Shift+1-9` - Move window to workspace
-- `Mod+Tab` - Toggle overview
-
-### System
-
-- `Alt+Space` - System controls menu
-- `Alt+S` - Settings menu
-- `Alt+L` - Power menu
-- `Print` - Screenshot (region)
-- `Shift+Print` - Screenshot (window)
-- `Ctrl+Print` - Screenshot (screen)
-
-See `.config/niri/config.kdl` for complete keybindings.
 
 ## Customization
 
@@ -236,77 +157,6 @@ niri msg action reload-config
 - Ensure yay is installed: `which yay`
 - Check internet connection
 - Try manual install: `yay -S package-name`
-
-## Troubleshooting
-
-### Quick Diagnostics
-
-```bash
-# Check if everything is installed correctly
-bash scripts/verify-installation.sh
-
-# View installation log
-cat ~/install.log
-
-# Check autostart log (after logging into niri)
-cat $XDG_RUNTIME_DIR/niri-autostart.log
-```
-
-### Common Issues
-
-**Niri won't start / black screen:**
-
-```bash
-# Validate config
-niri validate --config ~/.config/niri/config.kdl
-
-# Check if niri is installed
-which niri
-
-# Re-run display manager setup
-sudo bash scripts/setup-display-manager.sh
-```
-
-**Theme not applied:**
-
-```bash
-# Re-apply theme
-bash scripts/theme-manager.sh set default
-```
-
-**Waybar not showing:**
-
-```bash
-# Start waybar manually
-waybar &
-```
-
-**Can't switch back to Gnome:**
-
--  2. At login screen, select 'Niri' from session menu
-  3. Log in with your credentials
-  4. Press Mod+Return to open terminal
-  5. Press Mod+P to open application launcher
-
-## Inspiration & Credits
-
-- **Catppuccin** - Beautiful color palette
-- **Niri** - Modern Wayland compositor
-- **Arch Linux** - Solid foundation
-
-## Keybindings Documentation
-
-This document provides a comprehensive list of all keyboard shortcuts configured in the system.
-
-## Table of Contents
-
-- [Window Management (Hyprland)](#window-management-hyprland)
-- [Workspace Controls](#workspace-controls)
-- [Application Shortcuts](#application-shortcuts)
-- [Media Controls](#media-controls)
-- [System Controls](#system-controls)
-- [Screenshots](#screenshots)
-- [Applications](#applications)
 
 ## Window Management (Niri)
 
@@ -500,7 +350,7 @@ _Note: This is not an exhaustive list. There are more keybindings available in o
 
 ### System Mode (Exit Menu)
 
-Press `super + alt + o` to open the power menu, which provides options for:
+Press `ALT + L` to open the power menu, which provides options for:
 
 - Logout
 - Reboot
@@ -509,17 +359,13 @@ Press `super + alt + o` to open the power menu, which provides options for:
 
 ## Additional Features
 
-- **Keyboard Layout**: Toggle between US and Arabic layouts using `Alt + Shift`
+- **Keyboard Layout**: Toggle between US and Arabic layouts using `Super + Alt + Shift + Space`
 - **Auto-tiling**: Dynamic tiling layout
 - **Workspace Auto Back and Forth**: Enabled
 - **Smooth Animations**: Advanced animation system
-- **Optimized for CachyOS**: Performance tweaks for the CachyOS kernel
-
-Note: Some keybindings might be commented out in the config files. This documentation shows only the active keybindings.
 
 ## Inspiration
 
-- [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) - Base configuration (adapted for Niri)
 - [The Linux Cast Dotfiles](https://gitlab.com/thelinuxcast/my-dots.git)
 - [Nvim Config by Allaman](https://github.com/Allaman/nvim)
 - [Chris Grieser Config](https://github.com/chrisgrieser/.config)
