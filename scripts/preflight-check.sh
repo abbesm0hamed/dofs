@@ -119,6 +119,8 @@ if systemctl is-enabled gdm.service &>/dev/null; then
     DM_DETECTED="GDM"
 elif systemctl is-enabled sddm.service &>/dev/null; then
     DM_DETECTED="SDDM"
+elif systemctl is-enabled greetd.service &>/dev/null; then
+    DM_DETECTED="greetd"
 elif systemctl is-enabled lightdm.service &>/dev/null; then
     DM_DETECTED="LightDM"
 fi

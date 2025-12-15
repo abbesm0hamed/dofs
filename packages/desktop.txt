@@ -14,5 +14,5 @@ ghostty
 zip
 xz
 unzip
-p7zip
+7zip
 jq

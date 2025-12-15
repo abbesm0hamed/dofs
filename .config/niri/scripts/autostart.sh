@@ -9,156 +9,131 @@ exec 2>&1
 
 echo "=== Niri Autostart - $(date) ==="
 
-# Kill any existing instances to prevent duplicates
 pkill -9 waybar || true
 pkill -9 mako || true
 pkill -9 swayidle || true
 pkill -9 nm-applet || true
 pkill -9 blueman-applet || true
 pkill -9 xwayland-satellite || true
+pkill -9 swaybg || true
+pkill -9 swww-daemon || true
 
-# Wait for Niri to be fully ready
-sleep 1
+echo "Loading wallpapers immediately..."
 
-# ============================================================================
-# Phase 1: Critical System Services
-# ============================================================================
-
-echo "[Phase 1] Starting critical system services..."
-
-# XWayland support (CRITICAL - must start before X11 apps)
-if command -v xwayland-satellite &>/dev/null; then
-    echo "  → Starting xwayland-satellite..."
-    xwayland-satellite &
-    sleep 0.5
-else
-    echo "  ⚠ xwayland-satellite not found - X11 apps won't work"
-    echo "  Install with: yay -S xwayland-satellite"
-fi
-
-# Polkit authentication agent (CRITICAL - needed for GUI sudo)
-if [ -f /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]; then
-    echo "  → Starting polkit agent..."
-    /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-else
-    echo "  ⚠ Polkit agent not found"
-fi
-
-# Import environment variables into systemd user session (CRITICAL - needed for portals)
-echo "  → Importing environment to systemd..."
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-
-sleep 0.5
-
-# ============================================================================
-# Phase 2: User Interface Components
-# ============================================================================
-
-echo "[Phase 2] Starting UI components..."
-
-# Notification daemon
-if command -v mako &>/dev/null; then
-    echo "  → Starting mako..."
-    mako &
-    sleep 0.3
-fi
-
-# Status bar
-if command -v waybar &>/dev/null; then
-    echo "  → Starting waybar..."
-    waybar &
-    sleep 0.3
-fi
-
-# Fuzzel application launcher service
-if command -v fuzzel &>/dev/null; then
-    echo "  → Starting fuzzel service..."
-    fuzzel &
-    sleep 0.3
-fi
-
-# ============================================================================
-# Phase 3: System Tray Applications
-# ============================================================================
-
-echo "[Phase 3] Starting system tray apps..."
-
-# Network manager
-if command -v nm-applet &>/dev/null; then
-    echo "  → Starting nm-applet..."
-    nm-applet --indicator &
-    sleep 0.2
-fi
-
-# Bluetooth
-if command -v blueman-applet &>/dev/null; then
-    echo "  → Starting blueman-applet..."
-    blueman-applet &
-    sleep 0.2
-fi
-
-# ============================================================================
-# Phase 4: Dual Wallpaper Setup
-# ============================================================================
-
-echo "[Phase 4] Setting up dual wallpaper..."
-
-# Backdrop wallpaper with swaybg (stationary in overview)
+# Start backdrop wallpaper FIRST (instant visual feedback)
 if command -v swaybg &>/dev/null; then
     BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-snaky.jpg"
     if [ -f "$BACKDROP_WALLPAPER" ]; then
         echo "  → Starting swaybg backdrop: $BACKDROP_WALLPAPER"
         swaybg -i "$BACKDROP_WALLPAPER" -m fill &
-        sleep 0.3
     else
-        echo "  ⚠ Backdrop wallpaper not found: $BACKDROP_WALLPAPER"
         echo "  → Using solid color backdrop"
         swaybg -c '#1e1e2e' &
-        sleep 0.3
     fi
-else
-    echo "  ⚠ swaybg not found - install with: yay -S swaybg"
 fi
 
-# Foreground wallpaper with swww (moves with workspaces)
+# Start swww daemon immediately (parallel with swaybg)
 if command -v swww &>/dev/null; then
-    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/snaky.jpg"
     echo "  → Starting swww daemon..."
-    swww-daemon &
-    sleep 0.5
+    swww-daemon --format xrgb &
+    SWWW_PID=$!
 
+    # Wait briefly until daemon responds
+    for _ in {1..15}; do
+        if swww query &>/dev/null; then
+            break
+        fi
+        sleep 0.1
+    done
+
+    # Load foreground wallpaper
+    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/snaky.jpg"
     if [ -f "$FOREGROUND_WALLPAPER" ]; then
         echo "  → Loading foreground wallpaper: $FOREGROUND_WALLPAPER"
-        swww img "$FOREGROUND_WALLPAPER" --transition-type fade --transition-fps 60 --transition-duration 0.5 &
-    else
-        echo "  ⚠ Foreground wallpaper not found: $FOREGROUND_WALLPAPER"
-        # Try default.jpg as fallback
-        if [ -f "${HOME}/.config/backgrounds/default.jpg" ]; then
-            swww img "${HOME}/.config/backgrounds/default.jpg" --transition-type fade --transition-fps 60 --transition-duration 0.5 &
-        else
-            echo "  → Using transparent background for swww"
-            swww clear '#00000000' &
-        fi
+        swww img "$FOREGROUND_WALLPAPER" --transition-type none &
+    elif [ -f "${HOME}/.config/backgrounds/snaky.jpg" ]; then
+        swww img "${HOME}/.config/backgrounds/blurry-snaky.jpg" --transition-type none &
     fi
-else
-    echo "  ⚠ swww not found - install with: yay -S swww"
 fi
 
-# ============================================================================
-# Phase 5: Utilities
-# ============================================================================
+echo "Starting critical background services..."
 
-echo "[Phase 5] Starting utilities..."
+# Launch all critical services in parallel (they don't need to be sequential)
+{
+    # XWayland support
+    if command -v xwayland-satellite &>/dev/null; then
+        echo "  → Starting xwayland-satellite..."
+        xwayland-satellite &
+    fi
+} &
 
-# Clipboard manager
-if command -v cliphist &>/dev/null && command -v wl-paste &>/dev/null; then
-    echo "  → Starting clipboard manager..."
-    wl-paste --type text --watch cliphist store &
-    wl-paste --type image --watch cliphist store &
-    sleep 0.2
+{
+    # Polkit authentication agent
+    if [ -f /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]; then
+        echo "  → Starting polkit agent..."
+        /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+    fi
+} &
+
+{
+    # Import environment to systemd
+    echo "  → Importing environment to systemd..."
+    systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP || true
+    sleep 0.5
+} &
+
+{
+    # Clipboard manager (start early, runs in background)
+    if command -v cliphist &>/dev/null && command -v wl-paste &>/dev/null; then
+        echo "  → Starting clipboard manager..."
+        wl-paste --type text --watch cliphist store &
+        wl-paste --type image --watch cliphist store &
+    fi
+} &
+
+# Wait for background services to initialize
+sleep 0.3
+
+echo "Starting UI components..."
+
+# Start notification daemon first (lightweight, fast)
+if command -v mako &>/dev/null; then
+    echo "  → Starting mako..."
+    mako &
 fi
 
-# Idle manager (screen timeout and lock)
+# Brief delay for mako to initialize
+sleep 0.15
+
+# Start Waybar (now wallpaper is visible, so loading bar looks good)
+if command -v waybar &>/dev/null; then
+    echo "  → Starting waybar..."
+    waybar &
+fi
+
+echo "Starting system tray apps..."
+
+# Launch tray apps in parallel (they're independent)
+{
+    if command -v nm-applet &>/dev/null; then
+        echo "  → Starting nm-applet..."
+        nm-applet --indicator &
+    fi
+} &
+
+{
+    if command -v blueman-applet &>/dev/null; then
+        echo "  → Starting blueman-applet..."
+        blueman-applet &
+    fi
+} &
+
+# Small delay to let tray populate
+sleep 0.2
+
+echo "Starting power management and utilities..."
+
+# Idle manager (non-critical, can start later)
 if command -v swayidle &>/dev/null; then
     echo "  → Starting swayidle..."
     swayidle -w \
@@ -168,35 +143,38 @@ if command -v swayidle &>/dev/null; then
         before-sleep 'swaylock -f' &
 fi
 
-# ============================================================================
-# Phase 6: Optional Services
-# ============================================================================
-
-echo "[Phase 6] Starting optional services..."
-
-# Gammastep (blue light filter)
+# Gammastep (blue light filter - lowest priority)
 if command -v gammastep &>/dev/null; then
     echo "  → Starting gammastep..."
-    gammastep -l 0:0 & # Auto-detect location or set your coords
+    gammastep -l 0:0 &
 fi
 
+echo "Starting optional services..."
+
+# Fuzzel service (if needed - though usually launched on-demand)
+# if command -v fuzzel &>/dev/null; then
+#     echo "  → Fuzzel ready (on-demand)"
+# fi
+
 # ============================================================================
-# Completion
+# Completion & Verification
 # ============================================================================
 
-echo "=== Niri autostart completed successfully ==="
-echo "Log file: $LOG_FILE"
+echo "=== Niri autostart completed ==="
 
-# Wait a moment to ensure all services are stable
-sleep 1
+# Verify critical services (non-blocking check)
+{
+    sleep 1
+    echo ""
+    echo "Service status check:"
+    pgrep -a xwayland-satellite && echo "  ✓ xwayland-satellite running" || echo "  ✗ xwayland-satellite not running"
+    pgrep -a waybar && echo "  ✓ waybar running" || echo "  ✗ waybar not running"
+    pgrep -a mako && echo "  ✓ mako running" || echo "  ✗ mako not running"
+    pgrep -a swaybg && echo "  ✓ swaybg running" || echo "  ✗ swaybg not running"
+    pgrep -a swww && echo "  ✓ swww running" || echo "  ✗ swww not running"
+    pgrep -a swayidle && echo "  ✓ swayidle running" || echo "  ✗ swayidle not running"
+    echo ""
+    echo "Autostart complete! Log: $LOG_FILE"
+} &
 
-# Verify critical services
-echo ""
-echo "Service status:"
-pgrep -a xwayland-satellite && echo "  ✓ xwayland-satellite running" || echo "  ✗ xwayland-satellite not running"
-pgrep -a waybar && echo "  ✓ waybar running" || echo "  ✗ waybar not running"
-pgrep -a mako && echo "  ✓ mako running" || echo "  ✗ mako not running"
-pgrep -a swayidle && echo "  ✓ swayidle running" || echo "  ✗ swayidle not running"
-
-echo ""
-echo "Autostart complete!"
+exit 0

@@ -53,7 +53,6 @@ This setup includes:
 
 ### CachyOS Optimizations
 
-- ✅ **game-performance** wrapper for automatic gaming optimization
 - ✅ **Flat mouse acceleration** for precise control
 - ✅ **Wayland-native environment** for all apps
 - ✅ **Optimized kernel** (linux-cachyos)
@@ -65,28 +64,9 @@ This setup includes:
 - ✅ Declarative package management
 - ✅ Reproducible setup
 
-## 🎮 Gaming Setup
-
-### Steam
-
-Add to launch options:
-
-```
-game-performance %command%
-```
-
-### Lutris/Heroic
-
-Use the wrapper script:
-
-```
-~/dofs/scripts/game-launcher.sh %command%
-```
-
 **Benefits:**
 
 - Automatic performance CPU governor
-- Wayland-native gaming support
 - Lower latency and better FPS
 - HDR support (when available)
 
@@ -213,7 +193,7 @@ Edit the relevant file in `packages/`:
 echo "my-new-package" >> packages/development.txt
 
 # Reinstall
-bash scripts/install-development.sh
+./install.sh
 ```
 
 ### Create a New Theme

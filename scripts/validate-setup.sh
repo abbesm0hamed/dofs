@@ -166,11 +166,11 @@ echo ""
 
 echo "[6/7] Checking wallpaper..."
 
-if [ -f ~/.config/backgrounds/default.jpg ] || [ -f ~/.config/backgrounds/default.png ]; then
+if [ -f ~/.config/backgrounds/snaky.jpg ] || [ -f ~/.config/backgrounds/default.png ]; then
     success "Default wallpaper exists"
 else
     warning "Default wallpaper not found - autostart may fail to set wallpaper"
-    echo "  Place your wallpaper at: ~/.config/backgrounds/default.jpg"
+    echo "  Place your wallpaper at: ~/.config/backgrounds/blurry-snaky.jpg"
 fi
 
 echo ""

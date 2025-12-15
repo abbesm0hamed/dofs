@@ -1,0 +1,14 @@
+[background]
+path = "@BACKGROUND@"
+fit = "Fill"
+
+[GTK]
+application_prefer_dark_theme = true
+cursor_theme_name = "Adwaita"
+icon_theme_name = "Adwaita"
+theme_name = "Adwaita"
+font_name = "SpaceMono 10"
+
+[commands]
+reboot = ["systemctl", "reboot"]
+poweroff = ["systemctl", "poweroff"]

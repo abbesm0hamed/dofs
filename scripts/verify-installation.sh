@@ -88,6 +88,9 @@ for dir in "${CONFIG_DIRS[@]}"; do
         else
             log_error "$dir symlink broken (points to non-existent: $target)"
         fi
+    elif [ "$dir" = "fish" ] && [ -d "$HOME/.config/$dir" ]; then
+        # fish files are stowed individually, so the directory itself is not a symlink
+        log_success "fish directory present (files stowed individually)"
     elif [ -d "$HOME/.config/$dir" ]; then
         log_warning "$dir exists but is not a symlink"
     else
@@ -236,7 +239,7 @@ fi
 
 # Check 10: Wallpaper
 log_step "Checking wallpaper..."
-WALLPAPER="$HOME/.config/backgrounds/default.jpg"
+WALLPAPER="$HOME/.config/backgrounds/snaky.jpg"
 if [ -f "$WALLPAPER" ]; then
     log_success "Default wallpaper exists"
 else

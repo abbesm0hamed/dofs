@@ -16,6 +16,24 @@ log_success() { echo -e "${GREEN}✓${NC} $1"; }
 log_error() { echo -e "${RED}✗${NC} $1"; }
 log_warning() { echo -e "${YELLOW}⚠${NC} $1"; }
 
+ ensure_tuigreet_installed() {
+     if pacman -Qq tuigreet &>/dev/null; then
+         return 0
+     fi
+
+     if ! command -v yay &>/dev/null; then
+         log_error "tuigreet is not installed and is not available via pacman on this system"
+         log_error "Install yay, then run: yay -S --needed tuigreet"
+         exit 1
+     fi
+
+     if [ "${EUID}" -eq 0 ] && [ -n "${SUDO_USER:-}" ] && [ "${SUDO_USER}" != "root" ]; then
+         sudo -u "${SUDO_USER}" yay -S --needed --noconfirm --answerclean None --answerdiff None tuigreet
+     else
+         yay -S --needed --noconfirm --answerclean None --answerdiff None tuigreet
+     fi
+ }
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
@@ -30,6 +48,8 @@ detect_display_manager() {
         echo "gdm"
     elif systemctl is-enabled sddm.service &>/dev/null; then
         echo "sddm"
+    elif systemctl is-enabled greetd.service &>/dev/null; then
+        echo "greetd"
     elif systemctl is-enabled lightdm.service &>/dev/null; then
         echo "lightdm"
     else
@@ -153,50 +173,91 @@ setup_lightdm() {
     log_success "LightDM configured - Niri will appear in session list"
 }
 
+# Setup for greetd
+setup_greetd() {
+    log_step "Configuring greetd for Niri..."
+
+    local templates_dir="${REPO_ROOT}/templates/greetd"
+    local regreet_template="${templates_dir}/regreet.toml"
+    local greetd_regreet_template="${templates_dir}/config-regreet.toml"
+    local greetd_tuigreet_template="${templates_dir}/config-tuigreet.toml"
+    local libinput_tap_quirks="${templates_dir}/libinput-tap.quirks"
+
+    if [ ! -f "${regreet_template}" ] || [ ! -f "${greetd_regreet_template}" ] || [ ! -f "${greetd_tuigreet_template}" ] || [ ! -f "${libinput_tap_quirks}" ]; then
+        log_error "Missing greetd templates under ${templates_dir}"
+        log_error "Expected: regreet.toml, config-regreet.toml, config-tuigreet.toml, libinput-tap.quirks"
+        exit 1
+    fi
+
+    log_step "Ensuring greetd + greeter are installed..."
+    sudo pacman -S --needed --noconfirm greetd cage greetd-regreet greetd-tuigreet
+    sudo systemctl enable greetd.service
+    sudo systemctl set-default graphical.target >/dev/null
+
+    sudo install -d -m 0755 /etc/greetd
+    sudo install -d -m 0755 /etc/libinput
+
+    if ! id -u greeter &>/dev/null; then
+        log_step "Creating system user: greeter"
+        sudo useradd -r -M -s /usr/bin/nologin greeter
+        log_success "Created user: greeter"
+    fi
+
+    if getent group video >/dev/null; then
+        sudo usermod -a -G video greeter
+    fi
+
+    if [ -f /etc/greetd/config.toml ]; then
+        local backup="/etc/greetd/config.toml.dofs.bak"
+        if [ -e "$backup" ]; then
+            backup="/etc/greetd/config.toml.dofs.bak.$(date +%s)"
+        fi
+        sudo cp -a /etc/greetd/config.toml "$backup"
+        log_warning "Existing greetd config backed up to $backup"
+    fi
+
+    local background_src="${REPO_ROOT}/.config/backgrounds/blurry-snaky.jpg"
+    local background_dst="/etc/greetd/background.jpg"
+    if [ -f "${background_src}" ]; then
+        sudo install -m 0644 "${background_src}" "${background_dst}"
+    else
+        log_warning "Wallpaper not found at ${background_src}; using a solid background in ReGreet"
+    fi
+
+    # Enable tap-to-click for greetd session (applies system-wide via libinput quirk)
+    sudo install -m 0644 "${libinput_tap_quirks}" /etc/libinput/local-overrides.quirks
+
+    sudo install -d -m 0755 /var/lib/regreet
+    sudo install -d -m 0755 /var/log/regreet
+    sudo chown -R greeter:greeter /var/lib/regreet /var/log/regreet
+
+    if command -v regreet &>/dev/null; then
+        sudo install -m 0644 "${greetd_regreet_template}" /etc/greetd/config.toml
+
+        if [ -f "${background_dst}" ]; then
+            sed "s|@BACKGROUND@|${background_dst}|g" "${regreet_template}" | sudo tee /etc/greetd/regreet.toml > /dev/null
+        else
+            sed "s|@BACKGROUND@|/dev/null|g" "${regreet_template}" | sudo tee /etc/greetd/regreet.toml > /dev/null
+        fi
+    else
+        log_warning "regreet not found; falling back to tuigreet"
+        ensure_tuigreet_installed
+        sudo install -m 0644 "${greetd_tuigreet_template}" /etc/greetd/config.toml
+    fi
+
+    log_success "greetd configured"
+}
+
 # Install display manager if none exists
 install_display_manager() {
     log_warning "No display manager detected"
-    echo ""
-    echo "Available options:"
-    echo "  1) GDM (GNOME Display Manager) - recommended if you have GNOME"
-    echo "  2) SDDM (Simple Desktop Display Manager) - lightweight"
-    echo "  3) LightDM - very lightweight"
-    echo "  4) Skip - I'll install one manually"
-    echo ""
-    read -p "Choose option [1-4]: " choice
-    
-    case $choice in
-        1)
-            log_step "Installing GDM..."
-            sudo pacman -S --needed --noconfirm gdm
-            sudo systemctl enable gdm.service
-            log_success "GDM installed and enabled"
-            echo "gdm"
-            ;;
-        2)
-            log_step "Installing SDDM..."
-            sudo pacman -S --needed --noconfirm sddm
-            sudo systemctl enable sddm.service
-            log_success "SDDM installed and enabled"
-            echo "sddm"
-            ;;
-        3)
-            log_step "Installing LightDM..."
-            sudo pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter
-            sudo systemctl enable lightdm.service
-            log_success "LightDM installed and enabled"
-            echo "lightdm"
-            ;;
-        4)
-            log_warning "Skipping display manager installation"
-            log_warning "You'll need to start niri manually or install a DM later"
-            echo "none"
-            ;;
-        *)
-            log_error "Invalid choice"
-            echo "none"
-            ;;
-    esac
+
+    log_step "Installing greetd (default)..."
+    sudo pacman -S --needed --noconfirm greetd greetd-regreet greetd-tuigreet
+    sudo systemctl enable greetd.service
+    sudo systemctl set-default graphical.target >/dev/null
+    log_success "greetd installed and enabled"
+    echo "greetd"
 }
 
 # Main execution
@@ -227,6 +288,9 @@ main() {
         sddm)
             setup_sddm
             ;;
+        greetd)
+            setup_greetd
+            ;;
         lightdm)
             setup_lightdm
             ;;
@@ -248,9 +312,6 @@ main() {
         echo "  1. Reboot your system"
         echo "  2. At the login screen, select 'Niri' from the session menu"
         echo "  3. Log in with your credentials"
-        echo ""
-        log_warning "Your existing desktop environments (e.g., GNOME) are still available"
-        log_warning "You can switch between them at the login screen"
     fi
 }
 

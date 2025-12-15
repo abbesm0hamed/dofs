@@ -135,6 +135,11 @@ animations {
 }
 
 window-rule {
+    match title=r#".*[Pp]rivate.*|.*[Ii]ncognito.*"#
+    block-out-from "screen-capture"
+}
+
+window-rule {
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
 }

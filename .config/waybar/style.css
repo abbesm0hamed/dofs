@@ -3,7 +3,7 @@
 /* ===== Waybar Minimal CSS ===== */
 
 * {
-  font-family: "Space Mono", monospace;
+  font-family: "SpaceMono", "Symbols Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", "Noto Color Emoji", monospace;
   font-size: 14px;
   min-height: 0;
   border: none;

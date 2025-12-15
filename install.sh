@@ -17,11 +17,38 @@ log() { printf "${BLUE}==> %s${NC}\n" "$1"; }
 success() { printf "${GREEN}==> %s${NC}\n" "$1"; }
 error() { printf "${RED}==> ERROR: %s${NC}\n" "$1"; }
 
+backup_path_if_conflict() {
+    local path="$1"
+
+    if [ -e "$path" ] && [ ! -L "$path" ]; then
+        local backup="${path}.bak"
+        if [ -e "$backup" ] || [ -L "$backup" ]; then
+            backup="${path}.bak.$(date +%s)"
+        fi
+
+        log "Backing up existing file to avoid stow conflict: $path → $backup"
+        mv "$path" "$backup"
+    fi
+}
+
 # 0. Pre-flight checks
 if [ -f "${REPO_ROOT}/scripts/preflight-check.sh" ]; then
     log "Running pre-flight checks..."
     bash "${REPO_ROOT}/scripts/preflight-check.sh" 2>&1 | tee -a "$LOG_FILE"
 fi
+
+# Cache sudo credentials once, then keep them alive for the duration of the script
+log "Caching sudo credentials (you may be prompted once)..."
+sudo -v
+(
+    while true; do
+        sudo -n true
+        sleep 60
+        kill -0 "$$" 2>/dev/null || exit 0
+    done
+) 2>/dev/null &
+SUDO_KEEPALIVE_PID=$!
+trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true' EXIT
 
 # 1. Ensure yay is installed
 if ! command -v yay &> /dev/null; then
@@ -42,14 +69,16 @@ ALL_PACKAGES=()
 # Read all .txt files in packages/ directory
 while IFS= read -r package; do
     # Skip empty lines and comments
-    [[ -z "$package" || "$package" =~ ^# ]] && continue
+    package="${package%%#*}"
+    package="$(printf '%s' "$package" | xargs)"
+    [[ -z "$package" ]] && continue
     ALL_PACKAGES+=("$package")
 done < <(cat "${PACKAGES_DIR}"/*.txt)
 
 if [ ${#ALL_PACKAGES[@]} -gt 0 ]; then
     log "Installing ${#ALL_PACKAGES[@]} packages..."
     # Install everything in one go to avoid re-dependency checks
-    yay -S --needed --noconfirm "${ALL_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE"
+    yay -S --needed --noconfirm --answerclean None --answerdiff None "${ALL_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE"
 else
     success "No packages to install."
 fi
@@ -58,7 +87,16 @@ fi
 log "Stowing dotfiles..."
 
 # Ensure target directories exist (stow handling descent)
-mkdir -p "${HOME}/.config"
+mkdir -p "${HOME}/.config" \
+         "${HOME}/.config/autostart" \
+         "${HOME}/.config/fish"
+
+# Avoid stow conflicts with known pre-existing files from CachyOS / previous setups
+backup_path_if_conflict "${HOME}/.config/autostart/cachyos-hello.desktop"
+backup_path_if_conflict "${HOME}/.config/autostart/cachyos-hello"
+backup_path_if_conflict "${HOME}/.config/fish/fish_variables"
+backup_path_if_conflict "${HOME}/.config/fish/config.fish"
+backup_path_if_conflict "${HOME}/.config/fish/fish.config"
 
 # Stow from the repo root to home
 # We ignored scripts/ and packages/ in .stow_local_ignore
@@ -74,7 +112,7 @@ fi
 
 # 5. System Setup (Display Manager)
 log "Setting up Display Manager session..."
-sudo bash "${REPO_ROOT}/scripts/setup-display-manager.sh"
+bash "${REPO_ROOT}/scripts/setup-display-manager.sh"
 
 # 6. Apply Default Theme
 log "Applying default theme (default )..."

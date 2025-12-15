@@ -8,17 +8,17 @@ bun-bin
 python
 python-pip
 python-virtualenv
+github-cli
 rust
 go
 gcc
-gnumake
+make
 cmake
 pkgconf
 shellcheck
 shfmt
-rustfmt
 stylua
-taplo
+taplo-cli
 strace
 ltrace
 lsof
@@ -37,3 +37,5 @@ fd
 btop
 fastfetch
 ranger
+lazygit
+lazydocker

@@ -36,7 +36,7 @@ export XCURSOR_SIZE=24
 # This is handled by kernel parameters, but we set the preference here
 export AMD_PSTATE_EPP=balance_performance
 
-# Gaming optimizations (applied by game-launcher.sh when needed)
+# Gaming optimizations
 # export PROTON_ENABLE_WAYLAND=1
 # export PROTON_NO_WM_DECORATION=1
 # export PROTON_ENABLE_HDR=1

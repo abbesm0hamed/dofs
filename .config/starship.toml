@@ -1,100 +1,190 @@
-# Don't print a new line at the start of the prompt
-add_newline = false
-# Pipes ╰─ ╭─
-# Powerline symbols                                     
-# Wedges 🭧🭒 🭣🭧🭓
-# Random noise 🬖🬥🬔🬗
+[aws]
+symbol = "  "
 
-# format = """
-# $cmd_duration$username$hostname $directory $git_branch
-# $character
-# """
-format = """
-$cmd_duration 󰜥 $directory $git_branch
-$character
-"""
+[buf]
+symbol = " "
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character]                            # The name of the module we are configuring is "character"
-success_symbol = "[ 󰜥 ](bold fg:blue)"
-error_symbol = "[ 󰜥 ](bold fg:red)"
+[bun]
+symbol = " "
 
-# Disable the package module, hiding it from the prompt completely
-[package]
-disabled = true
+[c]
+symbol = " "
 
-[git_branch]
-style = "bg: cyan"
-symbol = "󰘬"
-truncation_length = 12
-truncation_symbol = ""
-format = "󰜥 [](bold fg:cyan)[$symbol $branch(:$remote_branch)](fg:black bg:cyan)[ ](bold fg:cyan)"
+[cpp]
+symbol = " "
 
-[git_commit]
-commit_hash_length = 4
-tag_symbol = " "
+[cmake]
+symbol = " "
 
-[git_state]
-format = '[\($state( $progress_current of $progress_total)\)]($style) '
-cherry_pick = "[🍒 PICKING](bold red)"
+[conda]
+symbol = " "
 
-[git_status]
-conflicted = " 🏳 "
-ahead = " 🏎💨 "
-behind = " 😰 "
-diverged = " 😵 "
-untracked = " 🤷 ‍"
-stashed = " 📦 "
-modified = " 📝 "
-staged = '[++\($count\)](green)'
-renamed = " ✍️ "
-deleted = " 🗑 "
+[crystal]
+symbol = " "
 
-[hostname]
-ssh_only = false
-format =  "[•$hostname](bg:cyan bold fg:black)[](bold fg:cyan)"
-trim_at = ".companyname.com"
-disabled = false
+[dart]
+symbol = " "
 
-[line_break]
-disabled = false
-
-[memory_usage]
-disabled = true
-threshold = -1
-symbol = " "
-style = "bold dimmed green"
-
-[time]
-disabled = true
-format = '🕙[\[ $time \]]($style) '
-time_format = "%T"
-
-[username]
-style_user = "bold bg:cyan fg:black"
-style_root = "red bold"
-format = "[](bold fg:cyan)[$user]($style)"
-disabled = false
-show_always = true
+[deno]
+symbol = " "
 
 [directory]
-home_symbol = "  "
-read_only = "  "
-style = "bg:green fg:black"
-truncation_length = 6
-truncation_symbol = " ••/"
-format = '[](bold fg:green)[󰉋 $path]($style)[](bold fg:green)'
+read_only = " 󰌾"
 
+[docker_context]
+symbol = " "
 
-[directory.substitutions]
-"Desktop" = "  "
-"Documents" = "  "
-"Downloads" = "  "
-"Music" = " 󰎈 "
-"Pictures" = "  "
-"Videos" = "  "
-"GitHub" = " 󰊤 "
+[elixir]
+symbol = " "
 
-[cmd_duration]
-min_time = 0
-format = '[](bold fg:yellow)[󰪢 $duration](bold bg:yellow fg:black)[](bold fg:yellow)'
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[gcloud]
+symbol = "  "
+
+[git_branch]
+symbol = " "
+
+[git_commit]
+tag_symbol = '  '
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[hostname]
+ssh_symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[kotlin]
+symbol = " "
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[ocaml]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CachyOS = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+Nobara = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+
+[package]
+symbol = "󰏗 "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[pixi]
+symbol = "󰏗 "
+
+[python]
+symbol = " "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = "󱘗 "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = " "
+
+[zig]
+symbol = " "
+
+[gradle]
+symbol = " "
