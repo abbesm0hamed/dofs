@@ -1,12 +1,12 @@
-# dofs - Arch/CachyOS Dotfiles with Niri & default 
+# dofs - Arch/CachyOS Dotfiles with Niri & default
 
-![Niri overview](.config/screenshots/niri-overview.png)
 ![Neovim + fastfetch](.config/screenshots/nvim-fastfetch.png)
+![Niri overview](.config/screenshots/niri-overview.png)
 
 A unified, reproducible dotfiles setup for Arch Linux (CachyOS) featuring:
 
 - **Niri** window manager (Wayland compositor)
-- **default ** unified theme system
+- **default** unified theme system
 - **Mako** notification daemon
 - **Waybar** status bar
 - **Fish** shell with **Starship** prompt
@@ -32,7 +32,7 @@ This will:
 - Ensure `yay` is installed
 - Install all packages from lists (system, desktop, wayland, etc.)
 - Stow all dotfiles to `~/.config`
-- Apply the unified default  theme
+- Apply the unified default theme
 - Enable the Niri session in your display manager
 
 **Time**: ~15-20 minutes
@@ -160,46 +160,46 @@ niri msg action reload-config
 
 ## Window Management (Niri)
 
-| Keybinding                | Action                                |
-| ------------------------- | ------------------------------------- |
-| `Mod + h/j/k/l`           | Focus left/down/up/right              |
-| `Mod + Shift + h/j/k/l`   | Move window left/down/up/right        |
-| `Mod + f`                 | Toggle maximized                      |
-| `Mod + equal`             | Resize window (+ width)               |
-| `Mod + minus`             | Resize window (- width)               |
+| Keybinding              | Action                         |
+| ----------------------- | ------------------------------ |
+| `Mod + h/j/k/l`         | Focus left/down/up/right       |
+| `Mod + Shift + h/j/k/l` | Move window left/down/up/right |
+| `Mod + f`               | Toggle maximized               |
+| `Mod + equal`           | Resize window (+ width)        |
+| `Mod + minus`           | Resize window (- width)        |
 
 ## Workspace Controls
 
-| Keybinding                | Action                           |
-| ------------------------- | -------------------------------- |
-| `Mod + (1-9)`             | Switch to workspace 1-9          |
-| `Mod + Shift + (1-9)`     | Move window to workspace 1-9     |
-| `Mod + Tab`               | Toggle overview                  |
+| Keybinding            | Action                       |
+| --------------------- | ---------------------------- |
+| `Mod + (1-9)`         | Switch to workspace 1-9      |
+| `Mod + Shift + (1-9)` | Move window to workspace 1-9 |
+| `Mod + Tab`           | Toggle overview              |
 
 ## Application Shortcuts
 
-| Keybinding               | Action               |
-| ------------------------ | -------------------- |
-| `Mod + Return`           | Launch Ghostty       |
-| `Mod + P`                | Launch Fuzzel        |
-| `Alt + Z`                | Launch Zen Browser   |
-| `Alt + E`                | Launch Nautilus      |
-| `Alt + Ctrl + L`         | Launch Swaylock      |
+| Keybinding       | Action             |
+| ---------------- | ------------------ |
+| `Mod + Return`   | Launch Ghostty     |
+| `Mod + P`        | Launch Fuzzel      |
+| `Alt + Z`        | Launch Zen Browser |
+| `Alt + E`        | Launch Nautilus    |
+| `Alt + Ctrl + L` | Launch Swaylock    |
 
 ## Media Controls
 
-| Keybinding                           | Action                        |
-| ------------------------------------ | ----------------------------- |
-| `XF86AudioRaiseVolume`               | Volume up                     |
-| `XF86AudioLowerVolume`               | Volume down                   |
-| `XF86AudioMute`                      | Toggle mute                   |
+| Keybinding             | Action      |
+| ---------------------- | ----------- |
+| `XF86AudioRaiseVolume` | Volume up   |
+| `XF86AudioLowerVolume` | Volume down |
+| `XF86AudioMute`        | Toggle mute |
 
 ## System Controls
 
-| Keybinding          | Action                       |
-| ------------------- | ---------------------------- |
-| `Mod + Shift + q`   | Close window                 |
-| `Mod + Shift + e`   | Quit Niri (Logout)           |
+| Keybinding        | Action             |
+| ----------------- | ------------------ |
+| `Mod + Shift + q` | Close window       |
+| `Mod + Shift + e` | Quit Niri (Logout) |
 
 ## Screenshots
 
