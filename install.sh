@@ -83,7 +83,14 @@ else
     success "No packages to install."
 fi
 
-# 3. Stow dotfiles
+# 3. Configure URL handlers (browser + custom schemes)
+log "Configuring URL handlers (xdg-mime/xdg-settings)..."
+BROWSER_DESKTOP="${BROWSER_DESKTOP:-zen.desktop}" \
+CUSTOM_SCHEMES="${CUSTOM_SCHEMES:-}" \
+CUSTOM_SCHEME_HANDLER="${CUSTOM_SCHEME_HANDLER:-}" \
+bash "${REPO_ROOT}/scripts/configure-url-handlers.sh"
+
+# 4. Stow dotfiles
 log "Stowing dotfiles..."
 
 # Ensure target directories exist (stow handling descent)
@@ -104,17 +111,17 @@ cd "${REPO_ROOT}" || exit 1
 
 stow -v -t "${HOME}" --restow . 2>&1 | tee -a "$LOG_FILE"
 
-# 4. Security Setup (PAM)
+# 5. Security Setup (PAM)
 log "Configuring security (Fingerprint/U2F)..."
 if [ -f "${REPO_ROOT}/scripts/configure-pam.sh" ]; then
     sudo bash "${REPO_ROOT}/scripts/configure-pam.sh"
 fi
 
-# 5. System Setup (Display Manager)
+# 6. System Setup (Display Manager)
 log "Setting up Display Manager session..."
 bash "${REPO_ROOT}/scripts/setup-display-manager.sh"
 
-# 6. Apply Default Theme
+# 7. Apply Default Theme
 log "Applying default theme (default )..."
 bash "${REPO_ROOT}/scripts/theme-manager.sh" set default
 

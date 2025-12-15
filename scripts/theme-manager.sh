@@ -135,18 +135,6 @@ apply_niri_theme() {
             sed -i -E "s/(backdrop-color[[:space:]]+)\"[^\"]*\"/\1\"$bar_bg\"/" "$CONFIG_DIR/niri/config.kdl" || true
         fi
     fi
-
-    # Reload Niri if running (don't fail if not running)
-    if command -v niri >/dev/null 2>&1; then
-        if pgrep -x niri >/dev/null 2>&1; then
-            niri msg action reload-config 2>/dev/null || log_warning "Could not reload niri config"
-            log_success "Niri reloaded"
-        else
-            log_success "Niri theme applied (niri not running)"
-        fi
-    else
-        log_warning "Niri not installed yet, theme will be applied on first start"
-    fi
 }
 
 # Apply Waybar theme

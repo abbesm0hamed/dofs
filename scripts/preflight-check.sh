@@ -1,6 +1,4 @@
 #!/bin/bash
-# Pre-flight checks for niri installation
-# Validates system compatibility and readiness
 
 set -euo pipefail
 

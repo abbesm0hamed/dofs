@@ -47,6 +47,7 @@ ttf-space-mono
 ttf-victor-mono
 ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-mono
+ttf-fira-code
 noto-fonts-emoji
 woff2-font-awesome
 
