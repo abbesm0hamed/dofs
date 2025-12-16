@@ -146,8 +146,9 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^(code|Code|VSCodium|discord|steam)$"#
+    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|discord|steam)$"#
     default-column-width { proportion 1.0; }
+    open-maximized true
 }
 
 window-rule {

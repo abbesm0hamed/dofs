@@ -151,10 +151,10 @@ fi
 
 echo "Starting optional services..."
 
-# Fuzzel service (if needed - though usually launched on-demand)
-# if command -v fuzzel &>/dev/null; then
-#     echo "  → Fuzzel ready (on-demand)"
-# fi
+if command -v zen-browser &>/dev/null; then
+    echo "  → Starting zen-browser..."
+    zen-browser &
+fi
 
 # ============================================================================
 # Completion & Verification
