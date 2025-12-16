@@ -6,6 +6,7 @@ imagemagick
 pam-u2f
 libfido2
 stow
+lsd
 bluez
 bluez-utils
 openssh
@@ -29,10 +30,14 @@ pipewire-pulse
 pipewire-alsa
 wireplumber
 pavucontrol
-
-xdg-desktop-portal
-xdg-desktop-portal-gnome
-xdg-desktop-portal-wlr
+gst-plugin-pipewire
+cups
+cups-browsed
+cups-filters
+cups-pdf
+system-config-printer
+ufw
+ufw-docker
 
 gnome-keyring
 qt5-wayland
@@ -41,6 +46,12 @@ xwayland-satellite
 wev
 nwg-look
 udiskie
+inxi
+plocate
+
+fcitx5
+fcitx5-gtk
+fcitx5-qt
 
 ttf-jetbrains-mono-nerd
 ttf-space-mono
@@ -50,6 +61,8 @@ ttf-nerd-fonts-symbols-mono
 ttf-fira-code
 noto-fonts-emoji
 woff2-font-awesome
+yaru-icon-theme
+gnome-themes-extra
 
 #dm
 greetd

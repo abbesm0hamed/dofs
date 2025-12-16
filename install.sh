@@ -83,6 +83,24 @@ else
     success "No packages to install."
 fi
 
+# 2b. Enable and start Docker (rootful)
+if command -v docker &> /dev/null && command -v systemctl &> /dev/null; then
+    if systemctl list-unit-files | grep -q '^docker\.service'; then
+        log "Enabling and starting docker.service..."
+        sudo systemctl enable --now docker.service || true
+    fi
+    if systemctl list-unit-files | grep -q '^docker\.socket'; then
+        log "Enabling and starting docker.socket..."
+        sudo systemctl enable --now docker.socket || true
+    fi
+fi
+
+# 2c. Enable portal services (xdg-desktop-portal + backend)
+if [ -f "${REPO_ROOT}/scripts/setup-portals.sh" ]; then
+    log "Configuring portal services..."
+    bash "${REPO_ROOT}/scripts/setup-portals.sh"
+fi
+
 # 3. Configure URL handlers (browser + custom schemes)
 log "Configuring URL handlers (xdg-mime/xdg-settings)..."
 BROWSER_DESKTOP="${BROWSER_DESKTOP:-zen.desktop}" \

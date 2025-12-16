@@ -79,7 +79,7 @@ function killport
     end
 end
 
-zoxide init fish | source
+zoxide init fish --cmd cd | source
 
 fnm env | source
 

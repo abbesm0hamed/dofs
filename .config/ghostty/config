@@ -1,7 +1,8 @@
 # Font Configuration
 # font-family = SpaceMono
 # font-family = RecMonoLinear Nerd Font Mono
-font-family = JetBrainsMono Nerd Font
+# font-family = JetBrainsMono Nerd Font
+font-family = Fira Code 
 font-style-italic = Victor Mono Italic
 font-style-bold = JetBrainsMono Nerd Font Mono Bold
 font-style-bold-italic = Victor Mono Italic Bold
@@ -23,7 +24,7 @@ config-file = theme
 
 # Transparency and Focus
 background-opacity = 1
-unfocused-split-opacity = 0.98
+unfocused-split-opacity = 0.9
 
 # Mouse Configuration
 mouse-hide-while-typing = true
