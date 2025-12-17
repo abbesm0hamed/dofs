@@ -84,8 +84,8 @@ zoxide init fish --cmd cd | source
 fnm env | source
 
 set -gx PATH $PATH $HOME/go/bin
-
 # function fish_prompt
+
 #   set_color cyan; echo (pwd)
 #   set_color green; echo '> '
 # end
