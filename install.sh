@@ -75,6 +75,14 @@ while IFS= read -r package; do
     ALL_PACKAGES+=("$package")
 done < <(cat "${PACKAGES_DIR}"/*.txt)
 
+if printf '%s\n' "${ALL_PACKAGES[@]}" | grep -qx "pipewire-jack"; then
+    if pacman -Qq jack2 &> /dev/null; then
+        log "Replacing jack2 with pipewire-jack (ignoring temporary dep breaks)..."
+        sudo pacman -Rdd --noconfirm jack2
+        yay -S --needed --noconfirm pipewire-jack
+    fi
+fi
+
 if [ ${#ALL_PACKAGES[@]} -gt 0 ]; then
     log "Installing ${#ALL_PACKAGES[@]} packages..."
     # Install everything in one go to avoid re-dependency checks

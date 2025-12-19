@@ -25,9 +25,19 @@ power-profiles-daemon
 pacman-contrib
 polkit
 polkit-gnome
+
 pipewire
 pipewire-pulse
 pipewire-alsa
+pipewire-jack
+pipewire-v4l2
+pipewire-zeroconf
+pipewire-libcamera
+libcamera
+libcamera-tools
+gst-plugin-libcamera
+intel-ivsc-firmware
+
 wireplumber
 pavucontrol
 gst-plugin-pipewire
@@ -53,6 +63,7 @@ fcitx5
 fcitx5-gtk
 fcitx5-qt
 
+# fonts
 ttf-jetbrains-mono-nerd
 ttf-space-mono
 ttf-victor-mono
@@ -61,6 +72,7 @@ ttf-nerd-fonts-symbols-mono
 ttf-fira-code
 noto-fonts-emoji
 woff2-font-awesome
+
 yaru-icon-theme
 gnome-themes-extra
 

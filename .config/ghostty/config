@@ -4,7 +4,8 @@
 # font-family = JetBrainsMono Nerd Font
 font-family = Fira Code 
 font-style-italic = Victor Mono Italic
-font-style-bold = JetBrainsMono Nerd Font Mono Bold
+font-style-bold = Fira Code SemiBold
+# font-style-bold = JetBrainsMono Nerd Font Mono Bold
 font-style-bold-italic = Victor Mono Italic Bold
 font-size = 12
 

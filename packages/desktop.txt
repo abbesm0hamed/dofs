@@ -17,3 +17,4 @@ unzip
 7zip
 jq
 cava
+cmatrix-git
