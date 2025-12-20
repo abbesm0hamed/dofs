@@ -79,6 +79,7 @@ SETUVAR pure_separate_prompt_on_error:false
 SETUVAR pure_shorten_prompt_current_directory_length:0
 SETUVAR pure_shorten_window_title_current_directory_length:0
 SETUVAR pure_show_jobs:false
+SETUVAR pure_show_numbered_git_indicator:false
 SETUVAR pure_show_prefix_root_prompt:false
 SETUVAR pure_show_subsecond_command_duration:false
 SETUVAR pure_show_system_time:false
