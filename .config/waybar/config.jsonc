@@ -238,7 +238,7 @@
     "cpu": {
         "interval": 1,
         "format": " {usage}%",
-        "max-length": 5
+        "max-length": 7
     },
     "mpd": {
         "max-length": 25,

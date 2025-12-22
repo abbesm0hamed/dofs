@@ -188,7 +188,7 @@ hotkey-overlay {
 binds {
     Mod+Return { spawn "ghostty"; }
     Mod+T { spawn "kitty"; }
-    Alt+Z { spawn "zen-browser"; }
+    Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+Space { spawn "fuzzel"; }    
     Alt+Ctrl+L { spawn "swaylock"; }
     Alt+E { spawn "nautilus"; }

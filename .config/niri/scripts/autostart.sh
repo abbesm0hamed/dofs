@@ -175,9 +175,9 @@ fi
 
 echo "Starting optional services..."
 
-if command -v zen-browser &>/dev/null; then
-    echo "  → Starting zen-browser..."
-    zen-browser &
+if flatpak info app.zen_browser.zen &>/dev/null; then
+    echo "  → Starting zen-browser (Flatpak)..."
+    flatpak run app.zen_browser.zen &
 fi
 
 # ============================================================================
