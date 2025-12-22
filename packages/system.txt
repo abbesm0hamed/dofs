@@ -1,17 +1,12 @@
-# System/base packages 
-network-manager-applet
-networkmanager
-fprintd
-imagemagick
-pam-u2f
-libfido2
+# System/base packages
+ImageMagick
 stow
 lsd
 bluez
 bluez-utils
 openssh
-avahi
-nss-mdns
+# avahi
+# nss-mdns
 curl
 ffmpeg
 iputils
@@ -22,36 +17,12 @@ lm_sensors
 xdg-utils
 xdg-user-dirs
 power-profiles-daemon
-pacman-contrib
-polkit
-polkit-gnome
 
-pipewire
-pipewire-pulse
-pipewire-alsa
-pipewire-jack
-pipewire-v4l2
-pipewire-zeroconf
-pipewire-libcamera
-libcamera
-libcamera-tools
-gst-plugin-libcamera
-intel-ivsc-firmware
-
-wireplumber
 pavucontrol
-gst-plugin-pipewire
-cups
-cups-browsed
-cups-filters
-cups-pdf
-system-config-printer
-ufw
-ufw-docker
 
 gnome-keyring
-qt5-wayland
-qt6-wayland
+qt5-qtwayland
+qt6-qtwayland
 xwayland-satellite
 wev
 nwg-look
@@ -63,21 +34,15 @@ fcitx5
 fcitx5-gtk
 fcitx5-qt
 
-# fonts
-ttf-jetbrains-mono-nerd
-ttf-space-mono
-ttf-victor-mono
-ttf-nerd-fonts-symbols
-ttf-nerd-fonts-symbols-mono
-ttf-fira-code
-noto-fonts-emoji
-woff2-font-awesome
+# fonts (Fedora package names)
+jetbrains-mono-fonts
+iosevka-fonts
+fira-code-fonts
+nerd-fonts
+fontawesome-6-free-fonts
+fontawesome-6-brands-fonts
+google-noto-emoji-color-fonts
 
 yaru-icon-theme
 gnome-themes-extra
-
-#dm
-greetd
-greetd-regreet
-cage
-greetd-tuigreet
+network-manager-applet

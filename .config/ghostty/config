@@ -1,13 +1,10 @@
 # Font Configuration
-# font-family = SpaceMono
-# font-family = RecMonoLinear Nerd Font Mono
-# font-family = JetBrainsMono Nerd Font
+font-family = Iosevka
 font-family = Fira Code 
-font-style-italic = Victor Mono Italic
+font-style-italic = Fira Code Italic
 font-style-bold = Fira Code SemiBold
-# font-style-bold = JetBrainsMono Nerd Font Mono Bold
-font-style-bold-italic = Victor Mono Italic Bold
-font-size = 12
+font-style-bold-italic = Fira Code Bold Italic
+font-size = 14
 
 # Window Configuration
 window-save-state = never

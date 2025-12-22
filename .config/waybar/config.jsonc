@@ -4,14 +4,14 @@
     "output": [
         "eDP-1",
         "HDMI-A-1"
-    ], 
-    "height": 31,
+    ],
+    "height": 28,
     "margin-left": 0,
     "margin-bottom": 0,
     "margin-right": 0,
     "spacing": 4,
-    "font-family": "SpaceMono",
-    "font-size": 12,
+    "font-family": "Iosevka",
+    "font-size": 14,
     "font-weight": 400,
     "modules-left": [
         //"custom/rofi",
@@ -39,6 +39,7 @@
         "custom/recording",
         // "network",
         // "bluetooth",
+        "power-profiles-daemon",
         "battery",
         "custom/idle_inhibitor",
         "custom/power"
@@ -374,5 +375,16 @@
         "signal": 8,
         "tooltip": true,
         "on-click": "~/.config/niri/scripts/screencast.sh stop"
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
     }
 }

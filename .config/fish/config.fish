@@ -12,7 +12,10 @@ if status is-interactive
 
 end
 
-starship init fish | source
+# Starship prompt (conditional)
+if type -q starship
+    starship init fish | source
+end
 if test -f ~/.cache/ags/user/generated/terminal/sequences.txt
     cat ~/.cache/ags/user/generated/terminal/sequences.txt
 end
@@ -81,7 +84,13 @@ end
 
 zoxide init fish --cmd cd | source
 
-fnm env | source
+# FNM (Fast Node Manager) - conditional
+if test -d ~/.local/share/fnm
+    set -gx PATH ~/.local/share/fnm $PATH
+end
+if type -q fnm
+    fnm env | source
+end
 
 set -gx PATH $PATH $HOME/go/bin
 # function fish_prompt

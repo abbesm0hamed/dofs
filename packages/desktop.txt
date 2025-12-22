@@ -1,16 +1,17 @@
 # Desktop applications
-zen-browser-bin
+# zen-browser-bin (installed via Flatpak: app.zen_browser.zen)
 chromium
 nautilus
 gvfs
 ffmpegthumbnailer
-slack-desktop
-discord
-tableplus
+# slack-desktop
+# discord
+# tableplus
 zathura
 switcheroo
 localsend
 ghostty
+kitty
 zip
 xz
 unzip

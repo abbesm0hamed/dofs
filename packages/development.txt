@@ -37,6 +37,7 @@ fd
 btop
 fastfetch
 ranger
-lazygit
 lazydocker
 tmux
+lazygit
+windsurf

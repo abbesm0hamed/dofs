@@ -2,160 +2,161 @@
 set -euo pipefail
 
 # Configuration
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$SCRIPT_DIR"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PACKAGES_DIR="${REPO_ROOT}/packages"
-LOG_FILE="${HOME}/install.log"
+LOG_FILE="${REPO_ROOT}/install.log"
+# Fallback chroot for Fedora Rawhide (43)
+COPR_CHROOT="fedora-41-x86_64"
 
-# Colors
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-NC='\033[0m'
+log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
+success() { printf "\033[0;32m==> %s\033[0m\n" "$1"; }
+warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 
-log() { printf "${BLUE}==> %s${NC}\n" "$1"; }
-success() { printf "${GREEN}==> %s${NC}\n" "$1"; }
-error() { printf "${RED}==> ERROR: %s${NC}\n" "$1"; }
+# Cache sudo credentials
+if [ -t 0 ]; then
+    log "Caching sudo credentials..."
+    sudo -v
+fi
 
-backup_path_if_conflict() {
-    local path="$1"
-
-    if [ -e "$path" ] && [ ! -L "$path" ]; then
-        local backup="${path}.bak"
-        if [ -e "$backup" ] || [ -L "$backup" ]; then
-            backup="${path}.bak.$(date +%s)"
-        fi
-
-        log "Backing up existing file to avoid stow conflict: $path → $backup"
-        mv "$path" "$backup"
+# 1. Enable Third-Party Repos (COPR) with Fallback for Rawhide
+enable_copr() {
+    local repo="$1"
+    log "Enabling COPR repository: $repo..."
+    if ! sudo dnf copr enable -y "$repo" 2>>"$LOG_FILE"; then
+        log "Default COPR failed. Trying with fallback chroot $COPR_CHROOT..."
+        sudo dnf copr enable -y "$repo" "$COPR_CHROOT" 2>&1 | tee -a "$LOG_FILE"
     fi
 }
 
-# 0. Pre-flight checks
-if [ -f "${REPO_ROOT}/scripts/preflight-check.sh" ]; then
-    log "Running pre-flight checks..."
-    bash "${REPO_ROOT}/scripts/preflight-check.sh" 2>&1 | tee -a "$LOG_FILE"
-fi
+# 3. Enable Required COPR Repositories
+log "Enabling COPR repositories..."
+enable_copr "alternateved/ghostty"
+enable_copr "che/nerd-fonts"
+enable_copr "peterwu/iosevka"
+enable_copr "dejan/lazygit"
+# Note: atarishi/starship often 404s on Rawhide; we'll use the official installer script below.
 
-# Cache sudo credentials once, then keep them alive for the duration of the script
-log "Caching sudo credentials (you may be prompted once)..."
-sudo -v
-(
-    while true; do
-        sudo -n true
-        sleep 60
-        kill -0 "$$" 2>/dev/null || exit 0
-    done
-) 2>/dev/null &
-SUDO_KEEPALIVE_PID=$!
-trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true' EXIT
+# 2. Add Windsurf Repository
+log "Adding Windsurf repository..."
+sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
+echo -e "[windsurf]\nname=Windsurf Repository\nbaseurl=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/\nenabled=1\nautorefresh=1\ngpgcheck=1\ngpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf" | sudo tee /etc/yum.repos.d/windsurf.repo >/dev/null
 
-# 1. Ensure yay is installed
-if ! command -v yay &> /dev/null; then
-    log "Installing yay..."
-    sudo pacman -Syu --needed --noconfirm git base-devel
-    TMP_DIR=$(mktemp -d)
-    git clone https://aur.archlinux.org/yay.git "$TMP_DIR/yay"
-    pushd "$TMP_DIR/yay" > /dev/null
-    makepkg -si --noconfirm
-    popd > /dev/null
-    rm -rf "$TMP_DIR"
-fi
-
-# 2. Install all packages
+# 3. Install Packages
 log "Reading package lists..."
 ALL_PACKAGES=()
-
-# Read all .txt files in packages/ directory
 while IFS= read -r package; do
-    # Skip empty lines and comments
     package="${package%%#*}"
     package="$(printf '%s' "$package" | xargs)"
     [[ -z "$package" ]] && continue
     ALL_PACKAGES+=("$package")
 done < <(cat "${PACKAGES_DIR}"/*.txt)
 
-if printf '%s\n' "${ALL_PACKAGES[@]}" | grep -qx "pipewire-jack"; then
-    if pacman -Qq jack2 &> /dev/null; then
-        log "Replacing jack2 with pipewire-jack (ignoring temporary dep breaks)..."
-        sudo pacman -Rdd --noconfirm jack2
-        yay -S --needed --noconfirm pipewire-jack
-    fi
-fi
-
 if [ ${#ALL_PACKAGES[@]} -gt 0 ]; then
-    log "Installing ${#ALL_PACKAGES[@]} packages..."
-    # Install everything in one go to avoid re-dependency checks
-    yay -S --needed --noconfirm --answerclean None --answerdiff None "${ALL_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE"
+    log "Preparing packages for Fedora..."
+
+    # Fedora-specific mapping
+    FEDORA_PACKAGES=()
+    for pkg in "${ALL_PACKAGES[@]}"; do
+        case "$pkg" in
+            "base-devel") FEDORA_PACKAGES+=("@development-tools") ;;
+            "swaylock-effects") FEDORA_PACKAGES+=("swaylock") ;;
+            "github-cli") FEDORA_PACKAGES+=("gh") ;;
+            "imagemagick") FEDORA_PACKAGES+=("ImageMagick") ;;
+            "python-pip") FEDORA_PACKAGES+=("python3-pip") ;;
+            "qt5-wayland") FEDORA_PACKAGES+=("qt5-qtwayland") ;;
+            "qt6-wayland") FEDORA_PACKAGES+=("qt6-qtwayland") ;;
+            "ghostty") FEDORA_PACKAGES+=("ghostty") ;;
+            "swww") FEDORA_PACKAGES+=("swww") ;;
+            "starship") continue ;; # Handle via official script below
+            "fnm") continue ;;      # Handle via official script below
+            *) FEDORA_PACKAGES+=("$pkg") ;;
+        esac
+    done
+
+    log "Installing main package batch..."
+    # Using --allowerasing --skip-unavailable --best for maximum resilience
+    if ! sudo dnf install -y --allowerasing --skip-unavailable --best "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE"; then
+        warn "Main package batch encountered errors. Attempting to proceed with remaining steps."
+    fi
 else
-    success "No packages to install."
+    log "No packages found to install."
 fi
 
-# 2b. Enable and start Docker (rootful)
-if command -v docker &> /dev/null && command -v systemctl &> /dev/null; then
-    if systemctl list-unit-files | grep -q '^docker\.service'; then
-        log "Enabling and starting docker.service..."
-        sudo systemctl enable --now docker.service || true
+# 5. Setup Docker
+if command -v docker &>/dev/null; then
+    log "Enabling and starting docker.service..."
+    sudo systemctl enable --now docker 2>/dev/null || true
+fi
+
+# 5.1 Setup FNM (Fast Node Manager) from https://github.com/Schniz/fnm
+if ! command -v fnm &>/dev/null; then
+    log "fnm not found. Installing via official script..."
+    # Using the exact recommended command from the repo
+    curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell 2>&1 | tee -a "$LOG_FILE" || warn "fnm installation failed."
+    # Ensure binary is accessible for the rest of the script if needed
+    [ -d "$HOME/.local/share/fnm" ] && export PATH="$HOME/.local/share/fnm:$PATH"
+fi
+
+# 5.2 Setup Starship (Fall back to official script)
+if ! command -v starship &>/dev/null; then
+    log "Starship not found. Installing via official script..."
+    curl -sS https://starship.rs/install.sh | sh -s -- -y 2>&1 | tee -a "$LOG_FILE" || warn "Starship installation failed."
+fi
+
+# 5.3 Install Zen Browser via Flatpak
+log "Installing Zen Browser via Flatpak..."
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install -y flathub app.zen_browser.zen 2>&1 | tee -a "$LOG_FILE" || warn "Zen Browser Flatpak installation failed."
+
+# 6. Stow Dotfiles (Full Automation)
+log "Stowing configurations..."
+cd "${REPO_ROOT}"
+# Ensure scripts are executable before stowing
+[ -d ".config/niri/scripts" ] && chmod +x .config/niri/scripts/*
+[ -d "scripts" ] && chmod +x scripts/*
+
+mkdir -p "${HOME}/.config"
+
+STOW_ITEMS=$(ls -A | grep -vE "^(\.git|scripts|packages|templates|install\.sh|install\.log|README\.md)$")
+
+for item in $STOW_ITEMS; do
+    if [ "$item" == ".config" ]; then
+        for subitem in .config/*; do
+            [ -e "$subitem" ] || continue
+            target="${HOME}/${subitem}"
+            if [ -e "$target" ] && [ ! -L "$target" ]; then
+                log "Removing existing $target to prioritize your repo config..."
+                rm -rf "$target"
+            fi
+        done
+    else
+        target="${HOME}/${item}"
+        if [ -e "$target" ] && [ ! -L "$target" ]; then
+            log "Removing existing $target..."
+            rm -rf "$target"
+        fi
     fi
-    if systemctl list-unit-files | grep -q '^docker\.socket'; then
-        log "Enabling and starting docker.socket..."
-        sudo systemctl enable --now docker.socket || true
-    fi
+done
+
+# Restow recursively to ensure all symlinks are created correctly
+stow -R -v -t "${HOME}" . 2>&1 | tee -a "$LOG_FILE" || warn "Stow encountered some issues."
+
+# 7. Apply Theme
+if [ -f "${REPO_ROOT}/scripts/theme-manager.sh" ]; then
+    log "Applying default theme..."
+    bash "${REPO_ROOT}/scripts/theme-manager.sh" set default 2>&1 | tee -a "$LOG_FILE"
 fi
 
-# 2c. Enable portal services (xdg-desktop-portal + backend)
-if [ -f "${REPO_ROOT}/scripts/setup-portals.sh" ]; then
-    log "Configuring portal services..."
-    bash "${REPO_ROOT}/scripts/setup-portals.sh"
+# 8. Refresh Font Cache
+log "Refreshing font cache..."
+fc-cache -fv 2>&1 | tee -a "$LOG_FILE"
+
+# 9. Setup Shell
+if [ -f "${REPO_ROOT}/scripts/setup-shell.sh" ]; then
+    log "Setting up default shell..."
+    bash "${REPO_ROOT}/scripts/setup-shell.sh" 2>&1 | tee -a "$LOG_FILE"
 fi
 
-# 3. Configure URL handlers (browser + custom schemes)
-log "Configuring URL handlers (xdg-mime/xdg-settings)..."
-BROWSER_DESKTOP="${BROWSER_DESKTOP:-zen.desktop}" \
-CUSTOM_SCHEMES="${CUSTOM_SCHEMES:-}" \
-CUSTOM_SCHEME_HANDLER="${CUSTOM_SCHEME_HANDLER:-}" \
-bash "${REPO_ROOT}/scripts/configure-url-handlers.sh"
-
-# 4. Stow dotfiles
-log "Stowing dotfiles..."
-
-# Ensure target directories exist (stow handling descent)
-mkdir -p "${HOME}/.config" \
-         "${HOME}/.config/autostart" \
-         "${HOME}/.config/fish"
-
-# Avoid stow conflicts with known pre-existing files from CachyOS / previous setups
-backup_path_if_conflict "${HOME}/.config/autostart/cachyos-hello.desktop"
-backup_path_if_conflict "${HOME}/.config/autostart/cachyos-hello"
-backup_path_if_conflict "${HOME}/.config/fish/fish_variables"
-backup_path_if_conflict "${HOME}/.config/fish/config.fish"
-backup_path_if_conflict "${HOME}/.config/fish/fish.config"
-
-# Stow from the repo root to home
-# We ignored scripts/ and packages/ in .stow_local_ignore
-cd "${REPO_ROOT}" || exit 1
-
-stow -v -t "${HOME}" --restow . 2>&1 | tee -a "$LOG_FILE"
-
-# 5. Security Setup (PAM)
-log "Configuring security (Fingerprint/U2F)..."
-if [ -f "${REPO_ROOT}/scripts/configure-pam.sh" ]; then
-    sudo bash "${REPO_ROOT}/scripts/configure-pam.sh"
-fi
-
-# 6. System Setup (Display Manager)
-log "Setting up Display Manager session..."
-bash "${REPO_ROOT}/scripts/setup-display-manager.sh"
-
-# 7. Apply Default Theme
-log "Applying default theme (default )..."
-bash "${REPO_ROOT}/scripts/theme-manager.sh" set default
-
-# 7. Post-install verification
-if [ -f "${REPO_ROOT}/scripts/verify-installation.sh" ]; then
-    log "Running post-install verification..."
-    bash "${REPO_ROOT}/scripts/verify-installation.sh" 2>&1 | tee -a "$LOG_FILE"
-fi
-
-success "Installation complete!"
-log "Please log out and log back in (or reboot) for all changes to take effect."
+success "Installation and configuration complete!"
+warn "IMPORTANT: To use your new shell (fish), please log out and back in."
+warn "If fonts still look broken, ensure 'nerd-fonts' package was installed correctly."

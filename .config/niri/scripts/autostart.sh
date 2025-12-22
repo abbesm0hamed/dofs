@@ -18,6 +18,12 @@ pkill -9 xwayland-satellite || true
 pkill -9 swaybg || true
 pkill -9 swww-daemon || true
 
+echo "Syncing environment variables..."
+# Import environment to systemd and dbus (CRITICAL for app launching and daemons)
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP || true
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP || true
+sleep 0.1
+
 echo "Loading wallpapers immediately..."
 
 # Start backdrop wallpaper FIRST (instant visual feedback)
@@ -33,26 +39,43 @@ if command -v swaybg &>/dev/null; then
 fi
 
 # Start swww daemon immediately (parallel with swaybg)
-if command -v swww &>/dev/null; then
+if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
     echo "  → Starting swww daemon..."
     swww-daemon --format xrgb &
     SWWW_PID=$!
 
     # Wait briefly until daemon responds
-    for _ in {1..15}; do
+    SWWW_READY=0
+    for _ in {1..30}; do
         if swww query &>/dev/null; then
+            SWWW_READY=1
             break
         fi
         sleep 0.1
     done
 
+    if [ "$SWWW_READY" -ne 1 ]; then
+        echo "  ✗ swww daemon did not become ready"
+    fi
+
     # Load foreground wallpaper
     FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/snaky.jpg"
     if [ -f "$FOREGROUND_WALLPAPER" ]; then
         echo "  → Loading foreground wallpaper: $FOREGROUND_WALLPAPER"
-        swww img "$FOREGROUND_WALLPAPER" --transition-type none &
-    elif [ -f "${HOME}/.config/backgrounds/snaky.jpg" ]; then
-        swww img "${HOME}/.config/backgrounds/blurry-snaky.jpg" --transition-type none &
+        for _ in {1..20}; do
+            if swww img "$FOREGROUND_WALLPAPER" --transition-type none; then
+                break
+            fi
+            sleep 0.1
+        done
+    elif [ -f "${HOME}/.config/backgrounds/blurry-snaky.jpg" ]; then
+        echo "  → Loading foreground wallpaper: ${HOME}/.config/backgrounds/blurry-snaky.jpg"
+        for _ in {1..20}; do
+            if swww img "${HOME}/.config/backgrounds/blurry-snaky.jpg" --transition-type none; then
+                break
+            fi
+            sleep 0.1
+        done
     fi
 fi
 
@@ -69,18 +92,17 @@ echo "Starting critical background services..."
 
 {
     # Polkit authentication agent
-    if [ -f /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]; then
-        echo "  → Starting polkit agent..."
-        /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+    POLKIT_AGENT="/usr/libexec/polkit-gnome-authentication-agent-1"
+    if [ ! -f "$POLKIT_AGENT" ]; then
+        POLKIT_AGENT="/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+    fi
+
+    if [ -f "$POLKIT_AGENT" ]; then
+        echo "  → Starting polkit agent: $POLKIT_AGENT"
+        "$POLKIT_AGENT" &
     fi
 } &
 
-{
-    # Import environment to systemd
-    echo "  → Importing environment to systemd..."
-    systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP || true
-    sleep 0.5
-} &
 
 {
     # Clipboard manager (start early, runs in background)
@@ -108,6 +130,8 @@ sleep 0.15
 # Start Waybar (now wallpaper is visible, so loading bar looks good)
 if command -v waybar &>/dev/null; then
     echo "  → Starting waybar..."
+    # Kill any existing waybar processes first to ensure a clean start
+    pkill waybar || true
     waybar &
 fi
 
@@ -144,10 +168,10 @@ if command -v swayidle &>/dev/null; then
 fi
 
 # Gammastep (blue light filter - lowest priority)
-if command -v gammastep &>/dev/null; then
-    echo "  → Starting gammastep..."
-    gammastep -l 0:0 &
-fi
+# if command -v gammastep &>/dev/null; then
+#     echo "  → Starting gammastep..."
+#     gammastep -l 0:0 &
+# fi
 
 echo "Starting optional services..."
 

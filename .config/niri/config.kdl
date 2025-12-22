@@ -57,6 +57,7 @@ overview {
 
 layer-rule {
     match namespace="wallpaper"
+    match namespace="swaybg"
     place-within-backdrop true
 }
 
@@ -186,17 +187,18 @@ hotkey-overlay {
 
 binds {
     Mod+Return { spawn "ghostty"; }
+    Mod+T { spawn "kitty"; }
     Alt+Z { spawn "zen-browser"; }
     Mod+Space { spawn "fuzzel"; }    
     Alt+Ctrl+L { spawn "swaylock"; }
     Alt+E { spawn "nautilus"; }
     Alt+T { spawn "zathura"; }  // Quick PDF viewer launch
-    Alt+A { spawn "chromium" "--app=https://chatgpt.com"; }
-    Alt+Shift+C { spawn "chromium" "--app=https://claude.ai/new"; }
-    Alt+D { spawn "chromium" "--app=https://discord.com/app"; }
-    Alt+W { spawn "chromium" "--app=https://web.whatsapp.com"; }
-    Alt+N { spawn "chromium" "--app=https://notion.so"; }
-    Alt+F { spawn "chromium" "--app=https://figma.com"; }
+    Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }
+    Alt+Shift+C { spawn "chromium-browser" "--app=https://claude.ai/new"; }
+    Alt+D { spawn "chromium-browser" "--app=https://discord.com/app"; }
+    Alt+W { spawn "chromium-browser" "--app=https://web.whatsapp.com"; }
+    Alt+N { spawn "chromium-browser" "--app=https://notion.so"; }
+    Alt+F { spawn "chromium-browser" "--app=https://figma.com"; }
 
     // Screenshots
     // Built-in screenshot fallbacks (basic functionality)

@@ -88,6 +88,7 @@ set_theme() {
     apply_mako_theme "$theme_path"
     apply_fuzzel_theme "$theme_path"
     apply_ghostty_theme "$theme_path"
+    apply_kitty_theme "$theme_path"
 
     log_success "Theme '$theme_name' applied successfully"
 }
@@ -271,6 +272,30 @@ apply_ghostty_theme() {
 
     # Ghostty reloads automatically when config changes
     log_success "Ghostty theme applied"
+}
+
+# Apply Kitty theme
+apply_kitty_theme() {
+    local theme_path="$1"
+    local kitty_conf="$theme_path/kitty.conf"
+
+    if [ ! -f "$kitty_conf" ]; then
+        log_warning "Kitty theme file not found: $kitty_conf"
+        return 0
+    fi
+
+    log_step "Applying Kitty theme..."
+
+    mkdir -p "$CONFIG_DIR/kitty"
+    cp "$kitty_conf" "$CONFIG_DIR/kitty/theme.conf"
+
+    # Reload Kitty by sending SIGUSR1 to all kitty processes
+    if pgrep -x kitty >/dev/null; then
+        pkill -USR1 -x kitty || true
+        log_success "Kitty reloaded"
+    else
+        log_success "Kitty theme applied (kitty not running)"
+    fi
 }
 
 # Get current theme

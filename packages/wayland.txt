@@ -10,9 +10,10 @@ slurp
 wl-clipboard
 wf-recorder
 satty
-swaylock-effects
+# swaylock-effects
+swaylock
 swayidle
-swayosd
+# swayosd
 wlogout
 wob
 cliphist
@@ -20,10 +21,6 @@ gammastep
 wlsunset
 brightnessctl
 libnotify
-
-xdg-desktop-portal
-xdg-desktop-portal-wlr
-uwsm
 
 wlr-randr
 blueman
