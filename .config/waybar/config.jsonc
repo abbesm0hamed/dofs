@@ -10,9 +10,6 @@
     "margin-bottom": 0,
     "margin-right": 0,
     "spacing": 4,
-    "font-family": "Iosevka",
-    "font-size": 14,
-    "font-weight": 400,
     "modules-left": [
         //"custom/rofi",
         //"mpd"

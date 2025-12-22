@@ -3,7 +3,7 @@
 /* ===== Waybar Minimal CSS ===== */
 
 * {
-  font-family: "Iosevka", "Symbols Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", "Noto Color Emoji", monospace;
+  font-family: "Iosevka Medium Extended", "JetBrains Mono", monospace;
   font-size: 14px;
   min-height: 0;
   border: none;
@@ -130,11 +130,11 @@ window#waybar {
   border-left: 2px dotted @overlay0;
 }
 
-#tray>.passive {
+#tray > .passive {
   -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
+#tray > .needs-attention {
   -gtk-icon-effect: highlight;
 }
 
@@ -250,3 +250,4 @@ tooltip label {
 #custom-recording.recording-audio:hover {
   color: @blue;
 }
+
