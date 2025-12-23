@@ -3,12 +3,15 @@ disable-caps-lock-text
 font=Cantarelle Regular
 #font-size=9
 
-screenshots
+font-size=48
+
+image= ~/.config/backgrounds/blurry-looping.jpg
 effect-blur=7x5
 effect-vignette=0.5:0.5
 indicator
 indicator-radius=120
 indicator-thickness=20
+indicator-idle-visible
 clock
 timestr=%I:%M %p
 datestr=%A, %d %B

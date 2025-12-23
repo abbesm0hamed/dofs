@@ -162,8 +162,8 @@ if command -v swayidle &>/dev/null; then
     swayidle -w \
         timeout 600 'niri msg action power-off-monitors' \
         resume 'niri msg action power-on-monitors' \
-        timeout 900 'swaylock -f' \
-        before-sleep 'swaylock -f' &
+        timeout 900 "swaylock -f -C $HOME/.config/swaylock/config" \
+        before-sleep "swaylock -f -C $HOME/.config/swaylock/config" &
 fi
 
 # Gammastep (blue light filter - lowest priority)

@@ -190,7 +190,7 @@ binds {
     Mod+T { spawn "kitty"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+Space { spawn "fuzzel"; }    
-    Alt+Ctrl+L { spawn "swaylock"; }
+    Alt+Ctrl+L { spawn "swaylock" "-f" "-C" "$HOME/.config/swaylock/config"; }
     Alt+E { spawn "nautilus"; }
     Alt+T { spawn "zathura"; }  // Quick PDF viewer launch
     Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }

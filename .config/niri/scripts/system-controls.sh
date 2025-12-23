@@ -81,7 +81,7 @@ toggle_idle_mode() {
             systemctl --user start swayidle.service
         else
             swayidle -w \
-                timeout 300 'swaylock -f' \
+                timeout 300 "swaylock -f -C $HOME/.config/swaylock/config" \
                 timeout 600 'niri msg action power-off-monitors' \
                 resume 'niri msg action power-on-monitors' &
         fi
@@ -163,7 +163,7 @@ main_menu() {
         *"WiFi"*) toggle_wifi ;;
         *"Bluetooth"*) toggle_bluetooth ;;
         *"Settings") ~/.config/niri/scripts/settings-menu.sh ;;
-        *"Lock Screen") swaylock ;;
+        *"Lock Screen") swaylock -f -C "$HOME/.config/swaylock/config" ;;
         *"Power Menu") ~/.config/waybar/scripts/power-menu.sh ;;
     esac
 }

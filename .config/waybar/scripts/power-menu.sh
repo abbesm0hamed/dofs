@@ -6,7 +6,7 @@ selected=$(echo -e "$options" | fuzzel --dmenu --prompt="󰐥 Power: " --width=2
 
 case $selected in
     "󰌾 Lock")
-        swaylock
+        swaylock -f -C "$HOME/.config/swaylock/config"
         ;;
     "󰗽 Logout")
         niri msg action quit

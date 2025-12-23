@@ -10,8 +10,8 @@ slurp
 wl-clipboard
 wf-recorder
 satty
-# swaylock-effects
-swaylock
+swaylock-effects
+# swaylock
 swayidle
 # swayosd
 wlogout
