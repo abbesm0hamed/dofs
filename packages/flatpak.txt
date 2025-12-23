@@ -1,0 +1,4 @@
+# Flatpak applications
+app.zen_browser.zen
+com.discordapp.Discord
+com.slack.Slack

@@ -1,7 +1,0 @@
-[terminal]
-vt = 1
-switch = true
-
-[default_session]
-command = "tuigreet --time --remember --remember-session --sessions /usr/share/wayland-sessions --cmd niri-session"
-user = "greeter"

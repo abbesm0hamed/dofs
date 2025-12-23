@@ -1,10 +1,6 @@
 # Development tools
-nodejs
-npm
-pnpm
-yarn
 fnm
-bun-bin
+bun
 python
 python-pip
 python-virtualenv

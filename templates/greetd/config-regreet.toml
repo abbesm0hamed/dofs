@@ -1,7 +1,0 @@
-[terminal]
-vt = 1
-switch = true
-
-[default_session]
-command = "env GTK_USE_PORTAL=0 GDK_DEBUG=no-portals cage -s -mlast -- regreet --config /etc/greetd/regreet.toml"
-user = "greeter"

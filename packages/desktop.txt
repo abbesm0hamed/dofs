@@ -1,11 +1,9 @@
 # Desktop applications
-# zen-browser-bin (installed via Flatpak: app.zen_browser.zen)
 chromium
 nautilus
 gvfs
 ffmpegthumbnailer
-# slack-desktop
-# discord
+
 # tableplus
 zathura
 switcheroo

@@ -294,32 +294,6 @@
         "max-length": 100,
         "separate-outputs": true
     },
-    // "pulseaudio": {
-    //     "scroll-step": 3, // %, can be a float
-    //     "format": "{icon} {volume}% {format_source}",
-    //     "format-bluetooth": "{volume}% {icon} {format_source}",
-    //     "format-bluetooth-muted": " {icon} {format_source}",
-    //     "format-muted": " {format_source}",
-    //     //"format-source": "{volume}% ",
-    //     //"format-source-muted": "",
-    //     "format-source": "",
-    //     "format-source-muted": "",
-    //     "format-icons": {
-    //         "headphone": "",
-    //         "hands-free": "",
-    //         "headset": "",
-    //         "phone": "",
-    //         "portable": "",
-    //         "car": "",
-    //         "default": [
-    //             "",
-    //             "",
-    //             ""
-    //         ]
-    //     },
-    //     "on-click": "pavucontrol",
-    //     "on-click-right": "amixer sset Master toggle"
-    // },
     "wireplumber": {
         "on-click": "pavucontrol",
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",

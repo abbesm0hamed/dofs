@@ -1,4 +1,0 @@
-[Touchpad tap default]
-MatchUdevType=touchpad
-AttrTapButtonMap=left_right_middle
-AttrTappingEnabled=1

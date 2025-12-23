@@ -28,7 +28,7 @@ echo "Loading wallpapers immediately..."
 
 # Start backdrop wallpaper FIRST (instant visual feedback)
 if command -v swaybg &>/dev/null; then
-    BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-snaky.jpg"
+    BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-circles.jpg"
     if [ -f "$BACKDROP_WALLPAPER" ]; then
         echo "  → Starting swaybg backdrop: $BACKDROP_WALLPAPER"
         swaybg -i "$BACKDROP_WALLPAPER" -m fill &
@@ -59,7 +59,7 @@ if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
     fi
 
     # Load foreground wallpaper
-    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/snaky.jpg"
+    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/circles.jpg"
     if [ -f "$FOREGROUND_WALLPAPER" ]; then
         echo "  → Loading foreground wallpaper: $FOREGROUND_WALLPAPER"
         for _ in {1..20}; do
@@ -68,10 +68,10 @@ if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
             fi
             sleep 0.1
         done
-    elif [ -f "${HOME}/.config/backgrounds/blurry-snaky.jpg" ]; then
-        echo "  → Loading foreground wallpaper: ${HOME}/.config/backgrounds/blurry-snaky.jpg"
+    elif [ -f "${HOME}/.config/backgrounds/blurry-circles.jpg" ]; then
+        echo "  → Loading foreground wallpaper: ${HOME}/.config/backgrounds/blurry-circles.jpg"
         for _ in {1..20}; do
-            if swww img "${HOME}/.config/backgrounds/blurry-snaky.jpg" --transition-type none; then
+            if swww img "${HOME}/.config/backgrounds/blurry-circles.jpg" --transition-type none; then
                 break
             fi
             sleep 0.1
@@ -81,7 +81,7 @@ fi
 
 echo "Starting critical background services..."
 
-# Launch all critical services in parallel (they don't need to be sequential)
+# Launch all critical services in parallel
 {
     # XWayland support
     if command -v xwayland-satellite &>/dev/null; then
@@ -103,7 +103,6 @@ echo "Starting critical background services..."
     fi
 } &
 
-
 {
     # Clipboard manager (start early, runs in background)
     if command -v cliphist &>/dev/null && command -v wl-paste &>/dev/null; then
@@ -114,7 +113,15 @@ echo "Starting critical background services..."
 } &
 
 # Wait for background services to initialize
-sleep 0.3
+sleep 0.2
+
+# Start Waybar (now wallpaper is visible, so loading bar looks good)
+if command -v waybar &>/dev/null; then
+    echo "  → Starting waybar..."
+    # Kill any existing waybar processes first to ensure a clean start
+    pkill waybar || true
+    waybar &
+fi
 
 echo "Starting UI components..."
 
@@ -125,15 +132,7 @@ if command -v mako &>/dev/null; then
 fi
 
 # Brief delay for mako to initialize
-sleep 0.15
-
-# Start Waybar (now wallpaper is visible, so loading bar looks good)
-if command -v waybar &>/dev/null; then
-    echo "  → Starting waybar..."
-    # Kill any existing waybar processes first to ensure a clean start
-    pkill waybar || true
-    waybar &
-fi
+sleep 0.1
 
 echo "Starting system tray apps..."
 
@@ -202,3 +201,4 @@ echo "=== Niri autostart completed ==="
 } &
 
 exit 0
+
