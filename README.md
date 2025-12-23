@@ -1,16 +1,16 @@
-# dofs - Arch/CachyOS Dotfiles with Niri & default
+# dofs - Fedora Workstation Dotfiles with Niri
 
-![Neovim + fastfetch](.config/screenshots/nvim-fastfetch.png)
 ![Niri overview](.config/screenshots/niri-overview.png)
+![Neovim + fastfetch](.config/screenshots/fastfetch-floating.png)
 
-A unified, reproducible dotfiles setup for Arch Linux (CachyOS) featuring:
+A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
-- **Niri** window manager (Wayland compositor)
-- **default** unified theme system
-- **Mako** notification daemon
-- **Waybar** status bar
+- **Niri** - Scrollable-tiling Wayland compositor
+- **Ghostty** - Fast, native terminal emulator
+- **Waybar** - Highly customizable status bar
+- **Mako** - Lightweight notification daemon
 - **Fish** shell with **Starship** prompt
-- One-command reproducible setup via `yay` and declarative package lists
+- **Unified theme system** - Consistent theming across all applications
 
 ## Quick Start
 
@@ -29,11 +29,10 @@ cd ~/dofs
 
 This will:
 
-- Ensure `yay` is installed
 - Install all packages from lists (system, desktop, wayland, etc.)
 - Stow all dotfiles to `~/.config`
 - Apply the unified default theme
-- Enable the Niri session in your display manager
+- Enable the Niri session in GDM (GNOME Display Manager)
 
 **Time**: ~15-20 minutes
 
@@ -51,8 +50,9 @@ This setup includes:
 
 - ✅ **xwayland-satellite** for X11 app compatibility (Discord, Steam, etc.)
 - ✅ **xdg-desktop-portal-gnome** for better screen sharing
-- ✅ **greetd-tuigreet** dispaly manager
-- ✅ **optimized autostart** with proper service ordering
+- ✅ **GDM** (GNOME Display Manager) with Niri session support
+- ✅ **Optimized autostart** with proper service ordering
+- ✅ **Swaylock** with blur effects for secure screen locking
 
 ### Single-Command Installation
 
@@ -94,13 +94,13 @@ This setup includes:
 
 ```bash
 # List available themes
-dofs/scripts/theme-manager.sh list
+bash scripts/setup/theme.sh list
 
 # Apply a theme
-dofs/scripts/theme-manager.sh set default
+bash scripts/setup/theme.sh set default
 
 # Check current theme
-dofs/scripts/theme-manager.sh current
+bash scripts/setup/theme.sh current
 ```
 
 ## Customization
@@ -123,11 +123,17 @@ echo "my-new-package" >> packages/development.txt
 # Copy existing theme
 cp -r .config/theme/default .config/theme/my-theme
 
-# Edit colors in my-theme/theme.toml
-vim .config/theme/my-theme/theme.toml
+# Edit theme files for each application
+# Each app has its own theme file:
+# - niri.conf (Niri colors)
+# - mako.ini (notification colors)
+# - ghostty (terminal colors)
+# - waybar.css (status bar styling)
+# - swaylock/theme.conf (lock screen)
+# - etc.
 
 # Apply the theme
-bash scripts/theme-manager.sh set my-theme
+bash scripts/setup/theme.sh set my-theme
 ```
 
 ### Modify Niri Config
@@ -154,9 +160,9 @@ niri msg action reload-config
 
 ### Packages not installing
 
-- Ensure yay is installed: `which yay`
 - Check internet connection
-- Try manual install: `yay -S package-name`
+- Try manual install: `sudo dnf install package-name`
+- For Flatpak apps: `flatpak install package-name`
 
 ## Window Management (Niri)
 
@@ -212,16 +218,15 @@ niri msg action reload-config
 
 All screenshots are automatically saved to `~/Pictures/Screenshots` and copied to clipboard.
 
-## Applications
+## Additional Applications
 
-| Key Combination      | Action             |
-| -------------------- | ------------------ |
-| `Super + b`          | Open Brave browser |
-| `Super + g`          | Open Google Chrome |
-| `Super + enter`      | Kitty              |
-| `Alt + enter`        | Wezterm            |
-| `Alt + Ctrl + enter` | Ghostty            |
-| `Alt + Ctrl + t`     | Alacritty          |
+| Key Combination | Action             |
+| --------------- | ------------------ |
+| `Alt + Z`       | Open Zen Browser   |
+| `Alt + E`       | Open Nautilus      |
+| `Mod + Return`  | Launch Ghostty     |
+| `Mod + P`       | Launch Fuzzel      |
+| `Alt + Ctrl + L`| Lock screen (Swaylock) |
 
 ### Neovim Keybindings
 
