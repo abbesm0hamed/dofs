@@ -81,7 +81,7 @@ toggle_idle_mode() {
             systemctl --user start swayidle.service
         else
             swayidle -w \
-                timeout 300 "swaylock -f -C $HOME/.config/swaylock/config" \
+                timeout 300 "swaylock --image \"$HOME/.config/backgrounds/blurry-looping.jpg\" --effect-blur 7x5 --effect-vignette 0.5:0.5 --clock --indicator --indicator-radius 160 --indicator-thickness 20 --indicator-idle-visible --ring-color 89b4fa --key-hl-color a6e3a1 --bs-hl-color f38ba8 --line-color 00000000 --inside-color 1e1e2e --separator-color 00000000 --layout-bg-color 313244 --layout-border-color 45475a --layout-text-color cdd6f4 --text-color cdd6f4 --timestr \"%I:%M %p\" --datestr \"%A, %d %B\" --grace 2 --fade-in 0.2" \
                 timeout 600 'niri msg action power-off-monitors' \
                 resume 'niri msg action power-on-monitors' &
         fi
@@ -163,7 +163,7 @@ main_menu() {
         *"WiFi"*) toggle_wifi ;;
         *"Bluetooth"*) toggle_bluetooth ;;
         *"Settings") ~/.config/niri/scripts/settings-menu.sh ;;
-        *"Lock Screen") swaylock -f -C "$HOME/.config/swaylock/config" ;;
+        *"Lock Screen") swaylock --image "$HOME/.config/backgrounds/blurry-looping.jpg" --effect-blur 7x5 --effect-vignette 0.5:0.5 --clock --indicator --indicator-radius 160 --indicator-thickness 20 --indicator-idle-visible --ring-color 89b4fa --key-hl-color a6e3a1 --bs-hl-color f38ba8 --line-color 00000000 --inside-color 1e1e2e --separator-color 00000000 --layout-bg-color 313244 --layout-border-color 45475a --layout-text-color cdd6f4 --text-color cdd6f4 --timestr "%I:%M %p" --datestr "%A, %d %B" --grace 2 --fade-in 0.2 ;;
         *"Power Menu") ~/.config/waybar/scripts/power-menu.sh ;;
     esac
 }

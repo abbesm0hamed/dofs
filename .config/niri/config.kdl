@@ -190,7 +190,9 @@ binds {
     Mod+T { spawn "kitty"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+Space { spawn "fuzzel"; }    
-    Alt+Ctrl+L { spawn "swaylock" "-f" "-C" "$HOME/.config/swaylock/config"; }
+    Alt+Ctrl+L {
+        spawn "swaylock" "--screenshots" "--clock" "--indicator" "--indicator-radius" "170" "--indicator-thickness" "7" "--effect-blur" "7x5" "--effect-vignette" "0.5:0.5" "--ring-color" "cba6f7" "--key-hl-color" "f38ba8" "--line-color" "00000000" "--inside-color" "1e1e2e88" "--separator-color" "00000000" "--grace" "1" "--fade-in" "1" "--text-color" "cdd6f4" "--inside-clear-color" "fab38788" "--inside-ver-color" "89b4fa88" "--inside-wrong-color" "f38ba888" "--ring-clear-color" "fab387" "--ring-ver-color" "89b4fa" "--ring-wrong-color" "f38ba8"
+    }
     Alt+E { spawn "nautilus"; }
     Alt+T { spawn "zathura"; }  // Quick PDF viewer launch
     Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }

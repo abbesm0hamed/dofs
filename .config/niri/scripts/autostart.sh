@@ -162,8 +162,8 @@ if command -v swayidle &>/dev/null; then
     swayidle -w \
         timeout 600 'niri msg action power-off-monitors' \
         resume 'niri msg action power-on-monitors' \
-        timeout 900 "swaylock -f -C $HOME/.config/swaylock/config" \
-        before-sleep "swaylock -f -C $HOME/.config/swaylock/config" &
+        timeout 900 "swaylock --image \"$HOME/.config/backgrounds/blurry-looping.jpg\" --effect-blur 7x5 --effect-vignette 0.5:0.5 --clock --indicator --indicator-radius 160 --indicator-thickness 20 --indicator-idle-visible --ring-color 89b4fa --key-hl-color a6e3a1 --bs-hl-color f38ba8 --line-color 00000000 --inside-color 1e1e2e --separator-color 00000000 --layout-bg-color 313244 --layout-border-color 45475a --layout-text-color cdd6f4 --text-color cdd6f4 --timestr \"%I:%M %p\" --datestr \"%A, %d %B\" --grace 2 --fade-in 0.2" \
+        before-sleep "swaylock --image \"$HOME/.config/backgrounds/blurry-looping.jpg\" --effect-blur 7x5 --effect-vignette 0.5:0.5 --clock --indicator --indicator-radius 160 --indicator-thickness 20 --indicator-idle-visible --ring-color 89b4fa --key-hl-color a6e3a1 --bs-hl-color f38ba8 --line-color 00000000 --inside-color 1e1e2e --separator-color 00000000 --layout-bg-color 313244 --layout-border-color 45475a --layout-text-color cdd6f4 --text-color cdd6f4 --timestr \"%I:%M %p\" --datestr \"%A, %d %B\" --grace 2 --fade-in 0.2" &
 fi
 
 # Gammastep (blue light filter - lowest priority)
