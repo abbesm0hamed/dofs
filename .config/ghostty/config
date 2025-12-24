@@ -5,6 +5,7 @@ font-style-italic = Italic
 font-style-bold = Bold
 font-style-bold-italic = Bold Italic
 font-size = 16
+term = xterm-256color
 
 # Window Configuration
 window-save-state = never
