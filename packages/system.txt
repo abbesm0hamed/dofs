@@ -46,3 +46,5 @@ google-noto-emoji-color-fonts
 yaru-icon-theme
 gnome-themes-extra
 network-manager-applet
+NetworkManager
+nm-connection-editor

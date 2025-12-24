@@ -6,7 +6,6 @@ warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 
 log "Installing packages..."
 ALL_PACKAGES=()
-NEEDS_SWAYLOCK_EFFECTS_REPO=0
 while IFS= read -r package; do
     package="${package%%#*}"
     package="$(printf '%s' "$package" | xargs)"
@@ -18,10 +17,6 @@ FEDORA_PACKAGES=()
 for pkg in "${ALL_PACKAGES[@]}"; do
     case "$pkg" in
         "base-devel") FEDORA_PACKAGES+=("@development-tools") ;;
-        "swaylock-effects")
-            FEDORA_PACKAGES+=("swaylock-effects")
-            NEEDS_SWAYLOCK_EFFECTS_REPO=1
-            ;;
         "github-cli") FEDORA_PACKAGES+=("gh") ;;
         "imagemagick") FEDORA_PACKAGES+=("ImageMagick") ;;
         "python-pip") FEDORA_PACKAGES+=("python3-pip") ;;
@@ -32,15 +27,6 @@ for pkg in "${ALL_PACKAGES[@]}"; do
     esac
 done
 
-# Enable COPR for swaylock-effects on Fedora if requested
-if [ "$NEEDS_SWAYLOCK_EFFECTS_REPO" -eq 1 ]; then
-    if ! sudo dnf repolist --enabled 2>/dev/null | grep -q "swaylock-effects"; then
-        log "Enabling COPR: eddsalkield/swaylock-effects"
-        if ! sudo dnf copr enable -y eddsalkield/swaylock-effects 2>&1 | tee -a "$LOG_FILE"; then
-            warn "Failed to enable copr eddsalkield/swaylock-effects; swaylock-effects may not install."
-        fi
-    fi
-fi
 
 sudo dnf install -y --allowerasing --skip-unavailable --best "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed."
 
