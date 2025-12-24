@@ -42,6 +42,9 @@ nerd-fonts
 fontawesome-6-free-fonts
 fontawesome-6-brands-fonts
 google-noto-emoji-color-fonts
+rsms-inter-fonts
+google-noto-sans-fonts
+google-noto-serif-fonts
 
 yaru-icon-theme
 gnome-themes-extra

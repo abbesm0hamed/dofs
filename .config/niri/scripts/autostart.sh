@@ -28,7 +28,7 @@ echo "Loading wallpapers immediately..."
 
 # Start backdrop wallpaper FIRST (instant visual feedback)
 if command -v swaybg &>/dev/null; then
-    BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-looping.jpg"
+    BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-planets.jpg"
     if [ -f "$BACKDROP_WALLPAPER" ]; then
         echo "  → Starting swaybg backdrop: $BACKDROP_WALLPAPER"
         swaybg -i "$BACKDROP_WALLPAPER" -m fill &
@@ -59,7 +59,7 @@ if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
     fi
 
     # Load foreground wallpaper
-    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/looping.jpeg"
+    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/planets.jpg"
     if [ -f "$FOREGROUND_WALLPAPER" ]; then
         echo "  → Loading foreground wallpaper: $FOREGROUND_WALLPAPER"
         for _ in {1..20}; do
@@ -68,10 +68,10 @@ if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
             fi
             sleep 0.1
         done
-    elif [ -f "${HOME}/.config/backgrounds/blurry-looping.jpg" ]; then
-        echo "  → Loading foreground wallpaper: ${HOME}/.config/backgrounds/blurry-looping.jpg"
+    elif [ -f "${HOME}/.config/backgrounds/blurry-planets.jpg" ]; then
+        echo "  → Loading foreground wallpaper: ${HOME}/.config/backgrounds/blurry-planets.jpg"
         for _ in {1..20}; do
-            if swww img "${HOME}/.config/backgrounds/blurry-looping.jpg" --transition-type none; then
+            if swww img "${HOME}/.config/backgrounds/blurry-planets.jpg" --transition-type none; then
                 break
             fi
             sleep 0.1
@@ -162,8 +162,8 @@ if command -v swayidle &>/dev/null; then
     swayidle -w \
         timeout 600 'niri msg action power-off-monitors' \
         resume 'niri msg action power-on-monitors' \
-        timeout 900 "swaylock --image \"$HOME/.config/backgrounds/blurry-looping.jpg\" --effect-blur 7x5 --effect-vignette 0.5:0.5 --clock --indicator --indicator-radius 160 --indicator-thickness 20 --indicator-idle-visible --ring-color 89b4fa --key-hl-color a6e3a1 --bs-hl-color f38ba8 --line-color 00000000 --inside-color 1e1e2e --separator-color 00000000 --layout-bg-color 313244 --layout-border-color 45475a --layout-text-color cdd6f4 --text-color cdd6f4 --timestr \"%I:%M %p\" --datestr \"%A, %d %B\" --grace 2 --fade-in 0.2" \
-        before-sleep "swaylock --image \"$HOME/.config/backgrounds/blurry-looping.jpg\" --effect-blur 7x5 --effect-vignette 0.5:0.5 --clock --indicator --indicator-radius 160 --indicator-thickness 20 --indicator-idle-visible --ring-color 89b4fa --key-hl-color a6e3a1 --bs-hl-color f38ba8 --line-color 00000000 --inside-color 1e1e2e --separator-color 00000000 --layout-bg-color 313244 --layout-border-color 45475a --layout-text-color cdd6f4 --text-color cdd6f4 --timestr \"%I:%M %p\" --datestr \"%A, %d %B\" --grace 2 --fade-in 0.2" &
+        timeout 900 'swaylock -f' \
+        before-sleep 'swaylock -f' &
 fi
 
 # Gammastep (blue light filter - lowest priority)
@@ -201,4 +201,3 @@ echo "=== Niri autostart completed ==="
 } &
 
 exit 0
-

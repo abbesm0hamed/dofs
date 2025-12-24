@@ -147,7 +147,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|discord|steam)$"#
+    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|discord|Antigravity|steam|Steam|ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
     default-column-width { proportion 1.0; }
     open-maximized true
 }

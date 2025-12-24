@@ -1,10 +1,10 @@
 # Font Configuration
 font-family = Iosevka
-font-family = Fira Code 
-font-style-italic = Fira Code Italic
-font-style-bold = Fira Code SemiBold
-font-style-bold-italic = Fira Code Bold Italic
-font-size = 14
+font-style = Regular Extended
+font-style-italic = Italic
+font-style-bold = Bold
+font-style-bold-italic = Bold Italic
+font-size = 16
 
 # Window Configuration
 window-save-state = never

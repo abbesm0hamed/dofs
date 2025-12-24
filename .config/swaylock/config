@@ -5,7 +5,7 @@ font=Iosevka Mono
 
 font-size=48
 
-image= ~/.config/backgrounds/blurry-looping.jpg
+image= ~/.config/backgrounds/blurry-planets.jpg
 indicator
 indicator-radius=250
 indicator-thickness=5
