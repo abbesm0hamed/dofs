@@ -28,7 +28,7 @@ echo "Loading wallpapers immediately..."
 
 # Start backdrop wallpaper FIRST (instant visual feedback)
 if command -v swaybg &>/dev/null; then
-    BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-planets.jpg"
+    BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-blue-abstract.png"
     if [ -f "$BACKDROP_WALLPAPER" ]; then
         echo "  → Starting swaybg backdrop: $BACKDROP_WALLPAPER"
         swaybg -i "$BACKDROP_WALLPAPER" -m fill &
@@ -59,7 +59,7 @@ if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
     fi
 
     # Load foreground wallpaper
-    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/planets.jpg"
+    FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/blue-abstract.png"
     if [ -f "$FOREGROUND_WALLPAPER" ]; then
         echo "  → Loading foreground wallpaper: $FOREGROUND_WALLPAPER"
         for _ in {1..20}; do
@@ -68,10 +68,10 @@ if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
             fi
             sleep 0.1
         done
-    elif [ -f "${HOME}/.config/backgrounds/blurry-planets.jpg" ]; then
-        echo "  → Loading foreground wallpaper: ${HOME}/.config/backgrounds/blurry-planets.jpg"
+    elif [ -f "${HOME}/.config/backgrounds/blurry-blue-abstract.png" ]; then
+        echo "  → Loading foreground wallpaper: ${HOME}/.config/backgrounds/blurry-blue-abstract.png"
         for _ in {1..20}; do
-            if swww img "${HOME}/.config/backgrounds/blurry-planets.jpg" --transition-type none; then
+            if swww img "${HOME}/.config/backgrounds/blurry-blue-abstract.png" --transition-type none; then
                 break
             fi
             sleep 0.1

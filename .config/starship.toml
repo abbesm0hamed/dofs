@@ -99,6 +99,7 @@ symbol = " "
 
 [nodejs]
 symbol = " "
+disabled = true
 
 [ocaml]
 symbol = " "
@@ -188,3 +189,4 @@ symbol = " "
 
 [gradle]
 symbol = " "
+
