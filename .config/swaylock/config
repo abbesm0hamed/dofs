@@ -5,7 +5,7 @@ font=Iosevka Mono
 
 font-size=48
 
-image= ~/.config/backgrounds/blurry-blue-abstract.png
+image=~/.config/backgrounds/blurry-carbon-fiber.jpg
 indicator
 indicator-radius=250
 indicator-thickness=5

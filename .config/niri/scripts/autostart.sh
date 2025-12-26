@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+WALLPAPER_DIR="${HOME}/.config/backgrounds"
+BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-carbon-fiber.jpg"
+FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/carbon-fiber.jpg"
+FALLBACK_WALLPAPER="${WALLPAPER_DIR}/blurry-carbon-fiber.jpg"
+LOCK_WALLPAPER="$BACKDROP_WALLPAPER"
+
 # Logging
 LOG_FILE="${XDG_RUNTIME_DIR:-/tmp}/niri-autostart.log"
 exec 1> >(tee -a "$LOG_FILE")
@@ -32,7 +38,6 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 # 1. Background (Instant visual feedback)
 # Start swaybg immediately for instant color/image while swww loads
 if command -v swaybg &>/dev/null; then
-    BACKDROP_WALLPAPER="${HOME}/.config/backgrounds/blurry-blue-abstract.png"
     if [ -f "$BACKDROP_WALLPAPER" ]; then
         swaybg -i "$BACKDROP_WALLPAPER" -m fill &
     else
@@ -61,7 +66,7 @@ fi
     if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
         echo "  → Starting swww daemon..."
         swww-daemon --format xrgb &
-        
+
         # Wait for daemon to be ready (internal loop)
         for _ in {1..30}; do
             if swww query &>/dev/null; then
@@ -71,9 +76,6 @@ fi
         done
 
         # Load animated/high-res wallpaper
-        FOREGROUND_WALLPAPER="${HOME}/.config/backgrounds/blue-abstract.png"
-        FALLBACK_WALLPAPER="${HOME}/.config/backgrounds/blurry-blue-abstract.png"
-        
         TARGET_WALL=""
         if [ -f "$FOREGROUND_WALLPAPER" ]; then
             TARGET_WALL="$FOREGROUND_WALLPAPER"
@@ -118,15 +120,15 @@ fi
 
 # System Tray Apps
 {
-    # Check if we need to wait a tiny bit for tray to be ready, 
+    # Check if we need to wait a tiny bit for tray to be ready,
     # though usually nm-applet handles this well.
     sleep 0.5
-    
+
     if command -v nm-applet &>/dev/null; then
         echo "  → Starting nm-applet..."
         nm-applet --indicator &
     fi
-    
+
     if command -v blueman-applet &>/dev/null; then
         echo "  → Starting blueman-applet..."
         blueman-applet &
@@ -142,8 +144,8 @@ if command -v swayidle &>/dev/null; then
     swayidle -w \
         timeout 600 'niri msg action power-off-monitors' \
         resume 'niri msg action power-on-monitors' \
-        timeout 900 'swaylock -f' \
-        before-sleep 'swaylock -f' &
+        timeout 900 "swaylock -f -i '$LOCK_WALLPAPER'" \
+        before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" &
 fi
 
 # Optional: Zen Browser
