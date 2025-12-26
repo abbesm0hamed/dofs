@@ -20,14 +20,6 @@ err() { echo -e "${RED}✗${NC} $1" >&2; }
 
 # --- App Handlers ---
 
-apply_niri() {
-    local src="$1/niri.conf"
-    if [ -f "$src" ]; then
-        cp "$src" "$CONFIG_DIR/niri/theme.conf"
-        ok "Niri"
-    fi
-}
-
 apply_mako() {
     local src="$1/mako.ini"
     if [ -f "$src" ]; then
@@ -205,8 +197,6 @@ set_theme() {
 
     log "Applying theme: $name"
     ln -nsf "$path" "$CURRENT_THEME_LINK"
-
-    apply_niri "$path"
     apply_mako "$path"
     apply_ghostty "$path"
     apply_fuzzel "$path"
