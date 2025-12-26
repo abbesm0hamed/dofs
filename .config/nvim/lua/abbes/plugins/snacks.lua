@@ -91,7 +91,11 @@ return {
         exclude = { "latex" },
       },
       lazygit = {
-        env = { TERM = "xterm-256color" },
+        env = {
+          TERM = "xterm-256color",
+          COLORTERM = "truecolor",
+          GIT_PAGER = "cat",
+        },
         configure = true,
         -- extra configuration for lazygit that will be merged with the default
         -- snacks does NOT have a full yaml parser, so if you need `"test"` to appear with the quotes

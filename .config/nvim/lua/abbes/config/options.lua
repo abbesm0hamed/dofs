@@ -1,4 +1,6 @@
 vim.g.lazyvim_picker = "snacks"
+vim.env.TERM = "xterm-256color"
+vim.env.COLORTERM = "truecolor"
 
 local opt = vim.opt -- for conciseness
 

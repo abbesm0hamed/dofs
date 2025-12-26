@@ -240,7 +240,7 @@ tooltip label {
   }
 }
 
-/* Recording indicator - always visible with different states */
+/* Recording indicator-always visible with different states */
 #custom-recording {
   font-weight: bold;
   font-size: 14px;

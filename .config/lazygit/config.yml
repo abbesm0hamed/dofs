@@ -36,9 +36,9 @@ gui:
 
 git:
   # Git settings
-  pagers:
-    - colorArg: always
-      pager: "less -RFX"
+  # pagers:
+  #   - colorArg: always
+  #     pager: "less -RFX"
   commit:
     signOff: false
   autoFetch: true
