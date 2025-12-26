@@ -9,7 +9,9 @@ end
 if status is-interactive
     # Commands to run in interactive sessions can go here
     set fish_greeting
-
+    # if type -q pokemon-colorscripts
+    #     pokemon-colorscripts --no-title -r
+    # end
 end
 
 # Starship prompt (conditional)
@@ -34,28 +36,6 @@ alias ..="cd .."
 # docker aliases
 alias dc="sudo docker-compose"
 alias dr="sudo docker"
-
-# paru aliases
-# Update system and AUR packages
-alias pu='paru -Syu'
-# Install a package
-alias pi='paru -S'
-# Remove a package
-alias pr='paru -Rns'
-# Search for a package
-alias ps='paru -Ss'
-# List explicitly installed packages
-alias pl='paru -Qe'
-# Show details of a package
-alias pd='paru -Si'
-# Clean up orphaned packages
-alias pc='paru -Rns (paru -Qdtq)'
-# Upgrade all AUR packages only
-alias pa='paru -Sua'
-# Clear the Paru cache
-alias pcc='paru -Sc'
-# Check for outdated packages (but don't upgrade)
-alias pcu='paru -Qu'
 
 # Enhanced tmux aliases 
 alias txfr="tmuxifier"
@@ -85,16 +65,22 @@ end
 zoxide init fish --cmd cd | source
 
 # FNM (Fast Node Manager) - conditional
-if test -d ~/.local/share/fnm
-    set -gx PATH ~/.local/share/fnm $PATH
-end
 if type -q fnm
-    fnm env | source
+    if test -d ~/.local/share/fnm
+        set -gx PATH ~/.local/share/fnm $PATH
+    end
+    function __auto_fnm --on-variable PWD --description "Load fnm when entering a Node project"
+        if test -f .node-version -o -f .nvmrc
+            fnm env --use-on-cd | source
+            functions -e __auto_fnm
+        end
+    end
+    __auto_fnm
 end
 
 set -gx PATH $PATH $HOME/go/bin
-# function fish_prompt
 
+# function fish_prompt
 #   set_color cyan; echo (pwd)
 #   set_color green; echo '> '
 # end

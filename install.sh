@@ -23,6 +23,7 @@ SETUP_SCRIPTS=(
     "apps.sh"
     "dotfiles.sh"
     "theme.sh"
+    "desktop.sh"
     "shell.sh"
     "finish.sh"
 )

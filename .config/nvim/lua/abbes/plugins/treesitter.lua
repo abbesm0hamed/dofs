@@ -5,7 +5,7 @@ return {
       require("nvim-treesitter.install").update({ with_sync = true })()
     end,
     config = function()
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter.config").setup({
         ensure_installed = { "lua", "vim", "vimdoc" },
         highlight = { enable = true },
       })

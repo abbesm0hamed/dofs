@@ -16,6 +16,7 @@ enable_copr "alternateved/ghostty"
 enable_copr "che/nerd-fonts"
 enable_copr "peterwu/iosevka"
 enable_copr "dejan/lazygit"
+enable_copr "yalter/niri"
 
 log "Adding Windsurf repository..."
 sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf

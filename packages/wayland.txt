@@ -1,5 +1,9 @@
 # Wayland / Niri stack
 niri
+qt5-wayland
+qt6-wayland
+xwayland-satellite
+jq
 fuzzel
 mako
 waybar

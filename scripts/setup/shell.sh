@@ -17,5 +17,25 @@ if [[ "$SHELL" == *"/fish" ]]; then
     exit 0
 fi
 
+log "Installing Starship..."
+if ! command -v starship &>/dev/null; then
+    curl -sS https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1 && ok "Starship installed" || err "Starship failed"
+fi
+
+# Pokemon Colorscripts
+log "Setting up pokemon-colorscripts..."
+if ! command -v pokemon-colorscripts &>/dev/null; then
+    log "Installing pokemon-colorscripts..."
+    tmp_dir=$(mktemp -d)
+    git clone https://gitlab.com/phoneybadger/pokemon-colorscripts.git "$tmp_dir"
+    pushd "$tmp_dir" >/dev/null
+    sudo ./install.sh
+    popd >/dev/null
+    rm -rf "$tmp_dir"
+    ok "pokemon-colorscripts installed"
+else
+    ok "pokemon-colorscripts checked"
+fi
+
 log "Setting default shell to Fish..."
 sudo chsh -s "$FISH_PATH" "$USER" && ok "Success! Please re-login." || err "Failed."

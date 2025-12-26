@@ -21,9 +21,6 @@ power-profiles-daemon
 pavucontrol
 
 gnome-keyring
-qt5-qtwayland
-qt6-qtwayland
-xwayland-satellite
 wev
 nwg-look
 udiskie
