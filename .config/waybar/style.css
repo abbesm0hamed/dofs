@@ -23,11 +23,11 @@ window#waybar {
   background: transparent;
 }
 
-.modules-left > widget:first-child > * {
+.modules-left>widget:first-child>* {
   margin-left: 8px;
 }
 
-.modules-right > widget:last-child > * {
+.modules-right>widget:last-child>* {
   margin-right: 3px;
 }
 
@@ -50,6 +50,7 @@ window#waybar {
 #custom-notifications,
 #custom-power,
 #custom-recording,
+#custom-mic,
 #custom-fingerprint {
   background: transparent;
   color: @text;
@@ -87,6 +88,10 @@ window#waybar {
   border-bottom: 1px solid @surface1;
   border-right: 2px dotted @overlay0;
   border-left: 2px dotted @overlay0;
+}
+
+#cpu {
+  padding-right: 4px;
 }
 
 #cpu,
@@ -130,12 +135,16 @@ window#waybar {
   border-left: 2px dotted @overlay0;
 }
 
-#tray > .passive {
+#tray>.passive {
   -gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
+#tray>.needs-attention {
   -gtk-icon-effect: highlight;
+}
+
+#power-profiles-daemon {
+  padding-right: 4px;
 }
 
 #power-profiles-daemon.performance {
@@ -156,6 +165,10 @@ window#waybar {
 
 #custom-idle_inhibitor {
   margin-right: 4px;
+}
+
+#custom-mic {
+  padding-left: 2px;
 }
 
 #custom-idle_inhibitor:hover {
@@ -232,6 +245,7 @@ tooltip label {
   font-weight: bold;
   font-size: 14px;
   transition: all 0.2s ease;
+  padding-left: 0px;
 }
 
 #custom-recording.inactive {

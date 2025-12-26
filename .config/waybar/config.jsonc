@@ -65,7 +65,7 @@
     },
     "memory": {
         "interval": 30,
-        "format": " {percentage}%",
+        "format": "<span rise='1000'></span> {percentage}%",
         "on-click": "ghostty -e btop"
     },
     "battery": {
@@ -75,7 +75,7 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon}{capacity}%",
+        "format": "<span rise='1000'>{icon}</span>{capacity}%",
         "format-charging": "󰂄 {capacity}%",
         "format-plugged": "󰚥 {capacity}%",
         "format-full": "󰁹 {capacity}%",
@@ -125,7 +125,7 @@
         "interval": 5
     },
     "custom/storage": {
-        "format": "󰋊 {}",
+        "format": "<span rise='1000'>󰋊</span> {}",
         "format-alt": "{percentage}% 󰋊",
         "format-alt-click": "click-right",
         "return-type": "json",
@@ -141,7 +141,7 @@
     },
     "backlight": {
         "device": "intel_backlight",
-        "format": "{icon}{percent}%",
+        "format": "<span rise='1000'>{icon}</span>{percent}%",
         "format-icons": [
             "󰃞 ",
             "󰃟 ",
@@ -237,7 +237,7 @@
     },
     "cpu": {
         "interval": 1,
-        "format": " {usage}%",
+        "format": "<span rise='1000'></span> {usage}%",
         "max-length": 7
     },
     "mpd": {
@@ -299,7 +299,7 @@
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
-        "format": "{icon}{volume}%",
+        "format": "<span rise='1000'>{icon}</span>{volume}%",
         "format-muted": "<span foreground='#fab387'> </span>",
         // "format-icons": [ "<span foreground='#fab387'> </span>" ]
         "format-icons": {
@@ -333,7 +333,7 @@
         "smooth-scrolling-threshold": 1
     },
     "niri/language": {
-        "format": "󰌌 {}",
+        "format": "<span rise='1000'>󰌌</span> {}",
         "format-en": "EN",
         "format-fr": "FR",
         "tooltip-format": "Language: {long}"
