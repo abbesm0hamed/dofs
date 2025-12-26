@@ -297,9 +297,10 @@ binds {
     // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
     // ...
 
+    Mod+W { toggle-column-tabbed-display; }
+    
     Mod+Alt+J      { focus-workspace-down; }
     Mod+Alt+K        { focus-workspace-up; }
-    Mod+W { toggle-column-tabbed-display; }
     Mod+Ctrl+K { move-window-to-workspace-up; }
     Mod+Ctrl+J { move-window-to-workspace-down; }
     // Mod+Ctrl+J { move-column-to-workspace-down; }

@@ -187,6 +187,34 @@ apply_lazygit() {
     fi
 }
 
+apply_niri() {
+    local theme_src="$1/niri/colors.kdl"
+    local template_src="$REPO_ROOT/templates/niri/config.kdl"
+    local target="$CONFIG_DIR/niri/config.kdl"
+
+    mkdir -p "$(dirname "$target")"
+    if [ ! -f "$template_src" ]; then err "Niri template missing"; return 1; fi
+
+    if [ -f "$theme_src" ]; then
+        awk -v theme_file="$theme_src" '
+            BEGIN { while ((getline line < theme_file) > 0) theme[++n] = line }
+            /\/\/ THEME_INJECTION_POINT: niri_colors/ {
+                print $0
+                for (i=1; i<=n; i++) print theme[i]
+                found=1
+                next
+            }
+            found && /active-color|inactive-color|urgent-color/ { next }
+            found && !(/active-color|inactive-color|urgent-color/) { found=0 }
+            { print }
+        ' "$template_src" > "$target" && ok "Niri"
+        niri msg action do-reload 2>/dev/null || true
+    else
+        cp "$template_src" "$target"
+        ok "Niri (template only)"
+    fi
+}
+
 # --- Main Logic ---
 
 set_theme() {
@@ -206,6 +234,7 @@ set_theme() {
     apply_yazi "$path"
     apply_cava "$path"
     apply_lazygit "$path"
+    apply_niri "$path"
     apply_waybar
 }
 

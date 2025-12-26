@@ -15,30 +15,30 @@ gui:
   splitDirection: "auto"
   language: "en"
   # Colors (default theme)
-  theme:
-    activeBorderColor:
-      - "#89b4fa"
-      - bold
-    inactiveBorderColor:
-      - "#45475a"
-    selectedLineBgColor:
-      - "#313244"
-    selectedRangeBgColor:
-      - "#313244"
-    cherryPickedCommitBgColor:
-      - "#45475a"
-    cherryPickedCommitFgColor:
-      - "#89b4fa"
-    unstagedChangesColor:
-      - "#f38ba8"
-    defaultFgColor:
-      - "#cdd6f4"
+theme:
+  activeBorderColor:
+    - "#89b4fa"
+    - bold
+  inactiveBorderColor:
+    - "#45475a"
+  selectedLineBgColor:
+    - "#313244"
+  selectedRangeBgColor:
+    - "#313244"
+  cherryPickedCommitBgColor:
+    - "#45475a"
+  cherryPickedCommitFgColor:
+    - "#89b4fa"
+  unstagedChangesColor:
+    - "#f38ba8"
+  defaultFgColor:
+    - "#cdd6f4"
 
 git:
   # Git settings
-  # pagers:
-  #   - colorArg: always
-  #     pager: "less -RFX"
+  pagers:
+    - colorArg: always
+      pager: "less -RFX"
   commit:
     signOff: false
   autoFetch: true
