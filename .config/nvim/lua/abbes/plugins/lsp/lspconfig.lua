@@ -60,11 +60,17 @@ return {
         end
       end
 
-      local lspconfig = require("lspconfig")
+      local function configure_server(name, custom_opts)
+        local opts = vim.tbl_deep_extend("force", {
+          on_attach = on_attach,
+          capabilities = capabilities,
+        }, custom_opts or {})
 
-      lspconfig.lua_ls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
+        vim.lsp.config(name, opts)
+        vim.lsp.enable(name)
+      end
+
+      configure_server("lua_ls", {
         settings = {
           Lua = {
             runtime = { version = "LuaJIT" },
@@ -85,9 +91,7 @@ return {
         },
       })
 
-      lspconfig.vtsls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
+      configure_server("vtsls", {
         settings = {
           typescript = {
             updateImportsOnFileMove = { enabled = "always" },
@@ -115,9 +119,7 @@ return {
         },
       })
 
-      lspconfig.gopls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
+      configure_server("gopls", {
         settings = {
           gopls = {
             gofumpt = true, -- Enable gofumpt for better formatting
@@ -152,9 +154,7 @@ return {
       })
 
       -- Rust Analyzer with performance optimizations
-      lspconfig.rust_analyzer.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
+      configure_server("rust_analyzer", {
         settings = {
           ["rust-analyzer"] = {
             cargo = {
@@ -195,9 +195,7 @@ return {
       })
 
       -- Python with Pyright
-      lspconfig.pyright.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
+      configure_server("pyright", {
         settings = {
           python = {
             analysis = {
@@ -226,16 +224,11 @@ return {
       }
 
       for _, server in ipairs(simple_servers) do
-        lspconfig[server].setup({
-          on_attach = on_attach,
-          capabilities = capabilities,
-        })
+        configure_server(server)
       end
 
       -- Emmet with expanded filetypes
-      lspconfig.emmet_ls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
+      configure_server("emmet_ls", {
         filetypes = {
           "html",
           "typescriptreact",
