@@ -28,6 +28,16 @@ if ! command -v starship &>/dev/null; then
     curl -sS https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1 && ok "Starship installed" || err "Starship failed"
 fi
 
+log "Installing Atuin..."
+if ! command -v atuin &>/dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh | sh >/dev/null 2>&1 && ok "Atuin installed" || err "Atuin failed"
+fi
+
+log "Installing Carapace..."
+if ! command -v carapace &>/dev/null; then
+    curl -fsSL https://carapace-sh.github.io/carapace-bin/install.sh | bash >/dev/null 2>&1 && ok "Carapace installed" || err "Carapace failed"
+fi
+
 # Pokemon Colorscripts
 log "Setting up pokemon-colorscripts..."
 if ! command -v pokemon-colorscripts &>/dev/null; then

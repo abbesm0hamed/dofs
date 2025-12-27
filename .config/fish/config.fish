@@ -64,6 +64,14 @@ end
 
 zoxide init fish --cmd cd | source
 
+if type -q atuin
+    atuin init fish | source
+end
+
+if type -q carapace
+    carapace _carapace fish | source
+end
+
 # FNM (Fast Node Manager) - conditional
 if type -q fnm
     if test -d ~/.local/share/fnm
