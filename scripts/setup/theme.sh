@@ -202,6 +202,22 @@ apply_foot() {
     fi
 }
 
+apply_wallpaper() {
+    local theme_path="$1"
+    local wall_script="$CONFIG_DIR/niri/scripts/wallpaper.sh"
+    
+    if [ -f "$wall_script" ]; then
+        # Look for wallpaper.jpg/png in theme dir
+        for ext in jpg png webp; do
+            if [ -f "$theme_path/wallpaper.$ext" ]; then
+                bash "$wall_script" "$theme_path/wallpaper.$ext"
+                ok "Wallpaper"
+                return 0
+            fi
+        done
+    fi
+}
+
 # --- Main Logic ---
 
 set_theme() {
@@ -222,6 +238,7 @@ set_theme() {
     apply_cava "$path"
     apply_lazygit "$path"
     apply_foot "$path"
+    apply_wallpaper "$path"
     apply_waybar
 }
 

@@ -3,9 +3,8 @@
 set -euo pipefail
 
 WALLPAPER_DIR="${HOME}/.config/backgrounds"
-BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-carbon-fiber.jpg"
-FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/carbon-fiber.jpg"
-FALLBACK_WALLPAPER="${WALLPAPER_DIR}/blurry-carbon-fiber.jpg"
+FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/snaky.jpg"
+BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-snaky.jpg"
 LOCK_WALLPAPER="$BACKDROP_WALLPAPER"
 
 # Logging
@@ -35,14 +34,9 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 # Critical UI Components (Start ASAP)
 # ----------------------------------------------------------------------------
 
-# 1. Background (Instant visual feedback)
-# Start swaybg immediately for instant color/image while swww loads
-if command -v swaybg &>/dev/null; then
-    if [ -f "$BACKDROP_WALLPAPER" ]; then
-        swaybg -i "$BACKDROP_WALLPAPER" -m fill &
-    else
-        swaybg -c '#1e1e2e' &
-    fi
+# 1. Background (Backdrop)
+if [ -f "$BACKDROP_WALLPAPER" ]; then
+    swaybg -i "$BACKDROP_WALLPAPER" -m fill &
 fi
 
 # 2. Notification Daemon (Fast, lightweight)
@@ -75,17 +69,10 @@ fi
             sleep 0.1
         done
 
-        # Load animated/high-res wallpaper
-        TARGET_WALL=""
+        # Load foreground wallpaper
         if [ -f "$FOREGROUND_WALLPAPER" ]; then
-            TARGET_WALL="$FOREGROUND_WALLPAPER"
-        elif [ -f "$FALLBACK_WALLPAPER" ]; then
-            TARGET_WALL="$FALLBACK_WALLPAPER"
-        fi
-
-        if [ -n "$TARGET_WALL" ]; then
-            echo "  → Loading wallpaper: $TARGET_WALL"
-            swww img "$TARGET_WALL" --transition-type none
+            echo "  → Loading wallpaper: $FOREGROUND_WALLPAPER"
+            swww img "$FOREGROUND_WALLPAPER" --transition-type none
         fi
     fi
 } &
