@@ -3,8 +3,8 @@
 set -euo pipefail
 
 WALLPAPER_DIR="${HOME}/.config/backgrounds"
-FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/snaky.jpg"
-BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-snaky.jpg"
+FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/spiderman.jpg"
+BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-spiderman.jpg"
 LOCK_WALLPAPER="$BACKDROP_WALLPAPER"
 
 # Logging

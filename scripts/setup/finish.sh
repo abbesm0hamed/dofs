@@ -22,3 +22,9 @@ if command -v xdg-settings >/dev/null && flatpak info app.zen_browser.zen >/dev/
     xdg-settings set default-web-browser app.zen_browser.zen.desktop
     log "Default browser set to Zen."
 fi
+
+log "Optimizing PAM for swaylock..."
+if [[ -f "$HOME/dofs/scripts/setup/swaylock.pam" ]]; then
+    sudo cp "$HOME/dofs/scripts/setup/swaylock.pam" /etc/pam.d/swaylock
+    log "Swaylock PAM configuration optimized."
+fi

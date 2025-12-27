@@ -17,5 +17,6 @@ STATUS="$(fprintd-list "$USER" 2>/dev/null || true)"
 if grep -q "has no fingers enrolled" <<<"${STATUS}"; then
     printf '{"text":"󰈷","tooltip":"Fingerprint not enrolled\\nClick to set up","class":"warning"}\n'
 else
-    printf '{"text":"󰈸","tooltip":"Fingerprint enrolled","class":"enrolled"}\n'
+    # Hide the module when fingerprints are enrolled
+    exit 0
 fi

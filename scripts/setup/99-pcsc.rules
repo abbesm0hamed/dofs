@@ -1,0 +1,7 @@
+/* Allow users to access the PC/SC daemon without authentication */
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.debian.pcsc-lite.access_pcsc" ||
+        action.id == "org.debian.pcsc-lite.access_card") {
+        return polkit.Result.YES;
+    }
+});

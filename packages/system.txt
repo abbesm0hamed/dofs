@@ -53,4 +53,4 @@ nm-connection-editor
 
 # fingerprint
 libfprint-tod
-fprintd-tod
+libfprint-2-tod1-broadcom

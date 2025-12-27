@@ -1,0 +1,5 @@
+# Broadcom 58200 ControlVault 3 - FIDO2 / Passkey Support
+# Tag for U2F/FIDO stack and grant access to 'input' group
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="5865", TAG+="u2f-stack", TAG+="fido-device", MODE="0660", GROUP="input"
+# CCID / SmartCard interface for libfido2 PC/SC backend
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="5865", ENV{ID_SMARTCARD_READER}="1", ENV{ID_SMARTCARD_READER_DRIVER}="ccid"
