@@ -24,7 +24,7 @@
         //"custom/gammastep"
     ],
     "modules-right": [
-        // "custom/fingerprint",
+        "custom/fingerprint",
         "tray",
         "custom/storage",
         "memory",
@@ -203,7 +203,7 @@
         "interval": 5
     },
     "custom/fingerprint": {
-        "format": " 󰈷 ",
+        "format": " {text} ",
         "return-type": "json",
         "exec": "~/.config/waybar/scripts/fingerprint-status.sh",
         "interval": 30,

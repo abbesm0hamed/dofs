@@ -50,3 +50,7 @@ gnome-themes-extra
 network-manager-applet
 NetworkManager
 nm-connection-editor
+
+# fingerprint
+libfprint-tod
+fprintd-tod

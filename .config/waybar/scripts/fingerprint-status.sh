@@ -1,20 +1,21 @@
 #!/bin/bash
+set -euo pipefail
 
-# Fingerprint Status Script for Waybar
-# Shows fingerprint setup indicator only when not configured
+# Waybar Fingerprint Status Script
+# Shows fingerprint enrollment status
 
-# Check if fprintd is available
-if ! command -v fprintd-list &> /dev/null; then
-    # fprintd not available, don't show anything
-    exit 1
-fi
+# Quietly check for fprintd
+command -v fprintd-list >/dev/null 2>&1 || exit 0
 
-# Check if user has enrolled fingerprints
-if fprintd-list "$USER" 2>/dev/null | grep -q "finger"; then
-    # Fingerprints are enrolled, don't show the module
-    exit 1
+# Capture status once to avoid duplicate output
+STATUS="$(fprintd-list "$USER" 2>/dev/null || true)"
+
+# No device detected or no output from fprintd
+[[ -z "${STATUS}" ]] && exit 0
+
+# Show warning when not enrolled; hide otherwise
+if grep -q "has no fingers enrolled" <<<"${STATUS}"; then
+    printf '{"text":"󰈷","tooltip":"Fingerprint not enrolled\\nClick to set up","class":"warning"}\n'
 else
-    # No fingerprints enrolled, show setup indicator
-    echo '{"text": "🔐", "tooltip": "Click to setup fingerprint authentication", "class": "fingerprint-setup"}'
-    exit 0
+    printf '{"text":"󰈸","tooltip":"Fingerprint enrolled","class":"enrolled"}\n'
 fi

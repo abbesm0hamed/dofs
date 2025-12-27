@@ -25,6 +25,7 @@ SETUP_SCRIPTS=(
     "theme.sh"
     "desktop.sh"
     "shell.sh"
+    "install_broadcom_driver.sh"
     "finish.sh"
 )
 
