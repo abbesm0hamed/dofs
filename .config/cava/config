@@ -361,3 +361,19 @@ gradient_color_3 = '#7E9CD8'
 gradient_color_4 = '#957FB8'
 gradient_color_5 = '#DCD7BA'
 gradient_color_6 = '#C34043'
+[color]
+
+; background = default
+; foreground = default
+
+; background = '#111111'
+; foreground = '#bea1ff'
+
+gradient = 1
+gradient_count = 6
+gradient_color_1 = '#1F1F28'
+gradient_color_2 = '#2A2A37'
+gradient_color_3 = '#7E9CD8'
+gradient_color_4 = '#957FB8'
+gradient_color_5 = '#DCD7BA'
+gradient_color_6 = '#C34043'
