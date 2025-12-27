@@ -1,5 +1,3 @@
-.config/awesome/awesome-wm-widgets
-
 # System and editor files
 *~
 .DS_Store
@@ -12,9 +10,6 @@
 .vscode/
 *.swp
 *.swo
-
-# bootstrap arch yay
-./bootstrap/arch/yay
 
 .tmuxifier
 install.log
