@@ -184,6 +184,14 @@ window-rule {
 }
 
 window-rule {
+    match app-id="floating-btop"
+    match app-id="floating-ranger"
+    open-floating true
+    default-column-width { proportion 0.8; }
+    default-window-height { proportion 0.8; }
+}
+
+window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
     block-out-from "screen-capture"
@@ -199,8 +207,11 @@ hotkey-overlay {
 }
 
 binds {
-    Mod+Return { spawn "ghostty"; }
+    Mod+Return { spawn "foot"; }
+    Mod+Shift+Return { spawn "ghostty"; }
     Mod+T { spawn "kitty"; }
+    Mod+B { spawn "bash" "/home/abbes/dofs/scripts/niri/floating-wrapper.sh" "floating-btop" "btop"; }
+    Mod+Shift+G { spawn "bash" "/home/abbes/dofs/scripts/niri/floating-wrapper.sh" "floating-ranger" "ranger"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+Space { spawn "fuzzel"; }    
     Alt+Ctrl+L {
@@ -297,9 +308,10 @@ binds {
     // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
     // ...
 
+    Mod+W { toggle-column-tabbed-display; }
+    
     Mod+Alt+J      { focus-workspace-down; }
     Mod+Alt+K        { focus-workspace-up; }
-    Mod+W { toggle-column-tabbed-display; }
     Mod+Ctrl+K { move-window-to-workspace-up; }
     Mod+Ctrl+J { move-window-to-workspace-down; }
     // Mod+Ctrl+J { move-column-to-workspace-down; }

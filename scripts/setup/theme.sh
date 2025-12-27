@@ -38,11 +38,14 @@ apply_ghostty() {
 }
 
 apply_waybar() {
-    if pgrep -x waybar >/dev/null; then
-        pkill -x waybar
-        waybar &>/dev/null &
-        ok "Waybar (reloaded)"
-    fi
+    killall -q waybar || true
+    # Wait for process to exit
+    for i in {1..10}; do
+        if ! pgrep -x waybar >/dev/null; then break; fi
+        sleep 0.1
+    done
+    niri msg action spawn -- waybar
+    ok "Waybar"
 }
 
 apply_fuzzel() {
@@ -187,31 +190,45 @@ apply_lazygit() {
     fi
 }
 
-apply_niri() {
-    local theme_src="$1/niri/colors.kdl"
-    local template_src="$REPO_ROOT/templates/niri/config.kdl"
-    local target="$CONFIG_DIR/niri/config.kdl"
+apply_foot() {
+    local theme_src="$1/foot/colors.ini"
+    local template_src="$REPO_ROOT/templates/foot/foot.ini"
+    local target="$CONFIG_DIR/foot/foot.ini"
+    
+    if [ ! -f "$template_src" ]; then
+        err "Foot template not found"
+        return 1
+    fi
 
     mkdir -p "$(dirname "$target")"
-    if [ ! -f "$template_src" ]; then err "Niri template missing"; return 1; fi
+    rm -f "$target"
+    cp "$template_src" "$target"
 
     if [ -f "$theme_src" ]; then
         awk -v theme_file="$theme_src" '
-            BEGIN { while ((getline line < theme_file) > 0) theme[++n] = line }
-            /\/\/ THEME_INJECTION_POINT: niri_colors/ {
-                print $0
-                for (i=1; i<=n; i++) print theme[i]
-                found=1
+            BEGIN {
+                while ((getline line < theme_file) > 0) theme[++n] = line
+                close(theme_file)
+            }
+            /^\[colors\]$/ {
+                if (!inserted) {
+                    for (i=1; i<=n; i++) print theme[i]
+                    inserted=1
+                }
+                in_colors=1
                 next
             }
-            found && /active-color|inactive-color|urgent-color/ { next }
-            found && !(/active-color|inactive-color|urgent-color/) { found=0 }
-            { print }
-        ' "$template_src" > "$target" && ok "Niri"
-        niri msg action do-reload 2>/dev/null || true
+            /^\[.*\]$/ && in_colors { in_colors=0 }
+            !in_colors { print }
+            END {
+                if (!inserted) {
+                    print ""
+                    for (i=1; i<=n; i++) print theme[i]
+                }
+            }
+        ' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target" && ok "Foot"
     else
-        cp "$template_src" "$target"
-        ok "Niri (template only)"
+        ok "Foot (reset to template)"
     fi
 }
 
@@ -234,7 +251,7 @@ set_theme() {
     apply_yazi "$path"
     apply_cava "$path"
     apply_lazygit "$path"
-    apply_niri "$path"
+    apply_foot "$path"
     apply_waybar
 }
 
