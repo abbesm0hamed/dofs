@@ -12,8 +12,15 @@ if command -v authselect >/dev/null 2>&1; then
     if ! authselect current | grep -q "with-fingerprint"; then
         sudo authselect enable-feature with-fingerprint
         log "Fingerprint authentication enabled."
-    else
-        log "Fingerprint authentication already enabled."
+    fi
+
+    # Fix GDM interference: Ensure failed fingerprint doesn't block password
+    if [ -f /etc/pam.d/gdm-password ]; then
+        if ! grep -q "pam_fprintd.so" /etc/pam.d/gdm-password; then
+            # Insert pam_fprintd.so as optional to avoid blocking
+            sudo sed -i '1s/^/auth [success=done default=ignore] pam_fprintd.so\n/' /etc/pam.d/gdm-password
+            log "GDM fingerprint interference fixed."
+        fi
     fi
 fi
 
@@ -24,7 +31,8 @@ if command -v xdg-settings >/dev/null && flatpak info app.zen_browser.zen >/dev/
 fi
 
 log "Optimizing PAM for swaylock..."
-if [[ -f "$HOME/dofs/scripts/setup/swaylock.pam" ]]; then
-    sudo cp "$HOME/dofs/scripts/setup/swaylock.pam" /etc/pam.d/swaylock
+if [[ -f "${REPO_ROOT}/scripts/setup/swaylock.pam" ]]; then
+    sudo cp "${REPO_ROOT}/scripts/setup/swaylock.pam" /etc/pam.d/swaylock
+    sudo chmod 644 /etc/pam.d/swaylock
     log "Swaylock PAM configuration optimized."
 fi

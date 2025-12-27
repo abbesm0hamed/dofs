@@ -10,6 +10,15 @@ cd "${REPO_ROOT}"
 [ -d "scripts" ] && chmod +x scripts/*
 mkdir -p "${HOME}/.config"
 
+# Function to backup an item if it's not a symlink
+backup_item() {
+    local item="$1"
+    if [ -e "$item" ] && [ ! -L "$item" ]; then
+        log "Backing up ${item} to ${item}.bak"
+        mv "$item" "${item}.bak"
+    fi
+}
+
 STOW_ITEMS=$(ls -A | grep -vE "^(\.git|scripts|packages|templates|install\.sh|install\.log|README\.md)$")
 
 for item in $STOW_ITEMS; do
@@ -17,11 +26,10 @@ for item in $STOW_ITEMS; do
     if [ "$item" == ".config" ]; then
         for subitem in .config/*; do
             [ -e "$subitem" ] || continue
-            sub_target="${HOME}/${subitem}"
-            [ -e "$sub_target" ] && [ ! -L "$sub_target" ] && rm -rf "$sub_target"
+            backup_item "${HOME}/${subitem}"
         done
     else
-        [ -e "$target" ] && [ ! -L "$target" ] && rm -rf "$target"
+        backup_item "$target"
     fi
 done
 

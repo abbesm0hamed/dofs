@@ -1,0 +1,6 @@
+# PAM configuration for swaylock with parallel fingerprint/password
+auth        sufficient    pam_fprintd.so
+auth        include       system-auth
+account     include       system-auth
+password    include       system-auth
+session     include       system-auth

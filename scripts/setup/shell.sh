@@ -17,6 +17,12 @@ if [[ "$SHELL" == *"/fish" ]]; then
     exit 0
 fi
 
+# Ensure fish is in /etc/shells
+if ! grep -q "$FISH_PATH" /etc/shells; then
+    log "Adding $FISH_PATH to /etc/shells..."
+    echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
+fi
+
 log "Installing Starship..."
 if ! command -v starship &>/dev/null; then
     curl -sS https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1 && ok "Starship installed" || err "Starship failed"
