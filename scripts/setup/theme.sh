@@ -5,10 +5,6 @@ THEME_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/theme"
 CURRENT_THEME_LINK="$HOME/.config/theme-current"
 CONFIG_DIR="$HOME/.config"
 
-# Calculate REPO_ROOT if not set
-SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-REPO_ROOT="${REPO_ROOT:-$(dirname "$(dirname "$SCRIPT_DIR")")}"
-
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -39,7 +35,6 @@ apply_ghostty() {
 
 apply_waybar() {
     killall -q waybar || true
-    # Wait for process to exit
     for i in {1..10}; do
         if ! pgrep -x waybar >/dev/null; then break; fi
         sleep 0.1
@@ -50,22 +45,11 @@ apply_waybar() {
 
 apply_fuzzel() {
     local theme_src="$1/fuzzel.ini"
-    local template_src="$REPO_ROOT/templates/fuzzel/fuzzel.ini"
     local target="$CONFIG_DIR/fuzzel/fuzzel.ini"
     
-    if [ ! -f "$template_src" ]; then
-        err "Fuzzel template not found at $template_src"
-        return 1
-    fi
-
-    mkdir -p "$(dirname "$target")"
-    
-    # Copy template to target (removing symlink if it exists)
-    rm -f "$target"
-    cp "$template_src" "$target"
+    if [ ! -f "$target" ]; then return 0; fi
 
     if [ -f "$theme_src" ]; then
-        # Inject [colors] section from theme into target
         awk -v theme_file="$theme_src" '
             BEGIN {
                 while ((getline line < theme_file) > 0) theme[++n] = line
@@ -88,8 +72,6 @@ apply_fuzzel() {
                 }
             }
         ' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target" && ok "Fuzzel"
-    else
-        ok "Fuzzel (reset to template)"
     fi
 }
 
@@ -110,7 +92,6 @@ apply_btop() {
         mkdir -p "$btop_dir/themes"
         cp "$src" "$btop_dir/themes/${theme_name}.theme"
         
-        # Update config if it exists, or create minimal
         if [ ! -f "$btop_dir/btop.conf" ]; then
             echo "color_theme = \"$theme_name\"" > "$btop_dir/btop.conf"
             echo "theme_background = False" >> "$btop_dir/btop.conf"
@@ -122,16 +103,14 @@ apply_btop() {
                  echo "color_theme = \"$theme_name\"" >> "$btop_dir/btop.conf"
             fi
         fi
-        ok "Btop (theme set to $theme_name)"
+        ok "Btop"
     fi
 }
 
 apply_swaylock() {
     local theme_src="$1/swaylock/theme.conf"
     local target="$CONFIG_DIR/swaylock/theme.conf"
-    mkdir -p "$(dirname "$target")"
     if [ -f "$theme_src" ]; then
-        rm -f "$target"
         cp "$theme_src" "$target"
         ok "Swaylock"
     fi
@@ -140,9 +119,7 @@ apply_swaylock() {
 apply_yazi() {
     local theme_src="$1/yazi/theme.toml"
     local target="$CONFIG_DIR/yazi/theme.toml"
-    mkdir -p "$(dirname "$target")"
     if [ -f "$theme_src" ]; then
-        rm -f "$target"
         cp "$theme_src" "$target"
         ok "Yazi"
     fi
@@ -150,59 +127,58 @@ apply_yazi() {
 
 apply_cava() {
     local theme_src="$1/cava/config"
-    local template_src="$REPO_ROOT/templates/cava/config"
     local target="$CONFIG_DIR/cava/config"
     
-    mkdir -p "$(dirname "$target")"
-    if [ ! -f "$template_src" ]; then err "Cava template missing"; return 1; fi
-    
-    rm -f "$target"
-    cp "$template_src" "$target"
-    if [ -f "$theme_src" ]; then
-        cat "$theme_src" >> "$target"
-        ok "Cava"
+    if grep -q "# THEME_INJECTION_POINT" "$target" 2>/dev/null; then
+        awk -v theme_file="$theme_src" '
+            BEGIN { while ((getline line < theme_file) > 0) theme[++n] = line }
+            /# THEME_INJECTION_POINT/ {
+                print $0
+                for (i=1; i<=n; i++) print theme[i]
+                found=1
+                next
+            }
+            # Skip any existing lines after injection until next bracket section [section]
+            found && /^\[/ { found=0; print; next }
+            found { next }
+            { print }
+        ' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target" && ok "Cava"
     else
-        ok "Cava (template only)"
+        if [ -f "$theme_src" ]; then
+            cat "$theme_src" >> "$target"
+            ok "Cava (appended)"
+        fi
     fi
 }
 
 apply_lazygit() {
     local theme_src="$1/lazygit/theme.yml"
-    local template_src="$REPO_ROOT/templates/lazygit/config.yml"
     local target="$CONFIG_DIR/lazygit/config.yml"
     
-    mkdir -p "$(dirname "$target")"
-    if [ ! -f "$template_src" ]; then err "Lazygit template missing"; return 1; fi
-    
-    rm -f "$target"
-    if [ -f "$theme_src" ]; then
+    if grep -q "# THEME_INJECTION_POINT" "$target" 2>/dev/null; then
         awk -v theme_file="$theme_src" '
             BEGIN { while ((getline line < theme_file) > 0) theme[++n] = line }
             /# THEME_INJECTION_POINT/ {
+                print $0
                 for (i=1; i<=n; i++) print theme[i]
+                found=1
                 next
             }
+            # Look for NEXT root key (no indentation) to stop skipping
+            found && /^[a-zA-Z]/ { found=0; print; next }
+            found { next }
             { print }
-        ' "$template_src" > "$target" && ok "Lazygit"
+        ' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target" && ok "Lazygit"
     else
-        cp "$template_src" "$target"
-        ok "Lazygit (template only)"
+        ok "Lazygit (no marker)"
     fi
 }
 
 apply_foot() {
     local theme_src="$1/foot/colors.ini"
-    local template_src="$REPO_ROOT/templates/foot/foot.ini"
     local target="$CONFIG_DIR/foot/foot.ini"
     
-    if [ ! -f "$template_src" ]; then
-        err "Foot template not found"
-        return 1
-    fi
-
-    mkdir -p "$(dirname "$target")"
-    rm -f "$target"
-    cp "$template_src" "$target"
+    if [ ! -f "$target" ]; then return 0; fi
 
     if [ -f "$theme_src" ]; then
         awk -v theme_file="$theme_src" '
@@ -227,8 +203,6 @@ apply_foot() {
                 }
             }
         ' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target" && ok "Foot"
-    else
-        ok "Foot (reset to template)"
     fi
 }
 

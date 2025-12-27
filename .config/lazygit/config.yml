@@ -15,6 +15,7 @@ gui:
   splitDirection: "auto"
   language: "en"
   # Colors (default theme)
+  # THEME_INJECTION_POINT
 theme:
   activeBorderColor:
     - "#89b4fa"
@@ -33,7 +34,6 @@ theme:
     - "#f38ba8"
   defaultFgColor:
     - "#cdd6f4"
-
 git:
   # Git settings
   pagers:
