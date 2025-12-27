@@ -135,13 +135,11 @@ apply_cava() {
             /# THEME_INJECTION_POINT/ {
                 print $0
                 for (i=1; i<=n; i++) print theme[i]
-                found=1
+                skipping=1
                 next
             }
-            # Skip any existing lines after injection until next bracket section [section]
-            found && /^\[/ { found=0; print; next }
-            found { next }
-            { print }
+            skipping && /^\[/ { skipping=0 }
+            !skipping { print }
         ' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target" && ok "Cava"
     else
         if [ -f "$theme_src" ]; then
@@ -161,13 +159,11 @@ apply_lazygit() {
             /# THEME_INJECTION_POINT/ {
                 print $0
                 for (i=1; i<=n; i++) print theme[i]
-                found=1
+                skipping=1
                 next
             }
-            # Look for NEXT root key (no indentation) to stop skipping
-            found && /^[a-zA-Z]/ { found=0; print; next }
-            found { next }
-            { print }
+            skipping && /^[a-zA-Z]/ && !/^theme:/ { skipping=0 }
+            !skipping { print }
         ' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target" && ok "Lazygit"
     else
         ok "Lazygit (no marker)"

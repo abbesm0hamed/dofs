@@ -345,7 +345,7 @@
         "interval": 1,
         "signal": 8,
         "tooltip": true,
-        "on-click": "~/.config/niri/scripts/screencast.sh stop"
+        "on-click": "sh -c '~/.config/niri/scripts/screencast.sh toggle-screen'"
     },
     "power-profiles-daemon": {
         "format": "{icon}",

@@ -169,6 +169,7 @@ window#waybar {
 
 #custom-mic {
   padding-left: 2px;
+  padding-right: 0px;
 }
 
 #custom-idle_inhibitor:hover {

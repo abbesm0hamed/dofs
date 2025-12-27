@@ -210,8 +210,9 @@ binds {
     Mod+Return { spawn "foot"; }
     Mod+Shift+Return { spawn "ghostty"; }
     Mod+T { spawn "kitty"; }
-    Mod+B { spawn "bash" "/home/abbes/dofs/scripts/niri/floating-wrapper.sh" "floating-btop" "btop"; }
-    Mod+Shift+G { spawn "bash" "/home/abbes/dofs/scripts/niri/floating-wrapper.sh" "floating-ranger" "ranger"; }
+    Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-btop btop"; }
+    Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-ranger ranger"; }
+    Mod+Alt+B { spawn "pkill" "-SIGUSR1" "waybar"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+Space { spawn "fuzzel"; }    
     Alt+Ctrl+L {
@@ -231,30 +232,30 @@ binds {
     Mod+Shift+S { screenshot-screen; }
     Mod+Shift+V { screenshot-window; }
     Mod+Print { screenshot; }
-    Print { spawn "~/.config/niri/scripts/screenshot.sh" "region"; }  // Region screenshot with editing
-    Shift+Print { spawn "~/.config/niri/scripts/screenshot.sh" "window"; }  // Window screenshot with editing
-    Ctrl+Print { spawn "~/.config/niri/scripts/screenshot.sh" "screen"; }  // Full screen screenshot with editing
+    Print { spawn "sh" "-c" "~/.config/niri/scripts/screenshot.sh region"; }  
+    Shift+Print { spawn "sh" "-c" "~/.config/niri/scripts/screenshot.sh window"; }  
+    Ctrl+Print { spawn "sh" "-c" "~/.config/niri/scripts/screenshot.sh screen"; }  
     
     // Screen Recording with Audio Support
-    Alt+Print { spawn "~/.config/niri/scripts/screencast.sh" "region"; }  // Record region (no audio)
-    Ctrl+Alt+Print { spawn "~/.config/niri/scripts/screencast.sh" "screen"; }  // Record full screen (no audio)
-    Alt+Shift+Print { spawn "~/.config/niri/scripts/screencast.sh" "region-audio"; }  // Record region with audio
-    Ctrl+Shift+Print { spawn "~/.config/niri/scripts/screencast.sh" "screen-audio"; }  // Record full screen with audio
+    Alt+Print { spawn "sh" "-c" "~/.config/niri/scripts/screencast.sh toggle-region"; }  
+    Ctrl+Alt+Print { spawn "sh" "-c" "~/.config/niri/scripts/screencast.sh toggle-screen"; }  
+    Alt+Shift+Print { spawn "sh" "-c" "~/.config/niri/scripts/screencast.sh toggle-region-audio"; }  
+    Ctrl+Shift+Print { spawn "sh" "-c" "~/.config/niri/scripts/screencast.sh toggle-screen-audio"; }  
     
     // Audio-only recording
-    Alt+Ctrl+A { spawn "~/.config/niri/scripts/screencast.sh" "audio-only"; }  // Record audio only
+    Alt+Ctrl+A { spawn "sh" "-c" "~/.config/niri/scripts/screencast.sh toggle-audio-only"; }  
     
     // Stop any active recording
-    Alt+Ctrl+Shift+R { spawn "~/.config/niri/scripts/screencast.sh" "stop"; }  // Stop recording
+    Alt+Ctrl+Shift+R { spawn "sh" "-c" "~/.config/niri/scripts/screencast.sh stop"; }  
     
     // Clipboard Management
-    Alt+Ctrl+V { spawn "~/.config/niri/scripts/clipboard-manager.sh"; }  // Show clipboard history
+    Alt+Ctrl+V { spawn "sh" "-c" "~/.config/niri/scripts/clipboard-manager.sh"; }  
     
     // System Controls
-    Alt+Space { spawn "~/.config/niri/scripts/system-controls.sh"; }
-    Alt+Ctrl+Shift+Space { spawn "bash" "~/.config/niri/scripts/theme-menu.sh"; }
-    Alt+S { spawn "~/.config/niri/scripts/settings-menu.sh"; }
-    Alt+L { spawn "~/.config/waybar/scripts/power-menu.sh"; }
+    Alt+Space { spawn "sh" "-c" "~/.config/niri/scripts/system-controls.sh"; }
+    Alt+Ctrl+Shift+Space { spawn "sh" "-c" "~/.config/niri/scripts/theme-menu.sh"; }
+    Alt+S { spawn "sh" "-c" "~/.config/niri/scripts/settings-menu.sh"; }
+    Alt+L { spawn "sh" "-c" "~/.config/waybar/scripts/power-menu.sh"; }
     
     // Language switching
     Alt+Mod+Ctrl+Space { switch-layout "next"; }
