@@ -23,15 +23,31 @@ if test -f ~/.cache/ags/user/generated/terminal/sequences.txt
 end
 
 # general aliases
-alias pamcan=pacman
-alias lns="ln -s" # target file location -> desitnation file location
-alias ll="ls -la"
+alias ..="cd .."
+alias lns="ln -s" # target file location -> destination file location
 alias v="nvim"
 alias c="clear"
-alias ll="lsd -la"
-alias lg="lazygit"
 alias ff="fastfetch"
-alias ..="cd .."
+alias cat="bat --style=plain --paging=never"
+alias ls="eza --icons --group-directories-first"
+alias ll="eza -la --icons --group-directories-first --git"
+alias tree="eza --tree --icons"
+alias lg="lazygit"
+
+# Fedora package helpers
+alias dupi="sudo dnf upgrade --refresh"   # full upgrade
+alias dchk="sudo dnf check-update"        # check available updates
+alias di="sudo dnf install"               # install packages
+alias dr="sudo dnf remove"                # remove packages
+alias ds="dnf search"                     # search packages
+alias dl="dnf list --installed"           # list installed packages
+alias dclean="sudo dnf clean all; sudo dnf autoremove -y" # clean cache + orphaned deps
+alias drep="dnf repolist"                 # show enabled repos
+
+# Git delta for better diffs
+if type -q delta
+    set -gx GIT_PAGER "delta"
+end
 
 # docker aliases
 alias dc="sudo docker-compose"
@@ -64,6 +80,17 @@ end
 
 zoxide init fish --cmd cd | source
 
+# FZF configuration for better fuzzy finding
+if type -q fzf
+    set -gx FZF_DEFAULT_OPTS "--height 40% --layout=reverse --border --inline-info"
+    # Use fd for file/directory search if available
+    if type -q fd
+        set -gx FZF_DEFAULT_COMMAND "fd --type f --hidden --follow --exclude .git"
+        set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+        set -gx FZF_ALT_C_COMMAND "fd --type d --hidden --follow --exclude .git"
+    end
+end
+
 if type -q atuin
     atuin init fish | source
 end
@@ -87,6 +114,14 @@ if type -q fnm
 end
 
 set -gx PATH $PATH $HOME/go/bin
+
+# Add atuin and cargo to PATH
+if test -d ~/.atuin/bin
+    set -gx PATH ~/.atuin/bin $PATH
+end
+if test -d ~/.cargo/bin
+    set -gx PATH ~/.cargo/bin $PATH
+end
 
 # function fish_prompt
 #   set_color cyan; echo (pwd)

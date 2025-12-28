@@ -6,6 +6,7 @@ python-pip
 python-virtualenv
 github-cli
 rust
+cargo
 go
 gcc
 make
@@ -28,7 +29,6 @@ bat
 fzf
 ripgrep
 zoxide
-eza
 fd
 btop
 fastfetch
@@ -37,3 +37,9 @@ lazydocker
 tmux
 lazygit
 windsurf
+
+# Power tools
+git-delta
+tealdeer
+tokei
+navi
