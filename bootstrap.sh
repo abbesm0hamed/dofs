@@ -27,9 +27,10 @@ main() {
         else
             warn "Could not update repository. Continuing with local version."
         fi
+        log "Re-running installer to apply updates..."
     else
         log "Cloning dofs repository to $INSTALL_DIR..."
-        if git clone "$REPO_URL" "$INSTALL_DIR"; then
+        if git clone --branch fedora-niri "$REPO_URL" "$INSTALL_DIR"; then
             cd "$INSTALL_DIR"
             ok "Repository cloned successfully."
         else

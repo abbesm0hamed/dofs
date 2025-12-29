@@ -34,6 +34,11 @@ apply_ghostty() {
 }
 
 apply_waybar() {
+    if [ -z "$NIRI_SOCKET" ]; then
+        ok "Waybar (skipped restart; not in Niri session)"
+        return
+    fi
+
     killall -q waybar || true
     for i in {1..10}; do
         if ! pgrep -x waybar >/dev/null; then break; fi
@@ -203,6 +208,11 @@ apply_foot() {
 }
 
 apply_wallpaper() {
+    if [ -z "$NIRI_SOCKET" ]; then
+        ok "Wallpaper (skipped; not in Niri session)"
+        return
+    fi
+
     local theme_path="$1"
     local wall_script="$CONFIG_DIR/niri/scripts/wallpaper.sh"
     

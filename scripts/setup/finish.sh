@@ -31,8 +31,8 @@ if command -v xdg-settings >/dev/null && flatpak info app.zen_browser.zen >/dev/
 fi
 
 log "Optimizing PAM for swaylock..."
-if [[ -f "${REPO_ROOT}/scripts/setup/swaylock.pam" ]]; then
-    sudo cp "${REPO_ROOT}/scripts/setup/swaylock.pam" /etc/pam.d/swaylock
+if [[ -f "${REPO_ROOT}/scripts/configs/swaylock.pam" ]]; then
+    sudo cp "${REPO_ROOT}/scripts/configs/swaylock.pam" /etc/pam.d/swaylock
     sudo chmod 644 /etc/pam.d/swaylock
     log "Swaylock PAM configuration optimized."
 fi

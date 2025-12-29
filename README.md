@@ -17,7 +17,7 @@ A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 Run this command in your terminal:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/abbesm0hamed/dofs/main/bootstrap.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/abbesm0hamed/dofs/fedora-niri/bootstrap.sh)"
 ```
 
 This will:
@@ -28,6 +28,16 @@ This will:
 - Enable the Niri session in GDM (GNOME Display Manager)
 
 **Time**: ~15-20 minutes
+
+## Manual Installation
+
+If you prefer to clone the repository manually, follow these steps:
+
+```bash
+git clone --branch fedora-niri https://github.com/abbesm0hamed/dofs.git ~/dofs
+cd ~/dofs
+./install.sh
+```
 
 ### 3. Reboot and Enjoy
 
@@ -213,13 +223,13 @@ All screenshots are automatically saved to `~/Pictures/Screenshots` and copied t
 
 ## Additional Applications
 
-| Key Combination | Action             |
-| --------------- | ------------------ |
-| `Alt + Z`       | Open Zen Browser   |
-| `Alt + E`       | Open Nautilus      |
-| `Mod + Return`  | Launch Ghostty     |
-| `Mod + P`       | Launch Fuzzel      |
-| `Alt + Ctrl + L`| Lock screen (Swaylock) |
+| Key Combination  | Action                 |
+| ---------------- | ---------------------- |
+| `Alt + Z`        | Open Zen Browser       |
+| `Alt + E`        | Open Nautilus          |
+| `Mod + Return`   | Launch Ghostty         |
+| `Mod + P`        | Launch Fuzzel          |
+| `Alt + Ctrl + L` | Lock screen (Swaylock) |
 
 ### Neovim Keybindings
 
