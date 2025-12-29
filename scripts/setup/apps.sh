@@ -84,10 +84,17 @@ setup_libvirt() {
         sudo virsh net-start default >/dev/null 2>&1 || warn "Failed to start default network"
     fi
 
-    if ! sudo virsh net-list --all | grep -q 'default\s*active\s*yes'; then
-        warn "Default network is not active or not set to autostart."
-    else
+    # Ensure network is set to autostart
+    if ! sudo virsh net-list --all | grep -q 'default\s*.*\s*yes'; then
+        log "Enabling autostart for default libvirt network..."
+        sudo virsh net-autostart default >/dev/null 2>&1 || warn "Failed to enable autostart for default network."
+    fi
+
+    # Final verification
+    if sudo virsh net-info default >/dev/null 2>&1 && sudo virsh net-list --all | grep -q 'default\s*active\s*yes'; then
         ok "Default libvirt network is active and configured."
+    else
+        warn "Default network is not active or not configured correctly."
     fi
 }
 

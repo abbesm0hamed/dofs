@@ -8,8 +8,6 @@ ffmpegthumbnailer
 zathura
 switcheroo
 localsend
-ghostty
-kitty
 zip
 xz
 unzip

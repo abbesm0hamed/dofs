@@ -123,6 +123,13 @@ if test -d ~/.cargo/bin
     set -gx PATH ~/.cargo/bin $PATH
 end
 
+set -U fish_user_paths $HOME/.local/bin $HOME/go/bin $HOME/.cargo/bin $fish_user_paths
+
+# FNM (Node Version Manager)
+if command -v fnm &> /dev/null
+    eval (fnm env --shell fish)
+end
+
 # function fish_prompt
 #   set_color cyan; echo (pwd)
 #   set_color green; echo '> '

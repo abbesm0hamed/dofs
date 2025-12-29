@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 THEME_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/theme"
 CURRENT_THEME_LINK="$HOME/.config/theme-current"
@@ -238,18 +238,21 @@ set_theme() {
 
     log "Applying theme: $name"
     ln -nsf "$path" "$CURRENT_THEME_LINK"
-    apply_mako "$path"
-    apply_ghostty "$path"
-    apply_fuzzel "$path"
-    apply_kitty "$path"
-    apply_btop "$path"
-    apply_swaylock "$path"
-    apply_yazi "$path"
-    apply_cava "$path"
-    apply_lazygit "$path"
-    apply_foot "$path"
-    apply_wallpaper "$path"
-    apply_waybar
+
+    # List of applications to theme
+    local apps_to_theme=(
+        mako ghostty fuzzel kitty btop swaylock yazi cava lazygit foot wallpaper waybar
+    )
+
+    for app in "${apps_to_theme[@]}"; do
+        # Check if the handler function exists
+        if declare -f "apply_$app" > /dev/null; then
+            # Call the handler function
+            "apply_$app" "$path"
+        else
+            warn "No theme handler found for: $app"
+        fi
+    done
 }
 
 case "${1:-}" in

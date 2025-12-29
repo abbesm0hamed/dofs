@@ -5,7 +5,7 @@ log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
 ok() { printf "\033[0;32m==> %s\033[0m\n" "$1"; }
 
 SESSION_DIR="/usr/share/wayland-sessions"
-LAUNCH_SCRIPT="${REPO_ROOT}/scripts/niri-launch.sh"
+LAUNCH_SCRIPT="${REPO_ROOT}/scripts/helpers/niri-launch.sh"
 
 log "Installing Niri Custom Session..."
 

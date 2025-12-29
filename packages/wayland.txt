@@ -1,4 +1,7 @@
 # Wayland / Niri stack
+foot
+ghostty
+kitty
 niri
 qt5-wayland
 qt6-wayland

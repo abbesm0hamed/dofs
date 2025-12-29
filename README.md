@@ -189,7 +189,7 @@ niri msg action reload-config
 
 | Keybinding       | Action             |
 | ---------------- | ------------------ |
-| `Mod + Return`   | Launch Ghostty     |
+| `Mod + Return`   | Launch Foot        |
 | `Mod + P`        | Launch Fuzzel      |
 | `Alt + Z`        | Launch Zen Browser |
 | `Alt + E`        | Launch Nautilus    |

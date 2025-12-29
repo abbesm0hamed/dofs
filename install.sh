@@ -33,6 +33,17 @@ SETUP_SCRIPTS=(
 )
 
 for script_name in "${SETUP_SCRIPTS[@]}"; do
+    # Special handling for conditional scripts
+    if [[ "$script_name" == "install_broadcom_driver.sh" ]]; then
+        # Check for Broadcom 58200 hardware before running the script
+        if lsusb | grep -q "0a5c:5865"; then
+            log "Broadcom 58200 fingerprint sensor detected. Installing driver..."
+        else
+            log "Broadcom 58200 fingerprint sensor not found. Skipping driver installation."
+            continue
+        fi
+    fi
+
     script="${REPO_ROOT}/scripts/setup/${script_name}"
     title=$(echo "$script_name" | cut -f 1 -d '.' | tr 'a-z' 'A-Z')
     log "TOPIC: $title"

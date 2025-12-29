@@ -22,10 +22,34 @@ main() {
     if [ -d "$INSTALL_DIR" ]; then
         log "Updating existing dofs repository in $INSTALL_DIR..."
         cd "$INSTALL_DIR"
-        if git pull --rebase --autostash; then
+        # Check for local changes before attempting to update
+        if [[ -n $(git status --porcelain) ]]; then
+            warn "You have local changes that would be overwritten by an update."
+            read -p "Do you want to stash them and proceed with the update? (y/N) " -n 1 -r
+            echo # Move to a new line
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                log "Stashing local changes..."
+                if ! git stash; then
+                    err "Failed to stash changes. Aborting update."
+                fi
+                STASH_SUCCESSFUL=true
+            else
+                log "Update cancelled to preserve local changes."
+                exit 0
+            fi
+        fi
+
+        log "Fetching latest changes and updating repository..."
+        if git fetch origin && git reset --hard origin/fedora-niri; then
             ok "Repository updated successfully."
+            if [[ "$STASH_SUCCESSFUL" == "true" ]]; then
+                log "Attempting to re-apply stashed changes..."
+                if ! git stash pop; then
+                    warn "Could not automatically apply stashed changes. Run 'git stash pop' manually to restore them."
+                fi
+            fi
         else
-            warn "Could not update repository. Continuing with local version."
+            err "Failed to update repository. Please resolve the issue manually in $INSTALL_DIR."
         fi
         log "Re-running installer to apply updates..."
     else

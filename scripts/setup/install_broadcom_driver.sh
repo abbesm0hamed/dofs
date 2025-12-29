@@ -20,12 +20,6 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Check for Broadcom 58200 hardware
-if ! lsusb | grep -q "0a5c:5865"; then
-    log "Broadcom 58200 fingerprint sensor (0a5c:5865) not found. Skipping driver installation."
-    exit 0
-fi
-
 # Check if driver is already installed
 if [[ -f "$TARGET_DIR/libfprint-2-tod-1-broadcom-cv3plus.so" ]]; then
     success "Broadcom fingerprint driver already installed. Skipping download."

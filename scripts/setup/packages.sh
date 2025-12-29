@@ -4,14 +4,26 @@ set -euo pipefail
 log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
 warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 
-log "Installing packages..."
+# Ensure LOG_FILE is set, default to /dev/null if not
+: "${LOG_FILE:=/dev/null}"
+
+read_packages_from_files() {
+    local file_pattern="$1"
+    local -n packages_array="$2" # Use a nameref for the output array
+
+    while IFS= read -r package; do
+        package="${package%%#*}" # Remove comments
+        package="$(printf '%s' "$package" | xargs)" # Trim whitespace
+        if [[ -n "$package" ]]; then
+            packages_array+=("$package")
+        fi
+    done < <(find "$file_pattern" -type f -print0 | xargs -0 cat)
+}
+
+# --- DNF Package Installation ---
+log "Installing DNF packages..."
 ALL_PACKAGES=()
-while IFS= read -r package; do
-    package="${package%%#*}"
-    package="$(printf '%s' "$package" | xargs)"
-    [[ -z "$package" ]] && continue
-    ALL_PACKAGES+=("$package")
-done < <(cat "${PACKAGES_DIR}"/*.txt)
+read_packages_from_files "${PACKAGES_DIR}/*.txt" ALL_PACKAGES
 
 FEDORA_PACKAGES=()
 for pkg in "${ALL_PACKAGES[@]}"; do
@@ -22,27 +34,25 @@ for pkg in "${ALL_PACKAGES[@]}"; do
         "python-pip") FEDORA_PACKAGES+=("python3-pip") ;;
         "qt5-wayland") FEDORA_PACKAGES+=("qt5-qtwayland") ;;
         "qt6-wayland") FEDORA_PACKAGES+=("qt6-qtwayland") ;;
-        "starship"|"fnm"|"bun") continue ;;
+        "starship"|"fnm"|"bun") 
+            log "Skipping '$pkg' (will be installed by language manager)."
+            continue 
+            ;;
         *) FEDORA_PACKAGES+=("$pkg") ;;
     esac
 done
 
+if [ ${#FEDORA_PACKAGES[@]} -gt 0 ]; then
+    sudo dnf install -y --allowerasing --skip-unavailable --best "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed to install."
+fi
 
-sudo dnf install -y --allowerasing --skip-unavailable --best "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed."
-
+# --- Flatpak Package Installation ---
 log "Installing Flatpaks..."
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 FLATPAK_PACKAGES=()
-if [ -f "${PACKAGES_DIR}/flatpak.txt" ]; then
-    while IFS= read -r package; do
-        package="${package%%#*}" # remove comments
-        package="$(printf '%s' "$package" | xargs)" # trim
-        [[ -z "$package" ]] && continue
-        FLATPAK_PACKAGES+=("$package")
-    done < "${PACKAGES_DIR}/flatpak.txt"
-fi
+read_packages_from_files "${PACKAGES_DIR}/flatpak.txt" FLATPAK_PACKAGES
 
 if [ ${#FLATPAK_PACKAGES[@]} -gt 0 ]; then
-    flatpak install -y flathub "${FLATPAK_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Flatpak installation failed."
+    flatpak install -y flathub "${FLATPAK_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some Flatpak packages failed to install."
 fi

@@ -2,22 +2,36 @@
 set -euo pipefail
 
 log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
+warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 
-COPR_CHROOT="fedora-41-x86_64"
+# Dynamically determine the correct COPR chroot
+FEDORA_VERSION=$(grep -oP '(?<=VERSION_ID=)[0-9]+' /etc/os-release)
+ARCH=$(uname -m)
+COPR_CHROOT="fedora-${FEDORA_VERSION}-${ARCH}"
 
 enable_copr() {
     local repo="$1"
     log "Enabling COPR: $repo..."
-    sudo dnf copr enable -y "$repo" || sudo dnf copr enable -y "$repo" "$COPR_CHROOT" >> "$LOG_FILE" 2>&1
+    if ! sudo dnf copr enable -y "$repo" "$COPR_CHROOT"; then
+        warn "Failed to enable COPR repository: $repo. It may not be available for your system version."
+    fi
 }
 
 log "Configuring repositories..."
-enable_copr "alternateved/ghostty"
-enable_copr "che/nerd-fonts"
-enable_copr "peterwu/iosevka"
-enable_copr "dejan/lazygit"
-enable_copr "yalter/niri"
-enable_copr "grahamwhiteuk/libfprint-tod"
+
+# List of COPRs to enable
+COPR_REPOS=(
+    enable_copr "alternateved/ghostty"
+    "che/nerd-fonts"
+    "peterwu/iosevka"
+    "dejan/lazygit"
+    "yalter/niri"
+    "grahamwhiteuk/libfprint-tod"
+)
+
+for repo in "${COPR_REPOS[@]}"; do
+    enable_copr "$repo"
+done
 
 log "Adding Windsurf repository..."
 sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf

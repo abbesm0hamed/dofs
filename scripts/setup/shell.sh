@@ -34,6 +34,7 @@ else
     sudo chsh -s "$FISH_PATH" "$USER" && ok "Success! Please re-login." || err "Failed."
 fi
 
+
 log "Installing Starship..."
 if ! command -v starship &>/dev/null; then
     curl -sS https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1 && ok "Starship installed" || err "Starship failed"
@@ -95,6 +96,19 @@ if ! command -v pokemon-colorscripts &>/dev/null; then
     ok "pokemon-colorscripts installed"
 else
     ok "pokemon-colorscripts checked"
+fi
+
+# --- Configure Fish PATH for language managers ---
+if command -v fish &>/dev/null; then
+    log "Configuring Fish shell PATH for language managers..."
+    
+    # Add fnm path if not already present
+    fish -c "contains '$HOME/.local/share/fnm' (string split ':' \$fish_user_paths) || set -Ua fish_user_paths '$HOME/.local/share/fnm'"
+    
+    # Add bun path if not already present
+    fish -c "contains '$HOME/.bun/bin' (string split ':' \$fish_user_paths) || set -Ua fish_user_paths '$HOME/.bun/bin'"
+    
+    ok "Fish PATH configured for fnm and bun."
 fi
 
 if command -v fish &>/dev/null; then
