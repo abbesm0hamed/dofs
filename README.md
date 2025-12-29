@@ -6,7 +6,7 @@
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
 - **Niri** - Scrollable-tiling Wayland compositor
-- **Ghostty** - Fast, native terminal emulator
+- **Foot** - Fast, waybar native terminal emulator
 - **Waybar** - Highly customizable status bar
 - **Mako** - Lightweight notification daemon
 - **Fish** shell with **Starship** prompt
@@ -14,17 +14,10 @@ A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
 ## Quick Start
 
-### 1. Clone the Repository
+Run this command in your terminal:
 
 ```bash
-git clone https://github.com/abbesm0hamed/dofs.git ~/dofs
-cd ~/dofs
-```
-
-### 2. Run Installation (One Command Setup)
-
-```bash
-./install.sh
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/abbesm0hamed/dofs/main/bootstrap.sh)"
 ```
 
 This will:
@@ -48,18 +41,18 @@ This setup includes:
 
 ### Niri Best Practices
 
-- ✅ **xwayland-satellite** for X11 app compatibility (Discord, Steam, etc.)
-- ✅ **xdg-desktop-portal-gnome** for better screen sharing
-- ✅ **GDM** (GNOME Display Manager) with Niri session support
-- ✅ **Optimized autostart** with proper service ordering
-- ✅ **Swaylock** with blur effects for secure screen locking
+- **xwayland-satellite** for X11 app compatibility (Discord, Steam, etc.)
+- **xdg-desktop-portal-gnome** for better screen sharing
+- **GDM** (GNOME Display Manager) with Niri session support
+- **Optimized autostart** with proper service ordering
+- **Swaylock** with blur effects for secure screen locking
 
 ### Single-Command Installation
 
-- ✅ One command installs everything
-- ✅ Automatic validation before completion
-- ✅ Declarative package management
-- ✅ Reproducible setup
+- One command installs everything
+- Automatic validation before completion
+- Declarative package management
+- Reproducible setup
 
 ## What Gets Installed
 
@@ -368,9 +361,3 @@ Press `ALT + L` to open the power menu, which provides options for:
 - **Auto-tiling**: Dynamic tiling layout
 - **Workspace Auto Back and Forth**: Enabled
 - **Smooth Animations**: Advanced animation system
-
-## Inspiration
-
-- [The Linux Cast Dotfiles](https://gitlab.com/thelinuxcast/my-dots.git)
-- [Nvim Config by Allaman](https://github.com/Allaman/nvim)
-- [Chris Grieser Config](https://github.com/chrisgrieser/.config)
