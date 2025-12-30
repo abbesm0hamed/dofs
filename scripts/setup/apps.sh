@@ -25,9 +25,12 @@ fi
 setup_libvirt() {
     log "Setting up libvirt / virt-manager..."
     local libvirt_service="libvirtd"
-    if systemctl list-unit-files | grep -q '^virtqemud\.service'; then
+    
+    # Check for virtqemud first (modular daemon)
+    if systemctl list-unit-files virtqemud.service &>/dev/null; then
         libvirt_service="virtqemud"
-    elif ! systemctl list-unit-files | grep -q '^libvirtd\.service'; then
+    # Check for libvirtd (monolithic daemon)
+    elif ! systemctl list-unit-files libvirtd.service &>/dev/null; then
         warn "Neither libvirtd.service nor virtqemud.service found, skipping libvirt setup."
         return
     fi

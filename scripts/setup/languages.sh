@@ -19,7 +19,8 @@ if command -v fnm &>/dev/null; then
     eval "$(fnm env --shell bash)"
     log "Installing latest Node.js version..."
     fnm install --lts
-    fnm default lts
+    # Set default to lts-latest (fnm alias), ignoring errors if already set/missing alias
+    fnm default lts-latest 2>/dev/null || true
     log "Enabling corepack (for yarn/pnpm)..."
     corepack enable
 fi
