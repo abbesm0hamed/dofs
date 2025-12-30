@@ -55,6 +55,18 @@ symbol = " "
 [git_commit]
 tag_symbol = '  '
 
+[git_status]
+conflicted = " 󰞇  "
+ahead = " ⇡  "
+behind = " ⇣  "
+diverged = " ⇕  "
+untracked = " 󰋗  "
+stashed = " 󰆓  "
+modified = " 󰏫  "
+staged = " 󰐕 "
+renamed = " 󰑕  "
+deleted = " 󰍵  "
+
 [golang]
 symbol = " "
 
@@ -189,4 +201,3 @@ symbol = " "
 
 [gradle]
 symbol = " "
-
