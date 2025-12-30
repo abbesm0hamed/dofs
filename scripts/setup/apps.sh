@@ -24,13 +24,16 @@ fi
 
 setup_libvirt() {
     log "Setting up libvirt / virt-manager..."
-    if ! systemctl list-unit-files | grep -q '^libvirtd\.service'; then
-        warn "libvirtd.service not found, skipping libvirt setup."
+    local libvirt_service="libvirtd"
+    if systemctl list-unit-files | grep -q '^virtqemud\.service'; then
+        libvirt_service="virtqemud"
+    elif ! systemctl list-unit-files | grep -q '^libvirtd\.service'; then
+        warn "Neither libvirtd.service nor virtqemud.service found, skipping libvirt setup."
         return
     fi
 
     # Ensure service is running before we make changes
-    sudo systemctl enable --now libvirtd 2>/dev/null || warn "Failed to enable libvirtd"
+    sudo systemctl enable --now "$libvirt_service" 2>/dev/null || warn "Failed to enable $libvirt_service"
 
     local config_changed=false
 
@@ -47,11 +50,19 @@ setup_libvirt() {
     fi
 
     # Restart libvirtd if needed before proceeding
+    # Restart libvirtd or virtnetworkd if needed before proceeding
     if [ "$config_changed" = true ]; then
-        if sudo systemctl restart libvirtd; then
-            ok "Restarted libvirtd service to apply config changes."
+        # If using modular daemons, restart virtnetworkd for network config
+        if [ "$libvirt_service" = "virtqemud" ] && systemctl list-unit-files | grep -q '^virtnetworkd\.service'; then
+             if sudo systemctl restart virtnetworkd; then
+                ok "Restarted virtnetworkd service to apply config changes."
+             else
+                warn "Failed to restart virtnetworkd."
+             fi
+        elif sudo systemctl restart "$libvirt_service"; then
+            ok "Restarted $libvirt_service service to apply config changes."
         else
-            warn "Failed to restart libvirtd service; network setup may fail."
+            warn "Failed to restart $libvirt_service service; network setup may fail."
         fi
     fi
 

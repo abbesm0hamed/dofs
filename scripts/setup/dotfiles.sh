@@ -54,7 +54,7 @@ stow_cmd=("stow" "-R" "-v" "-t" "${HOME}")
 stow_cmd+=("${STOW_DIRS[@]}")
 
 if "${stow_cmd[@]}" 2>&1 | tee -a "$LOG_FILE"; then
-    ok "Stow complete."
+    log "Stow complete."
 else
     warn "Stow command failed. Some dotfiles may not be linked."
 fi

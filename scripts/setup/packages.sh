@@ -23,7 +23,14 @@ read_packages_from_files() {
 # --- DNF Package Installation ---
 log "Installing DNF packages..."
 ALL_PACKAGES=()
-read_packages_from_files "${PACKAGES_DIR}/*.txt" ALL_PACKAGES
+# Read all .txt files excluding flatpak.txt
+while IFS= read -r package; do
+    package="${package%%#*}" # Remove comments
+    package="$(echo "$package" | xargs)" # Trim whitespace
+    if [[ -n "$package" ]]; then
+        ALL_PACKAGES+=("$package")
+    fi
+done < <(find "${PACKAGES_DIR}" -maxdepth 1 -name "*.txt" ! -name "flatpak.txt" -type f -print0 | xargs -0 cat)
 
 FEDORA_PACKAGES=()
 for pkg in "${ALL_PACKAGES[@]}"; do
@@ -51,7 +58,16 @@ log "Installing Flatpaks..."
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 FLATPAK_PACKAGES=()
-read_packages_from_files "${PACKAGES_DIR}/flatpak.txt" FLATPAK_PACKAGES
+# Read flatpak.txt
+if [ -f "${PACKAGES_DIR}/flatpak.txt" ]; then
+    while IFS= read -r package; do
+        package="${package%%#*}" # Remove comments
+        package="$(echo "$package" | xargs)" # Trim whitespace
+        if [[ -n "$package" ]]; then
+            FLATPAK_PACKAGES+=("$package")
+        fi
+    done < "${PACKAGES_DIR}/flatpak.txt"
+fi
 
 if [ ${#FLATPAK_PACKAGES[@]} -gt 0 ]; then
     flatpak install -y flathub "${FLATPAK_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some Flatpak packages failed to install."

@@ -129,9 +129,9 @@ fi
 if command -v swayidle &>/dev/null; then
     echo "  → Starting swayidle..."
     swayidle -w \
-        timeout 600 'niri msg action power-off-monitors' \
+        timeout 1200 'niri msg action power-off-monitors' \
         resume 'niri msg action power-on-monitors' \
-        timeout 900 "swaylock -f -i '$LOCK_WALLPAPER'" \
+        timeout 1800 "swaylock -f -i '$LOCK_WALLPAPER'" \
         before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" &
 fi
 

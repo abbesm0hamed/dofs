@@ -18,8 +18,8 @@ export PATH="$HOME/.local/share/fnm:$PATH"
 if command -v fnm &>/dev/null; then
     eval "$(fnm env --shell bash)"
     log "Installing latest Node.js version..."
-    fnm install latest
-    fnm default latest
+    fnm install --lts
+    fnm default lts
     log "Enabling corepack (for yarn/pnpm)..."
     corepack enable
 fi

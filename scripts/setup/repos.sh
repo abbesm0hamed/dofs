@@ -21,7 +21,7 @@ log "Configuring repositories..."
 
 # List of COPRs to enable
 COPR_REPOS=(
-    enable_copr "alternateved/ghostty"
+    "alternateved/ghostty"
     "che/nerd-fonts"
     "peterwu/iosevka"
     "dejan/lazygit"

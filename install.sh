@@ -24,7 +24,6 @@ SETUP_SCRIPTS=(
     "languages.sh"
     "apps.sh"
     "dotfiles.sh"
-    "theme.sh"
     "desktop.sh"
     "power.sh"
     "shell.sh"

@@ -16,7 +16,7 @@ window-decoration = false
 # Window settings
 window-inherit-working-directory = true
 # window-theme = ghostty
-config-file = theme
+config-file = ~/.config/ghostty/theme
 
 # Transparency and Focus
 background-opacity = 1

@@ -253,7 +253,7 @@ binds {
     
     // System Controls
     Alt+Space { spawn "sh" "-c" "~/.config/niri/scripts/system-controls.sh"; }
-    Alt+Ctrl+Space { spawn "sh" "-c" "~/.config/niri/scripts/theme-menu.sh"; }
+
     Alt+Ctrl+W { spawn "sh" "-c" "~/.config/niri/scripts/wallpaper-picker.sh"; }
     Alt+S { spawn "sh" "-c" "~/.config/niri/scripts/settings-menu.sh"; }
     Alt+L { spawn "sh" "-c" "~/.config/waybar/scripts/power-menu.sh"; }
