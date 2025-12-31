@@ -66,6 +66,7 @@
     "memory": {
         "interval": 30,
         "format": "<span rise='1000'></span> {percentage}%",
+        "tooltip-format": "Memory Usage: {percentage}%",
         "on-click": "ghostty -e btop"
     },
     "battery": {
@@ -126,6 +127,7 @@
     },
     "custom/storage": {
         "format": "<span rise='1000'>󰋊</span> {}",
+        "tooltip-format": "Storage Usage: {}",
         "format-alt": "{percentage}% 󰋊",
         "format-alt-click": "click-right",
         "return-type": "json",
@@ -142,6 +144,7 @@
     "backlight": {
         "device": "intel_backlight",
         "format": "<span rise='1000'>{icon}</span>{percent}%",
+        "tooltip-format": "Brightness: {percent}%",
         "format-icons": [
             "󰃞 ",
             "󰃟 ",
@@ -238,6 +241,7 @@
     "cpu": {
         "interval": 1,
         "format": "<span rise='1000'></span> {usage}%",
+        "tooltip-format": "CPU Usage: {usage}%",
         "max-length": 7
     },
     "mpd": {
@@ -300,6 +304,7 @@
         "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
         "format": "<span rise='1000'>{icon}</span>{volume}%",
+        "tooltip-format": "Volume: {volume}%",
         "format-muted": "<span foreground='#fab387'> </span>",
         // "format-icons": [ "<span foreground='#fab387'> </span>" ]
         "format-icons": {
