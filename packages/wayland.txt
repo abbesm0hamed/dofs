@@ -10,7 +10,8 @@ jq
 fuzzel
 mako
 waybar
-swww
+hyprpaper
+socat
 swaybg
 grim
 slurp

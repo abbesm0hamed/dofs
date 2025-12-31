@@ -57,12 +57,12 @@ overview {
 
 layer-rule {
     match namespace="wallpaper"
-    match namespace="swaybg"
     place-within-backdrop true
 }
 
 layer-rule {
-    match namespace="swww"
+    match namespace="hyprpaper"
+    place-within-backdrop false
 }
 
 cursor {

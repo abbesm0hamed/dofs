@@ -13,3 +13,7 @@
 
 .tmuxifier
 install.log
+
+# Managed files
+home/.config/backgrounds/current.jpg
+home/.config/backgrounds/current-blurry.jpg

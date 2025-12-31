@@ -1,1 +1,0 @@
-/home/abbes/dofs/scripts/setup/theme.sh

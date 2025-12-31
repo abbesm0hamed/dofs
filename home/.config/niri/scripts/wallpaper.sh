@@ -19,17 +19,35 @@ if [ -z "$BG_WALL" ]; then
     [ -f "$POTENTIAL_BG" ] && BG_WALL="$POTENTIAL_BG"
 fi
 
-# Apply Foreground (swww)
+# Apply Foreground (hyprpaper)
 if [ -f "$FG_WALL" ]; then
     ln -nsf "$FG_WALL" "$FG_LINK"
     
-    # Initialize swww if not running
-    if ! pgrep -x swww-daemon >/dev/null; then
-        swww init &
-        sleep 1 # Wait for daemon to start
+    # IPC components
+    HYPR_SOCK_DIR="${XDG_RUNTIME_DIR}/hypr"
+    HYPR_SOCK="${HYPR_SOCK_DIR}/.hyprpaper.sock"
+
+    # Initialize hyprpaper if not running
+    if ! pgrep -x hyprpaper >/dev/null; then
+        mkdir -p "$HYPR_SOCK_DIR"
+        hyprpaper &
+        # Wait for socket
+        for i in {1..20}; do
+            [ -S "$HYPR_SOCK" ] && break
+            sleep 0.1
+        done
     fi
     
-    swww img "$FG_WALL" --transition-type center
+    # IPC commands for hyprpaper
+    if [ -S "$HYPR_SOCK" ]; then
+        # Unload all, preload new, and set wallpaper
+        echo "preload $FG_WALL" | socat - UNIX-CONNECT:"$HYPR_SOCK"
+        echo "wallpaper ,$FG_WALL" | socat - UNIX-CONNECT:"$HYPR_SOCK"
+        # Optional: unload unused to save RAM
+        echo "unload unused" | socat - UNIX-CONNECT:"$HYPR_SOCK"
+    else
+         echo "Error: hyprpaper socket not found at $HYPR_SOCK" >&2
+    fi
 fi
 
 # Apply Backdrop (swaybg)

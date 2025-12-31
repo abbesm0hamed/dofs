@@ -26,7 +26,6 @@ COPR_REPOS=(
     "peterwu/iosevka"
     "dejan/lazygit"
     "yalter/niri"
-    "solopasha/hyprland"
     "grahamwhiteuk/libfprint-tod"
 )
 

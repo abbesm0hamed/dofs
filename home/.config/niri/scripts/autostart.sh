@@ -23,7 +23,7 @@ pkill nm-applet || true
 pkill blueman-applet || true
 pkill xwayland-satellite || true
 pkill swaybg || true
-pkill swww-daemon || true
+pkill hyprpaper || true
 
 echo "Syncing environment variables..."
 # Import environment to systemd and dbus (CRITICAL for app launching and daemons)
@@ -34,9 +34,10 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 # Critical UI Components (Start ASAP)
 # ----------------------------------------------------------------------------
 
-# 1. Background (Backdrop)
-if [ -f "$BACKDROP_WALLPAPER" ]; then
-    swaybg -i "$BACKDROP_WALLPAPER" -m fill &
+# 1. Wallpapers (Backdrop & Foreground)
+if [ -f "$FOREGROUND_WALLPAPER" ]; then
+    echo "  → Starting wallpapers via script..."
+    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER"
 fi
 
 # 2. Notification Daemon (Fast, lightweight)
@@ -54,31 +55,6 @@ fi
 # ----------------------------------------------------------------------------
 # Background Services (Parallel Execution)
 # ----------------------------------------------------------------------------
-
-# Wallpaper Daemon (Complex logic moved to background)
-{
-    if command -v swww &>/dev/null && command -v swww-daemon &>/dev/null; then
-        echo "  → Starting swww daemon..."
-        swww-daemon --format xrgb &
-
-        # Wait for daemon to be ready (internal loop)
-        for _ in {1..30}; do
-            if swww query &>/dev/null; then
-                break
-            fi
-            sleep 0.1
-        done
-
-        # Load foreground wallpaper
-        if [ -f "$FOREGROUND_WALLPAPER" ]; then
-            echo "  → Loading wallpaper: $FOREGROUND_WALLPAPER"
-            swww img "$FOREGROUND_WALLPAPER" --transition-type none
-        fi
-    fi
-} &
-
-# XWayland Satellite
-{
     if command -v xwayland-satellite &>/dev/null; then
         echo "  → Starting xwayland-satellite..."
         xwayland-satellite &
