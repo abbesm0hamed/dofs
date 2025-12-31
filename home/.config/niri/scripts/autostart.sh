@@ -104,16 +104,16 @@ fi
 # ----------------------------------------------------------------------------
 
 # Screen Idle / Lock
-{
-    if command -v swayidle &>/dev/null; then
-        echo "  → Starting swayidle..."
-        swayidle -w \
-            timeout 1200 'niri msg action power-off-monitors' \
-            resume 'niri msg action power-on-monitors' \
-            timeout 1800 "swaylock -f -i '$LOCK_WALLPAPER'" \
-            before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" &
-    fi
-} &
+if command -v swayidle &>/dev/null; then
+    echo "  → Starting swayidle..."
+    swayidle -w \
+        timeout 1200 'niri msg action power-off-monitors' \
+        resume 'niri msg action power-on-monitors' \
+        timeout 1800 "swaylock -f -i '$LOCK_WALLPAPER'" \
+        before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" &
+else
+    echo "  → ERROR: swayidle not found!"
+fi
 
 # Browser and other heavy apps
 {
