@@ -56,16 +56,17 @@ symbol = " "
 tag_symbol = '  '
 
 [git_status]
-conflicted = " 󰞇  "
-ahead = " ⇡  "
-behind = " ⇣  "
-diverged = " ⇕  "
-untracked = " 󰋗  "
-stashed = " 󰆓  "
-modified = " 󰏫  "
-staged = " 󰐕 "
-renamed = " 󰑕  "
-deleted = " 󰍵  "
+format = '([$all_status$ahead_behind]($style) )'
+conflicted = " 󰞇 "
+ahead = " ⇡ "
+behind = " ⇣ "
+diverged = " ⇕ "
+untracked = " 󰋗 "
+stashed = ""
+modified = " 󰏫 "
+staged = ""
+renamed = ""
+deleted = ""
 
 [golang]
 symbol = " "
