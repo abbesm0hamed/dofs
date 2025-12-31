@@ -34,19 +34,19 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 # Critical UI Components (Start ASAP)
 # ----------------------------------------------------------------------------
 
-# 1. Wallpapers (Backdrop & Foreground)
+# Wallpapers (Backdrop & Foreground)
 if [ -f "$FOREGROUND_WALLPAPER" ]; then
     echo "  → Starting wallpapers via script..."
-    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER"
+    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER" &
 fi
 
-# 2. Notification Daemon (Fast, lightweight)
+# Notification Daemon (Fast, lightweight)
 if command -v mako &>/dev/null; then
     echo "  → Starting mako..."
     mako &
 fi
 
-# 3. Bar (Start immediately, don't wait for wallpapers)
+# Bar (Start immediately, don't wait for wallpapers)
 if command -v waybar &>/dev/null; then
     echo "  → Starting waybar..."
     waybar &
@@ -55,6 +55,8 @@ fi
 # ----------------------------------------------------------------------------
 # Background Services (Parallel Execution)
 # ----------------------------------------------------------------------------
+
+{
     if command -v xwayland-satellite &>/dev/null; then
         echo "  → Starting xwayland-satellite..."
         xwayland-satellite &
@@ -83,9 +85,8 @@ fi
 
 # System Tray Apps
 {
-    # Check if we need to wait a tiny bit for tray to be ready,
-    # though usually nm-applet handles this well.
-    sleep 0.5
+    # Reduced wait time for performance
+    sleep 0.2
 
     if command -v nm-applet &>/dev/null; then
         echo "  → Starting nm-applet..."
@@ -99,23 +100,29 @@ fi
 } &
 
 # ----------------------------------------------------------------------------
-# Utilities & Idle
+# Utilities & Apps
 # ----------------------------------------------------------------------------
 
-if command -v swayidle &>/dev/null; then
-    echo "  → Starting swayidle..."
-    swayidle -w \
-        timeout 1200 'niri msg action power-off-monitors' \
-        resume 'niri msg action power-on-monitors' \
-        timeout 1800 "swaylock -f -i '$LOCK_WALLPAPER'" \
-        before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" &
-fi
+# Screen Idle / Lock
+{
+    if command -v swayidle &>/dev/null; then
+        echo "  → Starting swayidle..."
+        swayidle -w \
+            timeout 1200 'niri msg action power-off-monitors' \
+            resume 'niri msg action power-on-monitors' \
+            timeout 1800 "swaylock -f -i '$LOCK_WALLPAPER'" \
+            before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" &
+    fi
+} &
 
-# Optional: Zen Browser
-if flatpak info app.zen_browser.zen &>/dev/null; then
-    echo "  → Starting zen-browser..."
-    flatpak run app.zen_browser.zen &
-fi
+# Browser and other heavy apps
+{
+    # Check for Zen Browser (Flatpak)
+    if flatpak info app.zen_browser.zen &>/dev/null; then
+        echo "  → Starting Zen Browser..."
+        flatpak run app.zen_browser.zen &
+    fi
+} &
 
 echo "=== Autostart script finished (background processes still loading) ==="
 exit 0
