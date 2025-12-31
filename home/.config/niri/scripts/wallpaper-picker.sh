@@ -12,7 +12,7 @@ if [ -z "$WALLPAPERS" ]; then
     exit 1
 fi
 
-CHOICE=$(echo "$WALLPAPERS" | fuzzel --dmenu --prompt="󰸉 Wallpaper: " --width=30)
+CHOICE=$(echo "$WALLPAPERS" | fuzzel --dmenu --prompt="󰸉 Wallpaper: " "--width=40%" "--lines=5")
 
 if [ -n "$CHOICE" ]; then
     bash "$SETTER" "${WALL_DIR}/${CHOICE}"
