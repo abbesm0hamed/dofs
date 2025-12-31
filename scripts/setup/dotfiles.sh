@@ -8,16 +8,22 @@ log "Stowing dotfiles..."
 # Ensure LOG_FILE is set, default to /dev/null if not
 : "${LOG_FILE:=/dev/null}"
 
+# Determine REPO_ROOT if not set
+if [ -z "${REPO_ROOT:-}" ]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    REPO_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
+fi
+
 cd "${REPO_ROOT}"
 
 # --- Set executable permissions on scripts within dotfiles ---
-find .config -type f -name "*.sh" -exec chmod +x {} +
+find home -type f -name "*.sh" -exec chmod +x {} +
 
 # --- Backup existing files and directories ---
 log "Backing up existing configurations..."
 
 # Explicitly list directories to be managed by stow
-STOW_DIRS=(".config")
+STOW_DIRS=("home")
 
 backup_item() {
     local item_path="$1"
@@ -36,15 +42,27 @@ backup_item() {
 mkdir -p "${HOME}/.config"
 
 # Loop through stow directories and back up their contents
+shopt -s dotglob
 for dir in "${STOW_DIRS[@]}"; do
     if [ -d "$dir" ]; then
         for item in "$dir"/*; do
             [ -e "$item" ] || continue
             item_name=$(basename "$item")
-            backup_item "${HOME}/${dir}/${item_name}"
+
+            if [ "$item_name" == ".config" ] && [ -d "$item" ]; then
+                # Handle .config folding
+                for subitem in "$item"/*; do
+                    [ -e "$subitem" ] || continue
+                    subitem_name=$(basename "$subitem")
+                    backup_item "${HOME}/.config/${subitem_name}"
+                done
+            else
+                backup_item "${HOME}/${item_name}"
+            fi
         done
     fi
 done
+shopt -u dotglob
 
 # --- Run Stow ---
 log "Stowing dotfiles to ${HOME}..."

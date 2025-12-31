@@ -22,9 +22,14 @@ fi
 # Apply Foreground (swww)
 if [ -f "$FG_WALL" ]; then
     ln -nsf "$FG_WALL" "$FG_LINK"
-    if pgrep -x swww-daemon >/dev/null; then
-        swww img "$FG_WALL" --transition-type center
+    
+    # Initialize swww if not running
+    if ! pgrep -x swww-daemon >/dev/null; then
+        swww init &
+        sleep 1 # Wait for daemon to start
     fi
+    
+    swww img "$FG_WALL" --transition-type center
 fi
 
 # Apply Backdrop (swaybg)

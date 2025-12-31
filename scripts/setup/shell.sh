@@ -108,7 +108,16 @@ if command -v fish &>/dev/null; then
     # Add bun path if not already present
     fish -c "contains '$HOME/.bun/bin' (string split ':' \$fish_user_paths) || set -Ua fish_user_paths '$HOME/.bun/bin'"
     
-    ok "Fish PATH configured for fnm and bun."
+    # Add windsurf abbreviations if binary exists
+    fish -c "
+        if command -v windsurf >/dev/null
+            abbr -a ws windsurf
+        else if command -v antigravity >/dev/null
+            abbr -a ws antigravity
+        end
+    "
+    
+    ok "Fish PATH and abbreviations configured."
 fi
 
 if command -v fish &>/dev/null; then

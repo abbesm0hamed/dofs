@@ -26,6 +26,7 @@ COPR_REPOS=(
     "peterwu/iosevka"
     "dejan/lazygit"
     "yalter/niri"
+    "solopasha/hyprland"
     "grahamwhiteuk/libfprint-tod"
 )
 
@@ -36,3 +37,14 @@ done
 log "Adding Windsurf repository..."
 sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
 echo -e "[windsurf]\nname=Windsurf Repository\nbaseurl=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/\nenabled=1\nautorefresh=1\ngpgcheck=1\ngpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf" | sudo tee /etc/yum.repos.d/windsurf.repo >/dev/null
+
+log "Adding Antigravity repository..."
+sudo tee /etc/yum.repos.d/antigravity.repo >/dev/null <<'EOL'
+[antigravity-rpm]
+name=Antigravity RPM Repository
+baseurl=https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
+enabled=1
+gpgcheck=0
+EOL
+
+sudo dnf makecache
