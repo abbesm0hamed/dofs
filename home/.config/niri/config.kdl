@@ -183,6 +183,13 @@ window-rule {
 }
 
 window-rule {
+    match app-id="org.gnome.Nautilus"
+    open-floating true
+    default-column-width { proportion 0.8; }
+    default-window-height { proportion 0.8; }
+}
+
+window-rule {
     match app-id="floating-btop"
     match app-id="floating-ranger"
     open-floating true
