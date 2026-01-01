@@ -206,8 +206,8 @@ hotkey-overlay {
 }
 
 binds {
-    Mod+Return { spawn "foot"; }
-    Mod+Shift+Return { spawn "ghostty"; }
+    Mod+Return { spawn "ghostty"; }
+    Mod+Shift+Return { spawn "foot"; }
     Mod+Alt+Return { spawn "alacritty"; }
     Mod+T { spawn "kitty"; }
     Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-btop btop"; }

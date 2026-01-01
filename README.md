@@ -6,7 +6,7 @@
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
 - **Niri** - Scrollable-tiling Wayland compositor
-- **Foot** - Fast, waybar native terminal emulator
+- **Ghostty** - Fast, waybar native terminal emulator
 - **Waybar** - Highly customizable status bar
 - **Mako** - Lightweight notification daemon
 - **Fish** shell with **Starship** prompt
@@ -189,7 +189,8 @@ niri msg action reload-config
 
 | Keybinding       | Action             |
 | ---------------- | ------------------ |
-| `Mod + Return`   | Launch Foot        |
+| `Mod + Return`   | Launch Ghostty     |
+| `Mod + Shift + Return`   | Launch Foot        |
 | `Mod + P`        | Launch Fuzzel      |
 | `Alt + Z`        | Launch Zen Browser |
 | `Alt + E`        | Launch Nautilus    |
