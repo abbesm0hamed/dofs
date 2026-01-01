@@ -212,6 +212,23 @@ if [ $time_left_seconds -lt 0 ]; then
     exit 0
 fi
 
+# Notification Logic
+ALERT_THRESHOLD=300 # 5 minutes in seconds
+STATE_FILE="/tmp/prayer_alert_sent"
+
+# If time left is less than 5 minutes (but more than 4, to catch it in a 60s interval)
+if [ $time_left_seconds -le $ALERT_THRESHOLD ] && [ $time_left_seconds -gt 240 ]; then
+    CURRENT_PRAYER_ID="${next_prayer_name}_$(date +%F)"
+    LAST_NOTIFIED=$(cat "$STATE_FILE" 2>/dev/null || echo "")
+    
+    if [ "$LAST_NOTIFIED" != "$CURRENT_PRAYER_ID" ]; then
+        if command -v notify-send >/dev/null 2>&1; then
+            notify-send -u critical "Prayer Alert" "5 minutes until $next_prayer_name ($next_prayer_time_str)" -i appointment-soon
+            echo "$CURRENT_PRAYER_ID" > "$STATE_FILE"
+        fi
+    fi
+fi
+
 hours=$((time_left_seconds / 3600))
 minutes=$(((time_left_seconds % 3600) / 60))
 

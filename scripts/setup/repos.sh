@@ -17,6 +17,12 @@ enable_copr() {
     fi
 }
 
+log "Optimizing DNF..."
+if ! grep -q "max_parallel_downloads" /etc/dnf/dnf.conf 2>/dev/null; then
+    echo "max_parallel_downloads=10" | sudo tee -a /etc/dnf/dnf.conf
+    echo "fastestmirror=True" | sudo tee -a /etc/dnf/dnf.conf
+fi
+
 log "Configuring repositories..."
 
 # List of COPRs to enable

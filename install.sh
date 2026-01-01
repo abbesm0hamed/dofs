@@ -29,6 +29,7 @@ SETUP_SCRIPTS=(
     "shell.sh"
     "install_broadcom_driver.sh"
     "finish.sh"
+    "verify.sh"
 )
 
 for script_name in "${SETUP_SCRIPTS[@]}"; do

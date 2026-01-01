@@ -25,6 +25,7 @@
     ],
     "modules-right": [
         "custom/fingerprint",
+        "custom/updates",
         "tray",
         "custom/storage",
         "memory",
@@ -362,5 +363,12 @@
             "balanced": "",
             "power-saver": ""
         }
+    },
+    "custom/updates": {
+        "format": "{}",
+        "return-type": "json",
+        "on-click": "ghostty -e sudo dnf upgrade",
+        "interval": 3600,
+        "exec": "~/.config/waybar/scripts/updates.sh"
     }
 }

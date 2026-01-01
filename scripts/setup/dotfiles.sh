@@ -38,8 +38,15 @@ backup_item() {
     fi
 }
 
-# Create target .config directory if it doesn't exist
+# Create target .config directory and subdirectories to prevent stow folding
+log "Preparing target directories..."
 mkdir -p "${HOME}/.config"
+
+# Pre-creating specific subdirectories helps stow symlink files individually
+# instead of linking the entire directory.
+for config_dir in niri waybar ghostty alacritty fish swaylock nvim fuzzel; do
+    mkdir -p "${HOME}/.config/${config_dir}"
+done
 
 # Loop through stow directories and back up their contents
 shopt -s dotglob

@@ -22,27 +22,31 @@ read_packages_from_files() {
 
 # --- DNF Package Installation ---
 log "Installing DNF packages..."
-ALL_PACKAGES=()
+RAW_PACKAGES=()
 # Read all .txt files excluding flatpak.txt
 while IFS= read -r package; do
     package="${package%%#*}" # Remove comments
     package="$(echo "$package" | xargs)" # Trim whitespace
     if [[ -n "$package" ]]; then
-        ALL_PACKAGES+=("$package")
+        RAW_PACKAGES+=("$package")
     fi
 done < <(find "${PACKAGES_DIR}" -maxdepth 1 -name "*.txt" ! -name "flatpak.txt" -type f -print0 | xargs -0 cat)
+
+# Deduplicate packages
+ALL_PACKAGES=($(echo "${RAW_PACKAGES[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
 
 FEDORA_PACKAGES=()
 for pkg in "${ALL_PACKAGES[@]}"; do
     case "$pkg" in
-        "base-devel") FEDORA_PACKAGES+=("@development-tools") ;;
-        "github-cli") FEDORA_PACKAGES+=("gh") ;;
-        "imagemagick") FEDORA_PACKAGES+=("ImageMagick") ;;
-        "python-pip") FEDORA_PACKAGES+=("python3-pip") ;;
-        "qt5-wayland") FEDORA_PACKAGES+=("qt5-qtwayland") ;;
-        "qt6-wayland") FEDORA_PACKAGES+=("qt6-qtwayland") ;;
+        "base-devel")   FEDORA_PACKAGES+=("@development-tools") ;;
+        "github-cli")   FEDORA_PACKAGES+=("gh") ;;
+        "imagemagick")  FEDORA_PACKAGES+=("ImageMagick") ;;
+        "python-pip")   FEDORA_PACKAGES+=("python3-pip") ;;
+        "qt5-wayland")  FEDORA_PACKAGES+=("qt5-qtwayland") ;;
+        "qt6-wayland")  FEDORA_PACKAGES+=("qt6-qtwayland") ;;
+        "libfprint-tod") FEDORA_PACKAGES+=("libfprint-tod") ;;
         "starship"|"fnm"|"bun") 
-            log "Skipping '$pkg' (will be installed by language manager)."
+            log "Skipping '$pkg' (will be installed by language manager/shell script)."
             continue 
             ;;
         *) FEDORA_PACKAGES+=("$pkg") ;;
@@ -50,7 +54,8 @@ for pkg in "${ALL_PACKAGES[@]}"; do
 done
 
 if [ ${#FEDORA_PACKAGES[@]} -gt 0 ]; then
-    sudo dnf install -y --allowerasing --skip-unavailable --best "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed to install."
+    log "Final list to install: ${FEDORA_PACKAGES[*]}"
+    sudo dnf install -y --allowerasing --skip-unavailable --best "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed to install. Check $LOG_FILE for details."
 fi
 
 # --- Flatpak Package Installation ---
