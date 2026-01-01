@@ -7,12 +7,12 @@ APP_ID=$1
 shift
 COMMAND=$@
 
-# Launch the app in foot with a specific app-id
-foot --app-id="$APP_ID" "$COMMAND" &
+# Launch the app in kitty with a specific class
+kitty --class="$APP_ID" $COMMAND &
 LAUNCH_PID=$!
 
 # Wait for the window to appear and get focus
-# Foot is very fast, so 0.2s might be enough, but let's stick to 0.4s to be safe
+# Kitty is reasonably fast
 sleep 0.4
 
 # Monitor Niri event stream for focus changes
@@ -24,8 +24,8 @@ niri msg -j event-stream | while read -r line; do
         
         # If the focused ID is NOT our app, and is NOT empty (meaning focus moved away)
         if [ "$FOCUSED_ID" != "$APP_ID" ] && [ -n "$FOCUSED_ID" ]; then
-            # kill the launched terminal via pkill using the app-id
-            pkill -f "foot --app-id=$APP_ID"
+            # kill the launched terminal via pkill using the app-id (class)
+            pkill -f "kitty --class=$APP_ID"
             exit 0
         fi
     fi

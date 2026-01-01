@@ -7,3 +7,6 @@ padding = { x = 10, y = 10 }
 [font]
 # Increase size; adjust if you prefer larger/smaller.
 size = 13.5
+
+[font.normal]
+family = "JetBrains Mono"
