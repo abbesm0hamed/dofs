@@ -11,6 +11,7 @@ fuzzel
 mako
 waybar
 hyprpaper
+xdg-desktop-portal-gnome
 socat
 swaybg
 grim

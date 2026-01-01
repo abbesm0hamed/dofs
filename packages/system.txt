@@ -54,3 +54,7 @@ nm-connection-editor
 # fingerprint
 libfprint-tod
 libfprint-2-tod1-broadcom
+
+# Camera hardware support
+libcamera-utils
+pipewire-plugin-libcamera

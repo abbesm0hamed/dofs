@@ -26,9 +26,10 @@ pkill swaybg || true
 pkill hyprpaper || true
 
 echo "Syncing environment variables..."
+export GTK_USE_PORTAL=1
 # Import environment to systemd and dbus (CRITICAL for app launching and daemons)
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP || true
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP || true
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GTK_USE_PORTAL || true
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GTK_USE_PORTAL || true
 
 # ----------------------------------------------------------------------------
 # Critical UI Components (Start ASAP)
