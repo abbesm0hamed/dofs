@@ -36,9 +36,14 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 # ----------------------------------------------------------------------------
 
 # Wallpapers (Backdrop & Foreground)
+# Small delay to ensure Wayland environment is fully initialized
+sleep 0.1
+
 if [ -f "$FOREGROUND_WALLPAPER" ]; then
     echo "  → Starting wallpapers via script..."
-    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER" &
+    # Run synchronously to ensure both daemons start properly
+    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER"
+    echo "  → Wallpapers initialized"
 fi
 
 # Notification Daemon (Fast, lightweight)
