@@ -167,7 +167,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="md.obsidian.Obsidian"
+    match app-id="obsidian"
     default-column-width { proportion 1.0; }
     open-maximized true
 }
