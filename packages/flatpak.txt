@@ -3,3 +3,4 @@ app.zen_browser.zen
 com.discordapp.Discord
 com.slack.Slack
 md.obsidian.Obsidian
+org.fedoraproject.MediaWriter

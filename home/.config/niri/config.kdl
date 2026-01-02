@@ -227,6 +227,7 @@ binds {
     Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-ranger ranger"; }
     Mod+Alt+B { spawn "pkill" "-SIGUSR1" "waybar"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
+    Alt+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
     Mod+Space { spawn "fuzzel" "--width=40%" "--lines=5"; }
     Alt+Ctrl+L {
         spawn "swaylock"
