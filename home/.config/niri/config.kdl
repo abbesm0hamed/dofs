@@ -167,6 +167,12 @@ window-rule {
 }
 
 window-rule {
+    match app-id="md.obsidian.Obsidian"
+    default-column-width { proportion 1.0; }
+    open-maximized true
+}
+
+window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
 }
