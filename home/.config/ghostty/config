@@ -4,7 +4,7 @@ font-style = Regular Extended
 font-style-italic = Italic
 font-style-bold = Bold
 font-style-bold-italic = Bold Italic
-font-size = 16
+font-size = 10
 term = xterm-256color
 
 # Window Configuration

@@ -17,3 +17,13 @@ install.log
 # Managed files
 home/.config/backgrounds/current.jpg
 home/.config/backgrounds/current-blurry.jpg
+
+# Ranger
+home/.config/ranger/history
+home/.config/ranger/tagged
+/home/.config/ranger/.cache/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
