@@ -26,7 +26,6 @@ SETUP_SCRIPTS=(
     "dotfiles.sh"
     "performance.sh"
     "security.sh"
-    "flatpak-theme.sh"
     "desktop.sh"
     "power.sh"
     "shell.sh"

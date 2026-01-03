@@ -34,7 +34,6 @@ check_bin "fuzzel"
 check_bin "swaylock"
 check_bin "fish"
 check_bin "starship"
-check_bin "wob"
 check_bin "satty"
 
 # --- 2. Check Symlinks ---
@@ -82,12 +81,6 @@ if zramctl | grep -q "zram0"; then
     zramctl
 else
     warn "Zram is NOT active (requires reboot or manual start)"
-fi
-
-if [[ -p "${XDG_RUNTIME_DIR}/wob.sock" ]]; then
-    ok "OSD Pipe (wob) is active"
-else
-    warn "OSD Pipe (wob) is NOT active (will be created on first use)"
 fi
 
 # --- 6. GPU & Wayland ---

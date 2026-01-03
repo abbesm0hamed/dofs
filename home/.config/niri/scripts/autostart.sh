@@ -24,10 +24,6 @@ pkill blueman-applet || true
 pkill xwayland-satellite || true
 pkill swaybg || true
 pkill hyprpaper || true
-pkill wob || true
-
-# Clean OSD pipe
-rm -f "${XDG_RUNTIME_DIR}/wob.sock"
 
 echo "Syncing environment variables..."
 export GDK_SCALE=1

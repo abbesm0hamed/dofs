@@ -186,6 +186,7 @@ window#waybar {
 /* Tooltip */
 tooltip {
   background: @surface0;
+  color: @text;
   border: 1px solid @surface1;
   border-radius: 0px;
 }
