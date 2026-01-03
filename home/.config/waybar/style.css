@@ -51,7 +51,8 @@ window#waybar {
 #custom-power,
 #custom-recording,
 #custom-mic,
-#custom-fingerprint {
+#custom-fingerprint,
+#custom-updates {
   background: transparent;
   color: @text;
   padding: 0px 4px;
@@ -204,6 +205,7 @@ tooltip label {
 #backlight:hover,
 #wireplumber:hover,
 #custom-storage:hover,
+#custom-updates:hover,
 #custom-fingerprint:hover {
   color: @blue;
   border-radius: 0px;
