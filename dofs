@@ -21,10 +21,14 @@ usage() {
     echo "  doctor    Run session health diagnostics"
     echo "  install   Run the full installation script"
     echo "  verify    Run the health check / verification script"
+    echo "  test      Run installation test in Docker (CI)"
     echo "  help      Show this help message"
 }
 
 case "${1:-help}" in
+    "test")
+        bash "$REPO_ROOT/tests/test-install.sh"
+        ;;
     "update")
         bash "$REPO_ROOT/scripts/maintenance/update-all.sh"
         # Clear waybar update cache and send signal to refresh

@@ -108,6 +108,9 @@ dofs doctor
 # dofs theme list
 # dofs theme set default
 
+# Run installation test in a clean Docker container (Fedora)
+dofs test
+
 # Verify your configuration symlinks and health
 dofs verify
 ```
