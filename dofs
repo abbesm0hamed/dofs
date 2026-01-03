@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# dofs - Fedora Workstation Dotfiles Manager
+# A CLI tool to manage your system maintenance and setup
+
+# Get the absolute path of the repository root
+# This follows symlinks to find the actual location of the script
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+REPO_ROOT="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+usage() {
+    echo "Usage: dofs [command]"
+    echo ""
+    echo "Commands:"
+    echo "  update    Run the unified system update (DNF, Flatpak, Nvim, Fish)"
+    echo "  doctor    Run session health diagnostics"
+    echo "  install   Run the full installation script"
+    echo "  verify    Run the health check / verification script"
+    echo "  help      Show this help message"
+}
+
+case "${1:-help}" in
+    "update")
+        bash "$REPO_ROOT/scripts/maintenance/update-all.sh"
+        # Clear waybar update cache and send signal to refresh
+        rm -f "/tmp/waybar_check_updates_cache" 2>/dev/null
+        pkill -RTMIN+9 waybar 2>/dev/null || true
+        ;;
+    "doctor")
+        bash "$REPO_ROOT/scripts/maintenance/doctor.sh"
+        ;;
+    "install")
+        bash "$REPO_ROOT/install.sh"
+        ;;
+    "verify")
+        bash "$REPO_ROOT/scripts/setup/verify.sh"
+        ;;
+    "help")
+        usage
+        ;;
+    *)
+        echo "Unknown command: $1"
+        usage
+        exit 1
+        ;;
+esac

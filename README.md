@@ -93,17 +93,23 @@ This setup includes:
 - **Mako** notifications
 - Screenshot, recording, clipboard tools
 
-### Manage Themes
+### Unified Management
+
+This setup includes a central manager script `dofs` (symlinked to `~/.local/bin/dofs`) to simplify everyday tasks:
 
 ```bash
-# List available themes
-bash scripts/setup/theme.sh list
+# Update everything (DNF, Flatpak, Nvim, Fish plugins)
+dofs update
 
-# Apply a theme
-bash scripts/setup/theme.sh set default
+# Run a health check/diagnostic
+dofs doctor
 
-# Check current theme
-bash scripts/setup/theme.sh current
+# Manage themes (Not yet implemented)
+# dofs theme list
+# dofs theme set default
+
+# Verify your configuration symlinks and health
+dofs verify
 ```
 
 ## Customization

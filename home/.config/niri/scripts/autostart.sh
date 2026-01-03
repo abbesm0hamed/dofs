@@ -24,6 +24,10 @@ pkill blueman-applet || true
 pkill xwayland-satellite || true
 pkill swaybg || true
 pkill hyprpaper || true
+pkill wob || true
+
+# Clean OSD pipe
+rm -f "${XDG_RUNTIME_DIR}/wob.sock"
 
 echo "Syncing environment variables..."
 export GDK_SCALE=1
@@ -115,12 +119,19 @@ fi
 if command -v swayidle &>/dev/null; then
     echo "  → Starting swayidle..."
     swayidle -w \
-        timeout 1200 'niri msg action power-off-monitors' \
+        timeout 600 'niri msg action power-off-monitors' \
         resume 'niri msg action power-on-monitors' \
-        timeout 1800 "swaylock -f -i '$LOCK_WALLPAPER'" \
-        before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" &
+        timeout 900 "swaylock -f -i '$LOCK_WALLPAPER'" \
+        before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" \
+        lock "swaylock -f -i '$LOCK_WALLPAPER'" &
 else
     echo "  → ERROR: swayidle not found!"
+fi
+
+# Audio Idle Inhibitor (prevents sleep during playback)
+if command -v sway-audio-idle-inhibit &>/dev/null; then
+    echo "  → Starting audio inhibitor..."
+    sway-audio-idle-inhibit &
 fi
 
 # Browser and other heavy apps

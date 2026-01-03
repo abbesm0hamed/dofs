@@ -368,9 +368,9 @@
     "custom/updates": {
         "format": "{}",
         "return-type": "json",
-        "on-click": "ghostty -e sh -c 'sudo dnf upgrade && rm /tmp/dnf_updates_cache && pkill -RTMIN+9 waybar'",
+        "on-click": "ghostty -e sh -c '~/dofs/scripts/maintenance/update-all.sh && rm /tmp/waybar_check_updates_cache && pkill -RTMIN+9 waybar'",
         "interval": 3600,
-        "exec": "~/.config/waybar/scripts/updates.sh",
+        "exec": "~/.config/waybar/scripts/check-updates.sh",
         "signal": 9
     },
     "custom/cava": {

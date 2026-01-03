@@ -83,3 +83,10 @@ if "${stow_cmd[@]}" 2>&1 | tee -a "$LOG_FILE"; then
 else
     warn "Stow command failed. Some dotfiles may not be linked."
 fi
+
+# --- Link dofs manager ---
+log "Linking dofs manager..."
+mkdir -p "${HOME}/.local/bin"
+ln -sf "${REPO_ROOT}/dofs" "${HOME}/.local/bin/dofs"
+chmod +x "${REPO_ROOT}/dofs"
+ok "dofs manager linked to ~/.local/bin/dofs"

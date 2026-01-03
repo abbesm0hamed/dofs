@@ -34,6 +34,8 @@ check_bin "fuzzel"
 check_bin "swaylock"
 check_bin "fish"
 check_bin "starship"
+check_bin "wob"
+check_bin "satty"
 
 # --- 2. Check Symlinks ---
 check_link() {
@@ -67,7 +69,28 @@ else
     warn "Current shell is $SHELL (Expected Fish). Run 'chsh -s \$(which fish)' if intended."
 fi
 
-# --- 5. GPU & Wayland ---
+# --- 5. Security & Performance ---
+log "Checking security and performance..."
+if systemctl is-active --quiet firewalld; then
+    ok "Firewall (firewalld) is active"
+else
+    warn "Firewall (firewalld) is NOT active"
+fi
+
+if zramctl | grep -q "zram0"; then
+    ok "Zram is active"
+    zramctl
+else
+    warn "Zram is NOT active (requires reboot or manual start)"
+fi
+
+if [[ -p "${XDG_RUNTIME_DIR}/wob.sock" ]]; then
+    ok "OSD Pipe (wob) is active"
+else
+    warn "OSD Pipe (wob) is NOT active (will be created on first use)"
+fi
+
+# --- 6. GPU & Wayland ---
 if [ -n "${WAYLAND_DISPLAY:-}" ]; then
     ok "Wayland session active: $WAYLAND_DISPLAY"
 else
