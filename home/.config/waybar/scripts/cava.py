@@ -53,8 +53,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "--subproc":
     if style == "dots":
         ramp_list = [" ", "·", "•", "●", "○", "◎", "◉", "⬤"]
     elif style == "braille":
-        # Centered expansion: middle -> middle-block -> full-bottom -> full
-        ramp_list = [" ", "⠒", "⠖", "⠶", "⡶", "⣶", "⣾", "⣿"]
+        ramp_list = [" ", "⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟"]
     elif style == "blocks":
         ramp_list = [" ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
     elif style == "waves":
