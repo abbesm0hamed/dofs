@@ -26,6 +26,7 @@
     "modules-right": [
         "custom/fingerprint",
         "custom/updates",
+        "cava",
         "tray",
         "custom/storage",
         "memory",
@@ -370,5 +371,13 @@
         "on-click": "ghostty -e sudo dnf upgrade",
         "interval": 3600,
         "exec": "~/.config/waybar/scripts/updates.sh"
+    },
+    "cava": {
+        "method": "pipewire",
+        "source": "auto",
+        "format-icons": [" ", " ", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+        "bars": 10,
+        "bar_delimiter": 0,
+        "delay": 1
     }
 }
