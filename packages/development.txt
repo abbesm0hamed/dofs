@@ -43,3 +43,5 @@ git-delta
 tealdeer
 tokei
 navi
+direnv
+duf

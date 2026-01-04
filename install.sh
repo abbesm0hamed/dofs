@@ -23,6 +23,7 @@ SETUP_SCRIPTS=(
     "packages.sh"
     "languages.sh"
     "apps.sh"
+    "ai.sh"
     "dotfiles.sh"
     "performance.sh"
     "security.sh"

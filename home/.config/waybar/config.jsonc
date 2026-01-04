@@ -28,10 +28,11 @@
         "custom/updates",
         "custom/cava",
         "tray",
+        "custom/docker",
         "custom/storage",
         "memory",
         "cpu",
-        "niri/language",
+        // "niri/language",
         "backlight",
         "wireplumber",
         // "custom/mic",
@@ -135,6 +136,12 @@
         "return-type": "json",
         "interval": 60,
         "exec": "~/.config/waybar/modules/storage.sh"
+    },
+    "custom/docker": {
+        "format": "{}",
+        "interval": 10,
+        "exec": "~/.config/waybar/scripts/docker-status.sh",
+        "return-type": "json"
     },
     "custom/next-prayer": {
         "format": "{}",

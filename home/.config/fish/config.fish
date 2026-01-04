@@ -125,9 +125,12 @@ end
 
 set -U fish_user_paths $HOME/.local/bin $HOME/go/bin $HOME/.cargo/bin $fish_user_paths
 
-# FNM (Node Version Manager)
 if command -v fnm &> /dev/null
     eval (fnm env --shell fish)
+end
+
+if type -q direnv
+    direnv hook fish | source
 end
 
 # function fish_prompt
