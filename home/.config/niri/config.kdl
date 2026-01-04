@@ -198,6 +198,7 @@ window-rule {
 window-rule {
     match app-id="floating-btop"
     match app-id="floating-ranger"
+    match app-id="floating-yazi"
     open-floating true
     default-column-width { proportion 0.8; }
     default-window-height { proportion 0.8; }
@@ -224,6 +225,7 @@ binds {
     Mod+Alt+Return { spawn "alacritty"; }
     Mod+T { spawn "kitty"; }
     Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-btop btop"; }
+    Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-yazi yazi"; }
     Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-ranger ranger"; }
     Mod+Alt+B { spawn "pkill" "-SIGUSR1" "waybar"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
@@ -269,6 +271,7 @@ binds {
     Alt+Space { spawn "sh" "-c" "~/.config/niri/scripts/system-controls.sh"; }
 
     Alt+P { spawn "sh" "-c" "~/.config/niri/scripts/project-launcher.sh"; }
+    Alt+Shift+F { spawn "sh" "-c" "~/.config/niri/scripts/global-search.sh"; }
     Alt+Ctrl+W { spawn "sh" "-c" "~/.config/niri/scripts/wallpaper-picker.sh"; }
     Alt+S { spawn "sh" "-c" "~/.config/niri/scripts/settings-menu.sh"; }
     Alt+L { spawn "sh" "-c" "~/.config/waybar/scripts/power-menu.sh"; }

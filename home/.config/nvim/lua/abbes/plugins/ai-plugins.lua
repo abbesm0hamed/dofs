@@ -17,7 +17,8 @@ return {
             chat = true,
             command = true,
             provider = "ollama",
-            model = { model = "deepseek-coder" },
+            model = "deepseek-coder",
+            system_prompt = "You are a specialized coding assistant. Provide concise and accurate answers.",
           },
         },
       }
@@ -32,15 +33,29 @@ return {
     end,
   },
 
-  -- Codeium for fast, free ghost-text autocompletion
   {
     "Exafunction/codeium.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
     },
+    event = "BufEnter",
     config = function()
-      require("codeium").setup({})
+      require("codeium").setup({
+        -- Disable cmp source since we're using blink.cmp
+        enable_cmp_source = false,
+        virtual_text = {
+          enabled = true,
+          manual = false,
+          idle_delay = 75,
+          map_keys = true,
+          key_bindings = {
+            accept = "<A-y>",  -- Changed from Tab to avoid blocking navigation
+            next = "<M-]>",
+            prev = "<M-[>",
+            clear = "<C-x>",
+          },
+        },
+      })
     end,
   },
 
@@ -52,7 +67,7 @@ return {
     version = false, -- Set this to false if you want to use the latest features
     opts = {
       provider = "ollama",
-      vendors = {
+      providers = {
         ollama = {
           __inherited_from = "openai",
           api_key_name = "",

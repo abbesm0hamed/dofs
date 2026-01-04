@@ -33,7 +33,8 @@ COPR_REPOS=(
     "dejan/lazygit"
     "yalter/niri"
     "grahamwhiteuk/libfprint-tod"
-    "solopasha/hyprland" # for hyprpaper
+    "solopasha/hyprland", # for hyprpaper
+    "varlad/yazi"
 )
 
 for repo in "${COPR_REPOS[@]}"; do

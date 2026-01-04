@@ -24,9 +24,9 @@
         //"custom/gammastep"
     ],
     "modules-right": [
+        "custom/cava",
         "custom/fingerprint",
         "custom/updates",
-        "custom/cava",
         "tray",
         "custom/docker",
         "custom/storage",
@@ -139,8 +139,7 @@
     },
     "custom/docker": {
         "format": "{}",
-        "interval": 10,
-        "exec": "~/.config/waybar/scripts/docker-status.sh",
+        "exec": "~/.config/waybar/scripts/docker-event-status.sh",
         "return-type": "json"
     },
     "custom/next-prayer": {

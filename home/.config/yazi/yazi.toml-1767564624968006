@@ -1,7 +1,7 @@
-[mgr]
+[manager]
 show_hidden = true
 
-[mgr.prepend_keymap]
+[manager.prepend_keymap]
 "g" = "cd ~"
 "~" = "cd ~"
 

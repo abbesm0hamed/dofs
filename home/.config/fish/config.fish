@@ -33,6 +33,9 @@ alias ls="eza --icons --group-directories-first"
 alias ll="eza -la --icons --group-directories-first --git"
 alias tree="eza --tree --icons"
 alias lg="lazygit"
+alias ai-start="sudo systemctl start ollama"
+alias ai-stop="sudo systemctl stop ollama"
+alias ai-status="systemctl status ollama"
 
 # Fedora package helpers
 alias dupi="sudo dnf upgrade --refresh"   # full upgrade

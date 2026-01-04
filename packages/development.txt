@@ -36,6 +36,7 @@ ranger
 lazydocker
 tmux
 lazygit
+yazi
 windsurf
 
 # Power tools
