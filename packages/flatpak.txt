@@ -4,3 +4,4 @@ com.discordapp.Discord
 com.slack.Slack
 md.obsidian.Obsidian
 org.fedoraproject.MediaWriter
+com.termius.Termius
