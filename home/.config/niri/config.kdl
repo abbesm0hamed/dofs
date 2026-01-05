@@ -73,7 +73,7 @@ cursor {
 }
 
 layout {
-    gaps 0
+    gaps 4
     background-color "#111318"
     center-focused-column "never"
 
@@ -157,7 +157,7 @@ window-rule {
     match app-id=r#"^(zen|zen-browser|app\.zen_browser\.zen|firefox|chromium-browser|google-chrome|brave)$"#
     open-on-workspace "browser"
     default-column-width { proportion 1.0; }
-    open-maximized true
+    open-maximized-to-edges true
 }
 
 window-rule {
