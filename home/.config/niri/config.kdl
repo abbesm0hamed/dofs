@@ -199,6 +199,7 @@ window-rule {
     match app-id="floating-btop"
     match app-id="floating-ranger"
     match app-id="floating-yazi"
+    match app-id="floating-lazydocker"
     open-floating true
     default-column-width { proportion 0.8; }
     default-window-height { proportion 0.8; }
@@ -226,6 +227,7 @@ binds {
     Mod+T { spawn "kitty"; }
     Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-btop btop"; }
     Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-yazi yazi"; }
+    Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-lazydocker lazydocker"; }
     Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-ranger ranger"; }
     Mod+Alt+B { spawn "pkill" "-SIGUSR1" "waybar"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }

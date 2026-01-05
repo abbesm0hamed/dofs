@@ -33,7 +33,6 @@ fd
 btop
 fastfetch
 ranger
-lazydocker
 tmux
 lazygit
 yazi

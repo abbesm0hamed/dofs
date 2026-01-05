@@ -4,7 +4,9 @@ set -euo pipefail
 log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
 warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 
-# Ensure LOG_FILE is set, default to /dev/null if not
+# Ensure environment variables are set, default if not
+: "${REPO_ROOT:=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+: "${PACKAGES_DIR:=${REPO_ROOT}/packages}"
 : "${LOG_FILE:=/dev/null}"
 
 read_packages_from_files() {
@@ -77,3 +79,10 @@ fi
 if [ ${#FLATPAK_PACKAGES[@]} -gt 0 ]; then
     flatpak install -y flathub "${FLATPAK_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some Flatpak packages failed to install."
 fi
+
+# --- Manual Binary Installations ---
+log "Installing additional binaries..."
+
+# Install lazydocker
+log "Installing lazydocker..."
+curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash 2>&1 | tee -a "$LOG_FILE" || warn "lazydocker installation failed."
