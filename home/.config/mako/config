@@ -4,7 +4,7 @@
 max-visible=5
 layer=overlay
 anchor=top-right
-margin=0
+margin=4
 width=350
 height=100
 
