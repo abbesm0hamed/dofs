@@ -121,10 +121,10 @@
 | `    Mod+Space            ` | `fuzzel --width=40% --lines=5                                ` |
 | `    Mod+Tab              ` | `toggle-overview                                             ` |
 | `    Mod+T                ` | `kitty                                                       ` |
-| `    Mod+WheelScrollDown  ` | `focus-workspace-down                                        ` |
+| `    Mod+WheelScrollDown     ` | `focus-workspace-down                                        ` |
 | `    Mod+WheelScrollLeft  ` | `focus-column-left                                           ` |
 | `    Mod+WheelScrollRight ` | `focus-column-right                                          ` |
-| `    Mod+WheelScrollUp    ` | `focus-workspace-up                                          ` |
+| `    Mod+WheelScrollUp       ` | `focus-workspace-up                                          ` |
 | `    Mod+W                ` | `toggle-column-tabbed-display                                ` |
 | `    Print                ` | `sh -c ~/.config/niri/scripts/screenshot.sh region           ` |
 | `    Shift+Print          ` | `sh -c ~/.config/niri/scripts/screenshot.sh window           ` |
@@ -133,7 +133,7 @@
 | `    XF86AudioMute        ` | `pactl set-sink-mute @DEFAULT_SINK@ toggle                   ` |
 | `    XF86AudioRaiseVolume ` | `wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+            ` |
 | `    XF86MonBrightnessDown` | `bash -c current=$(brightnessctl g)                          ` |
-| `	   XF86MonBrightnessUp     ` | `brightnessctl set +5%                                    ` |
+| `	XF86MonBrightnessUp     ` | `brightnessctl set +5%                                       ` |
 
 # Neovim Keybindings
 

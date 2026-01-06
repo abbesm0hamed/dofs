@@ -1,7 +1,7 @@
 # dofs - Fedora Workstation Dotfiles with Niri
 
-![Niri overview](.config/screenshots/niri-overview.png)
-![Neovim + fastfetch](.config/screenshots/fastfetch-floating.png)
+![Niri overview](home/.config/screenshots/niri-overview.png)
+![Neovim + fastfetch](home/.config/screenshots/fastfetch-floating.png)
 
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
