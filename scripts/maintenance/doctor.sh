@@ -73,4 +73,50 @@ else
     err "DBus session is NOT responding!"
 fi
 
+# 7. Check for critical symlinks
+log "Checking for critical symlinks..."
+check_symlink() {
+    local link_path="$1"
+    local target_should_contain="$2"
+    if [ -L "$link_path" ]; then
+        local target=$(readlink "$link_path")
+        if [[ "$target" == *"$target_should_contain"* ]]; then
+            ok "Symlink valid: $link_path"
+        else
+            err "Symlink invalid: $link_path points to '$target', expected it to contain '$target_should_contain'"
+        fi
+    else
+        err "Symlink NOT found: $link_path"
+    fi
+}
+check_symlink "$HOME/.config/nvim" "dofs/home/.config/nvim"
+check_symlink "$HOME/.local/bin/dofs" "dofs/dofs"
+
+# 8. Check for system services
+log "Checking for system services..."
+check_system_service() {
+    if systemctl is-active --quiet "$1"; then
+        ok "System service active: $1"
+    else
+        warn "System service NOT active: $1"
+    fi
+}
+check_system_service "docker"
+check_system_service "libvirtd"
+
+# 9. Check PATH configuration
+log "Checking PATH configuration..."
+check_path() {
+    local dir_to_check="$1"
+    if [[ ":$PATH:" == *":$dir_to_check:"* ]]; then
+        ok "PATH contains: $dir_to_check"
+    else
+        warn "PATH does NOT contain: $dir_to_check"
+    fi
+}
+check_path "$HOME/.local/bin"
+check_path "$HOME/.cargo/bin"
+check_path "$HOME/.local/share/fnm"
+check_path "$HOME/.bun/bin"
+
 log "Diagnostics complete!"

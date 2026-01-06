@@ -32,25 +32,23 @@ fi
 
 log "Configuring repositories..."
 
-# List of COPRs to enable
-COPR_REPOS=(
-    "alternateved/ghostty"
-    "che/nerd-fonts"
-    "peterwu/iosevka"
-    "dejan/lazygit"
-    "yalter/niri"
-    "grahamwhiteuk/libfprint-tod"
-    "varlad/yazi"
-    "atim/lazydocker"
-    "solopasha/hyprland" # for hyprpaper
-)
-
+# Read COPR repositories from file
+COPR_FILE="${REPO_ROOT}/packages/copr.txt"
 repos_changed=false
-for repo in "${COPR_REPOS[@]}"; do
-    if enable_copr "$repo"; then
-        repos_changed=true
-    fi
-done
+
+if [ -f "$COPR_FILE" ]; then
+    while IFS= read -r repo; do
+        repo="${repo%%#*}" # Remove comments
+        repo="$(echo "$repo" | xargs)" # Trim whitespace
+        if [[ -n "$repo" ]]; then
+            if enable_copr "$repo"; then
+                repos_changed=true
+            fi
+        fi
+    done < "$COPR_FILE"
+else
+    warn "COPR file not found at $COPR_FILE"
+fi
 
 if [ ! -f "/etc/yum.repos.d/windsurf.repo" ]; then
     log "Adding Windsurf repository..."

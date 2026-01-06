@@ -14,15 +14,17 @@ done
 REPO_ROOT="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 usage() {
-    echo "Usage: dofs [command]"
+    echo "Usage: dofs [command] [argument]"
     echo ""
     echo "Commands:"
-    echo "  update    Run the unified system update (DNF, Flatpak, Nvim, Fish)"
-    echo "  doctor    Run session health diagnostics"
-    echo "  install   Run the full installation script"
-    echo "  verify    Run the health check / verification script"
-    echo "  test      Run installation test in Docker (CI)"
-    echo "  help      Show this help message"
+    echo "  update            Run the unified system update (DNF, Flatpak, Nvim, Fish)"
+    echo "  doctor            Run session health diagnostics"
+    echo "  docs              Generate keybindings documentation"
+    echo "  install [script]  Run the full installation or a specific setup script"
+    echo "  uninstall         Remove all installed components and configurations (Not yet implemented)"
+    echo "  verify            Run the health check / verification script"
+    echo "  test              Run installation test in Docker (CI)"
+    echo "  help              Show this help message"
 }
 
 case "${1:-help}" in
@@ -38,8 +40,37 @@ case "${1:-help}" in
     "doctor")
         bash "$REPO_ROOT/scripts/maintenance/doctor.sh"
         ;;
+    "docs")
+        bash "$REPO_ROOT/scripts/maintenance/generate-keybindings.sh"
+        ;;
     "install")
-        bash "$REPO_ROOT/install.sh"
+        if [ -z "$2" ]; then
+            bash "$REPO_ROOT/install.sh"
+        else
+            script_name="$2"
+            if [[ ! "$script_name" == *".sh" ]]; then
+                script_name="${script_name}.sh"
+            fi
+
+            valid_scripts=("repos.sh" "packages.sh" "languages.sh" "apps.sh" "ai.sh" "dotfiles.sh" "performance.sh" "security.sh" "desktop.sh" "power.sh" "shell.sh" "install_broadcom_driver.sh" "finish.sh" "verify.sh")
+
+            if [[ " ${valid_scripts[*]} " =~ " ${script_name} " ]]; then
+                script_path="$REPO_ROOT/scripts/setup/${script_name}"
+                export REPO_ROOT
+                export LOG_FILE="${REPO_ROOT}/install.log"
+                log() { printf "\033[1;34m==> %s\033[0m\n" "$1"; }
+                title=$(echo "$script_name" | cut -f 1 -d '.' | tr 'a-z' 'A-Z')
+                log "TOPIC: $title"
+                bash "$script_path"
+            else
+                echo "Error: Invalid script name '$2'."
+                echo "Available scripts: ${valid_scripts[*]%.sh}"
+                exit 1
+            fi
+        fi
+        ;;
+    "uninstall")
+        bash "$REPO_ROOT/scripts/maintenance/uninstall.sh"
         ;;
     "verify")
         bash "$REPO_ROOT/scripts/setup/verify.sh"

@@ -98,21 +98,23 @@ This setup includes:
 This setup includes a central manager script `dofs` (symlinked to `~/.local/bin/dofs`) to simplify everyday tasks:
 
 ```bash
+# Run the full installation or a specific setup script (e.g., 'shell')
+dofs install [script]
+
 # Update everything (DNF, Flatpak, Nvim, Fish plugins)
 dofs update
 
-# Run a health check/diagnostic
+# Run a comprehensive health check (symlinks, services, PATH, etc.)
 dofs doctor
 
-# Manage themes (Not yet implemented)
-# dofs theme list
-# dofs theme set default
+# Verify your configuration symlinks and health
+dofs verify
 
 # Run installation test in a clean Docker container (Fedora)
 dofs test
 
-# Verify your configuration symlinks and health
-dofs verify
+# Uninstall configurations and symlinks managed by dofs
+dofs uninstall
 ```
 
 ## Customization
@@ -129,32 +131,6 @@ echo "my-new-package" >> packages/development.txt
 ./install.sh
 ```
 
-### Create a New Theme
-
-```bash
-# Copy existing theme
-cp -r .config/theme/default .config/theme/my-theme
-
-# Edit theme files for each application
-# Each app has its own theme file:
-# - niri.conf (Niri colors)
-# - mako.ini (notification colors)
-# - ghostty (terminal colors)
-# - waybar.css (status bar styling)
-# - swaylock/theme.conf (lock screen)
-# - etc.
-
-# Apply the theme
-bash scripts/setup/theme.sh set my-theme
-```
-
-### Modify Niri Config
-
-Edit `.config/niri/config.kdl` and reload:
-
-```bash
-niri msg action reload-config
-```
 
 ## Troubleshooting
 
@@ -164,207 +140,15 @@ niri msg action reload-config
 - Verify Niri is installed: `which niri`
 - Check logs: `journalctl -u niri`
 
-### Theme not applying
-
-- Ensure theme files exist: `ls .config/theme/default/`
-- Manually apply: `bash scripts/theme-manager.sh set default`
-- Check Waybar reload: `pgrep waybar`
-
 ### Packages not installing
 
 - Check internet connection
 - Try manual install: `sudo dnf install package-name`
 - For Flatpak apps: `flatpak install package-name`
 
-## Window Management (Niri)
+## Keybindings
 
-| Keybinding              | Action                         |
-| ----------------------- | ------------------------------ |
-| `Mod + h/j/k/l`         | Focus left/down/up/right       |
-| `Mod + Shift + h/j/k/l` | Move window left/down/up/right |
-| `Mod + f`               | Toggle maximized               |
-| `Mod + equal`           | Resize window (+ width)        |
-| `Mod + minus`           | Resize window (- width)        |
-
-## Workspace Controls
-
-| Keybinding            | Action                       |
-| --------------------- | ---------------------------- |
-| `Mod + (1-9)`         | Switch to workspace 1-9      |
-| `Mod + Shift + (1-9)` | Move window to workspace 1-9 |
-| `Mod + Tab`           | Toggle overview              |
-
-## Application Shortcuts
-
-| Keybinding       | Action             |
-| ---------------- | ------------------ |
-| `Mod + Return`   | Launch Ghostty     |
-| `Mod + Shift + Return`   | Launch Foot        |
-| `Mod + P`        | Launch Fuzzel      |
-| `Alt + Z`        | Launch Zen Browser |
-| `Alt + E`        | Launch Nautilus    |
-| `Alt + Ctrl + L` | Launch Swaylock    |
-
-## Media Controls
-
-| Keybinding             | Action      |
-| ---------------------- | ----------- |
-| `XF86AudioRaiseVolume` | Volume up   |
-| `XF86AudioLowerVolume` | Volume down |
-| `XF86AudioMute`        | Toggle mute |
-
-## System Controls
-
-| Keybinding        | Action             |
-| ----------------- | ------------------ |
-| `Mod + Shift + q` | Close window       |
-| `Mod + Shift + e` | Quit Niri (Logout) |
-
-## Screenshots
-
-| Key Combination     | Action                       |
-| ------------------- | ---------------------------- |
-| `Super + Shift + Z` | Create Screenshots directory |
-| `Alt + Super + S`   | Active window screenshot     |
-| `Alt + Shift + S`   | Full screenshot              |
-| `Ctrl + Alt + S`    | GUI selection tool           |
-
-All screenshots are automatically saved to `~/Pictures/Screenshots` and copied to clipboard.
-
-## Additional Applications
-
-| Key Combination  | Action                 |
-| ---------------- | ---------------------- |
-| `Alt + Z`        | Open Zen Browser       |
-| `Alt + E`        | Open Nautilus          |
-| `Mod + Return`   | Launch Ghostty         |
-| `Mod + P`        | Launch Fuzzel          |
-| `Alt + Ctrl + L` | Lock screen (Swaylock) |
-
-### Neovim Keybindings
-
-The following are the custom keybindings configured for Neovim:
-
-| Keybinding               | Mode          | Description                 |
-| ------------------------ | ------------- | --------------------------- |
-| `<Space>`                | All           | Leader key                  |
-| `<leader>w`              | Normal        | Save file                   |
-| `J`                      | Visual        | Move line down              |
-| `K`                      | Visual        | Move line up                |
-| `jk`                     | Insert        | Exit insert mode (ESC)      |
-| `<leader>q`              | Normal        | Quit Neovim                 |
-| `+`                      | Normal        | Increment number            |
-| `-`                      | Normal        | Decrement number            |
-| `<C-a>`                  | Normal        | Select all text             |
-| `<` / `>`                | Visual        | Indent/Unindent selection   |
-| `te`                     | Normal        | New tab                     |
-| `<leader>sh`             | Normal        | Split window horizontally   |
-| `<leader>sv`             | Normal        | Split window vertically     |
-| `<C-h/j/k/l>`            | Normal        | Navigate between splits     |
-| `<leader>th`             | Normal        | Change splits to horizontal |
-| `<leader>tk`             | Normal        | Change splits to vertical   |
-| `<C-Up/Down/Left/Right>` | Normal        | Resize window               |
-| `<Tab>` / `<S-Tab>`      | Normal        | Next/Previous buffer        |
-| `<leader>x`              | Normal        | Close buffer                |
-| `<A-p>`                  | Normal        | Pin buffer                  |
-| `<leader>co`             | Normal/Visual | Toggle comment              |
-| `<leader>ff`             | Normal        | Telescope find files        |
-| `<leader>fg`             | Normal        | Telescope live grep         |
-| `<leader>fr`             | Normal        | Telescope recent files      |
-| `<leader>fb`             | Normal        | Telescope buffers           |
-| `<leader>S`              | Normal        | Toggle Spectre              |
-| `<leader>sw`             | Normal/Visual | Search current word         |
-| `<leader>sp`             | Normal        | Search in current file      |
-
-#### Git Integration Keybindings
-
-| Keybinding   | Mode            | Description               |
-| ------------ | --------------- | ------------------------- |
-| `ga`         | Normal          | Stage hunk                |
-| `ga`         | Visual          | Stage selection           |
-| `gA`         | Normal          | Stage entire buffer       |
-| `<leader>gv` | Normal          | Toggle deleted lines view |
-| `<leader>ua` | Normal          | Undo last stage           |
-| `<leader>uh` | Normal          | Reset hunk                |
-| `<leader>ub` | Normal          | Reset buffer              |
-| `<leader>ob` | Normal          | Toggle git blame          |
-| `gh`         | Normal          | Next hunk                 |
-| `gH`         | Normal          | Previous hunk             |
-| `gh`         | Visual/Operator | Select hunk               |
-
-#### DiffView Keybindings
-
-| Keybinding   | Mode   | Description                         |
-| ------------ | ------ | ----------------------------------- |
-| `<leader>q`  | Normal | Close DiffView                      |
-| `<leader>ch` | Normal | Choose current version in conflict  |
-| `<leader>cl` | Normal | Choose incoming version in conflict |
-| `<leader>cb` | Normal | Choose base version in conflict     |
-| `<leader>ca` | Normal | Choose all versions in conflict     |
-| `<leader>cx` | Normal | Choose none in conflict             |
-| `do`         | Normal | Get diff from other file            |
-| `dp`         | Normal | Put diff to other file              |
-| `j/k`        | Normal | Navigate entries in file panel      |
-| `<cr>`       | Normal | Select entry in file panel          |
-
-#### File Operations Keybindings
-
-| Keybinding  | Mode   | Description                     |
-| ----------- | ------ | ------------------------------- |
-| `<C-p>`     | Normal | Copy file path (with ~)         |
-| `<C-t>`     | Normal | Copy relative path              |
-| `<C-n>`     | Normal | Copy filename                   |
-| `<C-r>`     | Normal | Rename file                     |
-| `<D-m>`     | Normal | Move file                       |
-| `<leader>x` | Normal | Make file executable (chmod +x) |
-| `<A-d>`     | Normal | Duplicate file                  |
-| `<D-BS>`    | Normal | Move file to trash              |
-| `<D-n>`     | Normal | Create new file                 |
-| `X`         | Visual | Move selection to new file      |
-| `-`         | Normal | Open parent directory (Oil)     |
-
-#### Editing Support Keybindings
-
-| Keybinding   | Mode   | Description                        |
-| ------------ | ------ | ---------------------------------- |
-| `gcc`        | Normal | Toggle line comment                |
-| `Q`          | Normal | Comment at end of line             |
-| `qO`         | Normal | Comment above                      |
-| `qo`         | Normal | Comment below                      |
-| `<leader>ut` | Normal | Toggle Undotree                    |
-| `<leader>tp` | Normal | Toggle Puppeteer                   |
-| `<leader>tj` | Normal | Toggle split/join lines            |
-| `<leader>tJ` | Normal | Split line (markdown, applescript) |
-
-#### Mini Plugins Keybindings
-
-| Keybinding | Mode          | Description              |
-| ---------- | ------------- | ------------------------ |
-| `gsa`      | Normal/Visual | Add surrounding          |
-| `gsd`      | Normal        | Delete surrounding       |
-| `gsf`      | Normal        | Find surrounding (right) |
-| `gsF`      | Normal        | Find surrounding (left)  |
-| `gsh`      | Normal        | Highlight surrounding    |
-| `gsr`      | Normal        | Replace surrounding      |
-| `gsn`      | Normal        | Update surrounding lines |
-
-#### Outline Navigation
-
-| Keybinding   | Mode   | Description    |
-| ------------ | ------ | -------------- |
-| `<leader>ou` | Normal | Toggle outline |
-| `<Esc>`, `q` | Normal | Close outline  |
-| `<CR>`       | Normal | Go to location |
-| `o`          | Normal | Focus location |
-| `<C-space>`  | Normal | Hover symbol   |
-| `K`          | Normal | Toggle preview |
-| `r`          | Normal | Rename symbol  |
-| `a`          | Normal | Code actions   |
-| `h`          | Normal | Fold           |
-| `l`          | Normal | Unfold         |
-| `W`          | Normal | Fold all       |
-
-_Note: This is not an exhaustive list. There are more keybindings available in other plugins. Check the plugin documentation for more details._
+For a detailed and auto-generated list of all keybindings for Niri and Neovim, please see the [KEYBINDINGS.md](KEYBINDINGS.md) file.
 
 ### System Mode (Exit Menu)
 

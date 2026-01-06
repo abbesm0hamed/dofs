@@ -1,0 +1,12 @@
+# COPR repositories to be enabled.
+# Each line should be in the format 'user/project'.
+
+alternateved/ghostty
+che/nerd-fonts
+peterwu/iosevka
+dejan/lazygit
+yalter/niri
+grahamwhiteuk/libfprint-tod
+varlad/yazi
+atim/lazydocker
+solopasha/hyprland # for hyprpaper
