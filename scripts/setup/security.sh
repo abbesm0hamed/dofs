@@ -19,11 +19,29 @@ if sudo firewall-cmd --get-zones | grep -q "FedoraWorkstation"; then
     ZONE="FedoraWorkstation"
 fi
 
-sudo firewall-cmd --set-default-zone="$ZONE"
-sudo firewall-cmd --zone="$ZONE" --add-service=http --permanent
-sudo firewall-cmd --zone="$ZONE" --add-service=https --permanent
-sudo firewall-cmd --zone="$ZONE" --add-masquerade --permanent
-sudo firewall-cmd --reload
+if [ "$(sudo firewall-cmd --get-default-zone)" != "$ZONE" ]; then
+    sudo firewall-cmd --set-default-zone="$ZONE"
+    firewall_changed=true
+fi
+
+for service in http https; do
+    if ! sudo firewall-cmd --zone="$ZONE" --query-service=$service --permanent; then
+        sudo firewall-cmd --zone="$ZONE" --add-service=$service --permanent
+        firewall_changed=true
+    fi
+done
+
+if ! sudo firewall-cmd --zone="$ZONE" --query-masquerade --permanent; then
+    sudo firewall-cmd --zone="$ZONE" --add-masquerade --permanent
+    firewall_changed=true
+fi
+
+if [ "${firewall_changed:-false}" = true ]; then
+    log "Reloading firewall configuration..."
+    sudo firewall-cmd --reload
+else
+    ok "Firewall rules are already up to date."
+fi
 
 # 2. Docker Permissions
 log "Configuring Docker permissions..."
@@ -36,14 +54,18 @@ fi
 
 # 3. DNS-over-TLS (via systemd-resolved)
 log "Configuring DNS-over-TLS (Cloudflare + Google)..."
-sudo mkdir -p /etc/systemd/resolved.conf.d/
-sudo tee /etc/systemd/resolved.conf.d/dot.conf >/dev/null <<EOF
-[Resolve]
+DOT_CONF_CONTENT='[Resolve]
 DNS=1.1.1.1 8.8.8.8 1.0.0.1 8.8.4.4
 FallbackDNS=9.9.9.9
-DNSOverTLS=yes
-EOF
+DNSOverTLS=yes'
 
-sudo systemctl restart systemd-resolved
+if [ -f /etc/systemd/resolved.conf.d/dot.conf ] && grep -q "DNSOverTLS=yes" /etc/systemd/resolved.conf.d/dot.conf; then
+    ok "DNS-over-TLS is already configured."
+else
+    sudo mkdir -p /etc/systemd/resolved.conf.d/
+    echo "$DOT_CONF_CONTENT" | sudo tee /etc/systemd/resolved.conf.d/dot.conf >/dev/null
+    sudo systemctl restart systemd-resolved
+    ok "DNS-over-TLS configured."
+fi
 
 ok "Security configuration applied."

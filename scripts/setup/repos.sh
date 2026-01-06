@@ -10,11 +10,18 @@ ARCH=$(uname -m)
 COPR_CHROOT="fedora-${FEDORA_VERSION}-${ARCH}"
 
 enable_copr() {
-    local repo="$1"
-    log "Enabling COPR: $repo..."
-    if ! sudo dnf copr enable -y "$repo" "$COPR_CHROOT"; then
-        warn "Failed to enable COPR repository: $repo. It may not be available for your system version."
+    local repo_name=$(echo "$1" | sed 's|/|-|')
+    if [ -f "/etc/yum.repos.d/_copr_${repo_name}.repo" ]; then
+        log "COPR repository $1 is already enabled."
+        return 0
     fi
+
+    log "Enabling COPR: $1..."
+    if ! sudo dnf copr enable -y "$1" "$COPR_CHROOT"; then
+        warn "Failed to enable COPR repository: $1. It may not be available for your system version."
+        return 1
+    fi
+    return 0
 }
 
 log "Optimizing DNF..."
@@ -38,21 +45,39 @@ COPR_REPOS=(
     "solopasha/hyprland" # for hyprpaper
 )
 
+repos_changed=false
 for repo in "${COPR_REPOS[@]}"; do
-    enable_copr "$repo"
+    if enable_copr "$repo"; then
+        repos_changed=true
+    fi
 done
 
-log "Adding Windsurf repository..."
-sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
-echo -e "[windsurf]\nname=Windsurf Repository\nbaseurl=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/\nenabled=1\nautorefresh=1\ngpgcheck=1\ngpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf" | sudo tee /etc/yum.repos.d/windsurf.repo >/dev/null
+if [ ! -f "/etc/yum.repos.d/windsurf.repo" ]; then
+    log "Adding Windsurf repository..."
+    sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
+    echo -e "[windsurf]\nname=Windsurf Repository\nbaseurl=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/\nenabled=1\nautorefresh=1\ngpgcheck=1\ngpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf" | sudo tee /etc/yum.repos.d/windsurf.repo >/dev/null
+    repos_changed=true
+else
+    log "Windsurf repository already exists."
+fi
 
-log "Adding Antigravity repository..."
-sudo tee /etc/yum.repos.d/antigravity.repo >/dev/null <<'EOL'
+if [ ! -f "/etc/yum.repos.d/antigravity.repo" ]; then
+    log "Adding Antigravity repository..."
+    sudo tee /etc/yum.repos.d/antigravity.repo >/dev/null <<'EOL'
 [antigravity-rpm]
 name=Antigravity RPM Repository
 baseurl=https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
 enabled=1
 gpgcheck=0
 EOL
+    repos_changed=true
+else
+    log "Antigravity repository already exists."
+fi
 
-sudo dnf makecache
+if [ "$repos_changed" = true ]; then
+    log "Updating dnf cache..."
+    sudo dnf makecache
+else
+    log "No repository changes, skipping dnf makecache."
+fi

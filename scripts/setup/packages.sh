@@ -84,5 +84,9 @@ fi
 log "Installing additional binaries..."
 
 # Install lazydocker
-log "Installing lazydocker..."
-curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash 2>&1 | tee -a "$LOG_FILE" || warn "lazydocker installation failed."
+if ! command -v lazydocker &> /dev/null; then
+    log "Installing lazydocker..."
+    curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash 2>&1 | tee -a "$LOG_FILE" || warn "lazydocker installation failed."
+else
+    log "lazydocker is already installed."
+fi

@@ -12,16 +12,19 @@ if ! rpm -q zram-generator &>/dev/null; then
     sudo dnf install -y zram-generator
 fi
 
-sudo tee /etc/systemd/zram-generator.conf >/dev/null <<EOF
-[zram0]
+ZRAM_CONF_CONTENT='[zram0]
 zram-size = min(ram / 2, 4096)
 compression-algorithm = zstd
 swap-priority = 100
-fs-type = swap
-EOF
+fs-type = swap'
 
-sudo systemctl daemon-reload
-sudo systemctl start /dev/zram0 || true
+if [ -f /etc/systemd/zram-generator.conf ] && grep -q "zram-size = min(ram / 2, 4096)" /etc/systemd/zram-generator.conf && grep -q "compression-algorithm = zstd" /etc/systemd/zram-generator.conf; then
+    log "Zram configuration already applied."
+else
+    echo "$ZRAM_CONF_CONTENT" | sudo tee /etc/systemd/zram-generator.conf >/dev/null
+    sudo systemctl daemon-reload
+    sudo systemctl start /dev/zram0 || true
+fi
 
 # 2. SSD Trimming
 log "Enabling SSD fstrim timer..."

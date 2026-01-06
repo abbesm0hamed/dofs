@@ -1,7 +1,12 @@
 #!/bin/bash
 
 # Install Ollama
-curl -fsSL https://ollama.com/install.sh | sh
+if ! command -v ollama &> /dev/null; then
+    echo "Installing Ollama..."
+    curl -fsSL https://ollama.com/install.sh | sh
+else
+    echo "Ollama is already installed."
+fi
 
 # Enable and start the service
 sudo systemctl enable --now ollama
@@ -17,5 +22,10 @@ fi
 
 # GEMINI CLI
 if command -v npm &> /dev/null; then
-    npm i -g @google/gemini-cli
+    if ! command -v gemini &> /dev/null; then
+        echo "Installing Gemini CLI..."
+        npm i -g @google/gemini-cli
+    else
+        echo "Gemini CLI is already installed."
+    fi
 fi

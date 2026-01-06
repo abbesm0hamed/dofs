@@ -9,22 +9,21 @@ LAUNCH_SCRIPT="${REPO_ROOT}/scripts/helpers/niri-launch.sh"
 
 log "Installing Niri Custom Session..."
 
-# Create a temporary desktop file
-cat <<EOF > /tmp/niri-custom.desktop
-[Desktop Entry]
-Name=Niri (Custom)
-Comment=Log in to Niri with custom environment
-Exec=$(readlink -f "$LAUNCH_SCRIPT")
-Type=Application
-DesktopNames=niri
-EOF
+DESKTOP_FILE_CONTENT="[Desktop Entry]\nName=Niri (Custom)\nComment=Log in to Niri with custom environment\nExec=$(readlink -f "$LAUNCH_SCRIPT")\nType=Application\nDesktopNames=niri"
+DEST_FILE="$SESSION_DIR/niri-custom.desktop"
 
+# Create session directory if it doesn't exist
 if [ ! -d "$SESSION_DIR" ]; then
     log "Creating session directory..."
     sudo mkdir -p "$SESSION_DIR"
 fi
 
-sudo cp /tmp/niri-custom.desktop "$SESSION_DIR/niri-custom.desktop"
-rm /tmp/niri-custom.desktop
+# Check if the file exists and content matches
+if [ -f "$DEST_FILE" ] && [ "$(sudo cat "$DEST_FILE")" == "$DESKTOP_FILE_CONTENT" ]; then
+    ok "Niri custom session is already up to date."
+else
+    echo -e "$DESKTOP_FILE_CONTENT" | sudo tee "$DEST_FILE" > /dev/null
+    ok "Installed/updated session to $DEST_FILE"
+fi
 
 ok "Installed session to $SESSION_DIR/niri-custom.desktop"
