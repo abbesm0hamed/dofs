@@ -200,6 +200,8 @@ window-rule {
     match app-id="floating-ranger"
     match app-id="floating-yazi"
     match app-id="floating-lazydocker"
+    match app-id="floating-weather"
+    match app-id="com.mitchellh.ghostty.floating"
     open-floating true
     default-column-width { proportion 0.8; }
     default-window-height { proportion 0.8; }
@@ -222,13 +224,15 @@ hotkey-overlay {
 
 binds {
     Mod+Return { spawn "ghostty"; }
+    Mod+Shift+T { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty com.mitchellh.ghostty.floating"; }
     Mod+Shift+Return { spawn "foot"; }
     Mod+Alt+Return { spawn "alacritty"; }
     Mod+T { spawn "kitty"; }
-    Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-btop btop"; }
-    Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-yazi yazi"; }
-    Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-lazydocker lazydocker"; }
-    Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh floating-ranger ranger"; }
+    Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-btop btop"; }
+    Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-yazi yazi"; }
+    Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-lazydocker lazydocker"; }
+    Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-ranger ranger"; }
+    Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-weather bash ~/.config/niri/scripts/weather.sh"; }
     Mod+Alt+B { spawn "pkill" "-SIGUSR1" "waybar"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Alt+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
