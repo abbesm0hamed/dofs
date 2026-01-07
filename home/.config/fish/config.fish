@@ -140,3 +140,6 @@ end
 #   set_color cyan; echo (pwd)
 #   set_color green; echo '> '
 # end
+
+# opencode
+fish_add_path /home/abbes/.opencode/bin

@@ -29,3 +29,11 @@ if command -v npm &> /dev/null; then
         echo "Gemini CLI is already installed."
     fi
 fi
+
+# OpenCode
+if ! command -v opencode &> /dev/null; then
+    echo "Installing OpenCode..."
+    curl -fsSL https://opencode.ai/install | bash
+else
+    echo "OpenCode is already installed."
+fi
