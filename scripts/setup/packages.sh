@@ -90,3 +90,14 @@ if ! command -v lazydocker &> /dev/null; then
 else
     log "lazydocker is already installed."
 fi
+
+# Install TablePlus
+if ! command -v tableplus &> /dev/null; then
+    log "Installing TablePlus..."
+    sudo rpm -v --import https://yum.tableplus.com/apt.tableplus.com.gpg.key 2>&1 | tee -a "$LOG_FILE" || warn "TablePlus GPG key import failed."
+    sudo dnf install -y dnf-plugins-core 2>&1 | tee -a "$LOG_FILE" || warn "Failed to install dnf-plugins-core (required for dnf config-manager)."
+    sudo dnf config-manager addrepo --from-repofile=https://yum.tableplus.com/rpm/x86_64/tableplus.repo 2>&1 | tee -a "$LOG_FILE" || warn "Failed to add TablePlus repo."
+    sudo dnf install -y tableplus 2>&1 | tee -a "$LOG_FILE" || warn "TablePlus installation failed."
+else
+    log "TablePlus is already installed."
+fi
