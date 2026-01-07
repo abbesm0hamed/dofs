@@ -148,9 +148,14 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|discord|Antigravity|steam|Steam|ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
+    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|discord|Antigravity|steam|Steam)$"#
     default-column-width { proportion 1.0; }
     open-maximized true
+}
+
+window-rule {
+    match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
+    default-column-width { proportion 1.0; }
 }
 
 window-rule {
@@ -224,7 +229,7 @@ hotkey-overlay {
 
 binds {
     Mod+Return { spawn "ghostty"; }
-    Mod+Shift+T { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty com.mitchellh.ghostty.floating"; }
+    Mod+Shift+T { spawn "ghostty" "--class=com.mitchellh.ghostty.floating"; }
     Mod+Shift+Return { spawn "foot"; }
     Mod+Alt+Return { spawn "alacritty"; }
     Mod+T { spawn "kitty"; }

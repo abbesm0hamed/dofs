@@ -12,9 +12,10 @@ else
 fi
 
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/niri"
-LOCATION_FILE="${CONFIG_DIR}/weather-location"
+STATE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/niri"
+LOCATION_FILE="${STATE_DIR}/weather-location"
 
-mkdir -p "$CONFIG_DIR"
+mkdir -p "$STATE_DIR"
 
 LOCATION="${*:-}"
 if [[ -z "$LOCATION" ]]; then
