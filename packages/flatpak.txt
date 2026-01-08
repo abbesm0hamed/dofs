@@ -6,3 +6,4 @@ md.obsidian.Obsidian
 org.fedoraproject.MediaWriter
 com.termius.Termius
 dev.bragefuglseth.Keypunch
+com.microsoft.Teams
