@@ -143,3 +143,9 @@ end
 
 # opencode
 fish_add_path /home/abbes/.opencode/bin
+
+# Gaming Stability (Niri + XWayland)
+# Forced X11 mode for Steam/Proton to avoid Niri stuttering in Wayland mode
+set -gx PROTON_ENABLE_WAYLAND 0
+# Ensure Gamescope knows where to look for XWayland
+set -gx DISPLAY :0

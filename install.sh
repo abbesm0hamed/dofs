@@ -24,6 +24,7 @@ SETUP_SCRIPTS=(
     "languages.sh"
     "apps.sh"
     "ai.sh"
+    "gaming.sh"
     "dotfiles.sh"
     "performance.sh"
     "security.sh"

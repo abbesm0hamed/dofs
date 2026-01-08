@@ -57,7 +57,12 @@ done
 
 if [ ${#FEDORA_PACKAGES[@]} -gt 0 ]; then
     log "Final list to install: ${FEDORA_PACKAGES[*]}"
-    sudo dnf install -y --allowerasing --skip-unavailable --best "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed to install. Check $LOG_FILE for details."
+    DNF_FLAGS=("--allowerasing" "--skip-unavailable")
+    # --best is not supported in DNF5
+    if ! dnf --version | grep -q "dnf5"; then
+        DNF_FLAGS+=("--best")
+    fi
+    sudo dnf install -y "${DNF_FLAGS[@]}" "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed to install. Check $LOG_FILE for details."
 fi
 
 # --- Flatpak Package Installation ---

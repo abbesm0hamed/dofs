@@ -39,12 +39,14 @@ output "eDP-1" {
     scale 1.0
     transform "normal"
     position x=1920 y=0  // Move laptop to the right
+    variable-refresh-rate
 }
 output "HDMI-A-1" {
     mode "1920x1080@144"
     scale 1.0
     transform "normal"
     position x=0 y=0
+    variable-refresh-rate
 }
 
 overview {
@@ -148,8 +150,29 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|discord|Antigravity|steam|Steam)$"#
+    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|Antigravity)$"#
     default-column-width { proportion 1.0; }
+    open-maximized true
+}
+
+// gaming config
+window-rule {
+    match app-id=r#"^([Ss]team)$"#
+    default-column-width { proportion 1.0; }
+}
+
+window-rule {
+    match app-id=r#"^([Ss]team)$"# title="^Friends List$"
+    match app-id=r#"^([Ss]team)$"# title="^Steam - News$"
+    match app-id=r#"^([Ss]team)$"# title=".* - Chat$"
+    match app-id=r#"^([Ss]team)$"# title="^Settings$"
+    match app-id=r#"^([Ss]team)$"# title=".* - Property$"
+    match app-id=r#"^([Ss]team)$"# title="^Steam Guard.*$"
+    open-floating true
+}
+
+window-rule {
+    match app-id="gamescope"
     open-maximized true
 }
 

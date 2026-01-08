@@ -79,3 +79,14 @@ if [ "$repos_changed" = true ]; then
 else
     log "No repository changes, skipping dnf makecache."
 fi
+
+log "Enabling RPM Fusion repositories..."
+sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+log "Enabling Cisco OpenH264..."
+if dnf --version | grep -q "dnf5"; then
+    sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1 || true
+else
+    sudo dnf config-manager --set-enabled fedora-cisco-openh264 || true
+fi

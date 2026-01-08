@@ -1,0 +1,12 @@
+# Gaming packages
+steam
+gamemode
+mangohud
+gamescope
+proton-up-qt
+gperftools-libs
+piper
+solaar
+vkbasalt
+goverlay
+libavcodec-freeworld
