@@ -25,21 +25,21 @@ SETUP_SCRIPTS=(
     "development.sh"
     "apps.sh"
     "ai.sh"
-    "gaming.sh"
     "dotfiles.sh"
     "performance.sh"
     "security.sh"
     "desktop.sh"
     "power.sh"
     "shell.sh"
-    "install_broadcom_driver.sh"
+    "gaming.sh"
+    "fingerprint.sh"
     "finish.sh"
     "verify.sh"
 )
 
 for script_name in "${SETUP_SCRIPTS[@]}"; do
     # Special handling for conditional scripts
-    if [[ "$script_name" == "install_broadcom_driver.sh" ]]; then
+    if [[ "$script_name" == "fingerprint.sh" ]]; then
         # Check for Broadcom 58200 hardware before running the script
         if lsusb | grep -q "0a5c:5865"; then
             log "Broadcom 58200 fingerprint sensor detected. Installing driver..."
