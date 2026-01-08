@@ -6,7 +6,7 @@ ok() { printf "\033[0;32m==> %s\033[0m\n" "$1"; }
 
 log "Applying security hardening..."
 
-# 1. Firewall Configuration
+# Firewall Configuration
 log "Configuring Firewalld..."
 if ! systemctl is-active --quiet firewalld; then
     sudo dnf install -y firewalld
@@ -43,7 +43,7 @@ else
     ok "Firewall rules are already up to date."
 fi
 
-# 2. Docker Permissions
+# Docker Permissions
 log "Configuring Docker permissions..."
 if getent group docker >/dev/null; then
     sudo usermod -aG docker "$USER"
@@ -52,7 +52,7 @@ else
     warn "Docker group not found, skipping permission fix"
 fi
 
-# 3. DNS-over-TLS (via systemd-resolved)
+# DNS-over-TLS (via systemd-resolved)
 log "Configuring DNS-over-TLS (Cloudflare + Google)..."
 DOT_CONF_CONTENT='[Resolve]
 DNS=1.1.1.1 8.8.8.8 1.0.0.1 8.8.4.4

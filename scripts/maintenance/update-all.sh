@@ -10,37 +10,37 @@ log "Starting complete system update..."
 # Elevate
 sudo -v
 
-# 1. DNF Upgrade
+# DNF Upgrade
 log "Checking for system updates (DNF)..."
 sudo dnf upgrade --refresh -y
 
-# 2. Flatpak Update
+# Flatpak Update
 log "Checking for Flatpak updates..."
 if command -v flatpak &>/dev/null; then
     flatpak update -y
     flatpak uninstall --unused -y
 fi
 
-# 3. Fish Shell Update
+# Fish Shell Update
 log "Updating Fish plugins..."
 if command -v fisher &>/dev/null; then
     fish -c "fisher update"
 fi
 fish -c "fish_update_completions"
 
-# 4. Neovim Plugins
+# Neovim Plugins
 log "Updating Neovim plugins..."
 if command -v nvim &>/dev/null; then
     nvim --headless "+Lazy! sync" +qa
 fi
 
-# 5. Rust/Cargo (if present)
+# Rust/Cargo (if present)
 if command -v cargo-install-update &>/dev/null; then
     log "Updating Cargo packages..."
     cargo install-update -a
 fi
 
-# 6. Cleaning Up
+# Cleaning Up
 log "Cleaning up old caches..."
 sudo dnf autoremove -y
 sudo dnf clean all

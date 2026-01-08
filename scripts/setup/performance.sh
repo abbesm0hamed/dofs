@@ -6,7 +6,7 @@ ok() { printf "\033[0;32m==> %s\033[0m\n" "$1"; }
 
 log "Optimizing system performance..."
 
-# 1. ZRAM Optimization (Fedora way)
+# ZRAM Optimization (Fedora way)
 log "Configuring Zram..."
 if ! rpm -q zram-generator &>/dev/null; then
     sudo dnf install -y zram-generator
@@ -26,11 +26,11 @@ else
     sudo systemctl start /dev/zram0 || true
 fi
 
-# 2. SSD Trimming
+# SSD Trimming
 log "Enabling SSD fstrim timer..."
 sudo systemctl enable --now fstrim.timer
 
-# 3. Power Management optimizations
+# Power Management optimizations
 log "Configuring power-profiles-daemon..."
 if systemctl is-active --quiet power-profiles-daemon; then
     # Set balanced as default if not set

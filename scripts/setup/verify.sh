@@ -15,7 +15,7 @@ warn() { printf "${YELLOW} [WARN] ${NC} %s\n" "$1"; }
 
 log "Starting Niri Desktop Environment Health Check..."
 
-# --- 1. Check Core Binaries ---
+# --- Check Core Binaries ---
 check_bin() {
     local cmd=$1
     if command -v "$cmd" >/dev/null 2>&1; then
@@ -36,7 +36,7 @@ check_bin "fish"
 check_bin "starship"
 check_bin "satty"
 
-# --- 2. Check Symlinks ---
+# --- Check Symlinks ---
 check_link() {
     local target=$1
     if [ -L "$target" ]; then
@@ -53,7 +53,7 @@ check_link "${HOME}/.config/niri/config.kdl"
 check_link "${HOME}/.config/waybar/config.jsonc"
 check_link "${HOME}/.config/fish/config.fish"
 
-# --- 3. Check Session File ---
+# --- Check Session File ---
 SESSION_FILE="/usr/share/wayland-sessions/niri-custom.desktop"
 if [ -f "$SESSION_FILE" ]; then
     ok "Session file found: $SESSION_FILE"
@@ -61,14 +61,14 @@ else
     warn "Custom session file NOT found at $SESSION_FILE. GDM/SDDM might not show Niri (Custom)."
 fi
 
-# --- 4. User Shell ---
+# --- User Shell ---
 if [[ "$SHELL" == *"fish" ]]; then
     ok "Current shell is Fish"
 else
     warn "Current shell is $SHELL (Expected Fish). Run 'chsh -s \$(which fish)' if intended."
 fi
 
-# --- 5. Security & Performance ---
+# --- Security & Performance ---
 log "Checking security and performance..."
 if systemctl is-active --quiet firewalld; then
     ok "Firewall (firewalld) is active"
@@ -83,7 +83,7 @@ else
     warn "Zram is NOT active (requires reboot or manual start)"
 fi
 
-# --- 6. GPU & Wayland ---
+# --- GPU & Wayland ---
 if [ -n "${WAYLAND_DISPLAY:-}" ]; then
     ok "Wayland session active: $WAYLAND_DISPLAY"
 else

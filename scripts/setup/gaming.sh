@@ -22,19 +22,24 @@ log "Applying Steam fixes..."
 log "Configuring gaming peripherals support..."
 # Piper and Solaar might need udev rules, but they are usually handled by packages in Fedora
 
+# Ensure gaming environment variables are set in fish
+FISH_CONF_DIR="$HOME/.config/fish/conf.d"
+if [ ! -d "$FISH_CONF_DIR" ]; then
+    mkdir -p "$FISH_CONF_DIR"
+fi
+
+log "Ensuring gaming environment variables are configured..."
+
 # Stability Enforcements:
 log "Enforcing gaming stability settings..."
 
-# 1. Force XWayland for Steam/Proton (implemented in shell config via PROTON_ENABLE_WAYLAND=0)
-# 2. Add helpful gaming aliases to fish config if not present
-if fish -c "functions -q steam-stable" ; then
-    log "steam-stable function already exists."
-else
-    log "Adding steam-stable function to fish config..."
-    fish -c "function steam-stable; gamescope -W 1920 -H 1080 -f -- steam; end; funcsave steam-stable"
+# Force XWayland for Steam/Proton (implemented in conf.d/gaming.fish)
+log "Ensuring steam-stable function is available..."
+if [ ! -f "$HOME/.config/fish/functions/steam-stable.fish" ]; then
+    warn "steam-stable.fish missing in functions dir. Dotfiles stow should handle this."
 fi
 
-# 3. Optimize gamescope usage
+# Optimize gamescope usage
 log "Gamescope is installed. Recommended usage for tricky games:"
 log "  gamescope -W 1920 -H 1080 -f -- %command%"
 

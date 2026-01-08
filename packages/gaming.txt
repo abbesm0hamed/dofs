@@ -1,12 +1,36 @@
-# Gaming packages
+# Core Gaming
 steam
 gamemode
 mangohud
 gamescope
 proton-up-qt
 gperftools-libs
+
+# Utilities
 piper
-solaar
 vkbasalt
 goverlay
+
+# Hardware Acceleration & Codecs
+intel-media-driver
 libavcodec-freeworld
+mesa-va-drivers-freeworld.x86_64
+mesa-va-drivers-freeworld.i686
+steam-devices
+
+# 32-bit Render Stack (Proton/Steam UI stability)
+vulkan-loader.i686
+mesa-vulkan-drivers.i686
+libglvnd-glx.i686
+libglvnd-opengl.i686
+libX11.i686
+libXext.i686
+libXrender.i686
+libXdamage.i686
+libXfixes.i686
+libXxf86vm.i686
+libXrandr.i686
+libXcomposite.i686
+libXcursor.i686
+libXi.i686
+libXinerama.i686

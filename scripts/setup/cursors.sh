@@ -35,23 +35,23 @@ fi
 # --- Browser & Flatpak Fixes ---
 log "Applying browser and consistency fixes..."
 
-# 1. Global GSettings update (for GTK apps that monitor this)
+# Global GSettings update (for GTK apps that monitor this)
 if command -v gsettings &>/dev/null; then
     gsettings set org.gnome.desktop.interface cursor-theme "Banana"
     gsettings set org.gnome.desktop.interface cursor-size 24
     ok "Global GSettings updated to Banana."
 fi
 
-# 2. XWayland / Legacy fallback
+# XWayland / Legacy fallback
 # Some apps look at ~/.icons/default/index.theme
 mkdir -p "${HOME}/.icons/default"
-cat > "${HOME}/.icons/default/index.theme" <<EOF
+cat >"${HOME}/.icons/default/index.theme" <<EOF
 [Icon Theme]
 Inherits=Banana
 EOF
 ok "XWayland fallback created."
 
-# 3. Flatpak permission fix (for Zen Browser and others)
+# Flatpak permission fix (for Zen Browser and others)
 # Allows Flatpaks to read the local icons directory
 if command -v flatpak &>/dev/null; then
     flatpak override --user --filesystem="~/.local/share/icons:ro"

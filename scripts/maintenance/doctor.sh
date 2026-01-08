@@ -16,21 +16,21 @@ warn() { printf "${YELLOW} [WARN] ${NC} %s\n" "$1"; }
 
 log "Running Session Health Diagnostics..."
 
-# 1. Check Display Server
+# Check Display Server
 if [ -n "$WAYLAND_DISPLAY" ]; then
     ok "Wayland Display active ($WAYLAND_DISPLAY)"
 else
     err "No Wayland Display found!"
 fi
 
-# 2. Check Composer
+# Check Composer
 if pgrep -x niri >/dev/null; then
     ok "Niri composer is running"
 else
     err "Niri composer is NOT running!"
 fi
 
-# 3. Check XDG Desktop Portals (CRITICAL for apps)
+# Check XDG Desktop Portals (CRITICAL for apps)
 check_portal() {
     if pgrep -f "$1" >/dev/null; then
         ok "Portal active: $1"
@@ -44,14 +44,14 @@ check_portal "xdg-desktop-portal"
 check_portal "xdg-desktop-portal-gnome"
 check_portal "xdg-desktop-portal-gtk"
 
-# 4. Check Polkit (CRITICAL for sudo apps)
+# Check Polkit (CRITICAL for sudo apps)
 if pgrep -f "polkit-gnome-authentication-agent-1" >/dev/null; then
     ok "Polkit agent is running"
 else
     err "Polkit agent NOT found! (Graphical sudo will fail)"
 fi
 
-# 5. Check UI Elements
+# Check UI Elements
 check_service() {
     if pgrep -x "$1" >/dev/null; then
         ok "Service active: $1"
@@ -66,14 +66,14 @@ check_service "mako"
 check_service "swayidle"
 check_service "hyprpaper"
 
-# 6. Check DBus session
+# Check DBus session
 if dbus-send --session --dest=org.freedesktop.DBus --type=method_call /org/freedesktop/DBus org.freedesktop.DBus.ListNames >/dev/null 2>&1; then
     ok "DBus session responds"
 else
     err "DBus session is NOT responding!"
 fi
 
-# 7. Check for critical symlinks
+# Check for critical symlinks
 log "Checking for critical symlinks..."
 check_symlink() {
     local link_path="$1"
@@ -92,7 +92,7 @@ check_symlink() {
 check_symlink "$HOME/.config/nvim" "dofs/home/.config/nvim"
 check_symlink "$HOME/.local/bin/dofs" "dofs/dofs"
 
-# 8. Check for system services
+# Check for system services
 log "Checking for system services..."
 check_system_service() {
     if systemctl is-active --quiet "$1"; then
@@ -104,7 +104,7 @@ check_system_service() {
 check_system_service "docker"
 check_system_service "libvirtd"
 
-# 9. Check PATH configuration
+# Check PATH configuration
 log "Checking PATH configuration..."
 check_path() {
     local dir_to_check="$1"

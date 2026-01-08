@@ -10,13 +10,19 @@ YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-error() { echo -e "${RED}✗ ERROR: $1${NC}"; ((ERRORS+=1)); }
-warning() { echo -e "${YELLOW}⚠ WARNING: $1${NC}"; ((WARNINGS+=1)); }
+error() {
+    echo -e "${RED}✗ ERROR: $1${NC}"
+    ((ERRORS += 1))
+}
+warning() {
+    echo -e "${YELLOW}⚠ WARNING: $1${NC}"
+    ((WARNINGS += 1))
+}
 success() { echo -e "${GREEN}✓ $1${NC}"; }
 
 echo "=== System Validation ==="
 
-# 1. Packages
+# Packages
 echo -e "\nChecking packages..."
 check_pkg() {
     if command -v "$1" &>/dev/null; then success "$1 installed"; else error "$1 missing"; fi
@@ -25,7 +31,7 @@ check_pkg() {
 PACKAGES=(niri waybar mako fuzzel xwayland-satellite hyprlock swayidle ghostty)
 for pkg in "${PACKAGES[@]}"; do check_pkg "$pkg"; done
 
-# 2. Config & Symlinks
+# Config & Symlinks
 echo -e "\nChecking configuration..."
 [ -f ~/.config/niri/config.kdl ] && success "Niri config found" || error "Niri config missing"
 
@@ -36,7 +42,7 @@ check_link() {
 LINKS=(~/.config/niri ~/.config/waybar ~/.config/mako ~/.config/fuzzel)
 for link in "${LINKS[@]}"; do check_link "$link"; done
 
-# 3. Scripts
+# Scripts
 echo -e "\nChecking scripts..."
 check_script() {
     if [ -x "$1" ] && bash -n "$1" 2>/dev/null; then success "$(basename "$1") OK"; else error "$(basename "$1") failed checks"; fi
