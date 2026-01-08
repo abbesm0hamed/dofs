@@ -3,8 +3,8 @@ foot
 ghostty
 kitty
 niri
-qt5-wayland
-qt6-wayland
+qt5-qtwayland
+qt6-qtwayland
 xwayland-satellite
 jq
 fuzzel

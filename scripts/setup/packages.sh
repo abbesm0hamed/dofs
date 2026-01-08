@@ -37,32 +37,14 @@ done < <(find "${PACKAGES_DIR}" -maxdepth 1 -name "*.txt" ! -name "flatpak.txt" 
 # Deduplicate packages
 ALL_PACKAGES=($(echo "${RAW_PACKAGES[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
 
-FEDORA_PACKAGES=()
-for pkg in "${ALL_PACKAGES[@]}"; do
-    case "$pkg" in
-        "base-devel")   FEDORA_PACKAGES+=("@development-tools") ;;
-        "github-cli")   FEDORA_PACKAGES+=("gh") ;;
-        "imagemagick")  FEDORA_PACKAGES+=("ImageMagick") ;;
-        "python-pip")   FEDORA_PACKAGES+=("python3-pip") ;;
-        "qt5-wayland")  FEDORA_PACKAGES+=("qt5-qtwayland") ;;
-        "qt6-wayland")  FEDORA_PACKAGES+=("qt6-qtwayland") ;;
-        "libfprint-tod") FEDORA_PACKAGES+=("libfprint-tod") ;;
-        "starship"|"fnm"|"bun") 
-            log "Skipping '$pkg' (will be installed by language manager/shell script)."
-            continue 
-            ;;
-        *) FEDORA_PACKAGES+=("$pkg") ;;
-    esac
-done
-
-if [ ${#FEDORA_PACKAGES[@]} -gt 0 ]; then
-    log "Final list to install: ${FEDORA_PACKAGES[*]}"
+if [ ${#ALL_PACKAGES[@]} -gt 0 ]; then
+    log "Final list to install: ${ALL_PACKAGES[*]}"
     DNF_FLAGS=("--allowerasing" "--skip-unavailable")
     # --best is not supported in DNF5
     if ! dnf --version | grep -q "dnf5"; then
         DNF_FLAGS+=("--best")
     fi
-    sudo dnf install -y "${DNF_FLAGS[@]}" "${FEDORA_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed to install. Check $LOG_FILE for details."
+    sudo dnf install -y "${DNF_FLAGS[@]}" "${ALL_PACKAGES[@]}" 2>&1 | tee -a "$LOG_FILE" || warn "Some DNF packages failed to install. Check $LOG_FILE for details."
 fi
 
 # --- Flatpak Package Installation ---

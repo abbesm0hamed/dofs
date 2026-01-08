@@ -12,7 +12,6 @@ curl
 ffmpeg
 iputils
 fish
-starship
 autorandr
 lm_sensors
 xdg-utils
