@@ -20,11 +20,26 @@ if command -v fnm &>/dev/null; then
     if [ -z "$(fnm list)" ]; then
         log "Installing latest Node.js version..."
         fnm install --lts
+        eval "$(fnm env --shell bash)"
     else
         log "Node.js is already installed via fnm."
     fi
     # Set default to lts-latest (fnm alias), ignoring errors if already set/missing alias
     fnm default lts-latest 2>/dev/null || true
+    eval "$(fnm env --shell bash)"
+
+    # Configure user's shell
+    if [[ "$SHELL" == *"fish"* ]]; then
+        log "Configuring fish shell for fnm..."
+        FISH_CONFIG="$HOME/.config/fish/config.fish"
+        FNM_INIT_LINE='fnm env --use-on-cd | source'
+        mkdir -p "$(dirname "$FISH_CONFIG")"
+        if ! grep -q "$FNM_INIT_LINE" "$FISH_CONFIG" 2>/dev/null; then
+            echo "$FNM_INIT_LINE" >> "$FISH_CONFIG"
+        fi
+    fi
+    fnm use lts-latest
+    
     log "Enabling corepack (for yarn/pnpm)..."
     corepack enable
 fi

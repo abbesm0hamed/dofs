@@ -27,3 +27,6 @@ home/.config/ranger/tagged
 __pycache__/
 *.py[cod]
 *$py.class
+
+# User-specific local files
+home/.local/

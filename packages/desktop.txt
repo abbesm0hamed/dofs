@@ -15,3 +15,4 @@ unzip
 jq
 cava
 cmatrix
+crystal-dock

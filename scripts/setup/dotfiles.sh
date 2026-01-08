@@ -3,6 +3,7 @@ set -euo pipefail
 
 log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
 warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
+ok() { printf "\033[0;32m==> %s\033[0m\n" "$1"; }
 
 log "Stowing dotfiles..."
 # Ensure LOG_FILE is set, default to /dev/null if not

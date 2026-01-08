@@ -259,6 +259,7 @@ binds {
     Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-btop btop"; }
     Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-yazi yazi"; }
     Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-lazydocker lazydocker"; }
+    Mod+Shift+D { spawn "sh" "-c" "~/.config/niri/scripts/toggle-dock"; }
     Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-ranger ranger"; }
     Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-weather bash ~/.config/niri/scripts/weather.sh"; }
     Mod+Alt+B { spawn "pkill" "-SIGUSR1" "waybar"; }
