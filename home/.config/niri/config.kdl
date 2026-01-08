@@ -75,7 +75,7 @@ cursor {
 }
 
 layout {
-    gaps 4
+    gaps 8
     background-color "#111318"
     center-focused-column "never"
 

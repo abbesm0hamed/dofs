@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+
 log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
 
 log "Refreshing font cache..."

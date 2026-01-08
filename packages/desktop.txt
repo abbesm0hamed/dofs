@@ -4,7 +4,6 @@ nautilus
 gvfs
 ffmpegthumbnailer
 
-# tableplus
 zathura
 switcheroo
 localsend
@@ -15,5 +14,8 @@ unzip
 jq
 cava
 cmatrix
+
 crystal-dock
+
+# cusors
 bibata-cursor-themes

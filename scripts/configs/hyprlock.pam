@@ -1,6 +1,5 @@
-# PAM configuration for hyprlock with parallel fingerprint/password
-auth        sufficient    pam_fprintd.so
-auth        include       system-auth
-account     include       system-auth
-password    include       system-auth
-session     include       system-auth
+# PAM configuration for hyprlock
+auth        include       password-auth
+account     include       password-auth
+password    include       password-auth
+session     include       password-auth
