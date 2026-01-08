@@ -1,0 +1,11 @@
+# Font packages
+jetbrains-mono-fonts
+iosevka-fonts
+fira-code-fonts
+nerd-fonts
+fontawesome-6-free-fonts
+fontawesome-6-brands-fonts
+google-noto-emoji-color-fonts
+rsms-inter-fonts
+google-noto-sans-fonts
+google-noto-serif-fonts

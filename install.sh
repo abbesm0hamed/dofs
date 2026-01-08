@@ -29,6 +29,7 @@ SETUP_SCRIPTS=(
     "performance.sh"
     "security.sh"
     "desktop.sh"
+    "cursors.sh"
     "power.sh"
     "shell.sh"
     "gaming.sh"
