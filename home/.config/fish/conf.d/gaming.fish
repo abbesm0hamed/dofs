@@ -1,12 +1,13 @@
-# Steam and Gaming Environment Variables
-# Force Steam to use its desktop UI scaling and stable XWayland behavior
+# Force Steam to use its desktop UI scaling
 set -gx STEAM_FORCE_DESKTOPUI_SCALING 1
-set -gx GDK_BACKEND x11
 set -gx PROTON_ENABLE_WAYLAND 0
 
-# Enable hardware acceleration for Intel where possible
-set -gx SDL_VIDEODRIVER x11
+# Enable hardware acceleration for Intel where possible (Driver only)
 set -gx LIBVA_DRIVER_NAME iHD
 
-# Workaround for black screen in Steam CEF on some Intel chips
-# set -gx INTEL_DEBUG noccs # Uncomment if you still see rendering glitches
+# Workarounds for black screen in Steam CEF on Intel Meteor Lake / Arc
+set -gx INTEL_DEBUG noccs
+set -gx IRIS_MESA_DEBUG sync
+
+# Fix for Intel WSI modifiers (prevents some flickering/rendering issues in gamescope)
+set -gx GAMESCOPE_WSI_MODIFIERS 0

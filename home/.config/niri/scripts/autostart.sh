@@ -48,11 +48,6 @@ if [ -f "$FOREGROUND_WALLPAPER" ]; then
     echo "  → Wallpapers initialized"
 fi
 
-# Notification Daemon (Fast, lightweight)
-if command -v mako &>/dev/null; then
-    echo "  → Starting mako..."
-    mako &
-fi
 
 # Bar (Start immediately, don't wait for wallpapers)
 if command -v waybar &>/dev/null; then
@@ -60,16 +55,15 @@ if command -v waybar &>/dev/null; then
     waybar &
 fi
 
+# Notification Daemon (Fast, lightweight)
+if command -v mako &>/dev/null; then
+    echo "  → Starting mako..."
+    mako &
+fi
+
 # ----------------------------------------------------------------------------
 # Background Services (Parallel Execution)
 # ----------------------------------------------------------------------------
-
-{
-    if command -v xwayland-satellite &>/dev/null; then
-        echo "  → Starting xwayland-satellite..."
-        xwayland-satellite &
-    fi
-} &
 
 # Polkit Agent
 {
@@ -93,7 +87,6 @@ fi
 
 # System Tray Apps
 {
-    # Reduced wait time for performance
     sleep 0.2
 
     if command -v nm-applet &>/dev/null; then
