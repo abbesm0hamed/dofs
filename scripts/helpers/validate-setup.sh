@@ -22,7 +22,7 @@ check_pkg() {
     if command -v "$1" &>/dev/null; then success "$1 installed"; else error "$1 missing"; fi
 }
 
-PACKAGES=(niri waybar mako fuzzel xwayland-satellite swaylock swayidle ghostty)
+PACKAGES=(niri waybar mako fuzzel xwayland-satellite hyprlock swayidle ghostty)
 for pkg in "${PACKAGES[@]}"; do check_pkg "$pkg"; done
 
 # 2. Config & Symlinks

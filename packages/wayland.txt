@@ -19,7 +19,7 @@ slurp
 wl-clipboard
 wf-recorder
 satty
-swaylock
+hyprlock
 swayidle
 # swayosd
 wlogout

@@ -48,7 +48,7 @@ enroll_fingerprint() {
     if fprintd-enroll; then
         print_color $GREEN "✅ Fingerprint enrolled successfully!"
         print_color $CYAN "You can now use your fingerprint for:"
-        print_color $CYAN "  • Screen unlock (swaylock)"
+        print_color $CYAN "  • Screen unlock (hyprlock)"
         print_color $CYAN "  • Sudo authentication"
         print_color $CYAN "  • System prompts"
         print_color $CYAN "  • Login screen"
@@ -109,7 +109,7 @@ show_help() {
     print_color $CYAN "  $0 remove   # Remove fingerprint data"
     echo
     print_color $YELLOW "Authentication works for:"
-    print_color $CYAN "  • Screen unlock (Super+Escape → swaylock)"
+    print_color $CYAN "  • Screen unlock (Super+Escape → hyprlock)"
     print_color $CYAN "  • Sudo commands"
     print_color $CYAN "  • System authentication prompts"
     print_color $CYAN "  • Login screen"

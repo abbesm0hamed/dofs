@@ -30,9 +30,9 @@ if command -v xdg-settings >/dev/null && flatpak info app.zen_browser.zen >/dev/
     log "Default browser set to Zen."
 fi
 
-log "Optimizing PAM for swaylock..."
-if [[ -f "${REPO_ROOT}/scripts/configs/swaylock.pam" ]]; then
-    sudo cp "${REPO_ROOT}/scripts/configs/swaylock.pam" /etc/pam.d/swaylock
-    sudo chmod 644 /etc/pam.d/swaylock
-    log "Swaylock PAM configuration optimized."
+log "Optimizing PAM for hyprlock..."
+if [[ -f "${REPO_ROOT}/scripts/configs/hyprlock.pam" ]]; then
+    sudo cp "${REPO_ROOT}/scripts/configs/hyprlock.pam" /etc/pam.d/hyprlock
+    sudo chmod 644 /etc/pam.d/hyprlock
+    log "Hyprlock PAM configuration optimized."
 fi

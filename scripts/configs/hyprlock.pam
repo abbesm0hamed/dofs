@@ -1,4 +1,4 @@
-# PAM configuration for swaylock with parallel fingerprint/password
+# PAM configuration for hyprlock with parallel fingerprint/password
 auth        sufficient    pam_fprintd.so
 auth        include       system-auth
 account     include       system-auth

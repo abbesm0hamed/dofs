@@ -55,7 +55,7 @@ This setup includes:
 - **xdg-desktop-portal-gnome** for better screen sharing
 - **GDM** (GNOME Display Manager) with Niri session support
 - **Optimized autostart** with proper service ordering
-- **Swaylock** with blur effects for secure screen locking
+- **Hyprlock** with blur effects for secure screen locking
 
 ### Single-Command Installation
 

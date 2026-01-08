@@ -117,9 +117,9 @@ if command -v swayidle &>/dev/null; then
     swayidle -w \
         timeout 600 'niri msg action power-off-monitors' \
         resume 'niri msg action power-on-monitors' \
-        timeout 900 "swaylock -f -i '$LOCK_WALLPAPER'" \
-        before-sleep "swaylock -f -i '$LOCK_WALLPAPER'" \
-        lock "swaylock -f -i '$LOCK_WALLPAPER'" &
+        timeout 900 "hyprlock" \
+        before-sleep "hyprlock" \
+        lock "hyprlock" &
 else
     echo "  → ERROR: swayidle not found!"
 fi

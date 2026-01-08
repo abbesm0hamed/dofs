@@ -267,7 +267,7 @@ binds {
     Alt+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
     Mod+Space { spawn "fuzzel" "--width=40%" "--lines=5"; }
     Alt+Ctrl+L {
-        spawn "swaylock"
+        spawn "hyprlock"
     }
     Alt+E { spawn "nautilus"; }
     Alt+T { spawn "zathura"; }  // Quick PDF viewer launch

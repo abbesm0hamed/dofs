@@ -83,8 +83,8 @@ toggle_idle_mode() {
             swayidle -w \
                 timeout 600 'niri msg action power-off-monitors' \
                 resume 'niri msg action power-on-monitors' \
-                timeout 300 'swaylock -f' \
-                before-sleep 'swaylock -f' &
+                timeout 300 'hyprlock' \
+                before-sleep 'hyprlock' &
         fi
         notify-send "System Controls" "Idle mode enabled" -i "system-suspend"
     fi
@@ -164,7 +164,7 @@ main_menu() {
         *"WiFi"*) toggle_wifi ;;
         *"Bluetooth"*) toggle_bluetooth ;;
         *"Settings") ~/.config/niri/scripts/settings-menu.sh ;;
-        *"Lock Screen") swaylock ;;
+        *"Lock Screen") hyprlock ;;
         *"Power Menu") ~/.config/waybar/scripts/power-menu.sh ;;
     esac
 }
