@@ -69,7 +69,7 @@ layer-rule {
 
 cursor {
     xcursor-theme "Adwaita"
-    xcursor-size 24
+    xcursor-size 20
     hide-when-typing
     hide-after-inactive-ms 10000
 }

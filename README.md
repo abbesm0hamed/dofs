@@ -2,6 +2,7 @@
 
 ![Niri overview](home/.config/screenshots/niri-overview.png)
 ![Neovim + fastfetch](home/.config/screenshots/fastfetch-floating.png)
+![Togglable crystal dock](home/.config/screenshots/togglable-crystal-dock.png)
 
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
@@ -10,7 +11,6 @@ A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 - **Waybar** - Highly customizable status bar
 - **Mako** - Lightweight notification daemon
 - **Fish** shell with **Starship** prompt
-- **Unified theme system** - Consistent theming across all applications
 
 ## Quick Start
 
@@ -130,7 +130,6 @@ echo "my-new-package" >> packages/development.txt
 # Reinstall
 ./install.sh
 ```
-
 
 ## Troubleshooting
 
