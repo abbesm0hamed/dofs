@@ -50,29 +50,6 @@ else
     warn "COPR file not found at $COPR_FILE"
 fi
 
-if [ ! -f "/etc/yum.repos.d/windsurf.repo" ]; then
-    log "Adding Windsurf repository..."
-    sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
-    echo -e "[windsurf]\nname=Windsurf Repository\nbaseurl=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/\nenabled=1\nautorefresh=1\ngpgcheck=1\ngpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf" | sudo tee /etc/yum.repos.d/windsurf.repo >/dev/null
-    repos_changed=true
-else
-    log "Windsurf repository already exists."
-fi
-
-if [ ! -f "/etc/yum.repos.d/antigravity.repo" ]; then
-    log "Adding Antigravity repository..."
-    sudo tee /etc/yum.repos.d/antigravity.repo >/dev/null <<'EOL'
-[antigravity-rpm]
-name=Antigravity RPM Repository
-baseurl=https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
-enabled=1
-gpgcheck=0
-EOL
-    repos_changed=true
-else
-    log "Antigravity repository already exists."
-fi
-
 if [ "$repos_changed" = true ]; then
     log "Updating dnf cache..."
     sudo dnf makecache

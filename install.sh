@@ -22,6 +22,7 @@ SETUP_SCRIPTS=(
     "repos.sh"
     "packages.sh"
     "languages.sh"
+    "development.sh"
     "apps.sh"
     "ai.sh"
     "gaming.sh"
