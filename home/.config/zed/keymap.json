@@ -1,0 +1,42 @@
+[
+    {
+        "context": "Editor && vim_mode == insert",
+        "bindings": {
+            "j k": "vim::NormalBefore",
+            "; ;": "vim::NormalBefore"
+        }
+    },
+    {
+        "context": "Editor && vim_mode == normal",
+        "bindings": {
+            "space w w": "pane::ActivatePrevItem",
+            "space w d": "pane::CloseActiveItem",
+            "space w -": "pane::SplitHorizontal",
+            "space w |": "pane::SplitVertical",
+            "space -": "pane::SplitHorizontal",
+            "space |": "pane::SplitVertical",
+            "ctrl-s": "workspace::Save",
+            "space f w": "workspace::Save",
+            "space v v": "editor::SelectAll",
+            "space y": "editor::Copy",
+            "space p": "editor::Paste",
+            "n": "search::SelectNextMatch",
+            "N": "search::SelectPrevMatch",
+            "ctrl-d": "editor::ScrollCursorCenter",
+            "ctrl-u": "editor::ScrollCursorCenter",
+            "space b d": "pane::CloseActiveItem",
+            "alt-j": "editor::MoveLineDown",
+            "alt-k": "editor::MoveLineUp"
+        }
+    },
+    {
+        "context": "Editor && vim_mode == visual",
+        "bindings": {
+            "space y": "editor::Copy",
+            "alt-j": "editor::MoveLineDown",
+            "alt-k": "editor::MoveLineUp",
+            ">": "editor::Indent",
+            "<": "editor::Outdent"
+        }
+    }
+]
