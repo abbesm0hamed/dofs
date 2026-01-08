@@ -16,3 +16,4 @@ jq
 cava
 cmatrix
 crystal-dock
+bibata-cursor-themes

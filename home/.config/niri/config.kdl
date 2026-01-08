@@ -68,8 +68,8 @@ layer-rule {
 }
 
 cursor {
-    xcursor-theme "Adwaita"
-    xcursor-size 20
+    xcursor-theme "Bibata-Modern-Ice"
+    xcursor-size 24
     hide-when-typing
     hide-after-inactive-ms 10000
 }
