@@ -20,7 +20,17 @@ log "Applying Steam fixes..."
 
 # Gaming peripherals support
 log "Configuring gaming peripherals support..."
-# Piper and Solaar might need udev rules, but they are usually handled by packages in Fedora
+# Symlink custom udev rules
+UDEV_RULES_DIR="/etc/udev/rules.d"
+if [ -f "$HOME/.config/udev-rules/60-controller-support.rules" ]; then
+    log "Enabling custom controller udev rules..."
+    sudo ln -sf "$HOME/.config/udev-rules/60-controller-support.rules" "$UDEV_RULES_DIR/60-controller-support.rules"
+    sudo udevadm control --reload-rules && sudo udevadm trigger
+fi
+
+# Clear Steam Web Cache (Fix for black screens)
+log "Clearing Steam web helper cache..."
+rm -rf ~/.steam/steam/config/htmlcache/* ~/.steam/steam/config/overlayhtmlcache/* || true
 
 # Ensure gaming environment variables are set in fish
 FISH_CONF_DIR="$HOME/.config/fish/conf.d"

@@ -21,7 +21,6 @@ pkill mako || true
 pkill swayidle || true
 pkill nm-applet || true
 pkill blueman-applet || true
-pkill xwayland-satellite || true
 pkill swaybg || true
 pkill hyprpaper || true
 
