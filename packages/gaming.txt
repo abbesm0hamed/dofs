@@ -1,18 +1,18 @@
-# Core Gaming
+# Core
 steam
 gamemode
 mangohud
 gamescope
 proton-up-qt
 
-# Hardware Acceleration & Codecs
+# HW Accel & Codecs
 intel-media-driver
 libavcodec-freeworld
 mesa-va-drivers-freeworld.x86_64
 mesa-va-drivers-freeworld.i686
 steam-devices
 
-# 32-bit Render Stack (Proton/Steam UI stability)
+# 32-bit Stack
 vulkan-loader.i686
 mesa-vulkan-drivers.i686
 libglvnd-glx.i686

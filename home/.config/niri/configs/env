@@ -1,40 +1,35 @@
-# Wayland Environment Variables for Niri
-# Source this file in your shell profile or let Niri session handle it
+# Niri Wayland Environment
 
-# Force Wayland for Qt applications (with XCB fallback)
+# XDG Session
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=niri
+export XDG_SESSION_DESKTOP=niri
+
+# GTK/GDK
+export GTK_USE_PORTAL=1
+export GDK_SCALE=1
+# GDK_BACKEND unset to allow auto-detect
+
+# Qt
 export QT_QPA_PLATFORM="wayland;xcb"
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export QT_QPA_PLATFORMTHEME="gtk3"
 
-# Force Wayland for GTK applications (with X11 fallback)
-export GDK_BACKEND="wayland,x11"
-export GSK_RENDERER="ngl"
-
-# Force Wayland for Clutter applications
-export CLUTTER_BACKEND=wayland
-
-# Firefox Wayland
-export MOZ_ENABLE_WAYLAND=1
-
-# Electron apps (VS Code, Discord, etc.)
-export ELECTRON_OZONE_PLATFORM_HINT=auto
-
-# Hardware Acceleration for Qt/FFmpeg apps
+# Intel Meteor Lake Hardware Acceleration
+export LIBVA_DRIVER_NAME=iHD
 export QT_MEDIA_BACKEND="ffmpeg"
 export QT_FFMPEG_DECODING_HW_DEVICE_TYPES="vaapi"
 export QT_FFMPEG_ENCODING_HW_DEVICE_TYPES="vaapi"
+export MESA_LOADER_DRIVER_OVERRIDE=iris
+export INTEL_DEBUG=noccs
 
-# Java applications
+# App Specifics
+export MOZ_ENABLE_WAYLAND=1
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+export CLUTTER_BACKEND=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-# XDG specifications
-export XDG_SESSION_TYPE=wayland
-export XDG_CURRENT_DESKTOP=niri
-export GTK_USE_PORTAL=1
-
-# Cursor theme
-export XCURSOR_THEME=Banana
-export XCURSOR_SIZE=28
-
-# Gaming optimizations
+# Gaming
 export STEAM_FORCE_DESKTOPUI_SCALING=1
+export GAMESCOPE_WSI_MODIFIERS=0
+export IRIS_MESA_DEBUG=sync

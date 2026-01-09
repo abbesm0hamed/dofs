@@ -9,20 +9,18 @@ LOCK_WALLPAPER="$BACKDROP_WALLPAPER"
 
 # Logging
 LOG_FILE="${XDG_RUNTIME_DIR:-/tmp}/niri-autostart.log"
-exec 1> >(tee -a "$LOG_FILE")
-exec 2>&1
+exec 1> >(tee -a "$LOG_FILE") 2>&1
 
 echo "=== Niri Autostart - $(date) ==="
 echo "Display: $WAYLAND_DISPLAY"
 
-# Source centralized environment variables
+# Source env
 if [ -f "$HOME/.config/niri/configs/env" ]; then
-    echo "  → Sourcing ~/.config/niri/configs/env..."
+    echo "  → Sourcing env..."
     source "$HOME/.config/niri/configs/env"
 fi
 
-# Cleanup existing processes
-# '|| true' ensures script continues if processes aren't running
+# Cleanup
 pkill waybar || true
 pkill mako || true
 pkill swayidle || true
@@ -31,40 +29,48 @@ pkill blueman-applet || true
 pkill swaybg || true
 pkill hyprpaper || true
 
-echo "Syncing environment variables..."
+echo "Syncing env vars..."
+# GDK_SCALE is already set in env file, ensure it's available
 export GDK_SCALE="${GDK_SCALE:-1}"
+# CRITICAL: GDK_BACKEND unset for auto-detect
+unset GDK_BACKEND
 
-# Import environment to systemd and dbus (CRITICAL for app launching and daemons)
+# Import environment to systemd/dbus
 systemctl --user import-environment \
-    DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE \
-    GDK_BACKEND GDK_SCALE GSK_RENDERER CLUTTER_BACKEND \
+    DISPLAY WAYLAND_DISPLAY \
+    XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_SESSION_TYPE \
+    GTK_USE_PORTAL GDK_SCALE \
     QT_QPA_PLATFORM QT_QPA_PLATFORMTHEME QT_WAYLAND_DISABLE_WINDOWDECORATION \
-    ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND \
-    GTK_USE_PORTAL XCURSOR_THEME XCURSOR_SIZE \
-    STEAM_FORCE_DESKTOPUI_SCALING ||
-    true
-dbus-update-activation-environment --systemd \
-    DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE \
-    GDK_BACKEND GDK_SCALE GSK_RENDERER CLUTTER_BACKEND \
-    QT_QPA_PLATFORM QT_QPA_PLATFORMTHEME QT_WAYLAND_DISABLE_WINDOWDECORATION \
-    ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND \
-    GTK_USE_PORTAL XCURSOR_THEME XCURSOR_SIZE \
-    STEAM_FORCE_DESKTOPUI_SCALING ||
+    QT_MEDIA_BACKEND QT_FFMPEG_DECODING_HW_DEVICE_TYPES QT_FFMPEG_ENCODING_HW_DEVICE_TYPES \
+    CLUTTER_BACKEND ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND \
+    LIBVA_DRIVER_NAME MESA_LOADER_DRIVER_OVERRIDE INTEL_DEBUG \
+    _JAVA_AWT_WM_NONREPARENTING \
+    XCURSOR_THEME XCURSOR_SIZE \
+    STEAM_FORCE_DESKTOPUI_SCALING GAMESCOPE_WSI_MODIFIERS IRIS_MESA_DEBUG ||
     true
 
-# ----------------------------------------------------------------------------
-# Critical UI Components (Start ASAP)
-# ----------------------------------------------------------------------------
+dbus-update-activation-environment --systemd \
+    DISPLAY WAYLAND_DISPLAY \
+    XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_SESSION_TYPE \
+    GTK_USE_PORTAL GDK_SCALE \
+    QT_QPA_PLATFORM QT_QPA_PLATFORMTHEME QT_WAYLAND_DISABLE_WINDOWDECORATION \
+    QT_MEDIA_BACKEND QT_FFMPEG_DECODING_HW_DEVICE_TYPES QT_FFMPEG_ENCODING_HW_DEVICE_TYPES \
+    CLUTTER_BACKEND ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND \
+    LIBVA_DRIVER_NAME MESA_LOADER_DRIVER_OVERRIDE INTEL_DEBUG \
+    _JAVA_AWT_WM_NONREPARENTING \
+    XCURSOR_THEME XCURSOR_SIZE \
+    STEAM_FORCE_DESKTOPUI_SCALING GAMESCOPE_WSI_MODIFIERS IRIS_MESA_DEBUG ||
+    true
+
+# Critical UI Components
 
 # Wallpapers (Backdrop & Foreground)
 # Small delay to ensure Wayland environment is fully initialized
 sleep 0.1
 
 if [ -f "$FOREGROUND_WALLPAPER" ]; then
-    echo "  → Starting wallpapers via script..."
-    # Run synchronously to ensure both daemons start properly
+    echo "  → Starting wallpapers..."
     bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER"
-    echo "  → Wallpapers initialized"
 fi
 
 # Bar (Start immediately, don't wait for wallpapers)
@@ -79,9 +85,7 @@ if command -v mako &>/dev/null; then
     mako &
 fi
 
-# ----------------------------------------------------------------------------
-# Background Services (Parallel Execution)
-# ----------------------------------------------------------------------------
+# Background Services
 
 # Polkit Agent
 {
@@ -103,9 +107,7 @@ fi
     fi
 } &
 
-# ----------------------------------------------------------------------------
 # Utilities & Apps
-# ----------------------------------------------------------------------------
 
 # Screen Idle / Lock
 if command -v swayidle &>/dev/null; then

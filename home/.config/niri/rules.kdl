@@ -20,14 +20,13 @@ window-rule {
 
 window-rule {
     match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|Antigravity|antigravity|Termius)$"#
-    default-column-width { proportion 1.0; }
     open-maximized true
 }
 
 // gaming config
 window-rule {
     match app-id=r#"^([Ss]team)$"#
-    default-column-width { proportion 1.0; }
+    open-maximized true
 }
 
 window-rule {
@@ -47,13 +46,12 @@ window-rule {
 
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
-    default-column-width { proportion 1.0; }
+    open-maximized true
 }
 
 window-rule {
-    match app-id=r#"^(zen|zen-browser|app\.zen_browser\.zen|firefox|chromium-browser|google-chrome|brave)$"#
+    match app-id=r#"^([Zz]en.*|app\.zen_browser\.zen|firefox|chromium-browser|google-chrome|brave)$"#
     open-on-workspace "browser"
-    default-column-width { proportion 1.0; }
     open-maximized-to-edges true
 }
 
@@ -65,7 +63,6 @@ window-rule {
 
 window-rule {
     match app-id="obsidian"
-    default-column-width { proportion 1.0; }
     open-maximized true
 }
 
@@ -104,9 +101,9 @@ window-rule {
     match app-id="floating-lazydocker"
     match app-id="floating-weather"
     match app-id="com.mitchellh.ghostty.floating"
-    open-floating true
     default-column-width { proportion 0.8; }
     default-window-height { proportion 0.8; }
+    open-floating true
 }
 
 window-rule {
