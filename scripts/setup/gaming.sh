@@ -16,37 +16,19 @@ fi
 
 # Steam requires some tweaks for certain games
 log "Applying Steam fixes..."
-# Add any specific Steam environment variables or tweaks here if needed
 
-# Gaming peripherals support
-log "Configuring gaming peripherals support..."
-# Symlink custom udev rules
-UDEV_RULES_DIR="/etc/udev/rules.d"
-if [ -f "$HOME/.config/udev-rules/60-controller-support.rules" ]; then
-    log "Enabling custom controller udev rules..."
-    sudo ln -sf "$HOME/.config/udev-rules/60-controller-support.rules" "$UDEV_RULES_DIR/60-controller-support.rules"
-    sudo udevadm control --reload-rules && sudo udevadm trigger
+# Clear Steam Web Cache (one-time fix for black screens)
+if [ -d ~/.steam/steam/config/htmlcache ] || [ -d ~/.steam/steam/config/overlayhtmlcache ]; then
+    log "Clearing Steam web helper cache..."
+    rm -rf ~/.steam/steam/config/htmlcache/* ~/.steam/steam/config/overlayhtmlcache/* 2>/dev/null || true
 fi
 
-# Clear Steam Web Cache (Fix for black screens)
-log "Clearing Steam web helper cache..."
-rm -rf ~/.steam/steam/config/htmlcache/* ~/.steam/steam/config/overlayhtmlcache/* || true
-
-# Ensure gaming environment variables are set in fish
-FISH_CONF_DIR="$HOME/.config/fish/conf.d"
-if [ ! -d "$FISH_CONF_DIR" ]; then
-    mkdir -p "$FISH_CONF_DIR"
-fi
-
-log "Ensuring gaming environment variables are configured..."
-
-# Stability Enforcements:
-log "Enforcing gaming stability settings..."
-
-# Force XWayland for Steam/Proton (implemented via fish function)
-log "Ensuring steam wrapper function is available..."
-if [ ! -f "$HOME/.config/fish/functions/steam.fish" ]; then
-    warn "steam.fish missing in functions dir. Dotfiles stow should handle this."
+# Steam wrapper function uses -no-cef-sandbox for better Wayland compatibility
+log "Verifying steam wrapper function..."
+if [ -f "$HOME/.config/fish/functions/steam.fish" ]; then
+    log "Steam wrapper function found."
+else
+    warn "steam.fish not found. Ensure dotfiles are properly stowed."
 fi
 
 # Optimize gamescope usage

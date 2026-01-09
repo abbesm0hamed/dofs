@@ -16,9 +16,9 @@ echo "=== Niri Autostart - $(date) ==="
 echo "Display: $WAYLAND_DISPLAY"
 
 # Source centralized environment variables
-if [ -f "$HOME/.config/niri/env" ]; then
-    echo "  → Sourcing ~/.config/niri/env..."
-    source "$HOME/.config/niri/env"
+if [ -f "$HOME/.config/niri/configs/env" ]; then
+    echo "  → Sourcing ~/.config/niri/configs/env..."
+    source "$HOME/.config/niri/configs/env"
 fi
 
 # Cleanup existing processes
@@ -33,8 +33,6 @@ pkill hyprpaper || true
 
 echo "Syncing environment variables..."
 export GDK_SCALE="${GDK_SCALE:-1}"
-export XCURSOR_THEME="${XCURSOR_THEME:-Adwaita}"
-export XCURSOR_SIZE="${XCURSOR_SIZE:-28}"
 
 # Import environment to systemd and dbus (CRITICAL for app launching and daemons)
 systemctl --user import-environment \

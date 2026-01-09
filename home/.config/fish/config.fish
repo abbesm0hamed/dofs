@@ -143,14 +143,3 @@ end
 
 # opencode
 fish_add_path /home/abbes/.opencode/bin
-
-# Load Niri environment if in Niri session
-if test "$XDG_CURRENT_DESKTOP" = "niri" -a -f ~/.config/niri/env
-    for line in (grep "^export" ~/.config/niri/env | grep -v "\$")
-        set -l kv (string replace "export " "" -- $line)
-        set -l key (string split -m1 "=" -- $kv)[1]
-        set -l value (string split -m1 "=" -- $kv)[2]
-        set -l value (string trim -c '"' -- $value)
-        set -gx $key $value
-    end
-end
