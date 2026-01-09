@@ -52,6 +52,7 @@ window-rule {
 window-rule {
     match app-id=r#"^([Zz]en.*|app\.zen_browser\.zen|firefox|chromium-browser|google-chrome|brave)$"#
     open-on-workspace "browser"
+    default-column-width { proportion 1.0; }
     open-maximized-to-edges true
 }
 
