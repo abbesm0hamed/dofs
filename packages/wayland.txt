@@ -12,6 +12,7 @@ mako
 waybar
 hyprpaper
 xdg-desktop-portal-gnome
+xdg-desktop-portal-gtk
 socat
 swaybg
 grim
@@ -21,9 +22,7 @@ wf-recorder
 satty
 hyprlock
 swayidle
-# swayosd
 wlogout
-wob
 cliphist
 gammastep
 wlsunset
