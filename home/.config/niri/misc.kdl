@@ -1,0 +1,17 @@
+spawn-at-startup "bash" "-c" "~/.config/niri/scripts/autostart.sh"
+
+xwayland-satellite {
+     // off
+    // path "~/source/rs/xwayland-satellite/target/release/xwayland-satellite"
+}
+
+prefer-no-csd
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+switch-events {
+    lid-close {spawn "hyprlock";}
+}

@@ -7,11 +7,8 @@ export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export QT_QPA_PLATFORMTHEME="gtk3"
 
 # Force Wayland for GTK applications (with X11 fallback)
-export GDK_BACKEND="wayland,x11,*"
+export GDK_BACKEND="wayland,x11"
 export GSK_RENDERER="ngl"
-
-# Force Wayland for SDL2 applications
-export SDL_VIDEODRIVER=wayland
 
 # Force Wayland for Clutter applications
 export CLUTTER_BACKEND=wayland
@@ -33,20 +30,15 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # XDG specifications
 export XDG_SESSION_TYPE=wayland
 export XDG_CURRENT_DESKTOP=niri
+export GTK_USE_PORTAL=1
 
 # Cursor theme
-export XCURSOR_THEME=Adwaita
-export XCURSOR_SIZE=24
-
-# CachyOS optimizations
-# Enable AMD P-State EPP (for AMD CPUs)
-# This is handled by kernel parameters, but we set the preference here
-export AMD_PSTATE_EPP=balance_performance
+export XCURSOR_THEME=Banana
+export XCURSOR_SIZE=28
 
 # Gaming optimizations
-# export PROTON_ENABLE_WAYLAND=1
-# export PROTON_NO_WM_DECORATION=1
-# export PROTON_ENABLE_HDR=1
-
-# Niri-specific
-export NIRI_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/niri/config.kdl"
+export STEAM_FORCE_DESKTOPUI_SCALING=1
+export PROTON_ENABLE_WAYLAND=0
+export INTEL_DEBUG=noccs
+export IRIS_MESA_DEBUG=sync
+export GAMESCOPE_WSI_MODIFIERS=0

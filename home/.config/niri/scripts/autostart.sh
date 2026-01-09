@@ -13,6 +13,13 @@ exec 1> >(tee -a "$LOG_FILE")
 exec 2>&1
 
 echo "=== Niri Autostart - $(date) ==="
+echo "Display: $WAYLAND_DISPLAY"
+
+# Source centralized environment variables
+if [ -f "$HOME/.config/niri/env" ]; then
+    echo "  → Sourcing ~/.config/niri/env..."
+    source "$HOME/.config/niri/env"
+fi
 
 # Cleanup existing processes
 # '|| true' ensures script continues if processes aren't running
@@ -25,12 +32,27 @@ pkill swaybg || true
 pkill hyprpaper || true
 
 echo "Syncing environment variables..."
-export GDK_SCALE=1
-export XCURSOR_SIZE=24
-export GTK_USE_PORTAL=1
+export GDK_SCALE="${GDK_SCALE:-1}"
+export XCURSOR_THEME="${XCURSOR_THEME:-Adwaita}"
+export XCURSOR_SIZE="${XCURSOR_SIZE:-28}"
+
 # Import environment to systemd and dbus (CRITICAL for app launching and daemons)
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GDK_SCALE XCURSOR_SIZE GTK_USE_PORTAL || true
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GDK_SCALE XCURSOR_SIZE GTK_USE_PORTAL || true
+systemctl --user import-environment \
+    DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE \
+    GDK_BACKEND GDK_SCALE GSK_RENDERER CLUTTER_BACKEND \
+    QT_QPA_PLATFORM QT_QPA_PLATFORMTHEME QT_WAYLAND_DISABLE_WINDOWDECORATION \
+    ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND \
+    GTK_USE_PORTAL XCURSOR_THEME XCURSOR_SIZE \
+    STEAM_FORCE_DESKTOPUI_SCALING PROTON_ENABLE_WAYLAND INTEL_DEBUG IRIS_MESA_DEBUG GAMESCOPE_WSI_MODIFIERS \
+    || true
+dbus-update-activation-environment --systemd \
+    DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE \
+    GDK_BACKEND GDK_SCALE GSK_RENDERER CLUTTER_BACKEND \
+    QT_QPA_PLATFORM QT_QPA_PLATFORMTHEME QT_WAYLAND_DISABLE_WINDOWDECORATION \
+    ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND \
+    GTK_USE_PORTAL XCURSOR_THEME XCURSOR_SIZE \
+    STEAM_FORCE_DESKTOPUI_SCALING PROTON_ENABLE_WAYLAND INTEL_DEBUG IRIS_MESA_DEBUG GAMESCOPE_WSI_MODIFIERS \
+    || true
 
 # ----------------------------------------------------------------------------
 # Critical UI Components (Start ASAP)
@@ -126,7 +148,8 @@ fi
 {
     # Check for Zen Browser (Flatpak)
     if flatpak info app.zen_browser.zen &>/dev/null; then
-        echo "  → Starting Zen Browser..."
+        echo "  → Starting Zen Browser (with delay)..."
+        sleep 1
         flatpak run app.zen_browser.zen &
     fi
 } &

@@ -1,0 +1,9 @@
+workspace "browser" {
+    // Workspace 1: Web browsers and browsing
+}
+workspace "terminal" {
+    // Workspace 2: Terminal applications and development
+}
+workspace "communication" {
+    // Workspace 3: Communication and messaging apps
+}

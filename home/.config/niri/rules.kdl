@@ -1,0 +1,121 @@
+layer-rule {
+    match namespace="wallpaper"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="hyprpaper"
+    place-within-backdrop false
+}
+
+window-rule {
+    match title=r#".*[Pp]rivate.*|.*[Ii]ncognito.*"#
+    block-out-from "screen-capture"
+}
+
+window-rule {
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+window-rule {
+    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|Antigravity)$"#
+    default-column-width { proportion 1.0; }
+    open-maximized true
+}
+
+// gaming config
+window-rule {
+    match app-id=r#"^([Ss]team)$"#
+    default-column-width { proportion 1.0; }
+}
+
+window-rule {
+    match app-id=r#"^([Ss]team)$"# title="^Friends List$"
+    match app-id=r#"^([Ss]team)$"# title="^Steam - News$"
+    match app-id=r#"^([Ss]team)$"# title=".* - Chat$"
+    match app-id=r#"^([Ss]team)$"# title="^Settings$"
+    match app-id=r#"^([Ss]team)$"# title=".* - Property$"
+    match app-id=r#"^([Ss]team)$"# title="^Steam Guard.*$"
+    open-floating true
+}
+
+window-rule {
+    match app-id="gamescope"
+    open-maximized true
+}
+
+window-rule {
+    match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
+    default-column-width { proportion 1.0; }
+}
+
+window-rule {
+    match app-id=r#"^(zen|zen-browser|app\.zen_browser\.zen|firefox|chromium-browser|google-chrome|brave)$"#
+    open-on-workspace "browser"
+    default-column-width { proportion 1.0; }
+    open-maximized-to-edges true
+}
+
+window-rule {
+    match app-id=r#"^(Slack|discord|chrome-web.whatsapp.com__-Default|telegram|signal)$"#
+    open-on-workspace "communication"
+    open-maximized true
+}
+
+window-rule {
+    match app-id="obsidian"
+    default-column-width { proportion 1.0; }
+    open-maximized true
+}
+
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+window-rule {
+    match app-id="pavucontrol"
+    match app-id="blueman-manager"
+    match app-id="nm-connection-editor"
+    match app-id="org.gnome.PowerStats"
+    match app-id="xdg-desktop-portal-gtk"
+    match app-id="system-config-printer"
+    match app-id="com.gabm.satty"
+    open-floating true
+}
+
+window-rule {
+    match app-id="xdg-desktop-portal-gnome"
+    match app-id="xdg-desktop-portal-gtk"
+}
+
+window-rule {
+    match app-id="org.gnome.Nautilus"
+    open-floating true
+    default-column-width { proportion 0.8; }
+    default-window-height { proportion 0.8; }
+}
+
+window-rule {
+    match app-id="floating-btop"
+    match app-id="floating-ranger"
+    match app-id="floating-yazi"
+    match app-id="floating-lazydocker"
+    match app-id="floating-weather"
+    match app-id="com.mitchellh.ghostty.floating"
+    open-floating true
+    default-column-width { proportion 0.8; }
+    default-window-height { proportion 0.8; }
+}
+
+window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+    block-out-from "screen-capture"
+}
+
+window-rule {
+    geometry-corner-radius 0
+    clip-to-geometry true
+}

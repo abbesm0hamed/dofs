@@ -1,0 +1,14 @@
+overview {
+    zoom 0.45
+    workspace-shadow {
+        off
+    }
+    backdrop-color "#111318"
+}
+
+cursor {
+    xcursor-theme "Banana"
+    xcursor-size 28
+    hide-when-typing
+    hide-after-inactive-ms 10000
+}

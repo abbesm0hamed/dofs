@@ -1,0 +1,25 @@
+input {    
+    keyboard {
+        xkb {
+            layout "us,fr"
+            options "compose:ralt"
+        }
+        numlock
+    }
+
+    touchpad {
+        tap
+        natural-scroll
+    }
+
+    mouse {
+        accel-speed 0.0
+        accel-profile "flat"
+    }
+
+    trackpoint {
+        natural-scroll
+    }
+
+    focus-follows-mouse max-scroll-amount="0%"
+}
