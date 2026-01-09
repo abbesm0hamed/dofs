@@ -123,6 +123,15 @@ fi
 # Utilities & Apps
 # ----------------------------------------------------------------------------
 
+# Zen Browser (delay so niri is fully ready to apply window rules)
+{
+    sleep 3
+    if command -v flatpak &>/dev/null; then
+        echo "  → Starting Zen..."
+        flatpak run app.zen_browser.zen &
+    fi
+} &
+
 # Screen Idle / Lock
 if command -v swayidle &>/dev/null; then
     echo "  → Starting swayidle..."
