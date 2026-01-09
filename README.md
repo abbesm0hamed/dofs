@@ -93,6 +93,15 @@ This setup includes:
 - **Mako** notifications
 - Screenshot, recording, clipboard tools
 
+### Gaming
+
+- **Steam** with Wayland optimizations
+- **Gamescope** for compositing and scaling
+- **MangoHUD** for performance overlays
+- **Proton** for Windows game compatibility
+
+**Steam Wayland Fix**: Steam is configured with `-system-composer -no-cef-sandbox` flags in `~/.local/share/applications/steam.desktop` to fix black screen issues on Wayland. The `gaming.sh` setup script automatically applies these flags to the Steam desktop entry and all its actions (Store, Community, Library, etc.).
+
 ### Unified Management
 
 This setup includes a central manager script `dofs` (symlinked to `~/.local/bin/dofs`) to simplify everyday tasks:

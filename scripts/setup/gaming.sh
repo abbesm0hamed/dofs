@@ -28,10 +28,10 @@ log "Patching Steam desktop entry for Wayland..."
 if [ -f "/usr/share/applications/steam.desktop" ]; then
     mkdir -p "$HOME/.local/share/applications"
     cp /usr/share/applications/steam.desktop "$HOME/.local/share/applications/steam.desktop"
-    # Add -no-cef-sandbox flag to fix black screen on Wayland
+    # Add -system-composer and -no-cef-sandbox flags to fix black screen on Wayland
     if grep -q "^Exec=/usr/bin/steam %U" "$HOME/.local/share/applications/steam.desktop"; then
-        sed -i 's|^Exec=/usr/bin/steam %U|Exec=/usr/bin/steam -no-cef-sandbox %U|' "$HOME/.local/share/applications/steam.desktop"
-        log "Steam desktop entry patched with -no-cef-sandbox flag"
+        sed -i 's|^Exec=/usr/bin/steam %U|Exec=/usr/bin/steam -system-composer -no-cef-sandbox %U|' "$HOME/.local/share/applications/steam.desktop"
+        log "Steam desktop entry patched with -system-composer -no-cef-sandbox flags"
     fi
 fi
 
