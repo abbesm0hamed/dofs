@@ -43,10 +43,10 @@ log "Ensuring gaming environment variables are configured..."
 # Stability Enforcements:
 log "Enforcing gaming stability settings..."
 
-# Force XWayland for Steam/Proton (implemented in conf.d/gaming.fish)
-log "Ensuring steam-stable function is available..."
-if [ ! -f "$HOME/.config/fish/functions/steam-stable.fish" ]; then
-    warn "steam-stable.fish missing in functions dir. Dotfiles stow should handle this."
+# Force XWayland for Steam/Proton (implemented via fish function)
+log "Ensuring steam wrapper function is available..."
+if [ ! -f "$HOME/.config/fish/functions/steam.fish" ]; then
+    warn "steam.fish missing in functions dir. Dotfiles stow should handle this."
 fi
 
 # Optimize gamescope usage
