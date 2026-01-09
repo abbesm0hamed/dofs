@@ -76,6 +76,11 @@ window#waybar {
   color: @blue;
 }
 
+#workspaces button:hover {
+  color: @text;
+  background: @surface1;
+}
+
 #workspaces button.urgent {
   color: @red;
 }
