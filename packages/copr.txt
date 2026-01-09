@@ -11,4 +11,3 @@ varlad/yazi
 atim/lazydocker
 solopasha/hyprland # for hyprpaper
 peterwu/rendezvous # for bibata-cursor-themes
-ulysg/xwayland-satellite

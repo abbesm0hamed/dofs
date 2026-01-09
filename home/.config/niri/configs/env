@@ -38,7 +38,3 @@ export XCURSOR_SIZE=28
 
 # Gaming optimizations
 export STEAM_FORCE_DESKTOPUI_SCALING=1
-export PROTON_ENABLE_WAYLAND=0
-export INTEL_DEBUG=noccs
-export IRIS_MESA_DEBUG=sync
-export GAMESCOPE_WSI_MODIFIERS=0
