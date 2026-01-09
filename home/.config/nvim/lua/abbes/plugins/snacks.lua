@@ -182,6 +182,8 @@ return {
       },
       picker = {
         prompt = " ",
+        hidden = true,
+        ignored = false,
         sources = {},
         layout = {
           cycle = true,

@@ -86,6 +86,9 @@ window-rule {
 window-rule {
     match app-id="xdg-desktop-portal-gnome"
     match app-id="xdg-desktop-portal-gtk"
+    open-floating true
+    border { width 1; }
+    shadow { off; }
 }
 
 window-rule {
