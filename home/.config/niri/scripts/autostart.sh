@@ -41,16 +41,16 @@ systemctl --user import-environment \
     QT_QPA_PLATFORM QT_QPA_PLATFORMTHEME QT_WAYLAND_DISABLE_WINDOWDECORATION \
     ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND \
     GTK_USE_PORTAL XCURSOR_THEME XCURSOR_SIZE \
-    STEAM_FORCE_DESKTOPUI_SCALING \
-    || true
+    STEAM_FORCE_DESKTOPUI_SCALING ||
+    true
 dbus-update-activation-environment --systemd \
     DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE \
     GDK_BACKEND GDK_SCALE GSK_RENDERER CLUTTER_BACKEND \
     QT_QPA_PLATFORM QT_QPA_PLATFORMTHEME QT_WAYLAND_DISABLE_WINDOWDECORATION \
     ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND \
     GTK_USE_PORTAL XCURSOR_THEME XCURSOR_SIZE \
-    STEAM_FORCE_DESKTOPUI_SCALING \
-    || true
+    STEAM_FORCE_DESKTOPUI_SCALING ||
+    true
 
 # ----------------------------------------------------------------------------
 # Critical UI Components (Start ASAP)
@@ -66,7 +66,6 @@ if [ -f "$FOREGROUND_WALLPAPER" ]; then
     bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER"
     echo "  → Wallpapers initialized"
 fi
-
 
 # Bar (Start immediately, don't wait for wallpapers)
 if command -v waybar &>/dev/null; then
@@ -104,33 +103,9 @@ fi
     fi
 } &
 
-# System Tray Apps
-{
-    sleep 0.2
-
-    if command -v nm-applet &>/dev/null; then
-        echo "  → Starting nm-applet..."
-        nm-applet --indicator &
-    fi
-
-    if command -v blueman-applet &>/dev/null; then
-        echo "  → Starting blueman-applet..."
-        blueman-applet &
-    fi
-} &
-
 # ----------------------------------------------------------------------------
 # Utilities & Apps
 # ----------------------------------------------------------------------------
-
-# Zen Browser (delay so niri is fully ready to apply window rules)
-{
-    sleep 3
-    if command -v flatpak &>/dev/null; then
-        echo "  → Starting Zen..."
-        flatpak run app.zen_browser.zen &
-    fi
-} &
 
 # Screen Idle / Lock
 if command -v swayidle &>/dev/null; then
@@ -150,6 +125,29 @@ if command -v sway-audio-idle-inhibit &>/dev/null; then
     echo "  → Starting audio inhibitor..."
     sway-audio-idle-inhibit &
 fi
+
+# System Tray Apps
+{
+    if command -v nm-applet &>/dev/null; then
+        echo "  → Starting nm-applet..."
+        nm-applet --indicator &
+    fi
+
+    if command -v blueman-applet &>/dev/null; then
+        echo "  → Starting blueman-applet..."
+        blueman-applet &
+    fi
+} &
+
+# Zen Browser
+{
+    if command -v flatpak &>/dev/null; then
+        sleep 1
+        
+        echo "  → Starting Zen..."
+        flatpak run --env=MOZ_ENABLE_WAYLAND=1 app.zen_browser.zen &
+    fi
+} &
 
 echo "=== Autostart script finished (background processes still loading) ==="
 exit 0
