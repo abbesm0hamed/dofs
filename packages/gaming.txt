@@ -4,12 +4,6 @@ gamemode
 mangohud
 gamescope
 proton-up-qt
-gperftools-libs
-
-# Utilities
-piper
-vkbasalt
-goverlay
 
 # Hardware Acceleration & Codecs
 intel-media-driver
