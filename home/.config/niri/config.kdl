@@ -4,7 +4,8 @@ include "outputs.kdl"
 include "layout.kdl"
 include "animations.kdl"
 include "binds.kdl"
-include "misc.kdl"
 
 include "rules.kdl"
 include "decorations.kdl"
+
+include "misc.kdl"

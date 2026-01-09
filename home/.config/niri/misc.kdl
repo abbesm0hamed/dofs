@@ -1,5 +1,7 @@
 spawn-at-startup "bash" "-c" "~/.config/niri/scripts/autostart.sh"
 
+spawn-at-startup "bash" "-c" "sleep 2 && flatpak run app.zen_browser.zen"
+
 xwayland-satellite {
      // off
     // path "~/source/rs/xwayland-satellite/target/release/xwayland-satellite"

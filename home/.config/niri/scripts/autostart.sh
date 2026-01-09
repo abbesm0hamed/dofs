@@ -142,15 +142,5 @@ if command -v sway-audio-idle-inhibit &>/dev/null; then
     sway-audio-idle-inhibit &
 fi
 
-# Browser and other heavy apps
-{
-    # Check for Zen Browser (Flatpak)
-    if flatpak info app.zen_browser.zen &>/dev/null; then
-        echo "  → Starting Zen Browser (with delay)..."
-        sleep 1
-        flatpak run app.zen_browser.zen &
-    fi
-} &
-
 echo "=== Autostart script finished (background processes still loading) ==="
 exit 0
