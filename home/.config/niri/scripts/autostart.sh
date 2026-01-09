@@ -141,15 +141,5 @@ fi
     fi
 } &
 
-# Zen Browser
-{
-    if command -v flatpak &>/dev/null; then
-        sleep 1
-        
-        echo "  → Starting Zen..."
-        flatpak run --env=MOZ_ENABLE_WAYLAND=1 app.zen_browser.zen &
-    fi
-} &
-
 echo "=== Autostart script finished (background processes still loading) ==="
 exit 0
