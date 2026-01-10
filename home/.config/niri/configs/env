@@ -1,5 +1,3 @@
-# Niri Wayland Environment
-
 # XDG Session
 export XDG_SESSION_TYPE=wayland
 export XDG_CURRENT_DESKTOP=niri
@@ -8,20 +6,26 @@ export XDG_SESSION_DESKTOP=niri
 # GTK/GDK
 export GTK_USE_PORTAL=1
 export GDK_SCALE=1
-# GDK_BACKEND unset to allow auto-detect
 
 # Qt
 export QT_QPA_PLATFORM="wayland;xcb"
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export QT_QPA_PLATFORMTHEME="gtk3"
 
-# Intel Meteor Lake Hardware Acceleration
-export LIBVA_DRIVER_NAME=iHD
-export QT_MEDIA_BACKEND="ffmpeg"
-export QT_FFMPEG_DECODING_HW_DEVICE_TYPES="vaapi"
-export QT_FFMPEG_ENCODING_HW_DEVICE_TYPES="vaapi"
-export MESA_LOADER_DRIVER_OVERRIDE=iris
-export INTEL_DEBUG=noccs
+# Hardware Acceleration & GPU Specifics
+# Attempt to detect Intel hardware
+if [ -f /sys/class/drm/card0/device/vendor ] && grep -q "0x8086" /sys/class/drm/card0/device/vendor; then
+    # Intel Meteor Lake Hardware Acceleration
+    export LIBVA_DRIVER_NAME=iHD
+    export QT_MEDIA_BACKEND="ffmpeg"
+    export QT_FFMPEG_DECODING_HW_DEVICE_TYPES="vaapi"
+    export QT_FFMPEG_ENCODING_HW_DEVICE_TYPES="vaapi"
+    export MESA_LOADER_DRIVER_OVERRIDE=iris
+    export INTEL_DEBUG=noccs
+    # Gaming Specifics for Intel
+    export IRIS_MESA_DEBUG=sync
+    export GAMESCOPE_WSI_MODIFIERS=0
+fi
 
 # App Specifics
 export MOZ_ENABLE_WAYLAND=1
@@ -29,7 +33,5 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 export CLUTTER_BACKEND=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-# Gaming
+# Gaming General
 export STEAM_FORCE_DESKTOPUI_SCALING=1
-export GAMESCOPE_WSI_MODIFIERS=0
-export IRIS_MESA_DEBUG=sync
