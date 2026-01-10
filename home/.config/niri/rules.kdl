@@ -120,7 +120,14 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.Keepassxc$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
     block-out-from "screen-capture"
+}
+
+window-rule {
+    match app-id="Gromit-mpx"
+    focus-ring { off; }
+    border { off; }
+    shadow { off; }
 }

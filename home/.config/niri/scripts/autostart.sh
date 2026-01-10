@@ -136,6 +136,11 @@ fi
         echo "  → Starting blueman-applet..."
         blueman-applet &
     fi
+
+    if command -v gromit-mpx &>/dev/null; then
+        echo "  → Starting gromit-mpx..."
+        gromit-mpx -k none -u none &
+    fi
 } &
 
 # Zen Browser

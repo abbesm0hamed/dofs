@@ -62,6 +62,11 @@ binds {
     // Language switching
     Alt+Mod+Ctrl+Space { switch-layout "next"; }
 
+    // Utility tools
+    // Alt+Ctrl+K { spawn "sh" "-c" "pkill wshowkeys || wshowkeys -a bottom"; }  // Toggle key display
+    Alt+Ctrl+D { spawn "sh" "-c" "pgrep -x gromit-mpx >/dev/null && gromit-mpx --toggle || gromit-mpx -k none -u none"; }  // Toggle drawing mode
+    Alt+Ctrl+P { spawn "sh" "-c" "hyprpicker -a"; }  // Color picker (copies to clipboard)
+
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
     XF86AudioMicMute allow-when-locked=true { spawn "pactl" "set-source-mute" "@DEFAULT_SOURCE@" "toggle"; }

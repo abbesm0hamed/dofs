@@ -33,3 +33,10 @@ wlr-randr
 blueman
 playerctl
 pamixer
+
+# Display management & utilities
+kanshi
+sway-audio-idle-inhibit
+# wshowkeys # show keys hit on screen
+gromit-mpx
+hyprpicker

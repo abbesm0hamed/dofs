@@ -116,20 +116,11 @@ if type -q fnm
     __auto_fnm
 end
 
-set -gx PATH $PATH $HOME/go/bin
+# Consolidated PATH management via fish_user_paths
+set -U fish_user_paths $HOME/.local/bin $HOME/go/bin $HOME/.cargo/bin $HOME/.atuin/bin $fish_user_paths
 
-# Add atuin and cargo to PATH
-if test -d ~/.atuin/bin
-    set -gx PATH ~/.atuin/bin $PATH
-end
-if test -d ~/.cargo/bin
-    set -gx PATH ~/.cargo/bin $PATH
-end
-
-set -U fish_user_paths $HOME/.local/bin $HOME/go/bin $HOME/.cargo/bin $fish_user_paths
-
-if command -v fnm &> /dev/null
-    eval (fnm env --shell fish)
+if command -v fnm >/dev/null 2>&1
+    fnm env --shell fish | source
 end
 
 if type -q direnv
@@ -142,4 +133,6 @@ end
 # end
 
 # opencode
-fish_add_path /home/abbes/.opencode/bin
+if test -d $HOME/.opencode/bin
+    fish_add_path $HOME/.opencode/bin
+end

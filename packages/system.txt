@@ -12,12 +12,10 @@ curl
 ffmpeg
 iputils
 fish
-autorandr
 lm_sensors
 xdg-utils
 xdg-user-dirs
 power-profiles-daemon
-foot
 
 pavucontrol
 

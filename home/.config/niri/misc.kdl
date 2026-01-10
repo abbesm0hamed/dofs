@@ -13,5 +13,6 @@ hotkey-overlay {
 }
 
 switch-events {
-    lid-close {spawn "hyprlock";}
+    lid-close { spawn "sh" "-c" "niri msg action power-off-monitors && hyprlock"; }
+    lid-open { spawn "niri" "msg" "action" "power-on-monitors"; }
 }
