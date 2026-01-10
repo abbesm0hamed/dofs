@@ -64,7 +64,7 @@ binds {
 
     // Utility tools
     // Alt+Ctrl+K { spawn "sh" "-c" "pkill wshowkeys || wshowkeys -a bottom"; }  // Toggle key display
-    Alt+Ctrl+D { spawn "sh" "-c" "pgrep -x gromit-mpx >/dev/null && gromit-mpx --toggle || gromit-mpx -k none -u none"; }  // Toggle drawing mode
+    // Alt+Ctrl+D { spawn "sh" "-c" "pgrep -x gromit-mpx >/dev/null && gromit-mpx --toggle || gromit-mpx -k none -u none"; }  // Toggle drawing mode
     Alt+Ctrl+P { spawn "sh" "-c" "hyprpicker -a"; }  // Color picker (copies to clipboard)
 
     // Example volume keys mappings for PipeWire & WirePlumber.
