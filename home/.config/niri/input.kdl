@@ -1,4 +1,6 @@
 input {    
+    disable-power-key-handling
+
     keyboard {
         xkb {
             layout "us,fr"
