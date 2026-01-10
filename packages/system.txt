@@ -43,3 +43,5 @@ libfprint-2-tod1-broadcom
 # Camera hardware support
 libcamera-utils
 pipewire-plugin-libcamera
+akmod-intel-ipu6
+v4l2-relayd

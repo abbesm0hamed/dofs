@@ -25,6 +25,7 @@ SETUP_SCRIPTS=(
     "development.sh"
     "apps.sh"
     "ai.sh"
+    "media.sh"
     "dotfiles.sh"
     "performance.sh"
     "security.sh"
