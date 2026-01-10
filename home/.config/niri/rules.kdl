@@ -1,3 +1,8 @@
+window-rule {
+    geometry-corner-radius 0
+    clip-to-geometry true
+}
+
 layer-rule {
     match namespace="wallpaper"
     place-within-backdrop true
@@ -77,23 +82,27 @@ window-rule {
     match app-id="blueman-manager"
     match app-id="nm-connection-editor"
     match app-id="org.gnome.PowerStats"
-    match app-id="xdg-desktop-portal-gtk"
     match app-id="system-config-printer"
     match app-id="com.gabm.satty"
     open-floating true
 }
 
 window-rule {
-    match app-id="xdg-desktop-portal-gnome"
-    match app-id="xdg-desktop-portal-gtk"
+    match app-id=r#"^xdg-desktop-portal-(gtk|gnome)$"#
+    match title="^Open Folder$"
+    match title="^Open File$"
+    match title="^Select Folder$"
+    match title="^Save File$"
     open-floating true
-    border { width 1; }
+    border { off; }
     shadow { off; }
 }
 
 window-rule {
     match app-id="org.gnome.Nautilus"
     open-floating true
+    border { off; }
+    shadow { off; }
     default-column-width { proportion 0.8; }
     default-window-height { proportion 0.8; }
 }
@@ -114,9 +123,4 @@ window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
     block-out-from "screen-capture"
-}
-
-window-rule {
-    geometry-corner-radius 0
-    clip-to-geometry true
 }

@@ -62,10 +62,7 @@ dbus-update-activation-environment --systemd \
     STEAM_FORCE_DESKTOPUI_SCALING GAMESCOPE_WSI_MODIFIERS IRIS_MESA_DEBUG ||
     true
 
-# Critical UI Components
-
 # Wallpapers (Backdrop & Foreground)
-# Small delay to ensure Wayland environment is fully initialized
 sleep 0.1
 
 if [ -f "$FOREGROUND_WALLPAPER" ]; then
