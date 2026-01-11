@@ -6,6 +6,7 @@ export XDG_SESSION_DESKTOP=niri
 # GTK/GDK
 export GTK_USE_PORTAL=1
 export GDK_SCALE=1
+export GDK_BACKEND=wayland
 
 # Qt
 export QT_QPA_PLATFORM="wayland;xcb"

@@ -3,10 +3,11 @@ import = ["~/.config/alacritty/theme.toml"]
 
 [window]
 padding = { x = 10, y = 10 }
+opacity = 0.98
 
 [font]
 # Increase size; adjust if you prefer larger/smaller.
 size = 13.5
 
 [font.normal]
-family = "JetBrains Mono"
+family = "Iosevka Extended"

@@ -52,6 +52,15 @@ window-rule {
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
     open-maximized true
+    opacity 0.999
+    draw-border-with-background false
+    shadow { off; }
+}
+
+window-rule {
+    match app-id="kitty"
+    opacity 0.99
+    draw-border-with-background false
 }
 
 window-rule {

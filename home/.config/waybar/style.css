@@ -60,13 +60,14 @@ window#waybar {
 
 /* Workspaces */
 #workspaces {
-  padding: 0;
+  padding: 0px 0px;
+  margin: 0px 0px;
 }
 
 #workspaces button {
   color: @overlay0;
   padding: 4px 2px;
-  margin: 0 0px;
+  margin: 0px 0px;
   border-radius: 0px;
   transition: all 0.2s ease;
   min-width: 24px;
@@ -107,7 +108,8 @@ window#waybar {
 
 #custom-next-prayer {
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 0px 10px;
+  margin: 0px 0px;
   border-radius: 0px;
   background-color: @surface0;
   border-bottom: 1px solid @surface1;
