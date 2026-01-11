@@ -6,11 +6,23 @@ padding = { x = 10, y = 10 }
 opacity = 0.98
 
 [font]
-# Increase size; adjust if you prefer larger/smaller.
-size = 13.5
+size = 12.0
 
 [font.normal]
-family = "Iosevka Extended"
+family = "Iosevka"
+style = "Regular Extended"
+
+[font.bold]
+family = "Iosevka"
+style = "Bold Extended"
+
+[font.italic]
+family = "Iosevka"
+style = "Regular Extended Oblique"
+
+[font.bold_italic]
+family = "Iosevka"
+style = "Bold Extended Oblique"
 
 [cursor]
 style = "Block"
