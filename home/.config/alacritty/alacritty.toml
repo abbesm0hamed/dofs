@@ -11,3 +11,6 @@ size = 13.5
 
 [font.normal]
 family = "Iosevka Extended"
+
+[cursor]
+style = "Block"
