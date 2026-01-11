@@ -183,7 +183,7 @@ return {
       picker = {
         prompt = " ",
         hidden = true,
-        ignored = true,
+        ignored = false,
         sources = {},
         layout = {
           cycle = true,
@@ -483,6 +483,13 @@ return {
           Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
         end,
         desc = "Find Config File",
+      },
+      {
+        "<leader>ff",
+        function()
+          Snacks.picker.files()
+        end,
+        desc = "Find Files",
       },
       {
         "<leader>fg",
