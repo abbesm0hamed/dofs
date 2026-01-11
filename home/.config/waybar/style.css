@@ -3,7 +3,7 @@
 /* ===== Waybar Minimal CSS ===== */
 
 * {
-  font-family: "Iosevka Medium Extended", "JetBrains Mono", monospace;
+  font-family: "Inter", "Iosevka Medium Extended", "JetBrains Mono", monospace;
   font-size: 14px;
   min-height: 0;
   border: none;
@@ -23,11 +23,11 @@ window#waybar {
   background: transparent;
 }
 
-.modules-left>widget:first-child>* {
+.modules-left > widget:first-child > * {
   margin-left: 8px;
 }
 
-.modules-right>widget:last-child>* {
+.modules-right > widget:last-child > * {
   margin-right: 3px;
 }
 
@@ -52,6 +52,7 @@ window#waybar {
 #custom-recording,
 #custom-mic,
 #custom-fingerprint,
+#custom-docker,
 #custom-updates {
   background: transparent;
   color: @text;
@@ -143,11 +144,11 @@ window#waybar {
   border-left: 2px dotted @overlay0;
 }
 
-#tray>.passive {
+#tray > .passive {
   -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
+#tray > .needs-attention {
   -gtk-icon-effect: highlight;
 }
 
@@ -171,17 +172,16 @@ window#waybar {
   color: @red;
 }
 
-#custom-idle_inhibitor {
-  margin-right: 4px;
+/* #custom-idle_inhibitor { */
+/*   margin-right: 4px; */
+/* } */
+#custom-idle_inhibitor:hover {
+  color: @blue;
 }
 
 #custom-mic {
   padding-left: 2px;
   padding-right: 0px;
-}
-
-#custom-idle_inhibitor:hover {
-  color: @blue;
 }
 
 /* Window title */
@@ -287,3 +287,4 @@ tooltip label {
 #custom-recording.recording-audio:hover {
   color: @blue;
 }
+
