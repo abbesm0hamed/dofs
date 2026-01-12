@@ -10,7 +10,7 @@
     Mod+Shift+D { spawn "sh" "-c" "~/.config/niri/scripts/toggle-dock.sh"; }
     Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-ranger ranger"; }
     Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-weather bash ~/.config/niri/scripts/weather.sh"; }
-    Mod+Alt+B { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }
+    Mod+Alt+B cooldown-ms=500 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Alt+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
     Mod+Space { spawn "fuzzel" "--width=40%" "--lines=5"; }
@@ -58,6 +58,7 @@
     Alt+Ctrl+W { spawn "sh" "-c" "~/.config/niri/scripts/wallpaper-picker.sh"; }
     Alt+S { spawn "sh" "-c" "~/.config/niri/scripts/settings-menu.sh"; }
     Alt+L { spawn "sh" "-c" "~/.config/waybar/scripts/power-menu.sh"; }
+    Alt+Shift+Slash { spawn "sh" "-c" "~/.config/niri/scripts/binds-menu.sh"; }
     
     // Language switching
     Alt+Mod+Ctrl+Space { switch-layout "next"; }
