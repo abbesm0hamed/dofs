@@ -4,6 +4,14 @@ set -euo pipefail
 log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
 warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 
+ensure_dnf_plugins() {
+    if dnf --version 2>/dev/null | grep -q "dnf5"; then
+        sudo dnf install -y dnf5-plugins || sudo dnf install -y dnf-plugins-core || true
+    else
+        sudo dnf install -y dnf-plugins-core || true
+    fi
+}
+
 # Dynamically determine the correct COPR chroot
 FEDORA_VERSION=$(grep -oP '(?<=VERSION_ID=)[0-9]+' /etc/os-release)
 ARCH=$(uname -m)
@@ -31,6 +39,8 @@ if ! grep -q "max_parallel_downloads" /etc/dnf/dnf.conf 2>/dev/null; then
 fi
 
 log "Configuring repositories..."
+
+ensure_dnf_plugins
 
 # Read COPR repositories from file
 COPR_FILE="${REPO_ROOT}/packages/copr.txt"

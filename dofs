@@ -52,7 +52,9 @@ case "${1:-help}" in
                 script_name="${script_name}.sh"
             fi
 
-            valid_scripts=("repos.sh" "packages.sh" "languages.sh" "apps.sh" "ai.sh" "dotfiles.sh" "performance.sh" "security.sh" "desktop.sh" "power.sh" "shell.sh" "install_broadcom_driver.sh" "finish.sh" "verify.sh")
+            shopt -s nullglob
+            valid_scripts=($(basename -a "$REPO_ROOT"/scripts/setup/*.sh))
+            shopt -u nullglob
 
             if [[ " ${valid_scripts[*]} " =~ " ${script_name} " ]]; then
                 script_path="$REPO_ROOT/scripts/setup/${script_name}"

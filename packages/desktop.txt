@@ -1,8 +1,10 @@
 # Desktop applications
 chromium
+flatpak
 nautilus
 gvfs
 ffmpegthumbnailer
+gnome-control-center
 
 zathura
 switcheroo
@@ -13,6 +15,7 @@ unzip
 7zip
 cava
 cmatrix
+xsensors
 
 crystal-dock
 

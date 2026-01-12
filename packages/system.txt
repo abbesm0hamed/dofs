@@ -1,5 +1,6 @@
 # System/base packages
 ImageMagick
+dnf-plugins-core
 stow
 lsd
 bluez
@@ -18,8 +19,11 @@ xdg-user-dirs
 power-profiles-daemon
 
 pavucontrol
+pulseaudio-utils
+wireplumber
 
 gnome-keyring
+polkit-gnome
 wev
 nwg-look
 udiskie
@@ -37,6 +41,8 @@ NetworkManager
 nm-connection-editor
 
 # fingerprint
+fprintd
+fprintd-pam
 libfprint-tod
 libfprint-2-tod1-broadcom
 
