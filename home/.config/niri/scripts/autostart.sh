@@ -93,10 +93,6 @@ if command -v sway-audio-idle-inhibit &>/dev/null; then
     run_once sway-audio-idle-inhibit
 fi
 
-# System Tray Apps
-run_once nm-applet --indicator
-run_once blueman-applet
-
 # Zen Browser
 # if command -v flatpak &>/dev/null; then
 #     sleep 1

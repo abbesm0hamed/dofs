@@ -28,21 +28,15 @@
         "custom/fingerprint",
         "custom/updates",
         "tray",
-        "custom/docker",
-        "custom/storage",
-        "memory",
-        "cpu",
+        "group/monitoring",
         // "niri/language",
         "backlight",
         "wireplumber",
         // "custom/mic",
         // "custom/recording",
-        // "network",
-        // "bluetooth",
-        "power-profiles-daemon",
+        "group/connectivity",
         "battery",
-        "custom/idle_inhibitor",
-        "custom/power"
+        "group/power"
         // "temperature",
         // "pulseaudio",
     ],
@@ -120,12 +114,15 @@
         "format-linked": "󰤭 ",
         "format-disconnected": "󰤭 ",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "format-alt-wifi": "{essid}",
+        "format-alt-ethernet": "{ifname}",
+        "format-alt-click": "click-right",
         "tooltip-format": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
         "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)\nFrequency: {frequency}MHz\nSignal: {signaldBm}dBm\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
         "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
         "tooltip-format-disconnected": "Disconnected",
         "on-click": "nm-connection-editor",
-        "on-click-right": "wl-copy $(ip route get 1.1.1.1 | grep -oP 'src \\K\\S+')",
+        "on-click-middle": "wl-copy $(ip route get 1.1.1.1 | grep -oP 'src \\K\\S+')",
         "interval": 5
     },
     "custom/storage": {
@@ -176,6 +173,30 @@
         "tooltip-format-off": "Bluetooth: Off",
         "on-click": "blueman-manager",
         "on-click-right": "bluetoothctl power toggle"
+    },
+    "group/connectivity": {
+        "orientation": "horizontal",
+        "modules": [
+            "bluetooth",
+            "network"
+        ]
+    },
+    "group/monitoring": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/docker",
+            "custom/storage",
+            "memory",
+            "cpu"
+        ]
+    },
+    "group/power": {
+        "orientation": "horizontal",
+        "modules": [
+            "power-profiles-daemon",
+            "custom/idle_inhibitor",
+            "custom/power"
+        ]
     },
     "custom/idle_inhibitor": {
         "format": "{}",
@@ -349,6 +370,10 @@
         "spacing": 6,
         "show-passive-items": true,
         "reverse-direction": true,
+        "ignored-items": [
+            "nm-applet",
+            "blueman-applet"
+        ],
         "on-update": "",
         "smooth-scrolling-threshold": 1
     },

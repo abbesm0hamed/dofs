@@ -44,6 +44,9 @@ window#waybar {
 #language,
 #backlight,
 #wireplumber,
+#group-connectivity,
+#group-monitoring,
+#group-power,
 #custom-idle_inhibitor,
 #custom-storage,
 #custom-next-prayer,
@@ -107,6 +110,42 @@ window#waybar {
   border-right: 2px dotted @overlay0;
 }
 
+#group-connectivity {
+  border-left: 2px dotted @overlay0;
+  border-right: 2px dotted @overlay0;
+}
+
+#bluetooth {
+  border-left: 2px dotted @overlay0;
+  padding-left: 10px;
+}
+
+#network {
+  padding-right: 2px;
+}
+
+#custom-docker {
+  border-left: 2px dotted @overlay0;
+  padding-left: 10px;
+}
+
+#cpu {
+  border-right: 2px dotted @overlay0;
+  padding-right: 10px;
+}
+
+#power-profiles-daemon {
+  border-left: 2px dotted @overlay0;
+  padding-left: 10px;
+}
+
+#custom-power {
+  padding-right: 3px;
+}
+#custom-power:hover {
+  color: @red;
+}
+
 #custom-next-prayer {
   font-weight: 600;
   padding: 0px 10px;
@@ -149,8 +188,7 @@ window#waybar {
 /* System tray */
 #tray {
   padding: 0 8px;
-  margin: 0px 4px;
-  border-right: 2px dotted @overlay0;
+  margin: 0px 0px;
   border-left: 2px dotted @overlay0;
 }
 
@@ -165,26 +203,17 @@ window#waybar {
 #power-profiles-daemon {
   padding-right: 4px;
 }
-
 #power-profiles-daemon.performance {
   color: @yellow;
 }
-
 #power-profiles-daemon.balanced {
   color: @blue;
 }
-
 #power-profiles-daemon.power-saver {
   color: @green;
 }
 
-#custom-power:hover {
-  color: @red;
-}
 
-/* #custom-idle_inhibitor { */
-/*   margin-right: 4px; */
-/* } */
 #custom-idle_inhibitor:hover {
   color: @blue;
 }
