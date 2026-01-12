@@ -11,8 +11,8 @@
     "margin-right": 0,
     "spacing": 4,
     "modules-left": [
-        //"custom/rofi",
-        //"mpd"
+        //"mpd",
+        "custom/niri-binds",
         "niri/window"
     ],
     "modules-center": [
@@ -213,6 +213,12 @@
         "on-click": "makoctl dismiss",
         "on-click-right": "makoctl dismiss --all",
         "interval": 5
+    },
+    "custom/niri-binds": {
+        "format": " ",
+        "tooltip": true,
+        "tooltip-format": "show niri binds",
+        "on-click": "sh -c '~/.config/niri/scripts/binds-menu.sh'"
     },
     "custom/fingerprint": {
         "format": " {text} ",

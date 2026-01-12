@@ -118,6 +118,16 @@ window#waybar {
   border-left: 2px dotted @overlay0;
 }
 
+#custom-niri-binds {
+  font-weight: 600;
+  padding: 0px 10px;
+  margin: 0px 0px;
+  border-radius: 0px;
+  background-color: @surface0;
+  border-bottom: 1px solid @surface1;
+  border-right: 2px dotted @overlay0;
+}
+
 /* Battery states */
 #battery.warning {
   color: @yellow;
