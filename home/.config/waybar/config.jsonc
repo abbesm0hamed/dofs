@@ -74,10 +74,10 @@
             "critical": 15
         },
         "format": "<span rise='1000'>{icon}</span>{capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "󰚥 {capacity}%",
-        "format-full": "󰁹 {capacity}%",
-        "format-alt": "{icon} {capacity}% • {time}",
+        "format-charging": "<span rise='1000'>󰂄</span> {capacity}%",
+        "format-plugged": "<span rise='1000'>󰚥</span> {capacity}%",
+        "format-full": "<span rise='1000'>󰁹</span> {capacity}%",
+        "format-alt": "<span rise='1000'>{icon}</span> {capacity}% • {time}",
         "format-icons": {
             "default": [
                 "󰂎 ",
@@ -286,8 +286,7 @@
     "cpu": {
         "interval": 1,
         "format": "<span rise='1000'></span> {usage}%",
-        "tooltip-format": "CPU Usage: {usage}%",
-        "max-length": 7
+        "tooltip-format": "CPU Usage: {usage}%"
     },
     "mpd": {
         "max-length": 25,
