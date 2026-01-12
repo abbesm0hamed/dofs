@@ -49,6 +49,7 @@
     
     // Clipboard Management
     Alt+Ctrl+V { spawn "sh" "-c" "~/.config/niri/scripts/clipboard-manager.sh"; }  
+    Mod+N { spawn "sh" "-c" "~/.config/waybar/scripts/mako-history-menu.sh"; } // notifications
     
     // System Controls
     Alt+Space { spawn "sh" "-c" "~/.config/niri/scripts/system-controls.sh"; }
