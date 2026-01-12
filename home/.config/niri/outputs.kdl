@@ -2,7 +2,7 @@ output "eDP-1" {
     mode "1920x1200@60.001" // laptop
     scale 1.2 // laptop
 
-    // mode "1920x1080@144" // desktop
+    // mode "1920x1080@100.000" // desktop
     // scale 1 // desktop
 
     transform "normal"
