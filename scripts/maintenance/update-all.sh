@@ -47,7 +47,7 @@ sudo dnf clean all
 
 # Notify Waybar if it's running (to refresh update indicator)
 if pgrep -x waybar >/dev/null; then
-    rm -f /tmp/dnf_updates_cache
+    rm -f /tmp/waybar_check_updates_cache
     pkill -RTMIN+9 waybar
 fi
 

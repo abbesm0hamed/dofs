@@ -380,11 +380,7 @@
         "reverse-direction": true,
         "ignored-items": [
             "nm-applet",
-            "Nm-applet",
-            "NetworkManager Applet",
-            "blueman-applet",
-            "blueman-tray",
-            "blueman"
+            "blueman-applet"
         ],
         "on-update": "",
         "smooth-scrolling-threshold": 1
