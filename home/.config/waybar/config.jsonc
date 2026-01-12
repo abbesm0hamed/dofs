@@ -16,10 +16,10 @@
         "niri/window"
     ],
     "modules-center": [
+        "custom/notification-history",
         "clock",
         "niri/workspaces",
-        "custom/next-prayer",
-        "custom/notifications"
+        "custom/next-prayer"
         // "custom/weather"
         //"custom/gammastep"
     ],
@@ -234,6 +234,15 @@
         "on-click": "makoctl dismiss",
         "on-click-right": "makoctl dismiss --all",
         "interval": 5
+    },
+    "custom/notification-history": {
+        "tooltip": true,
+        "return-type": "json",
+        "exec-if": "command -v makoctl && command -v fuzzel",
+        "exec": "~/.config/waybar/scripts/mako-history-status.sh",
+        "interval": 5,
+        "on-click": "~/.config/waybar/scripts/mako-history-menu.sh",
+        "on-click-right": "makoctl restore"
     },
     "custom/niri-binds": {
         "format": " ",
