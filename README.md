@@ -1,8 +1,11 @@
 # dofs - Fedora Workstation Dotfiles with Niri
 
 ![Niri overview](home/.config/screenshots/niri-overview.png)
-![Neovim + fastfetch](home/.config/screenshots/fastfetch-floating.png)
-![Togglable crystal dock](home/.config/screenshots/togglable-crystal-dock.png)
+![btop floating](home/.config/screenshots/btop-floating.png)
+![Decoration apps](home/.config/screenshots/decoration-apps.png)
+![Niri binds](home/.config/screenshots/niri-binds.png)
+![Neovim keypunch](home/.config/screenshots/nvim-keypunch.png)
+![Yazi floating](home/.config/screenshots/yazi-floating.png)
 
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
