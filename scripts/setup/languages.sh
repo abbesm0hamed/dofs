@@ -50,3 +50,47 @@ if ! command -v bun &>/dev/null; then
     curl -fsSL https://bun.sh/install | bash 2>&1 | tee -a "$LOG_FILE" || warn "Bun installation failed."
 fi
 
+log "Setting up Rust (rustup)..."
+
+# Ensure curl exists (required for rustup installer)
+if ! command -v curl &>/dev/null; then
+  sudo dnf install -y curl \
+    2>&1 | tee -a "$LOG_FILE" || warn "Failed to install curl."
+fi
+
+# Install rustup if missing
+if ! command -v rustup &>/dev/null; then
+  curl -fsSL https://sh.rustup.rs \
+    | sh -s -- -y --no-modify-path \
+    2>&1 | tee -a "$LOG_FILE" || warn "rustup installation failed."
+fi
+
+# Make rustup/cargo available in current shell
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Configure Rust toolchain and components
+if command -v rustup &>/dev/null; then
+  # Install and set stable toolchain
+  rustup toolchain install stable \
+    2>&1 | tee -a "$LOG_FILE" || warn "Failed to install stable Rust toolchain."
+
+  rustup default stable \
+    2>&1 | tee -a "$LOG_FILE" || warn "Failed to set stable as default toolchain."
+
+  # Install formatter
+  rustup component add rustfmt --toolchain stable \
+    2>&1 | tee -a "$LOG_FILE" || warn "Failed to install rustfmt."
+
+  # Install linter
+  rustup component add clippy --toolchain stable \
+    2>&1 | tee -a "$LOG_FILE" || warn "Failed to install clippy."
+
+  # Fish shell PATH persistence
+  if [[ "$SHELL" == *"fish"* ]] && command -v fish &>/dev/null; then
+    fish -c "contains '$HOME/.cargo/bin' (string split ':' \$fish_user_paths) \
+      || set -Ua fish_user_paths '$HOME/.cargo/bin'" \
+      2>/dev/null || true
+  fi
+else
+  warn "rustup not found after installation attempt."
+fi

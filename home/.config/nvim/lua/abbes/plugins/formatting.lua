@@ -26,7 +26,7 @@ return {
       markdown = { "prettier" },
       go = { "goimports", "gofumpt" },
       python = { "isort", "black" },
-      rust = { "rustfmt" },
+      rust = { "rustfmt", lsp_format = "fallback" },
       sh = { "shfmt" },
       yaml = { "prettier" },
       toml = { "taplo" },
