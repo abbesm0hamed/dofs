@@ -7,7 +7,7 @@ qt5-qtwayland
 qt6-qtwayland
 xwayland-satellite
 jq
-fuzzel
+rofi
 mako
 waybar
 hyprpaper

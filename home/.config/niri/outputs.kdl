@@ -1,9 +1,9 @@
 output "eDP-1" {
-    mode "1920x1200@60.001" // laptop
-    scale 1.2 // laptop
-
-    // mode "1920x1080@100.000" // desktop
-    // scale 1 // desktop
+    // mode "1920x1200@60.001" // laptop
+    // scale 1.2 // laptop
+    
+    mode "1920x1080@100.000" // desktop
+    scale 1 // desktop
 
     transform "normal"
     position x=1920 y=0  // Move laptop to the right

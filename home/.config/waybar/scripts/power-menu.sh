@@ -2,7 +2,7 @@
 
 options="󰌾 Lock\n󰗽 Logout\n󰤄 Suspend\n󰜉 Reboot\n󰐥 Shutdown"
 
-selected=$(echo -e "$options" | fuzzel --dmenu --prompt="󰐥 Power: " --width=25 --lines=5 --line-height=15)
+selected=$(echo -e "$options" | rofi -dmenu -p "󰐥 Power: " -theme-str 'window { width: 20%; height: 30%; }')
 
 case $selected in
     "󰌾 Lock")

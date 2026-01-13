@@ -23,11 +23,11 @@ window#waybar {
   background: transparent;
 }
 
-.modules-left > widget:first-child > * {
+.modules-left>widget:first-child>* {
   margin-left: 8px;
 }
 
-.modules-right > widget:last-child > * {
+.modules-right>widget:last-child>* {
   margin-right: 3px;
 }
 
@@ -143,6 +143,7 @@ window#waybar {
 #custom-power {
   padding-right: 3px;
 }
+
 #custom-power:hover {
   color: @red;
 }
@@ -188,28 +189,37 @@ window#waybar {
 
 /* System tray */
 #tray {
-  padding: 0 8px;
+  padding: 0 6px 0 13px;
   margin: 0px 0px;
   border-left: 2px dotted @overlay0;
 }
 
-#tray > .passive {
+#tray>.passive {
   -gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
+#tray>.needs-attention {
   -gtk-icon-effect: highlight;
+}
+
+#tray>.passive,
+#tray>.active,
+#tray>.needs-attention {
+  padding: 0 4px;
 }
 
 #power-profiles-daemon {
   padding-right: 4px;
 }
+
 #power-profiles-daemon.performance {
   color: @yellow;
 }
+
 #power-profiles-daemon.balanced {
   color: @blue;
 }
+
 #power-profiles-daemon.power-saver {
   color: @green;
 }

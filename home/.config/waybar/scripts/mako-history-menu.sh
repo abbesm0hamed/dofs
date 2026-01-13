@@ -1,13 +1,13 @@
 #!/bin/bash
 
-if ! command -v makoctl >/dev/null 2>&1 || ! command -v fuzzel >/dev/null 2>&1; then
+if ! command -v makoctl >/dev/null 2>&1 || ! command -v rofi >/dev/null 2>&1; then
     exit 0
 fi
 
 history=$(makoctl history 2>/dev/null || true)
 
 if [ -z "$history" ]; then
-    printf '%s\n' "No notification history" | fuzzel --dmenu --prompt="󰂞 History: " --width=35 --lines=1 >/dev/null
+    printf '%s\n' "No notification history" | rofi -dmenu -p "󰂞 History: " >/dev/null
     exit 0
 fi
 
@@ -26,7 +26,7 @@ choice=$(printf '%s' "$history" | awk 'BEGIN { RS="Notification "; FS="\n" } NR>
     line=title;
     if (app != "") line=line " (" app ")";
     printf "%s\t%s\n", id, line;
-}' | fuzzel --dmenu --prompt="󰂞 History: " --width=60 --lines=10)
+}' | rofi -dmenu -p "󰂞 History: " -theme-str 'window { width: 50%; height: 50%; }')
 
 [ -z "$choice" ] && exit 0
 

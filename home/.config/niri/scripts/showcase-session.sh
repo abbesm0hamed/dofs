@@ -115,7 +115,7 @@ open_binds_workspace() {
     sleep 0.1
     niri_rename_workspace "[${WORKSPACE_PREFIX}-binds]"
 
-    if [ -x "$HOME/.config/niri/scripts/binds-menu.sh" ] && command -v fuzzel >/dev/null 2>&1; then
+    if [ -x "$HOME/.config/niri/scripts/binds-menu.sh" ] && command -v rofi >/dev/null 2>&1; then
         "$HOME/.config/niri/scripts/binds-menu.sh" &
     else
         launch_terminal showcase-binds bash -lc 'sed -n "1,200p" "$HOME/.config/niri/binds.kdl" 2>/dev/null || true; exec bash -l' || true

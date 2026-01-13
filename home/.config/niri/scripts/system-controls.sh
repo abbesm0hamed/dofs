@@ -155,7 +155,7 @@ main_menu() {
     )
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | fuzzel --dmenu --prompt="System Controls: " --width=40 --lines=10)
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 System Controls: ")
 
     case "$choice" in
         *"Idle Mode"*) toggle_idle_mode ;;

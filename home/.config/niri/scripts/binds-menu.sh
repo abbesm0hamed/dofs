@@ -29,7 +29,7 @@ need_cmd() {
 
 need_cmd awk
 need_cmd sort
-need_cmd fuzzel
+need_cmd rofi
 need_cmd wl-copy
 
 if command -v notify-send >/dev/null 2>&1; then
@@ -45,7 +45,7 @@ fi
 #       spawn "hyprlock"
 #   }
 SELECTION=$(
-awk '
+    awk '
 function trim(s) { gsub(/^[ \t]+|[ \t]+$/, "", s); return s }
 function clean_action(s) {
     s = trim(s)
@@ -95,10 +95,10 @@ BEGIN { inblock=0; key=""; action="" }
         action = action " " trim(line)
     }
 }
-' "$BINDS_FILE" \
-| awk -F'\t' '{print $1 "  ->  " $2}' \
-| sort -u \
-| fuzzel --dmenu --prompt="Binds: " --width=80 \
+' "$BINDS_FILE" |
+        awk -F'\t' '{print $1 "  ->  " $2}' |
+        sort -u |
+        rofi -dmenu -p "󰌌 Niri Binds: " -theme-str 'window { width: 55%; height: 65%; }'
 )
 
 if [ -z "${SELECTION:-}" ]; then

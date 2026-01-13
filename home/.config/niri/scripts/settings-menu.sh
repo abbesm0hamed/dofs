@@ -14,12 +14,12 @@ audio_menu() {
     )
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | fuzzel --dmenu --prompt="Audio Settings: " --width=40 --lines=6)
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰓃 Audio Settings: ")
 
     case "$choice" in
         *"Volume Control"*) pavucontrol & ;;
         *"Audio Devices"*)
-            pactl list sinks short | fuzzel --dmenu --prompt="Audio Devices: " --width=60
+            pactl list sinks short | rofi -dmenu -p "󰓃 Audio Devices: "
             ;;
         *"Toggle Mute"*)
             pactl set-sink-mute @DEFAULT_SINK@ toggle
@@ -47,7 +47,7 @@ display_menu() {
     )
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | fuzzel --dmenu --prompt="Display Settings: " --width=40 --lines=6)
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰔊 Display Settings: ")
 
     case "$choice" in
         *"Display Configuration"*)
@@ -83,14 +83,14 @@ network_menu() {
     )
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | fuzzel --dmenu --prompt="Network Settings: " --width=40 --lines=6)
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰤨 Network Settings: ")
 
     case "$choice" in
         *"WiFi Networks"*)
-            nmcli device wifi list | fuzzel --dmenu --prompt="WiFi Networks: " --width=60
+            nmcli device wifi list | rofi -dmenu -p "󰤨 WiFi Networks: "
             ;;
         *"Bluetooth Devices"*)
-            bluetoothctl devices | fuzzel --dmenu --prompt="Bluetooth Devices: " --width=60
+            bluetoothctl devices | rofi -dmenu -p "󰂯 Bluetooth Devices: "
             ;;
         *"Network Manager"*) nm-connection-editor & ;;
         *"Toggle WiFi"*) ~/.config/niri/scripts/system-controls.sh ;;
@@ -109,7 +109,7 @@ system_info() {
         "  $(sensors 2>/dev/null | grep -E 'Core|temp' | head -1 | awk '{print $3}' || echo 'N/A')"
     )
 
-    printf '%s\n' "${info[@]}" | fuzzel --dmenu --prompt="System Info: " --width=50 --lines=8
+    printf '%s\n' "${info[@]}" | rofi -dmenu -p "󰋇 System Info: "
 }
 
 # Main settings menu
@@ -127,7 +127,7 @@ main_menu() {
     )
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | fuzzel --dmenu --prompt="Settings: " --width=40 --lines=10)
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 Settings: ")
 
     case "$choice" in
         *"Audio Settings"*) audio_menu ;;

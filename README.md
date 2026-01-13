@@ -1,16 +1,37 @@
 # dofs - Fedora Workstation Dotfiles with Niri
 
-![Niri overview](home/.config/screenshots/niri-overview.png)
-![btop floating](home/.config/screenshots/btop-floating.png)
-![Decoration apps](home/.config/screenshots/decoration-apps.png)
-![Niri binds](home/.config/screenshots/niri-binds.png)
-![Neovim keypunch](home/.config/screenshots/nvim-keypunch.png)
-![Yazi floating](home/.config/screenshots/yazi-floating.png)
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="home/.config/screenshots/niri-overview.png" alt="Niri overview" />
+      <br>
+      <b>Niri Overview</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="home/.config/screenshots/decoration-apps.png" alt="Decoration apps" />
+      <br>
+      <b>Decoration Apps</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="home/.config/screenshots/niri-binds.png" alt="Niri binds" />
+      <br>
+      <b>Niri Binds</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="home/.config/screenshots/yazi-floating.png" alt="Yazi floating" />
+      <br>
+      <b>Yazi Floating</b>
+    </td>
+  </tr>
+</table>
 
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
 - **Niri** - Scrollable-tiling Wayland compositor
 - **Ghostty** - Fast, waybar native terminal emulator
+- **Rofi** - Highly customizable application launcher
 - **Waybar** - Highly customizable status bar
 - **Mako** - Lightweight notification daemon
 - **Fish** shell with **Starship** prompt

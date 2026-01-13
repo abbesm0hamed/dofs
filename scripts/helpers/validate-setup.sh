@@ -28,7 +28,7 @@ check_pkg() {
     if command -v "$1" &>/dev/null; then success "$1 installed"; else error "$1 missing"; fi
 }
 
-PACKAGES=(niri waybar mako fuzzel xwayland-satellite hyprlock swayidle ghostty)
+PACKAGES=(niri waybar mako rofi xwayland-satellite hyprlock swayidle ghostty)
 for pkg in "${PACKAGES[@]}"; do check_pkg "$pkg"; done
 
 # Config & Symlinks
@@ -39,7 +39,7 @@ check_link() {
     if [ -L "$1" ] && [ -e "$1" ]; then success "$(basename "$1") link valid"; else warning "$(basename "$1") link invalid or missing"; fi
 }
 
-LINKS=(~/.config/niri ~/.config/waybar ~/.config/mako ~/.config/fuzzel)
+LINKS=(~/.config/niri ~/.config/waybar ~/.config/mako ~/.config/rofi)
 for link in "${LINKS[@]}"; do check_link "$link"; done
 
 # Scripts

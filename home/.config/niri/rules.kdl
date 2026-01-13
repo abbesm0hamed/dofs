@@ -59,7 +59,7 @@ window-rule {
 
 window-rule {
     match app-id="kitty"
-    opacity 0.99
+    opacity 0.95
     draw-border-with-background false
 }
 

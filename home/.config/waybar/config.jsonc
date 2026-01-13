@@ -238,7 +238,7 @@
     "custom/notification-history": {
         "tooltip": true,
         "return-type": "json",
-        "exec-if": "command -v makoctl && command -v fuzzel",
+        "exec-if": "command -v makoctl && command -v rofi",
         "exec": "~/.config/waybar/scripts/mako-history-status.sh",
         "interval": 5,
         "on-click": "~/.config/waybar/scripts/mako-history-menu.sh",

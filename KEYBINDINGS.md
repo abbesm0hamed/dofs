@@ -118,7 +118,7 @@
 | `    Mod+Shift+V          ` | `screenshot-window                                           ` |
 | `    Mod+Shift+WheelScrollDown` | `focus-column-right                                          ` |
 | `    Mod+Shift+WheelScrollUp` | `focus-column-left                                           ` |
-| `    Mod+Space            ` | `fuzzel --width=40% --lines=5                                ` |
+| `    Mod+Space            ` | `rofi -show drun                  ` |
 | `    Mod+Tab              ` | `toggle-overview                                             ` |
 | `    Mod+T                ` | `kitty                                                       ` |
 | `    Mod+WheelScrollDown     ` | `focus-workspace-down                                        ` |

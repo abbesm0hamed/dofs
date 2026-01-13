@@ -21,7 +21,7 @@ for root in "${PROJECT_ROOTS[@]}"; do
 done
 
 # Deduplicate and filter (removing hidden dirs)
-PICK=$(cat "$PROJECTS_FILE" | sort -u | grep -v "/\." | fuzzel --dmenu --prompt="Project: " --width=80)
+PICK=$(cat "$PROJECTS_FILE" | sort -u | grep -v "/\." | rofi -dmenu -p "󱂬 Project: ")
 
 rm "$PROJECTS_FILE"
 
