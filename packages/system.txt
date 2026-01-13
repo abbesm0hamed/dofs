@@ -19,8 +19,6 @@ xdg-user-dirs
 power-profiles-daemon
 
 pavucontrol
-pulseaudio-utils
-wireplumber
 
 gnome-keyring
 polkit-gnome
