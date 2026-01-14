@@ -1,7 +1,7 @@
 # Ghostty Default Theme
 
-background = #111318
-foreground = #cdd6f4
+background = #0d0e11
+foreground = #e7e3ff
 
 # Numbered Palette
 palette = 0=#45475a
@@ -23,4 +23,4 @@ palette = 15=#a6adc8
 
 cursor-color = #f5e0dc
 selection-background = #585b70
-selection-foreground = #cdd6f4
+selection-foreground = #e7e3ff

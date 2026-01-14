@@ -9,8 +9,8 @@ width=350
 height=100
 
 # Styling (default)
-background-color=#111318
-text-color=#cdd6f4
+background-color=#0d0e11
+text-color=#e7e3ff
 border-color=#89b4fa
 border-size=1
 border-radius=10
@@ -35,20 +35,20 @@ group-by=app-name
 
 # Urgency levels
 [urgency=low]
-background-color=#111318
+background-color=#0d0e11
 text-color=#9399b2
 border-color=#6c7086
 default-timeout=4000
 
 [urgency=normal]
-background-color=#111318
-text-color=#cdd6f4
+background-color=#0d0e11
+text-color=#e7e3ff
 border-color=#89b4fa
 default-timeout=8000
 
 [urgency=critical]
-background-color=#111318
-text-color=#cdd6f4
+background-color=#0d0e11
+text-color=#e7e3ff
 border-color=#f38ba8
 default-timeout=0
 

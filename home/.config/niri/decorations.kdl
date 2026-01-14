@@ -3,7 +3,7 @@ overview {
     workspace-shadow {
         off
     }
-    backdrop-color "#111318"
+    backdrop-color "#0d0e11"
 }
 
 cursor {

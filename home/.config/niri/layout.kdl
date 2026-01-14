@@ -1,6 +1,6 @@
 layout {
     gaps 8
-    background-color "#111318"
+    background-color "#0d0e11"
     center-focused-column "never"
     always-center-single-column true
 
@@ -20,8 +20,8 @@ layout {
     border {
         on
         width 1
-        active-color "#89b4fa"
-        inactive-color "#45475a"
+        active-color "#a8a9ee"
+        inactive-color "#3e3548"
         urgent-color "#f38ba8"
     }
 
