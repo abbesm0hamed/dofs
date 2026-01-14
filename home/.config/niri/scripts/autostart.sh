@@ -4,8 +4,8 @@ set -euo pipefail
 
 # Configuration
 WALLPAPER_DIR="${HOME}/.config/backgrounds"
-FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/dark-abstract.jpg"
-BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-dark-abstract.jpg"
+FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/spiral.jpg"
+BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-spiral.jpg"
 
 # Logging
 LOG_FILE="${XDG_RUNTIME_DIR:-/tmp}/niri-autostart.log"
@@ -19,7 +19,7 @@ run_once() {
     local cmd0="$1"
     local pname
     pname="$(basename "$cmd0")"
-    if ! pgrep -x "$pname" > /dev/null; then
+    if ! pgrep -x "$pname" >/dev/null; then
         echo "  → Starting $cmd0..."
         "$@" &
     else
@@ -38,9 +38,9 @@ echo "Syncing env vars..."
 
 # Import environment to systemd/dbus
 ENVS_TO_IMPORT=(
-    DISPLAY WAYLAND_DISPLAY 
+    DISPLAY WAYLAND_DISPLAY
     XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_SESSION_TYPE
-    GTK_USE_PORTAL GDK_SCALE 
+    GTK_USE_PORTAL GDK_SCALE
     QT_QPA_PLATFORM QT_QPA_PLATFORMTHEME QT_WAYLAND_DISABLE_WINDOWDECORATION
     QT_MEDIA_BACKEND QT_FFMPEG_DECODING_HW_DEVICE_TYPES QT_FFMPEG_ENCODING_HW_DEVICE_TYPES
     CLUTTER_BACKEND ELECTRON_OZONE_PLATFORM_HINT MOZ_ENABLE_WAYLAND
@@ -55,7 +55,7 @@ dbus-update-activation-environment --systemd "${ENVS_TO_IMPORT[@]}" || true
 
 # Wallpapers
 if [ -f "$FOREGROUND_WALLPAPER" ]; then
-    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER"
+    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER" &
 fi
 
 # Core Services
@@ -71,7 +71,7 @@ fi
 
 # Clipboard Manager
 if command -v cliphist &>/dev/null && command -v wl-paste &>/dev/null; then
-    if ! pgrep -f "cliphist store" > /dev/null; then
+    if ! pgrep -f "cliphist store" >/dev/null; then
         echo "  → Starting clipboard manager..."
         wl-paste --type text --watch cliphist store &
         wl-paste --type image --watch cliphist store &
@@ -80,7 +80,7 @@ fi
 
 # Screen Idle / Lock
 if command -v swayidle &>/dev/null; then
-    if ! pgrep -x "swayidle" > /dev/null; then
+    if ! pgrep -x "swayidle" >/dev/null; then
         echo "  → Starting swayidle..."
         swayidle -w \
             timeout 600 'niri msg action power-off-monitors' \
