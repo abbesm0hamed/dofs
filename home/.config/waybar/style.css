@@ -74,8 +74,9 @@ window#waybar {
   padding: 4px 2px;
   margin: 0px 0px;
   border-radius: 0px;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease;
   min-width: 24px;
+  font-weight: normal;
 }
 
 #workspaces button.focused {
@@ -83,8 +84,12 @@ window#waybar {
 }
 
 #workspaces button:hover {
-  color: @text;
-  background: @surface1;
+  color: @overlay2;
+  background: transparent;
+}
+
+#workspaces button.focused:hover {
+  color: @blue;
 }
 
 #workspaces button.urgent {

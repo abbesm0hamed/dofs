@@ -9,7 +9,7 @@
     grey: #6c7086;
 
     width: 35%;
-    font: "JetBrains Mono 14";
+    font: "JetBrains Mono 12";
 }
 
 element-text, element-icon {

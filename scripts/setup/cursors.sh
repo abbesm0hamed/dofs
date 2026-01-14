@@ -5,6 +5,19 @@ log() { printf "\033[0;34m==> %s\033[0m\n" "$1"; }
 warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 ok() { printf "\033[0;32m==> %s\033[0m\n" "$1"; }
 
+NIRI_ENV_FILE="$HOME/.config/niri/configs/env"
+if [ -f "$NIRI_ENV_FILE" ]; then
+    if [ -z "${XCURSOR_THEME:-}" ]; then
+        XCURSOR_THEME="$(awk -F= '/^[[:space:]]*export[[:space:]]+XCURSOR_THEME=/{v=$2} END{gsub(/^["\x27 ]+|["\x27 ]+$/,"",v); print v}' "$NIRI_ENV_FILE")"
+    fi
+    if [ -z "${XCURSOR_SIZE:-}" ]; then
+        XCURSOR_SIZE="$(awk -F= '/^[[:space:]]*export[[:space:]]+XCURSOR_SIZE=/{v=$2} END{gsub(/^["\x27 ]+|["\x27 ]+$/,"",v); print v}' "$NIRI_ENV_FILE")"
+    fi
+fi
+
+CURSOR_THEME="${CURSOR_THEME:-${XCURSOR_THEME}}"
+CURSOR_SIZE="${CURSOR_SIZE:-${XCURSOR_SIZE}}"
+
 ICONS_DIR="${HOME}/.local/share/icons"
 mkdir -p "$ICONS_DIR"
 
@@ -37,9 +50,9 @@ log "Applying browser and consistency fixes..."
 
 # Global GSettings update (for GTK apps that monitor this)
 if command -v gsettings &>/dev/null; then
-    gsettings set org.gnome.desktop.interface cursor-theme "Banana"
-    gsettings set org.gnome.desktop.interface cursor-size 24
-    ok "Global GSettings updated to Banana."
+    gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR_THEME"
+    gsettings set org.gnome.desktop.interface cursor-size "$CURSOR_SIZE"
+    ok "Global GSettings updated to ${CURSOR_THEME}."
 fi
 
 # XWayland / Legacy fallback
@@ -47,7 +60,7 @@ fi
 mkdir -p "${HOME}/.icons/default"
 cat >"${HOME}/.icons/default/index.theme" <<EOF
 [Icon Theme]
-Inherits=Banana
+Inherits=${CURSOR_THEME}
 EOF
 ok "XWayland fallback created."
 

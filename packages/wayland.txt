@@ -11,6 +11,7 @@ rofi
 mako
 waybar
 hyprpaper
+xdg-desktop-portal
 xdg-desktop-portal-gnome
 xdg-desktop-portal-gtk
 socat

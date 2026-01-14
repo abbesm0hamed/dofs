@@ -52,7 +52,7 @@ window-rule {
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
     open-maximized true
-    opacity 0.999
+    opacity 0.95
     draw-border-with-background false
     shadow { off; }
 }
@@ -103,12 +103,12 @@ window-rule {
 
 window-rule {
     match app-id=r#"^xdg-desktop-portal-(gtk|gnome)$"#
-    match title="^Open Folder$"
-    match title="^Open File$"
-    match title="^Select Folder$"
-    match title="^Save File$"
     open-floating true
     clip-to-geometry true
+    default-column-width { proportion 0.6; }
+    default-window-height { proportion 0.7; }
+    focus-ring { off; }
+    border { off; }
 }
 
 window-rule {
