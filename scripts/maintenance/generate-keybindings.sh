@@ -53,9 +53,10 @@ fi
 
 # --- Neovim Keybindings ---
 log "Parsing Neovim keybindings..."
-NVIM_PLUGINS_DIR="${REPO_ROOT}/home/.config/nvim/lua/abbes/plugins/"
+NVIM_LUA_DIR="${REPO_ROOT}/home/.config/nvim/lua"
+NVIM_PLUGINS_DIR="$(find "$NVIM_LUA_DIR" -maxdepth 2 -type d -name plugins 2>/dev/null | head -n 1 || true)"
 
-if [ -d "$NVIM_PLUGINS_DIR" ]; then
+if [ -n "$NVIM_PLUGINS_DIR" ] && [ -d "$NVIM_PLUGINS_DIR" ]; then
     echo "# Neovim Keybindings" >> "$OUTPUT_FILE"
     echo "" >> "$OUTPUT_FILE"
     echo "| Keybinding | Description |" >> "$OUTPUT_FILE"

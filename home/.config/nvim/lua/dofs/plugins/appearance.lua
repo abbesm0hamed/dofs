@@ -1,4 +1,4 @@
-local u = require("abbes.config.utils")
+local u = require("dofs.config.utils")
 --------------------------------------------------------------------------------
 
 return {

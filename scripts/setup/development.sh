@@ -53,7 +53,7 @@ fi
 if command -v npm &> /dev/null; then
     if ! command -v gemini &> /dev/null; then
         log "Installing Gemini CLI..."
-        npm i -g @google/gemini-cli 2>&1 | tee -a "$LOG_FILE" || warn "Gemini CLI installation failed."
+        sudo npm i -g @google/gemini-cli 2>&1 | tee -a "$LOG_FILE" || warn "Gemini CLI installation failed."
     else
         log "Gemini CLI is already installed."
     fi

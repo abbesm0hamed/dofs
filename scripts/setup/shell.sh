@@ -37,7 +37,8 @@ fi
 
 log "Installing Starship..."
 if ! command -v starship &>/dev/null; then
-    curl -sS https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1 && ok "Starship installed" || err "Starship failed"
+    mkdir -p "$HOME/.local/bin"
+    curl -sS https://starship.rs/install.sh | sh -s -- -y -b "$HOME/.local/bin" >/dev/null 2>&1 && ok "Starship installed" || err "Starship failed"
 fi
 
 log "Installing Atuin..."

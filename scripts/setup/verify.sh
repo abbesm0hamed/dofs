@@ -13,6 +13,8 @@ ok() { printf "${GREEN} [OK] ${NC} %s\n" "$1"; }
 err() { printf "${RED} [FAIL] ${NC} %s\n" "$1"; }
 warn() { printf "${YELLOW} [WARN] ${NC} %s\n" "$1"; }
 
+export PATH="$HOME/.local/bin:$PATH"
+
 log "Starting Niri Desktop Environment Health Check..."
 
 # --- Check Core Binaries ---

@@ -152,7 +152,7 @@ function M.addToLuaLine(bar, section, component, whereInComponent)
       lualine_setup_pending = false
 
       -- Theming needs to be re-applied, since the lualine-styling can change
-      -- require("abbes.config.theme-customization").reloadTheming()
+      -- require("dofs.config.theme-customization").reloadTheming()
     end, 50) -- Short delay to batch multiple calls
   end
 end

@@ -23,6 +23,10 @@ home/.config/ranger/history
 home/.config/ranger/tagged
 /home/.config/ranger/.cache/
 
+# Fish universal variables (machine/user specific)
+home/.config/fish/fish_variables
+home/.config/fish/fish_variables.*
+
 # Python cache
 __pycache__/
 *.py[cod]

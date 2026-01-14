@@ -1,2 +1,2 @@
-require("abbes.config")
-require("abbes.lazy")
+require("dofs.config")
+require("dofs.lazy")

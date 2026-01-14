@@ -10,17 +10,22 @@ RUN dnf install -y \
     which \
     && dnf clean all
 
-# Create test user (matching user environment but non-root)
-RUN useradd -m -G wheel abbes \
-    && echo "abbes:abbes" | chpasswd \
-    && echo "abbes ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/abbes
+ARG UID=1000
+ARG GID=1000
 
-USER abbes
-WORKDIR /home/abbes/dofs
+# Create test user (matching host UID/GID for bind-mount write access)
+RUN (getent group "$GID" >/dev/null || groupadd -g "$GID" dofs) \
+    && useradd -m -u "$UID" -g "$GID" -G wheel dofs \
+    && echo "dofs:dofs" | chpasswd \
+    && echo "dofs ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dofs \
+    && chmod 0440 /etc/sudoers.d/dofs
+
+USER dofs
+WORKDIR /home/dofs/dofs
 
 # Set some basic environment variables
-ENV USER=abbes
-ENV HOME=/home/abbes
+ENV USER=dofs
+ENV HOME=/home/dofs
 ENV SHELL=/bin/bash
 
 # Default command is just to check if repo is mounted

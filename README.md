@@ -63,6 +63,22 @@ cd ~/dofs
 ./install.sh
 ```
 
+## Test Installation in a Container (Recommended)
+
+If you don't want to run the installer directly on your machine, you can validate the bootstrap in a clean Fedora container.
+
+```bash
+git clone --branch fedora-niri https://github.com/abbesm0hamed/dofs.git ~/dofs
+cd ~/dofs
+bash tests/test-install.sh
+```
+
+Notes:
+
+- The test prefers `podman` if available, otherwise it uses `docker`.
+- If `docker` is not accessible as your user, the test will exit with an error (instead of prompting for an interactive `sudo` password).
+- The test runs `./install.sh --non-interactive` inside the container and then runs `./scripts/setup/verify.sh`.
+
 ### 3. Reboot and Enjoy
 
 ```bash
