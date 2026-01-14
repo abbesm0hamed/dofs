@@ -116,8 +116,7 @@ if type -q fnm
     __auto_fnm
 end
 
-# Consolidated PATH management via fish_user_paths
-set -U fish_user_paths $HOME/.local/bin $HOME/go/bin $HOME/.cargo/bin $HOME/.atuin/bin $fish_user_paths
+fish_add_path -g $HOME/.local/bin $HOME/go/bin $HOME/.cargo/bin $HOME/.atuin/bin
 
 if command -v fnm >/dev/null 2>&1
     fnm env --shell fish | source

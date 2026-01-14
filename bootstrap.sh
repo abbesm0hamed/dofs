@@ -16,6 +16,8 @@ INSTALL_DIR="${HOME}/dofs"
 
 # --- Main logic ---
 main() {
+    local STASH_SUCCESSFUL=false
+
     # Check for dependencies
     if ! command -v git &>/dev/null; then
         err "Git is not installed. Please install it first."
