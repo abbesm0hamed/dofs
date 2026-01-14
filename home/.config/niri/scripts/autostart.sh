@@ -4,8 +4,8 @@ set -euo pipefail
 
 # Configuration
 WALLPAPER_DIR="${HOME}/.config/backgrounds"
-FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/fold.jpg"
-BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-fold.jpg"
+FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/black-abstract.jpg"
+BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-black-abstract.jpg"
 
 # Logging
 LOG_FILE="${XDG_RUNTIME_DIR:-/tmp}/niri-autostart.log"
