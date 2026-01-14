@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# Prevent race conditions with flock
+[ "${FLOCKER:-}" != "$0" ] && exec env FLOCKER="$0" flock -en "$0" "$0" "$@" || :
+
 WALL_DIR="${HOME}/.config/backgrounds"
 FG_LINK="${WALL_DIR}/current.jpg"
 BG_LINK="${WALL_DIR}/current-blurry.jpg"
@@ -13,61 +16,59 @@ fi
 FG_WALL="$(readlink -f "$1")"
 BG_WALL="${2:-}"
 
-# If no backdrop provided, look for blurry-* in the same dir
+# Background resolution logic
 if [ -z "$BG_WALL" ]; then
     POTENTIAL_BG="$(dirname "$FG_WALL")/blurry-$(basename "$FG_WALL")"
     [ -f "$POTENTIAL_BG" ] && BG_WALL="$POTENTIAL_BG"
 fi
+[ -n "$BG_WALL" ] && [ -f "$BG_WALL" ] && BG_WALL="$(readlink -f "$BG_WALL")"
 
-# Resolve backdrop to absolute path if it exists
-if [ -n "$BG_WALL" ] && [ -f "$BG_WALL" ]; then
-    BG_WALL="$(readlink -f "$BG_WALL")"
-fi
+# Update symlinks early (so initial startup sees correct files)
+[ -f "$FG_WALL" ] && ln -nsf "$FG_WALL" "$FG_LINK"
+[ -n "$BG_WALL" ] && [ -f "$BG_WALL" ] && ln -nsf "$BG_WALL" "$BG_LINK"
 
-# Apply Foreground (hyprpaper)
-if [ -f "$FG_WALL" ]; then
-    ln -nsf "$FG_WALL" "$FG_LINK"
+# Foreground manager (hyprpaper)
+apply_foreground() {
+    if [ ! -f "$FG_WALL" ]; then return; fi
 
-    # IPC components
-    HYPR_SOCK_DIR="${XDG_RUNTIME_DIR}/hypr"
-    HYPR_SOCK="${HYPR_SOCK_DIR}/.hyprpaper.sock"
+    local HYPR_SOCK="${XDG_RUNTIME_DIR}/hypr/.hyprpaper.sock"
 
-    # Initialize hyprpaper if not running
     if ! pgrep -x hyprpaper >/dev/null; then
-        mkdir -p "$HYPR_SOCK_DIR"
+        # If not running, start it. It will read the symlink from its config.
         hyprpaper &
-        # Wait for socket
-        for i in {1..20}; do
-            [ -S "$HYPR_SOCK" ] && break
-            sleep 0.1
-        done
+        return
     fi
 
-    # IPC commands for hyprpaper
+    # Batch IPC commands into a single socat call
     if [ -S "$HYPR_SOCK" ]; then
-        # Unload all, preload new, and set wallpaper
-        echo "preload $FG_WALL" | socat - UNIX-CONNECT:"$HYPR_SOCK" || true
-        echo "wallpaper ,$FG_WALL" | socat - UNIX-CONNECT:"$HYPR_SOCK" || true
-        # Optional: unload unused to save RAM
-        echo "unload unused" | socat - UNIX-CONNECT:"$HYPR_SOCK" || true
+        {
+            echo "preload $FG_WALL"
+            echo "wallpaper ,$FG_WALL"
+            echo "unload unused"
+        } | socat - UNIX-CONNECT:"$HYPR_SOCK" || true
     else
-        echo "Error: hyprpaper socket not found at $HYPR_SOCK" >&2
+        echo "Warning: hyprpaper socket not found" >&2
     fi
-fi
+}
 
-# Apply Backdrop (swaybg)
-if [ -f "$BG_WALL" ]; then
-    ln -nsf "$BG_WALL" "$BG_LINK"
+# Backdrop manager (swaybg)
+apply_backdrop() {
+    if [ -z "$BG_WALL" ] || [ ! -f "$BG_WALL" ]; then return; fi
 
-    # Kill existing swaybg and wait for it to fully terminate
-    pkill swaybg || true
-    sleep 0.1
-
-    # Start swaybg with proper namespace for layer rule matching
-    # The namespace "wallpaper" matches the layer-rule in config.kdl
+    # Start new instance first for smoother transition
     swaybg -i "$BG_WALL" -m fill &
+    local NEW_PID=$!
 
-    echo "Backdrop wallpaper set to: $BG_WALL"
-else
-    echo "Warning: Backdrop wallpaper not found: $BG_WALL" >&2
-fi
+    # Wait a moment for the new one to map, then kill old ones
+    (
+        sleep 0.5
+        pgrep -x swaybg | grep -v "$NEW_PID" | xargs kill 2>/dev/null || true
+    ) &
+}
+
+# Run foreground and backdrop in parallel
+apply_foreground &
+apply_backdrop &
+
+wait
+echo "Wallpapers updated successfully."
