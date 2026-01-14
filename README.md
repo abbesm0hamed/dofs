@@ -47,7 +47,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/abbesm0hamed/dofs/fedora
 This will:
 
 - Install all packages from lists (system, desktop, wayland, etc.)
-- Stow all dotfiles to `~/.config`
+- Stow dotfiles into your home directory (including `~/.config`)
 - Apply the unified default theme
 - Enable the Niri session in GDM (GNOME Display Manager)
 
@@ -76,10 +76,9 @@ bash tests/test-install.sh
 Notes:
 
 - The test prefers `podman` if available, otherwise it uses `docker`.
-- If `docker` is not accessible as your user, the test will exit with an error (instead of prompting for an interactive `sudo` password).
-- The test runs `./install.sh --non-interactive` inside the container and then runs `./scripts/setup/verify.sh`.
+- The test runs `./install.sh --non-interactive` and then `./scripts/setup/verify.sh` inside the container.
 
-### 3. Reboot and Enjoy
+## Reboot
 
 ```bash
 reboot
@@ -159,7 +158,7 @@ dofs doctor
 # Verify your configuration symlinks and health
 dofs verify
 
-# Run installation test in a clean Docker container (Fedora)
+# Run installation test in a clean container (Fedora)
 dofs test
 
 # Uninstall configurations and symlinks managed by dofs

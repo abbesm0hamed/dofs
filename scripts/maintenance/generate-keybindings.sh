@@ -16,7 +16,14 @@ log "Generating KEYBINDINGS.md..."
 
 # --- Niri Keybindings ---
 log "Parsing Niri keybindings..."
-NIRI_CONFIG="${REPO_ROOT}/home/.config/niri/config.kdl"
+NIRI_BINDS_FILE="${REPO_ROOT}/home/.config/niri/binds.kdl"
+NIRI_CONFIG_FILE="${REPO_ROOT}/home/.config/niri/config.kdl"
+
+if [ -f "$NIRI_BINDS_FILE" ]; then
+    NIRI_CONFIG="$NIRI_BINDS_FILE"
+else
+    NIRI_CONFIG="$NIRI_CONFIG_FILE"
+fi
 
 if [ -f "$NIRI_CONFIG" ]; then
     echo "# Niri Keybindings" >> "$OUTPUT_FILE"
@@ -25,24 +32,65 @@ if [ -f "$NIRI_CONFIG" ]; then
     echo "|------------|--------|" >> "$OUTPUT_FILE"
 
     awk '
-        BEGIN { FS = "[ \t]*[{};][ \t]*" }
-        /binds \{/ { in_binds = 1; next }
-        /^\}/ { if (in_binds) in_binds = 0 }
+        function trim(s) {
+            gsub(/^[ \t]+|[ \t]+$/, "", s)
+            return s
+        }
+        function clean_key(s) {
+            s = trim(s)
+            gsub(/ allow-when-locked=true/, "", s)
+            gsub(/ repeat=false/, "", s)
+            gsub(/ cooldown-ms=[0-9]+/, "", s)
+            return trim(s)
+        }
+        function clean_action(s) {
+            s = trim(s)
+            gsub(/;$/, "", s)
+            s = trim(s)
+            sub(/^spawn[ \t]+/, "", s)
+            gsub(/"/, "", s)
+            return trim(s)
+        }
+        /binds[ \t]*\{/ { in_binds = 1; next }
         in_binds {
             if ($0 ~ /^(\s*$|\s*\/\/)/) next
 
-            key_part = $1
-            action_part = $2
+            # End of binds block
+            if (!in_block && $0 ~ /^\s*\}/) { in_binds = 0; next }
 
-            gsub(/ allow-when-locked=true/, "", key_part)
-            gsub(/ repeat=false/, "", key_part)
-            gsub(/ cooldown-ms=[0-9]+/, "", key_part)
-            
-            gsub(/^spawn /, "", action_part)
-            gsub(/"/, "", action_part)
+            # Start of a bind entry (single-line or multi-line)
+            if (!in_block && match($0, /^\s*([^\/\s][^\{]*?)\s*\{(.*)$/, m)) {
+                key_part = clean_key(m[1])
+                rest = m[2]
 
-            if (key_part != "" && action_part != "") {
-                printf "| `%-25s` | `%-60s` |\n", key_part, action_part
+                # Single-line: key { action; }
+                if (match(rest, /([^}]*)\}/, a)) {
+                    action_part = clean_action(a[1])
+                    if (key_part != "" && action_part != "") {
+                        printf "| `%-25s` | `%-60s` |\n", key_part, action_part
+                    }
+                    key_part = ""; action_part = ""; in_block = 0
+                    next
+                }
+
+                action_part = ""
+                in_block = 1
+                next
+            }
+
+            # Inside a multi-line bind block: capture the first meaningful action line
+            if (in_block) {
+                if ($0 ~ /^\s*\}/) {
+                    if (key_part != "" && action_part != "") {
+                        printf "| `%-25s` | `%-60s` |\n", key_part, action_part
+                    }
+                    key_part = ""; action_part = ""; in_block = 0
+                    next
+                }
+                if ($0 ~ /^(\s*$|\s*\/\/)/) next
+                if (action_part == "") {
+                    action_part = clean_action($0)
+                }
             }
         }
     ' "$NIRI_CONFIG" | sort >> "$OUTPUT_FILE"
