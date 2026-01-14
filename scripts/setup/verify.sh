@@ -37,6 +37,10 @@ check_bin "hyprlock"
 check_bin "fish"
 check_bin "starship"
 check_bin "satty"
+check_bin "swayidle"
+check_bin "mako"
+check_bin "hyprpaper"
+check_bin "wl-copy"
 
 # --- Check Symlinks ---
 check_link() {

@@ -103,16 +103,8 @@ fi
 if command -v fish &>/dev/null; then
     log "Configuring Fish shell PATH for language managers..."
     
-    # Add fnm path if not already present
-    fish -c "contains '$HOME/.local/share/fnm' (string split ':' \$fish_user_paths) || set -Ua fish_user_paths '$HOME/.local/share/fnm'"
+    fish -c "fish_add_path -g '$HOME/.local/share/fnm' '$HOME/.bun/bin' '$HOME/.cargo/bin'"
     
-    # Add bun path if not already present
-    fish -c "contains '$HOME/.bun/bin' (string split ':' \$fish_user_paths) || set -Ua fish_user_paths '$HOME/.bun/bin'"
-    
-    # Add cargo path if not already present
-    fish -c "contains '$HOME/.cargo/bin' (string split ':' \$fish_user_paths) || set -Ua fish_user_paths '$HOME/.cargo/bin'"
-    
-    # Add windsurf abbreviations if binary exists
     fish -c "
         if command -v windsurf >/dev/null
             abbr -a ws windsurf

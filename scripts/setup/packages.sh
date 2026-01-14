@@ -9,19 +9,6 @@ warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 : "${PACKAGES_DIR:=${REPO_ROOT}/packages}"
 : "${LOG_FILE:=/dev/null}"
 
-read_packages_from_files() {
-    local file_pattern="$1"
-    local -n packages_array="$2" # Use a nameref for the output array
-
-    while IFS= read -r package; do
-        package="${package%%#*}" # Remove comments
-        package="$(printf '%s' "$package" | xargs)" # Trim whitespace
-        if [[ -n "$package" ]]; then
-            packages_array+=("$package")
-        fi
-    done < <(find "$file_pattern" -type f -print0 | xargs -0 cat)
-}
-
 # --- DNF Package Installation ---
 log "Installing DNF packages..."
 RAW_PACKAGES=()
@@ -32,7 +19,7 @@ while IFS= read -r package; do
     if [[ -n "$package" ]]; then
         RAW_PACKAGES+=("$package")
     fi
-done < <(find "${PACKAGES_DIR}" -maxdepth 1 -name "*.txt" ! -name "flatpak.txt" -type f -print0 | xargs -0 cat)
+done < <(find "${PACKAGES_DIR}" -maxdepth 1 -name "*.txt" ! -name "flatpak.txt" ! -name "copr.txt" -type f -print0 | xargs -0 cat)
 
 # Deduplicate packages
 ALL_PACKAGES=($(echo "${RAW_PACKAGES[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))

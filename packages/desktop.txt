@@ -19,5 +19,5 @@ xsensors
 
 crystal-dock
 
-# cusors
+# cursors
 bibata-cursor-themes
