@@ -16,11 +16,14 @@ echo "Display: $WAYLAND_DISPLAY"
 
 # Helper function to start a process if not already running
 run_once() {
-    if ! pgrep -x "$1" > /dev/null; then
-        echo "  → Starting $1..."
+    local cmd0="$1"
+    local pname
+    pname="$(basename "$cmd0")"
+    if ! pgrep -x "$pname" > /dev/null; then
+        echo "  → Starting $cmd0..."
         "$@" &
     else
-        echo "  → $1 is already running."
+        echo "  → $cmd0 is already running."
     fi
 }
 

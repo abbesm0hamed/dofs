@@ -24,6 +24,8 @@ gnome-keyring
 polkit-gnome
 wev
 nwg-look
+qt5ct
+qt6ct
 udiskie
 inxi
 plocate
