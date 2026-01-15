@@ -1,5 +1,5 @@
 window-rule {
-    geometry-corner-radius 10 
+    geometry-corner-radius 0 
     clip-to-geometry true
 }
 
@@ -52,14 +52,14 @@ window-rule {
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
     open-maximized true
-    opacity 0.98
+    opacity 0.96
     draw-border-with-background false
     shadow { off; }
 }
 
 window-rule {
     match app-id="kitty"
-    opacity 0.98
+    opacity 0.93
     draw-border-with-background false
 }
 
