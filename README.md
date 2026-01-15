@@ -49,9 +49,6 @@ This will:
 - Install all packages from lists (system, desktop, wayland, etc.)
 - Stow dotfiles into your home directory (including `~/.config`)
 - Apply the unified default theme
-- Enable the Niri session in GDM (GNOME Display Manager)
-
-**Time**: ~15-20 minutes
 
 ## Manual Installation
 

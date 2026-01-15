@@ -184,7 +184,12 @@ return {
         prompt = " ",
         hidden = true,
         ignored = false,
-        sources = {},
+        sources = {
+          files = {
+            hidden = true,
+            ignored = false,
+          },
+        },
         layout = {
           cycle = true,
           --- Use the default layout or vertical if the window is too narrow

@@ -39,7 +39,7 @@ SETUP_SCRIPTS=(
     "languages.sh"
     "development.sh"
     "apps.sh"
-    "ai.sh"
+    # "ai.sh"
     "media.sh"
     "dotfiles.sh"
     "performance.sh"
