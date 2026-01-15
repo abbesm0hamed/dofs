@@ -80,7 +80,7 @@ window#waybar {
 }
 
 #workspaces button.focused {
-  color: @mauve;
+  color: @blue;
 }
 
 #workspaces button:hover {
@@ -89,7 +89,7 @@ window#waybar {
 }
 
 #workspaces button.focused:hover {
-  color: @mauve;
+  color: @blue;
 }
 
 #workspaces button.urgent {
@@ -222,7 +222,7 @@ window#waybar {
 }
 
 #power-profiles-daemon.balanced {
-  color: @mauve;
+  color: @blue;
 }
 
 #power-profiles-daemon.power-saver {
@@ -230,7 +230,7 @@ window#waybar {
 }
 
 #custom-idle_inhibitor:hover {
-  color: @mauve;
+  color: @blue;
 }
 
 #custom-mic {
@@ -270,7 +270,7 @@ tooltip label {
 #custom-storage:hover,
 #custom-updates:hover,
 #custom-fingerprint:hover {
-  color: @mauve;
+  color: @blue;
   border-radius: 0px;
   transition: background 0.2s ease;
 }
@@ -334,11 +334,11 @@ tooltip label {
 }
 
 #custom-recording.inactive:hover {
-  color: @mauve;
+  color: @blue;
 }
 
 #custom-recording.recording:hover,
 #custom-recording.recording-audio-only:hover,
 #custom-recording.recording-audio:hover {
-  color: @mauve;
+  color: @blue;
 }

@@ -20,8 +20,8 @@ layout {
     border {
         on
         width 1
-        active-color "#d0d2ff"
-        inactive-color "#3e3548"
+        active-color "#89b4fa"
+        inactive-color "#494e6d"
         urgent-color "#f38ba8"
     }
 

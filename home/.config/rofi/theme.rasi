@@ -1,7 +1,7 @@
 * {
     bg-col:  #0d0e11;
     bg-col-light: #313244;
-    border-col: #d0d2ff;
+    border-col: #89b4fa;
     selected-col: #313244;
     blue: #89b4fa;
     mauve: #d0d2ff;
@@ -20,10 +20,10 @@ element-text, element-icon {
 
 window {
     height: 45%;
-    border: 2px;
+    border: 1px;
     border-color: @border-col;
     background-color: @bg-col;
-    border-radius: 10px;
+    border-radius: 0px;
     location: center;
     anchor: center;
 }
@@ -41,10 +41,10 @@ inputbar {
 }
 
 prompt {
-    background-color: @mauve;
+    background-color: @blue;
     padding: 6px 12px;
     text-color: @bg-col;
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 20px 0px 0px 20px;
     vertical-align: 0.5;
     horizontal-align: 0.5;
@@ -71,7 +71,7 @@ element {
     padding: 8px;
     background-color: @bg-col;
     text-color: @fg-col;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 element-icon {
@@ -80,7 +80,7 @@ element-icon {
 
 element selected {
     background-color:  @selected-col;
-    text-color: @mauve;
+    text-color: @blue;
 }
 
 message {
@@ -93,6 +93,6 @@ message {
 textbox {
     padding: 10px;
     margin: 20px 0px 0px 20px;
-    text-color: @mauve;
+    text-color: @blue;
     background-color: @bg-col;
 }
