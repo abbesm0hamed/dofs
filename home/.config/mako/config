@@ -13,7 +13,7 @@ background-color=#0d0e11
 text-color=#e7e3ff
 border-color=#89b4fa
 border-size=1
-border-radius=10
+border-radius=0
 padding=15
 
 # Font
