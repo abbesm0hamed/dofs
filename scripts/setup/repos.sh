@@ -42,20 +42,37 @@ log "Configuring repositories..."
 
 ensure_dnf_plugins
 
+repos_changed=false
+
+if [ ! -f "/etc/yum.repos.d/hashicorp.repo" ]; then
+    log "Adding HashiCorp repository..."
+    sudo rpm --import https://rpm.releases.hashicorp.com/gpg
+    sudo tee /etc/yum.repos.d/hashicorp.repo >/dev/null <<'EOL'
+[hashicorp]
+name=HashiCorp Stable - $basearch
+baseurl=https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable
+enabled=1
+gpgcheck=1
+gpgkey=https://rpm.releases.hashicorp.com/gpg
+EOL
+    repos_changed=true
+else
+    log "HashiCorp repository already exists."
+fi
+
 # Read COPR repositories from file
 COPR_FILE="${REPO_ROOT}/packages/copr.txt"
-repos_changed=false
 
 if [ -f "$COPR_FILE" ]; then
     while IFS= read -r repo; do
-        repo="${repo%%#*}" # Remove comments
+        repo="${repo%%#*}"             # Remove comments
         repo="$(echo "$repo" | xargs)" # Trim whitespace
         if [[ -n "$repo" ]]; then
             if enable_copr "$repo"; then
                 repos_changed=true
             fi
         fi
-    done < "$COPR_FILE"
+    done <"$COPR_FILE"
 else
     warn "COPR file not found at $COPR_FILE"
 fi
