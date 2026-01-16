@@ -44,7 +44,6 @@ SETUP_SCRIPTS=(
     "dotfiles.sh"
     "performance.sh"
     "security.sh"
-    "desktop.sh"
     "cursors.sh"
     "power.sh"
     "shell.sh"

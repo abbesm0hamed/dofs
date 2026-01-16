@@ -102,13 +102,13 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^xdg-desktop-portal-(gtk|gnome)$"#
+    match app-id=r#"^(xdg|Xdg)-desktop-portal-(gtk|gnome)$"#
     open-floating true
     clip-to-geometry true
-    default-column-width { proportion 0.6; }
+    default-column-width { proportion 0.7; }
     default-window-height { proportion 0.7; }
+    border { width 1; }
     focus-ring { off; }
-    border { off; }
 }
 
 window-rule {

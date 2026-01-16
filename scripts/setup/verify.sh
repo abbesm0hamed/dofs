@@ -61,14 +61,6 @@ check_link "${HOME}/.config/fish/config.fish"
 check_link "${HOME}/.config/rofi/config.rasi"
 check_link "${HOME}/.config/rofi/theme.rasi"
 
-# --- Check Session File ---
-SESSION_FILE="/usr/share/wayland-sessions/niri-custom.desktop"
-if [ -f "$SESSION_FILE" ]; then
-    ok "Session file found: $SESSION_FILE"
-else
-    warn "Custom session file NOT found at $SESSION_FILE. GDM/SDDM might not show Niri (Custom)."
-fi
-
 # --- User Shell ---
 if [[ "$SHELL" == *"fish" ]]; then
     ok "Current shell is Fish"
