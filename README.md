@@ -1,4 +1,4 @@
-# dofs - Fedora Workstation Dotfiles with Niri
+# Own your DOtFileS with dofs - Fedora Workstation + Niri
 
 <table align="center">
   <tr>
