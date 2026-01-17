@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import argparse
 import os
 import signal
 import subprocess
@@ -8,8 +7,19 @@ import sys
 import tempfile
 
 
-# Theme palettes
+RAMP = ["⠀", "⣀", "⣄", "⣆", "⣇", "⣧", "⣷", "⣿"]
+
 PALETTES = {
+    "default": [
+        "f38ba8",
+        "a6e3a1",
+        "f9e2af",
+        "89b4fa",
+        "f5c2e7",
+        "94e2d5",
+        "bac2de",
+        "e7e3ff",
+    ],
     "kanagawa": [
         "7E9CD8",
         "957FB8",
@@ -36,200 +46,121 @@ PALETTES = {
 }
 
 
-def build_ramp_list(style, chars=""):
-    if style == "braille":
-        return [
-            "⠁",
-            "⠃",
-            "⠇",
-            "⡇",
-            "⡏",
-            "⡟",
-            "⡿",
-            "⣇",
-            "⣏",
-            "⣟",
-            "⣯",
-            "⣷",
-            "⣾",
-            "⣽",
-            "⣻",
-            "⣿",
-        ]
-    if style == "blocks":
-        return ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
-    if style == "custom":
-        return (list(chars)) if chars else ["▏", "▎", "▍", "▌", "▋", "▊", "▉"]
-    return ["▁", "▂", "▃", "▄", "▅"]
+def parse_args(argv):
+    bars = 5
+    framerate = 48
+    palette = "default"
+    for i, arg in enumerate(argv):
+        if arg == "--bars" and i + 1 < len(argv):
+            bars = int(argv[i + 1])
+        if arg == "--framerate" and i + 1 < len(argv):
+            framerate = int(argv[i + 1])
+        if arg == "--palette" and i + 1 < len(argv):
+            palette = argv[i + 1]
+    return bars, framerate, palette
 
 
-def cleanup(sig, frame):
-    try:
-        os.remove(cava_conf)
-        cava_proc.kill()
-        self_proc.kill()
-    except:
-        pass
-    sys.exit(0)
+def interpolate_color(c1, c2, t):
+    r1, g1, b1 = int(c1[0:2], 16), int(c1[2:4], 16), int(c1[4:6], 16)
+    r2, g2, b2 = int(c2[0:2], 16), int(c2[2:4], 16), int(c2[4:6], 16)
+    r = int(r1 + (r2 - r1) * t)
+    g = int(g1 + (g2 - g1) * t)
+    b = int(b1 + (b2 - b1) * t)
+    return f"{r:02X}{g:02X}{b:02X}"
 
 
-def interpolate_color(color1, color2, factor):
-    """Interpolate between two hex colors."""
+def color_for_level(level, max_level, palette):
+    colors = PALETTES.get(palette, PALETTES["default"])
+    if max_level <= 0 or len(colors) == 1:
+        return colors[0]
 
-    def hex_to_rgb(hex_color):
-        return tuple(int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
-
-    def rgb_to_hex(rgb):
-        return f"{rgb[0]:02X}{rgb[1]:02X}{rgb[2]:02X}"
-
-    rgb1 = hex_to_rgb(color1)
-    rgb2 = hex_to_rgb(color2)
-    interpolated = tuple(int(rgb1[i] + (rgb2[i] - rgb1[i]) * factor) for i in range(3))
-    return rgb_to_hex(interpolated)
+    t = level / max_level
+    span = t * (len(colors) - 1)
+    i = int(span)
+    if i >= len(colors) - 1:
+        return colors[-1]
+    return interpolate_color(colors[i], colors[i + 1], span - i)
 
 
-if len(sys.argv) > 1 and sys.argv[1] == "--subproc":
-    # Define styles
-    style = sys.argv[2]
+def write_cava_config(path, bars, framerate):
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(
+            "[general]\n"
+            f"framerate={framerate}\n"
+            f"bars={bars}\n"
+            "[input]\n"
+            "method = pulse\n"
+            "source = auto\n"
+            "[output]\n"
+            "method=raw\n"
+            "data_format=ascii\n"
+            "ascii_max_range=100\n"
+            "bar_delimiter=32\n"
+        )
 
-    chars = sys.argv[3] if len(sys.argv) > 3 else ""
-    ramp_list = build_ramp_list(style, chars)
 
-    # Use selected palette colors
-    colors = PALETTES.get(sys.argv[4], PALETTES["sakura"]) if len(sys.argv) > 4 else PALETTES["sakura"]
+def main():
+    bars, framerate, palette = parse_args(sys.argv[1:])
 
-    while True:
+    cava_conf = tempfile.mkstemp(prefix="waybar-cava-", suffix=".conf")[1]
+    write_cava_config(cava_conf, bars, framerate)
+
+    cava_proc = None
+
+    def cleanup(*_args):
         try:
-            line = sys.stdin.readline()
-            if not line:
-                break
-            cava_input = line.strip().split()
-            cava_input = [int(i) for i in cava_input]
-            output = ""
-            for bar in cava_input:
-                if bar < len(ramp_list):
-                    char = ramp_list[bar]
-                else:
-                    char = ramp_list[-1]
-
-                # Apply gradient colors
-                if colors:
-                    # Map the bar intensity to a color in the gradient
-                    color_index = min(bar, len(ramp_list) - 1)
-                    gradient_factor = color_index / (len(ramp_list) - 1)
-                    num_colors = len(colors)
-                    segment = int(gradient_factor * (num_colors - 1))
-                    segment_factor = gradient_factor * (num_colors - 1) - segment
-                    color1 = colors[segment]
-                    color2 = (
-                        colors[segment + 1]
-                        if segment + 1 < num_colors
-                        else colors[segment]
-                    )
-                    color = interpolate_color(color1, color2, segment_factor)
-                    # Changed Polybar format to Waybar Pango markup
-                    output += f'<span color="#{color}">{char}</span>'
-                else:
-                    output += char
-            print(output, flush=True)
-        except (ValueError, IndexError):
-            continue
-        except EOFError:
-            break
-
-    sys.exit(0)
-
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    "-f",
-    "--framerate",
-    type=int,
-    default=60,
-    help="Framerate to be used by cava, default is 60",
-)
-parser.add_argument(
-    "-b", "--bars", type=int, default=8, help="Amount of bars, default is 8"
-)
-parser.add_argument(
-    "-c",
-    "--channels",
-    choices=["stereo", "left", "right", "average"],
-    default="stereo",
-    help="Audio channels to be used, defaults to stereo",
-)
-parser.add_argument(
-    "-s",
-    "--style",
-    choices=[
-        "classic",
-        "blocks",
-        "waves",
-        "circles",
-        "arrows",
-        "stars",
-        "hearts",
-        "bars",
-        "dots",
-        "petals",
-        "braille",
-        "custom",
-    ],
-    default="petals",
-    help="Visual style for the bars, defaults to blocks",
-)
-parser.add_argument(
-    "--chars", default="", help='Custom characters for the "custom" style'
-)
-parser.add_argument(
-    "--palette",
-    choices=sorted(PALETTES.keys()),
-    default="sakura",
-    help="Color palette for the bars",
-)
-
-opts = parser.parse_args()
-
-conf_channels = ""
-if opts.channels != "stereo":
-    conf_channels = "channels=mono\n" f"mono_option={opts.channels}"
-
-ramp_list = build_ramp_list(opts.style, opts.chars)
-conf_ascii_max_range = max(len(ramp_list) - 1, 1)
-cava_conf = tempfile.mkstemp("", "polybar-cava-conf.")[1]
-with open(cava_conf, "w") as cava_conf_file:
-    cava_conf_file.write(
-        "[general]\n"
-        f"framerate={opts.framerate}\n"
-        f"bars={opts.bars}\n"
-        "[input]\n"
-        "method = pulse\n"
-        "source = auto\n"
-        "[output]\n"
-        "method=raw\n"
-        "data_format=ascii\n"
-        f"ascii_max_range={conf_ascii_max_range}\n"
-        "bar_delimiter=32\n" + conf_channels
-    )
-
-try:
-    cava_proc = subprocess.Popen(["cava", "-p", cava_conf], stdout=subprocess.PIPE, text=True)
-    # Ensure __file__ is absolute
-    script_path = os.path.abspath(__file__)
-    self_proc = subprocess.Popen(
-        [
-            sys.executable,
-            script_path,
-            "--subproc",
-            opts.style,
-            opts.chars,
-            opts.palette,
-        ],
-        stdin=cava_proc.stdout,
-    )
+            if cava_proc and cava_proc.poll() is None:
+                cava_proc.terminate()
+        except Exception:
+            pass
+        try:
+            os.remove(cava_conf)
+        except Exception:
+            pass
+        raise SystemExit(0)
 
     signal.signal(signal.SIGTERM, cleanup)
     signal.signal(signal.SIGINT, cleanup)
 
-    self_proc.wait()
-finally:
-    cleanup(None, None)
+    try:
+        cava_proc = subprocess.Popen(
+            ["cava", "-p", cava_conf],
+            stdout=subprocess.PIPE,
+            text=True,
+        )
+
+        peak = 1.0
+        decay = 0.97
+
+        for line in cava_proc.stdout:
+            parts = line.strip().split()
+            if not parts:
+                continue
+
+            try:
+                values = [int(v) for v in parts]
+            except ValueError:
+                continue
+
+            frame_max = max(values) if values else 0
+            peak = max(peak * decay, float(frame_max), 1.0)
+
+            out = []
+            for v in values:
+                x = v / peak
+                lvl = int((x**0.65) * (len(RAMP) - 1))
+                if lvl < 0:
+                    lvl = 0
+                if lvl >= len(RAMP):
+                    lvl = len(RAMP) - 1
+                ch = RAMP[lvl]
+                color = color_for_level(lvl, len(RAMP) - 1, palette)
+                out.append(f'<span color="#{color}">{ch}</span>')
+
+            print("".join(out), flush=True)
+    finally:
+        cleanup()
+
+
+if __name__ == "__main__":
+    main()

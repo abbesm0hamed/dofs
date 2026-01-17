@@ -421,7 +421,8 @@
     },
     "custom/cava": {
         "format": "{}",
-        "exec": "python3 ~/.config/waybar/scripts/cava.py --style braille --palette kanagawa --bars 5 --framerate 48",
+        "escape": false,
+        "exec": "python3 ~/.config/waybar/scripts/cava.py --bars 5 --framerate 48 --palette default",
         "on-click": "pkill -USR1 cava"
     }
 }
