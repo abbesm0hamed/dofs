@@ -415,13 +415,13 @@
         "format": "{}",
         "return-type": "json",
         "on-click": "ghostty -e sh -c '~/dofs/scripts/maintenance/update-all.sh && rm /tmp/waybar_check_updates_cache && pkill -RTMIN+9 waybar'",
-        "interval": 3600,
+        "interval": 21600, // 6 hours
         "exec": "~/.config/waybar/scripts/check-updates.sh",
         "signal": 9
     },
     "custom/cava": {
         "format": "{}",
-        "exec": "python3 ~/.config/waybar/scripts/cava.py -s braille",
+        "exec": "python3 ~/.config/waybar/scripts/cava.py --style braille --palette kanagawa --bars 5 --framerate 48",
         "on-click": "pkill -USR1 cava"
     }
 }

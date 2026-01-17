@@ -8,17 +8,59 @@ import sys
 import tempfile
 
 
-# Hardcoded Kanagawa theme colors
-KANAGAWA_COLORS = [
-    "7E9CD8",
-    "957FB8",
-    "D27E99",
-    "C8C093",
-    "E46876",
-    "76946A",
-    "E6C384",
-    "FFA066",
-]
+# Theme palettes
+PALETTES = {
+    "kanagawa": [
+        "7E9CD8",
+        "957FB8",
+        "D27E99",
+        "C8C093",
+        "E46876",
+        "76946A",
+        "E6C384",
+        "FFA066",
+    ],
+    "sakura": [
+        "E9D5FF",
+        "EECFFC",
+        "F4CFE7",
+        "F7D6D0",
+        "FBE3C4",
+    ],
+    "mist": [
+        "D8E4FF",
+        "DDE7F7",
+        "E3E9F2",
+        "EAEFF2",
+    ],
+}
+
+
+def build_ramp_list(style, chars=""):
+    if style == "braille":
+        return [
+            "⠁",
+            "⠃",
+            "⠇",
+            "⡇",
+            "⡏",
+            "⡟",
+            "⡿",
+            "⣇",
+            "⣏",
+            "⣟",
+            "⣯",
+            "⣷",
+            "⣾",
+            "⣽",
+            "⣻",
+            "⣿",
+        ]
+    if style == "blocks":
+        return ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+    if style == "custom":
+        return (list(chars)) if chars else ["▏", "▎", "▍", "▌", "▋", "▊", "▉"]
+    return ["▁", "▂", "▃", "▄", "▅"]
 
 
 def cleanup(sig, frame):
@@ -50,42 +92,11 @@ if len(sys.argv) > 1 and sys.argv[1] == "--subproc":
     # Define styles
     style = sys.argv[2]
 
-    if style == "dots":
-        ramp_list = [" ", "·", "•", "●", "○", "◎", "◉", "⬤"]
-    elif style == "braille":
-        ramp_list = [" ", "⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟"]
-    elif style == "blocks":
-        ramp_list = [" ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
-    elif style == "waves":
-        # Wave emoji pattern
-        ramp_list = [" ", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊", "🌊"]
-    elif style == "circles":
-        # Circle emoji pattern
-        ramp_list = [" ", "⚪", "⚪", "⚫", "⚫", "⚫", "⚫", "⚫", "⚫"]
-    elif style == "arrows":
-        ramp_list = [" ", "↑", "↗", "→", "↘", "↓", "↙", "←", "↖"]
-    elif style == "stars":
-        # Star emoji pattern
-        ramp_list = [" ", "⭐", "⭐", "🌟", "🌟", "🌟", "🌟", "🌟", "🌟"]
-    elif style == "hearts":
-        # Heart emoji pattern
-        ramp_list = [" ", "💙", "💜", "💗", "💗", "💗", "💗", "💗", "💗"]
-    elif style == "bars":
-        ramp_list = [" ", "│", "│", "┃", "┃", "┃", "┃", "┃", "┃"]
-    elif style == "points":
-        # Dot emoji pattern
-        ramp_list = [" ", "🔹", "🔹", "🔷", "🔷", "🔷", "🔷", "🔷", "🔷"]
-    elif style == "custom":
-        ramp_list = (
-            [" "] + list(sys.argv[3])
-            if len(sys.argv) > 3
-            else [" ", "▏", "▎", "▍", "▌", "▋", "▊", "▉"]
-        )
-    else:
-        ramp_list = [" ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]  # Default to blocks
+    chars = sys.argv[3] if len(sys.argv) > 3 else ""
+    ramp_list = build_ramp_list(style, chars)
 
-    # Use hardcoded Kanagawa colors
-    colors = KANAGAWA_COLORS
+    # Use selected palette colors
+    colors = PALETTES.get(sys.argv[4], PALETTES["sakura"]) if len(sys.argv) > 4 else PALETTES["sakura"]
 
     while True:
         try:
@@ -159,14 +170,21 @@ parser.add_argument(
         "hearts",
         "bars",
         "dots",
+        "petals",
         "braille",
         "custom",
     ],
-    default="blocks",
+    default="petals",
     help="Visual style for the bars, defaults to blocks",
 )
 parser.add_argument(
     "--chars", default="", help='Custom characters for the "custom" style'
+)
+parser.add_argument(
+    "--palette",
+    choices=sorted(PALETTES.keys()),
+    default="sakura",
+    help="Color palette for the bars",
 )
 
 opts = parser.parse_args()
@@ -175,7 +193,8 @@ conf_channels = ""
 if opts.channels != "stereo":
     conf_channels = "channels=mono\n" f"mono_option={opts.channels}"
 
-conf_ascii_max_range = 8 + len(KANAGAWA_COLORS)
+ramp_list = build_ramp_list(opts.style, opts.chars)
+conf_ascii_max_range = max(len(ramp_list) - 1, 1)
 cava_conf = tempfile.mkstemp("", "polybar-cava-conf.")[1]
 with open(cava_conf, "w") as cava_conf_file:
     cava_conf_file.write(
@@ -197,7 +216,14 @@ try:
     # Ensure __file__ is absolute
     script_path = os.path.abspath(__file__)
     self_proc = subprocess.Popen(
-        [sys.executable, script_path, "--subproc", opts.style],
+        [
+            sys.executable,
+            script_path,
+            "--subproc",
+            opts.style,
+            opts.chars,
+            opts.palette,
+        ],
         stdin=cava_proc.stdout,
     )
 
