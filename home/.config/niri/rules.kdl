@@ -58,6 +58,13 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^(org\.wezfurlong\.wezterm|org\.wezfurlong\.wezterm-nightly)$"#
+    open-maximized true
+    opacity 0.96
+    draw-border-with-background false
+}
+
+window-rule {
     match app-id="kitty"
     opacity 0.93
     draw-border-with-background false

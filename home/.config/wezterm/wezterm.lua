@@ -5,7 +5,7 @@ return {
     { family = 'Iosevka', stretch = 'Expanded' },
     'Noto Color Emoji',
   }),
-  font_size = 12.0,
+  font_size = 14.0,
 
   window_background_opacity = 0.98,
   window_decorations = 'NONE',
