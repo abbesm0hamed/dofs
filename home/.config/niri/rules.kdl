@@ -125,6 +125,7 @@ window-rule {
     match app-id="floating-yazi"
     match app-id="floating-lazydocker"
     match app-id="floating-weather"
+    match app-id="floating-terminal"
     match app-id="com.mitchellh.ghostty.floating"
     default-column-width { proportion 0.8; }
     default-window-height { proportion 0.8; }

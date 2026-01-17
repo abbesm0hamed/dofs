@@ -30,7 +30,7 @@
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
 - **Niri** - Scrollable-tiling Wayland compositor
-- **Ghostty** - Fast, waybar native terminal emulator
+- **WezTerm** - GPU-accelerated terminal emulator
 - **Rofi** - Highly customizable application launcher
 - **Waybar** - Highly customizable status bar
 - **Mako** - Lightweight notification daemon

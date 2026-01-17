@@ -21,7 +21,7 @@ fi
 # The result is written to a temp file, which we then read back
 TMP_PICK=$(mktemp)
 
-ghostty --title="Global Search" -e bash -c "rg --line-number --column --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob '!.git/*' '' ${SEARCH_DIRS[*]} \
+wezterm start -- bash -c "rg --line-number --column --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob '!.git/*' '' ${SEARCH_DIRS[*]} \
     | fzf --delimiter : --preview 'bat --color=always --highlight-line {2} {1}' --preview-window '~3,+{2}+4/2' \
     | cut -d: -f1,2,3 > $TMP_PICK"
 
@@ -40,4 +40,4 @@ COL=$(echo "$PICK" | cut -d: -f3)
 FILE="${FILE/#\~/$HOME}"
 
 # Open the selection in a NEW terminal/nvim (or you could use niri msg to focus an existing window)
-ghostty -e nvim "$FILE" "+call cursor($LINE, $COL)"
+wezterm start -- nvim "$FILE" "+call cursor($LINE, $COL)"

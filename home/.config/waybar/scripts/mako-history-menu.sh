@@ -41,8 +41,8 @@ printf '%s' "$history" | awk -v target="$id" 'BEGIN { RS="Notification "; ORS=""
     }
 }' > "$tmp"
 
-if command -v ghostty >/dev/null 2>&1; then
-    ghostty -e sh -c "less '$tmp'; rm -f '$tmp'"
+if command -v wezterm >/dev/null 2>&1; then
+    wezterm start -- sh -c "less '$tmp'; rm -f '$tmp'"
 else
     sh -c "less '$tmp'; rm -f '$tmp'"
 fi

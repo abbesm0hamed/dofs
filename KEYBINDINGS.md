@@ -57,7 +57,7 @@
 | `Mod+Alt+Return           ` | `alacritty                                                   ` |
 | `Mod+BracketLeft          ` | `consume-or-expel-window-left                                ` |
 | `Mod+BracketRight         ` | `consume-or-expel-window-right                               ` |
-| `Mod+B                    ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh kitty floating-btop btop` |
+| `Mod+B                    ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh wezterm floating-btop btop` |
 | `Mod+C                    ` | `center-column                                               ` |
 | `Mod+Comma                ` | `consume-window-into-column                                  ` |
 | `Mod+Ctrl+C               ` | `center-visible-columns                                      ` |
@@ -73,11 +73,11 @@
 | `Mod+Ctrl+WheelScrollLeft ` | `move-column-left                                            ` |
 | `Mod+Ctrl+WheelScrollRight` | `move-column-right                                           ` |
 | `Mod+Ctrl+WheelScrollUp   ` | `move-column-to-workspace-up                                 ` |
-| `Mod+D                    ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh kitty floating-lazydocker lazydocker` |
+| `Mod+D                    ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh wezterm floating-lazydocker lazydocker` |
 | `Mod+End                  ` | `focus-column-last                                           ` |
 | `Mod+Escape allow-inhibiting=false` | `toggle-keyboard-shortcuts-inhibit                           ` |
 | `Mod+F                    ` | `maximize-column                                             ` |
-| `Mod+G                    ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh kitty floating-yazi yazi` |
+| `Mod+G                    ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh wezterm floating-yazi yazi` |
 | `Mod+H                    ` | `focus-column-left                                           ` |
 | `Mod+Home                 ` | `focus-column-first                                          ` |
 | `Mod+J                    ` | `focus-window-or-workspace-down                              ` |
@@ -86,7 +86,7 @@
 | `Mod+N                    ` | `sh -c ~/.config/waybar/scripts/mako-history-menu.sh         ` |
 | `Mod+Period               ` | `expel-window-from-column                                    ` |
 | `Mod+Print                ` | `screenshot                                                  ` |
-| `Mod+Return               ` | `ghostty                                                     ` |
+| `Mod+Return               ` | `wezterm start                                               ` |
 | `Mod+R                    ` | `switch-preset-column-width                                  ` |
 | `Mod+Shift+1              ` | `move-window-to-workspace 1                                  ` |
 | `Mod+Shift+2              ` | `move-window-to-workspace 2                                  ` |
@@ -108,7 +108,7 @@
 | `Mod+Shift+D              ` | `sh -c ~/.config/niri/scripts/toggle-dock.sh                 ` |
 | `Mod+Shift+E              ` | `quit                                                        ` |
 | `Mod+Shift+F              ` | `fullscreen-window                                           ` |
-| `Mod+Shift+G              ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh kitty floating-ranger ranger` |
+| `Mod+Shift+G              ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh wezterm floating-ranger ranger` |
 | `Mod+Shift+H              ` | `move-column-left                                            ` |
 | `Mod+Shift+I              ` | `move-workspace-up                                           ` |
 | `Mod+Shift+J              ` | `move-window-down-or-to-workspace-down                       ` |
@@ -119,12 +119,12 @@
 | `Mod+Shift+Return         ` | `foot                                                        ` |
 | `Mod+Shift+R              ` | `switch-preset-window-height                                 ` |
 | `Mod+Shift+S              ` | `screenshot-screen                                           ` |
-| `Mod+Shift+T              ` | `ghostty --class=com.mitchellh.ghostty.floating              ` |
+| `Mod+Shift+T              ` | `wezterm start --always-new-process --class=floating-terminal ` |
 | `Mod+Shift+U              ` | `move-workspace-down                                         ` |
 | `Mod+Shift+V              ` | `screenshot-window                                           ` |
 | `Mod+Shift+WheelScrollDown` | `focus-column-right                                          ` |
 | `Mod+Shift+WheelScrollUp  ` | `focus-column-left                                           ` |
-| `Mod+Shift+W              ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh kitty floating-weather bash ~/.config/niri/scripts/weather.sh` |
+| `Mod+Shift+W              ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh wezterm floating-weather bash ~/.config/niri/scripts/weather.sh` |
 | `Mod+Space                ` | `rofi -show drun                                             ` |
 | `Mod+Tab                  ` | `toggle-overview                                             ` |
 | `Mod+T                    ` | `kitty                                                       ` |

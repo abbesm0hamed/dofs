@@ -1,7 +1,7 @@
 configuration {
     modi: "drun,run";
     show-icons: true;
-    terminal: "ghostty";
+    terminal: "wezterm";
     drun-display-format: "{icon} {name}";
     location: 0;
     disable-history: false;

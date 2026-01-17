@@ -1,14 +1,12 @@
 local wezterm = require 'wezterm'
 
 return {
-  -- Fonts match Ghostty: Iosevka at 12pt
   font = wezterm.font_with_fallback({
     { family = 'Iosevka', stretch = 'Expanded' },
     'Noto Color Emoji',
   }),
   font_size = 12.0,
 
-  -- Appearance similar to your Ghostty setup
   window_background_opacity = 0.98,
   window_decorations = 'NONE',
   colors = {

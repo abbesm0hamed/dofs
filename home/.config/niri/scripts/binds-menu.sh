@@ -39,7 +39,7 @@ else
 fi
 
 # Extract bind lines like:
-#   Mod+Return { spawn "ghostty"; }
+#   Mod+Return { spawn "wezterm"; }
 # and multi-line blocks like:
 #   Alt+Ctrl+L {
 #       spawn "hyprlock"

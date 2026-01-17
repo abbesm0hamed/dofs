@@ -52,7 +52,7 @@ display_menu() {
     case "$choice" in
         *"Display Configuration"*)
             notify-send "Settings" "Edit ~/.config/niri/config.kdl for display settings" -i "preferences-desktop-display"
-            ghostty -e nvim ~/.config/niri/config.kdl &
+            wezterm start -- nvim ~/.config/niri/config.kdl &
             ;;
         *"Brightness Control"*)
             local current=$(brightnessctl get)
@@ -135,14 +135,14 @@ main_menu() {
         *"Network Settings"*) network_menu ;;
         *"Input Settings"*)
             notify-send "Settings" "Configure input in Niri config" -i "preferences-desktop-keyboard"
-            ghostty -e nvim ~/.config/niri/config.kdl &
+            wezterm start -- nvim ~/.config/niri/config.kdl &
             ;;
         *"Notification Settings"*)
-            ghostty -e nvim ~/.config/mako/config &
+            wezterm start -- nvim ~/.config/mako/config &
             ;;
         *"System Information"*) system_info ;;
-        *"Edit Niri Config"*) ghostty -e nvim ~/.config/niri/config.kdl & ;;
-        *"Edit Home Config"*) ghostty -e nvim ~/.config/fish/config.fish & ;;
+        *"Edit Niri Config"*) wezterm start -- nvim ~/.config/niri/config.kdl & ;;
+        *"Edit Home Config"*) wezterm start -- nvim ~/.config/fish/config.fish & ;;
         *"System Settings"*)
             if command -v gnome-control-center >/dev/null; then
                 gnome-control-center &

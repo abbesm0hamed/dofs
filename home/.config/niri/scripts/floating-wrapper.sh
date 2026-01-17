@@ -32,6 +32,10 @@ case "$TERMINAL" in
         LAUNCH_CMD=("kitty" "--class=$APP_ID" "${COMMAND[@]}")
         PKILL_PATTERN="kitty --class=$APP_ID"
         ;;
+    wezterm)
+        LAUNCH_CMD=("wezterm" "start" "--always-new-process" "--class=$APP_ID" "--" "${COMMAND[@]}")
+        PKILL_PATTERN="(wezterm|wezterm-gui).*--class(=| )$APP_ID"
+        ;;
     ghostty)
         # Ghostty uses 'class' for Wayland app-id
         LAUNCH_CMD=("ghostty" "--class=$APP_ID" "${COMMAND[@]}")

@@ -1,15 +1,15 @@
  binds {
-    Mod+Return { spawn "ghostty"; }
-    Mod+Shift+T { spawn "ghostty" "--class=com.mitchellh.ghostty.floating"; }
+    Mod+Return { spawn "wezterm" "start"; }
+    Mod+Shift+T { spawn "wezterm" "start" "--always-new-process" "--class=floating-terminal"; }
     Mod+Shift+Return { spawn "foot"; }
     Mod+Alt+Return { spawn "alacritty"; }
     Mod+T { spawn "kitty"; }
-    Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-btop btop"; }
-    Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-yazi yazi"; }
-    Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-lazydocker lazydocker"; }
+    Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-btop btop"; }
+    Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-yazi yazi"; }
+    Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-lazydocker lazydocker"; }
     Mod+Shift+D { spawn "sh" "-c" "~/.config/niri/scripts/toggle-dock.sh"; }
-    Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-ranger ranger"; }
-    Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh kitty floating-weather bash ~/.config/niri/scripts/weather.sh"; }
+    Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-ranger ranger"; }
+    Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-weather bash ~/.config/niri/scripts/weather.sh"; }
     Mod+Alt+B cooldown-ms=500 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Alt+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }

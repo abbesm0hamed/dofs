@@ -31,7 +31,7 @@ check_bin() {
 log "Checking core components..."
 check_bin "niri"
 check_bin "waybar"
-check_bin "ghostty"
+check_bin "wezterm"
 check_bin "rofi"
 check_bin "hyprlock"
 check_bin "fish"

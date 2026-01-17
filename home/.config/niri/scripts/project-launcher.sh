@@ -40,7 +40,7 @@ niri msg action set-workspace-name "[$PROJ_NAME]"
 
 # 3. Launch the environment
 # - Neovim in the main column
-(cd "$PICK" && ghostty -e nvim .) &
+(cd "$PICK" && wezterm start -- nvim .) &
 # Small delay to ensure Neovim opens first
 sleep 0.3
 
