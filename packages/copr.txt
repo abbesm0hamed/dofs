@@ -8,6 +8,7 @@ dejan/lazygit
 yalter/niri
 grahamwhiteuk/libfprint-tod
 varlad/yazi
+wezfurlong/wezterm-nightly
 atim/lazydocker
 solopasha/hyprland # for hyprpaper
 peterwu/rendezvous # for bibata-cursor-themes

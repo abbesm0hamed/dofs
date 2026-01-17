@@ -1,7 +1,11 @@
 # Wayland / Niri stack
+
+# terminals
 foot
 ghostty
 kitty
+wezterm
+
 niri
 qt5-qtwayland
 qt6-qtwayland
