@@ -3,7 +3,7 @@ local wezterm = require 'wezterm'
 return {
   font = wezterm.font_with_fallback({
     { family = 'Iosevka', stretch = 'Expanded' },
-    'Noto Color Emoji',
+    { family = 'Noto Color Emoji' },
   }),
   font_size = 14.0,
 
