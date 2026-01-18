@@ -7,7 +7,7 @@ fi
 history=$(makoctl history 2>/dev/null || true)
 
 if [ -z "$history" ]; then
-    printf '%s\n' "No notification history" | rofi -dmenu -p "󰂞 History: " >/dev/null
+    printf '%s\n' "No notification history" | rofi -dmenu -i -p "󰂞 History: " >/dev/null
     exit 0
 fi
 
@@ -26,7 +26,7 @@ choice=$(printf '%s' "$history" | awk 'BEGIN { RS="Notification "; FS="\n" } NR>
     line=title;
     if (app != "") line=line " (" app ")";
     printf "%s\t%s\n", id, line;
-}' | rofi -dmenu -p "󰂞 History: " -theme-str 'window { width: 50%; height: 50%; }')
+}' | rofi -dmenu -i -p "󰂞 History: " -theme-str 'window { width: 50%; height: 50%; }')
 
 [ -z "$choice" ] && exit 0
 

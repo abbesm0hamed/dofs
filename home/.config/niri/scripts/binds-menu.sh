@@ -98,7 +98,7 @@ BEGIN { inblock=0; key=""; action="" }
 ' "$BINDS_FILE" |
         awk -F'\t' '{print $1 "  ->  " $2}' |
         sort -u |
-        rofi -dmenu -p "󰌌 Niri Binds: " -theme-str 'window { width: 55%; height: 65%; }'
+        rofi -dmenu -i -p "󰌌 Niri Binds: " -theme-str 'window { width: 55%; height: 65%; }'
 )
 
 if [ -z "${SELECTION:-}" ]; then

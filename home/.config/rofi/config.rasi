@@ -1,6 +1,7 @@
 configuration {
     modi: "drun,run";
     show-icons: true;
+    case-sensitive: false;
     terminal: "foot";
     drun-display-format: "{icon} {name}";
     location: 0;

@@ -4,7 +4,7 @@
 # Shows clipboard history and allows selection
 
 # Get clipboard history and show in rofi
-SELECTION=$(cliphist list | rofi -dmenu -p "󰅍 Clipboard: ")
+SELECTION=$(cliphist list | rofi -dmenu -i -p "󰅍 Clipboard: ")
 
 if [ -n "$SELECTION" ]; then
     # Copy selected item back to clipboard

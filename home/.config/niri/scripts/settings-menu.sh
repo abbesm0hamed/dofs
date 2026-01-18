@@ -14,12 +14,12 @@ audio_menu() {
     )
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰓃 Audio Settings: ")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -p "󰓃 Audio Settings: ")
 
     case "$choice" in
         *"Volume Control"*) pavucontrol & ;;
         *"Audio Devices"*)
-            pactl list sinks short | rofi -dmenu -p "󰓃 Audio Devices: "
+            pactl list sinks short | rofi -dmenu -i -p "󰓃 Audio Devices: "
             ;;
         *"Toggle Mute"*)
             pactl set-sink-mute @DEFAULT_SINK@ toggle
@@ -47,7 +47,7 @@ display_menu() {
     )
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰔊 Display Settings: ")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -p "󰔊 Display Settings: ")
 
     case "$choice" in
         *"Display Configuration"*)
@@ -83,14 +83,14 @@ network_menu() {
     )
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰤨 Network Settings: ")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -p "󰤨 Network Settings: ")
 
     case "$choice" in
         *"WiFi Networks"*)
-            nmcli device wifi list | rofi -dmenu -p "󰤨 WiFi Networks: "
+            nmcli device wifi list | rofi -dmenu -i -p "󰤨 WiFi Networks: "
             ;;
         *"Bluetooth Devices"*)
-            bluetoothctl devices | rofi -dmenu -p "󰂯 Bluetooth Devices: "
+            bluetoothctl devices | rofi -dmenu -i -p "󰂯 Bluetooth Devices: "
             ;;
         *"Network Manager"*) nm-connection-editor & ;;
         *"Toggle WiFi"*) ~/.config/niri/scripts/system-controls.sh ;;
@@ -109,7 +109,7 @@ system_info() {
         "  $(sensors 2>/dev/null | grep -E 'Core|temp' | head -1 | awk '{print $3}' || echo 'N/A')"
     )
 
-    printf '%s\n' "${info[@]}" | rofi -dmenu -p "󰋇 System Info: "
+    printf '%s\n' "${info[@]}" | rofi -dmenu -i -p "󰋇 System Info: "
 }
 
 # Main settings menu
@@ -133,7 +133,7 @@ listview { lines: ${line_count}; fixed-height: false; dynamic: false; }
 "
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 Settings: " -l "$line_count" -sync -theme-str "$theme_str")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -p "󰒓 Settings: " -l "$line_count" -sync -theme-str "$theme_str")
 
     case "$choice" in
         *"Audio Settings"*) audio_menu ;;

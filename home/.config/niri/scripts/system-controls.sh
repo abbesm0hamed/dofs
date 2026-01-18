@@ -161,7 +161,7 @@ listview { lines: ${line_count}; fixed-height: false; dynamic: false; }
 "
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 System Controls: " -l "$line_count" -sync -theme-str "$theme_str")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -p "󰒓 System Controls: " -l "$line_count" -sync -theme-str "$theme_str")
 
     case "$choice" in
         *"Idle Mode"*) toggle_idle_mode ;;
