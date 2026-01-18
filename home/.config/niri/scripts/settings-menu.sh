@@ -129,11 +129,11 @@ main_menu() {
     local line_count=${#options[@]}
     local theme_str="
 window { height: 0px; }
-listview { lines: ${line_count}; fixed-height: false; }
+listview { lines: ${line_count}; fixed-height: false; dynamic: false; }
 "
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 Settings: " -l "$line_count" -theme-str "$theme_str")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 Settings: " -l "$line_count" -sync -theme-str "$theme_str")
 
     case "$choice" in
         *"Audio Settings"*) audio_menu ;;

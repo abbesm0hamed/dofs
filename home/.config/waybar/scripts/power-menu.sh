@@ -6,10 +6,10 @@ line_count=$(echo -e "$options" | wc -l)
 
 theme_str="
 window { width: 20%; height: 0px; }
-listview { lines: ${line_count}; fixed-height: false; }
+listview { lines: ${line_count}; fixed-height: false; dynamic: false; }
 "
 
-selected=$(echo -e "$options" | rofi -dmenu -p "󰐥 Power: " -l "$line_count" -theme-str "$theme_str")
+selected=$(echo -e "$options" | rofi -dmenu -p "󰐥 Power: " -l "$line_count" -sync -theme-str "$theme_str")
 
 case $selected in
     "󰌾 Lock")

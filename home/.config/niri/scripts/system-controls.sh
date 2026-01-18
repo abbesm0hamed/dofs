@@ -157,11 +157,11 @@ main_menu() {
     local line_count=${#options[@]}
     local theme_str="
 window { width: 25%; height: 0px; }
-listview { lines: ${line_count}; fixed-height: false; }
+listview { lines: ${line_count}; fixed-height: false; dynamic: false; }
 "
 
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 System Controls: " -l "$line_count" -theme-str "$theme_str")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 System Controls: " -l "$line_count" -sync -theme-str "$theme_str")
 
     case "$choice" in
         *"Idle Mode"*) toggle_idle_mode ;;
