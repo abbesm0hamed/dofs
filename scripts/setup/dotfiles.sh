@@ -43,11 +43,15 @@ backup_item() {
 log "Preparing target directories..."
 mkdir -p "${HOME}/.config"
 
-# Pre-creating specific subdirectories helps stow symlink files individually
-# instead of linking the entire directory.
-for config_dir in niri waybar ghostty kitty alacritty wezterm fish hyprlock nvim rofi autostart; do
-    mkdir -p "${HOME}/.config/${config_dir}"
-done
+# Pre-creating subdirectories helps stow symlink files individually instead of
+# linking whole directories.
+#
+if [ -d "${REPO_ROOT}/home/.config" ]; then
+    while IFS= read -r dir; do
+        rel_dir="${dir#${REPO_ROOT}/home/}"
+        mkdir -p "${HOME}/${rel_dir}"
+    done < <(find "${REPO_ROOT}/home/.config" -type d -print)
+fi
 
 # Loop through stow directories and back up their contents
 shopt -s dotglob
@@ -83,6 +87,26 @@ if "${stow_cmd[@]}" 2>&1 | tee -a "$LOG_FILE"; then
     log "Stow complete."
 else
     warn "Stow command failed. Some dotfiles may not be linked."
+fi
+
+# --- Install system-level configuration ---
+#
+# Files under etc/ are NOT user dotfiles; they must be installed to /etc and
+# typically require sudo. Opt-in via APPLY_ETC=1.
+if [ "${APPLY_ETC:-0}" = "1" ]; then
+    if [ -d "${REPO_ROOT}/etc/systemd" ]; then
+        log "Installing systemd config to /etc/systemd (sudo required)..."
+        while IFS= read -r src; do
+            rel="${src#${REPO_ROOT}/etc/systemd/}"
+            dst="/etc/systemd/${rel}"
+            sudo install -Dm644 "${src}" "${dst}"
+        done < <(find "${REPO_ROOT}/etc/systemd" -type f -print)
+        ok "Installed systemd config under /etc/systemd"
+    fi
+else
+    if [ -d "${REPO_ROOT}/etc/systemd" ]; then
+        warn "System configs detected under etc/systemd but not installed. Run: APPLY_ETC=1 ${BASH_SOURCE[0]}"
+    fi
 fi
 
 # --- Link dofs manager ---
