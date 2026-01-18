@@ -126,8 +126,14 @@ main_menu() {
         "  System Settings (GUI)" # nf-fa-wrench
     )
 
+    local line_count=${#options[@]}
+    local theme_str="
+window { height: 0px; }
+listview { lines: ${line_count}; fixed-height: false; }
+"
+
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 Settings: ")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 Settings: " -l "$line_count" -theme-str "$theme_str")
 
     case "$choice" in
         *"Audio Settings"*) audio_menu ;;

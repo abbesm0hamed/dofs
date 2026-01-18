@@ -2,7 +2,14 @@
 
 options="󰌾 Lock\n󰗽 Logout\n󰤄 Suspend\n󰜉 Reboot\n󰐥 Shutdown"
 
-selected=$(echo -e "$options" | rofi -dmenu -p "󰐥 Power: " -theme-str 'window { width: 20%; height: 35%; }')
+line_count=$(echo -e "$options" | wc -l)
+
+theme_str="
+window { width: 20%; height: 0px; }
+listview { lines: ${line_count}; fixed-height: false; }
+"
+
+selected=$(echo -e "$options" | rofi -dmenu -p "󰐥 Power: " -l "$line_count" -theme-str "$theme_str")
 
 case $selected in
     "󰌾 Lock")

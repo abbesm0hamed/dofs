@@ -154,8 +154,14 @@ main_menu() {
         "  Power Menu"  # nf-fa-power_off
     )
 
+    local line_count=${#options[@]}
+    local theme_str="
+window { width: 25%; height: 0px; }
+listview { lines: ${line_count}; fixed-height: false; }
+"
+
     local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 System Controls: ")
+    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -p "󰒓 System Controls: " -l "$line_count" -theme-str "$theme_str")
 
     case "$choice" in
         *"Idle Mode"*) toggle_idle_mode ;;
