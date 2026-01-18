@@ -1,7 +1,9 @@
 configuration {
     modi: "drun,run";
     show-icons: true;
+    application-fallback-icon: "application-x-executable";
     case-sensitive: false;
+    drun-use-desktop-cache: true;
     terminal: "foot";
     drun-display-format: "{icon} {name}";
     location: 0;
