@@ -1,9 +1,10 @@
 local wezterm = require 'wezterm'
+local act = wezterm.action
 
 return {
   font = wezterm.font_with_fallback({
     { family = 'Iosevka', stretch = 'Expanded' },
-    { family = 'Noto Color Emoji' },
+    -- { family = 'Noto Color Emoji' },
   }),
   font_size = 14.0,
 
@@ -81,8 +82,18 @@ return {
   term = 'xterm-256color',
 
   -- Tabs and UI
+  enable_tab_bar = false,
   hide_tab_bar_if_only_one_tab = true,
   use_fancy_tab_bar = false,
+
+  adjust_window_size_when_changing_font_size = false,
+
+  keys = {
+    { key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
+    { key = '+', mods = 'CTRL', action = act.IncreaseFontSize },
+    { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
+    { key = '0', mods = 'CTRL', action = act.ResetFontSize },
+  },
 
   -- Wayland first (matches Niri setup)
   enable_wayland = true,
