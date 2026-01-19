@@ -421,6 +421,9 @@ return {
           -- custom logic to run when exiting zen mode
         end,
       },
+      image = {
+        enabled = true,
+      },
     },
     keys = {
       -- explorer

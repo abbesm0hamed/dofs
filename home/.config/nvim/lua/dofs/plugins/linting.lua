@@ -18,7 +18,7 @@ return {
 
     return {
       linters_by_ft = {
-        lua = { "luacheck" },
+        lua = vim.fn.executable("luacheck") == 1 and { "luacheck" } or {},
         python = { "ruff", "mypy" },
         javascript = { "eslint_d" },
         typescript = { "eslint_d" },
