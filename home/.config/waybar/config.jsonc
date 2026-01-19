@@ -137,7 +137,8 @@
     "custom/docker": {
         "format": "{}",
         "exec": "~/.config/waybar/scripts/docker-event-status.sh",
-        "return-type": "json"
+        "return-type": "json",
+        "interval": 60
     },
     "custom/next-prayer": {
         "format": "{}",
