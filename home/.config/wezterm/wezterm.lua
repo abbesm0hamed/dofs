@@ -10,6 +10,8 @@ return {
 	freetype_load_target = "Light",
 	freetype_render_target = "HorizontalLcd",
 	freetype_load_flags = "NO_HINTING",
+	use_cap_height_to_scale_fallback_fonts = true,
+	warn_about_missing_glyphs = false,
 
 	window_background_opacity = 0.98,
 	window_decorations = "NONE",
@@ -72,6 +74,8 @@ return {
 		top = 10,
 		bottom = 10,
 	},
+	scrollback_lines = 10000,
+	enable_scroll_bar = false,
 	inactive_pane_hsb = {
 		saturation = 1.0,
 		brightness = 0.9,
