@@ -1,103 +1,106 @@
-local wezterm = require 'wezterm'
+local wezterm = require("wezterm")
 local act = wezterm.action
 
 return {
-  font = wezterm.font_with_fallback({
-    { family = 'Iosevka', stretch = 'Expanded' },
-    -- { family = 'Noto Color Emoji' },
-  }),
-  font_size = 14.0,
+	font = wezterm.font_with_fallback({
+		{ family = "Iosevka", stretch = "Expanded" },
+		-- { family = 'Noto Color Emoji' },
+	}),
+	font_size = 11.0,
+	freetype_load_target = "Light",
+	freetype_render_target = "HorizontalLcd",
+	freetype_load_flags = "NO_HINTING",
 
-  window_background_opacity = 0.98,
-  window_decorations = 'NONE',
-  colors = {
-    foreground = '#e7e3ff',
-    background = '#0d0e11',
-    cursor_bg = '#f5e0dc',
-    cursor_fg = '#0d0e11',
-    selection_bg = '#585b70',
-    selection_fg = '#e7e3ff',
+	window_background_opacity = 0.98,
+	window_decorations = "NONE",
+	colors = {
+		foreground = "#e7e3ff",
+		background = "#0d0e11",
+		cursor_bg = "#f5e0dc",
+		cursor_fg = "#0d0e11",
+		selection_bg = "#585b70",
+		selection_fg = "#e7e3ff",
 
-    ansi = {
-      '#45475a',
-      '#f38ba8',
-      '#a6e3a1',
-      '#f9e2af',
-      '#89b4fa',
-      '#f5c2e7',
-      '#94e2d5',
-      '#bac2de',
-    },
-    brights = {
-      '#585b70',
-      '#f38ba8',
-      '#a6e3a1',
-      '#f9e2af',
-      '#89b4fa',
-      '#f5c2e7',
-      '#94e2d5',
-      '#a6adc8',
-    },
+		ansi = {
+			"#45475a",
+			"#f38ba8",
+			"#a6e3a1",
+			"#f9e2af",
+			"#89b4fa",
+			"#f5c2e7",
+			"#94e2d5",
+			"#bac2de",
+		},
+		brights = {
+			"#585b70",
+			"#f38ba8",
+			"#a6e3a1",
+			"#f9e2af",
+			"#89b4fa",
+			"#f5c2e7",
+			"#94e2d5",
+			"#a6adc8",
+		},
 
-    tab_bar = {
-      background = '#0d0e11',
-      active_tab = {
-        bg_color = '#89b4fa',
-        fg_color = '#0d0e11',
-      },
-      inactive_tab = {
-        bg_color = '#0d0e11',
-        fg_color = '#bac2de',
-      },
-      inactive_tab_hover = {
-        bg_color = '#0d0e11',
-        fg_color = '#e7e3ff',
-      },
-      new_tab = {
-        bg_color = '#0d0e11',
-        fg_color = '#bac2de',
-      },
-      new_tab_hover = {
-        bg_color = '#0d0e11',
-        fg_color = '#e7e3ff',
-      },
-    },
-  },
-  window_padding = {
-    left = 10,
-    right = 10,
-    top = 10,
-    bottom = 10,
-  },
-  inactive_pane_hsb = {
-    saturation = 1.0,
-    brightness = 0.9,
-  },
+		tab_bar = {
+			background = "#0d0e11",
+			active_tab = {
+				bg_color = "#89b4fa",
+				fg_color = "#0d0e11",
+			},
+			inactive_tab = {
+				bg_color = "#0d0e11",
+				fg_color = "#bac2de",
+			},
+			inactive_tab_hover = {
+				bg_color = "#0d0e11",
+				fg_color = "#e7e3ff",
+			},
+			new_tab = {
+				bg_color = "#0d0e11",
+				fg_color = "#bac2de",
+			},
+			new_tab_hover = {
+				bg_color = "#0d0e11",
+				fg_color = "#e7e3ff",
+			},
+		},
+	},
+	window_padding = {
+		left = 10,
+		right = 10,
+		top = 10,
+		bottom = 10,
+	},
+	inactive_pane_hsb = {
+		saturation = 1.0,
+		brightness = 0.9,
+	},
 
-  -- Cursor
-  default_cursor_style = 'SteadyBlock',
-  cursor_blink_rate = 0,
+	-- Cursor
+	default_cursor_style = "SteadyBlock",
+	cursor_blink_rate = 0,
 
-  -- Terminal identity
-  term = 'xterm-256color',
+	-- Terminal identity
+	term = "xterm-256color",
 
-  -- Tabs and UI
-  enable_tab_bar = false,
-  hide_tab_bar_if_only_one_tab = true,
-  use_fancy_tab_bar = false,
+	-- Tabs and UI
+	enable_tab_bar = false,
+	hide_tab_bar_if_only_one_tab = true,
+	use_fancy_tab_bar = false,
 
-  adjust_window_size_when_changing_font_size = false,
+	adjust_window_size_when_changing_font_size = false,
 
-  keys = {
-    { key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
-    { key = '+', mods = 'CTRL', action = act.IncreaseFontSize },
-    { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
-    { key = '0', mods = 'CTRL', action = act.ResetFontSize },
-  },
+	keys = {
+		{ key = "=", mods = "CTRL", action = act.IncreaseFontSize },
+		{ key = "+", mods = "CTRL", action = act.IncreaseFontSize },
+		{ key = "-", mods = "CTRL", action = act.DecreaseFontSize },
+		{ key = "0", mods = "CTRL", action = act.ResetFontSize },
+	},
 
-  -- Wayland first (matches Niri setup)
-  enable_wayland = true,
+	-- Wayland first (matches Niri setup)
+	enable_wayland = true,
 
-  -- Behavior
-  window_close_confirmation = 'NeverPrompt',
+	-- Behavior
+	window_close_confirmation = "NeverPrompt",
 }
