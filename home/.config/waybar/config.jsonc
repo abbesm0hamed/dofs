@@ -35,7 +35,7 @@
         // "custom/mic",
         // "custom/recording",
         "group/connectivity",
-        "battery",
+        "group/power_stats",
         "group/power"
         // "temperature",
         // "pulseaudio",
@@ -109,10 +109,10 @@
         "tooltip-format": "Battery: {capacity}%\nTime: {time}\nPower: {power}W"
     },
     "network": {
-        "format-wifi": "󰤨 ",
-        "format-ethernet": "󰛳 ",
-        "format-linked": "󰤭 ",
-        "format-disconnected": "󰤭 ",
+        "format-wifi": "󰤨",
+        "format-ethernet": "󰛳",
+        "format-linked": "󰤭",
+        "format-disconnected": "󰤭",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "format-alt-wifi": "{essid}",
         "format-alt-ethernet": "{ifname}",
@@ -138,7 +138,7 @@
         "format": "{}",
         "exec": "~/.config/waybar/scripts/docker-event-status.sh",
         "return-type": "json",
-        "interval": 60
+        "interval": 30
     },
     "custom/next-prayer": {
         "format": "{}",
@@ -191,10 +191,16 @@
             "cpu"
         ]
     },
+    "group/power_stats": {
+        "orientation": "horizontal",
+        "modules": [
+            "battery",
+            "power-profiles-daemon"
+        ]
+    },
     "group/power": {
         "orientation": "horizontal",
         "modules": [
-            "power-profiles-daemon",
             "custom/idle_inhibitor",
             "custom/power"
         ]

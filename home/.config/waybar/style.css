@@ -4,7 +4,7 @@
 
 * {
   font-family: "JetBrains Mono", "Iosevka Medium Extended", "Inter", monospace;
-  font-size: 13px;
+  font-size: 14px;
   min-height: 0;
   border: none;
   border-radius: 0;
@@ -31,36 +31,57 @@ window#waybar {
   margin-right: 3px;
 }
 
+.modules-right>widget:not(:first-child) {
+  margin-left: -2px;
+}
+
 /* Individual modules */
 #workspaces,
 #window,
 #clock,
-#battery,
 #cpu,
 #memory,
-#network,
-#bluetooth,
 #temperature,
 #language,
-#backlight,
-#wireplumber,
-#group-connectivity,
-#group-monitoring,
-#group-power,
+#battery,
+#bluetooth,
 #custom-idle_inhibitor,
 #custom-storage,
 #custom-next-prayer,
 #custom-notifications,
 #custom-notification-history,
-#custom-power,
 #custom-recording,
 #custom-mic,
 #custom-fingerprint,
 #custom-docker,
 #custom-updates {
+  padding: 0px 4px;
   background: transparent;
   color: @text;
+}
+
+#monitoring,
+#power_stats,
+#connectivity,
+#power {
   padding: 0px 4px;
+}
+
+#custom-power {
+  padding: 0px 0px 0px 4px;
+}
+
+#battery,
+#bluetooth {
+  padding: 0px 8px 0px 6px;
+}
+
+#backlight {
+  padding: 0px 4px;
+}
+
+#wireplumber {
+  padding: 0px 4px 0px 0px;
 }
 
 /* Workspaces */
@@ -71,7 +92,7 @@ window#waybar {
 
 #workspaces button {
   color: @overlay0;
-  padding: 4px 2px;
+  padding: 0px 2px;
   margin: 0px 0px;
   border-radius: 0px;
   transition: color 0.2s ease;
@@ -99,7 +120,7 @@ window#waybar {
 /* Clock - center highlight */
 #clock {
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 0px 10px;
   border-radius: 0px;
   background-color: @surface0;
   border-bottom: 1px solid @surface1;
@@ -107,46 +128,19 @@ window#waybar {
   border-left: 2px dotted @overlay0;
 }
 
-#cpu {
-  padding-right: 4px;
-}
-
-#cpu,
 #custom-notifications {
+  border-left: 2px dotted @overlay0;
+}
+
+#monitoring,
+#connectivity,
+#power_stats,
+#power {
+  border-left: 2px dotted @overlay0;
+}
+
+#monitoring {
   border-right: 2px dotted @overlay0;
-}
-
-#group-connectivity {
-  border-left: 2px dotted @overlay0;
-  border-right: 2px dotted @overlay0;
-}
-
-#bluetooth {
-  border-left: 2px dotted @overlay0;
-  padding-left: 10px;
-}
-
-#network {
-  padding-right: 2px;
-}
-
-#custom-docker {
-  border-left: 2px dotted @overlay0;
-  padding-left: 10px;
-}
-
-#cpu {
-  border-right: 2px dotted @overlay0;
-  padding-right: 10px;
-}
-
-#power-profiles-daemon {
-  border-left: 2px dotted @overlay0;
-  padding-left: 10px;
-}
-
-#custom-power {
-  padding-right: 3px;
 }
 
 #custom-power:hover {
@@ -213,10 +207,6 @@ window#waybar {
   padding: 0 4px;
 }
 
-#power-profiles-daemon {
-  padding-right: 4px;
-}
-
 #power-profiles-daemon.performance {
   color: @yellow;
 }
@@ -253,7 +243,7 @@ tooltip {
 }
 
 tooltip label {
-  padding: 6px 10px;
+  padding: 2px 8px;
 }
 
 /* Subtle hover effects */
