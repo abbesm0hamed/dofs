@@ -4,8 +4,8 @@ Description=Timer for Obsidian Bidirectional Sync
 [Timer]
 # Run 5 minutes after boot
 OnBootSec=5min
-# Run every 30 minutes thereafter
-OnUnitActiveSec=30min
+# Run every 4 hours thereafter
+OnUnitActiveSec=4h
 # Random delay to prevent hitting API limits if multiple machines start at once
 RandomizedDelaySec=1min
 
