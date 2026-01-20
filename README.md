@@ -55,9 +55,15 @@ This will:
 If you prefer to clone the repository manually, follow these steps:
 
 ```bash
+# Clone the repository
 git clone --branch fedora-niri https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
 ./install.sh
+
+# Run the installer
+# Use APPLY_ETC=1 to also apply system-level configs (e.g., lid suspend behavior)
+# This will require sudo password.
+APPLY_ETC=1 ./install.sh
 ```
 
 ## Test Installation in a Container (Recommended)
@@ -209,3 +215,17 @@ Press `ALT + L` to open the power menu, which provides options for:
 - **Auto-tiling**: Dynamic tiling layout
 - **Workspace Auto Back and Forth**: Enabled
 - **Smooth Animations**: Advanced animation system
+
+## 📓 Obsidian Google Drive Sync
+
+This setup uses **rclone bisync** to keep a local copy of your notes synchronized bidirectionally with Google Drive.
+
+1. **Authenticate**: Run `rclone config` and create a remote named `gdrive`. For best results, create your own **Google OAuth Client ID** in the Google Cloud Console to avoid rate limiting. (Path: *APIs & Services > Credentials > Create Credentials > OAuth client ID*).
+2. **Enable API**: Ensure the **Google Drive API** is enabled in your [Google Cloud Console](https://console.developers.google.com/apis/api/drive.googleapis.com/overview).
+3. **Setup**: Run `bash ~/dofs/scripts/setup/obsidian.sh`. This initializes the vault and enables background sync.
+4. **Use**: 
+   - **Manual Sync**: Press `<leader>oz` in Neovim to trigger an immediate sync.
+   - **Search**: Use `<leader>os` to search your notes using the Snacks picker.
+   - **Quick Note**: Use `<leader>on` to create a new note from anywhere.
+5. **Performance**: Since notes are stored locally in `~/vaults/google-drive`, the picker is instant. Background sync runs every 30 minutes via a systemd timer.
+6. **Reliability**: Uses `rclone bisync` with `size` and `modtime` comparison for fast, reliable updates.

@@ -17,6 +17,8 @@ lm_sensors
 xdg-utils
 xdg-user-dirs
 power-profiles-daemon
+# google drive sync tool
+rclone
 
 pavucontrol
 

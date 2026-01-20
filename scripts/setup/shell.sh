@@ -29,10 +29,10 @@ else
         log "Adding $FISH_PATH to /etc/shells..."
         echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
     fi
-
     log "Setting default shell to Fish..."
     sudo chsh -s "$FISH_PATH" "$USER" && ok "Success! Please re-login." || err "Failed."
 fi
+ok "Shell setup finished."
 
 
 log "Installing Starship..."

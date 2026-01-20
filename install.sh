@@ -42,6 +42,7 @@ SETUP_SCRIPTS=(
     # "ai.sh"
     "media.sh"
     "dotfiles.sh"
+    "obsidian.sh"
     "performance.sh"
     "security.sh"
     "cursors.sh"

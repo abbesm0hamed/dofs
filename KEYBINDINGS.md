@@ -119,7 +119,7 @@
 | `Mod+Shift+Return         ` | `foot                                                        ` |
 | `Mod+Shift+R              ` | `switch-preset-window-height                                 ` |
 | `Mod+Shift+S              ` | `screenshot-screen                                           ` |
-| `Mod+Shift+T              ` | `wezterm start --always-new-process --class=floating-terminal ` |
+| `Mod+Shift+T              ` | `wezterm start --always-new-process --class=floating-terminal` |
 | `Mod+Shift+U              ` | `move-workspace-down                                         ` |
 | `Mod+Shift+V              ` | `screenshot-window                                           ` |
 | `Mod+Shift+WheelScrollDown` | `focus-column-right                                          ` |

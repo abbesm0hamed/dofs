@@ -1,0 +1,14 @@
+[Unit]
+Description=Obsidian Bidirectional Sync (rclone bisync)
+Documentation=man:rclone(1)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/dofs/scripts/obsidian/sync.sh
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

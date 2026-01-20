@@ -17,8 +17,8 @@ fi
 
 cd "${REPO_ROOT}"
 
-# --- Set executable permissions on scripts within dotfiles ---
-find home -type f -name "*.sh" -exec chmod +x {} +
+# --- Set executable permissions on scripts within dotfiles and scripts directory ---
+find home scripts -type f -name "*.sh" -exec chmod +x {} +
 
 # --- Backup existing files and directories ---
 log "Backing up existing configurations..."
