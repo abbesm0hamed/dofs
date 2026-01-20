@@ -1,3 +1,5 @@
+format = "$directory$git_branch$git_status$custom$all$character"
+
 [aws]
 symbol = "  "
 
@@ -56,15 +58,15 @@ symbol = " "
 tag_symbol = '  '
 
 [git_status]
-format = '([$all_status$ahead_behind]($style) )'
-conflicted = ""
-ahead = ""
-behind = ""
-diverged = ""
+format = '([$ahead_behind]($style) )'
+conflicted = "󰀦 "
+ahead = "󰶣 "
+behind = "󰶡 "
+diverged = "󰶟 "
 untracked = ""
-stashed = ""
-modified = " "
-staged = " "
+stashed = "󰠿 "
+modified = ""
+staged = ""
 renamed = ""
 deleted = ""
 
@@ -202,3 +204,9 @@ symbol = " "
 
 [gradle]
 symbol = " "
+
+[custom.git_dirty]
+command = "git status --porcelain | grep -q . && echo '󰏫 '"
+when = "git rev-parse --is-inside-work-tree 2>/dev/null"
+format = "[$output]($style)"
+style = "bold yellow"

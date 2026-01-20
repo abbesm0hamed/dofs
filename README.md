@@ -34,7 +34,7 @@ A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 - **Rofi** - Highly customizable application launcher
 - **Waybar** - Highly customizable status bar
 - **Mako** - Lightweight notification daemon
-- **Fish** shell with **Starship** prompt
+- **Fish** shell with **Hydro** prompt
 
 ## Quick Start
 
@@ -111,7 +111,7 @@ This setup includes:
 ### System Packages
 
 - Base development tools, git, network manager
-- Fish shell, Starship prompt
+- Fish shell, Hydro prompt
 - Bluetooth, SSH, power management tools...
 
 ### Development Tools

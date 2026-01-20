@@ -27,11 +27,15 @@ if [[ "$NON_INTERACTIVE" -eq 1 ]]; then
 else
     sudo -v
 fi
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+done 2>/dev/null &
 
 # Execution
 log "STARTING INSTALLATION (logging to $LOG_FILE)"
-echo "--- Installation started at $(date) ---" >> "$LOG_FILE"
+echo "--- Installation started at $(date) ---" >>"$LOG_FILE"
 
 SETUP_SCRIPTS=(
     "repos.sh"
@@ -42,7 +46,6 @@ SETUP_SCRIPTS=(
     # "ai.sh"
     "media.sh"
     "dotfiles.sh"
-    "obsidian.sh"
     "performance.sh"
     "security.sh"
     "cursors.sh"
@@ -50,6 +53,7 @@ SETUP_SCRIPTS=(
     "shell.sh"
     "gaming.sh"
     "fingerprint.sh"
+    "obsidian.sh"
     "finish.sh"
     "verify.sh"
 )

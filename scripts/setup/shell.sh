@@ -35,11 +35,11 @@ fi
 ok "Shell setup finished."
 
 
-log "Installing Starship..."
-if ! command -v starship &>/dev/null; then
-    mkdir -p "$HOME/.local/bin"
-    curl -sS https://starship.rs/install.sh | sh -s -- -y -b "$HOME/.local/bin" >/dev/null 2>&1 && ok "Starship installed" || err "Starship failed"
+log "Installing Fisher and Hydro..."
+if ! fish -c "functions -q fisher" &>/dev/null; then
+    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | fish -c "source && fisher install jorgebucaran/fisher"
 fi
+fish -c "fisher install jorgebucaran/hydro" && ok "Hydro prompt installed" || err "Hydro prompt failed"
 
 log "Installing Atuin..."
 if ! command -v atuin &>/dev/null; then
