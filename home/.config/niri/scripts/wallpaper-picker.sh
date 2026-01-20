@@ -15,5 +15,9 @@ fi
 CHOICE=$(echo "$WALLPAPERS" | rofi -dmenu -i -p "󰸉 Wallpaper: ")
 
 if [ -n "$CHOICE" ]; then
-    bash "$SETTER" "${WALL_DIR}/${CHOICE}"
+    FULL_PATH="${WALL_DIR}/${CHOICE}"
+    notify-send -a "Wallpaper" -i "$FULL_PATH" "Applying Wallpaper" "$CHOICE"
+    # Clear any stale lock
+    rm -f "${XDG_RUNTIME_DIR:-/tmp}/wallpaper.lock"
+    bash "$SETTER" "$(realpath "$FULL_PATH")"
 fi

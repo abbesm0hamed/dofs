@@ -55,7 +55,7 @@ dbus-update-activation-environment --systemd "${ENVS_TO_IMPORT[@]}" || true
 
 # Wallpapers
 if [ -f "$FOREGROUND_WALLPAPER" ]; then
-    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER" &
+    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER" --silent &
 fi
 
 # Core Services
