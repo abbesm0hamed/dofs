@@ -57,14 +57,14 @@ tag_symbol = '  '
 
 [git_status]
 format = '([$all_status$ahead_behind]($style) )'
-conflicted = " 󰞇 "
-ahead = " ⇡ "
-behind = " ⇣ "
-diverged = " ⇕ "
-untracked = " 󰋗 "
+conflicted = ""
+ahead = ""
+behind = ""
+diverged = ""
+untracked = ""
 stashed = ""
-modified = " 󰏫 "
-staged = ""
+modified = " "
+staged = " "
 renamed = ""
 deleted = ""
 
