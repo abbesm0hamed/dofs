@@ -146,10 +146,3 @@ window-rule {
     block-out-from "screen-capture"
     clip-to-geometry true
 }
-
-// window-rule {
-//     match app-id="Gromit-mpx"
-//     focus-ring { off; }
-//     border { off; }
-//     shadow { off; }
-// }

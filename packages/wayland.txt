@@ -43,5 +43,5 @@ pamixer
 kanshi
 sway-audio-idle-inhibit
 # wshowkeys # show keys hit on screen
-# gromit-mpx # drawing tool
+wayscriber # screen annotation tool (Wayland-native)
 hyprpicker

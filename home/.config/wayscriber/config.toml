@@ -1,0 +1,8 @@
+[ui]
+# Show status bar with current color/thickness/tool.
+show_status_bar = true
+
+[ui.toolbar]
+# Hide the toolbars on launch; you can still toggle them with F2/F9.
+top_pinned = false
+side_pinned = false

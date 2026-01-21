@@ -60,6 +60,23 @@ else
     log "HashiCorp repository already exists."
 fi
 
+WAYSCRIBER_REPO="/etc/yum.repos.d/wayscriber.repo"
+if [ ! -f "$WAYSCRIBER_REPO" ]; then
+    log "Adding Wayscriber repository..."
+    sudo tee "$WAYSCRIBER_REPO" >/dev/null <<'EOL'
+[wayscriber]
+name=Wayscriber Repo
+baseurl=https://wayscriber.com/rpm
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://wayscriber.com/rpm/RPM-GPG-KEY-wayscriber.asc
+EOL
+    repos_changed=true
+else
+    log "Wayscriber repository already exists."
+fi
+
 # Read COPR repositories from file
 COPR_FILE="${REPO_ROOT}/packages/copr.txt"
 
