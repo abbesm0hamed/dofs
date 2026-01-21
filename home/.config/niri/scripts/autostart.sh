@@ -4,8 +4,8 @@ set -euo pipefail
 
 # Configuration
 WALLPAPER_DIR="${HOME}/.config/backgrounds"
-FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/spiral.jpg"
-BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-spiral.jpg"
+FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/xiaomi.jpg"
+BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-xiaomi.jpg"
 
 # Logging
 LOG_FILE="${XDG_RUNTIME_DIR:-/tmp}/niri-autostart.log"
