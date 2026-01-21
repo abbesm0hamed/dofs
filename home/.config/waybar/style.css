@@ -4,7 +4,7 @@
 
 * {
   font-family: "JetBrains Mono", "Iosevka Medium Extended", "Inter", monospace;
-  font-size: 14px;
+  font-size: 13px;
   min-height: 0;
   border: none;
   border-radius: 0;
@@ -333,4 +333,3 @@ tooltip label {
 #custom-recording.recording-audio:hover {
   color: @blue;
 }
-
