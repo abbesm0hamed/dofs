@@ -23,9 +23,14 @@ home/.config/ranger/history
 home/.config/ranger/tagged
 /home/.config/ranger/.cache/
 
-# Fish universal variables (machine/user specific)
+# Fish shell artifacts (Fisher managed & universal variables)
 home/.config/fish/fish_variables
 home/.config/fish/fish_variables.*
+home/.config/fish/functions/fisher.fish
+home/.config/fish/functions/fish_prompt.fish
+home/.config/fish/functions/fish_mode_prompt.fish
+home/.config/fish/conf.d/hydro.fish
+home/.config/fish/conf.d/atuin.env.fish
 
 # Python cache
 __pycache__/
@@ -34,3 +39,6 @@ __pycache__/
 
 # User-specific local files
 home/.local/
+*.bak
+*.old
+*~

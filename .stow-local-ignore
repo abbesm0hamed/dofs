@@ -15,3 +15,4 @@
 ^/install.log
 \.stow_local_ignore
 ^/home/\.local
+home/.config/fish/fish_variables*

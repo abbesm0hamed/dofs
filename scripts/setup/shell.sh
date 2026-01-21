@@ -35,11 +35,11 @@ fi
 ok "Shell setup finished."
 
 
-log "Installing Fisher and Hydro..."
+log "Installing/Updating Fisher plugins..."
 if ! fish -c "functions -q fisher" &>/dev/null; then
     curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | fish -c "source && fisher install jorgebucaran/fisher"
 fi
-fish -c "fisher install jorgebucaran/hydro" && ok "Hydro prompt installed" || err "Hydro prompt failed"
+fish -c "fisher update" && ok "Fisher plugins updated" || err "Fisher update failed"
 
 log "Installing Atuin..."
 if ! command -v atuin &>/dev/null; then
