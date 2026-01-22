@@ -1,3 +1,5 @@
+fish_add_path -g $HOME/.local/share/fnm $HOME/.local/bin $HOME/go/bin $HOME/.cargo/bin $HOME/.atuin/bin
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
     set fish_greeting
@@ -123,10 +125,11 @@ if status is-interactive
     end
 end
 
-# path additions should be outside interactive block to be available in scripts
-fish_add_path -g $HOME/.local/bin $HOME/go/bin $HOME/.cargo/bin $HOME/.atuin/bin
-
 # opencode
 if test -d $HOME/.opencode/bin
     fish_add_path $HOME/.opencode/bin
 end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
