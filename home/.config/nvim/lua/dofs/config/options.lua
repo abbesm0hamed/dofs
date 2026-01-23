@@ -4,6 +4,9 @@ vim.env.COLORTERM = "truecolor"
 
 local opt = vim.opt -- for conciseness
 
+opt.colorcolumn = "80"
+opt.fillchars = { vert = "┃", eob = " " }
+
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)

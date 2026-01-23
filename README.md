@@ -220,10 +220,10 @@ Press `ALT + L` to open the power menu, which provides options for:
 
 This setup uses **rclone bisync** to keep a local copy of your notes synchronized bidirectionally with Google Drive.
 
-1. **Authenticate**: Run `rclone config` and create a remote named `gdrive`. For best results, create your own **Google OAuth Client ID** in the Google Cloud Console to avoid rate limiting. (Path: *APIs & Services > Credentials > Create Credentials > OAuth client ID*).
+1. **Authenticate**: Run `rclone config` and create a remote named `gdrive`. For best results, create your own **Google OAuth Client ID** in the Google Cloud Console to avoid rate limiting. (Path: _APIs & Services > Credentials > Create Credentials > OAuth client ID_).
 2. **Enable API**: Ensure the **Google Drive API** is enabled in your [Google Cloud Console](https://console.developers.google.com/apis/api/drive.googleapis.com/overview).
 3. **Setup**: Run `bash ~/dofs/scripts/setup/obsidian.sh`. This initializes the vault and enables background sync.
-4. **Use**: 
+4. **Use**:
    - **Manual Sync**: Press `<leader>oz` in Neovim to trigger an immediate sync.
    - **Search**: Use `<leader>os` to search your notes using the Snacks picker.
    - **Quick Note**: Use `<leader>on` to create a new note from anywhere.

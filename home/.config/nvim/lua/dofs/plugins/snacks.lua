@@ -250,7 +250,7 @@ return {
               ["<ScrollWheelUp>"] = { "list_scroll_wheel_up", mode = { "i", "n" } },
 
               ["<c-v>"] = { "edit_vsplit", mode = { "i", "n" } },
-              ["<c-s>"] = { "edit_split", mode = { "i", "n" } },
+              ["<c-h>"] = { "edit_split", mode = { "i", "n" } },
               ["<c-q>"] = { "qflist", mode = { "i", "n" } },
             },
             b = {
@@ -282,7 +282,7 @@ return {
               ["<c-f>"] = "preview_scroll_down",
               ["<c-b>"] = "preview_scroll_up",
               ["<c-v>"] = "edit_vsplit",
-              ["<c-s>"] = "edit_split",
+              ["<c-h>"] = "edit_split",
               ["<c-j>"] = "list_down",
               ["<c-k>"] = "list_up",
               ["<c-n>"] = "list_down",

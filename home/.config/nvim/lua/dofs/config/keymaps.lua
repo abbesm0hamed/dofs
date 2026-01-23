@@ -27,10 +27,37 @@ keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
 -- window management
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
 keymap.set("n", "<leader>dw", "<cmd>close<CR>", { desc = "Close current split" })
-keymap.set("n", "<C-Up>", ":resize +4<CR>", { desc = "Increase window height" })
-keymap.set("n", "<C-Down>", ":resize -4<CR>", { desc = "Decrease window height" })
-keymap.set("n", "<C-Right>", ":vertical resize +4<CR>", { desc = "Increase window width" })
-keymap.set("n", "<C-Left>", ":vertical resize -4<CR>", { desc = "Decrease window width" })
+-- Resize Mode
+local function resize_window()
+  local map = {
+    h = "vertical resize -3",
+    l = "vertical resize +3",
+    j = "resize -3",
+    k = "resize +3",
+    ["="] = "wincmd =",
+  }
+
+  local notify = require("snacks").notifier
+  notify.notify("Entering Resize Mode\nh/j/k/l to resize, q/Esc to exit", "info", { title = "Resize Mode" })
+
+  while true do
+    vim.cmd("redraw")
+    local ok, key = pcall(vim.fn.getchar)
+    if not ok then break end
+    local char = vim.fn.nr2char(key)
+
+    if char == "q" or char == "\27" then -- q or Esc
+      notify.notify("Exited Resize Mode", "info", { title = "Resize Mode" })
+      break
+    end
+
+    if map[char] then
+      vim.cmd(map[char])
+    end
+  end
+end
+
+keymap.set("n", "<leader>r", resize_window, { desc = "Enter Resize Mode" })
 keymap.set("n", "<C-k>", "<C-W>k", { desc = "Jump to Previous Horizontal Tab", remap = true })
 keymap.set("n", "<C-j>", "<C-W>j", { desc = "Jump to Next Horizontal Tab", remap = true })
 
@@ -46,10 +73,7 @@ keymap.set("n", "[b", "<cmd>bprev<CR>", { desc = "Jump to previous buffer", sile
 keymap.set("n", "]b", "<cmd>bnext<CR>", { desc = "Jump to next buffer", silent = true })
 
 -- save file (optimized - no unnecessary escape)
-keymap.set("n", "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
-keymap.set("i", "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
-keymap.set("x", "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
-keymap.set("s", "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
+keymap.set({ "n", "i", "x", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
 
 -- select and copy from file
 keymap.set("n", "<leader>vv", "ggVG", { desc = "Select All" })
