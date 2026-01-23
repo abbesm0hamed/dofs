@@ -1,31 +1,5 @@
 return {
   {
-    -- Go development support with struct tags, implements, etc.
-    "olexsmir/gopher.nvim",
-    ft = "go",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {},
-    build = function()
-      -- Add error handling and delay to prevent startup issues
-      vim.defer_fn(function()
-        local ok, err = pcall(vim.cmd.GoInstallDeps)
-        if not ok then
-          vim.notify("gopher.nvim: " .. tostring(err), vim.log.levels.WARN)
-        end
-      end, 100)
-    end,
-    keys = {
-      { "<leader>gts", "<cmd>GoTagAdd json<cr>", desc = "Add JSON tags", ft = "go" },
-      { "<leader>gty", "<cmd>GoTagAdd yaml<cr>", desc = "Add YAML tags", ft = "go" },
-      { "<leader>gtr", "<cmd>GoTagRm<cr>", desc = "Remove tags", ft = "go" },
-      { "<leader>gie", "<cmd>GoIfErr<cr>", desc = "Add if err", ft = "go" },
-      { "<leader>gim", "<cmd>GoImpl<cr>", desc = "Generate interface implementation", ft = "go" },
-    },
-  },
-  {
     -- Comprehensive Go tooling and LSP enhancements
     "ray-x/go.nvim",
     ft = { "go", "gomod", "gowork", "gotmpl" },

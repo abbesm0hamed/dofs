@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({ { import = "dofs.plugins" }, { import = "dofs.plugins.lsp" } }, {
   checker = {
-    enabled = true,
+    enabled = false,
     notify = true,
     frequency = 3600,
   },
