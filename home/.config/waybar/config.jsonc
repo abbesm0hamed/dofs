@@ -64,7 +64,9 @@
         "interval": 30,
         "format": "<span rise='1000'></span> {percentage}%",
         "tooltip-format": "Memory Usage: {percentage}%",
-        "on-click": "wezterm start -- btop"
+        "on-click": "wezterm start -- btop",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "battery": {
         "interval": 2,
@@ -132,7 +134,9 @@
         "format-alt-click": "click-right",
         "return-type": "json",
         "interval": 60,
-        "exec": "~/.config/waybar/modules/storage.sh"
+        "exec": "~/.config/waybar/modules/storage.sh",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "custom/docker": {
         "format": "{}",
@@ -293,7 +297,9 @@
     "cpu": {
         "interval": 1,
         "format": "<span rise='1000'></span> {usage}%",
-        "tooltip-format": "CPU Usage: {usage}%"
+        "tooltip-format": "CPU Usage: {usage}%",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "mpd": {
         "max-length": 25,
