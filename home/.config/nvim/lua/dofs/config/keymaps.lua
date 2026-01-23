@@ -17,9 +17,6 @@ keymap.set("n", "<leader>mn", "<cmd>Mason<CR>", { desc = " Mason" })
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
--- layout - Fixed typo
-keymap.set("n", "<A-z>", ":lua vim.wo.wrap = not vim.wo.wrap<CR>", { desc = "Wrap text" })
-
 -- increment/decrement numbers
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" })
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
@@ -61,18 +58,11 @@ keymap.set("n", "<leader>r", resize_window, { desc = "Enter Resize Mode" })
 keymap.set("n", "<C-k>", "<C-W>k", { desc = "Jump to Previous Horizontal Tab", remap = true })
 keymap.set("n", "<C-j>", "<C-W>j", { desc = "Jump to Next Horizontal Tab", remap = true })
 
--- tab management (consolidated and optimized)
-keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })
-keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })
-keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
-keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
-keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
-
 -- buffers
 keymap.set("n", "[b", "<cmd>bprev<CR>", { desc = "Jump to previous buffer", silent = true })
 keymap.set("n", "]b", "<cmd>bnext<CR>", { desc = "Jump to next buffer", silent = true })
 
--- save file (optimized - no unnecessary escape)
+-- save file
 keymap.set({ "n", "i", "x", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
 
 -- select and copy from file
@@ -87,7 +77,7 @@ keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
 keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 
--- Clear search ONLY in normal mode (performance optimized)
+-- Clear search ONLY in normal mode
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear hlsearch" })
 
 -- Alternative clear search mapping that doesn't interfere with insert mode
@@ -128,8 +118,6 @@ keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 -- highlights under cursor
 keymap.set("n", "<leader>ui", vim.show_pos, { desc = "Inspect pos" })
 
--- Terminal mappings (optimized for smooth operation)
--- Use Alt c in terminal mode for consistency
 keymap.set("t", "<A-c>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 
 -- Window navigation from terminal
@@ -234,8 +222,3 @@ keymap.set("n", "<leader>ts", function()
   vim.o.spell = not vim.o.spell
   vim.notify("Spell " .. (vim.o.spell and "enabled" or "disabled"))
 end, { desc = "Toggle Spell" })
-
-keymap.set("n", "<leader>tr", function()
-  vim.wo.relativenumber = not vim.wo.relativenumber
-  vim.notify("Relative numbers " .. (vim.wo.relativenumber and "enabled" or "disabled"))
-end, { desc = "Toggle Relative Numbers" })

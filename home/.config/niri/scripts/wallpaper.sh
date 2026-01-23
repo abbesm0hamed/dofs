@@ -4,7 +4,10 @@ set -euo pipefail
 # Prevent race conditions with flock using a separate lock file
 LOCK_FILE="${XDG_RUNTIME_DIR:-/tmp}/wallpaper.lock"
 exec 200>"$LOCK_FILE"
-flock -n 200 || { echo "Another instance is running"; exit 0; }
+flock -n 200 || {
+    echo "Another instance is running"
+    exit 0
+}
 
 WALL_DIR="${HOME}/.config/backgrounds"
 FG_LINK="${WALL_DIR}/current.jpg"
@@ -98,3 +101,4 @@ echo "Wallpapers updated successfully."
 if [ "$SILENT" = false ]; then
     notify-send -a "Wallpaper" -i "$FG_WALL" "Wallpaper Applied" "$(basename "$FG_WALL")" || true
 fi
+
