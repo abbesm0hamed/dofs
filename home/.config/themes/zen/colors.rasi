@@ -1,12 +1,12 @@
-/* Zen pastel dark for Rofi */
+/* Zen monochrome dark for Rofi */
 * {
     bg-col:  #0e1116;
     bg-col-light: #141822;
-    border-col: #2a3040;
-    selected-col: #1b202c;
-    blue: #7ab8ff;
-    mauve: #c5b8ff;
-    fg-col: #e6ecf3;
-    fg-col2: #f3c6a2;
-    grey: #5b6680;
+    border-col: #4a5468;
+    selected-col: #2a3040;
+    blue: #7c8594; /* neutral accent */
+    mauve: #9ca3af;
+    fg-col: #e5e7eb;
+    fg-col2: #d8dce3;
+    grey: #7c8594;
 }

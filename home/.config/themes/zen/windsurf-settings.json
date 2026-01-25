@@ -1,0 +1,8 @@
+{
+  "editor.fontFamily": "JetBrainsMono Nerd Font, Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 16,
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font, monospace",
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "window.autoDetectColorScheme": false
+}

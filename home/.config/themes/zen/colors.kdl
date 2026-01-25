@@ -1,10 +1,10 @@
-// Zen minimal pastel dark for Niri
+// Zen monochrome dark for Niri
 layout {
     background-color "#0e1116"
     border {
-        active-color "#7ab8ff"
-        inactive-color "#3a4354"
-        urgent-color "#f09aaa"
+        active-color "#7c8594"
+        inactive-color "#4a5468"
+        urgent-color "#9ca3af"
     }
 }
 overview {

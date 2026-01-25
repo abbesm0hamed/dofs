@@ -4,6 +4,15 @@ set -euo pipefail
 THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/themes"
 CURRENT_THEME=$(cat "$THEMES_DIR/current_theme" 2>/dev/null || echo "")
 
+if ! command -v rofi >/dev/null 2>&1; then
+    msg="rofi not found; install it to pick themes."
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send -a "Theme" "$msg"
+    fi
+    echo "$msg"
+    exit 1
+fi
+
 themes=()
 if [ -d "$THEMES_DIR" ]; then
     for theme_path in "$THEMES_DIR"/*; do

@@ -39,15 +39,30 @@ if [ "${1:-}" == "--restore" ]; then
     [ -L "$BG_LINK" ] && BG_WALL=$(readlink -f "$BG_LINK")
     [ -z "$FG_WALL" ] && echo "Nothing to restore." && exit 0
 else
-    FG_WALL="$(readlink -f "$1")"
-    BG_WALL="${2:-}"
-    
-    # Background resolution logic
-    if [ -z "$BG_WALL" ]; then
-        POTENTIAL_BG="$(dirname "$FG_WALL")/blurry-$(basename "$FG_WALL")"
-        [ -f "$POTENTIAL_BG" ] && BG_WALL="$POTENTIAL_BG"
+    if [ -d "$1" ]; then
+        DIR_PATH="$(readlink -f "$1")"
+        shopt -s nullglob
+        for f in "$DIR_PATH"/default-workspace.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG} "$DIR_PATH"/workspace.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG}; do
+            [ -f "$f" ] && FG_WALL="$f" && break
+        done
+        for f in "$DIR_PATH"/default-backdrop.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG} "$DIR_PATH"/backdrop.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG} "$DIR_PATH"/blurry-workspace.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG}; do
+            [ -f "$f" ] && BG_WALL="$f" && break
+        done
+        shopt -u nullglob
+        [ -z "$FG_WALL" ] && echo "No workspace image found in $DIR_PATH" && exit 1
+        [ -n "$FG_WALL" ] && FG_WALL="$(readlink -f "$FG_WALL")"
+        [ -n "$BG_WALL" ] && BG_WALL="$(readlink -f "$BG_WALL")"
+    else
+        FG_WALL="$(readlink -f "$1")"
+        BG_WALL="${2:-}"
+        
+        # Background resolution logic
+        if [ -z "$BG_WALL" ]; then
+            POTENTIAL_BG="$(dirname "$FG_WALL")/blurry-$(basename "$FG_WALL")"
+            [ -f "$POTENTIAL_BG" ] && BG_WALL="$POTENTIAL_BG"
+        fi
+        [ -n "$BG_WALL" ] && [ -f "$BG_WALL" ] && BG_WALL="$(readlink -f "$BG_WALL")"
     fi
-    [ -n "$BG_WALL" ] && [ -f "$BG_WALL" ] && BG_WALL="$(readlink -f "$BG_WALL")"
 
     # Update symlinks
     mkdir -p "$WALL_DIR"

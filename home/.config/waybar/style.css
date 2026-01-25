@@ -266,6 +266,11 @@ tooltip label {
   transition: background 0.2s ease;
 }
 
+#custom-updates {
+  border-left: 2px dotted @overlay0;
+  padding: 0px 4px 0px 10px;
+}
+
 /* Fingerprint module - only shows when not setup */
 #custom-fingerprint {
   color: @yellow;

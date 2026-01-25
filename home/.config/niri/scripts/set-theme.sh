@@ -13,12 +13,12 @@ NIRI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/niri/colors.kdl"
 FOOT_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/foot/theme.ini"
 WEZTERM_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/wezterm/colors.lua"
 MAKO_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/mako/config"
-HYPRLOCK_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprlock.conf"
 KITTY_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/kitty/theme.conf"
 ALACRITTY_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/alacritty/theme.toml"
 RANGER_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf"
 YAZI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/yazi.toml"
 ZED_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/zed/settings.json"
+WINDSURF_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/Windsurf/User/settings.json"
 
 # Parse flags
 FROM_PICKER=false
@@ -70,12 +70,12 @@ apply_theme() {
     sync_file "theme.ini" "$FOOT_OUT"
     sync_file "colors.lua" "$WEZTERM_OUT"
     sync_file "mako.conf" "$MAKO_OUT"
-    sync_file "hyprlock.conf" "$HYPRLOCK_OUT"
     sync_file "kitty.conf" "$KITTY_OUT"
     sync_file "alacritty.toml" "$ALACRITTY_OUT"
     sync_file "ranger.conf" "$RANGER_OUT"
     sync_file "yazi.toml" "$YAZI_OUT"
     sync_file "zed-settings.json" "$ZED_OUT"
+    sync_file "windsurf-settings.json" "$WINDSURF_OUT"
 
     # Save state early
     echo "$name" > "$STATE_FILE"
@@ -92,22 +92,39 @@ apply_theme() {
     # Resolve theme-specific wallpaper
     local wall=""
     local backdrop=""
+    local wall_conf="$path/wallpapers.conf"
+    local wall_dir="${HOME}/.config/backgrounds"
     
     # Absolute path to theme dir
     local full_path
     full_path=$(realpath "$path")
 
-    # Look for workspace wall
-    for f in "$full_path/backgrounds/default-workspace".{jpg,png,webp,jpeg,JPG,PNG} \
-             "$full_path/backgrounds/workspace".{jpg,png,webp,jpeg,JPG,PNG} \
-             "$full_path/workspace".{jpg,png,webp,jpeg,JPG,PNG}; do
-        [ -f "$f" ] && wall="$f" && break
-    done
-    # Look for backdrop wall
-    for f in "$full_path/backgrounds"/{default-backdrop,backdrop,blurry-workspace}.{jpg,png,webp,jpeg,JPG,PNG} \
-             "$full_path"/{default-backdrop,backdrop,blurry-workspace}.{jpg,png,webp,jpeg,JPG,PNG}; do
-        [ -f "$f" ] && backdrop="$f" && break
-    done
+    # Declarative wallpapers.conf
+    if [ -f "$wall_conf" ]; then
+        echo "  → Reading declarative wallpapers from wallpapers.conf"
+        local ws_name
+        local bd_name
+        ws_name=$(grep "^workspace=" "$wall_conf" | cut -d'=' -f2)
+        bd_name=$(grep "^backdrop=" "$wall_conf" | cut -d'=' -f2)
+        
+        [ -n "$ws_name" ] && [ -f "$wall_dir/$ws_name" ] && wall="$wall_dir/$ws_name"
+        [ -n "$bd_name" ] && [ -f "$wall_dir/$bd_name" ] && backdrop="$wall_dir/$bd_name"
+    fi
+
+    # Fallback to legacy backgrounds/ directory or root of theme
+    if [ -z "$wall" ]; then
+        for f in "$full_path/backgrounds/default-workspace".{jpg,png,webp,jpeg,JPG,PNG} \
+                 "$full_path/backgrounds/workspace".{jpg,png,webp,jpeg,JPG,PNG} \
+                 "$full_path/workspace".{jpg,png,webp,jpeg,JPG,PNG}; do
+            [ -f "$f" ] && wall="$f" && break
+        done
+    fi
+    if [ -z "$backdrop" ]; then
+        for f in "$full_path/backgrounds"/{default-backdrop,backdrop,blurry-workspace}.{jpg,png,webp,jpeg,JPG,PNG} \
+                 "$full_path"/{default-backdrop,backdrop,blurry-workspace}.{jpg,png,webp,jpeg,JPG,PNG}; do
+            [ -f "$f" ] && backdrop="$f" && break
+        done
+    fi
 
     # Apply wallpaper if found and not skipped
     if [ "$SKIP_WALLPAPER" = false ] && [ -n "$wall" ]; then
