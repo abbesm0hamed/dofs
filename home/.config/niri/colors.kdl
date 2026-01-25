@@ -1,0 +1,12 @@
+// Original dofs colors for Niri
+layout {
+    background-color "#0d0e11"
+    border {
+        active-color "#89b4fa"
+        inactive-color "#494e6d"
+        urgent-color "#f38ba8"
+    }
+}
+overview {
+    backdrop-color "#0d0e11e6"
+}

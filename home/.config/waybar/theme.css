@@ -1,21 +1,16 @@
-/* default theme for Waybar */
-
+/* Original dofs theme for Waybar */
 @define-color crust #11111b;
 @define-color mantle #181825;
 @define-color base #1e1e2e;
-
 @define-color surface0 #313244;
 @define-color surface1 #45475a;
 @define-color surface2 #585b70;
-
 @define-color overlay0 #6c7086;
 @define-color overlay1 #7f849c;
 @define-color overlay2 #9399b2;
-
 @define-color subtext0 #a6adc8;
 @define-color subtext1 #bac2de;
 @define-color text #e7e3ff;
-
 @define-color rosewater #f5e0dc;
 @define-color flamingo #f2cdcd;
 @define-color pink #f5c2e7;
@@ -30,7 +25,6 @@
 @define-color sapphire #74c7ec;
 @define-color blue #89b4fa;
 @define-color lavender #b4befe;
-
 @define-color bar_bg #0d0e11;
 @define-color bar_border #383850;
 @define-color module_bg #141420;

@@ -2,7 +2,7 @@
 	"icon_theme": "Zed (Default)",
 	"vim_mode": true,
 	"ui_font_size": 16,
-	"buffer_font_family": "JetBrainsMono Nerd Font",
+	"buffer_font_family": "Iosevka Extended",
 	"theme": "Catppuccin Mocha",
 	"relative_line_numbers": "enabled",
 	"autosave": "on_focus_change",

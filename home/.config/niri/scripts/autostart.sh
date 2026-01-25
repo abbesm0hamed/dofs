@@ -4,7 +4,7 @@ set -euo pipefail
 
 # Configuration
 WALLPAPER_DIR="${HOME}/.config/backgrounds"
-FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/xiaomi.jpg"
+FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/xiaomi.jpg" # forcing wall for consistency across machines
 BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-xiaomi.jpg"
 
 # Logging
@@ -53,10 +53,20 @@ ENVS_TO_IMPORT=(
 systemctl --user import-environment "${ENVS_TO_IMPORT[@]}" || true
 dbus-update-activation-environment --systemd "${ENVS_TO_IMPORT[@]}" || true
 
-# Wallpapers
-if [ -f "$FOREGROUND_WALLPAPER" ]; then
-    bash ~/.config/niri/scripts/wallpaper.sh "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER" --silent &
-fi
+# Wallpapers & Theme
+echo "  → Applying theme and restoring wallpaper..."
+
+bash "$HOME/.config/niri/scripts/set-theme.sh" --skip-wallpaper --silent
+
+bash "$HOME/.config/niri/scripts/wallpaper.sh" --restore --silent &
+(
+    sleep 1
+    # If restore didn't produce a current link, apply fallback wallpaper
+    if [ ! -L "${WALLPAPER_DIR}/current.jpg" ] && [ -f "$FOREGROUND_WALLPAPER" ]; then
+        echo "  → Applying fallback wallpaper..."
+        bash "$HOME/.config/niri/scripts/wallpaper.sh" "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER" --silent || true
+    fi
+) &
 
 # Core Services
 run_once waybar

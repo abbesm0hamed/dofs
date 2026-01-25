@@ -57,6 +57,7 @@
     Alt+P { spawn "sh" "-c" "~/.config/niri/scripts/project-launcher.sh"; }
     Alt+Shift+F { spawn "sh" "-c" "~/.config/niri/scripts/global-search.sh"; }
     Alt+Ctrl+W { spawn "sh" "-c" "~/.config/niri/scripts/wallpaper-picker.sh"; }
+    Alt+Ctrl+T { spawn "sh" "-c" "~/.config/niri/scripts/theme-picker.sh"; }
     Alt+S { spawn "sh" "-c" "~/.config/niri/scripts/settings-menu.sh"; }
     Alt+L { spawn "sh" "-c" "~/.config/waybar/scripts/power-menu.sh"; }
     Alt+Shift+Slash { spawn "sh" "-c" "~/.config/niri/scripts/binds-menu.sh"; }

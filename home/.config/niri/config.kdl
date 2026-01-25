@@ -7,5 +7,6 @@ include "binds.kdl"
 
 include "rules.kdl"
 include "decorations.kdl"
+include "colors.kdl"
 
 include "misc.kdl"
