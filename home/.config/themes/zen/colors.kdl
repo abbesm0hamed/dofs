@@ -1,0 +1,12 @@
+// Zen minimal pastel dark for Niri
+layout {
+    background-color "#0e1116"
+    border {
+        active-color "#7ab8ff"
+        inactive-color "#3a4354"
+        urgent-color "#f09aaa"
+    }
+}
+overview {
+    backdrop-color "#0e1116e6"
+}
