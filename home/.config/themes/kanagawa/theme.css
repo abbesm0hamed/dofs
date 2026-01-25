@@ -1,0 +1,23 @@
+/* Kanagawa Waybar */
+@define-color base #1f1f28;
+@define-color surface0 #2a2a37;
+@define-color surface1 #363646;
+@define-color surface2 #54546d;
+@define-color overlay0 #727169;
+@define-color overlay1 #8a8a81;
+@define-color overlay2 #a6a69c;
+@define-color text #dcd7ba;
+@define-color red #c34043;
+@define-color green #76946a;
+@define-color yellow #e6c384;
+@define-color blue #7e9cd8;
+@define-color mauve #957fb8;
+@define-color bar_bg #1f1f28;
+@define-color bar_border #2a2a37;
+@define-color module_bg #2a2a37;
+@define-color muted #727169;
+@define-color recording_red #c34043;
+@define-color fingerprint_bg #223249;
+@define-color urgent_red #c34043;
+@define-color mantle #1f1f28;
+@define-color crust #16161d;

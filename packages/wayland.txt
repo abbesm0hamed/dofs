@@ -14,6 +14,7 @@ jq
 rofi
 mako
 waybar
+# matugen
 hyprpaper
 xdg-desktop-portal
 xdg-desktop-portal-gnome

@@ -1,0 +1,12 @@
+// Matugen generated Niri colors
+layout {
+    background-color "{{colors.surface.default.hex}}"
+    border {
+        active-color "{{colors.primary.default.hex}}"
+        inactive-color "{{colors.surface_container_high.default.hex}}"
+        urgent-color "{{colors.error.default.hex}}"
+    }
+}
+overview {
+    backdrop-color "{{colors.surface.default.hex}}e6" // Added transparency for backdrop
+}

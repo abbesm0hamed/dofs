@@ -4,7 +4,7 @@ vim.env.COLORTERM = "truecolor"
 
 local opt = vim.opt -- for conciseness
 
-opt.colorcolumn = "80"
+opt.colorcolumn = "90"
 opt.fillchars = { vert = "┃", eob = " " }
 
 -- line numbers

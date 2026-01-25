@@ -1,0 +1,12 @@
+/* Matugen generated Rofi colors */
+* {
+    bg-col:  {{colors.surface.default.hex}};
+    bg-col-light: {{colors.surface_container.default.hex}};
+    border-col: {{colors.primary.default.hex}};
+    selected-col: {{colors.surface_container_highest.default.hex}};
+    blue: {{colors.primary.default.hex}};
+    mauve: {{colors.secondary.default.hex}};
+    fg-col: {{colors.on_surface.default.hex}};
+    fg-col2: {{colors.tertiary.default.hex}};
+    grey: {{colors.outline.default.hex}};
+}

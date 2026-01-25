@@ -1,0 +1,43 @@
+# not using it for now
+[config]
+
+[templates.waybar]
+input_path = './templates/waybar.css'
+output_path = '~/.config/waybar/theme.css'
+
+[templates.rofi]
+input_path = './templates/rofi.rasi'
+output_path = '~/.config/rofi/colors.rasi'
+
+[templates.niri]
+input_path = './templates/niri.kdl'
+output_path = '~/.config/niri/colors.kdl'
+
+[templates.foot]
+input_path = './templates/foot.ini'
+output_path = '~/.config/foot/theme.ini'
+
+[templates.wezterm]
+input_path = './templates/wezterm.lua'
+output_path = '~/.config/wezterm/colors.lua'
+
+[templates.mako]
+input_path = './templates/mako.conf'
+output_path = '~/.config/mako/config'
+post_hook = 'makoctl reload'
+
+[templates.hyprlock]
+input_path = './templates/hyprlock.conf'
+output_path = '~/.config/hypr/hyprlock.conf'
+
+[config.custom_colors.warning]
+color = "#f9e2af"
+blend = true
+
+[config.custom_colors.info]
+color = "#89b4fa"
+blend = true
+
+[config.custom_colors.success]
+color = "#a6e3a1"
+blend = true

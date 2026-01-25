@@ -1,0 +1,12 @@
+/* Kanagawa Rofi */
+* {
+    bg-col: #1f1f28;
+    bg-col-light: #2a2a37;
+    border-col: #7e9cd8;
+    selected-col: #223249;
+    blue: #7e9cd8;
+    mauve: #957fb8;
+    fg-col: #dcd7ba;
+    fg-col2: #e6c384;
+    grey: #727169;
+}

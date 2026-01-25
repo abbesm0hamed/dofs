@@ -1,0 +1,12 @@
+// Kanagawa colors for Niri
+layout {
+    background-color "#1f1f28"
+    border {
+        active-color "#7e9cd8"
+        inactive-color "#2a2a37"
+        urgent-color "#c34043"
+    }
+}
+overview {
+    backdrop-color "#1f1f28e6"
+}
