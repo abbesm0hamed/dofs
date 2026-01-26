@@ -1,8 +1,0 @@
-{
-  "editor.fontFamily": "Iosevka Extended, Consolas, 'Courier New', monospace",
-  "editor.fontLigatures": true,
-  "editor.fontSize": 16,
-  "terminal.integrated.fontFamily": "Iosevka Extended, monospace",
-  "workbench.colorTheme": "Catppuccin Mocha",
-  "window.autoDetectColorScheme": false
-}

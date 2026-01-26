@@ -89,7 +89,7 @@ check_symlink() {
         err "Symlink NOT found: $link_path"
     fi
 }
-check_symlink "$HOME/.config/nvim" "dofs/home/.config/nvim"
+check_symlink "$HOME/.config/nvim" "dofs/home/dot_config/nvim"
 check_symlink "$HOME/.local/bin/dofs" "dofs/dofs"
 
 # Check for system services

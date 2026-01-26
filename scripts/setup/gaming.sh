@@ -32,7 +32,7 @@ log "Verifying steam wrapper..."
 if [ -f "$HOME/.config/fish/functions/steam.fish" ]; then
     log "Steam wrapper function found."
 else
-    warn "steam.fish not found. Ensure dotfiles are properly stowed."
+    warn "steam.fish not found. Ensure dotfiles are properly linked."
 fi
 
 log "Gaming setup complete. Restart session to apply."

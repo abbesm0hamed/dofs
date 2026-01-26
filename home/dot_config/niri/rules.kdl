@@ -21,6 +21,8 @@ window-rule {
 window-rule {
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+    draw-border-with-background false
+    tiled-state true
 }
 
 window-rule {

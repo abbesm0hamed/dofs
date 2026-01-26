@@ -2,7 +2,7 @@
 set -euo pipefail
 
 WALL_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/backgrounds"
-REPO_WALL_DIR="$HOME/dofs/home/.config/backgrounds"
+REPO_WALL_DIR="$HOME/dofs/home/dot_config/backgrounds"
 SETTER="${HOME}/.config/niri/scripts/wallpaper.sh"
 
 if ! command -v rofi >/dev/null 2>&1; then

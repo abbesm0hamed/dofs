@@ -1,7 +1,9 @@
 # System/base packages
 ImageMagick
 dnf-plugins-core
-stow
+# stow
+chezmoi
+
 lsd
 bluez
 bluez-utils

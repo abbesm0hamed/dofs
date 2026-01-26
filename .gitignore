@@ -15,22 +15,22 @@
 install.log
 
 # Managed files
-home/.config/backgrounds/current.jpg
-home/.config/backgrounds/current-blurry.jpg
+home/dot_config/backgrounds/current.jpg
+home/dot_config/backgrounds/current-blurry.jpg
 
 # Ranger
-home/.config/ranger/history
-home/.config/ranger/tagged
-/home/.config/ranger/.cache/
+home/dot_config/ranger/history
+home/dot_config/ranger/tagged
+/home/dot_config/ranger/.cache/
 
 # Fish shell artifacts (Fisher managed & universal variables)
-home/.config/fish/fish_variables
-home/.config/fish/fish_variables.*
-home/.config/fish/functions/fisher.fish
-home/.config/fish/functions/fish_prompt.fish
-home/.config/fish/functions/fish_mode_prompt.fish
-home/.config/fish/conf.d/hydro.fish
-home/.config/fish/conf.d/atuin.env.fish
+home/dot_config/fish/fish_variables
+home/dot_config/fish/fish_variables.*
+home/dot_config/fish/functions/fisher.fish
+home/dot_config/fish/functions/fish_prompt.fish
+home/dot_config/fish/functions/fish_mode_prompt.fish
+home/dot_config/fish/conf.d/hydro.fish
+home/dot_config/fish/conf.d/atuin.env.fish
 
 # Python cache
 __pycache__/
@@ -38,7 +38,8 @@ __pycache__/
 *$py.class
 
 # User-specific local files
-home/.local/
+# User-specific local files
+home/dot_local/
 *.bak
 *.old
 *~

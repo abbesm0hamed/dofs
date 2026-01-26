@@ -1,0 +1,35 @@
+# Chezmoi ignore patterns
+# Files and directories that chezmoi should not manage
+
+# Git and version control
+.git
+.gitignore
+
+# Documentation and metadata
+README.*
+LICENSE.*
+screenshots/
+docs/
+
+# Editor and system files
+.DS_Store
+*.swp
+*.bak
+*.old
+*~
+
+# Build and installation artifacts
+scripts/
+packages/
+install.sh
+install.log
+bootstrap.sh
+dofs
+
+# Local state that should not be managed
+dot_local/
+dot_config/fish/fish_variables
+dot_config/fish/fish_variables.*
+dot_config/ranger/history
+dot_config/ranger/tagged
+dot_config/ranger/.cache/

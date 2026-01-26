@@ -16,8 +16,8 @@ log "Generating KEYBINDINGS.md..."
 
 # --- Niri Keybindings ---
 log "Parsing Niri keybindings..."
-NIRI_BINDS_FILE="${REPO_ROOT}/home/.config/niri/binds.kdl"
-NIRI_CONFIG_FILE="${REPO_ROOT}/home/.config/niri/config.kdl"
+NIRI_BINDS_FILE="${REPO_ROOT}/home/dot_config/niri/binds.kdl"
+NIRI_CONFIG_FILE="${REPO_ROOT}/home/dot_config/niri/config.kdl"
 
 if [ -f "$NIRI_BINDS_FILE" ]; then
     NIRI_CONFIG="$NIRI_BINDS_FILE"
@@ -101,7 +101,7 @@ fi
 
 # --- Neovim Keybindings ---
 log "Parsing Neovim keybindings..."
-NVIM_LUA_DIR="${REPO_ROOT}/home/.config/nvim/lua"
+NVIM_LUA_DIR="${REPO_ROOT}/home/dot_config/nvim/lua"
 NVIM_PLUGINS_DIR="$(find "$NVIM_LUA_DIR" -maxdepth 2 -type d -name plugins 2>/dev/null | head -n 1 || true)"
 
 if [ -n "$NVIM_PLUGINS_DIR" ] && [ -d "$NVIM_PLUGINS_DIR" ]; then

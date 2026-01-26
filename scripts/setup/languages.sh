@@ -42,6 +42,7 @@ if command -v fnm &>/dev/null; then
     
     log "Enabling corepack (for yarn/pnpm)..."
     corepack enable
+    corepack prepare pnpm@latest --activate
 fi
 
 # --- Bun ---

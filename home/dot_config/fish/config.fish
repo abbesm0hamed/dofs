@@ -117,7 +117,7 @@ if status is-interactive
         __auto_fnm
     end
 
-    if command -v fnm >/dev/null 2>&1
+    if type -q fnm
         fnm env --shell fish | source
     end
 
