@@ -21,11 +21,6 @@ chezmoi init --source "${DOTFILES_HOME}"
 log "Applying dotfiles configuration"
 chezmoi apply --source "${DOTFILES_HOME}" --force --verbose
 
-# --- Ensure executable permissions on management scripts ---
-log "Setting executable permissions on scripts..."
-find "${REPO_ROOT}/scripts" -type f -name "*.sh" -exec chmod +x {} +
-chmod +x "${REPO_ROOT}/dofs"
-
 # --- Link dofs manager for convenience ---
 mkdir -p "${HOME}/.local/bin"
 ln -sf "${REPO_ROOT}/dofs" "${HOME}/.local/bin/dofs"
