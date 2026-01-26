@@ -30,18 +30,22 @@ ask_confirm() {
 
 # --- Uninstall Functions ---
 
-unstow_dotfiles() {
-    log "Removing dotfile symlinks..."
-    if ! command -v stow &>/dev/null; then
-        warn "Stow command not found. Cannot unstow dotfiles."
+uninstall_dotfiles() {
+    log "Removing dotfiles managed by chezmoi..."
+    if ! command -v chezmoi &>/dev/null; then
+        warn "chezmoi command not found. Cannot remove dotfiles."
         return
     fi
 
-    cd "$REPO_ROOT"
-    if stow -D -v -t "${HOME}" home 2>&1; then
-        ok "Dotfiles unstowed successfully."
+    if ask_confirm "This will delete files managed by chezmoi. Continue?"; then
+        while IFS= read -r target; do
+            if [ -e "$target" ] || [ -L "$target" ]; then
+                rm -rf "$target"
+            fi
+        done < <(chezmoi managed --source "${REPO_ROOT}/home")
+        ok "Removed managed dotfiles."
     else
-        err "Failed to unstow dotfiles. You may need to remove symlinks manually."
+        warn "Skipped removing managed dotfiles."
     fi
 
     # Remove dofs manager symlink
@@ -77,11 +81,11 @@ remove_repositories() {
 # --- Main Execution ---
 
 log "DOFS Uninstaller"
-worn "This script will remove configurations and symlinks managed by dofs."
-worn "It will NOT uninstall packages or change your default shell."
+warn "This script will remove configurations managed by dofs."
+warn "It will NOT uninstall packages or change your default shell."
 
 if ask_confirm "Are you sure you want to proceed?"; then
-    unstow_dotfiles
+    uninstall_dotfiles
     remove_repositories
     # More functions will be added here in the future
     log "Uninstall process complete."
