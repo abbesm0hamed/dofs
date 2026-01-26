@@ -11,7 +11,6 @@ CONFIG_DEST="/etc/systemd/logind.conf.d/99-dofs-override.conf"
 log "Configuring systemd-logind power management..."
 
 if [ -f "$CONFIG_SRC" ]; then
-    # Compare files if destination exists
     if [ -f "$CONFIG_DEST" ] && cmp -s "$CONFIG_SRC" "$CONFIG_DEST"; then
         ok "Power management configuration is already up to date."
     else

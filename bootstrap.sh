@@ -70,6 +70,10 @@ main() {
     # Run the main installer
     if [ -f "./install.sh" ]; then
         log "Running the main installer..."
+        if ! command -v chezmoi &>/dev/null; then
+            log "Ensuring chezmoi is installed..."
+            sudo dnf install -y chezmoi || err "Failed to install chezmoi."
+        fi
         # Pass any arguments from the bootstrap script to the installer
         ./install.sh "$@"
         ok "Installation complete! Please restart your session."

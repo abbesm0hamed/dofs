@@ -33,10 +33,9 @@ enable_copr() {
 }
 
 log "Optimizing DNF..."
-if ! grep -q "max_parallel_downloads" /etc/dnf/dnf.conf 2>/dev/null; then
-    echo "max_parallel_downloads=10" | sudo tee -a /etc/dnf/dnf.conf
-    echo "fastestmirror=True" | sudo tee -a /etc/dnf/dnf.conf
-fi
+sudo touch /etc/dnf/dnf.conf
+grep -q "^max_parallel_downloads=" /etc/dnf/dnf.conf || echo "max_parallel_downloads=10" | sudo tee -a /etc/dnf/dnf.conf
+grep -q "^fastestmirror=" /etc/dnf/dnf.conf || echo "fastestmirror=True" | sudo tee -a /etc/dnf/dnf.conf
 
 log "Configuring repositories..."
 
@@ -44,10 +43,11 @@ ensure_dnf_plugins
 
 repos_changed=false
 
-if [ ! -f "/etc/yum.repos.d/hashicorp.repo" ]; then
+HASHICORP_REPO="/etc/yum.repos.d/hashicorp.repo"
+if [ ! -f "$HASHICORP_REPO" ]; then
     log "Adding HashiCorp repository..."
     sudo rpm --import https://rpm.releases.hashicorp.com/gpg
-    sudo tee /etc/yum.repos.d/hashicorp.repo >/dev/null <<'EOL'
+    sudo tee "$HASHICORP_REPO" >/dev/null <<'EOL'
 [hashicorp]
 name=HashiCorp Stable - $basearch
 baseurl=https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable
@@ -56,8 +56,6 @@ gpgcheck=1
 gpgkey=https://rpm.releases.hashicorp.com/gpg
 EOL
     repos_changed=true
-else
-    log "HashiCorp repository already exists."
 fi
 
 WAYSCRIBER_REPO="/etc/yum.repos.d/wayscriber.repo"
@@ -73,8 +71,6 @@ repo_gpgcheck=1
 gpgkey=https://wayscriber.com/rpm/RPM-GPG-KEY-wayscriber.asc
 EOL
     repos_changed=true
-else
-    log "Wayscriber repository already exists."
 fi
 
 # Read COPR repositories from file
@@ -82,14 +78,12 @@ COPR_FILE="${REPO_ROOT}/packages/copr.txt"
 
 if [ -f "$COPR_FILE" ]; then
     while IFS= read -r repo; do
-        repo="${repo%%#*}"             # Remove comments
-        repo="$(echo "$repo" | xargs)" # Trim whitespace
         if [[ -n "$repo" ]]; then
             if enable_copr "$repo"; then
                 repos_changed=true
             fi
         fi
-    done <"$COPR_FILE"
+    done < <(awk 'NF && $1 !~ /^#/ { print $1 }' "$COPR_FILE")
 else
     warn "COPR file not found at $COPR_FILE"
 fi

@@ -14,6 +14,7 @@ error() { printf "${RED}==> %s${NC}\n" "$1"; }
 TEMP_DIR=$(mktemp -d)
 DRIVER_URL="http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-broadcom-cv3plus/libfprint-2-tod1-broadcom-cv3plus_6.3.299-6.3.040.0.orig.tar.gz"
 TARGET_DIR="/usr/lib64/libfprint-2/tod-1"
+DRIVER_SO="${TARGET_DIR}/libfprint-2-tod-1-broadcom-cv3plus.so"
 
 cleanup() {
     rm -rf "$TEMP_DIR"
@@ -21,19 +22,18 @@ cleanup() {
 trap cleanup EXIT
 
 # Check if driver is already installed
-if [[ -f "$TARGET_DIR/libfprint-2-tod-1-broadcom-cv3plus.so" ]]; then
+if [[ -f "$DRIVER_SO" ]]; then
     success "Broadcom fingerprint driver already installed. Skipping download."
     # We still ensure Polkit rule and service status
 else
     log "Downloading Broadcom CV3Plus fingerprint driver..."
-    curl -L --fail -o "$TEMP_DIR/driver.tar.gz" "$DRIVER_URL" || { error "Failed to download driver"; exit 1; }
+    curl -fsSL -o "$TEMP_DIR/driver.tar.gz" "$DRIVER_URL" || { error "Failed to download driver"; exit 1; }
 
     log "Extracting driver..."
     tar -xzf "$TEMP_DIR/driver.tar.gz" -C "$TEMP_DIR"
 
     # Locate the .so file
     SO_FILE=$(find "$TEMP_DIR" -name "libfprint-2-tod-1-broadcom-cv3plus.so" | head -n 1)
-
     if [[ -z "$SO_FILE" ]]; then
         error "Could not find driver shared object file."
         exit 1
@@ -42,7 +42,7 @@ else
     log "Installing driver to $TARGET_DIR..."
     sudo mkdir -p "$TARGET_DIR"
     sudo cp "$SO_FILE" "$TARGET_DIR/"
-    sudo chmod 755 "$TARGET_DIR/libfprint-2-tod-1-broadcom-cv3plus.so"
+    sudo chmod 755 "$DRIVER_SO"
 
     log "Installing firmware to /var/lib/fprint/..."
     FIRMWARE_SOURCE=$(find "$TEMP_DIR" -type d -name ".broadcomCv3plusFW" | head -n 1)

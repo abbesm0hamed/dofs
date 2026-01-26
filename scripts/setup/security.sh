@@ -14,6 +14,8 @@ if ! systemctl is-active --quiet firewalld; then
     sudo systemctl enable --now firewalld
 fi
 
+firewall_changed=false
+
 # Basic workstation lockdown
 ZONE="public"
 if sudo firewall-cmd --get-zones | grep -q "FedoraWorkstation"; then
@@ -37,7 +39,7 @@ if ! sudo firewall-cmd --zone="$ZONE" --query-masquerade --permanent; then
     firewall_changed=true
 fi
 
-if [ "${firewall_changed:-false}" = true ]; then
+if [ "$firewall_changed" = true ]; then
     log "Reloading firewall configuration..."
     sudo firewall-cmd --reload
 else

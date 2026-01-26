@@ -6,12 +6,16 @@ warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 ok() { printf "\033[0;32m==> %s\033[0m\n" "$1"; }
 
 NIRI_ENV_FILE="$HOME/.config/niri/configs/env"
+read_env_value() {
+    local key="$1"
+    awk -F= -v k="$key" '/^[[:space:]]*export[[:space:]]+/ { if ($1 ~ k) v=$2 } END { gsub(/^["\x27 ]+|["\x27 ]+$/, "", v); print v }' "$NIRI_ENV_FILE"
+}
 if [ -f "$NIRI_ENV_FILE" ]; then
     if [ -z "${XCURSOR_THEME:-}" ]; then
-        XCURSOR_THEME="$(awk -F= '/^[[:space:]]*export[[:space:]]+XCURSOR_THEME=/{v=$2} END{gsub(/^["\x27 ]+|["\x27 ]+$/,"",v); print v}' "$NIRI_ENV_FILE")"
+        XCURSOR_THEME="$(read_env_value XCURSOR_THEME)"
     fi
     if [ -z "${XCURSOR_SIZE:-}" ]; then
-        XCURSOR_SIZE="$(awk -F= '/^[[:space:]]*export[[:space:]]+XCURSOR_SIZE=/{v=$2} END{gsub(/^["\x27 ]+|["\x27 ]+$/,"",v); print v}' "$NIRI_ENV_FILE")"
+        XCURSOR_SIZE="$(read_env_value XCURSOR_SIZE)"
     fi
 fi
 
@@ -48,15 +52,12 @@ fi
 # --- Browser & Flatpak Fixes ---
 log "Applying browser and consistency fixes..."
 
-# Global GSettings update (for GTK apps that monitor this)
 if command -v gsettings &>/dev/null; then
     gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR_THEME"
     gsettings set org.gnome.desktop.interface cursor-size "$CURSOR_SIZE"
     ok "Global GSettings updated to ${CURSOR_THEME}."
 fi
 
-# XWayland / Legacy fallback
-# Some apps look at ~/.icons/default/index.theme
 mkdir -p "${HOME}/.icons/default"
 cat >"${HOME}/.icons/default/index.theme" <<EOF
 [Icon Theme]
@@ -64,8 +65,6 @@ Inherits=${CURSOR_THEME}
 EOF
 ok "XWayland fallback created."
 
-# Flatpak permission fix (for Zen Browser and others)
-# Allows Flatpaks to read the local icons directory
 if command -v flatpak &>/dev/null; then
     flatpak override --user --filesystem="~/.local/share/icons:ro"
     flatpak override --user --filesystem="~/.icons:ro"

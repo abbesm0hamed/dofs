@@ -6,20 +6,17 @@ warn() { printf "\033[0;33m==> %s\033[0m\n" "$1"; }
 ok() { printf "\033[0;32m==> %s\033[0m\n" "$1"; }
 
 log "Setting up Docker..."
-if ! systemctl is-active --quiet docker; then
-    if command -v docker &>/dev/null; then
+if command -v docker &>/dev/null; then
+    if ! systemctl is-active --quiet docker; then
         sudo systemctl enable --now docker 2>/dev/null || true
-        # Add current user to docker group if it exists
-        if getent group docker >/dev/null && ! groups "$USER" | grep -qw docker; then
-            sudo usermod -aG docker "$USER"
-            ok "Added $USER to docker group (re-login required)"
-        fi
-        ok "Docker enabled and started"
-    else
-        warn "Docker not found, skipping setup."
     fi
+    if getent group docker >/dev/null && ! groups "$USER" | grep -qw docker; then
+        sudo usermod -aG docker "$USER"
+        ok "Added $USER to docker group (re-login required)"
+    fi
+    ok "Docker enabled and started"
 else
-    ok "Docker already running"
+    warn "Docker not found, skipping setup."
 fi
 
 setup_libvirt() {

@@ -37,6 +37,11 @@ done 2>/dev/null &
 log "STARTING INSTALLATION (logging to $LOG_FILE)"
 echo "--- Installation started at $(date) ---" >>"$LOG_FILE"
 
+if ! command -v chezmoi &>/dev/null; then
+    log "Installing chezmoi..."
+    sudo dnf install -y chezmoi
+fi
+
 SETUP_SCRIPTS=(
     "repos.sh"
     "packages.sh"

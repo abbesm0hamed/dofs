@@ -47,7 +47,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/abbesm0hamed/dofs/fedora
 This will:
 
 - Install all packages from lists (system, desktop, wayland, etc.)
-- Stow dotfiles into your home directory (including `~/.config`)
+- Apply dotfiles into your home directory using **chezmoi** (including `~/.config`)
 - Apply the unified default theme
 
 ## Manual Installation
@@ -58,13 +58,16 @@ If you prefer to clone the repository manually, follow these steps:
 # Clone the repository
 git clone --branch fedora-niri https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
-./install.sh
 
 # Run the installer
 # Use APPLY_ETC=1 to also apply system-level configs (e.g., lid suspend behavior)
 # This will require sudo password.
 APPLY_ETC=1 ./install.sh
 ```
+
+Notes:
+
+- `bootstrap.sh` and `install.sh` ensure **chezmoi** is installed before applying dotfiles.
 
 ## Test Installation in a Container (Recommended)
 

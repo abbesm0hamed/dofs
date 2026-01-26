@@ -9,12 +9,11 @@ err() { printf "\033[0;31m==> %s\033[0m\n" "$1"; }
 
 FISH_PATH=$(command -v fish)
 # Ensure common user bins are on PATH for installs that rely on them
-if [ -d "$HOME/.cargo/bin" ]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
-if [ -d "$HOME/.local/bin" ]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
+for path_dir in "$HOME/.cargo/bin" "$HOME/.local/bin"; do
+    if [ -d "$path_dir" ]; then
+        export PATH="$path_dir:$PATH"
+    fi
+done
 
 if [ -z "$FISH_PATH" ]; then
     err "Fish not found."
@@ -44,13 +43,8 @@ fish -c "fisher update" && ok "Fisher plugins updated" || err "Fisher update fai
 log "Installing Atuin..."
 if ! command -v atuin &>/dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh | sh >/dev/null 2>&1
-    # Add atuin to PATH in current session
     export PATH="$HOME/.atuin/bin:$PATH"
-    if command -v atuin &>/dev/null; then
-        ok "Atuin installed"
-    else
-        err "Atuin failed"
-    fi
+    command -v atuin &>/dev/null && ok "Atuin installed" || err "Atuin failed"
 fi
 
 log "Installing Carapace..."
@@ -76,7 +70,6 @@ fi
 
 log "Installing Eza..."
 if ! command -v eza &>/dev/null; then
-    # Install via cargo since it's not in Fedora repos
     if command -v cargo &>/dev/null; then
         cargo install --locked eza >/dev/null 2>&1 && ok "Eza installed" || err "Eza failed"
     else
@@ -102,17 +95,8 @@ fi
 # --- Configure Fish PATH for language managers ---
 if command -v fish &>/dev/null; then
     log "Configuring Fish shell PATH for language managers..."
-    
     fish -c "fish_add_path -g '$HOME/.local/share/fnm' '$HOME/.bun/bin' '$HOME/.cargo/bin'"
-    
-    fish -c "
-        if command -v windsurf >/dev/null
-            abbr -a ws windsurf
-        else if command -v antigravity >/dev/null
-            abbr -a ws antigravity
-        end
-    "
-    
+    fish -c "if command -v windsurf >/dev/null; abbr -a ws windsurf; else if command -v antigravity >/dev/null; abbr -a ws antigravity; end; end"
     ok "Fish PATH and abbreviations configured."
 fi
 

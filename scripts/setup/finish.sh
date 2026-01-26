@@ -10,19 +10,14 @@ fc-cache -fv >/dev/null 2>&1
 
 log "Configuring fingerprint authentication..."
 if command -v authselect >/dev/null 2>&1; then
-    # Enable fingerprint feature if not already enabled
     if ! authselect current | grep -q "with-fingerprint"; then
         sudo authselect enable-feature with-fingerprint
         log "Fingerprint authentication enabled."
     fi
 
-    # Fix GDM interference: Ensure failed fingerprint doesn't block password
-    if [ -f /etc/pam.d/gdm-password ]; then
-        if ! grep -q "pam_fprintd.so" /etc/pam.d/gdm-password; then
-            # Insert pam_fprintd.so as optional to avoid blocking
-            sudo sed -i '1s/^/auth [success=done default=ignore] pam_fprintd.so\n/' /etc/pam.d/gdm-password
-            log "GDM fingerprint interference fixed."
-        fi
+    if [ -f /etc/pam.d/gdm-password ] && ! grep -q "pam_fprintd.so" /etc/pam.d/gdm-password; then
+        sudo sed -i '1s/^/auth [success=done default=ignore] pam_fprintd.so\n/' /etc/pam.d/gdm-password
+        log "GDM fingerprint interference fixed."
     fi
 fi
 

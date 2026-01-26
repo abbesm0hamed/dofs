@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+
+# package list hashes:
+# system: {{ include "packages/system.txt" | sha256sum }}
+# development: {{ include "packages/development.txt" | sha256sum }}
+# desktop: {{ include "packages/desktop.txt" | sha256sum }}
+# wayland: {{ include "packages/wayland.txt" | sha256sum }}
+# gaming: {{ include "packages/gaming.txt" | sha256sum }}
+# fonts: {{ include "packages/fonts.txt" | sha256sum }}
+# virt-manager: {{ include "packages/virt-manager.txt" | sha256sum }}
+# flatpak: {{ include "packages/flatpak.txt" | sha256sum }}
+
+repo_root="{{ .chezmoi.sourceDir | quote }}"
+"$repo_root/scripts/setup/packages.sh"
