@@ -1,0 +1,4 @@
+scriptEnv:
+  REPO_ROOT: "{{ joinPath .chezmoi.sourceDir ".." }}"
+  PACKAGES_DIR: "{{ joinPath .chezmoi.sourceDir ".." "packages" }}"
+  LOG_FILE: "{{ .chezmoi.sourceDir }}/install.log"

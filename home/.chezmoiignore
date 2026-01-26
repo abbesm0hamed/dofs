@@ -33,3 +33,5 @@ dot_config/fish/fish_variables.*
 dot_config/ranger/history
 dot_config/ranger/tagged
 dot_config/ranger/.cache/
+dot_chezmoiscripts/run_onchange_fingerprint.sh.tmpl
+.chezmoiscripts/fingerprint.sh

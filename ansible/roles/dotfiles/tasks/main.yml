@@ -1,0 +1,28 @@
+---
+- name: Ensure chezmoi is installed
+  dnf:
+    name: chezmoi
+    state: present
+  become: true
+
+- name: Initialize chezmoi
+  command: "chezmoi init --source {{ playbook_dir }}/../home"
+  args:
+    creates: "{{ ansible_user_dir }}/.local/share/chezmoi"
+
+- name: Apply dotfiles
+  command: "chezmoi apply --source {{ playbook_dir }}/../home --force"
+  changed_when: true
+
+- name: Ensure .local/bin exists
+  file:
+    path: "{{ ansible_env.HOME }}/.local/bin"
+    state: directory
+
+- name: Link dofs manager
+  file:
+    src: "{{ playbook_dir }}/../dofs"
+    dest: "{{ ansible_env.HOME }}/.local/bin/dofs"
+    state: link
+    force: yes
+

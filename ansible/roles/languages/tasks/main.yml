@@ -1,0 +1,65 @@
+---
+- name: Check if FNM is installed
+  command: command -v fnm
+  register: fnm_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Install FNM
+  shell: curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+  when: fnm_check.rc != 0
+
+- name: Setup Node.js via FNM
+  shell: |
+    export PATH="{{ ansible_env.HOME }}/.local/share/fnm:$PATH"
+    eval "$(fnm env --shell bash)"
+    fnm install --lts
+    fnm default lts-latest
+    corepack enable
+    corepack prepare pnpm@latest --activate
+  args:
+    executable: /bin/bash
+  changed_when: false
+
+- name: Check if Bun is installed
+  command: command -v bun
+  register: bun_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Install Bun
+  shell: curl -fsSL https://bun.sh/install | bash
+  when: bun_check.rc != 0
+
+- name: Check if Rustup is installed
+  command: command -v rustup
+  register: rustup_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Install Rustup
+  shell: curl -fsSL https://sh.rustup.rs | sh -s -- -y --no-modify-path
+  when: rustup_check.rc != 0
+
+- name: Configure Rust toolchain
+  shell: |
+    export PATH="{{ ansible_env.HOME }}/.cargo/bin:$PATH"
+    rustup toolchain install stable
+    rustup default stable
+    rustup component add rustfmt --toolchain stable
+    rustup component add clippy --toolchain stable
+    cargo install taplo-cli
+  args:
+    executable: /bin/bash
+  changed_when: false
+
+- name: Configure Fish shell paths
+  shell: fish -c "fish_add_path -U {{ item }}"
+  loop:
+    - "{{ ansible_env.HOME }}/.local/share/fnm"
+    - "{{ ansible_env.HOME }}/.cargo/bin"
+    - "{{ ansible_env.HOME }}/.bun/bin"
+  when: ansible_env.SHELL is search('fish')
+  changed_when: false
+  ignore_errors: true
+

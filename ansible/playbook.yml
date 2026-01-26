@@ -1,0 +1,18 @@
+---
+- name: Setup Fedora Workstation
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+
+  roles:
+    - common
+    - repos
+    - packages
+    - languages
+    - system
+    - desktop
+    - dotfiles
+    - shell
+    - obsidian
+    - verify

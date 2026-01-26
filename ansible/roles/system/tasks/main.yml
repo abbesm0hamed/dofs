@@ -1,0 +1,117 @@
+---
+- name: Install Zram generator
+  dnf:
+    name: zram-generator
+    state: present
+  become: true
+
+- name: Configure Zram
+  copy:
+    dest: /etc/systemd/zram-generator.conf
+    content: |
+      [zram0]
+      zram-size = min(ram / 2, 4096)
+      compression-algorithm = zstd
+      swap-priority = 100
+      fs-type = swap
+  notify: reload systemd
+  become: true
+
+- name: Enable SSD fstrim timer
+  systemd:
+    name: fstrim.timer
+    enabled: yes
+    state: started
+  become: true
+
+- name: Configure balanced power profile
+  command: powerprofilesctl set balanced
+  changed_when: false
+  ignore_errors: true
+  become: true
+
+- name: Configure Firewalld
+  block:
+    - name: Ensure firewalld is installed and started
+      dnf:
+        name: firewalld
+        state: present
+    - name: Set default zone
+      command: firewall-cmd --set-default-zone=FedoraWorkstation
+      changed_when: false
+    - name: Allow HTTP/HTTPS services
+      firewalld:
+        service: "{{ item }}"
+        permanent: yes
+        state: enabled
+        immediate: yes
+      loop: [http, https]
+  become: true
+
+- name: Configure DNS-over-TLS
+  block:
+    - name: Ensure resolved.conf.d directory exists
+      file:
+        path: /etc/systemd/resolved.conf.d
+        state: directory
+    - name: Deploy DoT configuration
+      copy:
+        dest: /etc/systemd/resolved.conf.d/dot.conf
+        content: |
+          [Resolve]
+          DNS=1.1.1.1 8.8.8.8 1.0.0.1 8.8.4.4
+          FallbackDNS=9.9.9.9
+          DNSOverTLS=yes
+      notify: restart resolved
+  become: true
+
+- name: Setup Virtualization
+  block:
+    - name: Install virtualization packages
+      dnf:
+        name: [qemu, virt-manager, libvirt, dnsmasq, ebtables, iptables-nft]
+        state: present
+    - name: Add user to libvirt/kvm groups
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: [libvirt, kvm]
+        append: yes
+    - name: Start and enable libvirtd
+      systemd:
+        name: libvirtd
+        enabled: yes
+        state: started
+  become: true
+
+- name: Setup Docker
+  block:
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: yes
+  become: true
+
+- name: Configure Fingerprint sensor
+  block:
+    - name: Install PolicyKit rule for fingerprint
+      copy:
+        dest: /etc/polkit-1/rules.d/90-fingerprint-enroll.rules
+        content: |
+          polkit.addRule(function (action, subject) {
+              if (action.id == "net.reactivated.fprint.device.enroll") {
+                  return polkit.Result.YES;
+              }
+          });
+        mode: '0644'
+    - name: Restart fprintd
+      systemd:
+        name: fprintd
+        state: restarted
+  become: true
+

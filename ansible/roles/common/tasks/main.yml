@@ -1,0 +1,8 @@
+---
+- name: Ensure basic system dependencies are present
+  dnf:
+    name:
+      - curl
+      - git
+    state: present
+  become: true

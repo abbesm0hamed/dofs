@@ -1,0 +1,44 @@
+---
+- name: Verify Key Binaries
+  command: "command -v {{ item }}"
+  loop:
+    - niri
+    - waybar
+    - mako
+    - rofi
+    - xwayland-satellite
+    - hyprlock
+    - swayidle
+    - wezterm
+    - fnm
+    - bun
+    - rustup
+    - python
+    - tailscale
+    - docker
+    - rclone
+  changed_when: false
+
+- name: Verify Configuration Files
+  stat:
+    path: "{{ ansible_env.HOME }}/{{ item }}"
+  loop:
+    - .config/niri/config.kdl
+    - .config/waybar/config.jsonc
+    - .config/mako/config
+    - .config/helix/config.toml
+  register: config_stats
+  failed_when: not item.stat.exists
+  loop_control:
+    label: "{{ item.item }}"
+
+- name: Verify Service Status
+  systemd:
+    name: "{{ item }}"
+    state: started
+  loop:
+    - firewalld
+    - docker
+    - libvirtd
+  ignore_errors: true
+  changed_when: false

@@ -1,0 +1,80 @@
+---
+- name: Setup Cursors
+  block:
+    - name: Create icons directory
+      file:
+        path: "{{ ansible_env.HOME }}/.local/share/icons"
+        state: directory
+    - name: Remove existing Layan cursors directory
+      file:
+        path: /tmp/Layan-cursors
+        state: absent
+      become: true
+    - name: Install Layan cursors
+      git:
+        repo: https://github.com/vinceliuice/Layan-cursors.git
+        dest: /tmp/Layan-cursors
+    - name: Run Layan cursors installer
+      command: ./install.sh
+      args:
+        chdir: /tmp/Layan-cursors
+      changed_when: false
+
+    - name: Remove existing Banana cursor directory
+      file:
+        path: /tmp/Banana
+        state: absent
+      become: true
+
+    - name: Create Banana cursor temporary directory
+      file:
+        path: /tmp/Banana
+        state: directory
+
+    - name: Download and extract Banana cursor
+      unarchive:
+        src: https://github.com/ful1e5/banana-cursor/releases/download/v2.0.0/Banana.tar.xz
+        dest: /tmp/Banana
+        remote_src: yes
+
+    - name: Install Banana cursor
+      copy:
+        src: /tmp/Banana/Banana
+        dest: "{{ ansible_env.HOME }}/.local/share/icons/"
+        remote_src: yes
+
+
+- name: Gaming optimizations
+  block:
+    - name: Patch Steam desktop entry
+      copy:
+        src: /usr/share/applications/steam.desktop
+        dest: "{{ ansible_env.HOME }}/.local/share/applications/steam.desktop"
+        remote_src: yes
+    - name: Add Steam flags
+      replace:
+        path: "{{ ansible_env.HOME }}/.local/share/applications/steam.desktop"
+        regexp: '^Exec=/usr/bin/steam %U'
+        replace: 'Exec=/usr/bin/steam -system-composer -no-cef-sandbox %U'
+
+- name: Multimedia setup
+  block:
+    - name: Start v4l2-relayd for camera
+      systemd:
+        name: v4l2-relayd
+        enabled: yes
+        state: started
+      become: true
+      ignore_errors: true
+    - name: Unmute microphone
+      command: wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 0
+      changed_when: false
+      ignore_errors: true
+
+
+- name: Configure PAM for Hyprlock
+  copy:
+    src: hyprlock.pam
+    dest: /etc/pam.d/hyprlock
+    mode: '0644'
+  become: true

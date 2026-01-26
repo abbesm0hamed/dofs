@@ -1,0 +1,34 @@
+---
+- name: Install community.general collection
+  command: ansible-galaxy collection install community.general
+  register: collection_install
+  changed_when: "'is already installed' not in collection_install.stdout"
+
+- name: Enable COPR repositories
+  community.general.copr:
+    name: "{{ item }}"
+    state: enabled
+  loop: "{{ copr_repos }}"
+  become: true
+
+- name: Install DNF packages
+  ansible.builtin.dnf:
+    name: "{{ dnf_packages }}"
+    state: present
+  become: true
+
+- name: Add Flathub remote
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  become: true
+
+- name: Install Flatpak applications
+  community.general.flatpak:
+    name: "{{ item }}"
+    state: present
+    remote: flathub
+  loop: "{{ flatpaks }}"
+  become: true
+

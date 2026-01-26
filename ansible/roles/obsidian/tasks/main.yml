@@ -1,0 +1,46 @@
+---
+- name: Ensure vault directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/vaults/google-drive"
+    state: directory
+
+- name: defensive unmount of vault path
+  command: umount -l "{{ ansible_env.HOME }}/vaults/google-drive"
+  ignore_errors: true
+  changed_when: false
+
+- name: Check for conflicting systemd path
+  stat:
+    path: "{{ ansible_env.HOME }}/.config/systemd"
+  register: systemd_stat
+
+- name: Remove conflicting systemd file or symlink
+  file:
+    path: "{{ ansible_env.HOME }}/.config/systemd"
+    state: absent
+  when: systemd_stat.stat.exists and not systemd_stat.stat.isdir
+  become: true
+
+- name: Ensure systemd user configuration directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.config/systemd/user"
+    state: directory
+    recurse: yes
+
+
+
+- name: Setup rclone sync systemd units
+  copy:
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/{{ item }}"
+    src: "{{ playbook_dir }}/../home/dot_config/systemd/user/{{ item }}"
+  loop:
+    - rclone-sync.service
+    - rclone-sync.timer
+  notify: reload systemd user
+
+- name: Enable and start rclone sync timer
+  systemd:
+    name: rclone-sync.timer
+    enabled: yes
+    state: started
+    scope: user

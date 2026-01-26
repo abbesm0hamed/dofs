@@ -1,0 +1,57 @@
+---
+- name: Optimize DNF configuration
+  lineinfile:
+    path: /etc/dnf/dnf.conf
+    line: "{{ item }}"
+    state: present
+  loop:
+    - "max_parallel_downloads=10"
+    - "fastestmirror=True"
+  become: true
+
+- name: Add RPM Fusion repositories
+  dnf:
+    name:
+      - "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+      - "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+    state: present
+    disable_gpg_check: yes
+  become: true
+
+- name: Enable Cisco OpenH264 repository
+  command: dnf config-manager setopt fedora-cisco-openh264.enabled=1
+  changed_when: false
+  become: true
+
+- name: Add HashiCorp repository
+  yum_repository:
+    name: hashicorp
+    description: HashiCorp Stable - $basearch
+    baseurl: "https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable"
+    gpgcheck: yes
+    gpgkey: https://rpm.releases.hashicorp.com/gpg
+    enabled: yes
+  become: true
+
+- name: Add Wayscriber repository
+  yum_repository:
+    name: wayscriber
+    description: Wayscriber Repo
+    baseurl: https://wayscriber.com/rpm
+    gpgcheck: yes
+    repo_gpgcheck: yes
+    gpgkey: https://wayscriber.com/rpm/RPM-GPG-KEY-wayscriber.asc
+    enabled: yes
+  become: true
+
+- name: Add Tailscale repository
+  yum_repository:
+    name: tailscale
+    description: Tailscale Stable
+    baseurl: https://pkgs.tailscale.com/stable/fedora/$releasever/$basearch
+    gpgcheck: yes
+    gpgkey: https://pkgs.tailscale.com/stable/fedora/repo.gpg
+    enabled: yes
+  become: true
+
+

@@ -1,0 +1,52 @@
+---
+- name: Configure Fish as default shell
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/fish
+  become: true
+
+- name: Install Fisher
+  shell: |
+    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | fish -c "source && fisher install jorgebucaran/fisher"
+  args:
+    creates: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
+
+- name: Install Atuin
+  shell: curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh | sh
+  args:
+    creates: "{{ ansible_env.HOME }}/.atuin/bin/atuin"
+
+- name: Add Carapace repository
+  yum_repository:
+    name: fury
+    description: Gemfury Private Repo
+    baseurl: https://yum.fury.io/rsteube/
+    gpgcheck: no
+    enabled: yes
+  become: true
+
+- name: Install Carapace
+  dnf:
+    name: carapace-bin
+    state: present
+  become: true
+
+- name: Install Pokemon Colorscripts
+  block:
+    - name: Remove existing pokemon-colorscripts directory
+      file:
+        path: /tmp/pokemon-colorscripts
+        state: absent
+      become: true
+    - name: Clone pokemon-colorscripts
+      git:
+        repo: https://gitlab.com/phoneybadger/pokemon-colorscripts.git
+        dest: /tmp/pokemon-colorscripts
+
+    - name: Install pokemon-colorscripts
+      command: ./install.sh
+      args:
+        chdir: /tmp/pokemon-colorscripts
+      become: true
+      changed_when: false
+

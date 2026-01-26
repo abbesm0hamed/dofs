@@ -1,7 +1,0 @@
-# virt-manager stack
-qemu
-virt-manager
-libvirt
-dnsmasq
-ebtables
-iptables-nft
