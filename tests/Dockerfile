@@ -8,6 +8,8 @@ RUN dnf install -y \
     passwd \
     findutils \
     which \
+    ansible \
+    chezmoi \
     && dnf clean all
 
 ARG UID=1000

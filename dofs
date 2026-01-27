@@ -20,8 +20,8 @@ usage() {
     echo "  update            Run the unified system update (DNF, Flatpak, Nvim, Fish)"
     echo "  doctor            Run session health diagnostics"
     echo "  docs              Generate keybindings documentation"
-    echo "  install [script]  Run the full installation or a specific setup script"
-    echo "  uninstall         Remove all installed components and configurations (Not yet implemented)"
+    echo "  install [flags]   Run the full installation or update (see bootstrap.sh --help)"
+    echo "  uninstall         Remove all installed components and configurations"
     echo "  verify            Run the health check / verification script"
     echo "  test              Run installation test in Docker (CI)"
     echo "  help              Show this help message"
@@ -44,14 +44,8 @@ case "${1:-help}" in
         bash "$REPO_ROOT/scripts/maintenance/generate-keybindings.sh"
         ;;
     "install")
-        if [ -z "$2" ]; then
-            log "Running full installation via Ansible..."
-            bash "$REPO_ROOT/bootstrap.sh"
-        else
-            echo "Direct setup scripts are deprecated. Please use 'dofs install' for full Ansible setup."
-            echo "Most components are now managed via Ansible roles in $REPO_ROOT/ansible/roles"
-            exit 1
-        fi
+        shift  # Remove 'install' from args
+        bash "$REPO_ROOT/bootstrap.sh" "$@"
         ;;
     "uninstall")
         bash "$REPO_ROOT/scripts/maintenance/uninstall.sh"

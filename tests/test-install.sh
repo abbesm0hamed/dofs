@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# test-install.sh - Run dofs installation in a clean Docker container
+# test-install.sh - Run dofs installation in a clean Fedora container
 # This script builds and runs a Fedora container to verify bootstrap health.
 
 set -e
@@ -36,11 +36,11 @@ echo "==> Building test environment (Fedora)..."
 
 echo "==> Starting test container..."
 
-# Run installation + verification in a single ephemeral container.
+# Test the full bootstrap process with Ansible + chezmoi
 "${ENGINE[@]}" run --rm --name "$CONTAINER_NAME" \
     "${USERNS_ARGS[@]}" \
     -v "$REPO_ROOT:/home/dofs/dofs:Z" \
     -t "$IMAGE_NAME" \
-    bash -lc "cd /home/dofs/dofs && ./install.sh --non-interactive && ./scripts/setup/verify.sh"
+    bash -lc "cd /home/dofs/dofs && ./bootstrap.sh --skip-pull && bash scripts/setup/verify.sh"
 
 echo "==> SUCCESS: Dotfiles bootstrap verified in clean Fedora environment."

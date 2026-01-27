@@ -41,13 +41,15 @@ A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 Run this command in your terminal:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/abbesm0hamed/dofs/fedora-niri/bootstrap.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/abbesm0hamed/dofs/migrate/chezmoi/bootstrap.sh)"
 ```
 
 This will:
 
-- Install all packages from lists (system, desktop, wayland, etc.)
-- Apply dotfiles into your home directory using **chezmoi** (including `~/.config`)
+- Clone the repository to `~/dofs`
+- Install Ansible and chezmoi
+- Apply dotfiles to your home directory using **chezmoi**
+- Install all packages and configure the system using **Ansible**
 - Apply the unified default theme
 
 ## Manual Installation
@@ -59,15 +61,21 @@ If you prefer to clone the repository manually, follow these steps:
 git clone --branch fedora-niri https://github.com/abbesm0hamed/dofs.git ~/dofs
 cd ~/dofs
 
-# Run the installer
-# Use APPLY_ETC=1 to also apply system-level configs (e.g., lid suspend behavior)
-# This will require sudo password.
-APPLY_ETC=1 ./install.sh
+# Run the bootstrap script
+./bootstrap.sh
+
+# Or with flags for specific operations:
+./bootstrap.sh --dotfiles-only  # Only apply dotfiles
+./bootstrap.sh --ansible-only   # Only run Ansible
+./bootstrap.sh --update         # Update existing installation
 ```
 
-Notes:
-
-- `bootstrap.sh` and `install.sh` ensure **chezmoi** is installed before applying dotfiles.
+**Bootstrap Options:**
+- `--dotfiles-only` - Only apply dotfiles (skip Ansible)
+- `--ansible-only` - Only run Ansible (skip dotfiles)
+- `--update` - Update existing installation
+- `--skip-pull` - Don't pull latest changes from git
+- `-h, --help` - Show help message
 
 ## Test Installation in a Container (Recommended)
 
@@ -152,24 +160,54 @@ This setup includes:
 This setup includes a central manager script `dofs` (symlinked to `~/.local/bin/dofs`) to simplify everyday tasks:
 
 ```bash
-# Run the full installation or a specific setup script (e.g., 'shell')
-dofs install [script]
+# Run the full installation (supports all bootstrap.sh flags)
+dofs install
+dofs install --dotfiles-only  # Only apply dotfiles
+dofs install --update         # Update existing installation
 
 # Update everything (DNF, Flatpak, Nvim, Fish plugins)
 dofs update
 
-# Run a comprehensive health check (symlinks, services, PATH, etc.)
+# Run a comprehensive health check (binaries, services, configs, etc.)
 dofs doctor
 
-# Verify your configuration symlinks and health
+# Verify your configuration and installation
 dofs verify
 
 # Run installation test in a clean container (Fedora)
 dofs test
 
+# Generate keybindings documentation
+dofs docs
+
 # Uninstall configurations and symlinks managed by dofs
 dofs uninstall
 ```
+
+## Folder Structure
+
+```
+dofs/
+├── ansible/              # System configuration (Ansible)
+│   ├── roles/           # Ansible roles (packages, desktop, dotfiles, etc.)
+│   ├── playbook.yml     # Main playbook
+│   └── inventory        # Inventory file
+├── home/                # Dotfiles managed by chezmoi
+│   ├── .chezmoi.yaml.tmpl
+│   ├── .chezmoiignore
+│   └── dot_config/      # ~/.config contents
+├── scripts/             # Utility scripts
+│   ├── maintenance/     # update-all, doctor, etc.
+│   └── setup/          # verify, etc.
+├── tests/              # Testing infrastructure
+├── bootstrap.sh        # Main entry point
+└── dofs               # CLI management tool
+```
+
+**Key Principles:**
+- **Ansible** handles system configuration and package installation
+- **chezmoi** manages user dotfiles in `home/`
+- **Scripts** provide standalone maintenance utilities
 
 ## Customization
 

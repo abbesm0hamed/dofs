@@ -18,6 +18,7 @@
     - docker
     - rclone
   changed_when: false
+  tags: verify
 
 - name: Check Configuration Files
   stat:
@@ -28,6 +29,7 @@
     - .config/mako/config
     - .config/helix/config.toml
   register: config_stats
+  tags: verify
 
 - name: Verify Configuration Files Exist
   assert:
@@ -36,6 +38,7 @@
   loop: "{{ config_stats.results }}"
   loop_control:
     label: "{{ item.item }}"
+  tags: verify
 
 - name: Verify Service Status
   systemd:
@@ -47,3 +50,4 @@
     - libvirtd
   ignore_errors: true
   changed_when: false
+  tags: verify

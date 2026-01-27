@@ -14,20 +14,91 @@ REPO_URL="https://github.com/abbesm0hamed/dofs.git"
 INSTALL_DIR="${HOME}/dofs"
 BRANCH="migrate/chezmoi"
 
-main() {
-    local STASH_SUCCESSFUL=false
+# Flags
+DOTFILES_ONLY=false
+ANSIBLE_ONLY=false
+UPDATE_MODE=false
+SKIP_PULL=false
 
+usage() {
+    cat << EOF
+Usage: bootstrap.sh [OPTIONS]
+
+Bootstrap Fedora workstation with dofs configuration.
+
+OPTIONS:
+    --dotfiles-only     Only apply dotfiles (skip Ansible)
+    --ansible-only      Only run Ansible (skip dotfiles)
+    --update            Update existing installation
+    --skip-pull         Don't pull latest changes from git
+    -h, --help          Show this help message
+
+EXAMPLES:
+    # Full installation
+    ./bootstrap.sh
+
+    # Only apply dotfiles
+    ./bootstrap.sh --dotfiles-only
+
+    # Update existing installation
+    ./bootstrap.sh --update
+EOF
+}
+
+parse_args() {
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --dotfiles-only)
+                DOTFILES_ONLY=true
+                shift
+                ;;
+            --ansible-only)
+                ANSIBLE_ONLY=true
+                shift
+                ;;
+            --update)
+                UPDATE_MODE=true
+                shift
+                ;;
+            --skip-pull)
+                SKIP_PULL=true
+                shift
+                ;;
+            -h|--help)
+                usage
+                exit 0
+                ;;
+            *)
+                err "Unknown option: $1"
+                ;;
+        esac
+    done
+    
+    # Validate flag combinations
+    if [ "$DOTFILES_ONLY" = true ] && [ "$ANSIBLE_ONLY" = true ]; then
+        err "Cannot use --dotfiles-only and --ansible-only together"
+    fi
+}
+
+setup_repository() {
     if ! command -v git &>/dev/null; then
-        err "Git is not installed. Please install it first."
+        err "Git is not installed. Please install it first: sudo dnf install -y git"
     fi
 
     if [ -d "$INSTALL_DIR" ]; then
-        log "Directory $INSTALL_DIR exists. Checking for updates..."
+        log "Directory $INSTALL_DIR exists."
         cd "$INSTALL_DIR"
-        if git diff-index --quiet HEAD --; then
-            git pull origin "$BRANCH" || warn "Failed to pull latest changes. Continuing with local version."
+        
+        if [ "$SKIP_PULL" = false ]; then
+            log "Checking for updates..."
+            if git diff-index --quiet HEAD --; then
+                git pull origin "$BRANCH" || warn "Failed to pull latest changes. Continuing with local version."
+            else
+                warn "Local changes detected. Skipping git pull to avoid conflicts."
+                log "Use --skip-pull to suppress this check"
+            fi
         else
-            warn "Local changes detected. Skipping git pull to avoid conflicts."
+            log "Skipping git pull (--skip-pull flag)"
         fi
     else
         log "Cloning dofs repository to $INSTALL_DIR..."
@@ -38,30 +109,99 @@ main() {
             err "Failed to clone repository."
         fi
     fi
+}
 
-    if [ -d "./ansible" ]; then
-        log "Running Ansible playbook..."
-        if ! command -v ansible-playbook &>/dev/null; then
-            log "Ensuring Ansible is installed..."
-            sudo dnf install -y ansible || err "Failed to install Ansible."
+install_chezmoi() {
+    if ! command -v chezmoi &>/dev/null; then
+        log "Installing chezmoi..."
+        if command -v dnf &>/dev/null; then
+            sudo dnf install -y chezmoi || err "Failed to install chezmoi"
+        else
+            err "DNF not found. Please install chezmoi manually."
         fi
-        
-        # Ensure Ansible uses our local config
-        export ANSIBLE_CONFIG="${INSTALL_DIR}/ansible/ansible.cfg"
-
-        log "Verifying Ansible playbook syntax..."
-        if ! ansible-playbook ansible/playbook.yml -i ansible/inventory --syntax-check; then
-            err "Ansible playbook syntax check failed."
-        fi
-
-        log "Running playbook..."
-        sudo -v
-        ansible-playbook ansible/playbook.yml -i ansible/inventory "$@"
-        ok "Installation complete! Please restart your session."
+        ok "chezmoi installed"
     else
-        err "Ansible directory not found in the repository."
+        log "chezmoi is already installed"
     fi
 }
 
-# --- Run main ---
+apply_dotfiles() {
+    log "Applying dotfiles with chezmoi..."
+    
+    # Initialize chezmoi if needed
+    if [ ! -d "$HOME/.local/share/chezmoi" ]; then
+        log "Initializing chezmoi..."
+        chezmoi init --source "$INSTALL_DIR/home" || err "Failed to initialize chezmoi"
+    fi
+    
+    # Apply dotfiles
+    log "Applying dotfiles..."
+    chezmoi apply --source "$INSTALL_DIR/home" --force || err "Failed to apply dotfiles"
+    
+    ok "Dotfiles applied successfully"
+}
+
+run_ansible() {
+    if [ ! -d "$INSTALL_DIR/ansible" ]; then
+        err "Ansible directory not found in the repository."
+    fi
+    
+    log "Running Ansible playbook..."
+    
+    # Install Ansible if needed
+    if ! command -v ansible-playbook &>/dev/null; then
+        log "Installing Ansible..."
+        sudo dnf install -y ansible || err "Failed to install Ansible."
+    fi
+    
+    # Set Ansible config
+    export ANSIBLE_CONFIG="$INSTALL_DIR/ansible/ansible.cfg"
+
+    # Syntax check
+    log "Verifying Ansible playbook syntax..."
+    if ! ansible-playbook "$INSTALL_DIR/ansible/playbook.yml" \
+        -i "$INSTALL_DIR/ansible/inventory" \
+        --syntax-check; then
+        err "Ansible playbook syntax check failed."
+    fi
+
+    # Run playbook
+    log "Running playbook..."
+    sudo -v  # Refresh sudo timestamp
+    
+    ansible-playbook "$INSTALL_DIR/ansible/playbook.yml" \
+        -i "$INSTALL_DIR/ansible/inventory" \
+        "$@" || err "Ansible playbook failed"
+    
+    ok "Ansible playbook completed successfully"
+}
+
+main() {
+    parse_args "$@"
+    
+    log "Starting dofs bootstrap..."
+    
+    # Setup repository
+    setup_repository
+    
+    # Install chezmoi first (unless ansible-only mode)
+    if [ "$ANSIBLE_ONLY" = false ]; then
+        install_chezmoi
+        apply_dotfiles
+    fi
+    
+    # Run Ansible (unless dotfiles-only mode)
+    if [ "$DOTFILES_ONLY" = false ]; then
+        run_ansible
+    fi
+    
+    echo ""
+    ok "Bootstrap complete!"
+    
+    if [ "$DOTFILES_ONLY" = false ]; then
+        log "Please restart your session for all changes to take effect."
+    fi
+}
+
+# Run main
 main "$@"
