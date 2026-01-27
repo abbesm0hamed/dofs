@@ -33,3 +33,6 @@ dot_config/fish/fish_variables.*
 dot_config/ranger/history
 dot_config/ranger/tagged
 dot_config/ranger/.cache/
+dot_config/waybar/.current-variant
+dot_config/waybar/config-default.jsonc
+.chezmoiscripts/

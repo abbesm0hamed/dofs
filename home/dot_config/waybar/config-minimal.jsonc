@@ -1,0 +1,70 @@
+{
+    "layer": "top",
+    "position": "top",
+    "output": [
+        "eDP-1",
+        "HDMI-A-1"
+    ],
+    "height": 28,
+    "margin-left": 0,
+    "margin-bottom": 0,
+    "margin-right": 0,
+    "spacing": 4,
+    "modules-left": [
+        "niri/workspaces"
+    ],
+    "modules-center": [],
+    "modules-right": [
+        "custom/notification-history",
+        "clock",
+        "custom/next-prayer"
+    ],
+    
+    // -------------------------------------------------------------------------
+    // Modules
+    // -------------------------------------------------------------------------
+    
+    "niri/workspaces": {
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10"
+        },
+        "on-click": "activate",
+        "on-scroll-up": "niri msg action focus-workspace-up",
+        "on-scroll-down": "niri msg action focus-workspace-down"
+    },
+    
+    "custom/notification-history": {
+        "tooltip": true,
+        "return-type": "json",
+        "exec-if": "command -v makoctl && command -v rofi",
+        "exec": "~/.config/waybar/scripts/mako-history-status.sh",
+        "interval": 5,
+        "on-click": "~/.config/waybar/scripts/mako-history-menu.sh",
+        "on-click-right": "makoctl restore"
+    },
+    
+    "clock": {
+        "format": "{:%d, %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "today-format": "<b>{}</b>"
+    },
+    
+    "custom/next-prayer": {
+        "format": "{}",
+        "interval": 60,
+        "exec": "~/.config/waybar/scripts/next-prayer.sh",
+        "tooltip": true,
+        "tooltip-format": "Next Prayer: {}"
+    }
+}

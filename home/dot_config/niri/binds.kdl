@@ -11,6 +11,7 @@
     Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-ranger ranger"; }
     Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-weather bash ~/.config/niri/scripts/weather.sh"; }
     Mod+Alt+B cooldown-ms=500 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }
+    Mod+Alt+Shift+B { spawn "sh" "-c" "~/.config/niri/scripts/waybar-switcher.sh"; }
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Alt+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
     Mod+Space { spawn "rofi" "-show" "drun"; }
