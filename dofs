@@ -45,30 +45,12 @@ case "${1:-help}" in
         ;;
     "install")
         if [ -z "$2" ]; then
-            bash "$REPO_ROOT/install.sh"
+            log "Running full installation via Ansible..."
+            bash "$REPO_ROOT/bootstrap.sh"
         else
-            script_name="$2"
-            if [[ ! "$script_name" == *".sh" ]]; then
-                script_name="${script_name}.sh"
-            fi
-
-            shopt -s nullglob
-            valid_scripts=($(basename -a "$REPO_ROOT"/scripts/setup/*.sh))
-            shopt -u nullglob
-
-            if [[ " ${valid_scripts[*]} " =~ " ${script_name} " ]]; then
-                script_path="$REPO_ROOT/scripts/setup/${script_name}"
-                export REPO_ROOT
-                export LOG_FILE="${REPO_ROOT}/install.log"
-                log() { printf "\033[1;34m==> %s\033[0m\n" "$1"; }
-                title=$(echo "$script_name" | cut -f 1 -d '.' | tr 'a-z' 'A-Z')
-                log "TOPIC: $title"
-                bash "$script_path"
-            else
-                echo "Error: Invalid script name '$2'."
-                echo "Available scripts: ${valid_scripts[*]%.sh}"
-                exit 1
-            fi
+            echo "Direct setup scripts are deprecated. Please use 'dofs install' for full Ansible setup."
+            echo "Most components are now managed via Ansible roles in $REPO_ROOT/ansible/roles"
+            exit 1
         fi
         ;;
     "uninstall")

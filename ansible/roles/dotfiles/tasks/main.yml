@@ -16,13 +16,12 @@
 
 - name: Ensure .local/bin exists
   file:
-    path: "{{ ansible_env.HOME }}/.local/bin"
+    path: "{{ ansible_user_dir }}/.local/bin"
     state: directory
 
 - name: Link dofs manager
   file:
     src: "{{ playbook_dir }}/../dofs"
-    dest: "{{ ansible_env.HOME }}/.local/bin/dofs"
+    dest: "{{ ansible_user_dir }}/.local/bin/dofs"
     state: link
     force: yes
-

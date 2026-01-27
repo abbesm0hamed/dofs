@@ -19,16 +19,21 @@
     - rclone
   changed_when: false
 
-- name: Verify Configuration Files
+- name: Check Configuration Files
   stat:
-    path: "{{ ansible_env.HOME }}/{{ item }}"
+    path: "{{ ansible_user_dir }}/{{ item }}"
   loop:
     - .config/niri/config.kdl
     - .config/waybar/config.jsonc
     - .config/mako/config
     - .config/helix/config.toml
   register: config_stats
-  failed_when: not item.stat.exists
+
+- name: Verify Configuration Files Exist
+  assert:
+    that: item.stat.exists
+    fail_msg: "Config file {{ item.item }} is missing from {{ ansible_user_dir }}/"
+  loop: "{{ config_stats.results }}"
   loop_control:
     label: "{{ item.item }}"
 

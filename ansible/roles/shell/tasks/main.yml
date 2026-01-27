@@ -7,14 +7,17 @@
 
 - name: Install Fisher
   shell: |
+    rm -f {{ ansible_user_dir }}/.config/fish/completions/fisher.fish
     curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | fish -c "source && fisher install jorgebucaran/fisher"
   args:
-    creates: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
+    creates: "{{ ansible_user_dir }}/.config/fish/functions/fisher.fish"
+  when: ansible_env.SHELL is search('fish')
+
 
 - name: Install Atuin
   shell: curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh | sh
   args:
-    creates: "{{ ansible_env.HOME }}/.atuin/bin/atuin"
+    creates: "{{ ansible_user_dir }}/.atuin/bin/atuin"
 
 - name: Add Carapace repository
   yum_repository:
@@ -33,11 +36,6 @@
 
 - name: Install Pokemon Colorscripts
   block:
-    - name: Remove existing pokemon-colorscripts directory
-      file:
-        path: /tmp/pokemon-colorscripts
-        state: absent
-      become: true
     - name: Clone pokemon-colorscripts
       git:
         repo: https://gitlab.com/phoneybadger/pokemon-colorscripts.git

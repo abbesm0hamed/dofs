@@ -12,6 +12,7 @@ err() {
 
 REPO_URL="https://github.com/abbesm0hamed/dofs.git"
 INSTALL_DIR="${HOME}/dofs"
+BRANCH="migrate/chezmoi"
 
 main() {
     local STASH_SUCCESSFUL=false
@@ -21,11 +22,16 @@ main() {
     fi
 
     if [ -d "$INSTALL_DIR" ]; then
-        log "Directory $INSTALL_DIR exists. Using existing configuration."
+        log "Directory $INSTALL_DIR exists. Checking for updates..."
         cd "$INSTALL_DIR"
+        if git diff-index --quiet HEAD --; then
+            git pull origin "$BRANCH" || warn "Failed to pull latest changes. Continuing with local version."
+        else
+            warn "Local changes detected. Skipping git pull to avoid conflicts."
+        fi
     else
         log "Cloning dofs repository to $INSTALL_DIR..."
-        if git clone --branch fedora-niri "$REPO_URL" "$INSTALL_DIR"; then
+        if git clone --branch "$BRANCH" "$REPO_URL" "$INSTALL_DIR"; then
             cd "$INSTALL_DIR"
             ok "Repository cloned successfully."
         else
@@ -40,14 +46,17 @@ main() {
             sudo dnf install -y ansible || err "Failed to install Ansible."
         fi
         
+        # Ensure Ansible uses our local config
+        export ANSIBLE_CONFIG="${INSTALL_DIR}/ansible/ansible.cfg"
+
         log "Verifying Ansible playbook syntax..."
-        if ! ansible-playbook ansible/playbook.yml --syntax-check; then
+        if ! ansible-playbook ansible/playbook.yml -i ansible/inventory --syntax-check; then
             err "Ansible playbook syntax check failed."
         fi
 
         log "Running playbook..."
         sudo -v
-        ansible-playbook ansible/playbook.yml "$@"
+        ansible-playbook ansible/playbook.yml -i ansible/inventory "$@"
         ok "Installation complete! Please restart your session."
     else
         err "Ansible directory not found in the repository."

@@ -3,7 +3,7 @@
   block:
     - name: Create icons directory
       file:
-        path: "{{ ansible_env.HOME }}/.local/share/icons"
+        path: "{{ ansible_user_dir }}/.local/share/icons"
         state: directory
     - name: Remove existing Layan cursors directory
       file:
@@ -40,20 +40,24 @@
     - name: Install Banana cursor
       copy:
         src: /tmp/Banana/Banana
-        dest: "{{ ansible_env.HOME }}/.local/share/icons/"
+        dest: "{{ ansible_user_dir }}/.local/share/icons/"
         remote_src: yes
 
 
 - name: Gaming optimizations
   block:
+    - name: Ensure applications directory exists
+      file:
+        path: "{{ ansible_user_dir }}/.local/share/applications"
+        state: directory
     - name: Patch Steam desktop entry
       copy:
         src: /usr/share/applications/steam.desktop
-        dest: "{{ ansible_env.HOME }}/.local/share/applications/steam.desktop"
+        dest: "{{ ansible_user_dir }}/.local/share/applications/steam.desktop"
         remote_src: yes
     - name: Add Steam flags
       replace:
-        path: "{{ ansible_env.HOME }}/.local/share/applications/steam.desktop"
+        path: "{{ ansible_user_dir }}/.local/share/applications/steam.desktop"
         regexp: '^Exec=/usr/bin/steam %U'
         replace: 'Exec=/usr/bin/steam -system-composer -no-cef-sandbox %U'
 

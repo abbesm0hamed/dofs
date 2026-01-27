@@ -5,11 +5,14 @@
   changed_when: "'is already installed' not in collection_install.stdout"
 
 - name: Enable COPR repositories
-  community.general.copr:
-    name: "{{ item }}"
-    state: enabled
+  command: "dnf copr enable -y {{ item }}"
   loop: "{{ copr_repos }}"
   become: true
+  changed_when: false
+  register: copr_result
+  until: copr_result.rc == 0
+  retries: 3
+  delay: 2
 
 - name: Install DNF packages
   ansible.builtin.dnf:
