@@ -17,19 +17,19 @@ usage() {
     echo "Usage: dofs [command] [argument]"
     echo ""
     echo "Commands:"
+    echo "  preflight         Check for conflicts before installation"
     echo "  update            Run the unified system update (DNF, Flatpak, Nvim, Fish)"
     echo "  doctor            Run session health diagnostics"
     echo "  docs              Generate keybindings documentation"
     echo "  install [flags]   Run the full installation or update (see bootstrap.sh --help)"
     echo "  uninstall         Remove all installed components and configurations"
     echo "  verify            Run the health check / verification script"
-    echo "  test              Run installation test in Docker (CI)"
     echo "  help              Show this help message"
 }
 
 case "${1:-help}" in
-    "test")
-        bash "$REPO_ROOT/tests/test-install.sh"
+    "preflight")
+        bash "$REPO_ROOT/scripts/maintenance/preflight.sh"
         ;;
     "update")
         bash "$REPO_ROOT/scripts/maintenance/update-all.sh"
@@ -38,7 +38,7 @@ case "${1:-help}" in
         pkill -RTMIN+9 waybar 2>/dev/null || true
         ;;
     "doctor")
-        bash "$REPO_ROOT/scripts/maintenance/doctor.sh"
+        bash "$REPO_ROOT/scripts/maintenance/doctor.sh" "$@"
         ;;
     "docs")
         bash "$REPO_ROOT/scripts/maintenance/generate-keybindings.sh"

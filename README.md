@@ -77,21 +77,6 @@ cd ~/dofs
 - `--skip-pull` - Don't pull latest changes from git
 - `-h, --help` - Show help message
 
-## Test Installation in a Container (Recommended)
-
-If you don't want to run the installer directly on your machine, you can validate the bootstrap in a clean Fedora container.
-
-```bash
-git clone --branch fedora-niri https://github.com/abbesm0hamed/dofs.git ~/dofs
-cd ~/dofs
-bash tests/test-install.sh
-```
-
-Notes:
-
-- The test prefers `podman` if available, otherwise it uses `docker`.
-- The test runs `./install.sh --non-interactive` and then `./scripts/setup/verify.sh` inside the container.
-
 ## Reboot
 
 ```bash
@@ -174,9 +159,6 @@ dofs doctor
 # Verify your configuration and installation
 dofs verify
 
-# Run installation test in a clean container (Fedora)
-dofs test
-
 # Generate keybindings documentation
 dofs docs
 
@@ -199,7 +181,7 @@ dofs/
 ├── scripts/             # Utility scripts
 │   ├── maintenance/     # update-all, doctor, etc.
 │   └── setup/          # verify, etc.
-├── tests/              # Testing infrastructure
+├── system/              # System-level configs (optional)
 ├── bootstrap.sh        # Main entry point
 └── dofs               # CLI management tool
 ```

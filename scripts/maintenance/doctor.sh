@@ -12,6 +12,13 @@ warn() { printf "\033[0;33m⚠ %s\033[0m\n" "$1"; }
 err() { printf "\033[0;31m✗ %s\033[0m\n" "$1"; }
 
 ISSUES=0
+STRICT_MODE=false
+
+# Parse arguments
+if [ "${1:-}" = "--strict" ]; then
+    STRICT_MODE=true
+    log "Running in strict mode (warnings count as errors)"
+fi
 
 check_binary() {
     local binary=$1
@@ -23,6 +30,7 @@ check_binary() {
     else
         if [ "$optional" = "true" ]; then
             warn "$binary is not installed (optional)"
+            [ "$STRICT_MODE" = true ] && ((ISSUES++))
         else
             err "$binary is not installed"
             ((ISSUES++))
@@ -56,6 +64,7 @@ check_service() {
         return 0
     else
         warn "$service is not running"
+        [ "$STRICT_MODE" = true ] && ((ISSUES++))
         return 1
     fi
 }
@@ -68,7 +77,56 @@ check_env_var() {
         return 0
     else
         warn "$var is not set"
+        [ "$STRICT_MODE" = true ] && ((ISSUES++))
         return 1
+    fi
+}
+
+check_chezmoi_drift() {
+    log "Checking for configuration drift..."
+    
+    if ! command -v chezmoi &>/dev/null; then
+        warn "chezmoi not installed - cannot check drift"
+        return 1
+    fi
+    
+    if [ ! -d "$HOME/.local/share/chezmoi" ]; then
+        err "chezmoi not initialized"
+        ((ISSUES++))
+        return 1
+    fi
+    
+    # Check for differences
+    local diff_count=0
+    if chezmoi diff 2>&1 | grep -q "diff"; then
+        warn "Configuration drift detected - managed files differ from source"
+        diff_count=$(chezmoi diff 2>&1 | grep -c "^diff" || echo 0)
+        log "Run 'chezmoi diff' to see details"
+        log "Run 'chezmoi apply' to sync changes"
+        [ "$STRICT_MODE" = true ] && ((ISSUES++))
+        return 1
+    else
+        ok "No configuration drift detected"
+        return 0
+    fi
+}
+
+check_ansible_roles() {
+    log "Checking Ansible setup..."
+    
+    local repo_root
+    if [ -L "$HOME/.local/bin/dofs" ]; then
+        repo_root=$(dirname "$(readlink -f "$HOME/.local/bin/dofs")")
+        
+        if [ -f "$repo_root/ansible/playbook.yml" ]; then
+            ok "Ansible playbook found at $repo_root/ansible/playbook.yml"
+        else
+            warn "Ansible playbook not found"
+            [ "$STRICT_MODE" = true ] && ((ISSUES++))
+        fi
+    else
+        warn "dofs not properly installed"
+        [ "$STRICT_MODE" = true ] && ((ISSUES++))
     fi
 }
 
@@ -129,6 +187,7 @@ main() {
         ok "\$HOME/.local/bin is in PATH"
     else
         warn "\$HOME/.local/bin is not in PATH"
+        [ "$STRICT_MODE" = true ] && ((ISSUES++))
     fi
     echo ""
     
@@ -139,6 +198,7 @@ main() {
         ok "dofs is symlinked to $target"
     else
         warn "dofs symlink not found in ~/.local/bin"
+        [ "$STRICT_MODE" = true ] && ((ISSUES++))
     fi
     echo ""
     
@@ -154,12 +214,25 @@ main() {
     fi
     echo ""
     
+    # Check for drift
+    check_chezmoi_drift
+    echo ""
+    
+    # Check Ansible
+    check_ansible_roles
+    echo ""
+    
     # Summary
     if [ $ISSUES -eq 0 ]; then
         ok "All checks passed! Your system is healthy."
         return 0
     else
         err "Found $ISSUES issue(s). Please review the output above."
+        echo ""
+        log "To fix issues:"
+        echo "  - Run 'dofs install --update' to sync configuration"
+        echo "  - Run 'chezmoi apply' to fix drift"
+        echo "  - Run 'dofs verify' for detailed Ansible checks"
         return 1
     fi
 }
