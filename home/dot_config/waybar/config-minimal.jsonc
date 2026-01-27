@@ -11,19 +11,319 @@
     "margin-right": 0,
     "spacing": 4,
     "modules-left": [
+        "custom/niri-binds",
         "niri/workspaces"
     ],
-    "modules-center": [],
+    // "modules-center": [],
     "modules-right": [
+        "custom/cava",
+        "custom/fingerprint",
+        "custom/updates",
+        "tray",
+        "group/monitoring",
+        // "niri/language",
+        "backlight",
+        "wireplumber",
+        // "custom/mic",
+        // "custom/recording",
+        "group/connectivity",
+        "group/power_stats",
         "custom/notification-history",
         "clock",
-        "custom/next-prayer"
+        "custom/next-prayer",
+        "group/power"
+        // "temperature",
+        // "pulseaudio",
     ],
-    
     // -------------------------------------------------------------------------
     // Modules
     // -------------------------------------------------------------------------
-    
+    "temperature": {
+        // "thermal-zone": 1,
+        "interval": 4,
+        //"hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": " {temperatureC}°C",
+        "format-critical": "  {temperatureC}°C",
+        "format": "{icon}  {temperatureC}°C",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ],
+        "max-length": 7,
+        "min-length": 7,
+        "on-click": "xsensors"
+    },
+    "memory": {
+        "interval": 30,
+        "format": "<span rise='1000'></span> {percentage}%",
+        "tooltip-format": "Memory Usage: {percentage}%",
+        "on-click": "wezterm start -- btop",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
+    },
+    "battery": {
+        "interval": 2,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "<span rise='1000'>{icon}</span>{capacity}%",
+        "format-charging": "<span rise='1000'>󰂄</span> {capacity}%",
+        "format-plugged": "<span rise='1000'>󰚥</span> {capacity}%",
+        "format-full": "<span rise='1000'>󰁹</span> {capacity}%",
+        "format-alt": "<span rise='1000'>{icon}</span> {capacity}% • {time}",
+        "format-icons": {
+            "default": [
+                "󰂎 ",
+                "󰁺 ",
+                "󰁻 ",
+                "󰁼 ",
+                "󰁽 ",
+                "󰁾 ",
+                "󰁿 ",
+                "󰂀 ",
+                "󰂁 ",
+                "󰂂 ",
+                "󰁹 "
+            ],
+            "charging": [
+                "󰢟 ",
+                "󰢜 ",
+                "󰂆 ",
+                "󰂇 ",
+                "󰂈 ",
+                "󰢝 ",
+                "󰂉 ",
+                "󰢞 ",
+                "󰂊 ",
+                "󰂋 ",
+                "󰂅 "
+            ]
+        },
+        "tooltip-format": "Battery: {capacity}%\nTime: {time}\nPower: {power}W"
+    },
+    "network": {
+        "format-wifi": "󰤨",
+        "format-ethernet": "󰛳",
+        "format-linked": "󰤭",
+        "format-disconnected": "󰤭",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "format-alt-wifi": "{essid}",
+        "format-alt-ethernet": "{ifname}",
+        "format-alt-click": "click-right",
+        "tooltip-format": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
+        "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)\nFrequency: {frequency}MHz\nSignal: {signaldBm}dBm\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
+        "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}\n󰊗 {bandwidthUpBits}  󰊘 {bandwidthDownBits}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "nm-connection-editor",
+        "on-click-middle": "wl-copy $(ip route get 1.1.1.1 | grep -oP 'src \\K\\S+')",
+        "interval": 5
+    },
+    "custom/storage": {
+        "format": "<span rise='1000'>󰋊</span> {}",
+        "tooltip-format": "Storage Usage: {}",
+        "format-alt": "{percentage}% 󰋊",
+        "format-alt-click": "click-right",
+        "return-type": "json",
+        "interval": 60,
+        "exec": "~/.config/waybar/modules/storage.sh",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
+    },
+    "custom/docker": {
+        "format": "{}",
+        "exec": "~/.config/waybar/scripts/docker-event-status.sh",
+        "return-type": "json",
+        "interval": 30
+    },
+    "custom/next-prayer": {
+        "format": "{}",
+        "interval": 60,
+        "exec": "~/.config/waybar/scripts/next-prayer.sh",
+        "tooltip": true,
+        "tooltip-format": "Next Prayer: {}"
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "<span rise='1000'>{icon}</span>{percent}%",
+        "tooltip-format": "Brightness: {percent}%",
+        "format-icons": [
+            "󰃞 ",
+            "󰃟 ",
+            "󰃠 "
+        ],
+        "on-scroll-down": "current=$(brightnessctl g); max=$(brightnessctl m); min=$((max * 5 / 100)); new=$((current - max * 5 / 100)); [ $new -lt $min ] && new=$min; brightnessctl s $new",
+        "on-scroll-up": "brightnessctl s +5%"
+    },
+    "bluetooth": {
+        "format": "󰂯",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "format-on": "󰂯",
+        "format-connected": "󰂱",
+        "format-connected-battery": "󰂱",
+        "tooltip-format": "Bluetooth: {status}\nController: {controller_alias}\nConnections: {num_connections}",
+        "tooltip-format-connected": "Bluetooth: Connected\nDevice: {device_alias}\nController: {controller_alias}\nConnections: {num_connections}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias} ({device_address})",
+        "tooltip-format-enumerate-connected-battery": "{device_alias} ({device_address}) - {device_battery_percentage}%",
+        "tooltip-format-disabled": "Bluetooth: Disabled",
+        "tooltip-format-off": "Bluetooth: Off",
+        "on-click": "blueman-manager",
+        "on-click-right": "bluetoothctl power toggle"
+    },
+    "group/connectivity": {
+        "orientation": "horizontal",
+        "modules": [
+            "bluetooth",
+            "network"
+        ]
+    },
+    "group/monitoring": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/docker",
+            "custom/storage",
+            "memory",
+            "cpu"
+        ]
+    },
+    "group/power_stats": {
+        "orientation": "horizontal",
+        "modules": [
+            "battery",
+            "power-profiles-daemon"
+        ]
+    },
+    "group/power": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/idle_inhibitor",
+            "custom/power"
+        ]
+    },
+    "custom/idle_inhibitor": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "if systemctl --user is-active --quiet swayidle.service 2>/dev/null || pgrep -x swayidle >/dev/null 2>&1; then echo '{\"text\":\"󰅶\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"󰾪\",\"tooltip\":\"Idle: OFF\"}'; fi",
+        "interval": 5,
+        "on-click": "~/.config/waybar/scripts/toggle-idle.sh",
+        "signal": 10
+    },
+    "custom/weather": {
+        "format": "{}",
+        "format-alt": "{alt}: {}",
+        "format-alt-click": "click-right",
+        "interval": 3600,
+        "exec": "curl -s 'https://wttr.in/?format=1'",
+        //"return-type": "json",
+        //"exec": "~/.config/waybar/modules/weather.sh",
+        "exec-if": "ping wttr.in -c1"
+    },
+    "custom/power": {
+        "format": " ",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/power-menu.sh"
+    },
+    "custom/notifications": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "<span foreground='#f9e2af'>󰂚</span>",
+            "none": "󰂛"
+        },
+        "return-type": "json",
+        "exec-if": "command -v makoctl",
+        "exec": "if makoctl list | grep -q .; then echo '{\"text\":\"󰂚\"}'; else echo '{\"text\":\"󰂛\"}'; fi",
+        "on-click": "makoctl dismiss",
+        "on-click-right": "makoctl dismiss --all",
+        "interval": 5
+    },
+    "custom/notification-history": {
+        "tooltip": true,
+        "return-type": "json",
+        "exec-if": "command -v makoctl && command -v rofi",
+        "exec": "~/.config/waybar/scripts/mako-history-status.sh",
+        "interval": 5,
+        "on-click": "~/.config/waybar/scripts/mako-history-menu.sh",
+        "on-click-right": "makoctl restore"
+    },
+    "custom/niri-binds": {
+        "format": " ",
+        "tooltip": true,
+        "tooltip-format": "show niri binds",
+        "on-click": "sh -c '~/.config/niri/scripts/binds-menu.sh'"
+    },
+    "custom/fingerprint": {
+        "format": " {text} ",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/fingerprint-status.sh",
+        "interval": 30,
+        "on-click": "wezterm start -- bash -c '$HOME/.config/waybar/scripts/fingerprint-setup.sh setup; read -p \"Press Enter to close...\"'",
+        "tooltip": true
+    },
+    "clock": {
+        "format": "{:%d, %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "today-format": "<b>{}</b>"
+    },
+    "custom/gammastep": {
+        "interval": 5,
+        "return-type": "json",
+        "exec": "if unit_status=\"$(systemctl --user is-active gammastep)\"; then status=\"$unit_status ($(journalctl --user -u gammastep.service -g 'Period: ' | tail -1 | cut -d ':' -f6 | xargs))\"; else status=\"$unit_status\"; fi; echo \"{\\\"text\\\": \\\"${status:-inactive}\\\", \\\"tooltip\\\": \\\"Gammastep is ${status:-inactive}\\\"}\"",
+        "format": "{icon}",
+        "format-icons": {
+            "activating": "󰁪 ",
+            "deactivating": "󰁪 ",
+            "inactive": "? ",
+            "active (Night)": " ",
+            "active (Nighttime)": " ",
+            "active (Transition (Night)": " ",
+            "active (Transition (Nighttime)": " ",
+            "active (Day)": " ",
+            "active (Daytime)": " ",
+            "active (Transition (Day)": " ",
+            "active (Transition (Daytime)": " "
+        },
+        "on-click": "systemctl --user is-active gammastep && systemctl --user stop gammastep || systemctl --user start gammastep"
+    },
+    "cpu": {
+        "interval": 1,
+        "format": "<span rise='1000'></span> {usage}%",
+        "tooltip-format": "CPU Usage: {usage}%",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
+    },
+    "mpd": {
+        "max-length": 25,
+        "format": "<span foreground='#bb9af7'></span> {title}",
+        "format-paused": " {title}",
+        "format-stopped": "<span foreground='#bb9af7'></span>",
+        "format-disconnected": "",
+        "on-click": "mpc --quiet toggle",
+        "on-click-right": "mpc update; mpc ls | mpc add",
+        "on-click-middle": "wezterm start -- ncmpcpp",
+        "on-scroll-up": "mpc --quiet prev",
+        "on-scroll-down": "mpc --quiet next",
+        "smooth-scrolling-threshold": 5,
+        "tooltip-format": "{title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%H:%M:%S})"
+    },
+    "custom/title": {
+        "format": "{}",
+        "interval": 0,
+        "return-type": "json",
+        //"max-length": 35,
+        "tooltip": false
+    },
+    "custom/title#name": {
+        "format": "{}",
+        "interval": 0,
+        "return-type": "json",
+        "max-length": 35,
+        "exec": "bash $HOME/.config/waybar/scripts/title.sh"
+    },
     "niri/workspaces": {
         "all-outputs": true,
         "format": "{icon}",
@@ -38,33 +338,99 @@
             "8": "8",
             "9": "9",
             "10": "10"
+            // "urgent": "",
+            // "focused": "",
+            // "default": ""
         },
         "on-click": "activate",
         "on-scroll-up": "niri msg action focus-workspace-up",
         "on-scroll-down": "niri msg action focus-workspace-down"
     },
-    
-    "custom/notification-history": {
-        "tooltip": true,
-        "return-type": "json",
-        "exec-if": "command -v makoctl && command -v rofi",
-        "exec": "~/.config/waybar/scripts/mako-history-status.sh",
-        "interval": 5,
-        "on-click": "~/.config/waybar/scripts/mako-history-menu.sh",
-        "on-click-right": "makoctl restore"
+    "niri/window": {
+        "max-length": 100,
+        "separate-outputs": true
     },
-    
-    "clock": {
-        "format": "{:%d, %H:%M}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "today-format": "<b>{}</b>"
+    "wireplumber": {
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "format": "<span rise='1000'>{icon}</span>{volume}%",
+        "tooltip-format": "Volume: {volume}%",
+        "format-muted": "<span foreground='#fab387'> </span>",
+        // "format-icons": [ "<span foreground='#fab387'> </span>" ]
+        "format-icons": {
+            "headphone": " ",
+            "hands-free": " ",
+            "headset": " ",
+            "phone": " ",
+            "muted": "  ",
+            "portable": " ",
+            "car": " ",
+            "default": [
+                " ",
+                " ",
+                " "
+            ]
+        }
     },
-    
-    "custom/next-prayer": {
+    "custom/mic": {
         "format": "{}",
-        "interval": 60,
-        "exec": "~/.config/waybar/scripts/next-prayer.sh",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/mic-status.sh",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "interval": 1
+    },
+    "tray": {
+        "icon-size": 14,
+        "spacing": 6,
+        "show-passive-items": true,
+        "reverse-direction": true,
+        "ignored-items": [
+            "nm-applet",
+            "blueman-applet"
+        ],
+        "on-update": "",
+        "smooth-scrolling-threshold": 1
+    },
+    "niri/language": {
+        "format": "<span rise='1000'>󰌌</span> {}",
+        "format-en": "EN",
+        "format-fr": "FR",
+        "tooltip-format": "Language: {long}"
+    },
+    "custom/recording": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/recording-indicator.sh",
+        "interval": 1,
+        "signal": 8,
         "tooltip": true,
-        "tooltip-format": "Next Prayer: {}"
+        "on-click": "sh -c '~/.config/niri/scripts/screencast.sh toggle-screen'"
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": " ",
+            "performance": " ",
+            "balanced": " ",
+            "power-saver": " "
+        }
+    },
+    "custom/updates": {
+        "format": "{}",
+        "return-type": "json",
+        "on-click": "wezterm start -- sh -c '~/dofs/scripts/maintenance/update-all.sh && rm /tmp/waybar_check_updates_cache && pkill -RTMIN+9 waybar'",
+        "interval": 3600,
+        "exec": "~/.config/waybar/scripts/check-updates.sh",
+        "signal": 9
+    },
+    "custom/cava": {
+        "format": "{}",
+        "escape": false,
+        "exec": "python3 ~/.config/waybar/scripts/cava.py --bars 5 --framerate 48 --palette default",
+        "on-click": "pkill -USR1 cava"
     }
 }
