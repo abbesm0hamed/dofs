@@ -1,7 +1,5 @@
 @import "theme.css";
 
-/* ===== Waybar Minimal CSS ===== */
-
 * {
   font-family: "JetBrains Mono", "Iosevka Medium Extended", "Inter", monospace;
   font-size: 13px;
@@ -21,14 +19,31 @@ window#waybar {
 .modules-center,
 .modules-right {
   background: transparent;
-  color: @text;
+}
+
+.modules-left>widget:first-child>* {
+  margin-left: 8px;
+}
+
+.modules-right>widget:last-child>* {
+  margin-right: 3px;
+}
+
+.modules-right>widget:not(:first-child) {
+  margin-left: -2px;
 }
 
 /* Individual modules */
 #workspaces,
 #window,
-#tray,
+#clock,
+#cpu,
+#memory,
+#temperature,
 #language,
+#bluetooth,
+#custom-idle_inhibitor,
+#custom-storage,
 #custom-next-prayer,
 #custom-notifications,
 #custom-notification-history,
@@ -36,45 +51,36 @@ window#waybar {
 #custom-mic,
 #custom-cava,
 #custom-fingerprint,
-#monitoring,
-#connectivity,
-#brightness_audio,
-#power_stats,
+#custom-docker,
 #custom-updates {
-  padding: 0px 10px;
-}
-#power {
-  padding: 0px 6px 0px 10px;
-}
-#custom-power,
-#custom-power,
-#wireplumber,
-#cpu,
-#memory,
-#network,
-#custom-storage {
-  padding: 0px 0px 0px 8px;
+  padding: 0px 4px;
+  background: transparent;
+  color: @text;
 }
 
-#tray {
-  border-left: 2px dotted @overlay0;
+#monitoring,
+#power_stats,
+#connectivity,
+#power {
+  padding: 0px 4px;
 }
-#tray > .passive {
-  -gtk-icon-effect: dim;
+
+#custom-power,
+#battery {
+  padding: 0px 0px 0px 4px;
 }
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
+
+#battery,
+#bluetooth {
+  padding: 0px 8px 0px 6px;
 }
-#tray > .passive {
-  -gtk-icon-effect: dim;
+
+#backlight {
+  padding: 0px 4px;
 }
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
-}
-#tray > .passive,
-#tray > .active,
-#tray > .needs-attention {
-  padding: 0 4px;
+
+#wireplumber {
+  padding: 0px 4px 0px 0px;
 }
 
 /* Workspaces */
@@ -111,34 +117,51 @@ window#waybar {
 }
 
 /* Clock - center highlight */
-#clock,
-#custom-next-prayer {
+#clock {
   font-weight: 600;
   padding: 0px 10px;
   border-radius: 0px;
   background-color: @surface0;
   border-bottom: 1px solid @surface1;
-  margin: 0px 0px;
+  border-right: 2px dotted @overlay0;
+  border-left: 2px dotted @overlay0;
+}
+
+#custom-notifications {
+  border-left: 2px dotted @overlay0;
 }
 
 #monitoring,
 #connectivity,
-#brightness_audio,
 #power_stats,
-#power,
-#clock,
-#custom-next-prayer,
-#custom-notification-history {
+#power {
   border-left: 2px dotted @overlay0;
+}
+
+#monitoring {
+  border-right: 2px dotted @overlay0;
 }
 
 #custom-power:hover {
   color: @red;
 }
 
-#custom-niri-binds {
+#custom-next-prayer {
+  font-weight: 600;
   padding: 0px 10px;
   margin: 0px 0px;
+  border-radius: 0px;
+  background-color: @surface0;
+  border-bottom: 1px solid @surface1;
+  border-right: 2px dotted @overlay0;
+  border-left: 2px dotted @overlay0;
+}
+
+#custom-niri-binds {
+  font-weight: 600;
+  padding: 0px 10px 0 8px;
+  margin: 0px 0px;
+  border-radius: 0px;
   background-color: @surface0;
   border-bottom: 1px solid @surface1;
   border-right: 2px dotted @overlay0;
@@ -160,6 +183,27 @@ window#waybar {
 /* Temperature states */
 #temperature.critical {
   color: @red;
+}
+
+/* System tray */
+#tray {
+  padding: 0 6px 0 13px;
+  margin: 0px 0px;
+  border-left: 2px dotted @overlay0;
+}
+
+#tray>.passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray>.needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+#tray>.passive,
+#tray>.active,
+#tray>.needs-attention {
+  padding: 0 4px;
 }
 
 #power-profiles-daemon.performance {

@@ -2,7 +2,14 @@
 set -euo pipefail
 
 THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/themes"
-CURRENT_THEME=$(cat "$THEMES_DIR/current_theme" 2>/dev/null || echo "")
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/themes"
+STATE_FILE="$STATE_DIR/current_theme"
+LEGACY_STATE_FILE="$THEMES_DIR/current_theme"
+
+CURRENT_THEME="$(cat "$STATE_FILE" 2>/dev/null || echo "")"
+if [ -z "$CURRENT_THEME" ] && [ -f "$LEGACY_STATE_FILE" ]; then
+    CURRENT_THEME="$(cat "$LEGACY_STATE_FILE" 2>/dev/null || echo "")"
+fi
 
 if ! command -v rofi >/dev/null 2>&1; then
     msg="rofi not found; install it to pick themes."

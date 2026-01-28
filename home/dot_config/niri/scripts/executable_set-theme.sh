@@ -4,7 +4,14 @@ set -euo pipefail
 # set-theme.sh [theme_name] [--from-picker] [--silent]
 
 THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/themes"
-STATE_FILE="$THEMES_DIR/current_theme"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/themes"
+STATE_FILE="$STATE_DIR/current_theme"
+
+LEGACY_STATE_FILE="$THEMES_DIR/current_theme"
+if [ -f "$LEGACY_STATE_FILE" ] && [ ! -f "$STATE_FILE" ]; then
+    mkdir -p "$STATE_DIR"
+    mv "$LEGACY_STATE_FILE" "$STATE_FILE"
+fi
 
 # Paths to generated output files
 WAYBAR_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/waybar/theme.css"
@@ -35,11 +42,15 @@ for arg in "$@"; do
 done
 set -- "${POSITIONAL_ARGS[@]}"
 
-# Ensure themes directory exists
+# Ensure directories exist
 mkdir -p "$THEMES_DIR"
+mkdir -p "$STATE_DIR"
 
 # Get theme (default to stored or first found)
 PREV_THEME="$(cat "$STATE_FILE" 2>/dev/null || echo "")"
+if [ -z "$PREV_THEME" ] && [ -f "$LEGACY_STATE_FILE" ]; then
+    PREV_THEME="$(cat "$LEGACY_STATE_FILE" 2>/dev/null || echo "")"
+fi
 THEME="${1:-$PREV_THEME}"
 
 if [ -z "$THEME" ]; then

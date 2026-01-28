@@ -5,24 +5,17 @@
         "eDP-1",
         "HDMI-A-1"
     ],
-    "height": 28,
+    "height": 26,
     "margin-left": 0,
     "margin-bottom": 0,
+    "margin-top": 0,
     "margin-right": 0,
-    "spacing": 4,
+    "spacing": 0,
     "modules-left": [
-        //"mpd",
         "custom/niri-binds",
-        "niri/window"
+        "niri/workspaces"
     ],
-    "modules-center": [
-        "custom/notification-history",
-        "clock",
-        "niri/workspaces",
-        "custom/next-prayer"
-        // "custom/weather"
-        //"custom/gammastep"
-    ],
+    // "modules-center": [],
     "modules-right": [
         "custom/cava",
         "custom/fingerprint",
@@ -30,12 +23,14 @@
         "tray",
         "group/monitoring",
         // "niri/language",
-        "backlight",
-        "wireplumber",
+        "group/brightness_audio",
         // "custom/mic",
         // "custom/recording",
         "group/connectivity",
         "group/power_stats",
+        "clock",
+        "custom/next-prayer",
+        "custom/notification-history",
         "group/power"
         // "temperature",
         // "pulseaudio",
@@ -209,6 +204,13 @@
             "custom/power"
         ]
     },
+    "group/brightness_audio": {
+        "orientation": "horizontal",
+        "modules": [
+            "backlight",
+            "wireplumber"
+        ]
+    },
     "custom/idle_inhibitor": {
         "format": "{}",
         "return-type": "json",
@@ -256,7 +258,7 @@
         "on-click-right": "makoctl restore"
     },
     "custom/niri-binds": {
-        "format": " ",
+        "format": "",
         "tooltip": true,
         "tooltip-format": "show niri binds",
         "on-click": "sh -c '~/.config/niri/scripts/binds-menu.sh'"
@@ -418,10 +420,10 @@
         "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
         "tooltip": true,
         "format-icons": {
-            "default": " ",
-            "performance": " ",
-            "balanced": " ",
-            "power-saver": " "
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
         }
     },
     "custom/updates": {

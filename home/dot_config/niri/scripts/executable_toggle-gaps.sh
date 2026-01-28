@@ -3,7 +3,7 @@ set -euo pipefail
 
 LAYOUT_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/niri/layout.kdl"
 STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/niri/gaps-state"
-DEFAULT_GAPS=8
+DEFAULT_GAPS=0
 
 if [ ! -f "$LAYOUT_FILE" ]; then
     notify-send "Niri" "Missing layout file: $LAYOUT_FILE"
@@ -16,7 +16,7 @@ current_gaps=$(awk '/^[[:space:]]*gaps[[:space:]]+/ {print $2; exit}' "$LAYOUT_F
 current_gaps=${current_gaps:-$DEFAULT_GAPS}
 
 if [ "$current_gaps" = "0" ]; then
-    next_gaps=$DEFAULT_GAPS
+    next_gaps=8
 else
     next_gaps=0
 fi

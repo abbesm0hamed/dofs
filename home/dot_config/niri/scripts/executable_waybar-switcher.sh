@@ -9,7 +9,16 @@ WAYBAR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/waybar"
 VARIANTS_DIR="$WAYBAR_DIR/variants"
 CURRENT_CONFIG="$WAYBAR_DIR/config.jsonc"
 CURRENT_STYLE="$WAYBAR_DIR/style.css"
-STATE_FILE="$WAYBAR_DIR/.current-variant"
+
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/waybar"
+STATE_FILE="$STATE_DIR/current_variant"
+
+LEGACY_STATE_FILE="$WAYBAR_DIR/.current-variant"
+if [ -f "$LEGACY_STATE_FILE" ] && [ ! -f "$STATE_FILE" ]; then
+    mkdir -p "$STATE_DIR"
+    mv "$LEGACY_STATE_FILE" "$STATE_FILE"
+fi
+
 DEFAULT_VARIANT="default"
 DEFAULT_LABEL="Default"
 
@@ -48,11 +57,32 @@ load_variants() {
 }
 
 get_current_variant() {
-    if [ -f "$STATE_FILE" ]; then
-        cat "$STATE_FILE"
-    else
-        echo "$DEFAULT_VARIANT"
+    if [ -f "$CURRENT_CONFIG" ] && [ -d "$VARIANTS_DIR" ]; then
+        for dir in "$VARIANTS_DIR"/*; do
+            [ -d "$dir" ] || continue
+            local key
+            local config_file
+            key="$(basename "$dir")"
+            config_file="$dir/config.jsonc"
+
+            if [ -f "$config_file" ] && cmp -s "$config_file" "$CURRENT_CONFIG"; then
+                echo "$key"
+                return 0
+            fi
+        done
     fi
+
+    if [ -f "$STATE_FILE" ]; then
+        local state
+        state="$(cat "$STATE_FILE")"
+
+        if [ -n "$state" ] && { [ -d "$VARIANTS_DIR/$state" ] || [ "$state" = "$DEFAULT_VARIANT" ]; }; then
+            echo "$state"
+            return 0
+        fi
+    fi
+
+    echo "$DEFAULT_VARIANT"
 }
 
 switch_variant() {

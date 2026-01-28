@@ -1,0 +1,63 @@
+{{- $hasTheme := stat (joinPath .chezmoi.homeDir ".local/state/themes/current_theme") -}}
+{{- $hasWaybar := stat (joinPath .chezmoi.homeDir ".local/state/waybar/current_variant") -}}
+
+# Chezmoi ignore patterns
+# Files and directories that chezmoi should not manage
+
+# Git and version control
+.git
+.gitignore
+
+# Documentation and metadata
+README.*
+LICENSE.*
+screenshots/
+docs/
+
+# Editor and system files
+.DS_Store
+*.swp
+*.bak
+*.old
+*~
+
+# Build and installation artifacts
+scripts/
+packages/
+ansible/
+bootstrap.sh
+dofs
+
+# Local state that should not be managed
+.local/
+.config/fish/fish_variables
+.config/fish/fish_variables.*
+.config/ranger/history
+.config/ranger/tagged
+.config/ranger/.cache/
+.config/waybar/.current-variant
+.config/themes/current_theme
+
+# if you want to persist the theme and not have it affected by chezmoi apply --force
+# {{ if $hasTheme }}
+# Script-generated theme files (ignored when a runtime theme is set)
+# .config/waybar/theme.css
+# .config/rofi/colors.rasi
+# .config/niri/colors.kdl
+# .config/foot/theme.ini
+# .config/wezterm/colors.lua
+# .config/mako/config
+# .config/kitty/theme.conf
+# .config/alacritty/theme.toml
+# .config/ranger/rc.conf
+# .config/yazi/yazi.toml
+# .config/zed/settings.json
+# .config/Windsurf/User/settings.json
+# {{ end }}
+
+# if you want to persist the waybar variant and not have it affected by chezmoi apply --force
+# {{ if $hasWaybar }}
+# Script-generated waybar files (ignored because a runtime variant is set)
+# .config/waybar/config.jsonc
+# .config/waybar/style.css
+# {{ end }}
