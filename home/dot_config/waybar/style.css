@@ -70,27 +70,28 @@ window#waybar {
 }
 
 #workspaces button {
-  color: @overlay0;
-  padding: 0px 2px;
-  border-radius: 0px;
-  min-width: 20px;
+  padding: 0 2px;
+  /* background: @surface0; */
+  color: @ws_fg;
+  font-weight: 400;
 }
 
 #workspaces button.focused {
-  color: @blue;
+  background: @ws_focused_bg;
+  color: @ws_focused_fg;
+  border: @ws_focused_border 1px solid;
 }
 
 #workspaces button:hover {
-  color: @overlay2;
-  background: transparent;
-}
-
-#workspaces button.focused:hover {
-  color: @blue;
+  background: @surface0;
+  color: @ws_focused_fg;
+  border: @ws_focused_border 1px solid;
 }
 
 #workspaces button.urgent {
-  color: @red;
+  background: @ws_urgent_bg;
+  color: @ws_urgent_fg;
+  border: @ws_urgent_border 1px solid;
 }
 
 /* Clock - center highlight */

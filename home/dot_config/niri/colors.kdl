@@ -2,7 +2,7 @@
 layout {
     background-color "#0d0e11"
     border {
-        active-color "#89b4fa"
+        active-color "#7e9cd8"
         inactive-color "#494e6d"
         urgent-color "#f38ba8"
     }

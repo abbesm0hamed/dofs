@@ -2,9 +2,9 @@
 * {
     bg-col:  #0d0e11;
     bg-col-light: #313244;
-    border-col: #89b4fa;
+    border-col: #7e9cd8;
     selected-col: #313244;
-    blue: #89b4fa;
+    blue: #7e9cd8;
     mauve: #d0d2ff;
     fg-col: #e7e3ff;
     fg-col2: #fab387;

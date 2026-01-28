@@ -35,7 +35,7 @@ color = "#f9e2af"
 blend = true
 
 [config.custom_colors.info]
-color = "#89b4fa"
+color = "#7e9cd8"
 blend = true
 
 [config.custom_colors.success]

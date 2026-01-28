@@ -23,7 +23,7 @@
 @define-color teal #94e2d5;
 @define-color sky #89dceb;
 @define-color sapphire #74c7ec;
-@define-color blue #89b4fa;
+@define-color blue #7e9cd8;
 @define-color lavender #b4befe;
 @define-color bar_bg #0d0e11;
 @define-color bar_border #383850;
@@ -32,3 +32,11 @@
 @define-color fingerprint_bg #252538;
 @define-color urgent_red #eb4d4b;
 @define-color recording_red #ff4757;
+@define-color ws_bg #2a2a37;
+@define-color ws_fg #879099;
+@define-color ws_focused_bg #285577;
+@define-color ws_focused_fg #ffffff;
+@define-color ws_focused_border #7e9cd8;
+@define-color ws_urgent_bg #eb4d4b;
+@define-color ws_urgent_border #da605e;
+@define-color ws_urgent_fg #ffffff;

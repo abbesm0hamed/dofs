@@ -11,7 +11,7 @@ height=100
 # Styling (default)
 background-color=#0d0e11
 text-color=#e7e3ff
-border-color=#89b4fa
+border-color=#7e9cd8
 border-size=1
 border-radius=0
 padding=15
@@ -43,7 +43,7 @@ default-timeout=4000
 [urgency=normal]
 background-color=#0d0e11
 text-color=#e7e3ff
-border-color=#89b4fa
+border-color=#7e9cd8
 default-timeout=8000
 
 [urgency=critical]

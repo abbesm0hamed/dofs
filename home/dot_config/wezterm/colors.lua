@@ -13,7 +13,7 @@ M.colors = {
         "#f38ba8",
         "#a6e3a1",
         "#f9e2af",
-        "#89b4fa",
+        "#7e9cd8",
         "#f5c2e7",
         "#94e2d5",
         "#bac2de",
@@ -23,7 +23,7 @@ M.colors = {
         "#f38ba8",
         "#a6e3a1",
         "#f9e2af",
-        "#89b4fa",
+        "#7e9cd8",
         "#f5c2e7",
         "#94e2d5",
         "#a6adc8",
@@ -32,7 +32,7 @@ M.colors = {
     tab_bar = {
         background = "#0d0e11",
         active_tab = {
-            bg_color = "#89b4fa",
+            bg_color = "#7e9cd8",
             fg_color = "#0d0e11",
         },
         inactive_tab = {
