@@ -9,7 +9,7 @@
     "margin-left": 0,
     "margin-bottom": 0,
     "margin-right": 0,
-    "spacing": 4,
+    // "spacing": 4,
     "modules-left": [
         "custom/niri-binds",
         "niri/workspaces"
@@ -22,8 +22,7 @@
         "tray",
         "group/monitoring",
         // "niri/language",
-        "backlight",
-        "wireplumber",
+        "group/brightness_audio",
         // "custom/mic",
         // "custom/recording",
         "group/connectivity",
@@ -202,6 +201,13 @@
         "modules": [
             "custom/idle_inhibitor",
             "custom/power"
+        ]
+    },
+    "group/brightness_audio": {
+        "orientation": "horizontal",
+        "modules": [
+            "backlight",
+            "wireplumber"
         ]
     },
     "custom/idle_inhibitor": {
