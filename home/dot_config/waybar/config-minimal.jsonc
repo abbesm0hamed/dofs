@@ -258,7 +258,7 @@
         "on-click-right": "makoctl restore"
     },
     "custom/niri-binds": {
-        "format": " ",
+        "format": "",
         "tooltip": true,
         "tooltip-format": "show niri binds",
         "on-click": "sh -c '~/.config/niri/scripts/binds-menu.sh'"
