@@ -139,7 +139,18 @@ apply_theme() {
 apply_theme "$THEME"
 
 # Reload & Notify
-pkill -USR2 waybar || true
+if pgrep -x waybar >/dev/null 2>&1; then
+    WAYBAR_STATE="${XDG_CONFIG_HOME:-$HOME/.config}/waybar/.current-variant"
+    WAYBAR_SWITCHER="$HOME/.config/niri/scripts/waybar-switcher.sh"
+    if [ -x "$WAYBAR_SWITCHER" ]; then
+        variant="$(cat "$WAYBAR_STATE" 2>/dev/null || echo "default")"
+        "$WAYBAR_SWITCHER" "$variant" >/dev/null 2>&1 || true
+    else
+        pkill -USR2 waybar || true
+    fi
+else
+    pkill -USR2 waybar || true
+fi
 command -v makoctl >/dev/null && makoctl reload || true
 
 if [ "$FROM_PICKER" = true ]; then
