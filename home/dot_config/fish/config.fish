@@ -16,6 +16,9 @@ if status is-interactive
     set -g hydro_symbol_git_behind " 󰶡"
     set -g hydro_multiline true
 
+    # Fish autosuggestion color (not controlled by hydro)
+    set -g fish_color_autosuggestion 6c7086
+
     if test -f ~/.cache/ags/user/generated/terminal/sequences.txt
         cat ~/.cache/ags/user/generated/terminal/sequences.txt
     end
