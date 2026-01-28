@@ -28,10 +28,10 @@
         // "custom/recording",
         "group/connectivity",
         "group/power_stats",
-        "clock",
-        "custom/next-prayer",
         "custom/notification-history",
-        "group/power"
+        "group/power",
+        "clock",
+        "custom/next-prayer"
         // "temperature",
         // "pulseaudio",
     ],
