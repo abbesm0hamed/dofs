@@ -6,63 +6,87 @@
 set -euo pipefail
 
 WAYBAR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/waybar"
+VARIANTS_DIR="$WAYBAR_DIR/variants"
 CURRENT_CONFIG="$WAYBAR_DIR/config.jsonc"
 CURRENT_STYLE="$WAYBAR_DIR/style.css"
 STATE_FILE="$WAYBAR_DIR/.current-variant"
+DEFAULT_VARIANT="default"
+DEFAULT_LABEL="Default"
 
-# Available variants
-VARIANTS=(
-    "default:Default (Full)"
-    "minimal:Minimal (Workspaces + Essentials)"
-)
+VARIANT_KEYS=()
+VARIANT_LABELS=()
+
+load_variants() {
+    VARIANT_KEYS=()
+    VARIANT_LABELS=()
+    VARIANT_KEYS+=("$DEFAULT_VARIANT")
+    VARIANT_LABELS+=("$DEFAULT_LABEL")
+
+    if [ ! -d "$VARIANTS_DIR" ]; then
+        return 0
+    fi
+
+    for dir in "$VARIANTS_DIR"/*; do
+        [ -d "$dir" ] || continue
+        local key
+        local label
+        key="$(basename "$dir")"
+        label="$key"
+
+        if [ -f "$dir/label" ]; then
+            label="$(head -n 1 "$dir/label")"
+        fi
+
+        if [ "$key" = "$DEFAULT_VARIANT" ]; then
+            VARIANT_LABELS[0]="$label"
+            continue
+        fi
+
+        VARIANT_KEYS+=("$key")
+        VARIANT_LABELS+=("$label")
+    done
+}
 
 get_current_variant() {
     if [ -f "$STATE_FILE" ]; then
         cat "$STATE_FILE"
     else
-        echo "default"
+        echo "$DEFAULT_VARIANT"
     fi
 }
 
 switch_variant() {
     local variant=$1
-    local config_file="$WAYBAR_DIR/config-${variant}.jsonc"
-    local style_file="$WAYBAR_DIR/style-${variant}.css"
+    local config_file="$VARIANTS_DIR/$variant/config.jsonc"
+    local style_file="$VARIANTS_DIR/$variant/style.css"
 
-    # For default, use config.jsonc directly
-    if [ "$variant" = "default" ]; then
-        # Backup current if it's a symlink
-        if [ -L "$CURRENT_CONFIG" ]; then
-            rm "$CURRENT_CONFIG"
+    if [ "$variant" = "$DEFAULT_VARIANT" ]; then
+        if [ -f "$VARIANTS_DIR/$DEFAULT_VARIANT/config.jsonc" ]; then
+            cp "$VARIANTS_DIR/$DEFAULT_VARIANT/config.jsonc" "$CURRENT_CONFIG"
+        elif [ ! -f "$CURRENT_CONFIG" ]; then
+            notify-send "Waybar Switcher" "Default config missing in $CURRENT_CONFIG" -u critical
+            return 1
         fi
 
-        # Restore original config if it was backed up
-        if [ -f "$WAYBAR_DIR/config-default.jsonc" ]; then
-            cp "$WAYBAR_DIR/config-default.jsonc" "$CURRENT_CONFIG"
-        fi
-
-        # Restore original style if it was backed up
-        if [ -f "$WAYBAR_DIR/style-default.css" ]; then
-            cp "$WAYBAR_DIR/style-default.css" "$CURRENT_STYLE"
+        if [ -f "$VARIANTS_DIR/$DEFAULT_VARIANT/style.css" ]; then
+            cp "$VARIANTS_DIR/$DEFAULT_VARIANT/style.css" "$CURRENT_STYLE"
         fi
     else
-        # Check if variant exists
         if [ ! -f "$config_file" ]; then
             notify-send "Waybar Switcher" "Variant '$variant' not found" -u critical
             return 1
         fi
 
-        # Backup default config if not already done
-        if [ ! -f "$WAYBAR_DIR/config-default.jsonc" ] && [ ! -L "$CURRENT_CONFIG" ]; then
-            cp "$CURRENT_CONFIG" "$WAYBAR_DIR/config-default.jsonc"
+        if [ -f "$CURRENT_CONFIG" ] && [ ! -f "$VARIANTS_DIR/$DEFAULT_VARIANT/config.jsonc" ]; then
+            mkdir -p "$VARIANTS_DIR/$DEFAULT_VARIANT"
+            cp "$CURRENT_CONFIG" "$VARIANTS_DIR/$DEFAULT_VARIANT/config.jsonc"
         fi
 
-        # Backup default style if not already done
-        if [ ! -f "$WAYBAR_DIR/style-default.css" ] && [ -f "$CURRENT_STYLE" ] && [ ! -L "$CURRENT_STYLE" ]; then
-            cp "$CURRENT_STYLE" "$WAYBAR_DIR/style-default.css"
+        if [ -f "$CURRENT_STYLE" ] && [ ! -f "$VARIANTS_DIR/$DEFAULT_VARIANT/style.css" ]; then
+            mkdir -p "$VARIANTS_DIR/$DEFAULT_VARIANT"
+            cp "$CURRENT_STYLE" "$VARIANTS_DIR/$DEFAULT_VARIANT/style.css"
         fi
 
-        # Copy variant to active config
         cp "$config_file" "$CURRENT_CONFIG"
 
         if [ -f "$style_file" ]; then
@@ -85,30 +109,33 @@ switch_variant() {
 }
 
 show_picker() {
+    load_variants
     local current=$(get_current_variant)
-    local options=""
+    local options=()
 
-    for variant in "${VARIANTS[@]}"; do
-        local key="${variant%%:*}"
-        local label="${variant##*:}"
+    for i in "${!VARIANT_KEYS[@]}"; do
+        local key="${VARIANT_KEYS[$i]}"
+        local label="${VARIANT_LABELS[$i]}"
+        local prefix="  "
 
         if [ "$key" = "$current" ]; then
-            options+="✓ $label\n"
-        else
-            options+="  $label\n"
+            prefix="✓ "
         fi
+
+        options+=("$prefix$label")
     done
 
-    local selected=$(echo -e "$options" | rofi -dmenu -i -p "Waybar Variant" -theme-str 'window {width: 30%;}')
+    local selected
+    selected=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -p "Waybar Variant" -theme-str 'window {width: 30%;}')
 
     if [ -n "$selected" ]; then
         # Extract variant key from selection
         local variant_label="${selected#* }" # Remove checkmark
         variant_label="${variant_label# }"   # Remove leading space
 
-        for variant in "${VARIANTS[@]}"; do
-            local key="${variant%%:*}"
-            local label="${variant##*:}"
+        for i in "${!VARIANT_KEYS[@]}"; do
+            local key="${VARIANT_KEYS[$i]}"
+            local label="${VARIANT_LABELS[$i]}"
 
             if [ "$label" = "$variant_label" ]; then
                 switch_variant "$key"
@@ -123,14 +150,16 @@ case "${1:-picker}" in
     "picker")
         show_picker
         ;;
-    "default" | "minimal")
-        switch_variant "$1"
-        ;;
     "current")
         get_current_variant
         ;;
     *)
-        echo "Usage: $0 [picker|default|minimal|current]"
+        if [ -d "$VARIANTS_DIR/$1" ]; then
+            switch_variant "$1"
+            exit 0
+        fi
+
+        echo "Usage: $0 [picker|current|<variant>]"
         exit 1
         ;;
 esac
