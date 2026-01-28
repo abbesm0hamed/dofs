@@ -1,0 +1,339 @@
+@import "theme.css";
+
+/* ===== Waybar Minimal CSS ===== */
+
+* {
+  font-family: "JetBrains Mono", "Iosevka Medium Extended", "Inter", monospace;
+  font-size: 13px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+
+window#waybar {
+  background: @bar_bg;
+  color: @text;
+  border-bottom: 1px solid @bar_border;
+}
+
+/* All modules default styling */
+.modules-left,
+.modules-center,
+.modules-right {
+  background: transparent;
+}
+
+.modules-left>widget:first-child>* {
+  margin-left: 8px;
+}
+
+.modules-right>widget:last-child>* {
+  margin-right: 3px;
+}
+
+.modules-right>widget:not(:first-child) {
+  margin-left: -2px;
+}
+
+/* Individual modules */
+#workspaces,
+#window,
+#clock,
+#cpu,
+#memory,
+#temperature,
+#language,
+#bluetooth,
+#custom-idle_inhibitor,
+#custom-storage,
+#custom-next-prayer,
+#custom-notifications,
+#custom-notification-history,
+#custom-recording,
+#custom-mic,
+#custom-cava,
+#custom-fingerprint,
+#custom-docker,
+#custom-updates {
+  padding: 0px 4px;
+  background: transparent;
+  color: @text;
+}
+
+#monitoring,
+#power_stats,
+#connectivity,
+#power {
+  padding: 0px 4px;
+}
+
+#custom-power,
+#battery {
+  padding: 0px 0px 0px 4px;
+}
+
+#battery,
+#bluetooth {
+  padding: 0px 8px 0px 6px;
+}
+
+#backlight {
+  padding: 0px 4px;
+}
+
+#wireplumber {
+  padding: 0px 4px 0px 0px;
+}
+
+/* Workspaces */
+#workspaces {
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+
+#workspaces button {
+  color: @overlay0;
+  padding: 0px 2px;
+  margin: 0px 0px;
+  border-radius: 0px;
+  transition: color 0.2s ease;
+  min-width: 24px;
+  font-weight: normal;
+}
+
+#workspaces button.focused {
+  color: @blue;
+}
+
+#workspaces button:hover {
+  color: @overlay2;
+  background: transparent;
+}
+
+#workspaces button.focused:hover {
+  color: @blue;
+}
+
+#workspaces button.urgent {
+  color: @red;
+}
+
+/* Clock - center highlight */
+#clock {
+  font-weight: 600;
+  padding: 0px 10px;
+  border-radius: 0px;
+  background-color: @surface0;
+  border-bottom: 1px solid @surface1;
+  border-right: 2px dotted @overlay0;
+  border-left: 2px dotted @overlay0;
+}
+
+#custom-notifications {
+  border-left: 2px dotted @overlay0;
+}
+
+#monitoring,
+#connectivity,
+#power_stats,
+#power {
+  border-left: 2px dotted @overlay0;
+}
+
+#monitoring {
+  border-right: 2px dotted @overlay0;
+}
+
+#custom-power:hover {
+  color: @red;
+}
+
+#custom-next-prayer {
+  font-weight: 600;
+  padding: 0px 10px;
+  margin: 0px 0px;
+  border-radius: 0px;
+  background-color: @surface0;
+  border-bottom: 1px solid @surface1;
+  border-right: 2px dotted @overlay0;
+}
+
+#custom-niri-binds {
+  font-weight: 600;
+  padding: 0px 10px 0 8px;
+  margin: 0px 0px;
+  border-radius: 0px;
+  background-color: @surface0;
+  border-bottom: 1px solid @surface1;
+  border-right: 2px dotted @overlay0;
+}
+
+/* Battery states */
+#battery.warning {
+  color: @yellow;
+}
+
+#battery.critical {
+  color: @red;
+}
+
+#battery.charging {
+  color: @green;
+}
+
+/* Temperature states */
+#temperature.critical {
+  color: @red;
+}
+
+/* System tray */
+#tray {
+  padding: 0 6px 0 13px;
+  margin: 0px 0px;
+  border-left: 2px dotted @overlay0;
+}
+
+#tray>.passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray>.needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+#tray>.passive,
+#tray>.active,
+#tray>.needs-attention {
+  padding: 0 4px;
+}
+
+#power-profiles-daemon.performance {
+  color: @yellow;
+}
+
+#power-profiles-daemon.balanced {
+  color: @blue;
+}
+
+#power-profiles-daemon.power-saver {
+  color: @green;
+}
+
+#custom-idle_inhibitor:hover {
+  color: @blue;
+}
+
+#custom-mic {
+  padding-left: 2px;
+  padding-right: 0px;
+}
+
+/* Window title */
+#window {
+  color: @text;
+  font-style: italic;
+}
+
+/* Tooltip */
+tooltip {
+  background: @surface0;
+  color: @text;
+  border: 1px solid @surface1;
+  border-radius: 0px;
+}
+
+tooltip label {
+  padding: 2px 8px;
+}
+
+/* Subtle hover effects */
+#battery:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#network:hover,
+#bluetooth:hover,
+#custom-notifications:hover,
+#custom-notification-history:hover,
+#backlight:hover,
+#wireplumber:hover,
+#custom-storage:hover,
+#custom-updates:hover,
+#custom-fingerprint:hover {
+  color: @blue;
+  border-radius: 0px;
+  transition: background 0.2s ease;
+}
+
+#custom-updates {
+  border-left: 2px dotted @overlay0;
+  padding: 0px 4px 0px 10px;
+}
+
+/* Fingerprint module - only shows when not setup */
+#custom-fingerprint {
+  color: @yellow;
+  background: @fingerprint_bg;
+  border-radius: 0px;
+  padding: 0px 2px;
+  margin: 0 2px;
+  transition: all 0.2s ease;
+  animation: pulse 2s infinite;
+}
+
+#custom-fingerprint:hover {
+  background: @yellow;
+  color: @module_bg;
+}
+
+/* Subtle pulse animation to draw attention */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Recording indicator-always visible with different states */
+#custom-recording {
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  padding-left: 0px;
+}
+
+#custom-recording.inactive {
+  color: @text;
+}
+
+#custom-recording.recording {
+  animation: pulse 1.5s infinite;
+  color: @recording_red;
+}
+
+#custom-recording.recording-audio {
+  animation: pulse 1s infinite;
+  color: @recording_red;
+}
+
+#custom-recording.recording-audio-only {
+  animation: pulse 0.8s infinite;
+  color: @recording_red;
+}
+
+#custom-recording.inactive:hover {
+  color: @blue;
+}
+
+#custom-recording.recording:hover,
+#custom-recording.recording-audio-only:hover,
+#custom-recording.recording-audio:hover {
+  color: @blue;
+}

@@ -28,9 +28,9 @@
         // "custom/recording",
         "group/connectivity",
         "group/power_stats",
-        "custom/notification-history",
         "clock",
         "custom/next-prayer",
+        "custom/notification-history",
         "group/power"
         // "temperature",
         // "pulseaudio",
@@ -129,7 +129,7 @@
         "format-alt-click": "click-right",
         "return-type": "json",
         "interval": 60,
-        "exec": "~/.config/waybar/modules/storage.sh",
+        "exec": "~/.config/waybar/scripts/storage.sh",
         "on-scroll-up": "true",
         "on-scroll-down": "true"
     },
@@ -219,7 +219,7 @@
         "interval": 3600,
         "exec": "curl -s 'https://wttr.in/?format=1'",
         //"return-type": "json",
-        //"exec": "~/.config/waybar/modules/weather.sh",
+        //"exec": "~/.config/waybar/scripts/weather.sh",
         "exec-if": "ping wttr.in -c1"
     },
     "custom/power": {

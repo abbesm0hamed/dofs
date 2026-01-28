@@ -7,6 +7,7 @@ set -euo pipefail
 
 WAYBAR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/waybar"
 CURRENT_CONFIG="$WAYBAR_DIR/config.jsonc"
+CURRENT_STYLE="$WAYBAR_DIR/style.css"
 STATE_FILE="$WAYBAR_DIR/.current-variant"
 
 # Available variants
@@ -26,6 +27,7 @@ get_current_variant() {
 switch_variant() {
     local variant=$1
     local config_file="$WAYBAR_DIR/config-${variant}.jsonc"
+    local style_file="$WAYBAR_DIR/style-${variant}.css"
     
     # For default, use config.jsonc directly
     if [ "$variant" = "default" ]; then
@@ -38,6 +40,11 @@ switch_variant() {
         if [ -f "$WAYBAR_DIR/config-default.jsonc" ]; then
             cp "$WAYBAR_DIR/config-default.jsonc" "$CURRENT_CONFIG"
         fi
+
+        # Restore original style if it was backed up
+        if [ -f "$WAYBAR_DIR/style-default.css" ]; then
+            cp "$WAYBAR_DIR/style-default.css" "$CURRENT_STYLE"
+        fi
     else
         # Check if variant exists
         if [ ! -f "$config_file" ]; then
@@ -49,9 +56,18 @@ switch_variant() {
         if [ ! -f "$WAYBAR_DIR/config-default.jsonc" ] && [ ! -L "$CURRENT_CONFIG" ]; then
             cp "$CURRENT_CONFIG" "$WAYBAR_DIR/config-default.jsonc"
         fi
+
+        # Backup default style if not already done
+        if [ ! -f "$WAYBAR_DIR/style-default.css" ] && [ -f "$CURRENT_STYLE" ] && [ ! -L "$CURRENT_STYLE" ]; then
+            cp "$CURRENT_STYLE" "$WAYBAR_DIR/style-default.css"
+        fi
         
         # Copy variant to active config
         cp "$config_file" "$CURRENT_CONFIG"
+
+        if [ -f "$style_file" ]; then
+            cp "$style_file" "$CURRENT_STYLE"
+        fi
     fi
     
     # Save current variant
