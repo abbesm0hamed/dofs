@@ -129,6 +129,14 @@ window-rule {
 }
 
 window-rule {
+    match app-id="dev.bragefuglseth.Keypunch"
+    open-floating true
+    clip-to-geometry true
+    default-column-width { proportion 0.6; }
+    default-window-height { proportion 0.4; }
+}
+
+window-rule {
     match app-id="floating-btop"
     match app-id="floating-ranger"
     match app-id="floating-yazi"
