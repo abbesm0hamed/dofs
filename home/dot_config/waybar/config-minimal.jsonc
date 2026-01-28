@@ -5,11 +5,12 @@
         "eDP-1",
         "HDMI-A-1"
     ],
-    "height": 28,
+    "height": 26,
     "margin-left": 0,
     "margin-bottom": 0,
+    "margin-top": 0,
     "margin-right": 0,
-    // "spacing": 4,
+    "spacing": 0,
     "modules-left": [
         "custom/niri-binds",
         "niri/workspaces"
@@ -389,7 +390,7 @@
     },
     "tray": {
         "icon-size": 14,
-        "spacing": 6,
+        "spacing": 0,
         "show-passive-items": true,
         "reverse-direction": true,
         "ignored-items": [
@@ -419,10 +420,10 @@
         "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
         "tooltip": true,
         "format-icons": {
-            "default": " ",
-            "performance": " ",
-            "balanced": " ",
-            "power-saver": " "
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
         }
     },
     "custom/updates": {

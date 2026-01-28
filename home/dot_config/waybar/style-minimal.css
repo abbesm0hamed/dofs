@@ -21,47 +21,60 @@ window#waybar {
 .modules-center,
 .modules-right {
   background: transparent;
-}
-
-.modules-left > widget:first-child > * {
-  margin-left: 8px;
-}
-
-.modules-right > widget:last-child > * {
-  margin-right: 3px;
-}
-
-.modules-right > widget:not(:first-child) {
-  margin-left: -2px;
+  color: @text;
 }
 
 /* Individual modules */
 #workspaces,
 #window,
+#tray,
 #language,
 #custom-next-prayer,
 #custom-notifications,
 #custom-notification-history,
 #custom-recording,
-#backlight,
-#wireplumber,
 #custom-mic,
 #custom-cava,
 #custom-fingerprint,
-#custom-docker,
 #monitoring,
-#power_stats,
 #connectivity,
+#brightness_audio,
+#power_stats,
 #custom-updates {
   padding: 0px 10px;
-  background: transparent;
-  color: @text;
+}
+#power {
+  padding: 0px 6px 0px 10px;
+}
+#custom-power,
+#custom-power,
+#wireplumber,
+#cpu,
+#memory,
+#network,
+#custom-storage {
+  padding: 0px 0px 0px 8px;
 }
 
-#power {
-  padding: 0px 0px 0px 10px;
-  background: transparent;
-  color: @text;
+#tray {
+  border-left: 2px dotted @overlay0;
+}
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+#tray > .passive,
+#tray > .active,
+#tray > .needs-attention {
+  padding: 0 4px;
 }
 
 /* Workspaces */
@@ -98,43 +111,29 @@ window#waybar {
 }
 
 /* Clock - center highlight */
-#clock {
+#clock,
+#custom-next-prayer {
   font-weight: 600;
   padding: 0px 10px;
   border-radius: 0px;
   background-color: @surface0;
   border-bottom: 1px solid @surface1;
-  border-right: 2px dotted @overlay0;
-  border-left: 2px dotted @overlay0;
-}
-
-#custom-notifications {
-  border-left: 2px dotted @overlay0;
+  margin: 0px 0px;
 }
 
 #monitoring,
 #connectivity,
+#brightness_audio,
 #power_stats,
-#power {
+#power,
+#clock,
+#custom-next-prayer,
+#custom-notification-history {
   border-left: 2px dotted @overlay0;
-}
-
-#monitoring {
-  border-right: 2px dotted @overlay0;
 }
 
 #custom-power:hover {
   color: @red;
-}
-
-#custom-next-prayer {
-  font-weight: 600;
-  padding: 0px 10px;
-  margin: 0px 0px;
-  border-radius: 0px;
-  background-color: @surface0;
-  border-bottom: 1px solid @surface1;
-  border-right: 2px dotted @overlay0;
 }
 
 #custom-niri-binds {
@@ -163,27 +162,6 @@ window#waybar {
 /* Temperature states */
 #temperature.critical {
   color: @red;
-}
-
-/* System tray */
-#tray {
-  padding: 0 6px 0 13px;
-  margin: 0px 0px;
-  border-left: 2px dotted @overlay0;
-}
-
-#tray > .passive {
-  -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
-}
-
-#tray > .passive,
-#tray > .active,
-#tray > .needs-attention {
-  padding: 0 4px;
 }
 
 #power-profiles-daemon.performance {
@@ -316,4 +294,3 @@ tooltip label {
 #custom-recording.recording-audio:hover {
   color: @blue;
 }
-
