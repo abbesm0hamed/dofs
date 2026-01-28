@@ -1,47 +1,108 @@
 ---
+- name: Install Desktop Utilities
+  block:
+    - name: Install FileZilla
+      dnf:
+        name: filezilla
+        state: present
+      become: true
+
+    - name: Verify FileZilla installation
+      command: filezilla --version
+      register: filezilla_version
+      changed_when: false
+
+    - name: Display FileZilla version
+      debug:
+        msg: "FileZilla version: {{ filezilla_version.stdout }}"
+
+    - name: Add AnyDesk repository
+      yum_repository:
+        name: anydesk
+        description: AnyDesk Fedora - stable
+        baseurl: http://rpm.anydesk.com/fedora/$basearch/
+        gpgcheck: yes
+        repo_gpgcheck: yes
+        gpgkey: https://keys.anydesk.com/repos/RPM-GPG-KEY
+      become: true
+
+    - name: Install AnyDesk
+      dnf:
+        name: anydesk
+        state: present
+      become: true
+
+    - name: Verify AnyDesk installation
+      command: anydesk --version
+      register: anydesk_version
+      changed_when: false
+      failed_when: false
+
+    - name: Display AnyDesk version
+      debug:
+        msg: "AnyDesk version: {{ anydesk_version.stdout | default('Not found') }}"
+
 - name: Setup Cursors
   block:
     - name: Create icons directory
       file:
         path: "{{ ansible_user_dir }}/.local/share/icons"
         state: directory
-    - name: Remove existing Layan cursors directory
-      file:
-        path: /tmp/Layan-cursors
-        state: absent
-      become: true
+    - name: Check if Layan cursors exist
+      stat:
+        path: "{{ ansible_user_dir }}/.local/share/icons/Layan-white-cursors"
+      register: layan_cursors
+
     - name: Install Layan cursors
-      git:
-        repo: https://github.com/vinceliuice/Layan-cursors.git
-        dest: /tmp/Layan-cursors
-    - name: Run Layan cursors installer
-      command: ./install.sh
-      args:
-        chdir: /tmp/Layan-cursors
-      changed_when: false
+      block:
+        - name: Remove existing Layan cursors directory
+          file:
+            path: /tmp/Layan-cursors
+            state: absent
+          become: true
 
-    - name: Remove existing Banana cursor directory
-      file:
-        path: /tmp/Banana
-        state: absent
-      become: true
+        - name: Clone Layan cursors
+          git:
+            repo: https://github.com/vinceliuice/Layan-cursors.git
+            dest: /tmp/Layan-cursors
 
-    - name: Create Banana cursor temporary directory
-      file:
-        path: /tmp/Banana
-        state: directory
+        - name: Run Layan cursors installer
+          command: ./install.sh
+          args:
+            chdir: /tmp/Layan-cursors
+          changed_when: true
+      when: not layan_cursors.stat.exists
 
-    - name: Download and extract Banana cursor
-      unarchive:
-        src: https://github.com/ful1e5/banana-cursor/releases/download/v2.0.0/Banana.tar.xz
-        dest: /tmp/Banana
-        remote_src: yes
+    - name: Check if Banana cursors exist
+      stat:
+        path: "{{ ansible_user_dir }}/.local/share/icons/Banana"
+      register: banana_cursors
 
     - name: Install Banana cursor
-      copy:
-        src: /tmp/Banana/Banana
-        dest: "{{ ansible_user_dir }}/.local/share/icons/"
-        remote_src: yes
+      block:
+        - name: Remove existing Banana cursor directory
+          file:
+            path: /tmp/Banana
+            state: absent
+          become: true
+
+        - name: Create Banana cursor temporary directory
+          file:
+            path: /tmp/Banana
+            state: directory
+
+        - name: Download and extract Banana cursor
+          unarchive:
+            src: https://github.com/ful1e5/banana-cursor/releases/download/v2.0.0/Banana.tar.xz
+            dest: /tmp/Banana
+            remote_src: yes
+
+        - name: Install Banana cursor files
+          copy:
+            src: /tmp/Banana/Banana
+            dest: "{{ ansible_user_dir }}/.local/share/icons/"
+            remote_src: yes
+      when: not banana_cursors.stat.exists
 
 
 - name: Gaming optimizations

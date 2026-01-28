@@ -6,13 +6,23 @@
 
 
   roles:
-    - common
-    - repos
-    - packages
-    - languages
-    - system
-    - desktop
-    - dotfiles
-    - shell
-    - obsidian
-    - verify
+    - role: common
+      tags: common
+    - role: repos
+      tags: repos
+    - role: packages
+      tags: packages
+    - role: languages
+      tags: languages
+    - role: system
+      tags: system
+    - role: desktop
+      tags: desktop
+    - role: dotfiles
+      tags: dotfiles
+    - role: shell
+      tags: shell
+    - role: obsidian
+      tags: obsidian
+    - role: verify
+      tags: verify
