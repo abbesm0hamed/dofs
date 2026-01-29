@@ -23,7 +23,6 @@ dnf_packages:
   - bluez
   - bluez-tools
   - openssh
-  - feh
   - curl
   - ffmpeg
   - iputils
@@ -70,6 +69,7 @@ dnf_packages:
   - ffmpegthumbnailer
   - gnome-control-center
   - zathura
+  - qbittorrent
   - switcheroo-control
 
   - zip
