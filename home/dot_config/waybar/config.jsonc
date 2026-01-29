@@ -106,10 +106,10 @@
         "tooltip-format": "Battery: {capacity}%\nTime: {time}\nPower: {power}W"
     },
     "network": {
-        "format-wifi": "󰤨",
-        "format-ethernet": "󰛳",
-        "format-linked": "󰤭",
-        "format-disconnected": "󰤭",
+        "format-wifi": "<span rise='1000'>󰤨</span>",
+        "format-ethernet": "<span rise='1000'>󰛳</span>",
+        "format-linked": "<span rise='1000'>󰤭</span>",
+        "format-disconnected": "<span rise='1000'>󰤭</span>",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "format-alt-wifi": "{essid}",
         "format-alt-ethernet": "{ifname}",
@@ -159,12 +159,12 @@
         "on-scroll-up": "brightnessctl s +5%"
     },
     "bluetooth": {
-        "format": "󰂯",
-        "format-disabled": "󰂲",
-        "format-off": "󰂲",
-        "format-on": "󰂯",
-        "format-connected": "󰂱",
-        "format-connected-battery": "󰂱",
+        "format": "<span rise='1000'>󰂯</span>",
+        "format-disabled": "<span rise='1000'>󰂲</span>",
+        "format-off": "<span rise='1000'>󰂲</span>",
+        "format-on": "<span rise='1000'>󰂯</span>",
+        "format-connected": "<span rise='1000'>󰂱</span>",
+        "format-connected-battery": "<span rise='1000'>󰂱</span>",
         "tooltip-format": "Bluetooth: {status}\nController: {controller_alias}\nConnections: {num_connections}",
         "tooltip-format-connected": "Bluetooth: Connected\nDevice: {device_alias}\nController: {controller_alias}\nConnections: {num_connections}\n\n{device_enumerate}",
         "tooltip-format-enumerate-connected": "{device_alias} ({device_address})",
@@ -214,7 +214,7 @@
     "custom/idle_inhibitor": {
         "format": "{}",
         "return-type": "json",
-        "exec": "if systemctl --user is-active --quiet swayidle.service 2>/dev/null || pgrep -x swayidle >/dev/null 2>&1; then echo '{\"text\":\"󰅶\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"󰾪\",\"tooltip\":\"Idle: OFF\"}'; fi",
+        "exec": "if systemctl --user is-active --quiet swayidle.service 2>/dev/null || pgrep -x swayidle >/dev/null 2>&1; then echo '{\"text\":\"<span rise=\\\"1000\\\">󰅶</span>\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"<span rise=\\\"1000\\\">󰾪</span>\",\"tooltip\":\"Idle: OFF\"}'; fi",
         "interval": 5,
         "on-click": "~/.config/waybar/scripts/toggle-idle.sh",
         "signal": 10
@@ -230,7 +230,7 @@
         "exec-if": "ping wttr.in -c1"
     },
     "custom/power": {
-        "format": " ",
+        "format": "<span rise='1000'></span>",
         "tooltip": false,
         "on-click": "~/.config/waybar/scripts/power-menu.sh"
     },
@@ -239,7 +239,7 @@
         "format": "{icon}",
         "format-icons": {
             "notification": "<span foreground='#f9e2af'>󰂚</span>",
-            "none": "󰂛"
+            "none": "<span>󰂛</span>", // "󰂛"
         },
         "return-type": "json",
         "exec-if": "command -v makoctl",
@@ -258,7 +258,7 @@
         "on-click-right": "makoctl restore"
     },
     "custom/niri-binds": {
-        "format": "",
+        "format": "<span rise='1000'></span>",
         "tooltip": true,
         "tooltip-format": "show niri binds",
         "on-click": "sh -c '~/.config/niri/scripts/binds-menu.sh'"
@@ -332,7 +332,7 @@
         "exec": "bash $HOME/.config/waybar/scripts/title.sh"
     },
     "niri/workspaces": {
-        "format": "{icon}",
+        "format": "<span rise='1000'>{icon}</span>",
         "format-icons": {
             "1": "1",
             "2": "2",
@@ -416,7 +416,7 @@
         "on-click": "sh -c '~/.config/niri/scripts/screencast.sh toggle-screen'"
     },
     "power-profiles-daemon": {
-        "format": "{icon}",
+        "format": "<span rise='1000'>{icon}</span>",
         "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
         "tooltip": true,
         "format-icons": {

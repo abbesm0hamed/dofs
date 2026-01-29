@@ -18,7 +18,7 @@ get_status() {
     fi
 
     if ! docker_daemon_available; then
-        echo "{\"text\": \"󰡨 -\", \"tooltip\": \"Docker daemon not running\", \"class\": \"inactive\"}"
+        echo "{\"text\": \"<span rise='1000'>󰡨</span> -\", \"tooltip\": \"Docker daemon not running\", \"class\": \"inactive\"}"
         return 1
     fi
 
@@ -26,9 +26,9 @@ get_status() {
     RUNNING=$(docker ps -q 2>/dev/null | wc -l)
 
     if [ "$RUNNING" -gt 0 ]; then
-        echo "{\"text\": \"󰡨 $RUNNING\", \"tooltip\": \"Active Containers: $RUNNING\", \"class\": \"active\"}"
+        echo "{\"text\": \"<span rise='1000'>󰡨</span> $RUNNING\", \"tooltip\": \"Active Containers: $RUNNING\", \"class\": \"active\"}"
     else
-        echo "{\"text\": \"󰡨 0\", \"tooltip\": \"No active containers\", \"class\": \"inactive\"}"
+        echo "{\"text\": \"<span rise='1000'>󰡨</span> 0\", \"tooltip\": \"No active containers\", \"class\": \"inactive\"}"
     fi
 }
 
