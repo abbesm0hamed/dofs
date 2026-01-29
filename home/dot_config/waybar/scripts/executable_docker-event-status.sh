@@ -23,10 +23,12 @@ get_status() {
     fi
 
     # Count running containers
-    RUNNING=$(docker ps -q 2>/dev/null | wc -l)
+    RUNNING_NAMES=$(docker ps --format '{{.Names}}' 2>/dev/null)
+    RUNNING=$(printf '%s\n' "$RUNNING_NAMES" | sed '/^$/d' | wc -l)
 
     if [ "$RUNNING" -gt 0 ]; then
-        echo "{\"text\": \"<span rise='1000'>󰡨</span> $RUNNING\", \"tooltip\": \"Active Containers: $RUNNING\", \"class\": \"active\"}"
+        TOOLTIP_NAMES=$(printf '%s\n' "$RUNNING_NAMES" | sed '/^$/d' | paste -sd ', ' -)
+        echo "{\"text\": \"<span rise='1000'>󰡨</span> $RUNNING\", \"tooltip\": \"Active Containers ($RUNNING): $TOOLTIP_NAMES\", \"class\": \"active\"}"
     else
         echo "{\"text\": \"<span rise='1000'>󰡨</span> 0\", \"tooltip\": \"No active containers\", \"class\": \"inactive\"}"
     fi
