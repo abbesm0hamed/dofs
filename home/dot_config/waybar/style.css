@@ -77,15 +77,15 @@ window#waybar {
 }
 
 #workspaces button.focused {
-  background: @ws_focused_bg;
+  background: @base;
   color: @ws_focused_fg;
-  border: @ws_focused_border 1px solid;
+  border: @overlay0 1px solid;
 }
 
 #workspaces button:hover {
   background: @surface0;
   color: @ws_focused_fg;
-  border: @ws_focused_border 1px solid;
+  border: @overlay0 1px solid;
 }
 
 #workspaces button.urgent {
@@ -100,7 +100,7 @@ window#waybar {
   font-weight: 600;
   padding: 0px 10px;
   border-radius: 0px;
-  background-color: @surface0;
+  background: @base;
   border-bottom: 1px solid @bar_border;
   margin: 0px 0px;
 }
@@ -123,7 +123,7 @@ window#waybar {
 #custom-niri-binds {
   padding: 0px 10px;
   margin: 0px 0px;
-  background-color: @surface0;
+  background: @base;
   border-bottom: 1px solid @bar_border;
   border-right: 2px dotted @overlay0;
 }
@@ -175,7 +175,7 @@ window#waybar {
 
 /* Tooltip */
 tooltip {
-  background: @surface0;
+  background: @base;
   color: @text;
   border: 1px solid @surface1;
   border-radius: 0px;
