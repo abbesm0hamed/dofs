@@ -75,18 +75,18 @@ apply_theme() {
         fi
     }
 
-    sync_file "theme.css" "$WAYBAR_OUT"
-    sync_file "colors.rasi" "$ROFI_OUT"
-    sync_file "colors.kdl" "$NIRI_OUT"
-    sync_file "theme.ini" "$FOOT_OUT"
-    sync_file "colors.lua" "$WEZTERM_OUT"
-    sync_file "mako.conf" "$MAKO_OUT"
-    sync_file "kitty.conf" "$KITTY_OUT"
-    sync_file "alacritty.toml" "$ALACRITTY_OUT"
-    sync_file "ranger.conf" "$RANGER_OUT"
-    sync_file "yazi.toml" "$YAZI_OUT"
-    sync_file "zed-settings.json" "$ZED_OUT"
-    sync_file "windsurf-settings.json" "$WINDSURF_OUT"
+    sync_file "waybar-theme.css" "$WAYBAR_OUT"
+    sync_file "rofi-colors.rasi" "$ROFI_OUT"
+    sync_file "niri-colors.kdl" "$NIRI_OUT"
+    sync_file "foot-theme.ini" "$FOOT_OUT"
+    sync_file "wezterm-colors.lua" "$WEZTERM_OUT"
+    sync_file "mako-theme.conf" "$MAKO_OUT"
+    sync_file "kitty-theme.conf" "$KITTY_OUT"
+    sync_file "alacritty-theme.toml" "$ALACRITTY_OUT"
+    sync_file "ranger-theme.conf" "$RANGER_OUT"
+    sync_file "yazi-theme.toml" "$YAZI_OUT"
+    sync_file "zed-theme.json" "$ZED_OUT"
+    sync_file "windsurf-theme.json" "$WINDSURF_OUT"
 
     # Save state early
     echo "$name" > "$STATE_FILE"
