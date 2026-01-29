@@ -21,15 +21,15 @@ window#waybar {
   background: transparent;
 }
 
-.modules-left>widget:first-child>* {
+.modules-left > widget:first-child > * {
   margin-left: 8px;
 }
 
-.modules-right>widget:last-child>* {
+.modules-right > widget:last-child > * {
   margin-right: 3px;
 }
 
-.modules-right>widget:not(:first-child) {
+.modules-right > widget:not(:first-child) {
   margin-left: -2px;
 }
 
@@ -101,6 +101,8 @@ window#waybar {
 
 #workspaces button.focused {
   color: @blue;
+  background: @bar_bg;
+  border-bottom: 1px solid @bar_border;
 }
 
 #workspaces button:hover {
@@ -122,7 +124,7 @@ window#waybar {
   padding: 0px 10px;
   border-radius: 0px;
   background-color: @surface0;
-  border-bottom: 1px solid @surface1;
+  border-bottom: 1px solid @bar_border;
   border-right: 2px dotted @overlay0;
   border-left: 2px dotted @overlay0;
 }
@@ -152,7 +154,7 @@ window#waybar {
   margin: 0px 0px;
   border-radius: 0px;
   background-color: @surface0;
-  border-bottom: 1px solid @surface1;
+  border-bottom: 1px solid @bar_border;
   border-right: 2px dotted @overlay0;
   border-left: 2px dotted @overlay0;
 }
@@ -192,17 +194,17 @@ window#waybar {
   border-left: 2px dotted @overlay0;
 }
 
-#tray>.passive {
+#tray > .passive {
   -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
+#tray > .needs-attention {
   -gtk-icon-effect: highlight;
 }
 
-#tray>.passive,
-#tray>.active,
-#tray>.needs-attention {
+#tray > .passive,
+#tray > .active,
+#tray > .needs-attention {
   padding: 0 4px;
 }
 
@@ -336,3 +338,4 @@ tooltip label {
 #custom-recording.recording-audio:hover {
   color: @blue;
 }
+

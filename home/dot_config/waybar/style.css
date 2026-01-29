@@ -2,7 +2,7 @@
 
 * {
   font-family: "JetBrains Mono", "Iosevka Medium Extended", "Inter", monospace;
-  font-size: 14px;
+  font-size: 13px;
   min-height: 0;
   border: none;
   border-radius: 0;
@@ -101,7 +101,7 @@ window#waybar {
   padding: 0px 10px;
   border-radius: 0px;
   background-color: @surface0;
-  border-bottom: 1px solid @surface1;
+  border-bottom: 1px solid @bar_border;
   margin: 0px 0px;
 }
 
@@ -124,7 +124,7 @@ window#waybar {
   padding: 0px 10px;
   margin: 0px 0px;
   background-color: @surface0;
-  border-bottom: 1px solid @surface1;
+  border-bottom: 1px solid @bar_border;
   border-right: 2px dotted @overlay0;
 }
 

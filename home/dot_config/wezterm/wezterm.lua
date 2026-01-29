@@ -6,7 +6,7 @@ return {
 		{ family = "Iosevka", stretch = "Expanded" },
 		-- { family = 'Noto Color Emoji' },
 	}),
-	font_size = 11.0,
+	font_size = 12.0,
 	freetype_load_target = "Light",
 	freetype_render_target = "HorizontalLcd",
 	freetype_load_flags = "NO_HINTING",

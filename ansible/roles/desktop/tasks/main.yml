@@ -11,6 +11,7 @@
       command: filezilla --version
       register: filezilla_version
       changed_when: false
+      failed_when: false
 
     - name: Display FileZilla version
       debug:
