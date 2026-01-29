@@ -19,13 +19,6 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^org\.wezfurlong\.wezterm$"#
-    default-column-width {}
-    draw-border-with-background false
-    tiled-state true
-}
-
-window-rule {
     match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|Antigravity|antigravity|Termius)$"#
     open-maximized true
 }
@@ -54,7 +47,7 @@ window-rule {
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
     open-maximized true
-    opacity 0.96
+    opacity 0.93
     draw-border-with-background false
     shadow { off; }
 }
@@ -62,8 +55,10 @@ window-rule {
 window-rule {
     match app-id=r#"^(org\.wezfurlong\.wezterm|org\.wezfurlong\.wezterm-nightly)$"#
     open-maximized true
-    opacity 0.96
+    opacity 0.93
     draw-border-with-background false
+    default-column-width {}
+    tiled-state true
 }
 
 window-rule {
