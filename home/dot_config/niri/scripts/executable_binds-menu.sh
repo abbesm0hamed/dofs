@@ -54,25 +54,37 @@ function clean_action(s) {
     gsub(/[ \t]+/, " ", s)
     return trim(s)
 }
-BEGIN { inblock=0; key=""; action="" }
+BEGIN { inblock=0; key=""; action=""; inbinds=0 }
 {
     line=$0
     # Skip comments and blank lines
     if (line ~ /^[ \t]*\/\//) next
     if (line ~ /^[ \t]*$/) next
 
+    # Enter/exit binds block
+    if (line ~ /^[ \t]*binds[ \t]*\{[ \t]*$/) {
+        inbinds=1
+        next
+    }
+    if (inbinds && line ~ /^[ \t]*\}[ \t]*$/) {
+        inbinds=0
+        next
+    }
+
+    if (!inbinds) next
+
     if (!inblock) {
         # Single-line bind: Key ... { ... }
-        if (match(line, /^[ \t]*([^ \t][^ {]*([+][^ {]+)*)[ \t]*\{(.*)\}[ \t]*$/, m)) {
+        if (match(line, /^[ \t]*([^ \t{]+)[ \t]*[^{}]*\{(.*)\}[ \t]*$/, m)) {
             key=m[1]
-            action=m[3]
+            action=m[2]
             action=clean_action(action)
             if (action != "") print key "\t" action
             next
         }
 
         # Start of multi-line bind: Key ... {
-        if (match(line, /^[ \t]*([^ \t][^ {]*([+][^ {]+)*)[ \t]*\{[ \t]*$/, m)) {
+        if (match(line, /^[ \t]*([^ \t{]+)[ \t]*[^{}]*\{[ \t]*$/, m)) {
             inblock=1
             key=m[1]
             action=""
