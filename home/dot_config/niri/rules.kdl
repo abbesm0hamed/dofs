@@ -47,7 +47,7 @@ window-rule {
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
     open-maximized true
-    opacity 0.93
+    opacity 0.95
     draw-border-with-background false
     shadow { off; }
 }
@@ -55,7 +55,7 @@ window-rule {
 window-rule {
     match app-id=r#"^(org\.wezfurlong\.wezterm|org\.wezfurlong\.wezterm-nightly)$"#
     open-maximized true
-    opacity 0.93
+    opacity 0.95
     draw-border-with-background false
     default-column-width {}
     tiled-state true
@@ -63,7 +63,7 @@ window-rule {
 
 window-rule {
     match app-id="kitty"
-    opacity 0.93
+    opacity 0.95
     draw-border-with-background false
 }
 

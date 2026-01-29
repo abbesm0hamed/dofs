@@ -74,24 +74,37 @@ window#waybar {
   /* background: @surface0; */
   color: @ws_fg;
   font-weight: 400;
+  font-size: 13px;
+}
+
+#workspaces button label {
+  font-size: 13px;
 }
 
 #workspaces button.focused {
-  background: @base;
+  background: @surface0;
   color: @ws_focused_fg;
-  border: @overlay0 1px solid;
+  border-right: 2px dotted @overlay0;
+  border-left: 2px dotted @overlay0;
+  border-bottom: 1px solid @bar_border;
+  font-weight: 400;
+  font-size: 13px;
 }
 
 #workspaces button:hover {
   background: @surface0;
   color: @ws_focused_fg;
   border: @overlay0 1px solid;
+  font-weight: 400;
+  font-size: 13px;
 }
 
 #workspaces button.urgent {
   background: @ws_urgent_bg;
   color: @ws_urgent_fg;
   border: @ws_urgent_border 1px solid;
+  font-weight: 400;
+  font-size: 13px;
 }
 
 /* Clock - center highlight */
@@ -100,7 +113,7 @@ window#waybar {
   font-weight: 600;
   padding: 0px 10px;
   border-radius: 0px;
-  background: @base;
+  background: @surface0;
   border-bottom: 1px solid @bar_border;
   margin: 0px 0px;
 }
@@ -123,7 +136,7 @@ window#waybar {
 #custom-niri-binds {
   padding: 0px 10px;
   margin: 0px 0px;
-  background: @base;
+  background: @surface0;
   border-bottom: 1px solid @bar_border;
   border-right: 2px dotted @overlay0;
 }
@@ -175,9 +188,9 @@ window#waybar {
 
 /* Tooltip */
 tooltip {
-  background: @base;
+  background: @surface0;
   color: @text;
-  border: 1px solid @surface1;
+  border: 1px dotted @overlay0;
   border-radius: 0px;
 }
 
