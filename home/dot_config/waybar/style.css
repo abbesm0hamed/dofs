@@ -140,8 +140,8 @@ window#waybar {
   padding: 0px 10px;
   margin: 0px 0px;
   background: @surface0;
-  border-bottom: 1px solid @bar_border;
-  border-right: 2px dotted @overlay0;
+  border-top: 2px dotted @overlay0;
+  border-bottom: 2px dotted @overlay0;
 }
 
 /* Battery states */
