@@ -59,10 +59,6 @@ window#waybar {
   padding: 0px 8px 0px 0px;
 }
 
-#tray {
-  border-left: 2px dotted @overlay0;
-}
-
 /* Workspaces */
 #workspaces {
   padding: 0px 0px;
@@ -129,6 +125,8 @@ window#waybar {
 #power_stats,
 #power,
 #clock,
+#custom-updates,
+#tray,
 #custom-next-prayer,
 #custom-notification-history {
   border-left: 2px dotted @overlay0;
@@ -220,11 +218,6 @@ tooltip label {
   color: @blue;
   border-radius: 0px;
   transition: background 0.2s ease;
-}
-
-#custom-updates {
-  border-left: 2px dotted @overlay0;
-  padding: 0px 4px 0px 10px;
 }
 
 /* Fingerprint module - only shows when not setup */
