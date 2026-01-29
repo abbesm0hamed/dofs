@@ -11,8 +11,9 @@
     creates: "{{ ansible_user_dir }}/.local/share/chezmoi"
 
 - name: Apply dotfiles
-  command: "chezmoi apply --source {{ playbook_dir }}/../home --force"
-  changed_when: true
+  command: "chezmoi apply --source {{ playbook_dir }}/../home"
+  register: chezmoi_apply
+  changed_when: "'No changes' not in chezmoi_apply.stdout"
 
 - name: Ensure .local/bin exists
   file:

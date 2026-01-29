@@ -1,4 +1,10 @@
 ---
+- name: Ensure dnf-plugins-core is installed
+  dnf:
+    name: dnf-plugins-core
+    state: present
+  become: true
+
 - name: Optimize DNF configuration
   lineinfile:
     path: /etc/dnf/dnf.conf

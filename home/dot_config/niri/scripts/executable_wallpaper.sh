@@ -42,10 +42,10 @@ else
     if [ -d "$1" ]; then
         DIR_PATH="$(readlink -f "$1")"
         shopt -s nullglob
-        for f in "$DIR_PATH"/default-workspace.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG} "$DIR_PATH"/workspace.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG}; do
+        for f in "$DIR_PATH"/default-workspace.{jpg,jpe,png,webp,jpeg,JPG,JPE,PNG,WEBP,JPEG} "$DIR_PATH"/workspace.{jpg,jpe,png,webp,jpeg,JPG,JPE,PNG,WEBP,JPEG}; do
             [ -f "$f" ] && FG_WALL="$f" && break
         done
-        for f in "$DIR_PATH"/default-backdrop.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG} "$DIR_PATH"/backdrop.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG} "$DIR_PATH"/blurry-workspace.{jpg,png,webp,jpeg,JPG,PNG,WEBP,JPEG}; do
+        for f in "$DIR_PATH"/default-backdrop.{jpg,jpe,png,webp,jpeg,JPG,JPE,PNG,WEBP,JPEG} "$DIR_PATH"/backdrop.{jpg,jpe,png,webp,jpeg,JPG,JPE,PNG,WEBP,JPEG} "$DIR_PATH"/blurry-workspace.{jpg,jpe,png,webp,jpeg,JPG,JPE,PNG,WEBP,JPEG}; do
             [ -f "$f" ] && BG_WALL="$f" && break
         done
         shopt -u nullglob

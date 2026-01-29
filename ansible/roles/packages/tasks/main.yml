@@ -3,6 +3,8 @@
   command: ansible-galaxy collection install community.general
   register: collection_install
   changed_when: "'is already installed' not in collection_install.stdout"
+  args:
+    creates: "{{ ansible_user_dir }}/.ansible/collections/ansible_collections/community/general"
 
 - name: Enable COPR repositories
   command: "dnf copr enable -y {{ item }}"

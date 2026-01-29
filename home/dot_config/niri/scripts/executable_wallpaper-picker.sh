@@ -18,7 +18,7 @@ WALLPAPERS=""
 for DIR in "$WALL_DIR" "$REPO_WALL_DIR"; do
     [ -d "$DIR" ] || continue
     WALLPAPERS=$(find "$DIR" -maxdepth 1 -type f \
-        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) \
+        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.jpe' -o -iname '*.png' -o -iname '*.webp' \) \
         ! -iname 'blurry-*' ! -iname 'current*' ! -iname 'generated-*' \
         -printf '%f\n' | sort || true)
     if [ -n "$WALLPAPERS" ]; then

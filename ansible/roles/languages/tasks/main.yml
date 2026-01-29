@@ -18,6 +18,7 @@
     corepack prepare pnpm@latest --activate
   args:
     executable: /bin/bash
+    creates: "{{ ansible_user_dir }}/.local/share/fnm/aliases/default"
   changed_when: false
 
 - name: Check if Bun is installed
@@ -48,5 +49,6 @@
     cargo install taplo-cli
   args:
     executable: /bin/bash
+    creates: "{{ ansible_user_dir }}/.cargo/bin/rustfmt"
   changed_when: false
 

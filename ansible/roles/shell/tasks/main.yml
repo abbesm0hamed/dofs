@@ -34,6 +34,12 @@
     state: present
   become: true
 
+- name: Check if Pokemon Colorscripts is installed
+  command: command -v pokemon-colorscripts
+  register: pokemon_colorscripts_check
+  changed_when: false
+  failed_when: false
+
 - name: Install Pokemon Colorscripts
   block:
     - name: Clone pokemon-colorscripts
@@ -47,4 +53,5 @@
         chdir: /tmp/pokemon-colorscripts
       become: true
       changed_when: false
+  when: pokemon_colorscripts_check.rc != 0
 
