@@ -158,24 +158,24 @@ return {
   --   priority = 1000,
   --   config = function()
   --     require("kanagawa").setup({
-  --       compile = false, -- enable compiling the colorscheme
+  --       compile = true, -- enable compiling the colorscheme
   --       undercurl = true, -- enable undercurls
   --       commentStyle = { italic = true },
-  --       functionStyle = { italic = false, bold = false },
+  --       functionStyle = { italic = true, bold = false },
   --       keywordStyle = { italic = false },
   --       statementStyle = { bold = true },
   --       typeStyle = {},
   --       transparent = true, -- do not set background color
-  --       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+  --       dimInactive = true, -- dim inactive window `:h hl-NormalNC`
   --       terminalColors = true, -- define vim.g.terminal_color_{0,17}
-  --       colors = {
-  --         -- add/modify theme and palette colors
-  --         palette = {},
-  --         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-  --       },
-  --       overrides = function(colors) -- add/modify highlights
-  --         return {}
-  --       end,
+  --       -- colors = {
+  --       --   -- add/modify theme and palette colors
+  --       --   palette = {},
+  --       --   theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+  --       -- },
+  --       -- overrides = function(colors) -- add/modify highlights
+  --       --   return {}
+  --       -- end,
   --       theme = "wave", -- Load "wave" theme when 'background' option is not set
   --       background = { -- map the value of 'background' option to a theme
   --         dark = "wave", -- try "dragon" !
@@ -183,7 +183,7 @@ return {
   --       },
   --     })
   --
-  --     vim.cmd("colorscheme kanagawa-dragon")
+  --     vim.cmd("colorscheme kanagawa-wave")
   --   end,
   -- },
   --
@@ -659,58 +659,58 @@ return {
         strings = {},
         variables = {},
       },
-      color_overrides = {
-        mocha = {
-          base = "#1f1f28", -- Kanagawa base
-          mantle = "#1f1f28",
-          crust = "#191922",
-        },
-      },
-      custom_highlights = function(colors)
-        return {
-          -- Main transparency
-          Normal = { bg = "none" },
-          NormalNC = { bg = "none" },
-          NormalFloat = { bg = "none" },
-          FloatBorder = { fg = colors.surface1, bg = "none" },
-
-          -- Popup menus
-          Pmenu = { bg = "none" },
-          PmenuSbar = { bg = "none" },
-          PmenuSel = { bg = colors.surface0 }, -- Keep selection visible
-          PmenuThumb = { bg = colors.surface0 },
-
-          -- Sidebars and trees
-          NvimTreeNormal = { bg = "none" },
-          NvimTreeNormalNC = { bg = "none" },
-          NeoTreeNormal = { bg = "none" },
-          NeoTreeNormalNC = { bg = "none" },
-
-          -- Telescope
-          TelescopeNormal = { bg = "none" },
-          TelescopeBorder = { bg = "none" },
-          TelescopePromptNormal = { bg = "none" },
-          TelescopeResultsNormal = { bg = "none" },
-          TelescopePreviewNormal = { bg = "none" },
-
-          -- Tab and status lines
-          TabLineFill = { bg = "none" },
-          StatusLine = { bg = colors.mantle }, -- Keep slightly visible
-          TabLine = { bg = colors.mantle },
-
-          -- Signs and columns
-          SignColumn = { bg = "none" },
-          FoldColumn = { bg = "none" },
-
-          -- Special windows
-          WhichKeyFloat = { bg = "none" },
-          LspFloatWinNormal = { bg = "none" },
-          DiagnosticFloatingError = { bg = "none" },
-          DiagnosticFloatingWarn = { bg = "none" },
-          DiagnosticFloatingInfo = { bg = "none" },
-          DiagnosticFloatingHint = { bg = "none" },
-        }
-      end,
+      -- color_overrides = {
+      --   mocha = {
+      --     base = "#1f1f28", -- Kanagawa base
+      --     mantle = "#1f1f28",
+      --     crust = "#191922",
+      --   },
+      -- },
+      -- custom_highlights = function(colors)
+      --   return {
+      --     -- Main transparency
+      --     Normal = { bg = "none" },
+      --     NormalNC = { bg = "none" },
+      --     NormalFloat = { bg = "none" },
+      --     FloatBorder = { fg = colors.surface1, bg = "none" },
+      --
+      --     -- Popup menus
+      --     Pmenu = { bg = "none" },
+      --     PmenuSbar = { bg = "none" },
+      --     PmenuSel = { bg = colors.surface0 }, -- Keep selection visible
+      --     PmenuThumb = { bg = colors.surface0 },
+      --
+      --     -- Sidebars and trees
+      --     NvimTreeNormal = { bg = "none" },
+      --     NvimTreeNormalNC = { bg = "none" },
+      --     NeoTreeNormal = { bg = "none" },
+      --     NeoTreeNormalNC = { bg = "none" },
+      --
+      --     -- Telescope
+      --     TelescopeNormal = { bg = "none" },
+      --     TelescopeBorder = { bg = "none" },
+      --     TelescopePromptNormal = { bg = "none" },
+      --     TelescopeResultsNormal = { bg = "none" },
+      --     TelescopePreviewNormal = { bg = "none" },
+      --
+      --     -- Tab and status lines
+      --     TabLineFill = { bg = "none" },
+      --     StatusLine = { bg = colors.mantle }, -- Keep slightly visible
+      --     TabLine = { bg = colors.mantle },
+      --
+      --     -- Signs and columns
+      --     SignColumn = { bg = "none" },
+      --     FoldColumn = { bg = "none" },
+      --
+      --     -- Special windows
+      --     WhichKeyFloat = { bg = "none" },
+      --     LspFloatWinNormal = { bg = "none" },
+      --     DiagnosticFloatingError = { bg = "none" },
+      --     DiagnosticFloatingWarn = { bg = "none" },
+      --     DiagnosticFloatingInfo = { bg = "none" },
+      --     DiagnosticFloatingHint = { bg = "none" },
+      --   }
+      -- end,
     },
     config = function(_, opts)
       require("catppuccin").setup(opts)
