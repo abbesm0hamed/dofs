@@ -71,6 +71,7 @@ cd ~/dofs
 ```
 
 **Bootstrap Options:**
+
 - `--dotfiles-only` - Only apply dotfiles (skip Ansible)
 - `--ansible-only` - Only run Ansible (skip dotfiles)
 - `--update` - Update existing installation
@@ -121,7 +122,7 @@ This setup includes:
 - Chromium, Zen Browser
 - Nautilus file manager
 - Slack, Discord
-- Zathura PDF viewer
+- Evince PDF viewer
 - And many more...
 
 ### Wayland Stack
@@ -187,6 +188,7 @@ dofs/
 ```
 
 **Key Principles:**
+
 - **Ansible** handles system configuration and package installation
 - **chezmoi** manages user dotfiles in `home/`
 - **Scripts** provide standalone maintenance utilities

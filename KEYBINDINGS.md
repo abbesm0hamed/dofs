@@ -32,7 +32,7 @@
 | `Alt+Space                `         | `sh -c ~/.config/niri/scripts/system-controls.sh             `                                                                                                              |
 | `Alt+S                    `         | `sh -c ~/.config/niri/scripts/settings-menu.sh               `                                                                                                              |
 | `Alt+Tab                  `         | `focus-workspace-previous                                    `                                                                                                              |
-| `Alt+T                    `         | `zathura                                                     `                                                                                                              |
+| `Alt+T                    `         | `evince                                                      `                                                                                                              |
 | `Alt+V                    `         | `toggle-window-floating                                      `                                                                                                              |
 | `Alt+W                    `         | `chromium-browser --app=https://web.whatsapp.com             `                                                                                                              |
 | `Alt+Z                    `         | `flatpak run app.zen_browser.zen                             `                                                                                                              |

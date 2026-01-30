@@ -21,7 +21,7 @@
         spawn "hyprlock"
     }
     Alt+E { spawn "nautilus"; }
-    Alt+T { spawn "zathura"; }  // Quick PDF viewer launch
+    Alt+T { spawn "evince"; }  // Quick PDF viewer launch
     Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }
     Alt+Shift+C { spawn "chromium-browser" "--app=https://claude.ai/new"; }
     Alt+D { spawn "chromium-browser" "--app=https://discord.com/app"; }

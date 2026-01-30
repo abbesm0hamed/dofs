@@ -13,7 +13,6 @@ copr_repos:
   - peterwu/rendezvous
   - yorickpeterse/stylua
 
-
 dnf_packages:
   # system.txt
   - ImageMagick
@@ -60,7 +59,6 @@ dnf_packages:
   - v4l2-relayd
   - tailscale
 
-  
   # desktop.txt
   - chromium
   - flatpak
@@ -68,7 +66,7 @@ dnf_packages:
   - gvfs
   - ffmpegthumbnailer
   - gnome-control-center
-  - zathura
+  - evince
   - qbittorrent
   - switcheroo-control
 
@@ -223,5 +221,3 @@ flatpaks:
   - com.github.IsmaelMartinez.teams_for_linux
   - net.davidotek.pupgui2
   - org.localsend.localsend_app
-
-
