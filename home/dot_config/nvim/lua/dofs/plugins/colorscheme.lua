@@ -1,4 +1,90 @@
 return {
+  -- catppuccin with kanagawa bg
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    event = "VimEnter",
+    priority = 1000,
+    opts = {
+      flavour = "mocha", -- you can try "macchiato" too
+      transparent_background = true, -- CHANGED: Enable transparency
+      background = {
+        dark = "mocha",
+        light = "latte",
+      },
+      styles = {
+        comments = { "italic" },
+        functions = {},
+        keywords = { "italic" },
+        strings = {},
+        variables = {},
+      },
+      color_overrides = {
+        mocha = {
+          base = "#1e1e2e",
+          mantle = "#171722",
+          crust = "#0f0f17",
+        },
+      },
+      custom_highlights = function(colors)
+        return {
+          -- Transparency base
+          Normal = { bg = "none" },
+          NormalNC = { bg = "none" },
+          NormalFloat = { bg = "none" },
+
+          -- Borders & separators
+          FloatBorder = { fg = colors.surface2, bg = "none" },
+          WinSeparator = { fg = colors.surface1 },
+
+          -- Cursor & selection
+          CursorLine = { bg = colors.surface0 },
+          CursorLineNr = { fg = colors.lavender, style = { "bold" } },
+          Visual = { bg = colors.surface1 },
+
+          -- Comments
+          Comment = { fg = colors.overlay1, style = { "italic" } },
+
+          -- Search
+          Search = { bg = colors.yellow, fg = colors.crust },
+          IncSearch = { bg = colors.peach, fg = colors.crust },
+
+          -- Popup menu
+          Pmenu = { bg = "none" },
+          PmenuSel = { bg = colors.surface0 },
+          PmenuThumb = { bg = colors.surface1 },
+
+          -- Sidebars
+          NvimTreeNormal = { bg = "none" },
+          NeoTreeNormal = { bg = "none" },
+
+          -- Statusline / tabs
+          StatusLine = { bg = colors.mantle },
+          TabLine = { bg = colors.mantle },
+          TabLineFill = { bg = "none" },
+
+          -- Diagnostics
+          DiagnosticError = { fg = colors.red },
+          DiagnosticWarn = { fg = colors.yellow },
+          DiagnosticInfo = { fg = colors.blue },
+          DiagnosticHint = { fg = colors.teal },
+
+          DiagnosticVirtualTextError = { fg = colors.red, bg = colors.surface0 },
+          DiagnosticVirtualTextWarn = { fg = colors.yellow, bg = colors.surface0 },
+
+          -- Columns
+          SignColumn = { bg = "none" },
+          FoldColumn = { bg = "none" },
+        }
+      end,
+    },
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin")
+    end,
+  },
+  --
   -- vague 4 the win
   -- {
   --   "vague2k/vague.nvim",
@@ -128,19 +214,6 @@ return {
   --     vim.api.nvim_set_hl(0, "TabLineFill", { bg = "none" })
   --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
   --     vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
-  --
-  --     -- File tree transparency (if using nvim-tree or neo-tree)
-  --     vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
-  --
-  --     -- Telescope transparency
-  --     vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "none" })
   --
   --     -- Keep some elements slightly visible for readability
   --     vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1e2124" })
@@ -638,85 +711,6 @@ return {
   --     vim.cmd("colorscheme kanso")
   --   end,
   -- },
-  --
-  -- catppuccin with kanagawa bg
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = false,
-    priority = 1000,
-    opts = {
-      flavour = "mocha", -- you can try "macchiato" too
-      transparent_background = true, -- CHANGED: Enable transparency
-      background = {
-        dark = "mocha",
-        light = "latte",
-      },
-      styles = {
-        comments = { "italic" },
-        functions = {},
-        keywords = { "italic" },
-        strings = {},
-        variables = {},
-      },
-      -- color_overrides = {
-      --   mocha = {
-      --     base = "#1f1f28", -- Kanagawa base
-      --     mantle = "#1f1f28",
-      --     crust = "#191922",
-      --   },
-      -- },
-      -- custom_highlights = function(colors)
-      --   return {
-      --     -- Main transparency
-      --     Normal = { bg = "none" },
-      --     NormalNC = { bg = "none" },
-      --     NormalFloat = { bg = "none" },
-      --     FloatBorder = { fg = colors.surface1, bg = "none" },
-      --
-      --     -- Popup menus
-      --     Pmenu = { bg = "none" },
-      --     PmenuSbar = { bg = "none" },
-      --     PmenuSel = { bg = colors.surface0 }, -- Keep selection visible
-      --     PmenuThumb = { bg = colors.surface0 },
-      --
-      --     -- Sidebars and trees
-      --     NvimTreeNormal = { bg = "none" },
-      --     NvimTreeNormalNC = { bg = "none" },
-      --     NeoTreeNormal = { bg = "none" },
-      --     NeoTreeNormalNC = { bg = "none" },
-      --
-      --     -- Telescope
-      --     TelescopeNormal = { bg = "none" },
-      --     TelescopeBorder = { bg = "none" },
-      --     TelescopePromptNormal = { bg = "none" },
-      --     TelescopeResultsNormal = { bg = "none" },
-      --     TelescopePreviewNormal = { bg = "none" },
-      --
-      --     -- Tab and status lines
-      --     TabLineFill = { bg = "none" },
-      --     StatusLine = { bg = colors.mantle }, -- Keep slightly visible
-      --     TabLine = { bg = colors.mantle },
-      --
-      --     -- Signs and columns
-      --     SignColumn = { bg = "none" },
-      --     FoldColumn = { bg = "none" },
-      --
-      --     -- Special windows
-      --     WhichKeyFloat = { bg = "none" },
-      --     LspFloatWinNormal = { bg = "none" },
-      --     DiagnosticFloatingError = { bg = "none" },
-      --     DiagnosticFloatingWarn = { bg = "none" },
-      --     DiagnosticFloatingInfo = { bg = "none" },
-      --     DiagnosticFloatingHint = { bg = "none" },
-      --   }
-      -- end,
-    },
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
-    end,
-  },
   --
   -- {
   --   "phha/zenburn.nvim",
