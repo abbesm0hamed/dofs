@@ -58,6 +58,11 @@ keymap.set("n", "<leader>r", resize_window, { desc = "Enter Resize Mode" })
 keymap.set("n", "<C-k>", "<C-W>k", { desc = "Jump to Previous Horizontal Tab", remap = true })
 keymap.set("n", "<C-j>", "<C-W>j", { desc = "Jump to Next Horizontal Tab", remap = true })
 
+keymap.set("n", "<C-Up>", "<cmd>resize +3<cr>", { desc = "Resize split up" })
+keymap.set("n", "<C-Down>", "<cmd>resize -3<cr>", { desc = "Resize split down" })
+keymap.set("n", "<C-Left>", "<cmd>vertical resize -3<cr>", { desc = "Resize split left" })
+keymap.set("n", "<C-Right>", "<cmd>vertical resize +3<cr>", { desc = "Resize split right" })
+
 -- buffers
 keymap.set("n", "[b", "<cmd>bprev<CR>", { desc = "Jump to previous buffer", silent = true })
 keymap.set("n", "]b", "<cmd>bnext<CR>", { desc = "Jump to next buffer", silent = true })

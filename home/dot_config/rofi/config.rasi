@@ -3,7 +3,7 @@ configuration {
     show-icons: true;
     application-fallback-icon: "application-x-executable";
     case-sensitive: false;
-    drun-use-desktop-cache: true;
+    drun-use-desktop-cache: false;
     terminal: "foot";
     drun-display-format: "{icon} {name}";
     location: 0;
