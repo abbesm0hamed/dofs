@@ -25,7 +25,8 @@
     Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }
     Alt+Shift+C { spawn "chromium-browser" "--app=https://claude.ai/new"; }
     Alt+D { spawn "chromium-browser" "--app=https://discord.com/app"; }
-    Alt+W { spawn "chromium-browser" "--app=https://web.whatsapp.com"; }
+    // Alt+W { spawn "chromium-browser" "--app=https://web.whatsapp.com"; }
+    Alt+W { spawn "zapzap"; }
     Alt+N { spawn "chromium-browser" "--app=https://notion.so"; }
     Alt+F { spawn "chromium-browser" "--app=https://figma.com"; }
 

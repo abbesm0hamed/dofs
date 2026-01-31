@@ -12,6 +12,7 @@ copr_repos:
   - solopasha/hyprland
   - peterwu/rendezvous
   - yorickpeterse/stylua
+  - rafatosta/zapzap # whatsapp repo
 
 dnf_packages:
   # system.txt
@@ -209,6 +210,7 @@ dnf_packages:
   - kanshi
   - wayscriber
   - hyprpicker
+  - zapzap # whatsapp
 
 flatpaks:
   - app.zen_browser.zen
