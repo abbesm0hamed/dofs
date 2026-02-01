@@ -39,6 +39,8 @@ dnf_packages:
   - nwg-look
   - qt5ct
   - qt6ct
+  - qgnomeplatform-qt5
+  - qgnomeplatform-qt6
   - udiskie
   - inxi
   - plocate
@@ -70,6 +72,7 @@ dnf_packages:
   - evince
   - qbittorrent
   - switcheroo-control
+  - telegram-desktop
 
   - zip
   - xz
@@ -223,3 +226,4 @@ flatpaks:
   - com.github.IsmaelMartinez.teams_for_linux
   - net.davidotek.pupgui2
   - org.localsend.localsend_app
+  - org.gtk.Gtk3theme.adw-gtk3

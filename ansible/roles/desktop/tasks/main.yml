@@ -105,6 +105,21 @@
             remote_src: yes
       when: not banana_cursors.stat.exists
 
+- name: Setup GTK theme
+  block:
+    - name: Install adw-gtk3 theme
+      dnf:
+        name: adw-gtk3-theme
+        state: present
+      become: true
+
+    - name: Apply adw-gtk3 GTK theme (GNOME)
+      command: gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3"
+      changed_when: false
+
+    - name: Prefer dark color scheme (GNOME)
+      command: gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+      changed_when: false
 
 - name: Gaming optimizations
   block:

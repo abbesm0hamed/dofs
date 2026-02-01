@@ -66,16 +66,8 @@ window#waybar {
 }
 
 #workspaces button {
-  padding: 0 2px;
-  /* background: @surface0; */
+  padding: 0px 0px;
   color: @ws_fg;
-  font-weight: 400;
-  font-size: 13px;
-  min-height: 18px;
-}
-
-#workspaces button label {
-  font-size: 13px;
 }
 
 #workspaces button.focused {
@@ -84,28 +76,18 @@ window#waybar {
   border-right: 2px dotted @overlay0;
   border-left: 2px dotted @overlay0;
   border-bottom: 1px solid @bar_border;
-  font-weight: 400;
-  font-size: 13px;
 }
 
 #workspaces button:hover {
   background: @surface0;
-  /* color: @ws_focused_fg; */
-  box-shadow:
-    inset 0 0px 0 @overlay0,
-    inset 0 0px 0 @overlay0;
   border-top: 2px dotted @overlay0;
   border-bottom: 2px dotted @overlay0;
-  font-weight: 400;
-  font-size: 13px;
 }
 
 #workspaces button.urgent {
   background: @ws_urgent_bg;
   color: @ws_urgent_fg;
   border: @ws_urgent_border 1px solid;
-  font-weight: 400;
-  font-size: 13px;
 }
 
 /* Clock - center highlight */

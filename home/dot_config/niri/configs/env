@@ -14,13 +14,8 @@ export XCURSOR_SIZE=18
 # Qt
 export QT_QPA_PLATFORM="wayland;xcb"
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-if command -v qt6ct >/dev/null 2>&1; then
-    export QT_QPA_PLATFORMTHEME="qt6ct"
-elif command -v qt5ct >/dev/null 2>&1; then
-    export QT_QPA_PLATFORMTHEME="qt5ct"
-else
-    export QT_QPA_PLATFORMTHEME="gtk3"
-fi
+export QT_STYLE_OVERRIDE=adwaita-dark
+export QT_QPA_PLATFORMTHEME="gtk3"
 
 # Hardware Acceleration & GPU Specifics
 # Attempt to detect Intel hardware
