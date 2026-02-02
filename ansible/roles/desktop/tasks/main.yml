@@ -49,30 +49,6 @@
       file:
         path: "{{ ansible_user_dir }}/.local/share/icons"
         state: directory
-    - name: Check if Layan cursors exist
-      stat:
-        path: "{{ ansible_user_dir }}/.local/share/icons/Layan-white-cursors"
-      register: layan_cursors
-
-    - name: Install Layan cursors
-      block:
-        - name: Remove existing Layan cursors directory
-          file:
-            path: /tmp/Layan-cursors
-            state: absent
-          become: true
-
-        - name: Clone Layan cursors
-          git:
-            repo: https://github.com/vinceliuice/Layan-cursors.git
-            dest: /tmp/Layan-cursors
-
-        - name: Run Layan cursors installer
-          command: ./install.sh
-          args:
-            chdir: /tmp/Layan-cursors
-          changed_when: true
-      when: not layan_cursors.stat.exists
 
     - name: Check if Banana cursors exist
       stat:

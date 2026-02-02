@@ -1,4 +1,4 @@
-.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply
+.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply update
 
 DOTFILES_SOURCE := $(CURDIR)/home
 
@@ -15,3 +15,7 @@ waybar-reload:
 	pkill -SIGUSR2 waybar || (pkill waybar && sleep 0.2 && waybar &)
 
 waybar-apply: dotapp waybar-reload
+
+update:
+	./scripts/maintenance/update-all.sh
+
