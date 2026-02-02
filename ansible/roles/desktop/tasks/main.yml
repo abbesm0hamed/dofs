@@ -117,8 +117,8 @@
       command: gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3"
       changed_when: false
 
-    - name: Prefer dark color scheme (GNOME)
-      command: gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+    - name: Prefer light color scheme (GNOME)
+      command: gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
       changed_when: false
 
 - name: Gaming optimizations
