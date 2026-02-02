@@ -1,5 +1,5 @@
 {
-    "layer": "top",
+    "layer": "top", // update this to bottom if you want the bar to stay on the workspace on niri overview
     "position": "top",
     "output": [
         "eDP-1",
