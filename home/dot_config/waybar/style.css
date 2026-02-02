@@ -114,6 +114,10 @@ window#waybar {
   border-left: 2px dotted @overlay0;
 }
 
+#brightness_audio {
+  background: @surface0;
+}
+
 #custom-power:hover {
   color: @red;
 }
