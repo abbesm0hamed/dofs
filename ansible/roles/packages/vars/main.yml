@@ -70,6 +70,8 @@ dnf_packages:
   - ffmpegthumbnailer
   - gnome-control-center
   - evince
+  - gimp
+  - kdenlive
   - qbittorrent
   - switcheroo-control
   - telegram-desktop
