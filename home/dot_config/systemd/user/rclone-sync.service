@@ -6,7 +6,8 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=%h/dofs/scripts/obsidian/sync.sh
+EnvironmentFile=-%h/.config/dofs/obsidian-sync.env
+ExecStart=/usr/bin/bash %h/dofs/scripts/obsidian/sync.sh
 StandardOutput=journal
 StandardError=journal
 

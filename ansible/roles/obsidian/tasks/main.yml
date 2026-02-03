@@ -27,6 +27,18 @@
     state: directory
     recurse: yes
 
+- name: Ensure Obsidian sync scripts directory exists
+  file:
+    path: "{{ ansible_user_dir }}/dofs/scripts/obsidian"
+    state: directory
+    mode: '0755'
+
+- name: Install Obsidian rclone sync script
+  copy:
+    dest: "{{ ansible_user_dir }}/dofs/scripts/obsidian/sync.sh"
+    src: "{{ playbook_dir }}/../scripts/obsidian/sync.sh"
+    mode: '0755'
+
 - name: Setup rclone sync systemd units
   copy:
     dest: "{{ ansible_user_dir }}/.config/systemd/user/{{ item }}"

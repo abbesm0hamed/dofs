@@ -59,7 +59,15 @@ return {
       "<leader>oz",
       function()
         vim.notify("Starting Obsidian sync... (Desktop notification will follow on completion)", vim.log.levels.INFO)
-        vim.fn.jobstart({ "systemctl", "--user", "start", "rclone-sync.service" })
+        vim.fn.jobstart({ "systemctl", "--user", "start", "rclone-sync.service" }, {
+          on_exit = function(_, code, _)
+            if code == 0 then
+              vim.notify("Obsidian sync triggered (rclone-sync.service started)", vim.log.levels.INFO)
+            else
+              vim.notify("Failed to start rclone-sync.service (exit code: " .. tostring(code) .. ")", vim.log.levels.ERROR)
+            end
+          end,
+        })
       end,
       desc = "Obsidian: Force Sync (Trigger Service)",
     },
