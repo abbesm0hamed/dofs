@@ -1,4 +1,4 @@
-theme = "catppuccin_mocha"
+theme = "catppuccin_mocha_transparent"
 # theme = "onelight"
 # theme = "solarized_light"
 # theme = "github_light"
@@ -42,6 +42,31 @@ C-h = "jump_view_left"
 C-l = "jump_view_right"
 C-k = "jump_view_up"
 C-j = "jump_view_down"
+
+[keys.normal.space]
+"," = "buffer_picker"
+
+[keys.normal.space.f]
+f = "file_picker"
+s = "global_search"
+n = ":new"
+g = "changed_file_picker"
+
+[keys.normal.space.s]
+w = "global_search"
+
+[keys.normal.space.l]
+g = [
+  ":write-all",
+  ":new",
+  ":insert-output lazygit",
+  ":buffer-close!",
+  ":redraw",
+  ":reload-all",
+]
+
+[keys.insert]
+j = { k = "normal_mode" }
 
 [keys.normal."'"]
 f = ":format"

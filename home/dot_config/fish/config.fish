@@ -27,6 +27,7 @@ if status is-interactive
     alias ..="cd .."
     alias lns="ln -s" # target file location -> destination file location
     alias v="nvim"
+    alias hlx="hx -w ."
     alias l="ls"
     alias c="clear"
     alias ff="fastfetch"
