@@ -1,0 +1,38 @@
+---
+- name: Check if Ollama is installed
+  command: command -v ollama
+  register: ollama_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Ollama
+  shell: curl -fsSL https://ollama.com/install.sh | sh
+  args:
+    executable: /bin/bash
+  become: true
+  when: ollama_check.rc != 0
+
+- name: Enable and start ollama service
+  systemd:
+    name: ollama
+    enabled: yes
+    state: started
+  become: true
+
+- name: Check if deepseek-coder model is already available
+  shell: |
+    export PATH="/usr/local/bin:$PATH"
+    ollama list | awk '{print $1}' | grep -x deepseek-coder
+  args:
+    executable: /bin/bash
+  register: deepseek_model_check
+  changed_when: false
+  failed_when: false
+
+- name: Pull deepseek-coder model
+  shell: |
+    export PATH="/usr/local/bin:$PATH"
+    ollama pull deepseek-coder
+  args:
+    executable: /bin/bash
+  when: deepseek_model_check.rc != 0
