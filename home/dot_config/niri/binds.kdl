@@ -20,6 +20,7 @@
     Alt+Ctrl+L {
         spawn "hyprlock"
     }
+    Mod+Y { spawn "flatpak" "run" "dev.bragefuglseth.Keypunch"; }
     Alt+E { spawn "nautilus"; }
     Alt+T { spawn "evince"; }  // Quick PDF viewer launch
     Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }
