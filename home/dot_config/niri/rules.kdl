@@ -47,7 +47,7 @@ window-rule {
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty)$"#
     open-maximized true
-    opacity 0.95
+    opacity 0.96
     draw-border-with-background false
     shadow { off; }
 }
@@ -55,7 +55,7 @@ window-rule {
 window-rule {
     match app-id=r#"^(org\.wezfurlong\.wezterm|org\.wezfurlong\.wezterm-nightly)$"#
     open-maximized true
-    opacity 0.95
+    opacity 0.96
     draw-border-with-background false
     default-column-width {}
     tiled-state true
@@ -63,26 +63,26 @@ window-rule {
 
 window-rule {
     match app-id="kitty"
-    opacity 0.95
+    opacity 0.96
     draw-border-with-background false
 }
 
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty(\..*)?)$"#
     match is-focused=false
-    opacity 0.90
+    opacity 0.93
 }
 
 window-rule {
     match app-id=r#"^(org\.wezfurlong\.wezterm|org\.wezfurlong\.wezterm-nightly)$"#
     match is-focused=false
-    opacity 0.90
+    opacity 0.93
 }
 
 window-rule {
     match app-id="kitty"
     match is-focused=false
-    opacity 0.90
+    opacity 0.93
 }
 
 window-rule {
