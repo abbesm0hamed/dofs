@@ -68,6 +68,24 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty(\..*)?)$"#
+    match is-focused=false
+    opacity 0.90
+}
+
+window-rule {
+    match app-id=r#"^(org\.wezfurlong\.wezterm|org\.wezfurlong\.wezterm-nightly)$"#
+    match is-focused=false
+    opacity 0.90
+}
+
+window-rule {
+    match app-id="kitty"
+    match is-focused=false
+    opacity 0.90
+}
+
+window-rule {
     match app-id=r#"^([Zz]en.*|app\.zen_browser\.zen|firefox|chromium|chromium-browser|google-chrome|brave)$"#
     open-on-workspace "browser"
     default-column-width { proportion 1.0; }

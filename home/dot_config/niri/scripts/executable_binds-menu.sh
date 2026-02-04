@@ -66,7 +66,7 @@ BEGIN { inblock=0; key=""; action=""; inbinds=0 }
         inbinds=1
         next
     }
-    if (inbinds && line ~ /^[ \t]*\}[ \t]*$/) {
+    if (inbinds && !inblock && line ~ /^[ \t]*\}[ \t]*$/) {
         inbinds=0
         next
     }

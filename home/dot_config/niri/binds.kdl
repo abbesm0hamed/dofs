@@ -7,13 +7,16 @@
     Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-btop btop"; }
     Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-yazi yazi"; }
     Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-lazydocker lazydocker"; }
-    Mod+Shift+D { spawn "sh" "-c" "~/.config/niri/scripts/toggle-dock.sh"; }
     Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-ranger ranger"; }
     Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-weather bash ~/.config/niri/scripts/weather.sh"; }
-    Mod+Alt+B cooldown-ms=500 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }
     Mod+Alt+Shift+B { spawn "sh" "-c" "~/.config/niri/scripts/waybar-switcher.sh"; }
+    
+    Mod+Alt+B cooldown-ms=500 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }
+    Mod+Shift+D { spawn "sh" "-c" "~/.config/niri/scripts/toggle-dock.sh"; }
     Mod+Alt+G { spawn "sh" "-c" "~/.config/niri/scripts/toggle-gaps.sh"; }
     Mod+Alt+A { spawn "sh" "-c" "~/.config/niri/scripts/toggle-animations.sh"; }
+    Mod+Alt+O { spawn "sh" "-c" "~/.config/niri/scripts/toggle-transparency.sh"; }
+
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Alt+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
     Mod+Space { spawn "rofi" "-show" "drun"; }
