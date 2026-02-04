@@ -58,7 +58,7 @@
     "memory": {
         "interval": 30,
         "format": "<span rise='1000'></span> {percentage}%",
-        "tooltip-format": "Memory Usage: {percentage}%",
+        "tooltip-format": "Memory: {used:0.1f}GiB / {total:0.1f}GiB ({percentage}%)",
         "on-click": "wezterm start -- btop",
         "on-scroll-up": "true",
         "on-scroll-down": "true"
@@ -137,7 +137,9 @@
         "format": "{}",
         "exec": "~/.config/waybar/scripts/docker-event-status.sh",
         "return-type": "json",
-        "interval": 30
+        "interval": 30,
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "custom/next-prayer": {
         "format": "{}",
@@ -172,14 +174,18 @@
         "tooltip-format-disabled": "Bluetooth: Disabled",
         "tooltip-format-off": "Bluetooth: Off",
         "on-click": "blueman-manager",
-        "on-click-right": "bluetoothctl power toggle"
+        "on-click-right": "bluetoothctl power toggle",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "group/connectivity": {
         "orientation": "horizontal",
         "modules": [
             "bluetooth",
             "network"
-        ]
+        ],
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "group/monitoring": {
         "orientation": "horizontal",
@@ -188,21 +194,27 @@
             "custom/storage",
             "memory",
             "cpu"
-        ]
+        ],
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "group/power_stats": {
         "orientation": "horizontal",
         "modules": [
             "battery",
             "power-profiles-daemon"
-        ]
+        ],
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "group/power": {
         "orientation": "horizontal",
         "modules": [
             "custom/idle_inhibitor",
             "custom/power"
-        ]
+        ],
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "group/brightness_audio": {
         "orientation": "horizontal",
@@ -217,7 +229,9 @@
         "exec": "if systemctl --user is-active --quiet swayidle.service 2>/dev/null || pgrep -x swayidle >/dev/null 2>&1; then echo '{\"text\":\"<span rise=\\\"1000\\\">󰅶</span>\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"<span rise=\\\"1000\\\">󰾪</span>\",\"tooltip\":\"Idle: OFF\"}'; fi",
         "interval": 5,
         "on-click": "~/.config/waybar/scripts/toggle-idle.sh",
-        "signal": 10
+        "signal": 10,
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "custom/weather": {
         "format": "{}",
@@ -232,14 +246,16 @@
     "custom/power": {
         "format": "<span rise='1000'></span>",
         "tooltip": false,
-        "on-click": "~/.config/waybar/scripts/power-menu.sh"
+        "on-click": "~/.config/waybar/scripts/power-menu.sh",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "custom/notifications": {
         "tooltip": false,
         "format": "{icon}",
         "format-icons": {
             "notification": "<span foreground='#f9e2af'>󰂚</span>",
-            "none": "<span>󰂛</span>", // "󰂛"
+            "none": "<span>󰂛</span>" // "󰂛"
         },
         "return-type": "json",
         "exec-if": "command -v makoctl",
@@ -255,21 +271,28 @@
         "exec": "~/.config/waybar/scripts/mako-history-status.sh",
         "interval": 5,
         "on-click": "~/.config/waybar/scripts/mako-history-menu.sh",
-        "on-click-right": "makoctl restore"
+        "on-click-right": "makoctl restore",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "custom/niri-binds": {
         "format": "<span rise='1000'></span>",
         "tooltip": true,
         "tooltip-format": "show niri binds",
-        "on-click": "sh -c '~/.config/niri/scripts/binds-menu.sh'"
+        "on-click": "sh -c '~/.config/niri/scripts/binds-menu.sh'",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "custom/fingerprint": {
-        "format": " {text} ",
+        "format": "{text}",
         "return-type": "json",
+        "exec-if": "~/.config/waybar/scripts/fingerprint-status.sh --exec-if",
         "exec": "~/.config/waybar/scripts/fingerprint-status.sh",
         "interval": 30,
         "on-click": "wezterm start -- bash -c '$HOME/.config/waybar/scripts/fingerprint-setup.sh setup; read -p \"Press Enter to close...\"'",
-        "tooltip": true
+        "tooltip": true,
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "clock": {
         "format": "{:%d, %H:%M}",
@@ -413,7 +436,9 @@
         "interval": 1,
         "signal": 8,
         "tooltip": true,
-        "on-click": "sh -c '~/.config/niri/scripts/screencast.sh toggle-screen'"
+        "on-click": "sh -c '~/.config/niri/scripts/screencast.sh toggle-screen'",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "power-profiles-daemon": {
         "format": "<span rise='1000'>{icon}</span>",
@@ -432,12 +457,16 @@
         "on-click": "wezterm start -- sh -c '~/dofs/scripts/maintenance/update-all.sh && rm /tmp/waybar_check_updates_cache && pkill -RTMIN+9 waybar'",
         "interval": 3600,
         "exec": "~/.config/waybar/scripts/check-updates.sh",
-        "signal": 9
+        "signal": 9,
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     },
     "custom/cava": {
         "format": "{}",
         "escape": false,
         "exec": "python3 ~/.config/waybar/scripts/cava.py --bars 5 --framerate 48 --palette default",
-        "on-click": "pkill -USR1 cava"
+        "on-click": "pkill -USR1 cava",
+        "on-scroll-up": "true",
+        "on-scroll-down": "true"
     }
 }

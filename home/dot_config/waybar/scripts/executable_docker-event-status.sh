@@ -28,9 +28,9 @@ get_status() {
 
     if [ "$RUNNING" -gt 0 ]; then
         TOOLTIP_NAMES=$(printf '%s\n' "$RUNNING_NAMES" | sed '/^$/d' | awk 'NR==1 {printf "%s", $0; next} {printf "\\n%s", $0}')
-        echo "{\"text\": \"<span rise='1000'>󰡨</span> $RUNNING\", \"tooltip\": \"Active Containers ($RUNNING):\\n$TOOLTIP_NAMES\", \"class\": \"active\"}"
+        printf '%s\n' "{\"text\": \"<span rise='1000'>󰡨</span> $RUNNING\", \"tooltip\": \"Active Containers ($RUNNING):\\n$TOOLTIP_NAMES\", \"class\": \"active\"}"
     else
-        echo "{\"text\": \"<span rise='1000'>󰡨</span> 0\", \"tooltip\": \"No active containers\", \"class\": \"inactive\"}"
+        printf '%s\n' "{\"text\": \"<span rise='1000'>󰡨</span> 0\", \"tooltip\": \"No active containers\", \"class\": \"inactive\"}"
     fi
 }
 
