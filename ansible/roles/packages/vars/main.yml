@@ -122,7 +122,6 @@ dnf_packages:
   - tmux
   - lazygit
   - yazi
-  - windsurf
   - git-delta
   - tealdeer
   - tokei

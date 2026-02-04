@@ -1,0 +1,118 @@
+---
+- name: Add Windsurf repository
+  block:
+    - name: Import Windsurf GPG key
+      rpm_key:
+        state: present
+        key: https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
+      become: true
+
+    - name: Configure Windsurf repository
+      yum_repository:
+        name: windsurf
+        description: Windsurf Repository
+        baseurl: https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/
+        enabled: yes
+        gpgcheck: yes
+        gpgkey: https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
+      become: true
+
+- name: Add Antigravity repository
+  yum_repository:
+    name: antigravity-rpm
+    description: Antigravity RPM Repository
+    baseurl: https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
+    enabled: yes
+    gpgcheck: no
+  become: true
+
+- name: Install Windsurf
+  dnf:
+    name: windsurf
+    state: present
+  become: true
+
+- name: Install Antigravity
+  dnf:
+    name: antigravity
+    state: present
+  become: true
+
+- name: Install TablePlus repository
+  block:
+    - name: Import TablePlus GPG key
+      rpm_key:
+        state: present
+        key: https://yum.tableplus.com/apt.tableplus.com.gpg.key
+      become: true
+
+    - name: Download TablePlus repo file
+      get_url:
+        url: https://yum.tableplus.com/rpm/x86_64/tableplus.repo
+        dest: /etc/yum.repos.d/tableplus.repo
+        mode: '0644'
+      become: true
+
+- name: Install TablePlus
+  dnf:
+    name: tableplus
+    state: present
+  become: true
+
+- name: Install lazydocker
+  dnf:
+    name: lazydocker
+    state: present
+  become: true
+
+- name: Check if Zed is installed
+  command: command -v zed
+  register: zed_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Zed IDE
+  shell: curl -f https://zed.dev/install.sh | sh
+  when: zed_check.rc != 0
+
+- name: Check if OpenCode is installed
+  command: command -v opencode
+  register: opencode_check
+  changed_when: false
+  failed_when: false
+
+- name: Install OpenCode
+  shell: curl -fsSL https://opencode.ai/install | bash
+  args:
+    executable: /bin/bash
+  when: opencode_check.rc != 0
+
+- name: Check if Gemini CLI is installed
+  command: command -v gemini
+  register: gemini_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Gemini CLI
+  shell: |
+    export PATH="{{ ansible_user_dir }}/.local/share/fnm:$PATH"
+    eval "$(fnm env --shell bash)"
+    npm i -g @google/gemini-cli
+  args:
+    executable: /bin/bash
+  when: gemini_check.rc != 0
+
+- name: Check if Codex CLI is installed
+  command: command -v codex
+  register: codex_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Codex CLI
+  shell: |
+    export PATH="{{ ansible_user_dir }}/.local/share/fnm:$PATH"
+    eval "$(fnm env --shell bash)"
+    npm i -g @openai/codex
+  args:
+    executable: /bin/bash
+  when: codex_check.rc != 0
