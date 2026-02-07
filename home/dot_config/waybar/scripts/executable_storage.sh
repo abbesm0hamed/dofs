@@ -27,9 +27,9 @@ NR==2 {
   }
 
   gsub(/\\/, "\\\\", text)
-  gsub(/\"/, "\\\"", text)
+  gsub(/["]/, "\\\"", text)
   gsub(/\\/, "\\\\", tooltip)
-  gsub(/\"/, "\\\"", tooltip)
+  gsub(/["]/, "\\\"", tooltip)
 
   print "{\"text\":\"" text "\",\"percentage\":" usep ",\"tooltip\":\"" tooltip "\",\"class\":\"" class "\"}"
   exit 0
