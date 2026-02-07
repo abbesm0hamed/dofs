@@ -14,7 +14,7 @@ export XCURSOR_SIZE=18
 # Qt
 export QT_QPA_PLATFORM="wayland;xcb"
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-export QT_STYLE_OVERRIDE=adwaita-dark
+export QT_STYLE_OVERRIDE=adwaita
 export QT_QPA_PLATFORMTHEME="gtk3"
 
 # Hardware Acceleration & GPU Specifics

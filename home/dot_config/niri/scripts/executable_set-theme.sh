@@ -88,6 +88,21 @@ apply_theme() {
     sync_file "zed-theme.json" "$ZED_OUT"
     sync_file "windsurf-theme.json" "$WINDSURF_OUT"
 
+    # Apply GTK theme if specified
+    if [ -f "$path/gtk-theme.txt" ]; then
+        local gtk_theme
+        gtk_theme=$(cat "$path/gtk-theme.txt")
+        echo "  → Applying GTK theme: $gtk_theme"
+        gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
+        
+        # Set color-scheme based on theme name suffix or content
+        if [[ "$gtk_theme" == *"-dark"* ]] || [[ "$gtk_theme" == *"-Dark"* ]]; then
+            gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+        else
+            gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
+        fi
+    fi
+
     # Save state early
     echo "$name" > "$STATE_FILE"
 

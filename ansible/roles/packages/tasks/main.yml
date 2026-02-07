@@ -37,3 +37,8 @@
   loop: "{{ flatpaks }}"
   become: true
 
+- name: Set Flatpak filesystem overrides for themes
+  command: flatpak override --user --filesystem=xdg-config/gtk-3.0:ro --filesystem=xdg-config/gtk-4.0:ro --filesystem=~/.themes:ro --filesystem=~/.local/share/icons:ro
+  become: false
+  changed_when: false
+

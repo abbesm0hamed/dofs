@@ -39,25 +39,25 @@ dofs
 .config/themes/current_theme
 
 # if you want to persist the theme and not have it affected by chezmoi apply --force
-# {{ if $hasTheme }}
+{{ if $hasTheme }}
 # Script-generated theme files (ignored when a runtime theme is set)
-# .config/waybar/theme.css
-# .config/rofi/colors.rasi
-# .config/niri/colors.kdl
-# .config/foot/theme.ini
-# .config/wezterm/colors.lua
-# .config/mako/config
-# .config/kitty/theme.conf
-# .config/alacritty/theme.toml
-# .config/ranger/rc.conf
-# .config/yazi/yazi.toml
-# .config/zed/settings.json
-# .config/Windsurf/User/settings.json
-# {{ end }}
+.config/waybar/theme.css
+.config/rofi/colors.rasi
+.config/niri/colors.kdl
+.config/foot/theme.ini
+.config/wezterm/colors.lua
+.config/mako/config
+.config/kitty/theme.conf
+.config/alacritty/theme.toml
+.config/ranger/rc.conf
+.config/yazi/yazi.toml
+.config/zed/settings.json
+.config/Windsurf/User/settings.json
+{{ end }}
 
 # if you want to persist the waybar variant and not have it affected by chezmoi apply --force
-# {{ if $hasWaybar }}
+{{ if $hasWaybar }}
 # Script-generated waybar files (ignored because a runtime variant is set)
-# .config/waybar/config.jsonc
-# .config/waybar/style.css
-# {{ end }}
+.config/waybar/config.jsonc
+.config/waybar/style.css
+{{ end }}
