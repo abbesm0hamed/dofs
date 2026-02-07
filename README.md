@@ -150,20 +150,16 @@ This setup includes a central manager script `dofs` (symlinked to `~/.local/bin/
 # Run the full installation (supports all bootstrap.sh flags)
 dofs install
 dofs install --dotfiles-only  # Only apply dotfiles
+dofs install --ansible-only   # Only run Ansible config setup
 dofs install --update         # Update existing installation
-
 # Update everything (DNF, Flatpak, Nvim, Fish plugins)
 dofs update
-
 # Run a comprehensive health check (binaries, services, configs, etc.)
 dofs doctor
-
 # Verify your configuration and installation
 dofs verify
-
 # Generate keybindings documentation
 dofs docs
-
 # Uninstall configurations and symlinks managed by dofs
 dofs uninstall
 ```
