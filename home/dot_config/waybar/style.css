@@ -210,9 +210,7 @@ tooltip label {
 #custom-fingerprint {
   color: @yellow;
   background: @fingerprint_bg;
-  border-radius: 0px;
-  padding: 0px 2px;
-  margin: 0 2px;
+  padding: 0px 10px;
   transition: all 0.2s ease;
   animation: pulse 2s infinite;
 }

@@ -1,31 +1,32 @@
 # Own your DOtFileS with dofs - Fedora Workstation + Niri
 
-<table align="center">
-  <tr>
-    <td align="center" width="50%">
-      <img src="home/dot_config/screenshots/niri-overview.png" alt="Niri overview" />
-      <br>
-      <b>Niri Overview</b>
-    </td>
-    <td align="center" width="50%">
-      <img src="home/dot_config/screenshots/decoration-apps.png" alt="Decoration apps" />
-      <br>
-      <b>Decoration Apps</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <img src="home/dot_config/screenshots/niri-binds.png" alt="Niri binds" />
-      <br>
-      <b>Niri Binds</b>
-    </td>
-    <td align="center" width="50%">
-      <img src="home/dot_config/screenshots/yazi-floating.png" alt="Yazi floating" />
-      <br>
-      <b>Yazi Floating</b>
-    </td>
-  </tr>
-</table>
+### Themes & Screenshots
+
+This setup comes with 3 built-in themes: **dofs** (default), **Kanagawa**, and **Zen**.
+
+#### dofs Theme
+
+![Niri Overview](home/dot_config/screenshots/dofs-niri-overview.png)
+*Niri Overview*
+
+![Niri Binds](home/dot_config/screenshots/dofs-niri-binds.png)
+*Niri Keybindings*
+
+![Yazi Floating](home/dot_config/screenshots/dofs-yazi-floating.png)
+*Yazi Floating*
+
+#### Kanagawa Theme
+
+![Kanagawa Theme](home/dot_config/screenshots/kanagawa-decoration-apps.png)
+*Modern professional aesthetics*
+
+#### Zen Theme
+
+![Zen Theme Overview](home/dot_config/screenshots/zen-theme-niri-overview.png)
+*Minimalist focus*
+
+![Zen Theme Switcher](home/dot_config/screenshots/zen-theme-switcher.png)
+*Unified theme switcher*
 
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
