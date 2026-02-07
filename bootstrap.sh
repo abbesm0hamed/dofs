@@ -195,6 +195,13 @@ main() {
         run_ansible
     fi
     
+    # Apply default theme only if none is set
+    THEME_STATE="${XDG_STATE_HOME:-$HOME/.local/state}/themes/current_theme"
+    if [ ! -f "$THEME_STATE" ] && [ -f "$HOME/.config/niri/scripts/set-theme.sh" ]; then
+        log "No theme detected. Applying default dofs theme..."
+        bash "$HOME/.config/niri/scripts/set-theme.sh" "dofs" --silent || warn "Failed to apply default theme"
+    fi
+
     echo ""
     ok "Bootstrap complete!"
     
