@@ -165,19 +165,19 @@ apply_theme() {
 apply_theme "$THEME"
 
 # Reload & Notify
+echo "  → Refreshing session components..."
+    
 if pgrep -x waybar >/dev/null 2>&1; then
-    WAYBAR_STATE="${XDG_CONFIG_HOME:-$HOME/.config}/waybar/.current-variant"
-    WAYBAR_SWITCHER="$HOME/.config/niri/scripts/waybar-switcher.sh"
-    if [ -x "$WAYBAR_SWITCHER" ]; then
-        variant="$(cat "$WAYBAR_STATE" 2>/dev/null || echo "default")"
-        "$WAYBAR_SWITCHER" "$variant" >/dev/null 2>&1 || true
-    else
-        pkill -USR2 waybar || true
-    fi
-else
-    pkill -USR2 waybar || true
+    echo "  → Restarting Waybar..."
+    pkill waybar
+    sleep 0.2
+    waybar &
 fi
-command -v makoctl >/dev/null && makoctl reload || true
+    
+if command -v makoctl >/dev/null 2>&1; then
+    echo "  → Reloading Mako..."
+    makoctl reload || true
+fi
 
 if [ "$FROM_PICKER" = true ]; then
     notify-send -a "Theme" "Applied: $THEME"

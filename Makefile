@@ -12,7 +12,9 @@ dotdiff:
 	chezmoi diff --source $(DOTFILES_SOURCE)
 
 waybar-reload:
-	pkill -SIGUSR2 waybar || (pkill waybar && sleep 0.2 && waybar &)
+	pkill waybar || true
+	sleep 0.2
+	waybar &
 
 waybar-apply: dotapp waybar-reload
 
