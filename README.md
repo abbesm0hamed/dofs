@@ -20,6 +20,9 @@ This setup comes with 3 built-in themes: **dofs** (default), **Kanagawa**, and *
 ![Kanagawa Theme](home/dot_config/screenshots/kanagawa-decoration-apps.png)
 *Modern professional aesthetics*
 
+![Kanagawa Variant Switcher](home/dot_config/screenshots/kanagawa-waybar-variant-switcher.png)
+*Unified variant switcher*
+
 #### Zen Theme
 
 ![Zen Theme Overview](home/dot_config/screenshots/zen-theme-niri-overview.png)
