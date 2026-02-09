@@ -1,102 +1,89 @@
 return {
+  -- catppuccin with kanagawa bg
   {
-    "yonatan-perel/lake-dweller.nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
     lazy = false,
+    event = "VimEnter",
     priority = 1000,
-    config = function()
-      require("lake-dweller").setup({
-        transparent = true, -- enable transparent background
-        italics = true, -- enable italic text
-        float_background = false, -- distinct background for floating windows
-      })
-      vim.cmd.colorscheme("lake-dweller")
+    opts = {
+      flavour = "mocha", -- you can try "macchiato" too
+      transparent_background = true, -- CHANGED: Enable transparency
+      background = {
+        dark = "mocha",
+        light = "latte",
+      },
+      styles = {
+        comments = { "italic" },
+        functions = {},
+        keywords = { "italic" },
+        strings = {},
+        variables = {},
+      },
+      color_overrides = {
+        mocha = {
+          base = "#1e1e2e",
+          mantle = "#171722",
+          crust = "#0f0f17",
+        },
+      },
+      custom_highlights = function(colors)
+        return {
+          -- Transparency base
+          Normal = { bg = "none" },
+          NormalNC = { bg = "none" },
+          NormalFloat = { bg = "none" },
+
+          -- Borders & separators
+          FloatBorder = { fg = colors.surface2, bg = "none" },
+          WinSeparator = { fg = colors.surface1 },
+
+          -- Cursor & selection
+          CursorLine = { bg = colors.surface0 },
+          CursorLineNr = { fg = colors.lavender, style = { "bold" } },
+          Visual = { bg = colors.surface1 },
+
+          -- Comments
+          Comment = { fg = colors.overlay1, style = { "italic" } },
+
+          -- Search
+          Search = { bg = colors.yellow, fg = colors.crust },
+          IncSearch = { bg = colors.peach, fg = colors.crust },
+
+          -- Popup menu
+          Pmenu = { bg = "none" },
+          PmenuSel = { bg = colors.surface0 },
+          PmenuThumb = { bg = colors.surface1 },
+
+          -- Sidebars
+          NvimTreeNormal = { bg = "none" },
+          NeoTreeNormal = { bg = "none" },
+
+          -- Statusline / tabs
+          StatusLine = { bg = colors.mantle },
+          TabLine = { bg = colors.mantle },
+          TabLineFill = { bg = "none" },
+
+          -- Diagnostics
+          DiagnosticError = { fg = colors.red },
+          DiagnosticWarn = { fg = colors.yellow },
+          DiagnosticInfo = { fg = colors.blue },
+          DiagnosticHint = { fg = colors.teal },
+
+          DiagnosticVirtualTextError = { fg = colors.red, bg = colors.surface0 },
+          DiagnosticVirtualTextWarn = { fg = colors.yellow, bg = colors.surface0 },
+
+          -- Columns
+          SignColumn = { bg = "none" },
+          FoldColumn = { bg = "none" },
+        }
+      end,
+    },
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin")
     end,
   },
-  -- catppuccin with kanagawa bg
-  -- {
-  --   "catppuccin/nvim",
-  --   name = "catppuccin",
-  --   lazy = false,
-  --   event = "VimEnter",
-  --   priority = 1000,
-  --   opts = {
-  --     flavour = "mocha", -- you can try "macchiato" too
-  --     transparent_background = true, -- CHANGED: Enable transparency
-  --     background = {
-  --       dark = "mocha",
-  --       light = "latte",
-  --     },
-  --     styles = {
-  --       comments = { "italic" },
-  --       functions = {},
-  --       keywords = { "italic" },
-  --       strings = {},
-  --       variables = {},
-  --     },
-  --     color_overrides = {
-  --       mocha = {
-  --         base = "#1e1e2e",
-  --         mantle = "#171722",
-  --         crust = "#0f0f17",
-  --       },
-  --     },
-  --     custom_highlights = function(colors)
-  --       return {
-  --         -- Transparency base
-  --         Normal = { bg = "none" },
-  --         NormalNC = { bg = "none" },
-  --         NormalFloat = { bg = "none" },
-  --
-  --         -- Borders & separators
-  --         FloatBorder = { fg = colors.surface2, bg = "none" },
-  --         WinSeparator = { fg = colors.surface1 },
-  --
-  --         -- Cursor & selection
-  --         CursorLine = { bg = colors.surface0 },
-  --         CursorLineNr = { fg = colors.lavender, style = { "bold" } },
-  --         Visual = { bg = colors.surface1 },
-  --
-  --         -- Comments
-  --         Comment = { fg = colors.overlay1, style = { "italic" } },
-  --
-  --         -- Search
-  --         Search = { bg = colors.yellow, fg = colors.crust },
-  --         IncSearch = { bg = colors.peach, fg = colors.crust },
-  --
-  --         -- Popup menu
-  --         Pmenu = { bg = "none" },
-  --         PmenuSel = { bg = colors.surface0 },
-  --         PmenuThumb = { bg = colors.surface1 },
-  --
-  --         -- Sidebars
-  --         NvimTreeNormal = { bg = "none" },
-  --         NeoTreeNormal = { bg = "none" },
-  --
-  --         -- Statusline / tabs
-  --         StatusLine = { bg = colors.mantle },
-  --         TabLine = { bg = colors.mantle },
-  --         TabLineFill = { bg = "none" },
-  --
-  --         -- Diagnostics
-  --         DiagnosticError = { fg = colors.red },
-  --         DiagnosticWarn = { fg = colors.yellow },
-  --         DiagnosticInfo = { fg = colors.blue },
-  --         DiagnosticHint = { fg = colors.teal },
-  --
-  --         DiagnosticVirtualTextError = { fg = colors.red, bg = colors.surface0 },
-  --         DiagnosticVirtualTextWarn = { fg = colors.yellow, bg = colors.surface0 },
-  --
-  --         -- Columns
-  --         SignColumn = { bg = "none" },
-  --         FoldColumn = { bg = "none" },
-  --       }
-  --     end,
-  --   },
-  --   config = function(_, opts)
-  --     require("catppuccin").setup(opts)
-  --     vim.cmd.colorscheme("catppuccin")
-  --   end,
-  -- },
   --
   -- vague 4 the win
   -- {
@@ -979,7 +966,7 @@ return {
   --     -- vim.cmd.colorscheme("lackluster-mint")
   --   end,
   --   config = function()
-  --     local lackluster = require('lackluster')
+  --     local lackluster = require("lackluster")
   --     lackluster.setup({
   --       -- tweak_color allows you to overwrite the default colors in the lackluster theme
   --       tweak_color = {
@@ -1004,11 +991,10 @@ return {
   --         -- gray7 = "default",
   --         -- gray8 = "default",
   --         -- gray9 = "default",
-  --
   --       },
   --     })
   --   end,
-  -- }
+  -- },
   --
   -- flexoki
   -- {
@@ -1018,9 +1004,9 @@ return {
   --   priority = 1000,
   --   config = function()
   --     require("lazy").setup({
-  --       { 'kepano/flexoki-neovim', name = 'flexoki' }
+  --       { "kepano/flexoki-neovim", name = "flexoki" },
   --     })
-  --     vim.cmd('colorscheme flexoki-dark')
+  --     vim.cmd("colorscheme flexoki-dark")
   --   end,
   -- },
   --
@@ -1106,6 +1092,7 @@ return {
   --   -- require("kurayami").setup(opts)
   --   -- end
   -- },
+  --
   -- top 5
   -- {
   --   "Shatur/neovim-ayu",
@@ -1179,7 +1166,7 @@ return {
   --       -- Theme comes in two styles `modus_operandi` and `modus_vivendi`
   --       -- `auto` will automatically set style based on background set with vim.o.background
   --       style = "auto",
-  --       variant = "default", -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
+  --       variant = "tritanopia", -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
   --       transparent = false, -- Transparent background (as supported by the terminal)
   --       dim_inactive = false, -- "non-current" windows are dimmed
   --       styles = {
@@ -1428,6 +1415,20 @@ return {
   --     -- vim.cmd.colorscheme("colorbuddy")
   --     -- or
   --     vim.cmd.colorscheme("gruvbuddy")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "yonatan-perel/lake-dweller.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require("lake-dweller").setup({
+  --       transparent = true, -- enable transparent background
+  --       italics = true, -- enable italic text
+  --       float_background = false, -- distinct background for floating windows
+  --     })
+  --     vim.cmd.colorscheme("lake-dweller")
   --   end,
   -- },
 }
