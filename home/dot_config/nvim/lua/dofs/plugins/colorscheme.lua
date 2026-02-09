@@ -1,89 +1,102 @@
 return {
-  -- catppuccin with kanagawa bg
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "yonatan-perel/lake-dweller.nvim",
     lazy = false,
-    event = "VimEnter",
     priority = 1000,
-    opts = {
-      flavour = "mocha", -- you can try "macchiato" too
-      transparent_background = true, -- CHANGED: Enable transparency
-      background = {
-        dark = "mocha",
-        light = "latte",
-      },
-      styles = {
-        comments = { "italic" },
-        functions = {},
-        keywords = { "italic" },
-        strings = {},
-        variables = {},
-      },
-      color_overrides = {
-        mocha = {
-          base = "#1e1e2e",
-          mantle = "#171722",
-          crust = "#0f0f17",
-        },
-      },
-      custom_highlights = function(colors)
-        return {
-          -- Transparency base
-          Normal = { bg = "none" },
-          NormalNC = { bg = "none" },
-          NormalFloat = { bg = "none" },
-
-          -- Borders & separators
-          FloatBorder = { fg = colors.surface2, bg = "none" },
-          WinSeparator = { fg = colors.surface1 },
-
-          -- Cursor & selection
-          CursorLine = { bg = colors.surface0 },
-          CursorLineNr = { fg = colors.lavender, style = { "bold" } },
-          Visual = { bg = colors.surface1 },
-
-          -- Comments
-          Comment = { fg = colors.overlay1, style = { "italic" } },
-
-          -- Search
-          Search = { bg = colors.yellow, fg = colors.crust },
-          IncSearch = { bg = colors.peach, fg = colors.crust },
-
-          -- Popup menu
-          Pmenu = { bg = "none" },
-          PmenuSel = { bg = colors.surface0 },
-          PmenuThumb = { bg = colors.surface1 },
-
-          -- Sidebars
-          NvimTreeNormal = { bg = "none" },
-          NeoTreeNormal = { bg = "none" },
-
-          -- Statusline / tabs
-          StatusLine = { bg = colors.mantle },
-          TabLine = { bg = colors.mantle },
-          TabLineFill = { bg = "none" },
-
-          -- Diagnostics
-          DiagnosticError = { fg = colors.red },
-          DiagnosticWarn = { fg = colors.yellow },
-          DiagnosticInfo = { fg = colors.blue },
-          DiagnosticHint = { fg = colors.teal },
-
-          DiagnosticVirtualTextError = { fg = colors.red, bg = colors.surface0 },
-          DiagnosticVirtualTextWarn = { fg = colors.yellow, bg = colors.surface0 },
-
-          -- Columns
-          SignColumn = { bg = "none" },
-          FoldColumn = { bg = "none" },
-        }
-      end,
-    },
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
+    config = function()
+      require("lake-dweller").setup({
+        transparent = true, -- enable transparent background
+        italics = true, -- enable italic text
+        float_background = false, -- distinct background for floating windows
+      })
+      vim.cmd.colorscheme("lake-dweller")
     end,
   },
+  -- catppuccin with kanagawa bg
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   lazy = false,
+  --   event = "VimEnter",
+  --   priority = 1000,
+  --   opts = {
+  --     flavour = "mocha", -- you can try "macchiato" too
+  --     transparent_background = true, -- CHANGED: Enable transparency
+  --     background = {
+  --       dark = "mocha",
+  --       light = "latte",
+  --     },
+  --     styles = {
+  --       comments = { "italic" },
+  --       functions = {},
+  --       keywords = { "italic" },
+  --       strings = {},
+  --       variables = {},
+  --     },
+  --     color_overrides = {
+  --       mocha = {
+  --         base = "#1e1e2e",
+  --         mantle = "#171722",
+  --         crust = "#0f0f17",
+  --       },
+  --     },
+  --     custom_highlights = function(colors)
+  --       return {
+  --         -- Transparency base
+  --         Normal = { bg = "none" },
+  --         NormalNC = { bg = "none" },
+  --         NormalFloat = { bg = "none" },
+  --
+  --         -- Borders & separators
+  --         FloatBorder = { fg = colors.surface2, bg = "none" },
+  --         WinSeparator = { fg = colors.surface1 },
+  --
+  --         -- Cursor & selection
+  --         CursorLine = { bg = colors.surface0 },
+  --         CursorLineNr = { fg = colors.lavender, style = { "bold" } },
+  --         Visual = { bg = colors.surface1 },
+  --
+  --         -- Comments
+  --         Comment = { fg = colors.overlay1, style = { "italic" } },
+  --
+  --         -- Search
+  --         Search = { bg = colors.yellow, fg = colors.crust },
+  --         IncSearch = { bg = colors.peach, fg = colors.crust },
+  --
+  --         -- Popup menu
+  --         Pmenu = { bg = "none" },
+  --         PmenuSel = { bg = colors.surface0 },
+  --         PmenuThumb = { bg = colors.surface1 },
+  --
+  --         -- Sidebars
+  --         NvimTreeNormal = { bg = "none" },
+  --         NeoTreeNormal = { bg = "none" },
+  --
+  --         -- Statusline / tabs
+  --         StatusLine = { bg = colors.mantle },
+  --         TabLine = { bg = colors.mantle },
+  --         TabLineFill = { bg = "none" },
+  --
+  --         -- Diagnostics
+  --         DiagnosticError = { fg = colors.red },
+  --         DiagnosticWarn = { fg = colors.yellow },
+  --         DiagnosticInfo = { fg = colors.blue },
+  --         DiagnosticHint = { fg = colors.teal },
+  --
+  --         DiagnosticVirtualTextError = { fg = colors.red, bg = colors.surface0 },
+  --         DiagnosticVirtualTextWarn = { fg = colors.yellow, bg = colors.surface0 },
+  --
+  --         -- Columns
+  --         SignColumn = { bg = "none" },
+  --         FoldColumn = { bg = "none" },
+  --       }
+  --     end,
+  --   },
+  --   config = function(_, opts)
+  --     require("catppuccin").setup(opts)
+  --     vim.cmd.colorscheme("catppuccin")
+  --   end,
+  -- },
   --
   -- vague 4 the win
   -- {
