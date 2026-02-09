@@ -23,6 +23,9 @@ return {
   {
     "stevearc/oil.nvim",
     lazy = true,
+    keys = {
+      { "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
+    },
     opts = {
       view_options = {
         -- Show files and directories that start with "."
@@ -52,8 +55,6 @@ return {
     },
     config = function()
       require("oil").setup({})
-      local keymap = vim.keymap
-      keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
     end,
   },
   {
