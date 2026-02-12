@@ -12,7 +12,7 @@ copr_repos:
   - solopasha/hyprland
   - peterwu/rendezvous
   - yorickpeterse/stylua
-  - rafatosta/zapzap # whatsapp repo
+    # - rafatosta/zapzap # whatsapp repo (404 on F43)
 
 dnf_packages:
   # system.txt
@@ -215,7 +215,7 @@ dnf_packages:
   - kanshi
   - wayscriber
   - hyprpicker
-  - zapzap # whatsapp
+  # - zapzap # whatsapp (moving to flatpak)
 
 flatpaks:
   - app.zen_browser.zen
@@ -228,4 +228,5 @@ flatpaks:
   - com.github.IsmaelMartinez.teams_for_linux
   - net.davidotek.pupgui2
   - org.localsend.localsend_app
+  - com.rtosta.zapzap
   - org.gtk.Gtk3theme.adw-gtk3
