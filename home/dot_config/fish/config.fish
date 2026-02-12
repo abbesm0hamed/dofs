@@ -3,6 +3,15 @@ fish_add_path -g $HOME/.local/share/fnm $HOME/.local/bin $HOME/go/bin $HOME/.car
 if status is-interactive
     # Commands to run in interactive sessions can go here
     set fish_greeting
+    
+    # Enable vim key bindings
+    fish_vi_key_bindings
+    
+    # Always use block cursor in all modes
+    set -g fish_cursor_default block
+    set -g fish_cursor_insert block
+    set -g fish_cursor_visual block
+    
     # if type -q pokemon-colorscripts
     #     pokemon-colorscripts --no-title -r
     # end
