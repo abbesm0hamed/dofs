@@ -81,6 +81,10 @@ if status is-interactive
     alias txsrc="tmux source-file ~/.tmux.conf"
     alias diskusg="df -h | grep /dev/nvme0n1p2"
 
+    if test -f ~/.config/fish/functions/txwd.fish
+        source ~/.config/fish/functions/txwd.fish
+    end
+
     function killport
         if test -z $argv[1]
             echo "Usage: killport <port>"
