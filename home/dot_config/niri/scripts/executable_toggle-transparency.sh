@@ -8,23 +8,23 @@ MARK_BEGIN_HASH="# DOFS_TRANSPARENCY_OVERRIDE_BEGIN"
 MARK_END_HASH="# DOFS_TRANSPARENCY_OVERRIDE_END"
 
 if [ ! -f "$RULES_FILE" ]; then
-    if command -v notify-send >/dev/null 2>&1; then
-        notify-send "Niri" "Missing rules file: $RULES_FILE"
-    fi
-    exit 1
+	if command -v notify-send >/dev/null 2>&1; then
+		notify-send "Niri" "Missing rules file: $RULES_FILE"
+	fi
+	exit 1
 fi
 
 has_override=0
 if grep -Fq "$MARK_BEGIN" "$RULES_FILE" 2>/dev/null; then
-    has_override=1
+	has_override=1
 elif grep -Fq "$MARK_BEGIN_HASH" "$RULES_FILE" 2>/dev/null; then
-    has_override=1
+	has_override=1
 elif grep -Eq '^[[:space:]]*match[[:space:]]+app-id=.*(ghostty|wezterm|kitty)' "$RULES_FILE" 2>/dev/null && grep -Eq '^[[:space:]]*opacity[[:space:]]+1\.0[[:space:]]*$' "$RULES_FILE" 2>/dev/null; then
-    has_override=1
+	has_override=1
 fi
 
 if [ "$has_override" = "1" ]; then
-    awk -v begin="$MARK_BEGIN" -v end="$MARK_END" -v begin_hash="$MARK_BEGIN_HASH" -v end_hash="$MARK_END_HASH" '
+	awk -v begin="$MARK_BEGIN" -v end="$MARK_END" -v begin_hash="$MARK_BEGIN_HASH" -v end_hash="$MARK_END_HASH" '
     function count_braces(s,   t, opens, closes) {
         t = s
         opens = gsub(/\{/, "{", t)
@@ -81,43 +81,64 @@ if [ "$has_override" = "1" ]; then
     }
     ' "$RULES_FILE" >"$RULES_FILE.tmp"
 
-    mv "$RULES_FILE.tmp" "$RULES_FILE"
-    mode="default"
+	mv "$RULES_FILE.tmp" "$RULES_FILE"
+	mode="default"
 else
-    if [ -n "$(tail -c 1 "$RULES_FILE" 2>/dev/null || true)" ]; then
-        printf '\n' >>"$RULES_FILE"
-    fi
+	if [ -n "$(tail -c 1 "$RULES_FILE" 2>/dev/null || true)" ]; then
+		printf '\n' >>"$RULES_FILE"
+	fi
 
-    {
-        printf '%s\n' "$MARK_BEGIN"
-        cat <<'KDL'
+	{
+		printf '%s\n' "$MARK_BEGIN"
+		cat <<'KDL'
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty(\..*)?)$"#
+    match is-focused=true
+    opacity 1.0
+}
+
+window-rule {
+    match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty(\..*)?)$"#
+    match is-focused=false
     opacity 1.0
 }
 
 window-rule {
     match app-id=r#"^(org\.wezfurlong\.wezterm(-nightly|-gui)?|wezterm)$"#
+    match is-focused=true
+    opacity 1.0
+}
+
+window-rule {
+    match app-id=r#"^(org\.wezfurlong\.wezterm(-nightly|-gui)?|wezterm)$"#
+    match is-focused=false
     opacity 1.0
 }
 
 window-rule {
     match app-id="kitty"
+    match is-focused=true
+    opacity 1.0
+}
+
+window-rule {
+    match app-id="kitty"
+    match is-focused=false
     opacity 1.0
 }
 KDL
-        printf '%s\n' "$MARK_END"
-    } >>"$RULES_FILE"
+		printf '%s\n' "$MARK_END"
+	} >>"$RULES_FILE"
 
-    mode="off"
+	mode="off"
 fi
 
 niri msg action load-config-file >/dev/null 2>&1 || true
 
 if command -v notify-send >/dev/null 2>&1; then
-    if [ "$mode" = "off" ]; then
-        notify-send "Niri" "Transparency: off"
-    else
-        notify-send "Niri" "Transparency: default"
-    fi
+	if [ "$mode" = "off" ]; then
+		notify-send "Niri" "Transparency: off"
+	else
+		notify-send "Niri" "Transparency: default"
+	fi
 fi
