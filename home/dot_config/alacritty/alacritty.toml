@@ -3,7 +3,7 @@ import = ["~/.config/alacritty/theme.toml"]
 
 [window]
 padding = { x = 10, y = 10 }
-opacity = 0.98
+opacity = 1.0
 
 [font]
 size = 12.0

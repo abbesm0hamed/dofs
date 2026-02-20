@@ -19,7 +19,7 @@ if grep -Fq "$MARK_BEGIN" "$RULES_FILE" 2>/dev/null; then
 	has_override=1
 elif grep -Fq "$MARK_BEGIN_HASH" "$RULES_FILE" 2>/dev/null; then
 	has_override=1
-elif grep -Eq '^[[:space:]]*match[[:space:]]+app-id=.*(ghostty|wezterm|kitty)' "$RULES_FILE" 2>/dev/null && grep -Eq '^[[:space:]]*opacity[[:space:]]+1\.0[[:space:]]*$' "$RULES_FILE" 2>/dev/null; then
+elif grep -Eq '^[[:space:]]*match[[:space:]]+app-id=.*(ghostty|wezterm|kitty|alacritty)' "$RULES_FILE" 2>/dev/null && grep -Eq '^[[:space:]]*opacity[[:space:]]+0\.([0-9]+)[[:space:]]*$' "$RULES_FILE" 2>/dev/null; then
 	has_override=1
 fi
 
@@ -33,9 +33,9 @@ if [ "$has_override" = "1" ]; then
     }
 
     function block_is_legacy_injection(b) {
-        if (b !~ /opacity[[:space:]]+1\.0/) return 0
+        if (b !~ /opacity[[:space:]]+0\.[0-9]+/) return 0
         if (b ~ /open-maximized|open-floating|draw-border-with-background|shadow[[:space:]]*\{|default-column-width|tiled-state|clip-to-geometry/) return 0
-        if (b ~ /match[[:space:]]+app-id=.*ghostty/ || b ~ /match[[:space:]]+app-id=.*wezterm/ || b ~ /match[[:space:]]+app-id=.*kitty/) return 1
+        if (b ~ /match[[:space:]]+app-id=.*ghostty/ || b ~ /match[[:space:]]+app-id=.*wezterm/ || b ~ /match[[:space:]]+app-id=.*kitty/ || b ~ /match[[:space:]]+app-id=.*alacritty/) return 1
         return 0
     }
 
@@ -82,7 +82,7 @@ if [ "$has_override" = "1" ]; then
     ' "$RULES_FILE" >"$RULES_FILE.tmp"
 
 	mv "$RULES_FILE.tmp" "$RULES_FILE"
-	mode="default"
+	mode="off"
 else
 	if [ -n "$(tail -c 1 "$RULES_FILE" 2>/dev/null || true)" ]; then
 		printf '\n' >>"$RULES_FILE"
@@ -94,51 +94,63 @@ else
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty(\..*)?)$"#
     match is-focused=true
-    opacity 1.0
+    opacity 0.96
 }
 
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty(\..*)?)$"#
     match is-focused=false
-    opacity 1.0
+    opacity 0.93
 }
 
 window-rule {
     match app-id=r#"^(org\.wezfurlong\.wezterm(-nightly|-gui)?|wezterm)$"#
     match is-focused=true
-    opacity 1.0
+    opacity 0.96
 }
 
 window-rule {
     match app-id=r#"^(org\.wezfurlong\.wezterm(-nightly|-gui)?|wezterm)$"#
     match is-focused=false
-    opacity 1.0
+    opacity 0.93
 }
 
 window-rule {
     match app-id="kitty"
     match is-focused=true
-    opacity 1.0
+    opacity 0.96
 }
 
 window-rule {
     match app-id="kitty"
     match is-focused=false
-    opacity 1.0
+    opacity 0.93
+}
+
+window-rule {
+    match app-id="Alacritty"
+    match is-focused=true
+    opacity 0.96
+}
+
+window-rule {
+    match app-id="Alacritty"
+    match is-focused=false
+    opacity 0.93
 }
 KDL
 		printf '%s\n' "$MARK_END"
 	} >>"$RULES_FILE"
 
-	mode="off"
+	mode="on"
 fi
 
 niri msg action load-config-file >/dev/null 2>&1 || true
 
 if command -v notify-send >/dev/null 2>&1; then
-	if [ "$mode" = "off" ]; then
-		notify-send "Niri" "Transparency: off"
+	if [ "$mode" = "on" ]; then
+		notify-send "Niri" "Transparency: ON"
 	else
-		notify-send "Niri" "Transparency: default"
+		notify-send "Niri" "Transparency: OFF"
 	fi
 fi
