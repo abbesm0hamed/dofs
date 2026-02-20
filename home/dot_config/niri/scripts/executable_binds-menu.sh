@@ -49,68 +49,63 @@ SELECTION=$(
 function trim(s) { gsub(/^[ \t]+|[ \t]+$/, "", s); return s }
 function clean_action(s) {
     s = trim(s)
-    gsub(/[{};]/, "", s)
-    gsub(/"/, "", s)
+    # Remove trailing comments
+    sub(/[ \t]*\/\/.*$/, "", s)
+    # Remove one leading { and one trailing } if present
+    sub(/^\{/, "", s)
+    sub(/\}$/, "", s)
+    # Remove trailing semicolon
+    sub(/;[ \t]*$/, "", s)
+    # Compress multiple spaces
     gsub(/[ \t]+/, " ", s)
     return trim(s)
 }
-BEGIN { inblock=0; key=""; action=""; inbinds=0 }
+BEGIN { inbinds=0; inblock=0; trigger=""; action="" }
 {
-    line=$0
-    # Skip comments and blank lines
+    line = $0
+    # Strip full-line comments early
     if (line ~ /^[ \t]*\/\//) next
-    if (line ~ /^[ \t]*$/) next
 
-    # Enter/exit binds block
-    if (line ~ /^[ \t]*binds[ \t]*\{[ \t]*$/) {
-        inbinds=1
+    if (!inbinds && line ~ /^[ \t]*binds[ \t]*\{/) {
+        inbinds = 1
         next
     }
-    if (inbinds && !inblock && line ~ /^[ \t]*\}[ \t]*$/) {
-        inbinds=0
+    if (inbinds && !inblock && line ~ /^[ \t]*\}/) {
+        inbinds = 0
         next
     }
-
     if (!inbinds) next
 
     if (!inblock) {
-        # Single-line bind: Key ... { ... }
-        if (match(line, /^[ \t]*([^ \t{]+)[ \t]*[^{}]*\{(.*)\}[ \t]*$/, m)) {
-            key=m[1]
-            action=m[2]
-            action=clean_action(action)
-            if (action != "") print key "\t" action
+        # Single-line: trigger { action; }
+        if (match(line, /^[ \t]*(.*?)[ \t]*\{(.*)\}[ \t]*(\/\/.*)?$/, m)) {
+            t = trim(m[1])
+            a = clean_action(m[2])
+            if (t != "" && a != "") print t "\t" a
             next
         }
-
-        # Start of multi-line bind: Key ... {
-        if (match(line, /^[ \t]*([^ \t{]+)[ \t]*[^{}]*\{[ \t]*$/, m)) {
-            inblock=1
-            key=m[1]
-            action=""
+        # Multi-line start: trigger {
+        if (match(line, /^[ \t]*(.*?)[ \t]*\{[ \t]*(\/\/.*)?$/, m)) {
+            inblock = 1
+            trigger = trim(m[1])
+            action = ""
             next
         }
-
-        next
     } else {
-        # End of multi-line bind block
-        if (line ~ /^[ \t]*\}[ \t]*$/) {
-            a=clean_action(action)
-            if (a != "") print key "\t" a
-            inblock=0
-            key=""
-            action=""
+        # Multi-line end: }
+        if (line ~ /^[ \t]*\}[ \t]*(\/\/.*)?$/) {
+            a = clean_action(action)
+            if (trigger != "" && a != "") print trigger "\t" a
+            inblock = 0
             next
         }
-
-        # Accumulate actions inside block
-        action = action " " trim(line)
+        action = action " " $0
     }
 }
 ' "$BINDS_FILE" |
-        awk -F'\t' '{print $1 "  ->  " $2}' |
+        awk -F'\t' '{ printf "%-35s ->  %s\n", $1, $2 }' |
         sort -u |
-        rofi -dmenu -i -p "󰌌 Niri Binds: " -theme-str 'window { width: 55%; height: 65%; }'
+        rofi -dmenu -i -p "󰌌 Niri Binds" -theme-str 'window { width: 60%; height: 70%; }'
 )
 
 if [ -z "${SELECTION:-}" ]; then
