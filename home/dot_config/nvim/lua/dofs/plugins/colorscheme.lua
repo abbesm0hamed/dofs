@@ -3,74 +3,139 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,
-    event = "VimEnter",
     priority = 1000,
     opts = {
       transparent_background = false,
-      flavour = "mocha", -- you can try "macchiato" too
+      flavour = "mocha",
       styles = {
         comments = { "italic" },
-        functions = {},
         keywords = { "italic" },
+        functions = {},
         strings = {},
         variables = {},
       },
       color_overrides = {
         mocha = {
-          base = "#1e1e2e",
-          mantle = "#171722",
-          crust = "#0f0f17",
+          base = "#0A0A0A",
+          mantle = "#06060b",
+          crust = "#030308",
+          surface0 = "#0e0e16",
+          surface1 = "#14141e",
+          surface2 = "#1c1c28",
+          overlay0 = "#383850",
+          overlay1 = "#5a5a78",
+          overlay2 = "#7070a0",
+          subtext0 = "#9090aa",
+          subtext1 = "#b0b0c8",
+          text = "#dcdce8",
+
+          blue = "#88b4e8", -- keywords, types
+          teal = "#6dd4bc", -- functions
+          peach = "#e8a87c", -- numbers, constants
+          green = "#d4c46a", -- strings → warm golden yellow
+          red = "#e88a97",
+          yellow = "#e8d080", -- pastel lemon (used for variables/params)
+
+          lavender = "#88b4e8",
+          mauve = "#88b4e8",
+          pink = "#88b4e8",
+          sky = "#88b4e8",
+          sapphire = "#88b4e8",
+          maroon = "#e88a97",
+          flamingo = "#e88a97",
+          rosewater = "#c8a8e8", -- variables → soft purple
         },
       },
-      custom_highlights = function(colors)
+      custom_highlights = function(c)
         return {
-          -- Transparency base
-          Normal = { bg = "none" },
-          NormalNC = { bg = "none" },
-          NormalFloat = { bg = "none" },
+          -- Backgrounds
+          Normal = { bg = c.base, fg = c.text },
+          NormalNC = { bg = c.base },
+          NormalFloat = { bg = c.mantle },
+          FloatBorder = { fg = c.surface2, bg = c.mantle },
+          WinSeparator = { fg = c.surface1 },
 
-          -- Borders & separators
-          FloatBorder = { fg = colors.surface2, bg = "none" },
-          WinSeparator = { fg = colors.surface1 },
+          -- Cursor
+          CursorLine = { bg = c.surface0 },
+          CursorLineNr = { fg = c.blue, bold = true },
+          LineNr = { fg = c.overlay0 },
 
-          -- Cursor & selection
-          CursorLine = { bg = colors.surface0 },
-          CursorLineNr = { fg = colors.lavender, style = { "bold" } },
-          Visual = { bg = colors.surface1 },
+          -- Selection & search
+          Visual = { bg = c.surface1 },
+          Search = { bg = c.surface2, fg = c.text, bold = true },
+          IncSearch = { bg = c.blue, fg = c.base, bold = true },
 
           -- Comments
-          Comment = { fg = colors.overlay1, style = { "italic" } },
+          Comment = { fg = c.overlay1, italic = true },
 
-          -- Search
-          Search = { bg = colors.yellow, fg = colors.crust },
-          IncSearch = { bg = colors.peach, fg = colors.crust },
-
-          -- Popup menu
-          Pmenu = { bg = "none" },
-          PmenuSel = { bg = colors.surface0 },
-          PmenuThumb = { bg = colors.surface1 },
-
-          -- Sidebars
-          NvimTreeNormal = { bg = "none" },
-          NeoTreeNormal = { bg = "none" },
+          -- Popups
+          Pmenu = { bg = c.mantle },
+          PmenuSel = { bg = c.surface1, bold = true },
+          PmenuThumb = { bg = c.surface2 },
 
           -- Statusline / tabs
-          StatusLine = { bg = colors.mantle },
-          TabLine = { bg = colors.mantle },
-          TabLineFill = { bg = "none" },
+          StatusLine = { bg = c.mantle, fg = c.subtext0 },
+          TabLineFill = { bg = c.crust },
+          TabLine = { bg = c.mantle, fg = c.overlay1 },
+          TabLineSel = { bg = c.surface0, fg = c.text, bold = true },
+
+          -- Gutter
+          SignColumn = { bg = c.base },
+          FoldColumn = { bg = c.base },
+
+          -- THE ONLY 4 SYNTAX COLORS
+          Keyword = { fg = c.blue, italic = true },
+          Statement = { fg = c.blue, italic = true },
+          Function = { fg = c.teal },
+          String = { fg = c.green },
+          Number = { fg = c.peach },
+          Boolean = { fg = c.peach },
+          Constant = { fg = c.peach },
+          Type = { fg = c.blue },
+          PreProc = { fg = c.blue },
+          Special = { fg = c.text },
+          Operator = { fg = c.text },
+          Identifier = { fg = c.text },
+
+          -- Treesitter — same 4 colors, nothing extra
+          ["@keyword"] = { fg = c.blue, italic = true },
+          ["@keyword.return"] = { fg = c.blue, italic = true },
+          ["@function"] = { fg = c.teal },
+          ["@function.builtin"] = { fg = c.teal },
+          ["@method"] = { fg = c.teal },
+          ["@string"] = { fg = c.green },
+          ["@number"] = { fg = c.peach },
+          ["@boolean"] = { fg = c.peach },
+          ["@constant"] = { fg = c.peach },
+          ["@constant.builtin"] = { fg = c.peach },
+          ["@type"] = { fg = c.blue },
+          ["@type.builtin"] = { fg = c.blue },
+          ["@tag"] = { fg = c.blue },
+          ["@tag.attribute"] = { fg = c.subtext1 },
+          ["@tag.delimiter"] = { fg = c.overlay1 },
+          ["@parameter"] = { fg = c.text },
+          ["@operator"] = { fg = c.text },
+          ["@punctuation.bracket"] = { fg = c.overlay2 },
+          ["@punctuation.delimiter"] = { fg = c.overlay1 },
+          ["@comment"] = { fg = c.overlay1, italic = true },
+          ["@attribute"] = { fg = c.blue },
+          ["@namespace"] = { fg = c.text },
+          ["@constructor"] = { fg = c.text },
+          ["@variable"] = { fg = c.rosewater }, -- or pick any accent
+          ["@variable.builtin"] = { fg = c.rosewater, italic = true },
+          ["@variable.parameter"] = { fg = c.rosewater },
+          ["@field"] = { fg = c.rosewater },
+          ["@property"] = { fg = c.rosewater },
 
           -- Diagnostics
-          DiagnosticError = { fg = colors.red },
-          DiagnosticWarn = { fg = colors.yellow },
-          DiagnosticInfo = { fg = colors.blue },
-          DiagnosticHint = { fg = colors.teal },
-
-          DiagnosticVirtualTextError = { fg = colors.red, bg = colors.surface0 },
-          DiagnosticVirtualTextWarn = { fg = colors.yellow, bg = colors.surface0 },
-          -- Columns
-
-          SignColumn = { bg = "none" },
-          FoldColumn = { bg = "none" },
+          DiagnosticError = { fg = c.red },
+          DiagnosticWarn = { fg = c.yellow },
+          DiagnosticInfo = { fg = c.blue },
+          DiagnosticHint = { fg = c.teal },
+          DiagnosticVirtualTextError = { fg = c.red, bg = c.surface0, italic = true },
+          DiagnosticVirtualTextWarn = { fg = c.yellow, bg = c.surface0, italic = true },
+          DiagnosticUnderlineError = { undercurl = true, sp = c.red },
+          DiagnosticUnderlineWarn = { undercurl = true, sp = c.yellow },
         }
       end,
     },
@@ -1443,4 +1508,99 @@ return {
   --   end,
   -- },
   --
+  -- {
+  --   "navarasu/onedark.nvim",
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     require("onedark").setup({
+  --       style = "darker",
+  --     })
+  --     require("onedark").load()
+  --   end,
+  -- },
+  --
+  -- {
+  --   "Mofiqul/vscode.nvim",
+  --   config = function()
+  --     require("vscode").setup({
+  --       transparent = true,
+  --     })
+  --     vim.cmd.colorscheme("vscode")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "olimorris/onedarkpro.nvim",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.opt.termguicolors = true
+  --
+  --     require("onedarkpro").setup({
+  --       colors = {
+  --         onedark_dark = {
+  --           bg = "#14161a",
+  --           bg_dark = "#101216",
+  --           bg_highlight = "#1c1f26",
+  --           bg_visual = "#232730",
+  --
+  --           fg = "#d4d7de",
+  --           fg_dark = "#9aa3b2",
+  --
+  --           -- ONLY 3 accents
+  --           blue = "#9BBCE3", -- primary
+  --           purple = "#a48cf2", -- secondary
+  --           yellow = "#c2b36d", -- strings
+  --         },
+  --       },
+  --
+  --       styles = {
+  --         comments = "italic",
+  --         keywords = "NONE",
+  --         functions = "NONE",
+  --         types = "NONE",
+  --         numbers = "NONE",
+  --         strings = "NONE",
+  --         operators = "NONE",
+  --       },
+  --
+  --       highlights = {
+  --         -- UI
+  --         CursorLine = { bg = "#1c1f26" },
+  --         Visual = { bg = "#232730" },
+  --         Search = { bg = "#2a303a" },
+  --
+  --         LineNr = { fg = "#3f4553" },
+  --         CursorLineNr = { fg = "#9BBCE3" },
+  --
+  --         StatusLine = { bg = "NONE" },
+  --         StatusLineNC = { bg = "NONE" },
+  --
+  --         Comment = { fg = "#6b7280", italic = true },
+  --
+  --         -- Minimal syntax coloring
+  --         Keyword = { fg = "#9BBCE3" }, -- primary accent
+  --         Conditional = { fg = "#9BBCE3" },
+  --         Repeat = { fg = "#9BBCE3" },
+  --
+  --         Function = { fg = "#a48cf2" }, -- secondary accent
+  --
+  --         String = { fg = "#ffffff" }, -- subtle warmth
+  --
+  --         -- Everything else inherits fg
+  --         Type = { fg = "#d4d7de" },
+  --         Number = { fg = "#d4d7de" },
+  --         Constant = { fg = "#d4d7de" },
+  --         Operator = { fg = "#d4d7de" },
+  --       },
+  --
+  --       options = {
+  --         transparency = true,
+  --         cursorline = true,
+  --         terminal_colors = true,
+  --       },
+  --     })
+  --
+  --     vim.cmd("colorscheme onedark_dark")
+  --   end,
+  -- },
 }
