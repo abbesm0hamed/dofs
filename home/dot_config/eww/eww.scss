@@ -1,0 +1,222 @@
+/* Eww port of Waybar theme */
+$crust: #11111b;
+$mantle: #181825;
+$base: #1e1e2e;
+$surface0: #313244;
+$surface1: #45475a;
+$surface2: #585b70;
+$overlay0: #6c7086;
+$overlay1: #7f849c;
+$overlay2: #9399b2;
+$subtext0: #a6adc8;
+$subtext1: #bac2de;
+$text: #e7e3ff;
+$rosewater: #f5e0dc;
+$flamingo: #f2cdcd;
+$pink: #f5c2e7;
+$mauve: #d0d2ff;
+$red: #f38ba8;
+$maroon: #eba0ac;
+$peach: #fab387;
+$yellow: #f9e2af;
+$green: #a6e3a1;
+$teal: #94e2d5;
+$sky: #89dceb;
+$sapphire: #74c7ec;
+$blue: #7e9cd8;
+$lavender: #b4befe;
+$bar_bg: #0d0e11;
+$bar_border: #383850;
+$module_bg: #141420;
+$muted: #4a4a64;
+$fingerprint_bg: #252538;
+$urgent_red: #eb4d4b;
+$recording_red: #ff4757;
+$ws_bg: #2a2a37;
+$ws_fg: #879099;
+$ws_focused_bg: #285577;
+$ws_focused_fg: #ffffff;
+$ws_focused_border: #7e9cd8;
+$ws_urgent_bg: #eb4d4b;
+$ws_urgent_border: #da605e;
+$ws_urgent_fg: #ffffff;
+
+* {
+  all: unset;
+  font-family: "JetBrains Mono", "Iosevka Medium Extended", "Inter", monospace;
+  font-size: 13px;
+}
+
+.bar {
+  background-color: $bar_bg;
+  color: $text;
+  border-bottom: 1px solid $bar_border;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+  color: $text;
+}
+
+/* Base padding for most widgets */
+.widget {
+  padding: 0px 10px;
+}
+
+/* Group monitoring sub-items padding */
+.custom-docker,
+.custom-storage,
+.memory,
+.cpu {
+  padding: 0px 0px 0px 8px;
+}
+
+/* Audio padding */
+.backlight,
+.wireplumber {
+  padding: 0px 0px 0px 8px;
+}
+
+.custom-idle_inhibitor,
+.custom-power {
+  padding: 0px 6px 0px 10px;
+}
+
+.battery {
+  padding: 0px 8px 0px 0px;
+}
+
+.bluetooth,
+.network,
+.power-profiles-daemon {
+  padding: 0px 0px 0px 8px;
+}
+
+/* Workspaces */
+.workspaces {
+  padding: 0;
+  margin: 0;
+}
+
+.workspaces button {
+  padding: 0 10px;
+  color: $ws_fg;
+}
+
+.workspaces button.focused {
+  background-color: $surface0;
+  color: $ws_focused_fg;
+  border-right: 2px dotted $overlay0;
+  border-left: 2px dotted $overlay0;
+  border-bottom: 1px solid $bar_border;
+}
+
+.workspaces button:hover {
+  background-color: $surface0;
+  border-top: 2px dotted $overlay0;
+  border-bottom: 2px dotted $overlay0;
+}
+
+.workspaces button.urgent {
+  background-color: $ws_urgent_bg;
+  color: $ws_urgent_fg;
+  border: 1px solid $ws_urgent_border;
+}
+
+/* Clock and Prayer */
+.clock,
+.custom-next-prayer {
+  font-weight: 600;
+  padding: 0px 10px;
+  background-color: $surface0;
+  border-bottom: 1px solid $bar_border;
+}
+
+/* Dotted dividers */
+.group-monitoring,
+.group-connectivity,
+.group-brightness-audio,
+.group-power-stats,
+.group-power,
+.clock,
+.custom-updates,
+.tray,
+.custom-next-prayer,
+.custom-notification-history {
+  border-left: 2px dotted $overlay0;
+}
+
+.group-brightness-audio {
+  background-color: $surface0;
+}
+
+.custom-power:hover {
+  color: $red;
+}
+
+.custom-niri-binds {
+  padding: 0px 10px;
+  background-color: $surface0;
+  border-top: 2px dotted $overlay0;
+  border-bottom: 2px dotted $overlay0;
+}
+
+/* Battery states */
+.battery.warning {
+  color: $yellow;
+}
+
+.battery.critical {
+  color: $red;
+}
+
+.battery.charging {
+  color: $green;
+}
+
+/* Power profiles */
+.power-profiles-daemon.performance {
+  color: $yellow;
+}
+
+.power-profiles-daemon.balanced {
+  color: $blue;
+}
+
+.power-profiles-daemon.power-saver {
+  color: $green;
+}
+
+.custom-idle_inhibitor:hover {
+  color: $blue;
+}
+
+/* Hover effects */
+.battery:hover,
+.cpu:hover,
+.memory:hover,
+.network:hover,
+.bluetooth:hover,
+.custom-notification-history:hover,
+.backlight:hover,
+.wireplumber:hover,
+.custom-storage:hover,
+.custom-updates:hover,
+.custom-fingerprint:hover {
+  color: $blue;
+  transition: background 0.2s ease;
+}
+
+/* Fingerprint */
+.custom-fingerprint {
+  color: $yellow;
+  background-color: $fingerprint_bg;
+  padding: 0px 10px;
+  transition: all 0.2s ease;
+}
+
+.custom-fingerprint:hover {
+  background-color: $yellow;
+  color: $module_bg;
+}

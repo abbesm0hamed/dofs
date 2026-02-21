@@ -1,0 +1,191 @@
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "100%"
+                      :height "18px"
+                      :anchor "top center")
+  :reserve (struts :side "top" :distance "18px")
+  :exclusive true
+  (centerbox :orientation "h"
+    (left_modules)
+    (center_modules)
+    (right_modules)))
+
+(defwidget left_modules []
+  (box :class "modules-left"
+       :orientation "h"
+       :space-evenly false
+       :halign "start"
+    (niri_binds)
+    (workspaces)))
+
+(defwidget center_modules []
+  (box :class "modules-center"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    ))
+
+(defwidget right_modules []
+  (box :class "modules-right"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+    (cava)
+    (fingerprint)
+    (updates)
+    (systray :pack-direction "rtl" :prepend-new true :class "tray")
+    (monitoring)
+    (brightness_audio)
+    (connectivity)
+    (power_stats)
+    (notification_history)
+    (power_group)
+    (clock_widget)
+    (next_prayer)))
+
+;; --- Left Modules ---
+
+(defwidget niri_binds []
+  (button :class "custom-niri-binds widget"
+          :onclick "sh -c '~/.config/niri/scripts/binds-menu.sh' &"
+          :tooltip "show niri binds"
+    (label :text "" :yalign 0.5)))
+
+(deflisten workspaces_listen "bash ~/.config/eww/scripts/workspaces.sh")
+(defwidget workspaces []
+  (literal :content workspaces_listen))
+
+;; --- Right Modules ---
+
+(defpoll cava_text :interval "20ms" "python3 ~/.config/waybar/scripts/cava.py --bars 5 --framerate 48 --palette default || echo ''")
+(defwidget cava []
+  (button :class "custom-cava widget"
+          :onclick "pkill -USR1 cava"
+    (label :text cava_text)))
+
+(defpoll fingerprint_status :interval "2s" "~/.config/waybar/scripts/fingerprint-status.sh | jq -r .text | sed 's/<[^>]*>//g' || echo ''")
+(defwidget fingerprint []
+  (button :class "custom-fingerprint widget"
+          :onclick "wezterm start -- bash -c '$HOME/.config/waybar/scripts/fingerprint-setup.sh setup; read -p \"Press Enter to close...\"' &"
+          :visible {fingerprint_status != ""}
+    (label :text fingerprint_status)))
+
+(defpoll updates_status :interval "1h" "~/.config/waybar/scripts/check-updates.sh | jq -r .text | sed 's/<[^>]*>//g' || echo ''")
+(defwidget updates []
+  (button :class "custom-updates widget"
+          :onclick "wezterm start -- sh -c '~/dofs/scripts/maintenance/update-all.sh' &"
+          :visible {updates_status != "" && updates_status != "null"}
+    (label :text updates_status)))
+
+(defwidget monitoring []
+  (box :class "group-monitoring widget" :orientation "h" :space-evenly false
+    (docker)
+    (storage)
+    (memory)
+    (cpu)))
+
+(defpoll docker_status :interval "2s" "~/.config/waybar/scripts/docker-event-status.sh | jq -r .text | sed 's/<[^>]*>//g' || echo ''")
+(defwidget docker []
+  (label :class "custom-docker" 
+         :visible {docker_status != "" && docker_status != "null"}
+         :text docker_status))
+
+(defpoll storage_status :interval "60s" "~/.config/waybar/scripts/storage.sh | jq -r .text | sed 's/<[^>]*>//g' || echo ''")
+(defwidget storage []
+  (label :class "custom-storage" 
+         :visible {storage_status != "" && storage_status != "null"}
+         :text "󰋊 ${storage_status}"))
+
+(defwidget memory []
+  (button :class "memory"
+          :onclick "wezterm start -- btop &"
+          :tooltip "Memory: ${round(EWW_RAM.used_mem / 1073741824, 1)}GiB / ${round(EWW_RAM.total_mem / 1073741824, 1)}GiB"
+    (label :text "  ${round(EWW_RAM.used_mem / EWW_RAM.total_mem * 100, 0)}%")))
+
+(defwidget cpu []
+  (box :class "cpu" :tooltip "CPU Usage: ${round(EWW_CPU.avg, 0)}%"
+    (label :text " ${round(EWW_CPU.avg, 0)}%")))
+
+(defwidget brightness_audio []
+  (box :class "group-brightness-audio widget" :orientation "h" :space-evenly false
+    (backlight)
+    (volume)))
+
+(defpoll brightness_val :interval "100ms" "brightnessctl i | grep -oP '\\(\\K[0-9]+(?=%\\))' || echo 0")
+(defwidget backlight []
+  (box :class "backlight" :tooltip "Brightness: ${brightness_val}%"
+    (label :text "󰃠 ${brightness_val}%")))
+
+(defpoll volume_val :interval "100ms" "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}' || echo 0")
+(defpoll is_muted :interval "100ms" "wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo true || echo false")
+(defwidget volume []
+  (button :class "wireplumber" :onclick "pavucontrol &" :onrightclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    (label :text {is_muted == "true" ? "  ${volume_val}%" : "  ${volume_val}%"})))
+
+(defwidget connectivity []
+  (box :class "group-connectivity widget" :orientation "h" :space-evenly false
+    (bluetooth)
+    (network)))
+
+(defpoll bt_status :interval "2s" "bluetoothctl show | grep -q 'Powered: yes' && echo '󰂯' || echo '󰂲'")
+(defwidget bluetooth []
+  (button :class "bluetooth" :onclick "blueman-manager &" :onrightclick "bluetoothctl power toggle"
+    (label :text bt_status)))
+
+(defpoll net_status :interval "2s" "cat /sys/class/net/wl*/operstate 2>/dev/null | grep -q up && echo '󰤨 ' || echo '󰤭 '")
+(defwidget network []
+  (button :class "network" :onclick "nm-connection-editor &"
+    (label :text net_status)))
+
+(defwidget power_stats []
+  (box :class "group-power-stats widget" :orientation "h" :space-evenly false
+    (battery)
+    (power_profiles)))
+
+(defwidget battery []
+  (box :class "battery ${EWW_BATTERY.BAT0.capacity < 15 ? 'critical' : EWW_BATTERY.BAT0.capacity < 30 ? 'warning' : ''}"
+       :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%"
+    (label :text "${EWW_BATTERY.BAT0.status == 'Charging' ? '󰂄' : '󰁹'} ${EWW_BATTERY.BAT0.capacity}%")))
+
+(defpoll current_profile :interval "1s" "powerprofilesctl get")
+(defwidget power_profiles []
+  (box :class "power-profiles-daemon ${current_profile}"
+       :tooltip "Power profile: ${current_profile}"
+    (label :text {current_profile == "power-saver" ? "" : current_profile == "performance" ? "" : ""})))
+
+(defpoll notif_history_status :interval "1s" "~/.config/waybar/scripts/mako-history-status.sh | jq -r .text | sed 's/<[^>]*>//g' || echo ''")
+(defwidget notification_history []
+  (button :class "custom-notification-history widget" 
+          :onclick "~/.config/waybar/scripts/mako-history-menu.sh &"
+          :onrightclick "makoctl restore"
+    (label :text notif_history_status)))
+
+(defwidget power_group []
+  (box :class "group-power widget" :orientation "h" :space-evenly false
+    (idle_inhibitor)
+    (power_btn)))
+
+(defpoll idle_status :interval "1s" "if systemctl --user is-active --quiet swayidle.service 2>/dev/null || pgrep -x swayidle >/dev/null 2>&1; then echo '󰅶'; else echo '󰾪'; fi")
+(defwidget idle_inhibitor []
+  (button :class "custom-idle_inhibitor" :onclick "~/.config/waybar/scripts/toggle-idle.sh &"
+    (label :text idle_status)))
+
+(defwidget power_btn []
+  (button :class "custom-power" :onclick "~/.config/waybar/scripts/power-menu.sh &"
+    (label :text "")))
+
+(defpoll time :interval "10s" "date +'%d, %H:%M'")
+(defpoll date_tooltip :interval "1h" "date +'%Y %B\n%d, %A'")
+(defwidget clock_widget []
+  (box :class "clock widget" :tooltip date_tooltip
+    (label :text time)))
+
+;; Removed jq because next-prayer.sh outputs raw text, not JSON!
+(defpoll prayer_status :interval "60s" "~/.config/waybar/scripts/next-prayer.sh || echo ''")
+(defwidget next_prayer []
+  (box :class "custom-next-prayer widget"
+       :visible {prayer_status != ""}
+    (label :text prayer_status)))

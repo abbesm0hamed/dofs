@@ -189,6 +189,7 @@ dnf_packages:
   - rofi
   - mako
   - waybar
+  - eww
   - hyprpaper
   - xdg-desktop-portal
   - xdg-desktop-portal-gnome
