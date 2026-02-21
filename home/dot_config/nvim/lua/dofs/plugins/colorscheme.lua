@@ -58,15 +58,15 @@ return {
           -- Cursor
           CursorLine = { bg = c.surface0 },
           CursorLineNr = { fg = c.blue, bold = true },
-          LineNr = { fg = c.overlay0 },
+          LineNr = { fg = c.overlay1 },
 
           -- Selection & search
-          Visual = { bg = c.surface1 },
+          Visual = { bg = c.surface2 },
           Search = { bg = c.surface2, fg = c.text, bold = true },
           IncSearch = { bg = c.blue, fg = c.base, bold = true },
 
           -- Comments
-          Comment = { fg = c.overlay1, italic = true },
+          Comment = { fg = c.subtext0, italic = true },
 
           -- Popups
           Pmenu = { bg = c.mantle },
@@ -117,7 +117,7 @@ return {
           ["@operator"] = { fg = c.text },
           ["@punctuation.bracket"] = { fg = c.overlay2 },
           ["@punctuation.delimiter"] = { fg = c.overlay1 },
-          ["@comment"] = { fg = c.overlay1, italic = true },
+          ["@comment"] = { fg = c.subtext0, italic = true },
           ["@attribute"] = { fg = c.blue },
           ["@namespace"] = { fg = c.text },
           ["@constructor"] = { fg = c.text },

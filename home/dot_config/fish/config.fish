@@ -39,6 +39,7 @@ if status is-interactive
     alias hlx="hx -w ."
     alias l="ls"
     alias c="clear"
+    alias e.="exit"
     alias ff="fastfetch"
     alias cat="bat --style=plain --paging=never"
     alias ls="eza --icons --group-directories-first"
