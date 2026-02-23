@@ -120,7 +120,7 @@ return {
 
         -- Toggles
         map("n", "<leader>td", gitsigns.toggle_deleted, { desc = "Toggle deleted" })
-        map("n", "<leader>tw", gitsigns.toggle_word_diff, { desc = "Toggle word diff" })
+        map("n", "<leader>tW", gitsigns.toggle_word_diff, { desc = "Toggle word diff" })
 
         -- Text objects
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Select hunk" })

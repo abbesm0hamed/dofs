@@ -287,4 +287,16 @@ return {
     "kkharji/sqlite.lua",
     lazy = true,
   },
+  {
+    "andrewferrier/wrapping.nvim",
+    event = "BufReadPre",
+    opts = {
+      create_keymaps = false, -- we'll use our own
+    },
+    keys = {
+      { "<leader>tw", "<Plug>(wrapping-toggle-wrap-mode)", desc = "Toggle wrap mode" },
+      { "[ow", "<Plug>(wrapping-soft-wrap-mode)", desc = "Soft wrap mode" },
+      { "]ow", "<Plug>(wrapping-hard-wrap-mode)", desc = "Hard wrap mode" },
+    },
+  },
 }

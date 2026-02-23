@@ -218,11 +218,6 @@ keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" }
 keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 
 -- Toggle options quickly
-keymap.set("n", "<leader>tw", function()
-  vim.wo.wrap = not vim.wo.wrap
-  vim.notify("Wrap " .. (vim.wo.wrap and "enabled" or "disabled"))
-end, { desc = "Toggle Wrap" })
-
 keymap.set("n", "<leader>ts", function()
   vim.o.spell = not vim.o.spell
   vim.notify("Spell " .. (vim.o.spell and "enabled" or "disabled"))
