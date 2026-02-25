@@ -31,7 +31,6 @@ window#waybar {
 #custom-notification-history,
 #custom-recording,
 #custom-mic,
-#custom-cava,
 #custom-fingerprint,
 #monitoring,
 #connectivity,
@@ -57,6 +56,20 @@ window#waybar {
 
 #battery {
   padding: 0px 8px 0px 0px;
+}
+
+/* Media group - mpris + cava */
+#media {
+  padding: 0px 10px;
+}
+
+#mpris,
+#custom-cava {
+  padding: 0px;
+}
+
+#mpris {
+  margin-right: 8px;
 }
 
 /* Workspaces */
@@ -198,6 +211,8 @@ tooltip label {
 #custom-notification-history:hover,
 #backlight:hover,
 #wireplumber:hover,
+#mpris:hover,
+#custom-cava:hover,
 #custom-storage:hover,
 #custom-updates:hover,
 #custom-fingerprint:hover {

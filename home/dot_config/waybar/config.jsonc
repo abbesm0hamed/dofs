@@ -17,7 +17,7 @@
     ],
     // "modules-center": [],
     "modules-right": [
-        "custom/cava",
+        "group/media",
         "custom/fingerprint",
         "custom/updates",
         "tray",
@@ -461,6 +461,13 @@
         "on-scroll-up": "true",
         "on-scroll-down": "true"
     },
+    "group/media": {
+        "orientation": "horizontal",
+        "modules": [
+            "mpris",
+            "custom/cava"
+        ]
+    },
     "custom/cava": {
         "format": "{}",
         "escape": false,
@@ -468,5 +475,24 @@
         "on-click": "pkill -USR1 cava",
         "on-scroll-up": "true",
         "on-scroll-down": "true"
+    },
+    "mpris": {
+        "format": "{status_icon} {title}",
+        "format-paused": "{status_icon} {title}",
+        "format-stopped": "",
+        "format-disconnected": "",
+        "status-icons": {
+            "playing": "<span rise='1000' foreground='#a6e3a1'>󰐊</span>",
+            "paused": "<span rise='1000' foreground='#f9e2af'>󰏤</span>"
+        },
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next",
+        "on-click-middle": "playerctl previous",
+        "on-scroll-up": "playerctl volume 0.05+",
+        "on-scroll-down": "playerctl volume 0.05-",
+        "min-length": 20,
+        "max-length": 70,
+        "tooltip-format": "{player}: {title} - {artist} ({album})",
+        "tooltip-format-paused": "{player}: {title} - {artist} ({album})"
     }
 }
