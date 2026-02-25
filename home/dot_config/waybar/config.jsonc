@@ -464,8 +464,8 @@
     "group/media": {
         "orientation": "horizontal",
         "modules": [
-            "mpris",
-            "custom/cava"
+            "custom/cava",
+            "mpris"
         ]
     },
     "custom/cava": {

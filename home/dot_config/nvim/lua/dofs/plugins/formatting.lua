@@ -14,11 +14,14 @@ return {
   opts = {
     formatters_by_ft = {
       lua = { "stylua" },
-      javascript = { "biome", "prettier", stop_after_first = true },
-      typescript = { "biome", "prettier", stop_after_first = true },
-      javascriptreact = { "biome", "prettier", stop_after_first = true },
-      typescriptreact = { "biome", "prettier", stop_after_first = true },
-      json = { "biome", "prettier", stop_after_first = true },
+      javascript = { "oxfmt", "prettier" },
+      typescript = { "oxfmt", "prettier" },
+      javascriptreact = { "oxfmt", "prettier" },
+      typescriptreact = { "oxfmt", "prettier" },
+      jsx = { "oxfmt", "prettier" },
+      tsx = { "oxfmt", "prettier" },
+      json = { "oxfmt", "prettier" },
+      jsonc = { "oxfmt", "prettier" },
       vue = { "prettier" },
       html = { "prettier" },
       css = { "prettier" },
@@ -33,14 +36,19 @@ return {
     },
     format_on_save = { timeout_ms = 3000, lsp_format = "fallback" },
     formatters = {
+      oxfmt = {
+        command = "oxfmt",
+        args = { "--stdin-filepath", "$FILENAME" },
+        stdin = true,
+        condition = function(_, _)
+          local out = vim.system({ "oxfmt", "--version" }, { stdin = "" }):wait()
+          return out.code == 0
+        end,
+      },
       biome = {
         command = "biome",
         args = { "format", "--stdin-file-path", "$FILENAME" },
         stdin = true,
-        condition = function(_, _)
-          local out = vim.system({ "biome", "format", "--stdin-file-path", "dummy.js" }, { stdin = "" }):wait()
-          return out.code == 0
-        end,
       },
       prettier = {
         condition = function(_, ctx)
