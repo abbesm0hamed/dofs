@@ -103,7 +103,7 @@ window-rule {
 window-rule {
     match app-id=r#"^(chrome-web.whatsapp.com__-Default|telegram|ZapZap|com\.github\.IsmaelMartinez\.teams_for_linux|org\.telegram\.desktop)$"#
     open-on-workspace "communication"
-    open-maximized true
+    open-maximized false
     clip-to-geometry true
 }
 

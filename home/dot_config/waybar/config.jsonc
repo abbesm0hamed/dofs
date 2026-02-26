@@ -472,7 +472,10 @@
         "format": "{}",
         "escape": false,
         "exec": "python3 ~/.config/waybar/scripts/cava.py --bars 5 --framerate 48 --palette default",
-        "on-click": "pkill -USR1 cava",
+        "tooltip": true,
+        "tooltip-format": "Left: Pavucontrol | Right: Cava terminal",
+        "on-click": "pavucontrol",
+        "on-click-right": "wezterm start -- cava",
         "on-scroll-up": "true",
         "on-scroll-down": "true"
     },
@@ -490,9 +493,9 @@
         "on-click-middle": "playerctl previous",
         "on-scroll-up": "playerctl volume 0.05+",
         "on-scroll-down": "playerctl volume 0.05-",
-        "min-length": 20,
-        "max-length": 70,
-        "tooltip-format": "{player}: {title} - {artist} ({album})",
-        "tooltip-format-paused": "{player}: {title} - {artist} ({album})"
+        "min-length": 25,
+        "max-length": 80,
+        "tooltip-format": "{title}",
+        "tooltip-format-paused": "{title}"
     }
 }

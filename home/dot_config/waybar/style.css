@@ -36,6 +36,7 @@ window#waybar {
 #connectivity,
 #brightness_audio,
 #power_stats,
+#media,
 #custom-updates {
   padding: 0px 10px;
 }
@@ -50,26 +51,13 @@ window#waybar {
 #cpu,
 #memory,
 #network,
+#mpris,
 #custom-storage {
   padding: 0px 0px 0px 8px;
 }
 
 #battery {
   padding: 0px 8px 0px 0px;
-}
-
-/* Media group - mpris + cava */
-#media {
-  padding: 0px 10px;
-}
-
-#mpris,
-#custom-cava {
-  padding: 0px;
-}
-
-#mpris {
-  margin-right: 8px;
 }
 
 /* Workspaces */
