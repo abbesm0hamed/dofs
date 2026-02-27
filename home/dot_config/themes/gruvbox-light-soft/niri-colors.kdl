@@ -1,0 +1,12 @@
+// Gruvbox Light Soft colors for Niri
+layout {
+    background-color "#f2e5bc"
+    border {
+        active-color "#458588"
+        inactive-color "#d5c4a1"
+        urgent-color "#cc241d"
+    }
+}
+overview {
+    backdrop-color "#f2e5bce6"
+}

@@ -274,3 +274,10 @@ tooltip label {
 #custom-recording.recording-audio:hover {
   color: @blue;
 }
+
+/* Pango span classes for themed colors */
+.notification { color: @notification_yellow; }
+.muted { color: @muted_peach; }
+.purple { color: @purple; }
+.playing { color: @playing_green; }
+.paused { color: @notification_yellow; }

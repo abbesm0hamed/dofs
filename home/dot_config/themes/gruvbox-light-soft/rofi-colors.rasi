@@ -1,0 +1,12 @@
+/* Gruvbox Light Soft Rofi */
+* {
+    bg-col: #f2e5bc;
+    bg-col-light: #ebdbb2;
+    border-col: #458588;
+    selected-col: #d5c4a1;
+    blue: #458588;
+    mauve: #b16286;
+    fg-col: #3c3836;
+    fg-col2: #d79921;
+    grey: #7c6f64;
+}

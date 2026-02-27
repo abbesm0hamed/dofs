@@ -21,3 +21,15 @@
 @define-color urgent_red #c34043;
 @define-color mantle #1f1f28;
 @define-color crust #16161d;
+@define-color ws_bg #2a2a37;
+@define-color ws_fg #727169;
+@define-color ws_focused_bg #363646;
+@define-color ws_focused_fg #dcd7ba;
+@define-color ws_focused_border #7e9cd8;
+@define-color ws_urgent_bg #c34043;
+@define-color ws_urgent_border #e82424;
+@define-color ws_urgent_fg #dcd7ba;
+@define-color notification_yellow #e6c384;
+@define-color muted_peach #c0a36e;
+@define-color purple #957fb8;
+@define-color playing_green #76946a;

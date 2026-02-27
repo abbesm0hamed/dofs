@@ -254,7 +254,7 @@
         "tooltip": false,
         "format": "{icon}",
         "format-icons": {
-            "notification": "<span foreground='#f9e2af'>󰂚</span>",
+            "notification": "<span class='notification'>󰂚</span>",
             "none": "<span>󰂛</span>" // "󰂛"
         },
         "return-type": "json",
@@ -328,9 +328,9 @@
     },
     "mpd": {
         "max-length": 25,
-        "format": "<span foreground='#bb9af7'></span> {title}",
+        "format": "<span class='purple'>󰎆</span> {title}",
         "format-paused": " {title}",
-        "format-stopped": "<span foreground='#bb9af7'></span>",
+        "format-stopped": "<span class='purple'>󰎆</span>",
         "format-disconnected": "",
         "on-click": "mpc --quiet toggle",
         "on-click-right": "mpc update; mpc ls | mpc add",
@@ -387,7 +387,7 @@
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
         "format": "<span rise='1000'>{icon}</span>{volume}%",
         "tooltip-format": "Volume: {volume}%",
-        "format-muted": "<span foreground='#fab387'> </span>",
+        "format-muted": "<span class='muted'>󰔌 </span>",
         // "format-icons": [ "<span foreground='#fab387'> </span>" ]
         "format-icons": {
             "headphone": " ",
@@ -485,8 +485,8 @@
         "format-stopped": "",
         "format-disconnected": "",
         "status-icons": {
-            "playing": "<span rise='1000' foreground='#a6e3a1'>󰐊</span>",
-            "paused": "<span rise='1000' foreground='#f9e2af'>󰏤</span>"
+            "playing": "<span rise='1000' class='playing'>󰐊</span>",
+            "paused": "<span rise='1000' class='paused'>󰏤</span>"
         },
         "on-click": "playerctl play-pause",
         "on-click-right": "playerctl next",

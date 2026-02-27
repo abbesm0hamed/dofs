@@ -40,4 +40,7 @@
 @define-color ws_urgent_bg #eb4d4b;
 @define-color ws_urgent_border #da605e;
 @define-color ws_urgent_fg #ffffff;
-
+@define-color notification_yellow #f9e2af;
+@define-color muted_peach #fab387;
+@define-color purple #bb9af7;
+@define-color playing_green #a6e3a1;

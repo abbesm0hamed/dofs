@@ -32,3 +32,15 @@
 @define-color fingerprint_bg #2a3040;
 @define-color urgent_red #5b6680;
 @define-color recording_red #5b6680;
+@define-color ws_bg #242b3a;
+@define-color ws_fg #4a5468;
+@define-color ws_focused_bg #2a3040;
+@define-color ws_focused_fg #cfd4dc;
+@define-color ws_focused_border #cfd4dc;
+@define-color ws_urgent_bg #5b6680;
+@define-color ws_urgent_border #4a5468;
+@define-color ws_urgent_fg #e5e7eb;
+@define-color notification_yellow #7c8594;
+@define-color muted_peach #5b6680;
+@define-color purple #7c8594;
+@define-color playing_green #4a5468;
