@@ -31,6 +31,11 @@ This setup comes with 3 built-in themes: **dofs** (default), **Kanagawa**, and *
 ![Zen Theme Switcher](home/dot_config/screenshots/zen-theme-switcher.png)
 *Unified theme switcher*
 
+#### Gruvbox Theme
+
+![Gruvbox Theme Overview](home/dot_config/screenshots/gruvbox-overview.png)
+*Retro warm aesthetics*
+
 A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
 - **Niri** - Scrollable-tiling Wayland compositor
