@@ -18,17 +18,18 @@
     Mod+Alt+O { spawn "sh" "-c" "~/.config/niri/scripts/toggle-transparency.sh"; }
 
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
-    Alt+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
+    Alt+Shift+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
     Mod+Y { spawn "flatpak" "run" "dev.bragefuglseth.Keypunch"; }
     Alt+E { spawn "nautilus"; }
+    Alt+M { spawn "chromium-browser" "--app=https://maps.google.com"; }
     Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }
     Alt+Shift+C { spawn "chromium-browser" "--app=https://claude.ai/new"; }
     Alt+D { spawn "chromium-browser" "--app=https://discord.com/app"; }
     // Alt+W { spawn "chromium-browser" "--app=https://web.whatsapp.com"; }
-    Alt+W { spawn "zapzap"; } // WhatsApp desktop clone
-    Alt+T { spawn "flatpak" "run" "com.github.IsmaelMartinez.teams_for_linux"; } // Teams for linux
     Alt+N { spawn "chromium-browser" "--app=https://notion.so"; }
     Alt+F { spawn "chromium-browser" "--app=https://figma.com"; }
+    Alt+W { spawn "zapzap"; } // WhatsApp desktop clone
+    Alt+T { spawn "flatpak" "run" "com.github.IsmaelMartinez.teams_for_linux"; } // Teams for linux
     Mod+Space { spawn "rofi" "-show" "drun"; }
     Alt+Mod+V { spawn "evince"; }  // Quick PDF viewer launch
     Alt+Ctrl+L {
