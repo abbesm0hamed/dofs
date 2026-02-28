@@ -26,6 +26,8 @@ RANGER_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf"
 YAZI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/yazi.toml"
 ZED_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/zed/settings.json"
 WINDSURF_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/Windsurf/User/settings.json"
+NVIM_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/nvim/lua/dofs/plugins/colorscheme.lua"
+TMUX_OUT="${XDG_CONFIG_HOME:-$HOME}/.tmux/theme.conf"
 
 # Parse flags
 FROM_PICKER=false
@@ -54,8 +56,15 @@ fi
 THEME="${1:-$PREV_THEME}"
 
 if [ -z "$THEME" ]; then
-    echo "No theme specified and no previous theme found."
-    exit 1
+    # No theme specified and no previous theme - use default
+    DEFAULT_THEME="dofs"
+    if [ -d "$THEMES_DIR/$DEFAULT_THEME" ]; then
+        echo "No theme specified, using default: $DEFAULT_THEME"
+        THEME="$DEFAULT_THEME"
+    else
+        echo "No theme specified and default theme '$DEFAULT_THEME' not found in $THEMES_DIR"
+        exit 1
+    fi
 fi
 
 apply_theme() {
@@ -87,6 +96,8 @@ apply_theme() {
     sync_file "yazi-theme.toml" "$YAZI_OUT"
     sync_file "zed-theme.json" "$ZED_OUT"
     sync_file "windsurf-theme.json" "$WINDSURF_OUT"
+    sync_file "nvim-colorscheme.lua" "$NVIM_OUT"
+    sync_file "tmux-theme.conf" "$TMUX_OUT"
 
     # Apply GTK theme if specified
     if [ -f "$path/gtk-theme.txt" ]; then
