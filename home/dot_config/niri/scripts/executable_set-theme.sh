@@ -28,6 +28,7 @@ ZED_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/zed/settings.json"
 WINDSURF_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/Windsurf/User/settings.json"
 NVIM_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/nvim/lua/dofs/plugins/colorscheme.lua"
 TMUX_OUT="${XDG_CONFIG_HOME:-$HOME}/.tmux/theme.conf"
+GHOSTTY_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty/theme"
 
 # Parse flags
 FROM_PICKER=false
@@ -98,6 +99,7 @@ apply_theme() {
     sync_file "windsurf-theme.json" "$WINDSURF_OUT"
     sync_file "nvim-colorscheme.lua" "$NVIM_OUT"
     sync_file "tmux-theme.conf" "$TMUX_OUT"
+    sync_file "ghostty-theme" "$GHOSTTY_OUT"
 
     # Apply GTK theme if specified
     if [ -f "$path/gtk-theme.txt" ]; then

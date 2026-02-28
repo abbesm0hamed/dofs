@@ -1,0 +1,26 @@
+# Zen (Monochrome) Theme for Ghostty
+
+background = #0e1116
+foreground = #e5e7eb
+
+# Numbered Palette
+palette = 0=#242b3a
+palette = 1=#7c8594
+palette = 2=#7c8594
+palette = 3=#7c8594
+palette = 4=#7c8594
+palette = 5=#7c8594
+palette = 6=#7c8594
+palette = 7=#5b6680
+palette = 8=#32394a
+palette = 9=#7c8594
+palette = 10=#7c8594
+palette = 11=#7c8594
+palette = 12=#7c8594
+palette = 13=#7c8594
+palette = 14=#7c8594
+palette = 15=#a7afba
+
+cursor-color = #e5e7eb
+selection-background = #242b3a
+selection-foreground = #e5e7eb

@@ -19,9 +19,9 @@ window-inherit-working-directory = true
 config-file = ~/.config/ghostty/theme
 
 # Transparency and Focus
-background-opacity = 0.98
+background-opacity = 1
 background-opacity-cells = true
-unfocused-split-opacity = 0.9
+# unfocused-split-opacity = 1
 
 # Mouse Configuration
 mouse-hide-while-typing = true

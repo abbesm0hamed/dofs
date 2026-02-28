@@ -1,0 +1,26 @@
+# Dofs (Catppuccin Mocha) Theme for Ghostty
+
+background = #0d0e11
+foreground = #dcdce8
+
+# Numbered Palette
+palette = 0=#14141e
+palette = 1=#e88a97
+palette = 2=#d4c46a
+palette = 3=#e8a87c
+palette = 4=#88b4e8
+palette = 5=#c8a8e8
+palette = 6=#6dd4bc
+palette = 7=#9090aa
+palette = 8=#7070a0
+palette = 9=#e88a97
+palette = 10=#d4c46a
+palette = 11=#e8a87c
+palette = 12=#88b4e8
+palette = 13=#c8a8e8
+palette = 14=#6dd4bc
+palette = 15=#b0b0c8
+
+cursor-color = #dcdce8
+selection-background = #14141e
+selection-foreground = #dcdce8

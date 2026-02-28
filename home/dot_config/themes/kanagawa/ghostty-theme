@@ -1,0 +1,26 @@
+# Kanagawa Theme for Ghostty
+
+background = #1f1f28
+foreground = #dcd7ba
+
+# Numbered Palette
+palette = 0=#2a2a37
+palette = 1=#c34043
+palette = 2=#76946a
+palette = 3=#e6c384
+palette = 4=#7e9cd8
+palette = 5=#957fb8
+palette = 6=#6a9589
+palette = 7=#727169
+palette = 8=#54546d
+palette = 9=#c34043
+palette = 10=#76946a
+palette = 11=#e6c384
+palette = 12=#7e9cd8
+palette = 13=#957fb8
+palette = 14=#6a9589
+palette = 15=#c8c093
+
+cursor-color = #dcd7ba
+selection-background = #223249
+selection-foreground = #dcd7ba

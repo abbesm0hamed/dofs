@@ -1,0 +1,26 @@
+# Gruvbox Light Soft Theme for Ghostty
+
+background = #f2e5bc
+foreground = #282828
+
+# Numbered Palette
+palette = 0=#3c3836
+palette = 1=#9d0006
+palette = 2=#79740e
+palette = 3=#b57614
+palette = 4=#076678
+palette = 5=#8f3f71
+palette = 6=#427b58
+palette = 7=#7c6f64
+palette = 8=#9d0006
+palette = 9=#79740e
+palette = 10=#b57614
+palette = 11=#076678
+palette = 12=#8f3f71
+palette = 13=#427b58
+palette = 14=#3c3836
+palette = 15=#282828
+
+cursor-color = #282828
+selection-background = #d5c4a1
+selection-foreground = #282828
