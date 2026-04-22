@@ -23,6 +23,7 @@
     Alt+E { spawn "nautilus"; }
     Alt+M { spawn "chromium-browser" "--app=https://maps.google.com"; }
     Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }
+    Alt+Y { spawn "chromium-browser" "--app=https://youtube.com"; }
     Alt+Shift+C { spawn "chromium-browser" "--app=https://claude.ai/new"; }
     Alt+D { spawn "chromium-browser" "--app=https://discord.com/app"; }
     // Alt+W { spawn "chromium-browser" "--app=https://web.whatsapp.com"; }
