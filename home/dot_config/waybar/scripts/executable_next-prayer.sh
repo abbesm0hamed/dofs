@@ -47,7 +47,7 @@ get_location() {
     fi
 
     local cache_file="${CACHE_DIR}/location.json"
-    
+
     # Use cached location if it exists and is not empty
     if [ -f "$cache_file" ] && [ -s "$cache_file" ]; then
         LATITUDE=$(jq -r '.lat' "$cache_file")
@@ -56,11 +56,11 @@ get_location() {
     fi
 
     for ((i = 1; i <= MAX_RETRIES; i++)); do
-        loc_json=$(curl -s --connect-timeout 5 http://ip-api.com/json)
+        loc_json=$(curl -sL --connect-timeout 5 http://ip-api.com/json)
         if [ $? -eq 0 ] && echo "$loc_json" | jq -e '.lat' >/dev/null; then
             LATITUDE=$(echo "$loc_json" | jq -r '.lat')
             LONGITUDE=$(echo "$loc_json" | jq -r '.lon')
-            echo "$loc_json" > "$cache_file"
+            echo "$loc_json" >"$cache_file"
             return 0
         fi
         sleep $RETRY_DELAY
@@ -82,9 +82,9 @@ fetch_calendar_data() {
 
     # Fetch from API
     for ((i = 1; i <= MAX_RETRIES; i++)); do
-        data=$(curl -s --connect-timeout 5 "http://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${LATITUDE}&longitude=${LONGITUDE}&method=${METHOD}")
+        data=$(curl -sL --connect-timeout 5 "http://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${LATITUDE}&longitude=${LONGITUDE}&method=${METHOD}")
         if [ $? -eq 0 ] && echo "$data" | jq -e '.data' >/dev/null; then
-            echo "$data" > "$cache_file"
+            echo "$data" >"$cache_file"
             echo "$data"
             return 0
         fi
@@ -98,7 +98,7 @@ fetch_single_day() {
     local date_str=$1 # Format: DD-MM-YYYY
     local cache_file="${CACHE_DIR}/timings_${date_str}.json"
 
-     if [ -f "$cache_file" ] && [ -s "$cache_file" ]; then
+    if [ -f "$cache_file" ] && [ -s "$cache_file" ]; then
         cat "$cache_file"
         return 0
     fi
@@ -106,11 +106,11 @@ fetch_single_day() {
     for ((i = 1; i <= MAX_RETRIES; i++)); do
         # Convert date to timestamp for the API or use timingsByDate
         # API expects DD-MM-YYYY
-        data=$(curl -s --connect-timeout 5 "http://api.aladhan.com/v1/timings/${date_str}?latitude=${LATITUDE}&longitude=${LONGITUDE}&method=${METHOD}")
+        data=$(curl -sL --connect-timeout 5 "http://api.aladhan.com/v1/timings/${date_str}?latitude=${LATITUDE}&longitude=${LONGITUDE}&method=${METHOD}")
         if [ $? -eq 0 ] && echo "$data" | jq -e '.data' >/dev/null; then
-             echo "$data" > "$cache_file"
-             echo "$data"
-             return 0
+            echo "$data" >"$cache_file"
+            echo "$data"
+            return 0
         fi
         sleep $RETRY_DELAY
     done
@@ -132,7 +132,7 @@ fi
 # Current date details
 current_year=$(date +%Y)
 current_month=$(date +%m)
-current_day=$(date +%d) # 01-31
+current_day=$(date +%d)                  # 01-31
 current_day_idx=$((10#$current_day - 1)) # 0-indexed for array
 current_time=$(date +%H:%M)
 
@@ -170,37 +170,36 @@ done
 # If no prayer left today, get tomorrow's Fajr
 if [[ -z "$next_prayer_name" ]]; then
     next_prayer_name="Fajr"
-    
+
     # Check if tomorrow is in next month
     tomorrow_date=$(date -d "tomorrow" +%d-%m-%Y)
     tomorrow_day=$(date -d "tomorrow" +%d)
-    
+
     # If tomorrow is the 1st, we might need next month's data or just a single day fetch
     if [ "$tomorrow_day" == "01" ]; then
         # Fetch specifically for tomorrow to be accurate across month boundaries
         next_day_data=$(fetch_single_day "$tomorrow_date")
         if [ -n "$next_day_data" ]; then
-             next_prayer_time_str=$(echo "$next_day_data" | jq -r ".data.timings.Fajr" | cut -d' ' -f1)
+            next_prayer_time_str=$(echo "$next_day_data" | jq -r ".data.timings.Fajr" | cut -d' ' -f1)
         else
-            # Fallback: use today's Fajr 
-             next_prayer_time_str="${prayer_times[0]}"
+            # Fallback: use today's Fajr
+            next_prayer_time_str="${prayer_times[0]}"
         fi
     else
         # Just use the next index in the current month array
         # Using tomorrow's day index (which is today's index + 1)
         next_day_idx=$((current_day_idx + 1))
         next_prayer_time_str=$(echo "$calendar_data" | jq -r ".data[$next_day_idx].timings.Fajr" | cut -d' ' -f1)
-        
+
         # Safety check if jq returns null (shouldn't happen if calendar has correct days)
         if [ -z "$next_prayer_time_str" ] || [ "$next_prayer_time_str" == "null" ]; then
-             next_prayer_time_str="${prayer_times[0]}"
+            next_prayer_time_str="${prayer_times[0]}"
         fi
     fi
-    
+
     # Calculate seconds for tomorrow
     next_prayer_seconds=$(date -d "tomorrow $next_prayer_time_str" +%s)
 fi
-
 
 # Output result
 current_seconds=$(date +%s)
@@ -220,11 +219,11 @@ STATE_FILE="/tmp/prayer_alert_sent"
 if [ $time_left_seconds -le $ALERT_THRESHOLD ] && [ $time_left_seconds -gt 240 ]; then
     CURRENT_PRAYER_ID="${next_prayer_name}_$(date +%F)"
     LAST_NOTIFIED=$(cat "$STATE_FILE" 2>/dev/null || echo "")
-    
+
     if [ "$LAST_NOTIFIED" != "$CURRENT_PRAYER_ID" ]; then
         if command -v notify-send >/dev/null 2>&1; then
             notify-send -u critical "Prayer Alert" "5 minutes until $next_prayer_name ($next_prayer_time_str)" -i appointment-soon
-            echo "$CURRENT_PRAYER_ID" > "$STATE_FILE"
+            echo "$CURRENT_PRAYER_ID" >"$STATE_FILE"
         fi
     fi
 fi

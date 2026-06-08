@@ -229,6 +229,9 @@ return {
         jsdoc = { source = gww, description = gww },
         javascript = curleyLessIfStatementJoin,
         typescript = curleyLessIfStatementJoin,
+        javascriptreact = curleyLessIfStatementJoin,
+        typescriptreact = curleyLessIfStatementJoin,
+        tsx = curleyLessIfStatementJoin,
       }
 
       require("treesj").setup(opts)
