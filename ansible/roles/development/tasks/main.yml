@@ -64,6 +64,7 @@
   when: opencode_check.rc != 0
 
 # herdr setup with skills
+# keep herdr prefix on ctrl + b to avoid confilict with tmux which is on ctrl + a
 - name: Check if Herdr is installed
   command: command -v herdr
   register: herdr_check
