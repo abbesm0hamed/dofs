@@ -1,4 +1,4 @@
-.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply update
+.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply ansible-setup update
 
 DOTFILES_SOURCE := $(CURDIR)/home
 
@@ -17,6 +17,9 @@ waybar-reload:
 	waybar &
 
 waybar-apply: dotapp waybar-reload
+
+ansible-setup:
+	ansible-playbook ansible/playbook.yml -i ansible/inventory
 
 update:
 	./scripts/maintenance/update-all.sh

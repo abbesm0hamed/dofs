@@ -25,7 +25,6 @@ ALACRITTY_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/alacritty/theme.toml"
 RANGER_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf"
 YAZI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/yazi.toml"
 ZED_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/zed/settings.json"
-WINDSURF_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/Windsurf/User/settings.json"
 NVIM_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/nvim/lua/dofs/plugins/colorscheme.lua"
 TMUX_OUT="${XDG_CONFIG_HOME:-$HOME}/.tmux/theme.conf"
 GHOSTTY_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty/theme"
@@ -71,10 +70,10 @@ fi
 apply_theme() {
     local name="$1"
     local path="$THEMES_DIR/$name"
-    
+
     [ ! -d "$path" ] && echo "Error: Theme '$name' not found" && exit 1
     echo "Applying Theme: $name"
-    
+
     # Sync files
     sync_file() {
         local src="$1" dest="$2"
@@ -96,7 +95,6 @@ apply_theme() {
     sync_file "ranger-theme.conf" "$RANGER_OUT"
     sync_file "yazi-theme.toml" "$YAZI_OUT"
     sync_file "zed-theme.json" "$ZED_OUT"
-    sync_file "windsurf-theme.json" "$WINDSURF_OUT"
     sync_file "nvim-colorscheme.lua" "$NVIM_OUT"
     sync_file "tmux-theme.conf" "$TMUX_OUT"
     sync_file "ghostty-theme" "$GHOSTTY_OUT"
@@ -107,7 +105,7 @@ apply_theme() {
         gtk_theme=$(cat "$path/gtk-theme.txt")
         echo "  → Applying GTK theme: $gtk_theme"
         gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
-        
+
         # Set color-scheme based on theme name suffix or content
         if [[ "$gtk_theme" == *"-dark"* ]] || [[ "$gtk_theme" == *"-Dark"* ]]; then
             gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
@@ -117,7 +115,7 @@ apply_theme() {
     fi
 
     # Save state early
-    echo "$name" > "$STATE_FILE"
+    echo "$name" >"$STATE_FILE"
 
     # Live-reload terminals if running
     if command -v kitty &>/dev/null && pgrep -x kitty &>/dev/null; then
@@ -133,7 +131,7 @@ apply_theme() {
     local backdrop=""
     local wall_conf="$path/wallpapers.conf"
     local wall_dir="${HOME}/.config/backgrounds"
-    
+
     # Absolute path to theme dir
     local full_path
     full_path=$(realpath "$path")
@@ -145,7 +143,7 @@ apply_theme() {
         local bd_name
         ws_name=$(grep "^workspace=" "$wall_conf" | cut -d'=' -f2)
         bd_name=$(grep "^backdrop=" "$wall_conf" | cut -d'=' -f2)
-        
+
         [ -n "$ws_name" ] && [ -f "$wall_dir/$ws_name" ] && wall="$wall_dir/$ws_name"
         [ -n "$bd_name" ] && [ -f "$wall_dir/$bd_name" ] && backdrop="$wall_dir/$bd_name"
     fi
@@ -153,14 +151,14 @@ apply_theme() {
     # Fallback to legacy backgrounds/ directory or root of theme
     if [ -z "$wall" ]; then
         for f in "$full_path/backgrounds/default-workspace".{jpg,png,webp,jpeg,JPG,PNG} \
-                 "$full_path/backgrounds/workspace".{jpg,png,webp,jpeg,JPG,PNG} \
-                 "$full_path/workspace".{jpg,png,webp,jpeg,JPG,PNG}; do
+            "$full_path/backgrounds/workspace".{jpg,png,webp,jpeg,JPG,PNG} \
+            "$full_path/workspace".{jpg,png,webp,jpeg,JPG,PNG}; do
             [ -f "$f" ] && wall="$f" && break
         done
     fi
     if [ -z "$backdrop" ]; then
         for f in "$full_path/backgrounds"/{default-backdrop,backdrop,blurry-workspace}.{jpg,png,webp,jpeg,JPG,PNG} \
-                 "$full_path"/{default-backdrop,backdrop,blurry-workspace}.{jpg,png,webp,jpeg,JPG,PNG}; do
+            "$full_path"/{default-backdrop,backdrop,blurry-workspace}.{jpg,png,webp,jpeg,JPG,PNG}; do
             [ -f "$f" ] && backdrop="$f" && break
         done
     fi
@@ -179,14 +177,14 @@ apply_theme "$THEME"
 
 # Reload & Notify
 echo "  → Refreshing session components..."
-    
+
 if pgrep -x waybar >/dev/null 2>&1; then
     echo "  → Restarting Waybar..."
     pkill waybar
     sleep 0.2
     waybar &
 fi
-    
+
 if command -v makoctl >/dev/null 2>&1; then
     echo "  → Reloading Mako..."
     makoctl reload || true

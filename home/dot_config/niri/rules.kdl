@@ -19,7 +19,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^(code|Code|VSCodium|vscodium|Windsurf|windsurf|Cursor|cursor|Antigravity|antigravity|Termius)$"#
+    match app-id=r#"^(code|Code|VSCodium|vscodium|Cursor|cursor|Antigravity|antigravity|Termius)$"#
     open-maximized true
 }
 

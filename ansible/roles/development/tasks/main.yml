@@ -1,22 +1,4 @@
 ---
-- name: Add Windsurf repository
-  block:
-    - name: Import Windsurf GPG key
-      rpm_key:
-        state: present
-        key: https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
-      become: true
-
-    - name: Configure Windsurf repository
-      yum_repository:
-        name: windsurf
-        description: Windsurf Repository
-        baseurl: https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/
-        enabled: yes
-        gpgcheck: yes
-        gpgkey: https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
-      become: true
-
 - name: Add Antigravity repository
   yum_repository:
     name: antigravity-rpm
@@ -24,12 +6,6 @@
     baseurl: https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
     enabled: yes
     gpgcheck: no
-  become: true
-
-- name: Install Windsurf
-  dnf:
-    name: windsurf
-    state: present
   become: true
 
 - name: Install Antigravity
@@ -50,7 +26,7 @@
       get_url:
         url: https://yum.tableplus.com/rpm/x86_64/tableplus.repo
         dest: /etc/yum.repos.d/tableplus.repo
-        mode: '0644'
+        mode: "0644"
       become: true
 
 - name: Install TablePlus
@@ -86,6 +62,30 @@
   args:
     executable: /bin/bash
   when: opencode_check.rc != 0
+
+# herdr setup with skills
+- name: Check if Herdr is installed
+  command: command -v herdr
+  register: herdr_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Herdr
+  shell: curl -fsSL https://herdr.dev/install.sh | sh
+  args:
+    executable: /bin/bash
+  when: herdr_check.rc != 0
+
+- name: Check if Herdr agent skill is installed
+  stat:
+    path: "{{ ansible_user_dir }}/.config/opencode/skills/herdr/SKILL.md"
+  register: herdr_skill_check
+
+- name: Install Herdr agent skill
+  shell: npx skills add ogulcancelik/herdr --skill herdr -g
+  args:
+    executable: /bin/bash
+  when: not herdr_skill_check.stat.exists
 
 - name: Check if Gemini CLI is installed
   command: command -v gemini
