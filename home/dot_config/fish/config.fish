@@ -71,6 +71,11 @@ if status is-interactive
     alias dc="sudo docker-compose"
     alias dr="sudo docker"
 
+    # Tmuxifier
+    if test -f ~/.tmuxifier/init.fish
+        source ~/.tmuxifier/init.fish
+    end
+
     # Enhanced tmux aliases 
     alias txfr="tmuxifier"
     alias tm="tmux"
