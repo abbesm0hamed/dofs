@@ -19,6 +19,8 @@ function txwd
 
         tmux new-window -t "$session" -n herdr -c "$root"
         tmux send-keys -t "$session:herdr.0" "herdr" C-m
+        tmux split-window -t "$session:herdr.0" -h -p 35 -c "$root"
+        tmux send-keys -t "$session:herdr.1" "hunk diff --watch" C-m
 
         tmux select-window -t "$session:editor"
         tmux select-pane -t "$session:editor.0"

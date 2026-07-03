@@ -19,7 +19,7 @@ waybar-reload:
 waybar-apply: dotapp waybar-reload
 
 ansible-setup:
-	ansible-playbook ansible/playbook.yml -i ansible/inventory
+	ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass
 
 update:
 	./scripts/maintenance/update-all.sh

@@ -117,3 +117,18 @@
   args:
     executable: /bin/bash
   when: codex_check.rc != 0
+
+- name: Check if Hunkdiff is installed
+  command: command -v hunkdiff
+  register: hunkdiff_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Hunkdiff
+  shell: |
+    export PATH="{{ ansible_user_dir }}/.local/share/fnm:$PATH"
+    eval "$(fnm env --shell bash)"
+    npm i -g hunkdiff
+  args:
+    executable: /bin/bash
+  when: hunkdiff_check.rc != 0
