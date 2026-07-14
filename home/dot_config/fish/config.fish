@@ -46,6 +46,7 @@ if status is-interactive
     alias ll="eza -la --icons --group-directories-first --git"
     alias tree="eza --tree --icons"
     alias oc="opencode"
+    alias oc2="opencode2"
     alias co="cargo"
     alias lg="lazygit"
     alias ai-start="sudo systemctl start ollama"
