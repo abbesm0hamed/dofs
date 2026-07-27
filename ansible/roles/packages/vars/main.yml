@@ -225,7 +225,7 @@ flatpaks:
   - md.obsidian.Obsidian
   - org.fedoraproject.MediaWriter
   - com.termius.Termius
-  - dev.bragefuglseth.Keypunch
+  - no.bragefuglseth.Keypunch
   - com.github.IsmaelMartinez.teams_for_linux
   - net.davidotek.pupgui2
   - org.localsend.localsend_app

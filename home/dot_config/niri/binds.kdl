@@ -19,7 +19,7 @@
 
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Alt+Shift+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
-    Mod+Y { spawn "flatpak" "run" "dev.bragefuglseth.Keypunch"; }
+    Mod+Y { spawn "flatpak" "run" "no.bragefuglseth.Keypunch"; }
     Alt+E { spawn "nautilus"; }
     Alt+M { spawn "chromium-browser" "--app=https://maps.google.com"; }
     Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }

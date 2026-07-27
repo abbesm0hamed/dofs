@@ -149,7 +149,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="dev.bragefuglseth.Keypunch"
+    match app-id="no.bragefuglseth.Keypunch"
     open-floating true
     clip-to-geometry true
     default-column-width { proportion 0.5; }
