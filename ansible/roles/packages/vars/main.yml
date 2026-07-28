@@ -51,6 +51,7 @@ dnf_packages:
   - gnome-themes-extra
   - network-manager-applet
   - NetworkManager
+  - NetworkManager-tui
   - nm-connection-editor
   - fprintd
   - fprintd-pam
