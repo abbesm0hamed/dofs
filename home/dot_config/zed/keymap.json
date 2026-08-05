@@ -1,42 +1,201 @@
 [
+    // ──────────────────────────────────────────────────────────────────
+    // OVERRIDE VimControl context — must match the default vim.json
+    // context to successfully override built-in vim keybindings
+    // ──────────────────────────────────────────────────────────────────
+    {
+        "context": "VimControl && !menu",
+        "bindings": {
+            // ── Jump to matching bracket — overrides vim::PushMark ─────
+            // mirrors % in nvim (m was PushMark by default)
+            "m": ["vim::Matching", { "match_quotes": true }],
+
+            // ── Jump anywhere with s — mirrors flash.nvim/leap ─────────
+            // Zed has no flash/leap built-in; vim::Search is the closest
+            // (opens an incremental search prompt like / but bound to s)
+            "s": "vim::Search"
+        }
+    },
+
+    // ──────────────────────────────────────────────────────────────────
+    // INSERT MODE
+    // ──────────────────────────────────────────────────────────────────
     {
         "context": "Editor && vim_mode == insert",
         "bindings": {
+            // Exit insert mode — mirrors jk / ;; in nvim
             "j k": "vim::NormalBefore",
-            "; ;": "vim::NormalBefore"
+            "; ;": "vim::NormalBefore",
+
+            // Move lines — mirrors <A-j>/<A-k>
+            "alt-j": "editor::MoveLineDown",
+            "alt-k": "editor::MoveLineUp",
+
+            // Save — mirrors <C-s> mapped in all modes
+            "ctrl-s": "workspace::Save"
         }
     },
+
+    // ──────────────────────────────────────────────────────────────────
+    // NORMAL MODE
+    // ──────────────────────────────────────────────────────────────────
     {
         "context": "Editor && vim_mode == normal",
         "bindings": {
-            "space w w": "pane::ActivatePrevItem",
+            // ── Save ──────────────────────────────────────────────────
+            "ctrl-s": "workspace::Save",
+            "space f w": "workspace::Save",
+            "space f q": "workspace::Save",
+
+            // ── Clear search highlight ────────────────────────────────
+            "escape": "editor::Cancel",
+
+            // ── Search navigation ─────────────────────────────────────
+            "n": "search::SelectNextMatch",
+            "N": "search::SelectPreviousMatch",
+
+            // ── Half-page scroll ──────────────────────────────────────
+            "ctrl-d": "editor::HalfPageDown",
+            "ctrl-u": "editor::HalfPageUp",
+
+            // ── Window / pane navigation ──────────────────────────────
+            "ctrl-h": "workspace::ActivatePaneLeft",
+            "ctrl-j": "workspace::ActivatePaneDown",
+            "ctrl-k": "workspace::ActivatePaneUp",
+            "ctrl-l": "workspace::ActivatePaneRight",
+
+            // ── Split management ──────────────────────────────────────
+            "space w w": "pane::ActivatePreviousItem",
             "space w d": "pane::CloseActiveItem",
             "space w -": "pane::SplitHorizontal",
             "space w |": "pane::SplitVertical",
             "space -": "pane::SplitHorizontal",
             "space |": "pane::SplitVertical",
-            "ctrl-s": "workspace::Save",
-            "space f w": "workspace::Save",
+            "space d w": "pane::CloseActiveItem",
+
+            // ── Buffer / tab management ───────────────────────────────
+            "space b d": "pane::CloseActiveItem",
+            "space b o": "pane::CloseInactiveItems",
+            "space b a": "pane::CloseAllItems",
+            "[ b": "pane::ActivatePreviousItem",
+            "] b": "pane::ActivateNextItem",
+
+            // ── Select / clipboard ────────────────────────────────────
+            // <leader>vv → select all
+            // <leader>ca → copy whole file (select all + copy as sequence)
+            // <leader>y / <leader>p → yank/paste
             "space v v": "editor::SelectAll",
+            "space c a": ["action::Sequence", ["editor::SelectAll", "editor::Copy"]],
             "space y": "editor::Copy",
             "space p": "editor::Paste",
-            "n": "search::SelectNextMatch",
-            "N": "search::SelectPrevMatch",
-            "ctrl-d": "editor::ScrollCursorCenter",
-            "ctrl-u": "editor::ScrollCursorCenter",
-            "space b d": "pane::CloseActiveItem",
+
+            // ── Move lines ────────────────────────────────────────────
             "alt-j": "editor::MoveLineDown",
-            "alt-k": "editor::MoveLineUp"
+            "alt-k": "editor::MoveLineUp",
+
+            // ── File finder / picker ──────────────────────────────────
+            "space f f": "file_finder::Toggle",
+            "space f r": "file_finder::Toggle",
+            "space ,": "tab_switcher::Toggle",
+            "space f b": "tab_switcher::Toggle",
+            "space /": "workspace::NewSearch",
+            "space f s": "workspace::NewSearch",
+            "space :": "command_palette::Toggle",
+
+            // ── Buffer search ─────────────────────────────────────────
+            "space s b": "buffer_search::Deploy",
+
+            // ── LSP / code navigation ─────────────────────────────────
+            "g d": "editor::GoToDefinition",
+            "g D": "editor::GoToDeclaration",
+            "g i": "editor::GoToImplementation",
+            "g y": "editor::GoToTypeDefinition",
+            "g r": "editor::FindAllReferences",
+            "K": "editor::Hover",
+            "space r n": "editor::Rename",
+            "space l a": "editor::ToggleCodeActions",
+
+            // ── Symbols outline ───────────────────────────────────────
+            "space s S": "outline::Toggle",
+            "space o u": "outline::Toggle",
+
+            // ── Diagnostics navigation ────────────────────────────────
+            "[ d": "editor::GoToPreviousDiagnostic",
+            "] d": "editor::GoToDiagnostic",
+            "space s d": "diagnostics::Deploy",
+            "space t t": "diagnostics::Deploy",
+            "space t T": "diagnostics::DeployCurrentFile",
+
+            // ── Git ───────────────────────────────────────────────────
+            "space l g": "git_panel::ToggleFocus",
+            "space g s": "git_panel::ToggleFocus",
+            "space g c": "editor::ToggleGitBlame",
+            "[ h": "editor::GoToPreviousHunk",
+            "] h": "editor::GoToHunk",
+            "space h p": "editor::ToggleHunkDiff",
+            "space h r": "editor::RevertSelectedHunks",
+            "space h b": "editor::ToggleGitBlameInline",
+
+            // ── File explorer ─────────────────────────────────────────
+            "space f e": "project_panel::ToggleFocus",
+
+            // ── Terminal ──────────────────────────────────────────────
+            "space t e": "terminal_panel::ToggleFocus",
+
+            // ── Zen / centered layout ─────────────────────────────────
+            "space t z": "workspace::ToggleCenteredLayout",
+
+            // ── Format ───────────────────────────────────────────────
+            "space f p": "editor::Format",
+
+            // ── New file ──────────────────────────────────────────────
+            "space f n": "workspace::NewFile",
+
+            // ── Quit ─────────────────────────────────────────────────
+            "space q q": "zed::Quit",
+
+            // ── Jump history ─────────────────────────────────────────
+            "ctrl-o": "pane::GoBack",
+            "ctrl-i": "pane::GoForward"
         }
     },
+
+    // ──────────────────────────────────────────────────────────────────
+    // VISUAL MODE
+    // ──────────────────────────────────────────────────────────────────
     {
         "context": "Editor && vim_mode == visual",
         "bindings": {
+            // Indent / outdent
+            ">": "editor::Indent",
+            "<": "editor::Outdent",
+
+            // Yank / paste
             "space y": "editor::Copy",
+            "space p": "editor::Paste",
+
+            // Move lines
             "alt-j": "editor::MoveLineDown",
             "alt-k": "editor::MoveLineUp",
+
+            // Revert selected hunks
+            "space h r": "editor::RevertSelectedHunks",
+
+            // Grep word/selection
+            "space s w": "pane::DeploySearch"
+        }
+    },
+
+    // ──────────────────────────────────────────────────────────────────
+    // VISUAL LINE MODE
+    // ──────────────────────────────────────────────────────────────────
+    {
+        "context": "Editor && vim_mode == visual_line",
+        "bindings": {
             ">": "editor::Indent",
-            "<": "editor::Outdent"
+            "<": "editor::Outdent",
+            "alt-j": "editor::MoveLineDown",
+            "alt-k": "editor::MoveLineUp"
         }
     }
 ]
