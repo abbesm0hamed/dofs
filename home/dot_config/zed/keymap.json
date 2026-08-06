@@ -197,5 +197,17 @@
             "alt-j": "editor::MoveLineDown",
             "alt-k": "editor::MoveLineUp"
         }
+    },
+
+    // ──────────────────────────────────────────────────────────────────
+    // WORKSPACE (global)
+    // ──────────────────────────────────────────────────────────────────
+    {
+        "context": "Workspace",
+        "bindings": {
+            // ── Terminal toggle ───────────────────────────────────────
+            // alt-/ works everywhere; ctrl-` from the default keymap still applies
+            "alt-/": "terminal_panel::ToggleFocus"
+        }
     }
 ]

@@ -1,11 +1,11 @@
 {
-	"icon_theme": "Zed (Default)",
-	"vim_mode": true,
-	"ui_font_size": 16,
-	"buffer_font_family": "Iosevka Extended",
-	"theme": "Catppuccin Latte",
-	"relative_line_numbers": "enabled",
-	"autosave": "on_focus_change",
-	"tab_size": 2,
-	"soft_wrap": "editor_width"
+  "icon_theme": "Zed (Default)",
+  "vim_mode": true,
+  "ui_font_size": 14,
+  "buffer_font_family": "Iosevka Extended",
+  "theme": "Catppuccin Latte",
+  "relative_line_numbers": "enabled",
+  "autosave": "on_focus_change",
+  "tab_size": 2,
+  "soft_wrap": "editor_width"
 }
