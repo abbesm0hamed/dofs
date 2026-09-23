@@ -16,6 +16,7 @@
     Mod+Alt+G { spawn "sh" "-c" "~/.config/niri/scripts/toggle-gaps.sh"; }
     Mod+Alt+A { spawn "sh" "-c" "~/.config/niri/scripts/toggle-animations.sh"; }
     Mod+Alt+O { spawn "sh" "-c" "~/.config/niri/scripts/toggle-transparency.sh"; }
+    Mod+Z { spawn "sh" "-c" "zed"; }
 
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Alt+Shift+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }

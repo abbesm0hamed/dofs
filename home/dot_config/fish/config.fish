@@ -57,7 +57,7 @@ if status is-interactive
     alias dupi="sudo dnf upgrade --refresh"   # full upgrade
     alias dchk="sudo dnf check-update"        # check available updates
     alias di="sudo dnf install"               # install packages
-    alias dr="sudo dnf remove"                # remove packages
+    alias drm="sudo dnf remove"                # remove packages
     alias ds="dnf search"                     # search packages
     alias dl="dnf list --installed"           # list installed packages
     alias dclean="sudo dnf clean all; sudo dnf autoremove -y" # clean cache + orphaned deps
