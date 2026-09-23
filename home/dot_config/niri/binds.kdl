@@ -28,7 +28,7 @@
     Alt+Shift+C { spawn "chromium-browser" "--app=https://claude.ai/new"; }
     Alt+D { spawn "chromium-browser" "--app=https://discord.com/app"; }
     // Alt+W { spawn "chromium-browser" "--app=https://web.whatsapp.com"; }
-    Alt+N { spawn "chromium-browser" "--app=https://notion.so"; }
+    Alt+N { spawn "chromium-browser" "--app=https://app.notion.com"; }
     Alt+F { spawn "chromium-browser" "--app=https://figma.com"; }
     Alt+W { spawn "zapzap"; } // WhatsApp desktop clone
     Alt+T { spawn "flatpak" "run" "com.github.IsmaelMartinez.teams_for_linux"; } // Teams for linux
