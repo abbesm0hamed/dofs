@@ -94,6 +94,14 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^(dev.zed.Zed)$"#
+    open-on-workspace "terminal"
+    default-column-width { proportion 1.0; }
+    open-maximized-to-edges false
+    clip-to-geometry true
+}
+
+window-rule {
     match app-id=r#"^(Slack|discord)$"#
     open-on-workspace "communication"
     open-maximized true
