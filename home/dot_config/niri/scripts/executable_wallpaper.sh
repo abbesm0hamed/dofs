@@ -33,11 +33,46 @@ fi
 FG_WALL=""
 BG_WALL=""
 
+# Runtime blur cache: the blurred backdrop is generated with ImageMagick on
+# demand instead of storing a second "blurry-" copy of every wallpaper.
+BLUR_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper-blur"
+BLUR_SIGMA="${WALLPAPER_BLUR_SIGMA:-32}"
+
+make_blurred() {
+    local src="$1" key name out
+    if ! command -v magick >/dev/null 2>&1; then
+        echo "magick (ImageMagick) not found; cannot blur $src" >&2
+        return 1
+    fi
+    mkdir -p "$BLUR_DIR"
+    key=$(printf '%s' "$src" | md5sum | cut -c1-10)
+    name="$(basename "$src")"
+    out="$BLUR_DIR/${name%.*}-${key}-s${BLUR_SIGMA}.jpg"
+
+    # Regenerate only when the source changed; drop variants generated with a
+    # different sigma (or by an older version of this script).
+    if [ ! -f "$out" ]; then
+        rm -f "$BLUR_DIR/${name%.*}-${key}"*.jpg
+    elif [ "$src" -nt "$out" ]; then
+        rm -f "$out"
+    fi
+
+    if [ ! -f "$out" ]; then
+        # Downscale -> blur -> upscale: much faster, and the upscale hides artifacts.
+        # Effective blur at full resolution ends up around 2x BLUR_SIGMA.
+        magick "$src" -resize 50% -blur 0x"$BLUR_SIGMA" -resize 200% -quality 88 "$out" \
+            || { rm -f "$out"; return 1; }
+    fi
+    printf '%s\n' "$out"
+}
+
 # Resolve Wallpaper
 if [ "${1:-}" == "--restore" ]; then
     [ -L "$FG_LINK" ] && FG_WALL=$(readlink -f "$FG_LINK")
-    [ -L "$BG_LINK" ] && BG_WALL=$(readlink -f "$BG_LINK")
-    [ -z "$FG_WALL" ] && echo "Nothing to restore." && exit 0
+    if [ ! -f "$FG_WALL" ]; then
+        echo "Nothing to restore."
+        exit 0
+    fi
 else
     if [ -d "$1" ]; then
         DIR_PATH="$(readlink -f "$1")"
@@ -55,20 +90,30 @@ else
     else
         FG_WALL="$(readlink -f "$1")"
         BG_WALL="${2:-}"
-        
-        # Background resolution logic
-        if [ -z "$BG_WALL" ]; then
-            POTENTIAL_BG="$(dirname "$FG_WALL")/blurry-$(basename "$FG_WALL")"
-            [ -f "$POTENTIAL_BG" ] && BG_WALL="$POTENTIAL_BG"
-        fi
         [ -n "$BG_WALL" ] && [ -f "$BG_WALL" ] && BG_WALL="$(readlink -f "$BG_WALL")"
     fi
-
-    # Update symlinks
-    mkdir -p "$WALL_DIR"
-    [ -f "$FG_WALL" ] && ln -nsf "$FG_WALL" "$FG_LINK"
-    [ -n "$BG_WALL" ] && [ -f "$BG_WALL" ] && ln -nsf "$BG_WALL" "$BG_LINK"
 fi
+
+# No usable backdrop given -> derive a blurred copy of the foreground wallpaper
+if [ ! -f "${BG_WALL:-}" ]; then
+    BG_WALL=""
+    if [ -f "$FG_WALL" ]; then
+        BG_WALL=$(make_blurred "$FG_WALL" || true)
+    fi
+    # Last resort: the previous backdrop link, if it still points at a real file
+    if [ ! -f "${BG_WALL:-}" ] && [ -L "$BG_LINK" ]; then
+        BG_WALL=$(readlink -f "$BG_LINK")
+    fi
+    if [ ! -f "${BG_WALL:-}" ]; then
+        BG_WALL=""
+        echo "No blurred backdrop for $(basename "$FG_WALL")"
+    fi
+fi
+
+# Update symlinks
+mkdir -p "$WALL_DIR"
+[ -f "$FG_WALL" ] && ln -nsf "$FG_WALL" "$FG_LINK"
+[ -n "$BG_WALL" ] && [ -f "$BG_WALL" ] && ln -nsf "$BG_WALL" "$BG_LINK"
 
 # Foreground manager (hyprpaper)
 apply_foreground() {
@@ -107,8 +152,9 @@ apply_backdrop() {
 }
 
 # Run
-apply_foreground &
-apply_backdrop &
+# Close the lock fd in children so they don't keep the lock alive after we exit.
+apply_foreground 200>&- &
+apply_backdrop 200>&- &
 wait
 
 if [ "$SILENT" = false ]; then

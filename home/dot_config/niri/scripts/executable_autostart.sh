@@ -5,7 +5,6 @@ set -euo pipefail
 # Configuration
 WALLPAPER_DIR="${HOME}/.config/backgrounds"
 FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/xiaomi.jpg" # forcing wall for consistency across machines
-BACKDROP_WALLPAPER="${WALLPAPER_DIR}/blurry-xiaomi.jpg"
 
 # Logging
 LOG_FILE="${XDG_RUNTIME_DIR:-/tmp}/niri-autostart.log"
@@ -64,7 +63,7 @@ bash "$HOME/.config/niri/scripts/wallpaper.sh" --restore --silent &
     # If restore didn't produce a current link, apply fallback wallpaper
     if [ ! -L "${WALLPAPER_DIR}/current.jpg" ] && [ -f "$FOREGROUND_WALLPAPER" ]; then
         echo "  → Applying fallback wallpaper..."
-        bash "$HOME/.config/niri/scripts/wallpaper.sh" "$FOREGROUND_WALLPAPER" "$BACKDROP_WALLPAPER" --silent || true
+        bash "$HOME/.config/niri/scripts/wallpaper.sh" "$FOREGROUND_WALLPAPER" --silent || true
     fi
 ) &
 
