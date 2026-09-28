@@ -164,6 +164,15 @@ window-rule {
     default-window-height { proportion 0.2; }
 }
 
+// Calculator opens as a floating window alongside the other floating apps.
+window-rule {
+    match app-id="org.gnome.Calculator"
+    open-floating true
+    clip-to-geometry true
+    default-column-width { proportion 0.3; }
+    default-window-height { proportion 0.55; }
+}
+
 window-rule {
     match app-id="floating-btop"
     match app-id="floating-ranger"
