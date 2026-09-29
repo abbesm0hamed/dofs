@@ -55,7 +55,7 @@ dbus-update-activation-environment --systemd "${ENVS_TO_IMPORT[@]}" || true
 # Wallpapers & Theme
 echo "  → Applying theme and restoring wallpaper..."
 
-bash "$HOME/.config/niri/scripts/set-theme.sh" --skip-wallpaper --silent
+bash "$HOME/.config/niri/scripts/set-theme.sh" --skip-wallpaper --silent || true
 
 bash "$HOME/.config/niri/scripts/wallpaper.sh" --restore --silent &
 (

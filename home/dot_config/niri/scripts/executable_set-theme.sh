@@ -141,8 +141,8 @@ apply_theme() {
         echo "  → Reading declarative wallpapers from wallpapers.conf"
         local ws_name
         local bd_name
-        ws_name=$(grep "^workspace=" "$wall_conf" | cut -d'=' -f2)
-        bd_name=$(grep "^backdrop=" "$wall_conf" | cut -d'=' -f2)
+        ws_name=$(grep "^workspace=" "$wall_conf" | cut -d'=' -f2 || true)
+        bd_name=$(grep "^backdrop=" "$wall_conf" | cut -d'=' -f2 || true)
 
         [ -n "$ws_name" ] && [ -f "$wall_dir/$ws_name" ] && wall="$wall_dir/$ws_name"
         [ -n "$bd_name" ] && [ -f "$wall_dir/$bd_name" ] && backdrop="$wall_dir/$bd_name"
