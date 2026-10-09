@@ -13,6 +13,28 @@ WALL_DIR="${HOME}/.config/backgrounds"
 FG_LINK="${WALL_DIR}/current.jpg"
 BG_LINK="${WALL_DIR}/current-blurry.jpg"
 
+# Wallpaper used when nothing has been picked yet (fresh machine for eg.)
+DEFAULT_WALLPAPER_NAME="liftoff.png"
+
+default_wallpaper() {
+    local f
+    if [ -f "$WALL_DIR/$DEFAULT_WALLPAPER_NAME" ]; then
+        printf '%s\n' "$WALL_DIR/$DEFAULT_WALLPAPER_NAME"
+        return 0
+    fi
+    shopt -s nullglob
+    for f in "$WALL_DIR"/*.{jpe,jpeg,jpg,png,webp}; do
+        case "$(basename "$f")" in
+            current* | blurry-* | generated-*) continue ;;
+        esac
+        printf '%s\n' "$f"
+        shopt -u nullglob
+        return 0
+    done
+    shopt -u nullglob
+    return 1
+}
+
 # Parse arguments
 SILENT=false
 FILES=()
@@ -60,8 +82,11 @@ make_blurred() {
     if [ ! -f "$out" ]; then
         # Downscale -> blur -> upscale: much faster, and the upscale hides artifacts.
         # Effective blur at full resolution ends up around 2x BLUR_SIGMA.
-        magick "$src" -resize 50% -blur 0x"$BLUR_SIGMA" -resize 200% -quality 88 "$out" \
-            || { rm -f "$out"; return 1; }
+        magick "$src" -resize 50% -blur 0x"$BLUR_SIGMA" -resize 200% -quality 88 "$out" ||
+            {
+                rm -f "$out"
+                return 1
+            }
     fi
     printf '%s\n' "$out"
 }
@@ -69,6 +94,10 @@ make_blurred() {
 # Resolve Wallpaper
 if [ "${1:-}" == "--restore" ]; then
     [ -L "$FG_LINK" ] && FG_WALL=$(readlink -f "$FG_LINK")
+    if [ ! -f "$FG_WALL" ]; then
+        # Nothing saved yet (fresh machine) -> fall back to the default image.
+        FG_WALL="$(default_wallpaper || true)"
+    fi
     if [ ! -f "$FG_WALL" ]; then
         echo "Nothing to restore."
         exit 0
@@ -116,6 +145,40 @@ mkdir -p "$WALL_DIR"
 [ -n "$BG_WALL" ] && [ -f "$BG_WALL" ] && ln -nsf "$BG_WALL" "$BG_LINK"
 
 # Foreground manager (hyprpaper)
+HYPR_SOCK="${XDG_RUNTIME_DIR:-/tmp}/hypr/.hyprpaper.sock"
+HYPR_LOG="${XDG_STATE_HOME:-$HOME/.local/state}/hyprpaper.log"
+
+hypr_start() {
+    # A dead instance can leave its socket behind; it would make the -S check
+    # pass immediately and every command below would go nowhere.
+    rm -f "$HYPR_SOCK"
+    mkdir -p "$(dirname "$HYPR_LOG")"
+    # Ignore SIGPIPE so a client that disconnects early can never kill
+    # hyprpaper (it used to die with exit 141 and the wallpaper vanished).
+    (
+        trap '' PIPE
+        exec hyprpaper >>"$HYPR_LOG" 2>&1
+    ) &
+    local _
+    for _ in {1..100}; do
+        [ -S "$HYPR_SOCK" ] && break
+        sleep 0.1
+    done
+}
+
+hypr_send() {
+    # -t 10 is essential: socat's default half-close timeout is 0.5s, and
+    # decoding a large wallpaper (liftoff.png, 8192x4608) takes ~0.6s. socat
+    # used to drop the socket first, hyprpaper then wrote its reply into a
+    # closed socket and was killed by SIGPIPE (exit 141).
+    local out
+    out=$(printf '%s\n' "$1" | socat -t 10 -T 10 - UNIX-CONNECT:"$HYPR_SOCK" 2>/dev/null) || true
+    if [ -n "$out" ] && [ "$out" != "ok" ]; then
+        echo "hyprpaper: $out"
+    fi
+    return 0
+}
+
 apply_foreground() {
     [ ! -f "$FG_WALL" ] && return
     if ! command -v hyprpaper >/dev/null; then
@@ -126,17 +189,30 @@ apply_foreground() {
         echo "socat not found; cannot control hyprpaper"
         return
     fi
-    local HYPR_SOCK="${XDG_RUNTIME_DIR}/hypr/.hyprpaper.sock"
 
     if ! pgrep -x hyprpaper >/dev/null; then
-        hyprpaper &
-        for i in {1..30}; do [ -S "$HYPR_SOCK" ] && break; sleep 0.1; done
+        hypr_start
     fi
 
+    # hyprpaper only opens the socket once it has preloaded its config.
+    local _
+    for _ in {1..100}; do
+        [ -S "$HYPR_SOCK" ] && break
+        pgrep -x hyprpaper >/dev/null || break
+        sleep 0.1
+    done
+
     if [ -S "$HYPR_SOCK" ]; then
-        echo "preload $FG_WALL" | socat - UNIX-CONNECT:"$HYPR_SOCK" || true
-        echo "wallpaper ,$FG_WALL" | socat - UNIX-CONNECT:"$HYPR_SOCK" || true
-        echo "unload unused" | socat - UNIX-CONNECT:"$HYPR_SOCK" || true
+        hypr_send "preload $FG_WALL"
+        hypr_send "wallpaper ,$FG_WALL"
+        hypr_send "unload unused"
+    fi
+
+    # Self-heal: if hyprpaper died anyway, start it again (hyprpaper.conf
+    # preloads current.jpg, the symlink that was just updated).
+    if ! pgrep -x hyprpaper >/dev/null; then
+        echo "hyprpaper is not running; starting it again (see $HYPR_LOG)"
+        hypr_start
     fi
 }
 

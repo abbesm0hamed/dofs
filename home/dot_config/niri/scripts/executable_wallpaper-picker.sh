@@ -34,10 +34,25 @@ fi
 
 CHOICE=$(echo "$WALLPAPERS" | rofi -dmenu -i -p "󰸉 Wallpaper: ")
 
+CURRENT_LINK="${XDG_CONFIG_HOME:-$HOME/.config}/backgrounds/current.jpg"
+DEFAULT_WALL="${WALL_DIR}/liftoff.png"
+[ -f "$DEFAULT_WALL" ] || DEFAULT_WALL="$REPO_WALL_DIR/liftoff.png"
+
+apply() {
+    # Clear any stale lock
+    rm -f "${XDG_RUNTIME_DIR:-/tmp}/wallpaper.lock"
+    bash "$SETTER" "$1"
+}
+
 if [ -n "$CHOICE" ]; then
     FULL_PATH="${WALL_DIR}/${CHOICE}"
     notify-send -a "Wallpaper" -i "$FULL_PATH" "Applying Wallpaper" "$CHOICE"
-    # Clear any stale lock
-    rm -f "${XDG_RUNTIME_DIR:-/tmp}/wallpaper.lock"
-    bash "$SETTER" "$(realpath "$FULL_PATH")"
+    apply "$(realpath "$FULL_PATH")"
+else
+    # Nothing picked: keep the current wallpaper, but if none is applied yet
+    # (fresh machine), fall back to the default image.
+    if [ ! -f "$CURRENT_LINK" ] && [ -f "$DEFAULT_WALL" ]; then
+        notify-send -a "Wallpaper" "No wallpaper picked, using default"
+        apply "$(realpath "$DEFAULT_WALL")"
+    fi
 fi

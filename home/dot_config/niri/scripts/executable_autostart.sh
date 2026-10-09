@@ -4,7 +4,14 @@ set -euo pipefail
 
 # Configuration
 WALLPAPER_DIR="${HOME}/.config/backgrounds"
-FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/xiaomi.jpg" # forcing wall for consistency across machines
+# Default wallpaper, used when nothing has been picked yet (fresh machine).
+FOREGROUND_WALLPAPER="${WALLPAPER_DIR}/liftoff.png"
+if [ ! -f "$FOREGROUND_WALLPAPER" ]; then
+    FOREGROUND_WALLPAPER=$(find "$WALLPAPER_DIR" -maxdepth 1 -type f \
+        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) \
+        ! -iname 'current*' ! -iname 'blurry-*' ! -iname 'generated-*' \
+        -print -quit 2>/dev/null || true)
+fi
 
 # Logging
 LOG_FILE="${XDG_RUNTIME_DIR:-/tmp}/niri-autostart.log"
@@ -60,8 +67,9 @@ bash "$HOME/.config/niri/scripts/set-theme.sh" --skip-wallpaper --silent || true
 bash "$HOME/.config/niri/scripts/wallpaper.sh" --restore --silent &
 (
     sleep 1
-    # If restore didn't produce a current link, apply fallback wallpaper
-    if [ ! -L "${WALLPAPER_DIR}/current.jpg" ] && [ -f "$FOREGROUND_WALLPAPER" ]; then
+    # If restore didn't produce a usable link (or it is dangling), apply the
+    # default wallpaper.
+    if [ ! -f "${WALLPAPER_DIR}/current.jpg" ] && [ -n "$FOREGROUND_WALLPAPER" ] && [ -f "$FOREGROUND_WALLPAPER" ]; then
         echo "  → Applying fallback wallpaper..."
         bash "$HOME/.config/niri/scripts/wallpaper.sh" "$FOREGROUND_WALLPAPER" --silent || true
     fi
