@@ -1,0 +1,8 @@
+---
+# Banana cursor theme (https://github.com/ful1e5/banana-cursor)
+# Bump banana_cursor_version to reinstall on the next run.
+banana_cursor_version: "2.0.0"
+banana_cursor_url: "https://github.com/ful1e5/banana-cursor/releases/download/v{{ banana_cursor_version }}/Banana.tar.xz"
+banana_cursor_icons_dir: "{{ ansible_user_dir }}/.local/share/icons"
+banana_cursor_dir: "{{ ansible_user_dir }}/.local/share/icons/Banana"
+banana_cursor_version_file: "{{ ansible_user_dir }}/.local/share/icons/.banana-cursor-version"

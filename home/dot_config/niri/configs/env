@@ -7,8 +7,8 @@ export XDG_SESSION_DESKTOP=niri
 export GTK_USE_PORTAL=1
 export GDK_SCALE=1
 export GDK_BACKEND=wayland,x11
-# export XCURSOR_THEME=Banana # for fun
-export XCURSOR_THEME="Bibata-Modern-Ice"
+export XCURSOR_THEME="Banana"
+# export XCURSOR_THEME="Bibata-Modern-Ice" # for fun
 export XCURSOR_SIZE=18
 
 # Qt

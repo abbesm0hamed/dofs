@@ -6,8 +6,8 @@ overview {
 }
 
 cursor {
-    // xcursor-theme "Banana" // for fun
-    xcursor-theme "Bibata-Modern-Ice"
+    xcursor-theme "Banana"
+    // xcursor-theme "Bibata-Modern-Ice" // for fun
     xcursor-size 18
     hide-when-typing
     hide-after-inactive-ms 10000

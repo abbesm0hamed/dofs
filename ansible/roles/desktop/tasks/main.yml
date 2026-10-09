@@ -44,42 +44,64 @@
         msg: "AnyDesk version: {{ anydesk_version.stdout | default('Not found') }}"
 
 - name: Setup Cursors
+  tags: cursors
   block:
     - name: Create icons directory
       file:
-        path: "{{ ansible_user_dir }}/.local/share/icons"
+        path: "{{ banana_cursor_icons_dir }}"
         state: directory
+        mode: "0755"
 
-    - name: Check if Banana cursors exist
-      stat:
-        path: "{{ ansible_user_dir }}/.local/share/icons/Banana"
-      register: banana_cursors
+    - name: Read installed Banana cursor version
+      slurp:
+        src: "{{ banana_cursor_version_file }}"
+      register: banana_cursor_installed
+      failed_when: false
 
     - name: Install Banana cursor
+      when: >-
+        banana_cursor_installed.content is not defined or
+        (banana_cursor_installed.content | b64decode | trim) != banana_cursor_version
       block:
-        - name: Remove existing Banana cursor directory
+        - name: Remove existing Banana cursor temporary directory
           file:
             path: /tmp/Banana
             state: absent
-          become: true
 
         - name: Create Banana cursor temporary directory
           file:
             path: /tmp/Banana
             state: directory
+            mode: "0755"
 
-        - name: Download and extract Banana cursor
+        - name: Download Banana cursor archive
+          get_url:
+            url: "{{ banana_cursor_url }}"
+            dest: /tmp/Banana/Banana.tar.xz
+            mode: "0644"
+
+        - name: Extract Banana cursor archive
           unarchive:
-            src: https://github.com/ful1e5/banana-cursor/releases/download/v2.0.0/Banana.tar.xz
+            src: /tmp/Banana/Banana.tar.xz
             dest: /tmp/Banana
             remote_src: yes
+
+        - name: Remove previously installed Banana cursor
+          file:
+            path: "{{ banana_cursor_dir }}"
+            state: absent
 
         - name: Install Banana cursor files
           copy:
             src: /tmp/Banana/Banana
-            dest: "{{ ansible_user_dir }}/.local/share/icons/"
+            dest: "{{ banana_cursor_icons_dir }}/"
             remote_src: yes
-      when: not banana_cursors.stat.exists
+
+        - name: Record installed Banana cursor version
+          copy:
+            content: "{{ banana_cursor_version }}\n"
+            dest: "{{ banana_cursor_version_file }}"
+            mode: "0644"
 
 - name: Setup GTK theme
   block:
@@ -96,6 +118,16 @@
     - name: Prefer light color scheme (GNOME)
       command: gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
       changed_when: false
+
+    - name: Apply Banana cursor theme (GNOME)
+      command: gsettings set org.gnome.desktop.interface cursor-theme "Banana"
+      changed_when: false
+      tags: cursors
+
+    - name: Set cursor size (GNOME)
+      command: gsettings set org.gnome.desktop.interface cursor-size 18
+      changed_when: false
+      tags: cursors
 
 - name: Gaming optimizations
   block:

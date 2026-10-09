@@ -164,6 +164,16 @@ window-rule {
     default-window-height { proportion 0.2; }
 }
 
+// Monkeytype opened in Chromium (--app=https://monkeytype.com) gets the same
+// floating size as Keypunch. Chromium gives --app windows their own app-id.
+window-rule {
+    match app-id=r#"^chrome-monkeytype\.com"#
+    open-floating true
+    clip-to-geometry true
+    default-column-width { proportion 0.5; }
+    default-window-height { proportion 0.5; }
+}
+
 // Calculator opens as a floating window alongside the other floating apps.
 window-rule {
     match app-id="org.gnome.Calculator"
