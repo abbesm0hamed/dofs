@@ -119,8 +119,9 @@
       command: gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
       changed_when: false
 
-    - name: Apply Banana cursor theme (GNOME)
-      command: gsettings set org.gnome.desktop.interface cursor-theme "Banana"
+    - name: Apply Bibata cursor theme (GNOME)
+      command: gsettings set org.gnome.desktop.interface cursor-theme "Bibata-Modern-Ice"
+      # command: gsettings set org.gnome.desktop.interface cursor-theme "Banana"
       changed_when: false
       tags: cursors
 
