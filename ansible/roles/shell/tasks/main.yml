@@ -11,7 +11,6 @@
     curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | fish -c "source && fisher install jorgebucaran/fisher"
   args:
     creates: "{{ ansible_user_dir }}/.config/fish/functions/fisher.fish"
-  when: ansible_env.SHELL is search('fish')
 
 
 - name: Install Atuin
@@ -32,6 +31,8 @@
   dnf:
     name: carapace-bin
     state: present
+  async: 1800
+  poll: 10
   become: true
 
 - name: Check if Pokemon Colorscripts is installed
@@ -54,4 +55,3 @@
       become: true
       changed_when: false
   when: pokemon_colorscripts_check.rc != 0
-

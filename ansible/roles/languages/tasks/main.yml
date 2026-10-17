@@ -6,6 +6,8 @@
 
 - name: Install FNM
   shell: curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+  async: 600
+  poll: 10
   when: not fnm_check.stat.exists
 
 - name: Setup Node.js via FNM
@@ -19,6 +21,8 @@
   args:
     executable: /bin/bash
     creates: "{{ ansible_user_dir }}/.local/share/fnm/aliases/default"
+  async: 1800
+  poll: 10
   changed_when: false
 
 - name: Check if Bun is installed
@@ -28,6 +32,8 @@
 
 - name: Install Bun
   shell: curl -fsSL https://bun.sh/install | bash
+  async: 600
+  poll: 10
   when: not bun_check.stat.exists
 
 - name: Check if Rustup is installed
@@ -37,6 +43,8 @@
 
 - name: Install Rustup
   shell: curl -fsSL https://sh.rustup.rs | sh -s -- -y --no-modify-path
+  async: 600
+  poll: 10
   when: not rustup_check.stat.exists
 
 - name: Configure Rust toolchain
@@ -50,5 +58,6 @@
   args:
     executable: /bin/bash
     creates: "{{ ansible_user_dir }}/.cargo/bin/rustfmt"
+  async: 1800
+  poll: 10
   changed_when: false
-

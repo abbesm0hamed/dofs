@@ -3,6 +3,8 @@
   dnf:
     name: zram-generator
     state: present
+  async: 1800
+  poll: 10
   become: true
 
 - name: Configure Zram
@@ -36,6 +38,8 @@
       dnf:
         name: firewalld
         state: present
+      async: 1800
+      poll: 10
     - name: Set default zone
       command: firewall-cmd --set-default-zone=FedoraWorkstation
       changed_when: false
@@ -71,6 +75,8 @@
       dnf:
         name: [qemu, virt-manager, libvirt, dnsmasq, ebtables, iptables-nft]
         state: present
+      async: 1800
+      poll: 10
     - name: Add user to libvirt/kvm groups
       user:
         name: "{{ ansible_user_id }}"
@@ -114,4 +120,3 @@
         name: fprintd
         state: restarted
   become: true
-

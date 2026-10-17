@@ -5,6 +5,8 @@
       dnf:
         name: filezilla
         state: present
+      async: 1800
+      poll: 10
       become: true
 
     - name: Verify FileZilla installation
@@ -31,6 +33,8 @@
       dnf:
         name: anydesk
         state: present
+      async: 1800
+      poll: 10
       become: true
 
     - name: Verify AnyDesk installation
@@ -109,6 +113,8 @@
       dnf:
         name: adw-gtk3-theme
         state: present
+      async: 1800
+      poll: 10
       become: true
 
     - name: Apply adw-gtk3 GTK theme (GNOME)

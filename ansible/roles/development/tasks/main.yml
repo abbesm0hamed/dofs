@@ -49,6 +49,8 @@
 
 - name: Install Zed IDE
   shell: curl -f https://zed.dev/install.sh | sh
+  async: 900
+  poll: 10
   when: zed_check.rc != 0
 
 - name: Check if OpenCode is installed
@@ -61,6 +63,8 @@
   shell: curl -fsSL https://opencode.ai/install | bash
   args:
     executable: /bin/bash
+  async: 900
+  poll: 10
   when: opencode_check.rc != 0
 
 # herdr setup with skills
@@ -75,6 +79,8 @@
   shell: curl -fsSL https://herdr.dev/install.sh | sh
   args:
     executable: /bin/bash
+  async: 900
+  poll: 10
   when: herdr_check.rc != 0
 
 - name: Check if Herdr agent skill is installed
@@ -86,22 +92,9 @@
   shell: npx skills add ogulcancelik/herdr --skill herdr -g
   args:
     executable: /bin/bash
+  async: 900
+  poll: 10
   when: not herdr_skill_check.stat.exists
-
-- name: Check if Gemini CLI is installed
-  command: command -v gemini
-  register: gemini_check
-  changed_when: false
-  failed_when: false
-
-- name: Install Gemini CLI
-  shell: |
-    export PATH="{{ ansible_user_dir }}/.local/share/fnm:$PATH"
-    eval "$(fnm env --shell bash)"
-    npm i -g @google/gemini-cli
-  args:
-    executable: /bin/bash
-  when: gemini_check.rc != 0
 
 - name: Check if Codex CLI is installed
   command: command -v codex
@@ -116,6 +109,8 @@
     npm i -g @openai/codex
   args:
     executable: /bin/bash
+  async: 1800
+  poll: 10
   when: codex_check.rc != 0
 
 - name: Check if Hunkdiff is installed
@@ -131,4 +126,6 @@
     npm i -g hunkdiff
   args:
     executable: /bin/bash
+  async: 1800
+  poll: 10
   when: hunkdiff_check.rc != 0

@@ -5,4 +5,6 @@
       - curl
       - git
     state: present
+  async: 1800
+  poll: 10
   become: true

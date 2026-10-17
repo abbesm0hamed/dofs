@@ -1,4 +1,4 @@
-.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply ansible-setup update
+.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply ansible-setup ansible-packages update
 
 DOTFILES_SOURCE := $(CURDIR)/home
 
@@ -19,8 +19,10 @@ waybar-reload:
 waybar-apply: dotapp waybar-reload
 
 ansible-setup:
-	ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass
+	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass
+
+ansible-packages:
+	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass --tags repos,packages
 
 update:
 	./scripts/maintenance/update-all.sh
-

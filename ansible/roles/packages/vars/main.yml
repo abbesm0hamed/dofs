@@ -1,6 +1,6 @@
 ---
 copr_repos:
-  - alternateved/ghostty
+  - scottames/ghostty
   - che/nerd-fonts
   - peterwu/iosevka
   - dejan/lazygit
@@ -9,7 +9,7 @@ copr_repos:
   - varlad/yazi
   - wezfurlong/wezterm-nightly
   - atim/lazydocker
-  - solopasha/hyprland
+  - nett00n/hyprland
   - peterwu/rendezvous
   - yorickpeterse/stylua
     # - rafatosta/zapzap # whatsapp repo (404 on F43)
@@ -190,7 +190,6 @@ dnf_packages:
   - rofi
   - mako
   - waybar
-  - eww
   - hyprpaper
   - xdg-desktop-portal
   - xdg-desktop-portal-gnome

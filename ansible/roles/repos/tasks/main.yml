@@ -3,6 +3,8 @@
   dnf:
     name: dnf-plugins-core
     state: present
+  async: 1800
+  poll: 10
   become: true
 
 - name: Optimize DNF configuration
@@ -59,5 +61,4 @@
     gpgkey: https://pkgs.tailscale.com/stable/fedora/repo.gpg
     enabled: yes
   become: true
-
 

@@ -9,6 +9,8 @@
 - name: Enable COPR repositories
   command: "dnf copr enable -y {{ item }}"
   loop: "{{ copr_repos }}"
+  async: 300
+  poll: 10
   become: true
   changed_when: false
   register: copr_result
@@ -20,6 +22,8 @@
   ansible.builtin.dnf:
     name: "{{ dnf_packages }}"
     state: present
+  async: 1800
+  poll: 10
   become: true
 
 - name: Add Flathub remote
@@ -27,6 +31,8 @@
     name: flathub
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  async: 300
+  poll: 10
   become: true
 
 - name: Install Flatpak applications
@@ -35,10 +41,11 @@
     state: present
     remote: flathub
   loop: "{{ flatpaks }}"
+  async: 1800
+  poll: 10
   become: true
 
 - name: Set Flatpak filesystem overrides for themes
   command: flatpak override --user --filesystem=xdg-config/gtk-3.0:ro --filesystem=xdg-config/gtk-4.0:ro --filesystem=~/.themes:ro --filesystem=~/.local/share/icons:ro
   become: false
   changed_when: false
-
