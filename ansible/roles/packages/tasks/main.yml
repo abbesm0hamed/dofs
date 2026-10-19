@@ -1,4 +1,11 @@
 ---
+- name: Remove explicitly unwanted DNF packages
+  ansible.builtin.dnf:
+    name: "{{ dnf_absent_packages }}"
+    state: absent
+  become: true
+  tags: cleanup-packages
+
 - name: Install community.general collection
   command: ansible-galaxy collection install community.general
   register: collection_install

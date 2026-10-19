@@ -19,6 +19,7 @@
     Mod+Z { spawn "sh" "-c" "zed"; }
 
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
+    Alt+H { spawn "helium"; }
     Alt+Shift+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
     Mod+Y { spawn "flatpak" "run" "no.bragefuglseth.Keypunch"; }
     Mod+M { spawn "helium" "--app=https://monkeytype.com"; } // Monkeytype (sized like Keypunch via rules.kdl)

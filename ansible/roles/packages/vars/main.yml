@@ -217,6 +217,13 @@ dnf_packages:
   - wayscriber
   - hyprpicker
 
+dnf_absent_packages:
+  - gnome-maps
+  - gnome-text-editor
+  - gnome-contacts
+  - gnome-weather
+  - gnome-tour
+
 flatpaks:
   - app.zen_browser.zen
   - com.discordapp.Discord

@@ -1,4 +1,4 @@
-.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply setup install-packages update
+.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply setup install-packages cleanup-packages update
 
 DOTFILES_SOURCE := $(CURDIR)/home
 
@@ -23,6 +23,9 @@ setup:
 
 install-packages:
 	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass --tags repos,packages
+
+cleanup-packages:
+	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass --tags cleanup-packages
 
 update:
 	./scripts/maintenance/update-all.sh
