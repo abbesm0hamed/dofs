@@ -113,8 +113,6 @@ dnf_packages:
   - terraform
   - httpie
   - neovim
-  - emacs
-  - helix
   - bat
   - fzf
   - ripgrep

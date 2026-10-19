@@ -27,7 +27,6 @@
     - .config/niri/config.kdl
     - .config/waybar/config.jsonc
     - .config/mako/config
-    - .config/helix/config.toml
   register: config_stats
   tags: verify
 
