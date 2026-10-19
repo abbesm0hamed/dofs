@@ -1,11 +1,11 @@
-.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply ansible-setup ansible-packages update
+.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply setup install-packages update
 
 DOTFILES_SOURCE := $(CURDIR)/home
 
-dotit:
+dotinit:
 	chezmoi init --source $(DOTFILES_SOURCE) --force
 
-dotapp:
+dotapply:
 	chezmoi apply --source $(DOTFILES_SOURCE) --force
 
 dotdiff:
@@ -16,12 +16,12 @@ waybar-reload:
 	sleep 0.2
 	waybar &
 
-waybar-apply: dotapp waybar-reload
+waybar-apply: dotapplly waybar-reload
 
-ansible-setup:
+setup:
 	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass
 
-ansible-packages:
+install-packages:
 	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass --tags repos,packages
 
 update:

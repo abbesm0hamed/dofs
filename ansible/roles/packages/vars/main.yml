@@ -13,7 +13,7 @@ copr_repos:
   - peterwu/rendezvous
   - yorickpeterse/stylua
   - imput/helium
-    # - rafatosta/zapzap # whatsapp repo (404 on F43)
+  - errornointernet/quickshell
 
 dnf_packages:
   # system.txt
@@ -66,6 +66,7 @@ dnf_packages:
 
   # desktop.txt
   - helium-bin
+  - quickshell
   - flatpak
   - nautilus
   - gvfs
@@ -217,7 +218,6 @@ dnf_packages:
   - kanshi
   - wayscriber
   - hyprpicker
-  # - zapzap # whatsapp (moving to flatpak)
 
 flatpaks:
   - app.zen_browser.zen
