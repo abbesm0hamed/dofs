@@ -86,7 +86,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^([Zz]en.*|app\.zen_browser\.zen|firefox|chromium|chromium-browser|google-chrome|brave)$"#
+    match app-id=r#"^([Zz]en.*|app\.zen_browser\.zen|firefox|helium)$"#
     open-on-workspace "browser"
     default-column-width { proportion 1.0; }
     open-maximized-to-edges true
@@ -164,8 +164,8 @@ window-rule {
     default-window-height { proportion 0.2; }
 }
 
-// Monkeytype opened in Chromium (--app=https://monkeytype.com) gets the same
-// floating size as Keypunch. Chromium gives --app windows their own app-id.
+// Monkeytype opened in Helium (--app=https://monkeytype.com) gets the same
+// floating size as Keypunch. Helium gives --app windows their own app-id.
 window-rule {
     match app-id=r#"^chrome-monkeytype\.com"#
     open-floating true

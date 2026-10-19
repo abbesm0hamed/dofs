@@ -21,17 +21,17 @@
     Alt+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Alt+Shift+M { spawn "flatpak" "run" "org.fedoraproject.MediaWriter"; }
     Mod+Y { spawn "flatpak" "run" "no.bragefuglseth.Keypunch"; }
-    Mod+M { spawn "chromium-browser" "--app=https://monkeytype.com"; } // Monkeytype (sized like Keypunch via rules.kdl)
+    Mod+M { spawn "helium" "--app=https://monkeytype.com"; } // Monkeytype (sized like Keypunch via rules.kdl)
     Alt+E { spawn "nautilus"; }
     Alt+Mod+C { spawn "gnome-calculator"; } // Calculator (opens floating via rules.kdl)
-    Alt+M { spawn "chromium-browser" "--app=https://maps.google.com"; }
-    Alt+A { spawn "chromium-browser" "--app=https://chatgpt.com"; }
-    Alt+Mod+Y { spawn "chromium-browser" "--app=https://youtube.com"; }
-    Alt+Shift+C { spawn "chromium-browser" "--app=https://claude.ai/new"; }
-    Alt+D { spawn "chromium-browser" "--app=https://discord.com/app"; }
-    // Alt+W { spawn "chromium-browser" "--app=https://web.whatsapp.com"; }
-    Alt+N { spawn "chromium-browser" "--app=https://app.notion.com"; }
-    Alt+F { spawn "chromium-browser" "--app=https://figma.com"; }
+    Alt+M { spawn "helium" "--app=https://maps.google.com"; }
+    Alt+A { spawn "helium" "--app=https://chatgpt.com"; }
+    Alt+Mod+Y { spawn "helium" "--app=https://youtube.com"; }
+    Alt+Shift+C { spawn "helium" "--app=https://claude.ai/new"; }
+    Alt+D { spawn "helium" "--app=https://discord.com/app"; }
+    // Alt+W { spawn "helium" "--app=https://web.whatsapp.com"; }
+    Alt+N { spawn "helium" "--app=https://app.notion.com"; }
+    Alt+F { spawn "helium" "--app=https://figma.com"; }
     Alt+W { spawn "zapzap"; } // WhatsApp desktop clone
     Alt+T { spawn "flatpak" "run" "com.github.IsmaelMartinez.teams_for_linux"; } // Teams for linux
     Mod+Space { spawn "rofi" "-show" "drun"; }

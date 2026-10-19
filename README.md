@@ -128,7 +128,7 @@ This setup includes:
 
 ### Desktop Applications
 
-- Chromium, Zen Browser
+- Helium, Zen Browser
 - Nautilus file manager
 - Slack, Discord
 - Evince PDF viewer

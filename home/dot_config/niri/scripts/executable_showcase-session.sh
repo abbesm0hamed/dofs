@@ -50,8 +50,8 @@ launch_browser() {
         return 0
     fi
 
-    if command -v chromium-browser >/dev/null 2>&1; then
-        chromium-browser --new-window "$URL" &
+    if command -v helium >/dev/null 2>&1; then
+        helium --new-window "$URL" &
         return 0
     fi
 
