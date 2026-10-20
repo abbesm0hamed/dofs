@@ -162,7 +162,7 @@ Scope {
             if (entry.app.runInTerminal) {
                 var terminalCommand = Search.appCommand(entry.app.command);
                 if (!terminalCommand.length) { fail("This terminal entry has no command."); return; }
-                run(["wezterm", "start", "--"].concat(terminalCommand), entry.name, entry.app.workingDirectory, "", entry.app.id);
+                run(["ghostty", "-e"].concat(terminalCommand), entry.name, entry.app.workingDirectory, "", entry.app.id);
             } else {
                 run([], entry.name, "", entry.app.id);
             }
@@ -170,7 +170,7 @@ Scope {
             // DesktopAction exposes a parsed argument array, not a shell command.
             var command = Search.appCommand(entry.shortcut.command);
             if (!command.length) { fail("This application shortcut has no command."); return; }
-            if (entry.app.runInTerminal) command = ["wezterm", "start", "--"].concat(command);
+            if (entry.app.runInTerminal) command = ["ghostty", "-e"].concat(command);
             run(command, entry.name, entry.app.workingDirectory, "", entry.app.id);
         } else if (entry.kind === "calculator") {
             run(["wl-copy", "--", entry.value], "Copy result");

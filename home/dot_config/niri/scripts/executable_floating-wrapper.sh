@@ -28,21 +28,15 @@ LAUNCH_CMD=()
 PKILL_PATTERN=""
 
 case "$TERMINAL" in
-    kitty)
-        LAUNCH_CMD=("kitty" "--class=$APP_ID" "${COMMAND[@]}")
-        PKILL_PATTERN="kitty --class=$APP_ID"
-        ;;
-    wezterm)
-        LAUNCH_CMD=("wezterm" "start" "--always-new-process" "--class=$APP_ID" "--" "${COMMAND[@]}")
-        PKILL_PATTERN="(wezterm|wezterm-gui).*--class(=| )$APP_ID"
-        ;;
     ghostty)
-        # Ghostty uses 'class' for Wayland app-id
-        LAUNCH_CMD=("ghostty" "--class=$APP_ID" "${COMMAND[@]}")
-        PKILL_PATTERN="ghostty --class=$APP_ID"
+        # Ghostty uses --class for the Wayland app-id, which must be a valid
+        # GTK application ID (reverse-DNS). Bare names are rejected and
+        # silently fall back to com.mitchellh.ghostty, so prefix them.
+        LAUNCH_CMD=("ghostty" "--class=com.mitchellh.ghostty.$APP_ID" "-e" "${COMMAND[@]}")
+        PKILL_PATTERN="ghostty --class=com.mitchellh.ghostty.$APP_ID"
         ;;
     *)
-        echo "Unsupported terminal: $TERMINAL" >> "$LOG_FILE"
+        echo "Unsupported terminal: $TERMINAL (use ghostty)" >> "$LOG_FILE"
         exit 1
         ;;
 esac

@@ -59,7 +59,7 @@
     "interval": 30,
     "format": "<span rise='1000'></span> {percentage}%",
     "tooltip-format": "Memory: {used:0.1f}GiB / {total:0.1f}GiB ({percentage}%)",
-    "on-click": "wezterm start -- btop",
+    "on-click": "ghostty -e btop",
     "on-scroll-up": "true",
     "on-scroll-down": "true"
   },
@@ -289,7 +289,7 @@
     "exec-if": "~/.config/waybar/scripts/fingerprint-status.sh --exec-if",
     "exec": "~/.config/waybar/scripts/fingerprint-status.sh",
     "interval": 30,
-    "on-click": "wezterm start -- bash -c '$HOME/.config/waybar/scripts/fingerprint-setup.sh setup; read -p \"Press Enter to close...\"'",
+    "on-click": "ghostty -e bash -c '$HOME/.config/waybar/scripts/fingerprint-setup.sh setup; read -p \"Press Enter to close...\"'",
     "tooltip": true,
     "on-scroll-up": "true",
     "on-scroll-down": "true"
@@ -334,7 +334,7 @@
     "format-disconnected": "",
     "on-click": "mpc --quiet toggle",
     "on-click-right": "mpc update; mpc ls | mpc add",
-    "on-click-middle": "wezterm start -- ncmpcpp",
+    "on-click-middle": "ghostty -e ncmpcpp",
     "on-scroll-up": "mpc --quiet prev",
     "on-scroll-down": "mpc --quiet next",
     "smooth-scrolling-threshold": 5,
@@ -454,7 +454,7 @@
   "custom/updates": {
     "format": "{}",
     "return-type": "json",
-    "on-click": "wezterm start -- sh -c '~/dofs/scripts/maintenance/update-all.sh && rm /tmp/waybar_check_updates_cache && pkill -RTMIN+9 waybar'",
+    "on-click": "ghostty -e sh -c '~/dofs/scripts/maintenance/update-all.sh && rm /tmp/waybar_check_updates_cache && pkill -RTMIN+9 waybar'",
     "interval": 3600,
     "exec": "~/.config/waybar/scripts/check-updates.sh",
     "signal": 9,
@@ -475,7 +475,7 @@
     "tooltip": true,
     "tooltip-format": "Left: Pavucontrol | Right: Cava terminal",
     "on-click": "pavucontrol",
-    "on-click-right": "wezterm start -- cava",
+    "on-click-right": "ghostty -e cava",
     "on-scroll-up": "true",
     "on-scroll-down": "true"
   },

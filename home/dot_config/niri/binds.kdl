@@ -1,14 +1,11 @@
  binds {
-    Mod+Return { spawn "wezterm" "start"; }
-    Mod+Shift+T { spawn "wezterm" "start" "--always-new-process" "--class=floating-terminal"; }
-    Mod+Shift+Return { spawn "foot"; }
-    Mod+Alt+Return { spawn "alacritty"; }
-    Mod+T { spawn "kitty"; }
-    Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-btop btop"; }
-    Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-yazi yazi"; }
-    Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-lazydocker lazydocker"; }
-    Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-ranger ranger"; }
-    Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh wezterm floating-weather bash ~/.config/niri/scripts/weather.sh"; }
+    Mod+Return { spawn "ghostty"; }
+    Mod+T { spawn "ghostty" "--class=com.mitchellh.ghostty.floating-terminal"; }
+    Mod+B { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty floating-btop btop"; }
+    Mod+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty floating-yazi yazi"; }
+    Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty floating-lazydocker lazydocker"; }
+    Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty floating-ranger ranger"; }
+    Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty floating-weather bash ~/.config/niri/scripts/weather.sh"; }
     Mod+Alt+Shift+B { spawn "sh" "-c" "~/.config/niri/scripts/waybar-switcher.sh"; }
     
     Mod+Alt+B cooldown-ms=500 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }

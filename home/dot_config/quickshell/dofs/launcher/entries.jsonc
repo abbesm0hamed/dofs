@@ -1,6 +1,6 @@
 [
   // Argument arrays only; no shell interpolation. Keep destructive actions out.
-  { "id": "terminal", "name": "New terminal", "description": "Open WezTerm", "icon": "utilities-terminal", "keywords": "shell console", "command": ["wezterm", "start"] },
+  { "id": "terminal", "name": "New terminal", "description": "Open Ghostty", "icon": "utilities-terminal", "keywords": "shell console", "command": ["ghostty"] },
   { "id": "files", "name": "Open home folder", "description": "Files", "icon": "system-file-manager", "keywords": "nautilus directory", "command": ["xdg-open", "~"] },
   { "id": "audio", "name": "Sound settings", "description": "Volume and audio devices", "icon": "audio-volume-high", "keywords": "speaker microphone pavucontrol", "command": ["pavucontrol"] },
   { "id": "network", "name": "Network settings", "description": "Edit network connections", "icon": "preferences-system-network", "keywords": "wifi ethernet internet", "command": ["nm-connection-editor"] },

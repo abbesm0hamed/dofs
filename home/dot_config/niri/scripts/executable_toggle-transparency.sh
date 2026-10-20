@@ -19,7 +19,7 @@ if grep -Fq "$MARK_BEGIN" "$RULES_FILE" 2>/dev/null; then
 	has_override=1
 elif grep -Fq "$MARK_BEGIN_HASH" "$RULES_FILE" 2>/dev/null; then
 	has_override=1
-elif grep -Eq '^[[:space:]]*match[[:space:]]+app-id=.*(ghostty|wezterm|kitty|alacritty)' "$RULES_FILE" 2>/dev/null && grep -Eq '^[[:space:]]*opacity[[:space:]]+0\.([0-9]+)[[:space:]]*$' "$RULES_FILE" 2>/dev/null; then
+elif grep -Eq '^[[:space:]]*match[[:space:]]+app-id=.*ghostty' "$RULES_FILE" 2>/dev/null && grep -Eq '^[[:space:]]*opacity[[:space:]]+0\.([0-9]+)[[:space:]]*$' "$RULES_FILE" 2>/dev/null; then
 	has_override=1
 fi
 
@@ -35,7 +35,7 @@ if [ "$has_override" = "1" ]; then
     function block_is_legacy_injection(b) {
         if (b !~ /opacity[[:space:]]+0\.[0-9]+/) return 0
         if (b ~ /open-maximized|open-floating|draw-border-with-background|shadow[[:space:]]*\{|default-column-width|tiled-state|clip-to-geometry/) return 0
-        if (b ~ /match[[:space:]]+app-id=.*ghostty/ || b ~ /match[[:space:]]+app-id=.*wezterm/ || b ~ /match[[:space:]]+app-id=.*kitty/ || b ~ /match[[:space:]]+app-id=.*alacritty/) return 1
+        if (b ~ /match[[:space:]]+app-id=.*ghostty/) return 1
         return 0
     }
 
@@ -99,42 +99,6 @@ window-rule {
 
 window-rule {
     match app-id=r#"^(ghostty|Ghostty|com\.mitchellh\.ghostty(\..*)?)$"#
-    match is-focused=false
-    opacity 0.93
-}
-
-window-rule {
-    match app-id=r#"^(org\.wezfurlong\.wezterm(-nightly|-gui)?|wezterm)$"#
-    match is-focused=true
-    opacity 0.96
-}
-
-window-rule {
-    match app-id=r#"^(org\.wezfurlong\.wezterm(-nightly|-gui)?|wezterm)$"#
-    match is-focused=false
-    opacity 0.93
-}
-
-window-rule {
-    match app-id="kitty"
-    match is-focused=true
-    opacity 0.96
-}
-
-window-rule {
-    match app-id="kitty"
-    match is-focused=false
-    opacity 0.93
-}
-
-window-rule {
-    match app-id="Alacritty"
-    match is-focused=true
-    opacity 0.96
-}
-
-window-rule {
-    match app-id="Alacritty"
     match is-focused=false
     opacity 0.93
 }

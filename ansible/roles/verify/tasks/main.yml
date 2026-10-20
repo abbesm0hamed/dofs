@@ -9,7 +9,7 @@
     - xwayland-satellite
     - hyprlock
     - swayidle
-    - wezterm
+    - ghostty
     - fnm
     - bun
     - rustup

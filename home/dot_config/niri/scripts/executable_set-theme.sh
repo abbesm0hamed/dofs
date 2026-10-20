@@ -17,11 +17,7 @@ fi
 WAYBAR_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/waybar/theme.css"
 ROFI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/rofi/colors.rasi"
 NIRI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/niri/colors.kdl"
-FOOT_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/foot/theme.ini"
-WEZTERM_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/wezterm/colors.lua"
 MAKO_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/mako/config"
-KITTY_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/kitty/theme.conf"
-ALACRITTY_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/alacritty/theme.toml"
 RANGER_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf"
 YAZI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/yazi.toml"
 ZED_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/zed/settings.json"
@@ -87,11 +83,7 @@ apply_theme() {
     sync_file "waybar-theme.css" "$WAYBAR_OUT"
     sync_file "rofi-colors.rasi" "$ROFI_OUT"
     sync_file "niri-colors.kdl" "$NIRI_OUT"
-    sync_file "foot-theme.ini" "$FOOT_OUT"
-    sync_file "wezterm-colors.lua" "$WEZTERM_OUT"
     sync_file "mako-theme.conf" "$MAKO_OUT"
-    sync_file "kitty-theme.conf" "$KITTY_OUT"
-    sync_file "alacritty-theme.toml" "$ALACRITTY_OUT"
     sync_file "ranger-theme.conf" "$RANGER_OUT"
     sync_file "yazi-theme.toml" "$YAZI_OUT"
     sync_file "zed-theme.json" "$ZED_OUT"
@@ -118,13 +110,6 @@ apply_theme() {
     echo "$name" >"$STATE_FILE"
 
     # Live-reload terminals if running
-    if command -v kitty &>/dev/null && pgrep -x kitty &>/dev/null; then
-        kitty @ set-colors --all "$KITTY_OUT" || true
-    fi
-
-    if pgrep -x alacritty &>/dev/null; then
-        pkill -USR1 alacritty || true
-    fi
 
     # Resolve theme-specific wallpaper
     local wall=""

@@ -13,14 +13,6 @@ output_path = '~/.config/rofi/colors.rasi'
 input_path = './templates/niri.kdl'
 output_path = '~/.config/niri/colors.kdl'
 
-[templates.foot]
-input_path = './templates/foot.ini'
-output_path = '~/.config/foot/theme.ini'
-
-[templates.wezterm]
-input_path = './templates/wezterm.lua'
-output_path = '~/.config/wezterm/colors.lua'
-
 [templates.mako]
 input_path = './templates/mako.conf'
 output_path = '~/.config/mako/config'

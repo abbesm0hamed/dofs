@@ -1,13 +1,11 @@
 ---
 copr_repos:
-  - scottames/ghostty
   - che/nerd-fonts
   - peterwu/iosevka
   - dejan/lazygit
   - yalter/niri
   - grahamwhiteuk/libfprint-tod
   - varlad/yazi
-  - wezfurlong/wezterm-nightly
   - atim/lazydocker
   - nett00n/hyprland
   - peterwu/rendezvous
@@ -178,10 +176,7 @@ dnf_packages:
   - iptables-nft
 
   # wayland.txt
-  - foot
   - ghostty
-  - kitty
-  - wezterm
   - niri
   - qt5-qtwayland
   - qt6-qtwayland
@@ -218,6 +213,10 @@ dnf_packages:
   - hyprpicker
 
 dnf_absent_packages:
+  - foot
+  - wezterm
+  - alacritty
+  - kitty
   - gnome-maps
   - gnome-text-editor
   - gnome-contacts

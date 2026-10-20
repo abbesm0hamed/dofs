@@ -11,28 +11,8 @@ launch_terminal() {
     local app_id="$1"
     shift
 
-    if command -v wezterm >/dev/null 2>&1; then
-        wezterm start --class "$app_id" -- "$@" &
-        return 0
-    fi
-
     if command -v ghostty >/dev/null 2>&1; then
-        ghostty --class="$app_id" -e "$@" &
-        return 0
-    fi
-
-    if command -v kitty >/dev/null 2>&1; then
-        kitty "--class=$app_id" -e "$@" &
-        return 0
-    fi
-
-    if command -v foot >/dev/null 2>&1; then
-        foot -a "$app_id" -e "$@" &
-        return 0
-    fi
-
-    if command -v alacritty >/dev/null 2>&1; then
-        alacritty --class "$app_id" -e "$@" &
+        ghostty "--class=com.mitchellh.ghostty.$app_id" -e "$@" &
         return 0
     fi
 

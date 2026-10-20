@@ -148,7 +148,7 @@ main() {
     check_binary waybar
     check_binary mako
     check_binary rofi
-    check_binary wezterm
+    check_binary ghostty
     echo ""
     
     # Check development tools
