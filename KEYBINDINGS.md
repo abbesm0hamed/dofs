@@ -136,7 +136,8 @@
 | `Mod+Shift+WheelScrollDown` | `focus-column-right                                          ` |
 | `Mod+Shift+WheelScrollUp  ` | `focus-column-left                                           ` |
 | `Mod+Shift+W              ` | `sh -c ~/.config/niri/scripts/floating-wrapper.sh wezterm floating-weather bash ~/.config/niri/scripts/weather.sh` |
-| `Mod+Space                ` | `rofi -show drun                                             ` |
+| `Mod+Space                ` | `Quickshell app launcher (starts on demand)                   ` |
+| `Mod+Shift+Space          ` | `rofi -show drun (fallback app launcher)                      ` |
 | `Mod+Tab                  ` | `toggle-overview                                             ` |
 | `Mod+T                    ` | `kitty                                                       ` |
 | `Mod+WheelScrollDown      ` | `focus-workspace-down                                        ` |

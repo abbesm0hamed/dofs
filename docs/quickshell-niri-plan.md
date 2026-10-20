@@ -7,6 +7,144 @@ bar, then add a searchable app launcher and settings/actions menu. Keep the
 shell independent of Omarchy and Hyprland, use Niri's own interfaces, and keep
 all source changes in this declarative dotfiles repository.
 
+## Launcher-first implementation (main app launcher)
+
+The launcher was implemented ahead of the bar phases below and is now the main
+app launcher on `Mod+Space`. Its wrapper starts the named instance on demand,
+then toggles it. Rofi's app launcher remains available on `Mod+Shift+Space` as
+a fallback. The Rofi package/config, other Rofi menus, Waybar, and session
+autostart are unchanged.
+
+### Try without deploying
+
+From the repository root, in two terminals:
+
+```sh
+qs -p "$PWD/home/dot_config/quickshell/dofs" --no-duplicate
+qs -p "$PWD/home/dot_config/quickshell/dofs" ipc call launcher toggle
+```
+
+This runs the source directly; it does not modify `~/.config`. Stop with Ctrl+C,
+or `qs -p "$PWD/home/dot_config/quickshell/dofs" kill`. Do not simultaneously run
+the source-path instance and the deployed instance.
+
+### Deploy when ready
+
+Review `make dotdiff` (which may include unrelated pending dotfiles changes).
+Apply **only the trial files**, without force-applying the entire home tree:
+
+```sh
+chezmoi apply --recursive --source "$PWD/home" \
+  "$HOME/.config/quickshell/dofs" "$HOME/.config/niri/binds.kdl" \
+  "$HOME/.config/niri/scripts/quickshell-launcher.sh"
+```
+
+Niri reloads its managed binds; `Mod+Space` toggles the Quickshell launcher.
+The IPC target `launcher` also exposes `open`, `close`, and a `ping` readiness
+check. The shortcut starts
+the shell if necessary; nothing starts it at login. Stop it with
+`qs -c dofs kill`; Rofi remains on `Mod+Shift+Space`.
+The actual Makefile currently calls full apply `make dotapply`, not `make dotapp`.
+
+After updating QML or the IPC API in an already-running deployed instance,
+run `qs -c dofs kill`, then press the shortcut to start the updated shell.
+Do not assume file-watch reload applied an IPC API change: the live deployment
+retained its old handler during testing until explicitly restarted. Ordinary
+development reloads and `entries.jsonc` edits are tested, but explicit restart
+is the reliable deployment boundary, as in Omarchy's shell startup approach.
+
+### Included interactions
+
+- XDG application discovery through `DesktopEntries`, including Flatpak exports
+  when their data directories are in the session's `XDG_DATA_DIRS`.
+  A debounced visibility snapshot honors user overrides, `Hidden`, `NoDisplay`,
+  `OnlyShowIn`, `NotShowIn`, and `TryExec` without scanning on search keystrokes.
+- Fuzzy, multi-word search across names, descriptions, IDs and app keywords.
+- All / Apps / Actions filters (Ctrl+1/2/3); ↑/↓ or Ctrl+N/P select, Enter launches.
+- Tab or Ctrl+K opens the selected application's desktop shortcuts, if any.
+  Escape or Backspace on an empty shortcut search returns to the main list.
+- `= (12 + 3) * 4` calculates; Enter copies the result. Basic arithmetic only;
+  `%` means remainder, not percentage. There is no arbitrary code execution.
+- `? search terms` opens a Google search in the default browser.
+- Escape or clicking outside closes. Opening targets Niri's focused output;
+  failure or a 1.5-second query timeout falls back to the first available screen.
+  Removing the target screen dismisses the launcher.
+- Quick actions/links live in `launcher/entries.jsonc`, with live reload and
+  schema validation. Comments and trailing commas are accepted. Invalid edits
+  show an error and retain the last valid list.
+  Commands are argument arrays, not shell strings; only `~` and `~/` expand.
+
+Colors and fonts live in `theme/Theme.qml` and follow the existing dark Rofi
+palette, with square corners throughout. There are no animations, persistent
+usage tracking, plugins, or bar.
+
+### Dependencies and failure behavior
+
+Uses the declared Quickshell package, Python 3 (stdlib only), `gio` from GLib,
+`xdg-open`, and `wl-copy` for calculator results. The configured action tools
+are optional: missing commands produce a visible launch error. GIO handles app
+desktop-file semantics (field codes, working directory and DBus activation).
+`Terminal=true` entries explicitly use `wezterm start --` with Quickshell's
+parsed command, rather than relying on GIO to guess a terminal. Desktop
+shortcuts also use the parsed command, stripping unfilled standalone field
+codes; terminal shortcuts use WezTerm. Application IDs always omit exactly one
+`.desktop` suffix, including IDs that themselves end in `.desktop`.
+
+Applications detach from the shell and survive its reload/exit. Desktop app
+launch errors and command failures within the first 600 ms reopen the launcher
+with an error. Later crashes are not monitored. This is not a process supervisor.
+The Niri adapter only queries focused output when opening; bar event-stream
+work remains in phase 3 and has not been implemented.
+
+The shortcut wrapper serializes simultaneous invocations, waits for a positive
+readiness response, bounds IPC/startup waits, and checks IPC error text even
+when Quickshell exits 0. Readiness probes can retry; a possibly-executed toggle
+is never retried after a timeout. It does not kill an unresponsive shell or
+supervise crashes continuously; after a crash, the next shortcut starts it again.
+
+### Validation
+
+```sh
+node scripts/tests/quickshell-launcher.test.cjs
+python3 -B -m unittest discover -s scripts/tests -p 'test_quickshell_*.py'
+# Optional live Wayland integration tests (briefly open launcher surfaces):
+# Requires Qt's QtTest QML module in addition to the runtime dependencies.
+DOFS_QML_TEST=1 python3 -B -m unittest discover -s scripts/tests -p 'test_quickshell_*.py'
+```
+
+Validated against installed Quickshell 0.3.2 with pure-JS tests and 14 Python
+tests, including live Wayland/QML tests. Coverage includes real Qt keyboard
+events (navigation, filters, shortcuts, Enter and Escape), focused-monitor
+rendering, repeated opening/closing, normal and terminal desktop-file dispatch,
+IDs containing spaces or `.desktop`, working directories and field codes,
+clipboard/web argument dispatch, config syntax errors and atomic-file recovery,
+QML reload, visible command failures, app survival after supervisor exit,
+hung Niri queries, cold/warm startup, concurrent presses and IPC timeouts/errors.
+Browser, terminal and clipboard commands are stubbed in the integration tests;
+they do not modify the real clipboard or open real apps. GIO uses synthetic
+desktop files, not a blanket test of every installed application.
+
+Still manual/unverified: physical monitor hotplug, suspend/resume and full-login
+cycles, actual Flatpak/DBus activation across installed apps, and fractional-scale
+visual checks. Qt also logs SVG-buffer warnings for some installed icons; this
+does not fail the launch tests, but not every app icon has been visually checked.
+Later app crashes are intentionally not detected. This is an
+main-app-launcher replacement only, not a migration of other Rofi menus, a bar
+cutover, or an autostart change.
+
+### Omarchy implementation comparison
+
+Reviewed the `quattro` branch's
+[AppLibrary.qml](https://github.com/omacom/omarchy/blob/quattro/shell/services/AppLibrary.qml),
+[hidden-entries.sh](https://github.com/omacom/omarchy/blob/quattro/shell/services/hidden-entries.sh),
+[IPC wrapper](https://github.com/omacom/omarchy/blob/quattro/bin/omarchy-shell),
+and [shell startup](https://github.com/omacom/omarchy/blob/quattro/bin/omarchy-launch-shell).
+The useful parallels are explicit terminal launching, preserving desktop ID
+suffixes, desktop-visibility filtering, detached launches, and bounded IPC with
+positive readiness/error checks. This trial deliberately does not import
+Omarchy's plugin framework, UWSM/Hyprland launch scopes, OSD dependencies, or
+full-shell crash supervisor. Niri remains the only compositor boundary.
+
 ## Constraints and decisions
 
 - Edit source files under `home/`; never make hand-edited changes directly in
