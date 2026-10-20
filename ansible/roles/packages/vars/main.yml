@@ -213,10 +213,6 @@ dnf_packages:
   - hyprpicker
 
 dnf_absent_packages:
-  - foot
-  - wezterm
-  - alacritty
-  - kitty
   - gnome-maps
   - gnome-text-editor
   - gnome-contacts
