@@ -75,7 +75,8 @@ is the reliable deployment boundary, as in Omarchy's shell startup approach.
   Commands are argument arrays, not shell strings; only `~` and `~/` expand.
 
 Colors and fonts live in `theme/Theme.qml` and follow the existing dark Rofi
-palette, with square corners throughout. There are no animations, persistent
+palette, with square corners throughout. The border reads Niri's active border
+color from `niri/colors.kdl` and follows theme switches live. There are no animations, persistent
 usage tracking, plugins, or bar.
 
 ### Dependencies and failure behavior
