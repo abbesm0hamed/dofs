@@ -13,6 +13,59 @@ import subprocess
 import sys
 import tempfile
 import shutil
+import fcntl
+
+
+def history_path():
+    state = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
+    return state / "quickshell/dofs/launcher-history.json"
+
+
+def read_history():
+    try:
+        path = history_path()
+        if path.stat().st_size > 16384:
+            return []
+        values = json.loads(path.read_text())
+        if not isinstance(values, list):
+            return []
+        result = []
+        for value in values:
+            if (isinstance(value, str) and value and "/" not in value and "\x00" not in value
+                and value not in result):
+                result.append(value)
+        return result[:5]
+    except (FileNotFoundError, ValueError, UnicodeError):
+        return []
+
+
+def update_history(app_id=None):
+    """Atomic, private MRU storage; None clears it. No query/window tracking."""
+    path = history_path()
+    path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    with open(path.parent / "launcher-history.lock", "a", opener=lambda p, flags: os.open(p, flags, 0o600)) as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        values = [] if app_id is None else [app_id] + [value for value in read_history() if value != app_id]
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(mode="w", dir=path.parent, delete=False) as output:
+                temporary = Path(output.name)
+                json.dump(values[:5], output)
+                output.write("\n")
+            temporary.replace(path)
+        finally:
+            if temporary is not None:
+                temporary.unlink(missing_ok=True)
+
+
+def record_launch(code, app_id):
+    if code == 0 and app_id:
+        try:
+            update_history(app_id)
+        except OSError as error:
+            # History storage must not turn an already-open app into a failure.
+            print(f"Could not save app history: {error}", file=sys.stderr)
+    return code
 
 
 def data_roots():
@@ -92,13 +145,18 @@ if __name__ == "__main__":
             # GIO exits before the app does. Do not let the app inherit QML's
             # short-lived stdout/stderr pipes: later writes can cause SIGPIPE
             # (notably Foot's startup diagnostics).
-            sys.exit(launch_command(["gio", "launch", str(desktop_file(sys.argv[2]))]))
+            sys.exit(record_launch(launch_command(["gio", "launch", str(desktop_file(sys.argv[2]))]), sys.argv[2]))
         elif sys.argv[1] == "command":
-            sys.exit(launch_command(json.loads(sys.argv[2]), sys.argv[3] if len(sys.argv) > 3 else None))
+            code = launch_command(json.loads(sys.argv[2]), sys.argv[3] if len(sys.argv) > 3 else None)
+            sys.exit(record_launch(code, sys.argv[4] if len(sys.argv) > 4 else None))
         elif sys.argv[1] == "hidden":
             print(json.dumps(hidden_entries()))
+        elif sys.argv[1] == "history":
+            print(json.dumps(read_history()))
+        elif sys.argv[1] == "clear-history":
+            update_history()
         else:
-            raise ValueError("Expected app, command or hidden mode")
+            raise ValueError("Expected app, command, hidden, history or clear-history mode")
     except (OSError, ValueError, IndexError) as error:
         print(error, file=sys.stderr)
         sys.exit(1)

@@ -40,6 +40,18 @@ function search(entries, query) {
       .map(function(item) { return item.entry; });
 }
 
+function withRecents(entries, ids) {
+    var recent = [];
+    ids.slice(0, 5).forEach(function(id) {
+        var entry = entries.find(function(item) { return item.kind === "app" && item.app.id === id; });
+        if (entry && !recent.some(function(item) { return item.app.id === id; }))
+            recent.push(Object.assign({}, entry, {recent: true}));
+    });
+    return recent.concat(entries.filter(function(entry) {
+        return !recent.some(function(item) { return entry.kind === "app" && entry.app.id === item.app.id; });
+    }));
+}
+
 function parseEntries(text) {
     // Strip comments only outside strings (URLs and escaped quotes stay intact).
     var clean = text.replace(/"(?:\\.|[^"\\])*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//g,

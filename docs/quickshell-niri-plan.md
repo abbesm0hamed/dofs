@@ -60,6 +60,18 @@ is the reliable deployment boundary, as in Omarchy's shell startup approach.
   A debounced visibility snapshot honors user overrides, `Hidden`, `NoDisplay`,
   `OnlyShowIn`, `NotShowIn`, and `TryExec` without scanning on search keystrokes.
 - Fuzzy, multi-word search across names, descriptions, IDs and app keywords.
+- When search is empty, up to five recently launched apps appear first, marked
+  **Recent**, without duplicating them in the rest of the list. Typing keeps the
+  normal search ranking; the Actions filter does not promote recent apps.
+- **Clear history** is available beside the filters and as the searchable
+  **Clear launch history** action. Only successful app-launch dispatches through
+  Quickshell are recorded, including terminal apps and desktop shortcuts. Rofi
+  launches, quick actions, calculator results, and open windows are not tracked.
+  The five app IDs persist locally in
+  `${XDG_STATE_HOME:-~/.local/state}/quickshell/dofs/launcher-history.json`
+  (private directory/file permissions, atomic writes). No search queries,
+  timestamps, or frequency counts are stored. Removed/hidden apps are not
+  promoted, and a failed history write does not prevent an app from opening.
 - All / Apps / Actions filters (Ctrl+1/2/3); ↑/↓ or Ctrl+N/P select, Enter launches.
 - Tab or Ctrl+K opens the selected application's desktop shortcuts, if any.
   Escape or Backspace on an empty shortcut search returns to the main list.
@@ -76,8 +88,8 @@ is the reliable deployment boundary, as in Omarchy's shell startup approach.
 
 Colors and fonts live in `theme/Theme.qml` and follow the existing dark Rofi
 palette, with square corners throughout. The border reads Niri's active border
-color from `niri/colors.kdl` and follows theme switches live. There are no animations, persistent
-usage tracking, plugins, or bar.
+color from `niri/colors.kdl` and follows theme switches live. There are no
+animations, usage-frequency tracking, plugins, or bar.
 
 ### Dependencies and failure behavior
 
@@ -106,15 +118,20 @@ supervise crashes continuously; after a crash, the next shortcut starts it again
 ### Validation
 
 ```sh
-node scripts/tests/quickshell-launcher.test.cjs
-python3 -B -m unittest discover -s scripts/tests -p 'test_quickshell_*.py'
-# Optional live Wayland integration tests (briefly open launcher surfaces):
-# Requires Qt's QtTest QML module in addition to the runtime dependencies.
-DOFS_QML_TEST=1 python3 -B -m unittest discover -s scripts/tests -p 'test_quickshell_*.py'
+node scripts/tests/launcher-history.test.cjs
+python3 -B -m unittest discover -s scripts/tests -p 'test_launcher_history.py'
+# Optional live Wayland integration test, using synthetic desktop entries:
+DOFS_QML_TEST=1 python3 -B -m unittest discover -s scripts/tests -p 'test_launcher_history.py'
 ```
 
-Validated against installed Quickshell 0.3.2 with pure-JS tests and 14 Python
-tests, including live Wayland/QML tests. Coverage includes real Qt keyboard
+The recent-app tests cover ordering, deduplication, five-entry limits, private
+permissions, concurrent writes, corrupt-state recovery, failed/untracked
+launches, persistence across process/shell restarts, unchanged typed search,
+and clearing through the QML action. Tests use an isolated state directory and
+synthetic apps; they do not populate the real launch history.
+
+An earlier audit against installed Quickshell 0.3.2 used pure-JS tests and 14
+Python tests, including live Wayland/QML tests. Coverage included real Qt keyboard
 events (navigation, filters, shortcuts, Enter and Escape), focused-monitor
 rendering, repeated opening/closing, normal and terminal desktop-file dispatch,
 IDs containing spaces or `.desktop`, working directories and field codes,
@@ -129,7 +146,7 @@ Still manual/unverified: physical monitor hotplug, suspend/resume and full-login
 cycles, actual Flatpak/DBus activation across installed apps, and fractional-scale
 visual checks. Qt also logs SVG-buffer warnings for some installed icons; this
 does not fail the launch tests, but not every app icon has been visually checked.
-Later app crashes are intentionally not detected. This is an
+Later app crashes are intentionally not detected. This is a
 main-app-launcher replacement only, not a migration of other Rofi menus, a bar
 cutover, or an autostart change.
 

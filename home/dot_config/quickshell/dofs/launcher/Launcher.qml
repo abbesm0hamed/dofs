@@ -17,6 +17,9 @@ Scope {
     property var targetScreen: null
     property string errorMessage: ""
     property string configError: ""
+    property string historyError: ""
+    property var historyIds: []
+    property bool historyReadAgain: false
     property var actions: []
     property var hiddenApps: ({})
     property var actionParent: null
@@ -46,11 +49,20 @@ Scope {
         errorMessage = "";
         search.text = "";
         opened = true;
+        refreshHistory();
         niri.requestFocusedOutput();
         Qt.callLater(() => search.forceActiveFocus());
     }
     function close() { opened = false; surfaceReady = false; }
     function toggle() { if (opened) close(); else open(); }
+    function refreshHistory() {
+        if (historyReader.running) historyReadAgain = true;
+        else historyReader.running = true;
+    }
+    function clearHistory() {
+        if (!historyClear.running) historyClear.running = true;
+    }
+    Component.onCompleted: refreshHistory()
 
     function localPath(file) {
         return decodeURIComponent(Qt.resolvedUrl(file).toString().replace(/^file:\/\//, ""));
@@ -88,6 +100,9 @@ Scope {
                 searchText: (action.keywords || "") + " " + (action.description || ""),
                 icon: action.icon || "system-run", kind: "action", command: action.command
             }));
+            if (historyIds.length) entries.push({name: "Clear launch history",
+                description: "Forget recently launched apps on this device",
+                icon: "edit-clear", kind: "clearHistory"});
         }
         var found = Search.search(entries, query);
         if (filter === "All") {
@@ -101,7 +116,7 @@ Scope {
                     command: ["xdg-open", "https://www.google.com/search?q=" + encodeURIComponent(terms)]});
             }
         }
-        return found;
+        return !query && filter !== "Actions" ? Search.withRecents(found, historyIds) : found;
     }
 
     function moveSelection(delta) {
@@ -127,14 +142,14 @@ Scope {
         opened = true;
         niri.requestFocusedOutput();
     }
-    function run(command, label, workingDirectory, appId) {
+    function run(command, label, workingDirectory, appId, historyId) {
         errorMessage = "";
         var expanded = command.map(arg => arg === "~" ? Quickshell.env("HOME")
             : arg.startsWith("~/") ? Quickshell.env("HOME") + arg.slice(1) : arg);
         var helper = localPath("launch.py");
         var process = runner.createObject(root, {
             command: appId ? ["python3", helper, "app", appId]
-                : ["python3", helper, "command", JSON.stringify(expanded), workingDirectory || ""],
+                : ["python3", helper, "command", JSON.stringify(expanded), workingDirectory || "", historyId || ""],
             label: label
         });
         close();
@@ -147,7 +162,7 @@ Scope {
             if (entry.app.runInTerminal) {
                 var terminalCommand = Search.appCommand(entry.app.command);
                 if (!terminalCommand.length) { fail("This terminal entry has no command."); return; }
-                run(["wezterm", "start", "--"].concat(terminalCommand), entry.name, entry.app.workingDirectory);
+                run(["wezterm", "start", "--"].concat(terminalCommand), entry.name, entry.app.workingDirectory, "", entry.app.id);
             } else {
                 run([], entry.name, "", entry.app.id);
             }
@@ -156,15 +171,51 @@ Scope {
             var command = Search.appCommand(entry.shortcut.command);
             if (!command.length) { fail("This application shortcut has no command."); return; }
             if (entry.app.runInTerminal) command = ["wezterm", "start", "--"].concat(command);
-            run(command, entry.name, entry.app.workingDirectory);
+            run(command, entry.name, entry.app.workingDirectory, "", entry.app.id);
         } else if (entry.kind === "calculator") {
             run(["wl-copy", "--", entry.value], "Copy result");
+        } else if (entry.kind === "clearHistory") {
+            clearHistory();
         } else {
             run(entry.command, entry.name);
         }
     }
 
     onResultsChanged: list.currentIndex = results.length ? 0 : -1
+
+    Process {
+        id: historyReader
+        command: ["python3", root.localPath("launch.py"), "history"]
+        stdout: StdioCollector { id: historyOutput }
+        stderr: StdioCollector { id: historyReadError }
+        onExited: (code, status) => {
+            try {
+                if (code !== 0 || status !== 0) throw new Error(historyReadError.text.trim());
+                var ids = JSON.parse(historyOutput.text);
+                if (JSON.stringify(ids) !== JSON.stringify(root.historyIds)) root.historyIds = ids;
+            } catch (error) { root.historyError = "Could not read app history: " + error.message; }
+            if (root.historyReadAgain) {
+                root.historyReadAgain = false;
+                Qt.callLater(() => root.refreshHistory());
+            }
+        }
+    }
+    Process {
+        id: historyClear
+        command: ["python3", root.localPath("launch.py"), "clear-history"]
+        stderr: StdioCollector { id: historyClearError }
+        onExited: (code, status) => {
+            if (code !== 0 || status !== 0) {
+                root.historyError = "Could not clear app history: " + historyClearError.text.trim();
+                return;
+            }
+            root.historyError = "";
+            root.historyIds = [];
+            root.refreshHistory();
+            search.text = "";
+            search.forceActiveFocus();
+        }
+    }
 
     Connections {
         target: DesktopEntries.applications
@@ -223,8 +274,12 @@ Scope {
             stderr: StdioCollector { id: stderr }
             stdout: StdioCollector {}
             onExited: (code, status) => {
-                if (code !== 0 || status !== 0)
+                if (code !== 0 || status !== 0) {
                     root.fail(label + " failed (" + code + "). " + stderr.text.trim().slice(0, 300));
+                } else {
+                    root.historyError = stderr.text.trim();
+                    root.refreshHistory();
+                }
                 destroy();
             }
         }
@@ -353,6 +408,20 @@ Scope {
                         }
                     }
                     Item { Layout.fillWidth: true }
+                    Button {
+                        visible: root.historyIds.length > 0 && !root.actionParent && !search.text.trim()
+                        enabled: !historyClear.running
+                        text: "Clear history"
+                        focusPolicy: Qt.NoFocus
+                        onClicked: root.clearHistory()
+                        contentItem: Text {
+                            text: parent.text
+                            color: theme.muted
+                            font.family: theme.font
+                            font.pixelSize: 12
+                        }
+                        background: Item {}
+                    }
                     Text {
                         text: root.results.length + " results"
                         color: theme.muted
@@ -367,7 +436,7 @@ Scope {
                     Layout.rightMargin: 24
                     Layout.bottomMargin: visible ? 10 : 0
                     visible: text.length > 0
-                    text: root.errorMessage || root.configError
+                    text: root.errorMessage || root.configError || root.historyError
                     textFormat: Text.PlainText
                     color: theme.error
                     font.family: theme.font
@@ -434,7 +503,7 @@ Scope {
                                 }
                             }
                             Text {
-                                text: row.modelData.kind === "app" ? "Application"
+                                text: row.modelData.recent ? "Recent" : row.modelData.kind === "app" ? "Application"
                                     : row.modelData.kind === "calculator" ? "Copy" : "Action"
                                 color: theme.muted
                                 font.family: theme.font
