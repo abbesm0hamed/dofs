@@ -1,10 +1,10 @@
 # Font Configuration
-font-family = Iosevka
-font-style = Regular Extended
+font-family = Lilex Nerd Font Mono
+font-style = Regular
 font-style-italic = Italic
 font-style-bold = Bold
 font-style-bold-italic = Bold Italic
-font-size = 14
+font-size = 12
 term = xterm-256color
 
 # Window Configuration

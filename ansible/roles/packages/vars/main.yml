@@ -1,6 +1,6 @@
 ---
 copr_repos:
-  - che/nerd-fonts
+  - aquacash5/nerd-fonts
   - peterwu/iosevka
   - dejan/lazygit
   - yalter/niri
@@ -133,6 +133,7 @@ dnf_packages:
   # fonts.txt
   - jetbrains-mono-fonts
   - iosevka-fonts
+  - lilex-nerd-fonts
   - fira-code-fonts
   - nerd-fonts
   - fontawesome-6-free-fonts
