@@ -1,7 +1,7 @@
 @import "theme.css";
 
 * {
-  font-family: "JetBrains Mono", "Iosevka Medium Extended", "Inter", monospace;
+  font-family: "Lilex Nerd Font Mono", "JetBrains Mono", "Iosevka Medium Extended", "Inter", monospace;
   font-size: 13px;
   min-height: 0;
   border: none;
@@ -338,4 +338,3 @@ tooltip label {
 #custom-recording.recording-audio:hover {
   color: @blue;
 }
-
