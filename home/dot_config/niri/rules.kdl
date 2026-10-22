@@ -166,8 +166,8 @@ window-rule {
     // reverse-DNS ("com.mitchellh.ghostty.floating-*"), not bare names.
     match app-id=r#"^com\.mitchellh\.ghostty\.floating(-.*)?$"#
     match app-id="floating-terminal"
-    default-column-width { proportion 0.8; }
-    default-window-height { proportion 0.8; }
+    default-column-width { proportion 0.5; }
+    default-window-height { proportion 0.5; }
     open-floating true
     clip-to-geometry true
 }
