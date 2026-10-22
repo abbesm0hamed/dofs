@@ -107,7 +107,6 @@ create_backup() {
         ".config/nvim"
         ".config/wezterm"
         ".config/mako"
-        ".config/rofi"
         ".tmux.conf"
     )
     

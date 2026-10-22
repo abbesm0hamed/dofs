@@ -15,7 +15,6 @@ fi
 
 # Paths to generated output files
 WAYBAR_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/waybar/theme.css"
-ROFI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/rofi/colors.rasi"
 NIRI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/niri/colors.kdl"
 MAKO_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/mako/config"
 RANGER_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf"
@@ -81,7 +80,6 @@ apply_theme() {
     }
 
     sync_file "waybar-theme.css" "$WAYBAR_OUT"
-    sync_file "rofi-colors.rasi" "$ROFI_OUT"
     sync_file "niri-colors.kdl" "$NIRI_OUT"
     sync_file "mako-theme.conf" "$MAKO_OUT"
     sync_file "ranger-theme.conf" "$RANGER_OUT"

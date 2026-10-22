@@ -5,10 +5,6 @@
 input_path = './templates/waybar.css'
 output_path = '~/.config/waybar/theme.css'
 
-[templates.rofi]
-input_path = './templates/rofi.rasi'
-output_path = '~/.config/rofi/colors.rasi'
-
 [templates.niri]
 input_path = './templates/niri.kdl'
 output_path = '~/.config/niri/colors.kdl'

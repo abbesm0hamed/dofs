@@ -147,7 +147,6 @@ main() {
     check_binary niri
     check_binary waybar
     check_binary mako
-    check_binary rofi
     check_binary ghostty
     echo ""
     

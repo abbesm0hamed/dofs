@@ -5,7 +5,6 @@
     - niri
     - waybar
     - mako
-    - rofi
     - xwayland-satellite
     - hyprlock
     - swayidle

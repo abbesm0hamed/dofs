@@ -1,48 +1,32 @@
 #!/bin/bash
+# Project picker for the dofs Quickshell launcher.
+# Provider: zoxide + shallow fd scan of project roots; activation opens the
+# project in a new named niri workspace (see project-open.sh).
+set -euo pipefail
 
-# Project Launcher for Niri
-# Uses zoxide and fd to find projects and opens them in a new workspace
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+. "$HOME/.config/niri/scripts/menu-lib.sh"
 
-# 1. Gather potential project directories
-# We combine zoxide's history with a shallow search of common project roots
 PROJECT_ROOTS=("$HOME/projects" "$HOME/Development" "$HOME/src" "$HOME/dofs" "$HOME/Documents/work" "$HOME/Documents/personal")
 PROJECTS_FILE=$(mktemp)
+trap 'rm -f "$PROJECTS_FILE"' EXIT
 
-# Add zoxide results
-if command -v zoxide &>/dev/null; then
-    zoxide query -l > "$PROJECTS_FILE"
+if command -v zoxide >/dev/null 2>&1; then
+    zoxide query -l > "$PROJECTS_FILE" || true
 fi
 
-# Add shallow search results (depth 2 to find project folders)
 for root in "${PROJECT_ROOTS[@]}"; do
     if [ -d "$root" ]; then
-        fd --max-depth 2 --type d . "$root" >> "$PROJECTS_FILE"
+        fd --max-depth 2 --type d . "$root" >> "$PROJECTS_FILE" || true
     fi
 done
 
-# Deduplicate and filter (removing hidden dirs)
-PICK=$(cat "$PROJECTS_FILE" | sort -u | grep -v "/\." | rofi -dmenu -p "󱂬 Project: ")
+count=0
+while IFS= read -r pick; do
+    [[ -n $pick && -d $pick ]] || continue
+    count=$((count + 1))
+    menu_item "$(basename "$pick")" "Open $pick in a new workspace" "folder-documents" \
+        -- bash "$HOME/.config/niri/scripts/project-open.sh" "$pick"
+done < <(sort -u "$PROJECTS_FILE" | grep -v "/\." || true)
 
-rm "$PROJECTS_FILE"
-
-if [ -z "$PICK" ]; then
-    exit 0
-fi
-
-# Expand ~ if present
-PICK="${PICK/#\~/$HOME}"
-
-# 2. Create a new Niri workspace and rename it
-PROJ_NAME=$(basename "$PICK")
-niri msg action focus-workspace-down
-sleep 0.1
-niri msg action set-workspace-name "[$PROJ_NAME]"
-
-# 3. Launch the environment
-# - Neovim in the main column
-(cd "$PICK" && ghostty -e nvim .) &
-# Small delay to ensure Neovim opens first
-sleep 0.3
-
-# Notify the user
-notify-send "Project Launched" "Opened [$PROJ_NAME] in a new workspace"
+[[ $count -gt 0 ]] || { echo "no projects found" >&2; exit 1; }

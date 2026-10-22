@@ -1,30 +1,14 @@
 #!/bin/bash
+# Power menu for the dofs Quickshell launcher (was a rofi dmenu).
+# Provider: prints one JSON item per line. Invoked by noop shell, keybind and
+# waybar simply open the launcher on this entry via quickshell-launcher.sh power.
+set -euo pipefail
 
-options="󰌾 Lock\n󰗽 Logout\n󰤄 Suspend\n󰜉 Reboot\n󰐥 Shutdown"
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+. "$HOME/.config/niri/scripts/menu-lib.sh"
 
-line_count=$(echo -e "$options" | wc -l)
-
-theme_str="
-window { width: 20%; height: 0px; }
-listview { lines: ${line_count}; fixed-height: false; dynamic: false; }
-"
-
-selected=$(echo -e "$options" | rofi -dmenu -i -p "󰐥 Power: " -l "$line_count" -sync -theme-str "$theme_str")
-
-case $selected in
-    "󰌾 Lock")
-        hyprlock
-        ;;
-    "󰗽 Logout")
-        niri msg action quit
-        ;;
-    "󰤄 Suspend")
-        systemctl suspend
-        ;;
-    "󰜉 Reboot")
-        systemctl reboot
-        ;;
-    "󰐥 Shutdown")
-        systemctl poweroff
-        ;;
-esac
+menu_item "Lock screen" "Lock this session" "system-lock-screen" -- hyprlock
+menu_item "Log out" "End this niri session" "system-log-out" -- niri msg action quit
+menu_item "Suspend" "Sleep until woken" "system-suspend" -- systemctl suspend
+menu_item "Reboot" "Restart this machine" "system-reboot" -- systemctl reboot
+menu_item "Shut down" "Power off this machine" "system-shutdown" -- systemctl poweroff

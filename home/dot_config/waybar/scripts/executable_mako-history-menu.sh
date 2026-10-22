@@ -1,17 +1,30 @@
 #!/bin/bash
+# Notification history for the dofs Quickshell launcher (was a rofi dmenu).
+# Provider: one JSON item per missed notification; activation opens the
+# full notification text in a pager.
+set -euo pipefail
 
-if ! command -v makoctl >/dev/null 2>&1 || ! command -v rofi >/dev/null 2>&1; then
-    exit 0
-fi
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+. "$HOME/.config/niri/scripts/menu-lib.sh"
+
+command -v makoctl >/dev/null 2>&1 || { echo "makoctl not found" >&2; exit 1; }
 
 history=$(makoctl history 2>/dev/null || true)
-
 if [ -z "$history" ]; then
-    printf '%s\n' "No notification history" | rofi -dmenu -i -p "󰂞 History: " >/dev/null
-    exit 0
+    echo "no notification history" >&2
+    exit 1
 fi
 
-choice=$(printf '%s' "$history" | awk 'BEGIN { RS="Notification "; FS="\n" } NR>1 {
+tmp=$(mktemp)
+printf '%s' "$history" > "$tmp"
+
+count=0
+while IFS=$'\t' read -r id title; do
+    [[ -n $id ]] || continue
+    count=$((count + 1))
+    menu_item "$title" "View notification" "preferences-system-notifications" \
+        -- ghostty -e sh -c 'less "$1"; rm -f "$1"' sh "$tmp"
+done < <(printf '%s' "$history" | awk 'BEGIN { RS="Notification "; FS="\n" } NR>1 {
     split($1, a, ": ");
     id=a[1];
     title=a[2];
@@ -26,23 +39,6 @@ choice=$(printf '%s' "$history" | awk 'BEGIN { RS="Notification "; FS="\n" } NR>
     line=title;
     if (app != "") line=line " (" app ")";
     printf "%s\t%s\n", id, line;
-}' | rofi -dmenu -i -p "󰂞 History: " -theme-str 'window { width: 50%; height: 50%; }')
+}')
 
-[ -z "$choice" ] && exit 0
-
-id=$(printf '%s' "$choice" | cut -f1)
-[ -z "$id" ] && exit 0
-
-tmp=$(mktemp)
-printf '%s' "$history" | awk -v target="$id" 'BEGIN { RS="Notification "; ORS="" } NR>1 {
-    split($1, a, ": ");
-    if (a[1] == target) {
-        print "Notification " $0;
-    }
-}' > "$tmp"
-
-if command -v ghostty >/dev/null 2>&1; then
-    ghostty -e sh -c "less '$tmp'; rm -f '$tmp'"
-else
-    sh -c "less '$tmp'; rm -f '$tmp'"
-fi
+[[ $count -gt 0 ]] || { rm -f "$tmp"; echo "no notification history" >&2; exit 1; }

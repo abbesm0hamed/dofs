@@ -1,79 +1,57 @@
 #!/bin/bash
 
-# System Controls Menu for Niri
-# Usage: system-controls.sh
+# System controls for the dofs Quickshell launcher.
+# No arguments: provider that prints one JSON item per line.
+# --run NAME: executes a toggle directly (shared with the settings menus).
+
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+. "$HOME/.config/niri/scripts/menu-lib.sh"
+
+SELF="$HOME/.config/niri/scripts/system-controls.sh"
 
 is_user_unit_active() {
-    local unit="$1"
-    systemctl --user is-active --quiet "$unit" 2>/dev/null
-}
-
-is_proc_running() {
-    local exe="$1"
-    pgrep -x "$exe" >/dev/null 2>&1
+    systemctl --user is-active --quiet "$1" 2>/dev/null
 }
 
 night_light_is_on() {
-    is_proc_running gammastep || is_proc_running gammastep-indicator || is_proc_running redshift
+    pgrep -x gammastep >/dev/null 2>&1 \
+        || pgrep -x gammastep-indicator >/dev/null 2>&1 \
+        || pgrep -x redshift >/dev/null 2>&1
 }
 
-# Function to check if a service/feature is active
-check_idle_mode() {
-    if is_user_unit_active swayidle.service; then
-        echo "  Idle Mode: ON" # nf-fa-moon_o
-    elif is_proc_running swayidle; then
-        echo "  Idle Mode: ON" # nf-fa-moon_o
+idle_desc() {
+    if is_user_unit_active swayidle.service || pgrep -x swayidle >/dev/null 2>&1; then
+        echo "Idle mode is ON - turn OFF"
     else
-        echo "  Idle Mode: OFF" # nf-fa-eye (awake)
+        echo "Idle mode is OFF - turn ON"
     fi
 }
 
-check_night_light() {
-    if night_light_is_on; then
-        echo "  Night Light: ON" # nf-fa-lightbulb_o
+night_light_desc() {
+    if night_light_is_on; then echo "Night light is ON - turn OFF"; else echo "Night light is OFF - turn ON"; fi
+}
+
+notifications_desc() {
+    if command -v makoctl >/dev/null 2>&1 && makoctl mode 2>/dev/null | grep -qx "do-not-disturb"; then
+        echo "Notifications are OFF - turn ON"
     else
-        echo "  Night Light: OFF" # nf-fa-circle (dark)
+        echo "Notifications are ON - turn OFF"
     fi
 }
 
-check_notifications() {
-    if command -v makoctl >/dev/null 2>&1; then
-        if makoctl mode 2>/dev/null | grep -qx "do-not-disturb"; then
-            echo "  Notifications: OFF" # nf-fa-bell_slash
-        else
-            echo "  Notifications: ON" # nf-fa-bell
-        fi
-    else
-        if pgrep -x mako >/dev/null 2>&1; then
-            echo "  Notifications: ON" # nf-fa-bell
-        else
-            echo "  Notifications: OFF" # nf-fa-bell_slash
-        fi
-    fi
+wifi_desc() {
+    if nmcli radio wifi 2>/dev/null | grep -q "enabled"; then echo "WiFi is ON - turn OFF"; else echo "WiFi is OFF - turn ON"; fi
 }
 
-check_wifi() {
-    if nmcli radio wifi | grep -q "enabled"; then
-        echo "  WiFi: ON" # nf-fa-wifi
-    else
-        echo "󰖪  WiFi: OFF" # nf-fa-ban
-    fi
+bluetooth_desc() {
+    if bluetoothctl show 2>/dev/null | grep -q "Powered: yes"; then echo "Bluetooth is ON - turn OFF"; else echo "Bluetooth is OFF - turn ON"; fi
 }
 
-check_bluetooth() {
-    if bluetoothctl show | grep -q "Powered: yes"; then
-        echo "  Bluetooth: ON" # nf-fa-bluetooth
-    else
-        echo "󰂲  Bluetooth: OFF" # nf-fa-ban
-    fi
-}
-
-# Function to toggle idle mode
 toggle_idle_mode() {
     if is_user_unit_active swayidle.service; then
         systemctl --user stop swayidle.service
         notify-send "System Controls" "Idle mode disabled" -i "system-suspend"
-    elif is_proc_running swayidle; then
+    elif pgrep -x swayidle >/dev/null 2>&1; then
         pkill -x swayidle
         notify-send "System Controls" "Idle mode disabled" -i "system-suspend"
     else
@@ -90,7 +68,6 @@ toggle_idle_mode() {
     fi
 }
 
-# Function to toggle night light
 toggle_night_light() {
     if night_light_is_on; then
         pkill -x gammastep 2>/dev/null || true
@@ -103,15 +80,12 @@ toggle_night_light() {
     fi
 }
 
-# Function to toggle notifications
 toggle_notifications() {
     if ! command -v makoctl >/dev/null 2>&1; then
         notify-send "System Controls" "makoctl not found"
         return 0
     fi
-
     makoctl mode -t do-not-disturb
-
     if makoctl mode 2>/dev/null | grep -qx "do-not-disturb"; then
         notify-send "System Controls" "Notifications disabled"
     else
@@ -119,9 +93,8 @@ toggle_notifications() {
     fi
 }
 
-# Function to toggle WiFi
 toggle_wifi() {
-    if nmcli radio wifi | grep -q "enabled"; then
+    if nmcli radio wifi 2>/dev/null | grep -q "enabled"; then
         nmcli radio wifi off
         notify-send "System Controls" "WiFi disabled" -i "network-wireless-disabled"
     else
@@ -130,9 +103,8 @@ toggle_wifi() {
     fi
 }
 
-# Function to toggle Bluetooth
 toggle_bluetooth() {
-    if bluetoothctl show | grep -q "Powered: yes"; then
+    if bluetoothctl show 2>/dev/null | grep -q "Powered: yes"; then
         bluetoothctl power off
         notify-send "System Controls" "Bluetooth disabled" -i "bluetooth-disabled"
     else
@@ -141,39 +113,35 @@ toggle_bluetooth() {
     fi
 }
 
-# Main menu
-main_menu() {
-    local options=(
-        "$(check_idle_mode)"
-        "$(check_night_light)"
-        "$(check_notifications)"
-        "$(check_wifi)"
-        "$(check_bluetooth)"
-        "  Settings"    # nf-fa-cogs
-        "  Lock Screen" # nf-fa-lock
-        "  Power Menu"  # nf-fa-power_off
-    )
-
-    local line_count=${#options[@]}
-    local theme_str="
-window { width: 25%; height: 0px; }
-listview { lines: ${line_count}; fixed-height: false; dynamic: false; }
-"
-
-    local choice
-    choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -p "󰒓 System Controls: " -l "$line_count" -sync -theme-str "$theme_str")
-
-    case "$choice" in
-        *"Idle Mode"*) toggle_idle_mode ;;
-        *"Night Light"*) toggle_night_light ;;
-        *"Notifications"*) toggle_notifications ;;
-        *"WiFi"*) toggle_wifi ;;
-        *"Bluetooth"*) toggle_bluetooth ;;
-        *"Settings") ~/.config/niri/scripts/settings-menu.sh ;;
-        *"Lock Screen") hyprlock ;;
-        *"Power Menu") ~/.config/waybar/scripts/power-menu.sh ;;
+if [[ ${1:-} == --run ]]; then
+    [[ $# -eq 2 ]] || { echo "expected --run NAME" >&2; exit 1; }
+    case "$2" in
+        toggle-idle) toggle_idle_mode ;;
+        toggle-night-light) toggle_night_light ;;
+        toggle-notifications) toggle_notifications ;;
+        toggle-wifi) toggle_wifi ;;
+        toggle-bluetooth) toggle_bluetooth ;;
+        *) echo "unknown toggle: $2" >&2; exit 1 ;;
     esac
-}
+    exit 0
+fi
+if [[ $# -ne 0 ]]; then
+    echo "usage: $0 [--run NAME]" >&2
+    exit 1
+fi
 
-# Run the main menu
-main_menu
+menu_item "Idle mode" "$(idle_desc)" "system-suspend" -- bash "$SELF" --run toggle-idle
+menu_item "Night light" "$(night_light_desc)" "weather-clear-night" -- bash "$SELF" --run toggle-night-light
+menu_item "Notifications" "$(notifications_desc)" "preferences-system-notifications" -- bash "$SELF" --run toggle-notifications
+if command -v nmcli >/dev/null 2>&1; then
+    menu_item "WiFi radio" "$(wifi_desc)" "network-wireless" -- bash "$SELF" --run toggle-wifi
+fi
+if command -v bluetoothctl >/dev/null 2>&1; then
+    menu_item "Bluetooth radio" "$(bluetooth_desc)" "preferences-system-bluetooth" -- bash "$SELF" --run toggle-bluetooth
+fi
+if command -v pavucontrol >/dev/null 2>&1; then
+    menu_item "Volume mixer" "Open pavucontrol" "audio-volume-high" -- pavucontrol
+fi
+menu_item "Settings" "Audio, display, network, info" "preferences-system" --menu "$HOME/.config/niri/scripts/settings-menu.sh"
+menu_item "Lock screen" "Lock this session" "system-lock-screen" -- hyprlock
+menu_item "Power menu" "Lock, logout, suspend, reboot" "system-shutdown" --menu "$HOME/.config/waybar/scripts/power-menu.sh"

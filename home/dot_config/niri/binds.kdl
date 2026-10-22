@@ -6,7 +6,12 @@
     Mod+D { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty floating-lazydocker lazydocker"; }
     Mod+Shift+G { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty floating-ranger ranger"; }
     Mod+Shift+W { spawn "sh" "-c" "~/.config/niri/scripts/floating-wrapper.sh ghostty floating-weather bash ~/.config/niri/scripts/weather.sh"; }
-    Mod+Alt+Shift+B { spawn "sh" "-c" "~/.config/niri/scripts/waybar-switcher.sh"; }
+    // Main app launcher; start Quickshell on demand.
+    Mod+Space { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh"; }
+    Mod+Shift+Space { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh"; } // fallback binding
+    // Menus live in the launcher; each opens a submenu registered in entries.jsonc
+    // via: quickshell-launcher.sh <entry-id>. See entries.jsonc for the list.
+    Mod+Alt+Shift+B { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh waybar"; }
     
     Mod+Alt+B cooldown-ms=500 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }
     Mod+Shift+D { spawn "sh" "-c" "~/.config/niri/scripts/toggle-dock.sh"; }
@@ -32,9 +37,6 @@
     Alt+F { spawn "helium" "--app=https://figma.com"; }
     Alt+W { spawn "zapzap"; } // WhatsApp desktop clone
     Alt+T { spawn "flatpak" "run" "com.github.IsmaelMartinez.teams_for_linux"; } // Teams for linux
-    // Main app launcher; start Quickshell on demand. Keep Rofi as a fallback.
-    Mod+Space { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh"; }
-    Mod+Shift+Space { spawn "rofi" "-show" "drun"; }
     Alt+Mod+V { spawn "evince"; }  // Quick PDF viewer launch
     Alt+Ctrl+L {
        spawn "hyprlock"
@@ -62,19 +64,19 @@
     Alt+Ctrl+Shift+R { spawn "sh" "-c" "~/.config/niri/scripts/screencast.sh stop"; }  
     
     // Clipboard Management
-    Alt+Ctrl+V { spawn "sh" "-c" "~/.config/niri/scripts/clipboard-manager.sh"; }  
-    Mod+N { spawn "sh" "-c" "~/.config/waybar/scripts/mako-history-menu.sh"; } // notifications
-    
-    // System Controls
-    Alt+Space { spawn "sh" "-c" "~/.config/niri/scripts/system-controls.sh"; }
+    Alt+Ctrl+V { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh clipboard"; }
+    Mod+N { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh notifications"; } // notifications
 
-    Alt+P { spawn "sh" "-c" "~/.config/niri/scripts/project-launcher.sh"; }
+    // System Controls
+    Alt+Space { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh controls"; }
+
+    Alt+P { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh projects"; }
     Alt+Shift+F { spawn "sh" "-c" "~/.config/niri/scripts/global-search.sh"; }
-    Alt+Ctrl+W { spawn "sh" "-c" "~/.config/niri/scripts/wallpaper-picker.sh"; }
-    Alt+Ctrl+T { spawn "sh" "-c" "~/.config/niri/scripts/theme-picker.sh"; }
-    Alt+S { spawn "sh" "-c" "~/.config/niri/scripts/settings-menu.sh"; }
-    Alt+L { spawn "sh" "-c" "~/.config/waybar/scripts/power-menu.sh"; }
-    Alt+Shift+Slash { spawn "sh" "-c" "~/.config/niri/scripts/binds-menu.sh"; }
+    Alt+Ctrl+W { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh wallpapers"; }
+    Alt+Ctrl+T { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh themes"; }
+    Alt+S { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh settings"; }
+    Alt+L { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh power"; }
+    Alt+Shift+Slash { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh binds"; }
     
     // Language switching
     Alt+Mod+Ctrl+Space { switch-layout "next"; }

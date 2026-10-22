@@ -1,4 +1,4 @@
-// Pure helpers: also exercised by scripts/tests/quickshell-launcher.test.cjs.
+// Pure helpers.
 function normalize(text) {
     return String(text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
@@ -68,12 +68,47 @@ function parseEntries(text) {
             || ["description", "keywords", "icon"].some(function(key) {
                 return entry[key] !== undefined && typeof entry[key] !== "string";
             })
-            || !Array.isArray(entry.command) || !entry.command.length
-            || !entry.command.every(function(arg) { return typeof arg === "string"; })
-            || !entry.command[0]) throw new Error("Invalid or duplicate action: " + entry.id);
+            || (["command", "menu"].every(function(key) {
+                return !Array.isArray(entry[key]) || !entry[key].length || !entry[key][0]
+                    || !entry[key].every(function(arg) { return typeof arg === "string"; });
+            }))) throw new Error("Invalid or duplicate action: " + entry.id);
         ids[entry.id] = true;
     });
     return entries;
+}
+
+// Dynamic menu providers print one JSON object per line with the same fields
+// as entries.jsonc actions; an item's "menu" opens another provider (nesting).
+function parseMenuLines(text) {
+    var items = [];
+    String(text || "").split("\n").forEach(function(line, number) {
+        line = line.trim();
+        if (!line) return;
+        var item;
+        try { item = JSON.parse(line); }
+        catch (error) { throw new Error("Menu line " + (number + 1) + " is not JSON: " + error.message); }
+        if (!item || typeof item.name !== "string" || !item.name.trim()) throw new Error("Menu line " + (number + 1) + " has no name");
+        var hasCommand = Array.isArray(item.command) && item.command.length && item.command[0]
+            && item.command.every(function(arg) { return typeof arg === "string"; });
+        var hasMenu = Array.isArray(item.menu) && item.menu.length && item.menu[0]
+            && item.menu.every(function(arg) { return typeof arg === "string"; });
+        // A copy-only item is display info; Enter copies its value.
+        if (!hasCommand && !hasMenu && typeof item.copy !== "string") {
+            throw new Error("Menu item \"" + item.name + "\" needs command, menu or copy");
+        }
+        items.push({
+            name: item.name,
+            description: typeof item.description === "string" ? item.description : "",
+            searchText: [item.description, item.keywords].filter(Boolean).join(" "),
+            icon: typeof item.icon === "string" ? item.icon : "",
+            kind: hasMenu ? "menu" : hasCommand ? "action" : "info",
+            command: hasCommand ? item.command : undefined,
+            menu: hasMenu ? item.menu : undefined,
+            copy: typeof item.copy === "string" ? item.copy : undefined
+        });
+    });
+    if (!items.length) throw new Error("Menu provider returned no items");
+    return items;
 }
 
 function appCommand(command) {
@@ -124,4 +159,9 @@ function calculate(input) {
         var result = expression();
         return cursor === tokens.length && isFinite(result) ? String(Number(result.toPrecision(12))) : null;
     } catch (error) { return null; }
+}
+
+// QML ignores this guard; Node gets a plain CommonJS module for testing.
+if (typeof module !== "undefined") {
+    module.exports = { normalize, score, search, withRecents, parseEntries, parseMenuLines, appCommand, calculate };
 }

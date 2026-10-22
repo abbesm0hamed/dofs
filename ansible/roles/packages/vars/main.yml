@@ -184,7 +184,6 @@ dnf_packages:
   - qt6-qtwayland
   - xwayland-satellite
   - jq
-  - rofi
   - mako
   - waybar
   - hyprpaper

@@ -12,5 +12,6 @@ ShellRoot {
         function open(): void { launcher.open(); }
         function toggle(): void { launcher.toggle(); }
         function close(): void { launcher.close(); }
+        function openEntry(id: string): void { launcher.openEntry(id); }
     }
 }

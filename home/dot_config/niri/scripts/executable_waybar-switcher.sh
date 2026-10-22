@@ -5,6 +5,9 @@
 
 set -euo pipefail
 
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+. "$HOME/.config/niri/scripts/menu-lib.sh"
+
 WAYBAR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/waybar"
 VARIANTS_DIR="$WAYBAR_DIR/variants"
 CURRENT_CONFIG="$WAYBAR_DIR/config.jsonc"
@@ -140,39 +143,21 @@ switch_variant() {
 
 show_picker() {
     load_variants
-    local current=$(get_current_variant)
-    local options=()
+    get_current_variant
+    local current
+    current=$(get_current_variant)
+    local key label
 
     for i in "${!VARIANT_KEYS[@]}"; do
-        local key="${VARIANT_KEYS[$i]}"
-        local label="${VARIANT_LABELS[$i]}"
-        local prefix="  "
+        key="${VARIANT_KEYS[$i]}"
+        label="${VARIANT_LABELS[$i]}"
 
         if [ "$key" = "$current" ]; then
-            prefix="✓ "
+            menu_item "$label" "Currently active" "preferences-desktop-panels" -- bash "$HOME/.config/niri/scripts/waybar-switcher.sh" "$key"
+        else
+            menu_item "$label" "Switch to this variant" "preferences-desktop-panels" -- bash "$HOME/.config/niri/scripts/waybar-switcher.sh" "$key"
         fi
-
-        options+=("$prefix$label")
     done
-
-    local selected
-    selected=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -p "Waybar Variant" -theme-str 'window {width: 30%;}')
-
-    if [ -n "$selected" ]; then
-        # Extract variant key from selection
-        local variant_label="${selected#* }" # Remove checkmark
-        variant_label="${variant_label# }"   # Remove leading space
-
-        for i in "${!VARIANT_KEYS[@]}"; do
-            local key="${VARIANT_KEYS[$i]}"
-            local label="${VARIANT_LABELS[$i]}"
-
-            if [ "$label" = "$variant_label" ]; then
-                switch_variant "$key"
-                return 0
-            fi
-        done
-    fi
 }
 
 # Main

@@ -246,7 +246,7 @@
   "custom/power": {
     "format": "<span rise='1000'></span>",
     "tooltip": false,
-    "on-click": "~/.config/waybar/scripts/power-menu.sh",
+    "on-click": "~/.config/niri/scripts/quickshell-launcher.sh power",
     "on-scroll-up": "true",
     "on-scroll-down": "true"
   },
@@ -267,10 +267,10 @@
   "custom/notification-history": {
     "tooltip": true,
     "return-type": "json",
-    "exec-if": "command -v makoctl && command -v rofi",
+    "exec-if": "command -v makoctl",
     "exec": "~/.config/waybar/scripts/mako-history-status.sh",
     "interval": 5,
-    "on-click": "~/.config/waybar/scripts/mako-history-menu.sh",
+    "on-click": "~/.config/niri/scripts/quickshell-launcher.sh notifications",
     "on-click-right": "makoctl restore",
     "on-scroll-up": "true",
     "on-scroll-down": "true"
@@ -279,7 +279,7 @@
     "format": "<span rise='1000'></span>",
     "tooltip": true,
     "tooltip-format": "show niri binds",
-    "on-click": "sh -c '~/.config/niri/scripts/binds-menu.sh'",
+    "on-click": "~/.config/niri/scripts/quickshell-launcher.sh binds",
     "on-scroll-up": "true",
     "on-scroll-down": "true"
   },

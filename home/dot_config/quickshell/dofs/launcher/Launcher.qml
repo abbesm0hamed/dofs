@@ -23,6 +23,9 @@ Scope {
     property var actions: []
     property var hiddenApps: ({})
     property var actionParent: null
+    property var menuParent: null
+    property bool menuLoading: false
+    property int menuGeneration: 0
     property string savedQuery: ""
     property int savedIndex: 0
     property string filter: "All"
@@ -45,6 +48,8 @@ Scope {
 
     function open() {
         actionParent = null;
+        menuParent = null;
+        menuLoading = false;
         filter = "All";
         errorMessage = "";
         search.text = "";
@@ -53,7 +58,7 @@ Scope {
         niri.requestFocusedOutput();
         Qt.callLater(() => search.forceActiveFocus());
     }
-    function close() { opened = false; surfaceReady = false; }
+    function close() { opened = false; surfaceReady = false; menuParent = null; menuLoading = false; }
     function toggle() { if (opened) close(); else open(); }
     function refreshHistory() {
         if (historyReader.running) historyReadAgain = true;
@@ -84,6 +89,10 @@ Scope {
                 app: actionParent.app
             })), query);
         }
+        if (menuParent) {
+            // A loading submenu shows an empty list; the "Loading…" hint covers it.
+            return Search.search(menuParent.items, query);
+        }
         var entries = [];
         if (filter !== "Actions") {
             applications.forEach(app => {
@@ -98,7 +107,8 @@ Scope {
             actions.forEach(action => entries.push({
                 name: action.name, description: action.description || "Quick action",
                 searchText: (action.keywords || "") + " " + (action.description || ""),
-                icon: action.icon || "system-run", kind: "action", command: action.command
+                icon: action.icon || "system-run", kind: action.menu ? "menu" : "action",
+                command: action.command, menu: action.menu
             }));
             if (historyIds.length) entries.push({name: "Clear launch history",
                 description: "Forget recently launched apps on this device",
@@ -134,8 +144,31 @@ Scope {
     }
     function back() {
         actionParent = null;
+        menuParent = null;
         search.text = savedQuery;
         list.currentIndex = savedIndex;
+    }
+    // Open an entry from CLI/IPC without finding its index in the model.
+    function openEntry(id) {
+        var entry = actions.find(action => action.id === id);
+        if (!entry) { open(); fail("No menu entry: " + id); return; }
+        open();
+        if (entry.menu) { openMenu(entry.name, entry.menu); return; }
+        run(entry.command, entry.name);
+    }
+    function openMenu(title, argv) {
+        if (!argv || !argv.length) return;
+        savedQuery = search.text;
+        savedIndex = list.currentIndex;
+        menuGeneration++;
+        menuParent = {name: title, items: []};
+        menuLoading = true;
+        errorMessage = "";
+        search.text = "";
+        var home = Quickshell.env("HOME");
+        var command = argv.map(arg => arg === "~" ? home : arg.startsWith("~/") ? home + arg.slice(1) : arg);
+        var process = menuRunner.createObject(root, {command: command, generation: menuGeneration});
+        process.running = true;
     }
     function fail(message) {
         errorMessage = message;
@@ -176,6 +209,10 @@ Scope {
             run(["wl-copy", "--", entry.value], "Copy result");
         } else if (entry.kind === "clearHistory") {
             clearHistory();
+        } else if (entry.kind === "menu") {
+            openMenu(entry.name, entry.menu);
+        } else if (entry.kind === "info") {
+            if (entry.copy) run(["wl-copy", "--", entry.copy], "Copied: " + entry.name);
         } else {
             run(entry.command, entry.name);
         }
@@ -267,6 +304,32 @@ Scope {
     }
 
     Component {
+        id: menuRunner
+        Process {
+            id: process
+            property int generation
+            stderr: StdioCollector { id: menuStderr }
+            stdout: StdioCollector { id: menuOutput }
+            onExited: (code, status) => {
+                // A newer selection or close() may have superseded this load.
+                if (generation !== root.menuGeneration || !root.menuParent) { destroy(); return; }
+                root.menuLoading = false;
+                try {
+                    if (code !== 0 || status !== 0) throw new Error(menuStderr.text.trim().slice(0, 200) || "exit " + code);
+                    var items = Search.parseMenuLines(menuOutput.text);
+                    // Reassigning the object (not mutating it) refreshes buildResults.
+                    root.menuParent = {name: root.menuParent.name, items: items};
+                    root.errorMessage = "";
+                } catch (error) {
+                    root.menuParent = null;
+                    root.fail("Could not open menu: " + error.message);
+                }
+                destroy();
+            }
+        }
+    }
+
+    Component {
         id: runner
         Process {
             id: process
@@ -329,11 +392,11 @@ Scope {
                             width: 18
                             height: 18
                             implicitSize: 18
-                            source: root.iconSource(root.actionParent ? "go-previous-symbolic" : "edit-find")
+                            source: root.iconSource(root.actionParent || root.menuParent ? "go-previous-symbolic" : "edit-find")
                         }
                         MouseArea {
                             anchors.fill: parent
-                            enabled: root.actionParent !== null
+                            enabled: root.actionParent !== null || root.menuParent !== null
                             cursorShape: Qt.PointingHandCursor
                             onClicked: { root.back(); search.forceActiveFocus(); }
                             Accessible.role: Accessible.Button
@@ -344,6 +407,7 @@ Scope {
                         id: search
                         Layout.fillWidth: true
                         placeholderText: root.actionParent ? "Search shortcuts for " + root.actionParent.name
+                            : root.menuParent ? "Search items for " + root.menuParent.name
                             : "Search apps and actions…"
                         color: theme.text
                         placeholderTextColor: theme.muted
@@ -361,14 +425,14 @@ Scope {
                             } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                                 root.activate(list.currentIndex);
                             } else if (event.key === Qt.Key_Escape) {
-                                if (root.actionParent) root.back(); else root.close();
-                            } else if (event.key === Qt.Key_Backspace && !text && root.actionParent) {
+                                if (root.actionParent || root.menuParent) root.back(); else root.close();
+                            } else if (event.key === Qt.Key_Backspace && !text && (root.actionParent || root.menuParent)) {
                                 root.back();
                             } else if (event.modifiers & Qt.ControlModifier
-                                && event.key >= Qt.Key_1 && event.key <= Qt.Key_3 && !root.actionParent) {
+                                && event.key >= Qt.Key_1 && event.key <= Qt.Key_3 && !root.actionParent && !root.menuParent) {
                                 root.filter = ["All", "Apps", "Actions"][event.key - Qt.Key_1];
                             } else if (event.key === Qt.Key_Tab || (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_K)) {
-                                if (root.actionParent) root.back(); else root.showAppActions();
+                                if (root.actionParent || root.menuParent) root.back(); else root.showAppActions();
                             } else { return; }
                             event.accepted = true;
                         }
@@ -390,7 +454,7 @@ Scope {
                             text: modelData
                             ToolTip.visible: hovered
                             ToolTip.text: "Ctrl+" + (["All", "Apps", "Actions"].indexOf(modelData) + 1)
-                            enabled: !root.actionParent
+                            enabled: !root.actionParent && !root.menuParent
                             focusPolicy: Qt.NoFocus
                             onClicked: { root.filter = modelData; search.forceActiveFocus(); }
                             contentItem: Text {
@@ -417,7 +481,7 @@ Scope {
                     }
                     Item { Layout.fillWidth: true }
                     Button {
-                        visible: root.historyIds.length > 0 && !root.actionParent && !search.text.trim()
+                        visible: root.historyIds.length > 0 && !root.actionParent && !root.menuParent && !search.text.trim()
                         enabled: !historyClear.running
                         text: "Clear history"
                         focusPolicy: Qt.NoFocus
@@ -520,7 +584,8 @@ Scope {
                             }
                             Text {
                                 text: row.modelData.recent ? "Recent" : row.modelData.kind === "app" ? "Application"
-                                    : row.modelData.kind === "calculator" ? "Copy" : "Action"
+                                    : row.modelData.kind === "calculator" ? "Copy" : row.modelData.kind === "menu" ? "Menu"
+                                    : row.modelData.kind === "info" ? "Info" : "Action"
                                 color: theme.muted
                                 font.family: theme.font
                                 font.pixelSize: 10
@@ -536,7 +601,9 @@ Scope {
                     Text {
                         anchors.centerIn: parent
                         visible: !root.results.length
-                        text: root.actionParent ? "No matching shortcuts" : "No matches. Try ? followed by a web search."
+                        text: root.actionParent ? "No matching shortcuts"
+                            : root.menuLoading ? "Loading " + (root.menuParent ? root.menuParent.name : "menu") + "…"
+                            : "No matches. Try ? followed by a web search."
                         color: theme.muted
                         font.family: theme.font
                         font.pixelSize: 12
@@ -553,7 +620,7 @@ Scope {
                     Layout.leftMargin: 18
                     Layout.rightMargin: 18
                     Text {
-                        text: "↑ ↓ Navigate   ↵ Open   Esc " + (root.actionParent ? "Back" : "Close")
+                        text: "↑ ↓ Navigate   ↵ Open   Esc " + (root.actionParent || root.menuParent ? "Back" : "Close")
                         color: theme.muted
                         font.family: theme.font
                         font.pixelSize: 10
