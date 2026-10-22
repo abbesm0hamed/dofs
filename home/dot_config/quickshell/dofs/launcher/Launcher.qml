@@ -301,8 +301,8 @@ Scope {
         Rectangle {
             id: card
             anchors.centerIn: parent
-            width: Math.min(720, parent.width - 32)
-            height: Math.min(568, parent.height - 32)
+            width: Math.min(600, parent.width - 24)
+            height: Math.min(420, parent.height - 24)
             radius: 0
             color: theme.background
             border.color: theme.border
@@ -317,18 +317,18 @@ Scope {
 
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 74
-                    Layout.leftMargin: 24
-                    Layout.rightMargin: 24
-                    spacing: 16
+                    Layout.preferredHeight: 48
+                    Layout.leftMargin: 18
+                    Layout.rightMargin: 18
+                    spacing: 12
                     Item {
-                        Layout.preferredWidth: 24
-                        Layout.preferredHeight: 32
+                        Layout.preferredWidth: 20
+                        Layout.preferredHeight: 28
                         IconImage {
                             anchors.centerIn: parent
-                            width: 22
-                            height: 22
-                            implicitSize: 22
+                            width: 18
+                            height: 18
+                            implicitSize: 18
                             source: root.iconSource(root.actionParent ? "go-previous-symbolic" : "edit-find")
                         }
                         MouseArea {
@@ -348,7 +348,7 @@ Scope {
                         color: theme.text
                         placeholderTextColor: theme.muted
                         font.family: theme.font
-                        font.pixelSize: 20
+                        font.pixelSize: 16
                         selectByMouse: true
                         background: Item {}
                         focus: true
@@ -379,9 +379,9 @@ Scope {
 
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.leftMargin: 16
-                    Layout.rightMargin: 20
-                    Layout.preferredHeight: 46
+                    Layout.leftMargin: 12
+                    Layout.rightMargin: 16
+                    Layout.preferredHeight: 36
                     spacing: 6
                     Repeater {
                         model: ["All", "Apps", "Actions"]
@@ -403,7 +403,15 @@ Scope {
                             }
                             background: Rectangle {
                                 radius: 0
-                                color: root.filter === modelData ? theme.selection : "transparent"
+                                color: "transparent"
+                                Rectangle {
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    anchors.bottom: parent.bottom
+                                    height: 2
+                                    color: root.filter === modelData ? theme.accent : "transparent"
+                                    Behavior on color { ColorAnimation { duration: 80 } }
+                                }
                             }
                         }
                     }
@@ -432,15 +440,15 @@ Scope {
 
                 Text {
                     Layout.fillWidth: true
-                    Layout.leftMargin: 24
-                    Layout.rightMargin: 24
-                    Layout.bottomMargin: visible ? 10 : 0
+                    Layout.leftMargin: 18
+                    Layout.rightMargin: 18
+                    Layout.bottomMargin: visible ? 8 : 0
                     visible: text.length > 0
                     text: root.errorMessage || root.configError || root.historyError
                     textFormat: Text.PlainText
                     color: theme.error
                     font.family: theme.font
-                    font.pixelSize: 13
+                    font.pixelSize: 12
                     wrapMode: Text.Wrap
                     maximumLineCount: 3
                     elide: Text.ElideRight
@@ -451,10 +459,10 @@ Scope {
                     id: list
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.leftMargin: 10
-                    Layout.rightMargin: 10
+                    Layout.leftMargin: 8
+                    Layout.rightMargin: 8
                     clip: true
-                    spacing: 3
+                    spacing: 0
                     model: root.results
                     boundsBehavior: Flickable.StopAtBounds
                     ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
@@ -463,33 +471,41 @@ Scope {
                         required property var modelData
                         required property int index
                         width: list.width
-                        height: 60
+                        height: 46
                         radius: 0
                         color: list.currentIndex === index ? theme.selection : mouse.containsMouse ? theme.surface : "transparent"
                         Accessible.role: Accessible.ListItem
                         Accessible.name: modelData.name + ", " + modelData.description
                         Accessible.selected: list.currentIndex === index
+                        Rectangle {
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            width: 3
+                            color: theme.accent
+                            visible: list.currentIndex === index
+                        }
                         RowLayout {
                             anchors.fill: parent
-                            anchors.leftMargin: 14
-                            anchors.rightMargin: 14
-                            spacing: 14
+                            anchors.leftMargin: 12
+                            anchors.rightMargin: 12
+                            spacing: 12
                             IconImage {
-                                Layout.preferredWidth: 30
-                                Layout.preferredHeight: 30
+                                Layout.preferredWidth: 24
+                                Layout.preferredHeight: 24
                                 source: root.iconSource(row.modelData.icon)
-                                implicitSize: 30
+                                implicitSize: 24
                             }
                             ColumnLayout {
                                 Layout.fillWidth: true
-                                spacing: 4
+                                spacing: 2
                                 Text {
                                     Layout.fillWidth: true
                                     text: row.modelData.name
                                     textFormat: Text.PlainText
                                     color: theme.text
                                     font.family: row.modelData.kind === "calculator" ? theme.mono : theme.font
-                                    font.pixelSize: 15
+                                    font.pixelSize: 13
                                     elide: Text.ElideRight
                                 }
                                 Text {
@@ -498,7 +514,7 @@ Scope {
                                     textFormat: Text.PlainText
                                     color: theme.muted
                                     font.family: theme.font
-                                    font.pixelSize: 12
+                                    font.pixelSize: 11
                                     elide: Text.ElideRight
                                 }
                             }
@@ -507,7 +523,7 @@ Scope {
                                     : row.modelData.kind === "calculator" ? "Copy" : "Action"
                                 color: theme.muted
                                 font.family: theme.font
-                                font.pixelSize: 11
+                                font.pixelSize: 10
                             }
                         }
                         MouseArea {
@@ -523,24 +539,24 @@ Scope {
                         text: root.actionParent ? "No matching shortcuts" : "No matches. Try ? followed by a web search."
                         color: theme.muted
                         font.family: theme.font
-                        font.pixelSize: 14
+                        font.pixelSize: 12
                         width: parent.width - 32
                         wrapMode: Text.Wrap
                         horizontalAlignment: Text.AlignHCenter
                     }
                 }
 
-                Rectangle { Layout.fillWidth: true; Layout.topMargin: 10; implicitHeight: 1; color: theme.border }
+                Rectangle { Layout.fillWidth: true; Layout.topMargin: 6; implicitHeight: 1; color: theme.border }
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 42
-                    Layout.leftMargin: 24
-                    Layout.rightMargin: 24
+                    Layout.preferredHeight: 30
+                    Layout.leftMargin: 18
+                    Layout.rightMargin: 18
                     Text {
                         text: "↑ ↓ Navigate   ↵ Open   Esc " + (root.actionParent ? "Back" : "Close")
                         color: theme.muted
                         font.family: theme.font
-                        font.pixelSize: 11
+                        font.pixelSize: 10
                     }
                     Item { Layout.fillWidth: true }
                     Text {
@@ -550,7 +566,7 @@ Scope {
                         }
                         color: theme.accent
                         font.family: theme.font
-                        font.pixelSize: 11
+                        font.pixelSize: 10
                     }
                 }
             }

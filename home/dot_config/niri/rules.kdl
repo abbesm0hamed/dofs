@@ -144,7 +144,7 @@ window-rule {
     open-floating true
     clip-to-geometry true
     default-column-width { proportion 0.5; }
-    default-window-height { proportion 0.5; }
+    default-window-height { proportion 0.4; }
 }
 
 // Calculator opens as a floating window alongside the other floating apps.
