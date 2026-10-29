@@ -1,5 +1,6 @@
 {{- $hasTheme := stat (joinPath .chezmoi.homeDir ".local/state/themes/current_theme") -}}
 {{- $hasWaybar := stat (joinPath .chezmoi.homeDir ".local/state/waybar/current_variant") -}}
+{{- $hasShellTheme := stat (joinPath .chezmoi.homeDir ".config/quickshell/dofs/bar/theme.json") -}}
 
 # Chezmoi ignore patterns
 # Files and directories that chezmoi should not manage
@@ -38,13 +39,15 @@ dofs
 .config/waybar/.current-variant
 .config/themes/current_theme
 
-# Rofi config is kept in the repo for future use but never deployed
-# (rofi is dormant now; the Quickshell launcher replaced it).
+# Excluded application configuration
 .config/rofi/
 
 # if you want to persist the theme and not have it affected by chezmoi apply --force
 {{ if $hasTheme }}
 # Script-generated theme files (ignored when a runtime theme is set)
+{{ if $hasShellTheme }}
+.config/quickshell/dofs/bar/theme.json
+{{ end }}
 .config/waybar/theme.css
 .config/niri/colors.kdl
 .config/mako/config

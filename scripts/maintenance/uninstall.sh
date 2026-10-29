@@ -59,7 +59,7 @@ main() {
     fi
     
     # Optionally remove packages
-    if confirm "Remove packages installed by dofs? (This will uninstall niri, waybar, etc.)"; then
+    if confirm "Remove packages installed by dofs? (This will uninstall niri, quickshell, etc.)"; then
         warn "Package removal not yet implemented"
         log "You can manually remove packages using: sudo dnf remove <package>"
     fi

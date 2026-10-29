@@ -31,6 +31,7 @@ dnf_packages:
   - xdg-utils
   - xdg-user-dirs
   - power-profiles-daemon
+  - upower
   - rclone
   - pavucontrol
   - gnome-keyring
@@ -185,7 +186,6 @@ dnf_packages:
   - xwayland-satellite
   - jq
   - mako
-  - waybar
   - hyprpaper
   # Provided by agonie/swww COPR.
   - swww

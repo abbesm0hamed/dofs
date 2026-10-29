@@ -1,9 +1,9 @@
 ---
 - name: Verify Key Binaries
-  command: "command -v {{ item }}"
+  ansible.builtin.shell: "command -v {{ item | quote }}"
   loop:
     - niri
-    - waybar
+    - qs
     - mako
     - xwayland-satellite
     - hyprlock
@@ -24,7 +24,8 @@
     path: "{{ ansible_user_dir }}/{{ item }}"
   loop:
     - .config/niri/config.kdl
-    - .config/waybar/config.jsonc
+    - .config/quickshell/dofs/shell.qml
+    - .config/quickshell/dofs/bar/config.json
     - .config/mako/config
   register: config_stats
   tags: verify

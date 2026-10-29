@@ -76,7 +76,7 @@ bash "$HOME/.config/niri/scripts/wallpaper.sh" --restore --silent &
 ) &
 
 # Core Services
-run_once waybar
+bash "$HOME/.config/niri/scripts/quickshell-launcher.sh" --start || true
 run_once mako
 
 # Polkit Agent

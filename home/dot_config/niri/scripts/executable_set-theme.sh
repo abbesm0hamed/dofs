@@ -14,7 +14,7 @@ if [ -f "$LEGACY_STATE_FILE" ] && [ ! -f "$STATE_FILE" ]; then
 fi
 
 # Paths to generated output files
-WAYBAR_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/waybar/theme.css"
+QUICKSHELL_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/dofs/bar/theme.json"
 NIRI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/niri/colors.kdl"
 MAKO_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/mako/config"
 RANGER_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf"
@@ -79,7 +79,7 @@ apply_theme() {
         fi
     }
 
-    sync_file "waybar-theme.css" "$WAYBAR_OUT"
+    sync_file "quickshell-theme.json" "$QUICKSHELL_OUT"
     sync_file "niri-colors.kdl" "$NIRI_OUT"
     sync_file "mako-theme.conf" "$MAKO_OUT"
     sync_file "ranger-theme.conf" "$RANGER_OUT"
@@ -161,12 +161,8 @@ apply_theme "$THEME"
 # Reload & Notify
 echo "  → Refreshing session components..."
 
-if pgrep -x waybar >/dev/null 2>&1; then
-    echo "  → Restarting Waybar..."
-    pkill waybar
-    sleep 0.2
-    waybar &
-fi
+# Quickshell watches the generated palette and updates without restarting the
+# shell (which would also close the launcher).
 
 if command -v makoctl >/dev/null 2>&1; then
     echo "  → Reloading Mako..."

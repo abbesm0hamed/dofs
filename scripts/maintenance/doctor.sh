@@ -145,7 +145,7 @@ main() {
     # Check desktop environment binaries
     log "Checking desktop environment..."
     check_binary niri
-    check_binary waybar
+    check_binary qs
     check_binary mako
     check_binary ghostty
     echo ""
@@ -162,7 +162,8 @@ main() {
     # Check configuration files
     log "Checking configuration files..."
     check_config ".config/niri/config.kdl"
-    check_config ".config/waybar/config.jsonc"
+    check_config ".config/quickshell/dofs/shell.qml"
+    check_config ".config/quickshell/dofs/bar/config.json"
     check_config ".config/fish/config.fish"
     check_config ".config/nvim"
     echo ""

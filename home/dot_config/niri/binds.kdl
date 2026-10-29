@@ -11,9 +11,9 @@
     Mod+Shift+Space { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh"; } // fallback binding
     // Menus live in the launcher; each opens a submenu registered in entries.jsonc
     // via: quickshell-launcher.sh <entry-id>. See entries.jsonc for the list.
-    Mod+Alt+Shift+B { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh waybar"; }
+    Mod+Alt+Shift+B { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh bar"; }
     
-    Mod+Alt+B cooldown-ms=500 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-waybar.sh"; }
+    Mod+Alt+B cooldown-ms=300 { spawn "sh" "-c" "~/.config/niri/scripts/toggle-bar.sh"; }
     Mod+Shift+D { spawn "sh" "-c" "~/.config/niri/scripts/toggle-dock.sh"; }
     Mod+Alt+G { spawn "sh" "-c" "~/.config/niri/scripts/toggle-gaps.sh"; }
     Mod+Alt+A { spawn "sh" "-c" "~/.config/niri/scripts/toggle-animations.sh"; }

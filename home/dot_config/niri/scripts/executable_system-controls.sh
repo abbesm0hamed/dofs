@@ -144,4 +144,4 @@ if command -v pavucontrol >/dev/null 2>&1; then
 fi
 menu_item "Settings" "Audio, display, network, info" "preferences-system" --menu "$HOME/.config/niri/scripts/settings-menu.sh"
 menu_item "Lock screen" "Lock this session" "system-lock-screen" -- hyprlock
-menu_item "Power menu" "Lock, logout, suspend, reboot" "system-shutdown" --menu "$HOME/.config/waybar/scripts/power-menu.sh"
+menu_item "Power menu" "Lock, logout, suspend, reboot" "system-shutdown" --menu "$HOME/.config/quickshell/dofs/scripts/power-menu.sh"

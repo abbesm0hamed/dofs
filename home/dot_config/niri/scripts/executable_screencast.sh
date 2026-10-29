@@ -14,8 +14,6 @@ mkdir -p "$AUDIO_DIR"
 show_recording_indicator() {
     local mode="$1"
     echo "$mode" >"$INDICATOR_FILE"
-    # Send signal to waybar to update recording indicator
-    pkill -RTMIN+8 waybar 2>/dev/null || true
     notify-send "󰑋 Recording" "Recording started ($mode)" -t 3000 -u normal
 }
 
@@ -23,8 +21,6 @@ show_recording_indicator() {
 hide_recording_indicator() {
     local save_location="$1"
     rm -f "$INDICATOR_FILE"
-    # Send signal to waybar to update recording indicator
-    pkill -RTMIN+8 waybar 2>/dev/null || true
     notify-send "󰑊 Recording" "Recording stopped and saved to $save_location" -t 3000 -u normal
 }
 

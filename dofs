@@ -33,9 +33,9 @@ case "${1:-help}" in
         ;;
     "update")
         bash "$REPO_ROOT/scripts/maintenance/update-all.sh"
-        # Clear waybar update cache and send signal to refresh
-        rm -f "/tmp/waybar_check_updates_cache" 2>/dev/null
-        pkill -RTMIN+9 waybar 2>/dev/null || true
+        # Invalidate the shell's update indicator after completing updates.
+        rm -f "${XDG_CACHE_HOME:-$HOME/.cache}/quickshell/dofs/updates" 2>/dev/null
+        timeout 2s qs -c dofs ipc call bar refresh 2>/dev/null || true
         ;;
     "doctor")
         bash "$REPO_ROOT/scripts/maintenance/doctor.sh" "$@"

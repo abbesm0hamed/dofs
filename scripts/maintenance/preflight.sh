@@ -45,6 +45,7 @@ check_existing_configs() {
     
     local managed_dirs=(
         ".config/niri"
+        ".config/quickshell"
         ".config/waybar"
         ".config/fish"
         ".config/nvim"
@@ -102,6 +103,7 @@ create_backup() {
     local backed_up=0
     local dirs_to_backup=(
         ".config/niri"
+        ".config/quickshell"
         ".config/waybar"
         ".config/fish"
         ".config/nvim"
@@ -175,7 +177,7 @@ main() {
     echo ""
     
     # Always create backup if configs exist
-    if [ -d "$HOME/.config/niri" ] || [ -d "$HOME/.config/waybar" ]; then
+    if [ -d "$HOME/.config/niri" ] || [ -d "$HOME/.config/quickshell" ] || [ -d "$HOME/.config/waybar" ]; then
         create_backup
     fi
     

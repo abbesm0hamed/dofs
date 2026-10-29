@@ -1,5 +1,5 @@
 #!/bin/bash
-# Clipboard history for the dofs Quickshell launcher (was a rofi dmenu).
+# Clipboard history for the dofs Quickshell launcher.
 # Provider: one JSON item per cliphist entry; activation restores it.
 set -euo pipefail
 

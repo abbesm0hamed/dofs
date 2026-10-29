@@ -11,8 +11,8 @@
   { "id": "github", "name": "Open GitHub", "description": "github.com", "icon": "web-browser", "keywords": "code repositories quicklink", "command": ["xdg-open", "https://github.com"] },
 
   // Menus: "menu" runs a provider script that prints one JSON item per line.
-  // Each id is reachable from keybinds and waybar via: quickshell-launcher.sh <id>
-  { "id": "power", "name": "Power menu", "description": "Lock, logout, suspend, reboot, shutdown", "icon": "system-shutdown", "keywords": "power off reboot suspend log out", "menu": ["~/.config/waybar/scripts/power-menu.sh"] },
+  // Each id is reachable from keybinds and the bar via: quickshell-launcher.sh <id>
+  { "id": "power", "name": "Power menu", "description": "Lock, logout, suspend, reboot, shutdown", "icon": "system-shutdown", "keywords": "power off reboot suspend log out", "menu": ["~/.config/quickshell/dofs/scripts/power-menu.sh"] },
   { "id": "controls", "name": "System controls", "description": "Idle, night light, notifications, radios", "icon": "applications-system", "keywords": "toggles system", "menu": ["~/.config/niri/scripts/system-controls.sh"] },
   { "id": "settings", "name": "Settings menu", "description": "Audio, display, network, system info", "icon": "preferences-system", "keywords": "configure preferences", "menu": ["~/.config/niri/scripts/settings-menu.sh"] },
   { "id": "themes", "name": "Theme picker", "description": "Switch the session theme", "icon": "preferences-desktop-display", "keywords": "colors theme switch", "menu": ["~/.config/niri/scripts/theme-picker.sh"] },
@@ -20,6 +20,6 @@
   { "id": "clipboard", "name": "Clipboard history", "description": "Restore a copied item", "icon": "edit-paste", "keywords": "clipboard paste", "menu": ["~/.config/niri/scripts/clipboard-manager.sh"] },
   { "id": "projects", "name": "Project launcher", "description": "Open a project in a new workspace", "icon": "folder-documents", "keywords": "code workspace dev", "menu": ["~/.config/niri/scripts/project-launcher.sh"] },
   { "id": "binds", "name": "Keybind cheat sheet", "description": "Copy any niri keybind", "icon": "preferences-desktop-keyboard", "keywords": "shortcuts keys help", "menu": ["~/.config/niri/scripts/binds-menu.sh"] },
-  { "id": "notifications", "name": "Notification history", "description": "View missed notifications", "icon": "preferences-system-notifications", "keywords": "mako alerts history", "menu": ["~/.config/waybar/scripts/mako-history-menu.sh"] },
-  { "id": "waybar", "name": "Waybar variants", "description": "Switch the bar configuration", "icon": "preferences-desktop-panels", "keywords": "bar status panel", "menu": ["~/.config/niri/scripts/waybar-switcher.sh"] }
+  { "id": "notifications", "name": "Notification history", "description": "View missed notifications", "icon": "preferences-system-notifications", "keywords": "mako alerts history", "menu": ["~/.config/quickshell/dofs/scripts/mako-history-menu.sh"] },
+  { "id": "bar", "name": "Configure status bar", "description": "Edit Quickshell modules, outputs and size (live reload)", "icon": "preferences-desktop-panels", "keywords": "bar status panel quickshell", "command": ["ghostty", "-e", "nvim", "~/.config/quickshell/dofs/bar/config.json"] }
 ]

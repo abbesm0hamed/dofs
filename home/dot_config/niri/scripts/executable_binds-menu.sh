@@ -1,5 +1,5 @@
 #!/bin/bash
-# Keybind cheat sheet for the dofs Quickshell launcher (was a rofi dmenu).
+# Keybind cheat sheet for the dofs Quickshell launcher.
 # Provider: one JSON item per niri bind; activation copies it to the clipboard.
 set -euo pipefail
 

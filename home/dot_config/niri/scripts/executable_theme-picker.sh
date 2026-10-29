@@ -1,5 +1,5 @@
 #!/bin/bash
-# Theme picker for the dofs Quickshell launcher (was a rofi dmenu).
+# Theme picker for the dofs Quickshell launcher.
 # Provider: one JSON item per theme; activation rewrites the live theme.
 set -euo pipefail
 

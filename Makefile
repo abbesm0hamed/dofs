@@ -1,4 +1,4 @@
-.PHONY: dotfiles-init dotfiles-apply dotfiles-diff waybar-reload waybar-apply setup install-packages cleanup-packages update
+.PHONY: dotinit dotapply dotdiff bar-reload bar-apply setup install-packages cleanup-packages update
 
 DOTFILES_SOURCE := $(CURDIR)/home
 
@@ -11,12 +11,11 @@ dotapply:
 dotdiff:
 	chezmoi diff --source $(DOTFILES_SOURCE)
 
-waybar-reload:
-	pkill waybar || true
-	sleep 0.2
-	waybar &
+bar-reload:
+	qs -c dofs kill || true
+	qs -c dofs --daemonize --no-duplicate
 
-waybar-apply: dotapplly waybar-reload
+bar-apply: dotapply bar-reload
 
 setup:
 	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass

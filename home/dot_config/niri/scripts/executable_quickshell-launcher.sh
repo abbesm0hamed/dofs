@@ -28,6 +28,8 @@ ipc() {
 ready() {
     local reply
     reply=$(ipc ping 2>/dev/null) \
+        && [[ $reply == ready ]] \
+        && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call bar ping 2>/dev/null) \
         && [[ $reply == ready ]]
 }
 
@@ -44,7 +46,12 @@ fi
 # Readiness probes are safe to retry; toggle is not. openEntry (with an id) is
 # idempotent, so it may be issued again. IPC errors can exit 0. Note: quickshell
 # IPC does not map kebab-case from the CLI — call functions in camelCase.
-if [[ -n $entry ]]; then
+if [[ $entry == --start ]]; then
+    exit 0
+elif [[ $entry == --bar-toggle ]]; then
+    reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call bar toggle 2>&1) \
+        || fail 'Quickshell bar did not respond. Try the shortcut again.'
+elif [[ -n $entry ]]; then
     reply=$(ipc openEntry "$entry" 2>&1) \
         || fail 'Quickshell launcher did not respond. Try the shortcut again.'
 else

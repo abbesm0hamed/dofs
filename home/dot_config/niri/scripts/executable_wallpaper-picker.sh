@@ -1,5 +1,5 @@
 #!/bin/bash
-# Wallpaper picker for the dofs Quickshell launcher (was a rofi dmenu).
+# Wallpaper picker for the dofs Quickshell launcher.
 # Provider: one JSON item per wallpaper file; activation applies it.
 set -euo pipefail
 

@@ -40,8 +40,7 @@ A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
 - **Niri** - Scrollable-tiling Wayland compositor
 - **Ghostty** - GPU-accelerated terminal emulator
-- **Rofi** - Highly customizable application launcher
-- **Waybar** - Highly customizable status bar
+- **Quickshell** - Application launcher, menus and multi-monitor status bar
 - **Mako** - Lightweight notification daemon
 - **Fish** shell with **Hydro** prompt
 
@@ -137,7 +136,7 @@ This setup includes:
 ### Wayland Stack
 
 - **Niri** compositor
-- **Waybar** status bar
+- **Quickshell** status bar ([configuration](docs/quickshell-bar.md))
 - **Mako** notifications
 - Screenshot, recording, clipboard tools
 
