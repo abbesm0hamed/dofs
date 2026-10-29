@@ -212,6 +212,28 @@ ShellRoot {
         with tempfile.TemporaryDirectory() as directory:
             config = Path(directory) / 'dofs-test'
             shutil.copytree(SHELL, config)
+            entrypoint = config / 'shell.qml'
+            entrypoint.write_text('import QtQuick\n' + entrypoint.read_text().rsplit('}', 1)[0] + '''
+    Item {
+        Repeater {
+            id: iconSamples
+            model: ["󰁹", "󰐊", "", "", "", "󰤨", ""]
+            BarIcon { required property string modelData; glyph: modelData; size: 16 }
+        }
+    }
+    IpcHandler {
+        target: "iconTest"
+        function metrics(): string {
+            var result = [];
+            for (var i = 0; i < iconSamples.count; i++) {
+                var icon = iconSamples.itemAt(i);
+                result.push({width: icon.inkBounds.width * icon.glyphScale,
+                    height: icon.inkBounds.height * icon.glyphScale});
+            }
+            return JSON.stringify(result);
+        }
+    }
+}''')
             env = dict(os.environ, DOFS_BAR_TEST='1', QT_QPA_PLATFORM='wayland', PYTHONDONTWRITEBYTECODE='1')
             process = subprocess.Popen(['qs', '-p', str(config), '--no-color'], env=env,
                                        stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -251,6 +273,12 @@ ShellRoot {
                 self.assertEqual(ipc('launcher', 'ping'), 'ready')
                 self.assertEqual(ipc('bar', 'ping'), 'ready')
                 first = wait_status(lambda s: s['niri'] and s['workspaces'] and s['stats'].get('cpu') is not None)
+                samples = json.loads(ipc('iconTest', 'metrics'))
+                self.assertEqual(len(samples), 7)
+                for sample in samples:
+                    self.assertGreater(sample['width'], 0)
+                    self.assertGreater(sample['height'], 0)
+                    self.assertAlmostEqual(max(sample.values()), 14, places=5)
                 ipc('bar', 'hide')
                 self.assertFalse(json.loads(ipc('bar', 'status'))['shown'])
                 ipc('bar', 'toggle')

@@ -51,6 +51,9 @@ Never run the source and deployed instances simultaneously during normal use.
 
 - `outputs: []`: every screen; otherwise an explicit connector-name allowlist.
 - `height`, `font`, `fontSize`: logical pixels and font family.
+- `iconSize`: shared icon size for modules and tray (16 px by default), separate
+  from label and workspace text size. Font icons fit their visible glyph bounds
+  inside this box. Hover changes foreground colors only.
 - `showTitle`: show the active window title in the remaining middle space.
 - `modules`: ordered right-hand modules; remove an entry to disable it.
 

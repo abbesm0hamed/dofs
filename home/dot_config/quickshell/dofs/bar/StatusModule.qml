@@ -18,6 +18,7 @@ Row {
     function legacy(name) { command(service.script(name)); }
     function terminal(args) { command(["ghostty", "-e"].concat(args)); }
     function percent(n) { return n === undefined || n === null ? "—" : Math.round(n) + "%"; }
+    function statusLabel(status) { return status.plain(status.value.text).replace(/^\S+\s*/, ""); }
     Loader {
         height: root.height
         sourceComponent: {
@@ -46,6 +47,7 @@ Row {
         palette: root.palette
         fontFamily: root.settings.font
         fontSize: root.settings.fontSize
+        iconSize: root.settings.iconSize
         height: root.height
     }
     Component {
@@ -64,7 +66,7 @@ Row {
         Button {
             visible: !!root.service.player
             width: visible ? implicitWidth : 0
-            text: root.service.player && root.service.player.isPlaying ? "󰐊" : "󰏤"
+            icon: root.service.player && root.service.player.isPlaying ? "󰐊" : "󰏤"
             tooltip: root.service.player ? [root.service.player.identity, root.service.player.trackTitle, root.service.player.trackArtist].filter(Boolean).join("\n") : ""
             onClicked: button => {
                 var p = root.service.player;
@@ -81,7 +83,7 @@ Row {
         Button {
             visible: !!root.service.fingerprint.value.text
             width: visible ? implicitWidth : 0
-            text: root.service.fingerprint.plain(root.service.fingerprint.value.text)
+            icon: root.service.fingerprint.plain(root.service.fingerprint.value.text)
             tooltip: root.service.fingerprint.plain(root.service.fingerprint.value.tooltip)
             foreground: root.palette.yellow
             onClicked: root.terminal(["bash", root.service.configDir + "/quickshell/dofs/scripts/fingerprint-setup.sh", "setup"])
@@ -92,12 +94,13 @@ Row {
         Button {
             visible: !!root.service.updates.value.text
             width: visible ? implicitWidth : 0
-            text: root.service.updates.plain(root.service.updates.value.text)
+            icon: "󰚰"
+            text: root.statusLabel(root.service.updates)
             tooltip: root.service.updates.plain(root.service.updates.value.tooltip)
             onClicked: root.terminal(["bash", Quickshell.env("HOME") + "/dofs/dofs", "update"])
         }
     }
-    Component { id: tray; Tray { palette: root.palette; panel: root.panel } }
+    Component { id: tray; Tray { palette: root.palette; panel: root.panel; iconSize: root.settings.iconSize } }
     Component {
         id: monitoring
         Row {
@@ -105,13 +108,14 @@ Row {
             Button {
                 visible: !!root.service.docker.value.text
                 width: visible ? implicitWidth : 0
-                text: root.service.docker.plain(root.service.docker.value.text)
+                icon: "󰡨"
+                text: root.statusLabel(root.service.docker)
                 tooltip: root.service.docker.plain(root.service.docker.value.tooltip)
                 onClicked: root.terminal(["lazydocker"])
             }
-            Button { text: "󰋊 " + root.percent(root.stats.storage); tooltip: "Home filesystem usage"; onClicked: root.terminal(["btop"]) }
-            Button { text: " " + root.percent(root.stats.memory); tooltip: "Memory: " + (root.stats.memoryUsedGiB || "—") + " / " + (root.stats.memoryTotalGiB || "—") + " GiB"; onClicked: root.terminal(["btop"]) }
-            Button { text: " " + root.percent(root.stats.cpu); tooltip: root.service.statsConnected ? "CPU usage" : "System sampler unavailable; retrying"; onClicked: root.terminal(["btop"]) }
+            Button { icon: "󰋊"; text: root.percent(root.stats.storage); tooltip: "Home filesystem usage"; onClicked: root.terminal(["btop"]) }
+            Button { icon: ""; text: root.percent(root.stats.memory); tooltip: "Memory: " + (root.stats.memoryUsedGiB || "—") + " / " + (root.stats.memoryTotalGiB || "—") + " GiB"; onClicked: root.terminal(["btop"]) }
+            Button { icon: ""; text: root.percent(root.stats.cpu); tooltip: root.service.statsConnected ? "CPU usage" : "System sampler unavailable; retrying"; onClicked: root.terminal(["btop"]) }
         }
     }
     Component {
@@ -120,7 +124,8 @@ Row {
             visible: root.stats.brightness !== undefined && root.stats.brightness !== null
             width: visible ? implicitWidth : 0
             highlighted: true
-            text: "󰃠 " + root.percent(root.stats.brightness)
+            icon: "󰃠"
+            text: root.percent(root.stats.brightness)
             tooltip: "Brightness · scroll to adjust"
             onScrolled: delta => root.service.brightness(delta)
         }
@@ -131,7 +136,8 @@ Row {
             readonly property var sink: root.service.sink
             readonly property var audio: sink && sink.ready ? sink.audio : null
             highlighted: true
-            text: !audio ? "󰖁 —" : audio.muted ? "󰖁" : " " + root.percent(audio.volume * 100)
+            icon: !audio || audio.muted ? "󰖁" : ""
+            text: !audio ? "—" : audio.muted ? "" : root.percent(audio.volume * 100)
             tooltip: audio ? (sink.description || "Audio") + "\nLeft: mixer · right: mute · middle: mute microphone\nMicrophone: " + (root.service.source && root.service.source.ready && root.service.source.audio ? (root.service.source.audio.muted ? "muted" : "on") : "unavailable") : "Audio device unavailable"
             onClicked: button => {
                 if (button === Qt.LeftButton) root.command(["pavucontrol"]);
@@ -146,14 +152,14 @@ Row {
             height: root.height
             Button {
                 readonly property var adapter: root.service.adapter
-                text: adapter && adapter.enabled ? "󰂯" : "󰂲"
+                icon: adapter && adapter.enabled ? "󰂯" : "󰂲"
                 tooltip: adapter ? adapter.name + (adapter.enabled ? " · on" : " · off") + "\nLeft: manager · right: toggle power" : "Bluetooth adapter unavailable"
                 onClicked: button => { if (button === Qt.RightButton && adapter) adapter.enabled = !adapter.enabled; else root.command(["blueman-manager"]); }
             }
             Button {
                 readonly property string status: root.service.network.value.text || ""
                 readonly property bool connected: /:connected:/.test(status)
-                text: connected ? (/:wifi:connected:/.test(status) ? "󰤨" : "󰛳") : "󰤭"
+                icon: connected ? (/:wifi:connected:/.test(status) ? "󰤨" : "󰛳") : "󰤭"
                 tooltip: root.service.network.error || status || "Network unavailable"
                 onClicked: root.command(["nm-connection-editor"])
             }
@@ -166,7 +172,8 @@ Row {
             visible: device.ready && device.isLaptopBattery && device.isPresent
             width: visible ? implicitWidth : 0
             readonly property bool charging: device.state === UPowerDeviceState.Charging
-            text: (charging ? "󰂄 " : "󰁹 ") + root.percent(device.percentage * 100)
+            icon: charging ? "󰂄" : "󰁹"
+            text: root.percent(device.percentage * 100)
             foreground: charging ? root.palette.green : device.percentage < 0.15 ? root.palette.red : device.percentage < 0.30 ? root.palette.yellow : root.palette.text
             tooltip: "Battery: " + root.percent(device.percentage * 100) + "\nPower: " + Math.abs(device.changeRate).toFixed(1) + " W\n" + (charging ? "Full in " : "Remaining ") + Math.round((charging ? device.timeToFull : device.timeToEmpty) / 60) + " min"
             onClicked: root.openEntry("controls")
@@ -175,7 +182,7 @@ Row {
     Component {
         id: profile
         Button {
-            text: PowerProfiles.profile === PowerProfile.PowerSaver ? "" : PowerProfiles.profile === PowerProfile.Performance ? "" : ""
+            icon: PowerProfiles.profile === PowerProfile.PowerSaver ? "" : PowerProfiles.profile === PowerProfile.Performance ? "" : ""
             foreground: PowerProfiles.profile === PowerProfile.PowerSaver ? root.palette.green : root.palette.accent
             tooltip: "Power profile: " + (PowerProfiles.profile === PowerProfile.PowerSaver ? "power saver" : PowerProfiles.profile === PowerProfile.Performance ? "performance" : "balanced") + "\nClick to cycle"
             onClicked: root.service.cycleProfile()
@@ -184,7 +191,8 @@ Row {
     Component {
         id: notifications
         Button {
-            text: root.service.notifications.plain(root.service.notifications.value.text || "󰂞")
+            icon: "󰂞"
+            text: root.statusLabel(root.service.notifications)
             tooltip: root.service.notifications.error || root.service.notifications.plain(root.service.notifications.value.tooltip || "Notification history")
             onClicked: button => { if (button === Qt.RightButton) root.command(["makoctl", "restore"]); else root.openEntry("notifications"); }
         }
@@ -192,12 +200,12 @@ Row {
     Component {
         id: idle
         Button {
-            text: root.service.idle.value.text === "on" ? "󰅶" : "󰾪"
+            icon: root.service.idle.value.text === "on" ? "󰅶" : "󰾪"
             tooltip: "Idle locking: " + (root.service.idle.error ? "unavailable" : root.service.idle.value.text || "checking") + "\nClick to toggle swayidle"
             onClicked: root.command(["bash", root.service.configDir + "/niri/scripts/toggle-idle.sh"])
         }
     }
-    Component { id: power; Button { text: ""; tooltip: "Power menu"; onClicked: root.openEntry("power") } }
+    Component { id: power; Button { icon: ""; tooltip: "Power menu"; onClicked: root.openEntry("power") } }
     Component {
         id: clock
         Button {

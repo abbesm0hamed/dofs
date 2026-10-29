@@ -4,7 +4,7 @@ import Quickshell.Io
 QtObject {
     id: root
     readonly property var knownModules: ["visualizer", "media", "fingerprint", "updates", "tray", "monitoring", "brightness", "audio", "connectivity", "battery", "profile", "notifications", "idle", "power", "clock", "prayer"]
-    property var config: ({height: 24, font: "Lilex Nerd Font Mono", fontSize: 13, outputs: [], showTitle: false, modules: knownModules})
+    property var config: ({height: 24, font: "Lilex Nerd Font Mono", fontSize: 13, iconSize: 16, outputs: [], showTitle: false, modules: knownModules})
     property string error: ""
     property FileView file: FileView {
         path: Qt.resolvedUrl("config.json")
@@ -14,9 +14,11 @@ QtObject {
         onLoaded: {
             try {
                 var c = JSON.parse(text());
+                if (c.iconSize === undefined) c.iconSize = 16;
                 if (!Number.isInteger(c.height) || c.height < 20 || c.height > 64
                     || typeof c.font !== "string" || !c.font
                     || !Number.isInteger(c.fontSize) || c.fontSize < 9 || c.fontSize > 24
+                    || !Number.isInteger(c.iconSize) || c.iconSize < 12 || c.iconSize > 32 || c.iconSize > c.height - 4
                     || typeof c.showTitle !== "boolean"
                     || !Array.isArray(c.outputs) || c.outputs.some(o => typeof o !== "string")
                     || !Array.isArray(c.modules) || c.modules.some(m => root.knownModules.indexOf(m) < 0)

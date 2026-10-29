@@ -4,6 +4,8 @@ import Quickshell
 Rectangle {
     id: root
     required property var palette
+    property string icon: ""
+    property int iconSize: 16
     property string text: ""
     property string tooltip: ""
     property string fontFamily: "Lilex Nerd Font Mono"
@@ -21,23 +23,40 @@ Rectangle {
     property bool showTip: false
     signal clicked(int button)
     signal scrolled(int delta)
+    readonly property real contentWidth: (icon ? iconSize : 0) + label.implicitWidth + (icon && text ? 4 : 0)
+    readonly property color contentColor: hovered ? hoverForeground : foreground
     implicitHeight: parent ? parent.height : 24
-    implicitWidth: Math.min(maximumWidth, Math.max(minimumWidth, label.implicitWidth + padding * 2))
-    color: !flat && (hovered || selected || highlighted) ? palette.surface : "transparent"
-    Text {
-        id: label
-        anchors.fill: parent
-        anchors.leftMargin: root.padding
-        anchors.rightMargin: root.padding
-        text: root.text
-        textFormat: Text.PlainText
-        elide: Text.ElideRight
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        font.family: root.fontFamily
-        font.pixelSize: root.fontSize
-        font.bold: root.bold
-        color: root.hovered ? root.hoverForeground : root.foreground
+    implicitWidth: Math.min(maximumWidth, Math.max(minimumWidth, contentWidth + padding * 2))
+    color: !flat && (selected || highlighted) ? palette.surface : "transparent"
+    Row {
+        id: content
+        anchors.centerIn: parent
+        height: root.height
+        width: Math.min(root.contentWidth, Math.max(0, root.width - root.padding * 2))
+        spacing: root.icon && root.text ? 4 : 0
+        BarIcon {
+            id: symbol
+            visible: !!root.icon
+            width: visible ? root.iconSize : 0
+            height: parent.height
+            glyph: root.icon
+            size: root.iconSize
+            color: root.contentColor
+        }
+        Text {
+            id: label
+            width: Math.max(0, content.width - symbol.width - content.spacing)
+            height: parent.height
+            text: root.text
+            textFormat: Text.PlainText
+            elide: Text.ElideRight
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.family: root.fontFamily
+            font.pixelSize: root.fontSize
+            font.bold: root.bold
+            color: root.contentColor
+        }
     }
     Rectangle { visible: root.selected && !root.flat; anchors.bottom: parent.bottom; width: parent.width; height: 2; color: root.palette.accent }
     MouseArea {

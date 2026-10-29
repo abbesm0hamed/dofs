@@ -6,6 +6,7 @@ Row {
     id: root
     required property var palette
     required property var panel
+    property int iconSize: 16
     height: parent.height
     spacing: 2
     Repeater {
@@ -14,11 +15,19 @@ Row {
             id: button
             required property var modelData
             visible: ["nm-applet", "blueman-applet"].indexOf(modelData.id) < 0
-            width: visible ? 24 : 0
+            width: visible ? root.iconSize + 10 : 0
             height: root.height
             palette: root.palette
             tooltip: modelData.tooltipTitle || modelData.title || modelData.id
-            Image { anchors.centerIn: parent; width: 14; height: 14; source: button.modelData.icon; sourceSize.width: 28; sourceSize.height: 28 }
+            Image {
+                anchors.centerIn: parent
+                width: root.iconSize
+                height: root.iconSize
+                source: button.modelData.icon
+                sourceSize.width: root.iconSize * 2
+                sourceSize.height: root.iconSize * 2
+                fillMode: Image.PreserveAspectFit
+            }
             onClicked: mouseButton => {
                 if (mouseButton === Qt.MiddleButton) modelData.secondaryActivate();
                 else if (mouseButton === Qt.RightButton || modelData.onlyMenu) {

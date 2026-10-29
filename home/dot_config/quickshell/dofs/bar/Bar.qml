@@ -31,7 +31,8 @@ PanelWindow {
             fontFamily: root.settings.font
             fontSize: root.settings.fontSize
             highlighted: true
-            text: ""
+            icon: ""
+            iconSize: root.settings.iconSize
             tooltip: root.configError || "Left: keybindings · right: launcher"
             foreground: root.configError ? root.palette.red : root.palette.text
             onClicked: button => root.openEntry(button === Qt.RightButton ? "" : "binds")
