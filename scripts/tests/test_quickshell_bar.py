@@ -214,11 +214,18 @@ ShellRoot {
             shutil.copytree(SHELL, config)
             entrypoint = config / 'shell.qml'
             entrypoint.write_text('import QtQuick\n' + entrypoint.read_text().rsplit('}', 1)[0] + '''
+    TextMetrics {
+        id: labelMetrics
+        text: "M"
+        font.family: "Lilex Nerd Font Mono"
+        font.pixelSize: 13
+        renderType: Text.QtRendering
+    }
     Item {
         Repeater {
             id: iconSamples
             model: ["󰁹", "󰐊", "", "", "", "󰤨", ""]
-            BarIcon { required property string modelData; glyph: modelData; size: 16 }
+            BarIcon { required property string modelData; glyph: modelData; size: 13; height: 23 }
         }
     }
     IpcHandler {
@@ -227,8 +234,13 @@ ShellRoot {
             var result = [];
             for (var i = 0; i < iconSamples.count; i++) {
                 var icon = iconSamples.itemAt(i);
+                var glyph = icon.children[0];
                 result.push({width: icon.inkBounds.width * icon.glyphScale,
-                    height: icon.inkBounds.height * icon.glyphScale});
+                    height: icon.inkBounds.height * icon.glyphScale,
+                    target: labelMetrics.tightBoundingRect.height,
+                    centerX: glyph.x + (icon.inkBounds.x + icon.inkBounds.width / 2) * glyph.scale,
+                    centerY: glyph.y + (glyph.baselineOffset + icon.inkBounds.y + icon.inkBounds.height / 2) * glyph.scale,
+                    boxWidth: icon.width, boxHeight: icon.height});
             }
             return JSON.stringify(result);
         }
@@ -278,7 +290,9 @@ ShellRoot {
                 for sample in samples:
                     self.assertGreater(sample['width'], 0)
                     self.assertGreater(sample['height'], 0)
-                    self.assertAlmostEqual(max(sample.values()), 14, places=5)
+                    self.assertAlmostEqual(max(sample['width'], sample['height']), sample['target'], places=5)
+                    self.assertAlmostEqual(sample['centerX'], sample['boxWidth'] / 2, places=5)
+                    self.assertAlmostEqual(sample['centerY'], sample['boxHeight'] / 2, places=5)
                 ipc('bar', 'hide')
                 self.assertFalse(json.loads(ipc('bar', 'status'))['shown'])
                 ipc('bar', 'toggle')

@@ -5,7 +5,7 @@ Rectangle {
     id: root
     required property var palette
     property string icon: ""
-    property int iconSize: 16
+    property int iconSize: fontSize
     property string text: ""
     property string tooltip: ""
     property string fontFamily: "Lilex Nerd Font Mono"
@@ -17,13 +17,14 @@ Rectangle {
     property bool flat: false
     property bool bold: false
     readonly property bool hovered: mouse.containsMouse
-    property int padding: 8
-    property int minimumWidth: 24
+    property int padding: 4
+    property int minimumWidth: 20
     property int maximumWidth: 10000
     property bool showTip: false
     signal clicked(int button)
     signal scrolled(int delta)
-    readonly property real contentWidth: (icon ? iconSize : 0) + label.implicitWidth + (icon && text ? 4 : 0)
+    readonly property int contentSpacing: icon && text ? 3 : 0
+    readonly property real contentWidth: (icon ? iconSize : 0) + label.implicitWidth + contentSpacing
     readonly property color contentColor: hovered ? hoverForeground : foreground
     implicitHeight: parent ? parent.height : 24
     implicitWidth: Math.min(maximumWidth, Math.max(minimumWidth, contentWidth + padding * 2))
@@ -33,7 +34,7 @@ Rectangle {
         anchors.centerIn: parent
         height: root.height
         width: Math.min(root.contentWidth, Math.max(0, root.width - root.padding * 2))
-        spacing: root.icon && root.text ? 4 : 0
+        spacing: root.contentSpacing
         BarIcon {
             id: symbol
             visible: !!root.icon
@@ -41,6 +42,7 @@ Rectangle {
             height: parent.height
             glyph: root.icon
             size: root.iconSize
+            fontFamily: root.fontFamily
             color: root.contentColor
         }
         Text {

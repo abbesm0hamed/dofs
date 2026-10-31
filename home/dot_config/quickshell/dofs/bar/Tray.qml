@@ -6,16 +6,16 @@ Row {
     id: root
     required property var palette
     required property var panel
-    property int iconSize: 16
+    property int iconSize: 13
     height: parent.height
-    spacing: 2
+    spacing: 0
     Repeater {
         model: SystemTray.items
         delegate: BarButton {
             id: button
             required property var modelData
             visible: ["nm-applet", "blueman-applet"].indexOf(modelData.id) < 0
-            width: visible ? root.iconSize + 10 : 0
+            width: visible ? root.iconSize + padding * 2 : 0
             height: root.height
             palette: root.palette
             tooltip: modelData.tooltipTitle || modelData.title || modelData.id

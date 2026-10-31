@@ -2,7 +2,7 @@
   "height": 24,
   "font": "Lilex Nerd Font Mono",
   "fontSize": 13,
-  "iconSize": 16,
+  "iconSize": 13,
   "outputs": [],
   "showTitle": false,
   "modules": ["visualizer", "media", "fingerprint", "updates", "tray", "monitoring", "brightness", "audio", "connectivity", "battery", "profile", "notifications", "idle", "power", "clock", "prayer"]
