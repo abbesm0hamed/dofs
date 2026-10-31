@@ -41,6 +41,8 @@ dofs
 
 # Excluded application configuration
 .config/rofi/
+# Historical notification configuration; the native shell owns notifications.
+.config/mako/
 
 # if you want to persist the theme and not have it affected by chezmoi apply --force
 {{ if $hasTheme }}
@@ -50,7 +52,6 @@ dofs
 {{ end }}
 .config/waybar/theme.css
 .config/niri/colors.kdl
-.config/mako/config
 .config/ranger/rc.conf
 .config/yazi/yazi.toml
 .config/zed/settings.json

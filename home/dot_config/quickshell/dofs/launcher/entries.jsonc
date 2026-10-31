@@ -20,6 +20,6 @@
   { "id": "clipboard", "name": "Clipboard history", "description": "Restore a copied item", "icon": "edit-paste", "keywords": "clipboard paste", "menu": ["~/.config/niri/scripts/clipboard-manager.sh"] },
   { "id": "projects", "name": "Project launcher", "description": "Open a project in a new workspace", "icon": "folder-documents", "keywords": "code workspace dev", "menu": ["~/.config/niri/scripts/project-launcher.sh"] },
   { "id": "binds", "name": "Keybind cheat sheet", "description": "Copy any niri keybind", "icon": "preferences-desktop-keyboard", "keywords": "shortcuts keys help", "menu": ["~/.config/niri/scripts/binds-menu.sh"] },
-  { "id": "notifications", "name": "Notification history", "description": "View missed notifications", "icon": "preferences-system-notifications", "keywords": "mako alerts history", "menu": ["~/.config/quickshell/dofs/scripts/mako-history-menu.sh"] },
+  { "id": "notifications", "name": "Notification center", "description": "History, messages and do not disturb", "icon": "preferences-system-notifications", "keywords": "alerts history messages", "command": ["qs", "-c", "dofs", "ipc", "call", "notifications", "open"] },
   { "id": "bar", "name": "Configure status bar", "description": "Edit Quickshell modules, outputs and size (live reload)", "icon": "preferences-desktop-panels", "keywords": "bar status panel quickshell", "command": ["ghostty", "-e", "nvim", "~/.config/quickshell/dofs/bar/config.json"] }
 ]

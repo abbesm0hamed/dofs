@@ -219,10 +219,11 @@ Row {
     Component {
         id: notifications
         Button {
-            icon: "󰂞"
-            text: root.statusLabel(root.service.notifications)
-            tooltip: root.service.notifications.error || root.service.notifications.plain(root.service.notifications.value.tooltip || "Notification history")
-            onClicked: button => { if (button === Qt.RightButton) root.command(["makoctl", "restore"]); else root.openEntry("notifications"); }
+            icon: root.service.notifications.dnd ? "󰂛" : "󰂞"
+            text: root.service.notifications.unreadCount ? String(root.service.notifications.unreadCount) : ""
+            foreground: root.service.notifications.unreadCount ? root.palette.accent : root.palette.text
+            tooltip: root.service.notifications.error || root.service.notifications.unreadCount + " unread · Left: history · right: do not disturb (" + (root.service.notifications.dnd ? "on" : "off") + ")"
+            onClicked: button => { if (button === Qt.RightButton) root.service.notifications.toggleDnd(); else if (button === Qt.LeftButton) root.openEntry("notifications"); }
         }
     }
     Component {
@@ -239,6 +240,7 @@ Row {
         Button {
             SystemClock { id: time; precision: SystemClock.Minutes }
             highlighted: true
+            highlightColor: Qt.darker(root.palette.surface, 1.5)
             text: Qt.formatDateTime(time.date, "dd, HH:mm")
             tooltip: Qt.formatDateTime(time.date, "dddd, d MMMM yyyy")
         }

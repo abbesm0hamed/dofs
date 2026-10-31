@@ -16,7 +16,6 @@ fi
 # Paths to generated output files
 QUICKSHELL_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/dofs/bar/theme.json"
 NIRI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/niri/colors.kdl"
-MAKO_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/mako/config"
 RANGER_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf"
 YAZI_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/yazi.toml"
 ZED_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/zed/settings.json"
@@ -81,7 +80,6 @@ apply_theme() {
 
     sync_file "quickshell-theme.json" "$QUICKSHELL_OUT"
     sync_file "niri-colors.kdl" "$NIRI_OUT"
-    sync_file "mako-theme.conf" "$MAKO_OUT"
     sync_file "ranger-theme.conf" "$RANGER_OUT"
     sync_file "yazi-theme.toml" "$YAZI_OUT"
     sync_file "zed-theme.json" "$ZED_OUT"
@@ -163,11 +161,6 @@ echo "  → Refreshing session components..."
 
 # Quickshell watches the generated palette and updates without restarting the
 # shell (which would also close the launcher).
-
-if command -v makoctl >/dev/null 2>&1; then
-    echo "  → Reloading Mako..."
-    makoctl reload || true
-fi
 
 if [ "$FROM_PICKER" = true ]; then
     notify-send -a "Theme" "Applied: $THEME"

@@ -19,12 +19,12 @@ WARNINGS=0
 
 check_chezmoi_conflicts() {
     log "Checking for chezmoi conflicts..."
-    
+
     if ! command -v chezmoi &>/dev/null; then
         warn "chezmoi not installed yet - will be installed during bootstrap"
         return 0
     fi
-    
+
     # Check what would change
     local diff_output
     if diff_output=$(chezmoi diff --source "$REPO_ROOT/home" 2>&1); then
@@ -42,17 +42,15 @@ check_chezmoi_conflicts() {
 
 check_existing_configs() {
     log "Checking for existing manual configurations..."
-    
+
     local managed_dirs=(
         ".config/niri"
         ".config/quickshell"
-        ".config/waybar"
         ".config/fish"
         ".config/nvim"
-        ".config/wezterm"
-        ".config/mako"
+        ".config/ghostty"
     )
-    
+
     for dir in "${managed_dirs[@]}"; do
         if [ -d "$HOME/$dir" ]; then
             if [ -L "$HOME/$dir" ]; then
@@ -67,16 +65,16 @@ check_existing_configs() {
 
 check_old_stow_configs() {
     log "Checking for old stow-managed configurations..."
-    
+
     # Look for common stow patterns
     local stow_found=false
-    
+
     if [ -d "$HOME/.dotfiles" ]; then
         warn "Found ~/.dotfiles directory (possible old stow setup)"
         stow_found=true
         ((WARNINGS++))
     fi
-    
+
     # Check for symlinks pointing to a dotfiles repo
     local symlink_count=0
     while IFS= read -r -d '' symlink; do
@@ -85,13 +83,13 @@ check_old_stow_configs() {
             ((symlink_count++))
         fi
     done < <(find "$HOME/.config" -maxdepth 2 -type l -print0 2>/dev/null || true)
-    
+
     if [ $symlink_count -gt 0 ]; then
         warn "Found $symlink_count symlinks that might be from stow"
         stow_found=true
         ((WARNINGS++))
     fi
-    
+
     if [ "$stow_found" = false ]; then
         ok "No old stow configurations detected"
     fi
@@ -99,21 +97,19 @@ check_old_stow_configs() {
 
 create_backup() {
     log "Creating backup of existing configurations..."
-    
+
     local backed_up=0
     local dirs_to_backup=(
         ".config/niri"
         ".config/quickshell"
-        ".config/waybar"
         ".config/fish"
         ".config/nvim"
-        ".config/wezterm"
-        ".config/mako"
+        ".config/ghostty"
         ".tmux.conf"
     )
-    
+
     mkdir -p "$BACKUP_DIR"
-    
+
     for item in "${dirs_to_backup[@]}"; do
         if [ -e "$HOME/$item" ]; then
             local parent_dir=$(dirname "$BACKUP_DIR/$item")
@@ -122,7 +118,7 @@ create_backup() {
             ((backed_up++))
         fi
     done
-    
+
     if [ $backed_up -gt 0 ]; then
         ok "Backed up $backed_up items to $BACKUP_DIR"
         log "You can restore with: cp -r $BACKUP_DIR/.config/* ~/.config/"
@@ -136,7 +132,7 @@ show_summary() {
     echo ""
     log "=== Preflight Check Summary ==="
     echo ""
-    
+
     if [ $CONFLICTS -eq 0 ] && [ $WARNINGS -eq 0 ]; then
         ok "All checks passed! Safe to proceed with installation."
         echo ""
@@ -166,21 +162,21 @@ show_summary() {
 main() {
     log "Running preflight checks before installation..."
     echo ""
-    
+
     check_existing_configs
     echo ""
-    
+
     check_old_stow_configs
     echo ""
-    
+
     check_chezmoi_conflicts
     echo ""
-    
+
     # Always create backup if configs exist
-    if [ -d "$HOME/.config/niri" ] || [ -d "$HOME/.config/quickshell" ] || [ -d "$HOME/.config/waybar" ]; then
+    if [ -d "$HOME/.config/niri" ] || [ -d "$HOME/.config/quickshell" ]; then
         create_backup
     fi
-    
+
     show_summary
 }
 

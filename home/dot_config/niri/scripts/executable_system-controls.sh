@@ -32,7 +32,7 @@ night_light_desc() {
 }
 
 notifications_desc() {
-    if command -v makoctl >/dev/null 2>&1 && makoctl mode 2>/dev/null | grep -qx "do-not-disturb"; then
+    if [[ $(timeout 2s qs -c dofs ipc call notifications dnd 2>/dev/null) == true ]]; then
         echo "Notifications are OFF - turn ON"
     else
         echo "Notifications are ON - turn OFF"
@@ -81,16 +81,9 @@ toggle_night_light() {
 }
 
 toggle_notifications() {
-    if ! command -v makoctl >/dev/null 2>&1; then
-        notify-send "System Controls" "makoctl not found"
-        return 0
-    fi
-    makoctl mode -t do-not-disturb
-    if makoctl mode 2>/dev/null | grep -qx "do-not-disturb"; then
-        notify-send "System Controls" "Notifications disabled"
-    else
-        notify-send "System Controls" "Notifications enabled"
-    fi
+    local reply
+    reply=$(timeout 2s qs -c dofs ipc call notifications toggleDnd 2>&1) || return 1
+    [[ -z $reply ]] || { printf '%s\n' "$reply" >&2; return 1; }
 }
 
 toggle_wifi() {

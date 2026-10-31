@@ -9,11 +9,6 @@ output_path = '~/.config/quickshell/dofs/bar/theme.json'
 input_path = './templates/niri.kdl'
 output_path = '~/.config/niri/colors.kdl'
 
-[templates.mako]
-input_path = './templates/mako.conf'
-output_path = '~/.config/mako/config'
-post_hook = 'makoctl reload'
-
 [templates.hyprlock]
 input_path = './templates/hyprlock.conf'
 output_path = '~/.config/hypr/hyprlock.conf'

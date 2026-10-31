@@ -21,7 +21,7 @@ case "$section" in
         menu_item "Network" "WiFi, bluetooth, connections" "network-wireless" --menu "$SELF network"
         menu_item "System info" "Host, kernel, memory, disk" "dialog-information" --menu "$SELF sysinfo"
         menu_item "Input and display config" "Edit the niri config" "preferences-desktop-keyboard" -- ghostty -e nvim ~/.config/niri/config.kdl
-        menu_item "Notification config" "Edit the mako config" "preferences-system-notifications" -- ghostty -e nvim ~/.config/mako/config
+        menu_item "Notification config" "History, privacy and popup settings" "preferences-system-notifications" -- ghostty -e nvim ~/.config/quickshell/dofs/notifications/config.json
         menu_item "Edit niri config" "Open config.kdl in nvim" "utilities-editor" -- ghostty -e nvim ~/.config/niri/config.kdl
         menu_item "Edit fish config" "Open config.fish in nvim" "utilities-editor" -- ghostty -e nvim ~/.config/fish/config.fish
         if command -v gnome-control-center >/dev/null 2>&1; then

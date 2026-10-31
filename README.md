@@ -40,8 +40,7 @@ A unified, reproducible dotfiles setup for Fedora Workstation featuring:
 
 - **Niri** - Scrollable-tiling Wayland compositor
 - **Ghostty** - GPU-accelerated terminal emulator
-- **Quickshell** - Application launcher, menus and multi-monitor status bar
-- **Mako** - Lightweight notification daemon
+- **Quickshell** - Launcher, menus, multi-monitor bar and native notifications with persistent history
 - **Fish** shell with **Hydro** prompt
 
 ## Quick Start
@@ -137,7 +136,7 @@ This setup includes:
 
 - **Niri** compositor
 - **Quickshell** status bar ([configuration](docs/quickshell-bar.md))
-- **Mako** notifications
+- **Quickshell** notifications and history ([configuration](docs/quickshell-notifications.md))
 - Screenshot, recording, clipboard tools
 
 ### Gaming

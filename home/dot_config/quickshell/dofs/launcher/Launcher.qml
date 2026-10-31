@@ -11,6 +11,7 @@ import "Search.js" as Search
 
 Scope {
     id: root
+    signal opening()
 
     property bool opened: false
     property bool surfaceReady: false
@@ -47,6 +48,7 @@ Scope {
     }
 
     function open() {
+        opening();
         actionParent = null;
         menuParent = null;
         menuLoading = false;

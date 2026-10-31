@@ -9,6 +9,7 @@ import Quickshell.Bluetooth
 Scope {
     id: root
     required property var modules
+    required property var notifications
     readonly property string configDir: Quickshell.env("XDG_CONFIG_HOME") || Quickshell.env("HOME") + "/.config"
     readonly property var sink: Pipewire.defaultAudioSink
     readonly property var source: Pipewire.defaultAudioSource
@@ -24,7 +25,6 @@ Scope {
     property alias docker: docker
     property alias fingerprint: fingerprint
     property alias updates: updates
-    property alias notifications: notifications
     property alias prayer: prayer
     property alias network: network
     property alias idle: idle
@@ -77,7 +77,6 @@ Scope {
     CommandStatus { id: docker; enabled: !root.testing && root.has("monitoring"); command: root.script("docker-event-status"); interval: 30000 }
     CommandStatus { id: fingerprint; enabled: !root.testing && root.has("fingerprint"); command: root.script("fingerprint-status"); interval: 30000 }
     CommandStatus { id: updates; enabled: !root.testing && root.has("updates"); command: root.script("check-updates"); interval: 3600000; timeout: 120000 }
-    CommandStatus { id: notifications; enabled: !root.testing && root.has("notifications"); command: root.script("mako-history-status"); interval: 5000 }
     CommandStatus { id: prayer; enabled: !root.testing && root.has("prayer"); command: root.script("next-prayer"); interval: 60000; timeout: 45000; json: false }
     // Quickshell has no NetworkManager API in the supported release. One shared
     // nmcli snapshot is sufficient; no connection subprocesses per widget.

@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-exec bash "${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/dofs/scripts/mako-history-status.sh" "$@"
+# Compatibility entry point for the archived bar.
+qs -c dofs ipc call notifications status | jq -c '{text: ("󰂞 " + (.unread | tostring)), tooltip: "Quickshell notification center"}'

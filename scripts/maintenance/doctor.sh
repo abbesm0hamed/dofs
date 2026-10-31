@@ -146,7 +146,7 @@ main() {
     log "Checking desktop environment..."
     check_binary niri
     check_binary qs
-    check_binary mako
+    check_binary notify-send
     check_binary ghostty
     echo ""
     

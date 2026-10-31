@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-exec bash "${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/dofs/scripts/mako-history-menu.sh" "$@"
+# Compatibility entry point for the archived bar; history lives in Quickshell.
+exec qs -c dofs ipc call notifications open

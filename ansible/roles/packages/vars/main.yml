@@ -185,7 +185,6 @@ dnf_packages:
   - qt6-qtwayland
   - xwayland-satellite
   - jq
-  - mako
   - hyprpaper
   # Provided by agonie/swww COPR.
   - swww

@@ -77,7 +77,6 @@ bash "$HOME/.config/niri/scripts/wallpaper.sh" --restore --silent &
 
 # Core Services
 bash "$HOME/.config/niri/scripts/quickshell-launcher.sh" --start || true
-run_once mako
 
 # Polkit Agent
 POLKIT_AGENT="/usr/libexec/polkit-gnome-authentication-agent-1"

@@ -14,6 +14,7 @@ Rectangle {
     property color hoverForeground: palette.accent
     property bool selected: false
     property bool highlighted: false
+    property color highlightColor: palette.surface
     property bool flat: false
     property bool bold: false
     readonly property bool hovered: mouse.containsMouse
@@ -28,7 +29,7 @@ Rectangle {
     readonly property color contentColor: hovered ? hoverForeground : foreground
     implicitHeight: parent ? parent.height : 24
     implicitWidth: Math.min(maximumWidth, Math.max(minimumWidth, contentWidth + padding * 2))
-    color: !flat && (selected || highlighted) ? palette.surface : "transparent"
+    color: !flat && (selected || highlighted) ? highlightColor : "transparent"
     Row {
         id: content
         anchors.centerIn: parent

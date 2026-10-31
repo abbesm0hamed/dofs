@@ -4,6 +4,7 @@ import "../services"
 
 Scope {
     id: root
+    required property var notifications
     property bool shown: true
     signal openEntry(string entry)
     property alias service: sharedService
@@ -12,7 +13,7 @@ Scope {
     property alias paletteColors: colors.colors
     Settings { id: barSettings }
     BarPalette { id: colors }
-    BarService { id: sharedService; modules: barSettings.config.modules }
+    BarService { id: sharedService; modules: barSettings.config.modules; notifications: root.notifications }
     Variants {
         model: Quickshell.screens.filter(s => !barSettings.config.outputs.length || barSettings.config.outputs.indexOf(s.name) >= 0)
         Bar {

@@ -4,7 +4,6 @@
   loop:
     - niri
     - qs
-    - mako
     - xwayland-satellite
     - hyprlock
     - swayidle
@@ -26,7 +25,7 @@
     - .config/niri/config.kdl
     - .config/quickshell/dofs/shell.qml
     - .config/quickshell/dofs/bar/config.json
-    - .config/mako/config
+    - .config/quickshell/dofs/notifications/config.json
   register: config_stats
   tags: verify
 

@@ -30,10 +30,17 @@ ready() {
     reply=$(ipc ping 2>/dev/null) \
         && [[ $reply == ready ]] \
         && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call bar ping 2>/dev/null) \
+        && [[ $reply == ready ]] \
+        && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call notifications ping 2>/dev/null) \
         && [[ $reply == ready ]]
 }
 
 if ! ready; then
+    # Applying QML files can leave an older generation alive after a failed
+    # hot reload. --no-duplicate cannot upgrade that instance's IPC API.
+    if [[ $(ipc ping 2>/dev/null) == ready ]]; then
+        fail 'Quickshell is already running with an outdated or incomplete IPC API. Restart it: qs -c dofs kill; then run this script with --start.'
+    fi
     timeout --kill-after=1s 8s qs -c dofs --daemonize --no-duplicate \
         || fail 'Could not start Quickshell. Check: qs -c dofs'
     deadline=$((SECONDS + 5))
@@ -51,6 +58,9 @@ if [[ $entry == --start ]]; then
 elif [[ $entry == --bar-toggle ]]; then
     reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call bar toggle 2>&1) \
         || fail 'Quickshell bar did not respond. Try the shortcut again.'
+elif [[ $entry == notifications ]]; then
+    reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call notifications toggle 2>&1) \
+        || fail 'Quickshell notification center did not respond. Restart the shell after updating.'
 elif [[ -n $entry ]]; then
     reply=$(ipc openEntry "$entry" 2>&1) \
         || fail 'Quickshell launcher did not respond. Try the shortcut again.'

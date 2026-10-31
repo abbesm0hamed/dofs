@@ -99,9 +99,6 @@ class BarTests(unittest.TestCase):
             old_palette.write_text('archived palette')
             bin_dir = home / 'bin'
             bin_dir.mkdir()
-            mako = bin_dir / 'makoctl'
-            mako.write_text('#!/bin/sh\nexit 0\n')
-            mako.chmod(0o700)
             env = dict(os.environ, HOME=str(home), XDG_CONFIG_HOME=str(config),
                        XDG_STATE_HOME=str(home / '.state'), PATH=str(bin_dir) + ':' + os.environ['PATH'])
             for palette in themes.glob('*/quickshell-theme.json'):
@@ -122,7 +119,8 @@ class BarTests(unittest.TestCase):
             binary.write_text('''#!/usr/bin/env python3
 import json, os, sys
 with open(os.environ['CALLS'], 'a') as log: log.write(json.dumps(sys.argv[1:]) + '\\n')
-if sys.argv[-1] == 'ping': print('ready')
+if os.environ.get('STALE_IPC') == '1' and sys.argv[-2:] == ['notifications', 'ping']: print('Target not found.')
+elif sys.argv[-1] == 'ping': print('ready')
 elif os.environ.get('FAIL_IPC') == '1': print('error: handler unavailable')
 ''')
             binary.chmod(0o700)
@@ -139,9 +137,19 @@ elif os.environ.get('FAIL_IPC') == '1': print('error: handler unavailable')
             toggle = subprocess.run(['bash', str(WRAPPER), '--bar-toggle'], env=env, capture_output=True, timeout=10)
             self.assertEqual(toggle.returncode, 0, toggle.stderr)
             self.assertEqual(json.loads(log.read_text().splitlines()[-1])[-2:], ['bar', 'toggle'])
+            notifications = subprocess.run(['bash', str(WRAPPER), 'notifications'], env=env, capture_output=True, timeout=10)
+            self.assertEqual(notifications.returncode, 0, notifications.stderr)
+            self.assertEqual(json.loads(log.read_text().splitlines()[-1])[-2:], ['notifications', 'toggle'])
             failed = subprocess.run(['bash', str(WRAPPER), '--bar-toggle'],
                                     env=dict(env, FAIL_IPC='1'), capture_output=True, timeout=10)
             self.assertNotEqual(failed.returncode, 0, 'IPC error text must fail even if qs exits zero')
+            stale = subprocess.run(['bash', str(WRAPPER), '--start'],
+                                   env=dict(env, STALE_IPC='1'), capture_output=True, timeout=10)
+            self.assertNotEqual(stale.returncode, 0)
+            self.assertIn(b'already running', stale.stderr)
+            self.assertIn(b'Restart', stale.stderr)
+            self.assertFalse(any('--daemonize' in json.loads(line) for line in log.read_text().splitlines()),
+                             'an outdated running instance needs a restart, not another daemon launch')
 
 
 @unittest.skipUnless(os.environ.get('DOFS_QML_TEST') == '1', 'requires a live Wayland session and qs')

@@ -12,7 +12,7 @@ configurations and do not deploy to `~/.config`.
    `upower` are declared in `ansible/roles/packages/vars/main.yml`; apply the
    package role with `make install-packages` if needed. The existing Python,
    coreutils, PipeWire, BlueZ, power-profiles-daemon, brightnessctl, nmcli, Cava,
-   Mako and Nerd Font packages are also used.
+   libnotify and Nerd Font packages are also used.
 2. Review `make dotdiff`. Apply only the relevant shell/session files, not the
    entire home tree with `--force`:
 
@@ -39,7 +39,7 @@ configurations and do not deploy to `~/.config`.
    bash "$HOME/.config/niri/scripts/quickshell-launcher.sh" --start
    ```
 
-   Both launcher and bar readiness must succeed. This same idempotent wrapper
+    Launcher, bar and notification IPC readiness must succeed. This same idempotent wrapper
    runs at login. Restart the instance after a QML/IPC update; do not rely on
    hot reload to replace a live IPC API. `make bar-reload` also restarts it.
 
@@ -100,7 +100,9 @@ indicators; `dofs update` calls it after updating.
 - Battery: native UPower, only shown for a present laptop battery; warning and
   charging colors, time/power tooltip. Click opens system controls.
 - Power profile: native daemon integration; click cycles supported profiles.
-- Notifications: Mako history count; click history, right restore.
+- Notifications: native unread count; click to toggle the notification center,
+  right-click to toggle do not disturb. See [notifications](quickshell-notifications.md)
+  for persistent history, privacy rules and migration from the previous daemon.
 - Idle: click to toggle swayidle.
 - Power: power menu. Clock: minute-resolution local time and full-date tooltip.
   Prayer: location-aware calculation with cached results, five-minute alerts
@@ -130,8 +132,9 @@ Audio, media, battery, profiles, Bluetooth and tray use native APIs. One
 Python stdlib helper samples `/proc`, filesystem and backlight state every
 three seconds. Status commands are shared across outputs, skip overlapping
 runs and have process-group timeouts; failed commands clear stale indicators.
-Removing modules stops their optional command sources. No notification server
-is created: Mako remains responsible for notifications.
+Removing modules stops their optional command sources. A shell-wide native
+Quickshell notification server handles popups and persistent history independently
+of bar visibility and the notifications module.
 
 The update cache lives at
 `${XDG_CACHE_HOME:-~/.cache}/quickshell/dofs/updates`.
