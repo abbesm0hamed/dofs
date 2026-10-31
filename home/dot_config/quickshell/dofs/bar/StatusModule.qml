@@ -104,18 +104,46 @@ Row {
     Component {
         id: monitoring
         Row {
+            id: monitoringGroup
+            property bool expanded: false
             height: root.height
-            Button {
-                visible: !!root.service.docker.value.text
-                width: visible ? implicitWidth : 0
-                icon: "󰡨"
-                text: root.statusLabel(root.service.docker)
-                tooltip: root.service.docker.plain(root.service.docker.value.tooltip)
-                onClicked: root.terminal(["lazydocker"])
+            Item {
+                id: metricsDrawer
+                objectName: "monitoringMetrics"
+                width: monitoringGroup.expanded ? metrics.width : 0
+                height: parent.height
+                clip: true
+                visible: width > 0
+                enabled: monitoringGroup.expanded
+                Behavior on width {
+                    NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                }
+                Row {
+                    id: metrics
+                    anchors.right: parent.right
+                    height: parent.height
+                    Button {
+                        visible: !!root.service.docker.value.text
+                        width: visible ? implicitWidth : 0
+                        icon: "󰡨"
+                        text: root.statusLabel(root.service.docker)
+                        tooltip: root.service.docker.plain(root.service.docker.value.tooltip)
+                        onClicked: root.terminal(["lazydocker"])
+                    }
+                    Button { icon: "󰋊"; text: root.percent(root.stats.storage); tooltip: "Home filesystem usage"; onClicked: root.terminal(["btop"]) }
+                    Button { icon: ""; text: root.percent(root.stats.memory); tooltip: "Memory: " + (root.stats.memoryUsedGiB || "—") + " / " + (root.stats.memoryTotalGiB || "—") + " GiB"; onClicked: root.terminal(["btop"]) }
+                    Button { icon: ""; text: root.percent(root.stats.cpu); tooltip: root.service.statsConnected ? "CPU usage" : "System sampler unavailable; retrying"; onClicked: root.terminal(["btop"]) }
+                }
             }
-            Button { icon: "󰋊"; text: root.percent(root.stats.storage); tooltip: "Home filesystem usage"; onClicked: root.terminal(["btop"]) }
-            Button { icon: ""; text: root.percent(root.stats.memory); tooltip: "Memory: " + (root.stats.memoryUsedGiB || "—") + " / " + (root.stats.memoryTotalGiB || "—") + " GiB"; onClicked: root.terminal(["btop"]) }
-            Button { icon: ""; text: root.percent(root.stats.cpu); tooltip: root.service.statsConnected ? "CPU usage" : "System sampler unavailable; retrying"; onClicked: root.terminal(["btop"]) }
+            Button {
+                objectName: "monitoringToggle"
+                icon: monitoringGroup.expanded ? "" : ""
+                tooltip: monitoringGroup.expanded ? "Hide performance metrics" : "Show performance metrics"
+                onClicked: button => {
+                    if (button === Qt.LeftButton)
+                        monitoringGroup.expanded = !monitoringGroup.expanded;
+                }
+            }
         }
     }
     Component {

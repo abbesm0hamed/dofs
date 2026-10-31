@@ -228,6 +228,48 @@ ShellRoot {
             BarIcon { required property string modelData; glyph: modelData; size: 13; height: 23 }
         }
     }
+    BarPalette { id: monitoringPalette }
+    Item {
+        id: monitoringFixture
+        width: 800
+        height: 23
+        Row {
+            id: monitoringLayout
+            anchors.right: parent.right
+            height: parent.height
+            Item { id: beforeMetrics; width: 20; height: parent.height }
+            StatusModule {
+                id: monitoringSample
+                name: "monitoring"
+                service: bar.service
+                palette: monitoringPalette
+                settings: bar.options
+                panel: null
+            }
+            Item { id: afterMetrics; width: 20; height: parent.height }
+        }
+    }
+    IpcHandler {
+        target: "monitoringTest"
+        function state(): string {
+            var group = monitoringSample.children[0].item;
+            var drawer = group.children[0];
+            var toggle = group.children[1];
+            // Hidden fixtures have no rendered frame to polish Row layouts.
+            drawer.children[0].forceLayout();
+            group.forceLayout();
+            monitoringSample.forceLayout();
+            monitoringLayout.forceLayout();
+            return JSON.stringify({expanded: group.expanded, width: drawer.width,
+                fullWidth: drawer.children[0].width, enabled: drawer.enabled,
+                visible: drawer.visible, icon: toggle.icon,
+                beforeX: beforeMetrics.mapToItem(monitoringFixture, 0, 0).x,
+                afterX: afterMetrics.mapToItem(monitoringFixture, 0, 0).x});
+        }
+        function click(button: string): void {
+            monitoringSample.children[0].item.children[1].clicked(button === "right" ? Qt.RightButton : Qt.LeftButton);
+        }
+    }
     IpcHandler {
         target: "iconTest"
         function metrics(): string {
@@ -293,6 +335,38 @@ ShellRoot {
                     self.assertAlmostEqual(max(sample['width'], sample['height']), sample['target'], places=5)
                     self.assertAlmostEqual(sample['centerX'], sample['boxWidth'] / 2, places=5)
                     self.assertAlmostEqual(sample['centerY'], sample['boxHeight'] / 2, places=5)
+                collapsed = json.loads(ipc('monitoringTest', 'state'))
+                self.assertFalse(collapsed['expanded'])
+                self.assertFalse(collapsed['visible'])
+                self.assertFalse(collapsed['enabled'])
+                self.assertEqual(collapsed['width'], 0)
+                self.assertEqual(collapsed['icon'], '')
+
+                def wait_drawer(expanded):
+                    deadline = time.monotonic() + 5
+                    while time.monotonic() < deadline:
+                        state = json.loads(ipc('monitoringTest', 'state'))
+                        target = state['fullWidth'] if expanded else 0
+                        if state['expanded'] == expanded and abs(state['width'] - target) < 0.01:
+                            return state
+                    self.fail('Metrics drawer did not settle')
+
+                ipc('monitoringTest', 'click', 'left')
+                expanded = wait_drawer(True)
+                self.assertTrue(expanded['visible'])
+                self.assertTrue(expanded['enabled'])
+                self.assertGreater(expanded['width'], 0)
+                self.assertEqual(expanded['icon'], '')
+                self.assertAlmostEqual(collapsed['beforeX'] - expanded['beforeX'], expanded['width'], msg=str((collapsed, expanded)))
+                self.assertAlmostEqual(collapsed['afterX'], expanded['afterX'])
+                ipc('monitoringTest', 'click', 'right')
+                self.assertTrue(json.loads(ipc('monitoringTest', 'state'))['expanded'])
+                ipc('monitoringTest', 'click', 'left')
+                restored_drawer = wait_drawer(False)
+                self.assertFalse(restored_drawer['visible'])
+                self.assertFalse(restored_drawer['enabled'])
+                self.assertEqual(restored_drawer['icon'], '')
+                self.assertAlmostEqual(restored_drawer['beforeX'], collapsed['beforeX'])
                 ipc('bar', 'hide')
                 self.assertFalse(json.loads(ipc('bar', 'status'))['shown'])
                 ipc('bar', 'toggle')

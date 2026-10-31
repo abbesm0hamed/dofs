@@ -88,7 +88,9 @@ indicators; `dofs update` calls it after updating.
 - Tray: native StatusNotifier icons, activation, right-click menus, middle
   clicks and scroll; ignores nm-applet/blueman-applet.
 - Monitoring: Docker containers, home-filesystem usage, memory and CPU. Click
-  Docker for lazydocker; other metrics open btop.
+  the left chevron to slide the metrics out to its left, pushing the preceding
+  modules aside; click the right chevron to collapse them again. Starts collapsed
+  on each output. Click Docker for lazydocker; other metrics open btop.
 - Brightness: scroll ±5%, with a 5% lower bound.
 - Audio: native PipeWire, tracks default-device changes; click mixer, right
   mute output, middle mute microphone, scroll output volume (capped at 100%).
