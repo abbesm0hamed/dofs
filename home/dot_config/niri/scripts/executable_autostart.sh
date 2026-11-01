@@ -94,18 +94,7 @@ if command -v cliphist &>/dev/null && command -v wl-paste &>/dev/null; then
     fi
 fi
 
-# Screen Idle / Lock
-if command -v swayidle &>/dev/null; then
-    if ! pgrep -x "swayidle" >/dev/null; then
-        echo "  → Starting swayidle..."
-        swayidle -w \
-            timeout 600 'niri msg action power-off-monitors' \
-            resume 'niri msg action power-on-monitors' \
-            timeout 900 "hyprlock" \
-            before-sleep "hyprlock" \
-            lock "hyprlock" &
-    fi
-fi
+# Quickshell owns native idle monitoring and session sleep/lock integration.
 
 # Audio Idle Inhibitor
 if command -v sway-audio-idle-inhibit &>/dev/null; then

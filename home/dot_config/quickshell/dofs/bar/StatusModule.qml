@@ -229,9 +229,11 @@ Row {
     Component {
         id: idle
         Button {
-            icon: root.service.idle.value.text === "on" ? "󰅶" : "󰾪"
-            tooltip: "Idle locking: " + (root.service.idle.error ? "unavailable" : root.service.idle.value.text || "checking") + "\nClick to toggle swayidle"
-            onClicked: root.command(["bash", root.service.configDir + "/niri/scripts/toggle-idle.sh"])
+            icon: root.service.idle.inhibited ? "󰾪" : "󰅶"
+            foreground: root.service.idle.inhibited ? root.palette.yellow : root.palette.text
+            tooltip: "Idle locking: " + (root.service.idle.inhibited ? "off · keeping awake" : "on")
+                + "\nClick to toggle" + (root.service.idle.error ? "\n" + root.service.idle.error : "")
+            onClicked: root.service.idle.toggle()
         }
     }
     Component { id: power; Button { icon: ""; tooltip: "Power menu"; onClicked: root.openEntry("power") } }

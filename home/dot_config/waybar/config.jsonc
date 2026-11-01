@@ -210,7 +210,7 @@
   "group/power": {
     "orientation": "horizontal",
     "modules": [
-      "custom/idle_inhibitor",
+      "idle_inhibitor",
       "custom/power"
     ],
     "on-scroll-up": "true",
@@ -223,13 +223,9 @@
       "wireplumber"
     ]
   },
-  "custom/idle_inhibitor": {
-    "format": "{}",
-    "return-type": "json",
-    "exec": "if systemctl --user is-active --quiet swayidle.service 2>/dev/null || pgrep -x swayidle >/dev/null 2>&1; then echo '{\"text\":\"<span rise=\\\"1000\\\">󰅶</span>\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"<span rise=\\\"1000\\\">󰾪</span>\",\"tooltip\":\"Idle: OFF\"}'; fi",
-    "interval": 5,
-    "on-click": "~/.config/waybar/scripts/toggle-idle.sh",
-    "signal": 10,
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": { "activated": "󰾪", "deactivated": "󰅶" },
     "on-scroll-up": "true",
     "on-scroll-down": "true"
   },

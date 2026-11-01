@@ -98,6 +98,84 @@ class LiveNotificationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         return True
 
+    def test_native_idle_toggle_updates_all_buttons_immediately_and_notifies(self):
+        if self.private_bus():
+            return
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            config = directory / 'shell'
+            shutil.copytree(SHELL, config)
+            (config / 'shell.qml').write_text('''import QtQuick
+import Quickshell
+import Quickshell.Io
+import "services"
+import "bar"
+import "notifications" as Notifications
+ShellRoot {
+    IdleService { id: idleService; active: false; sleepIntegration: false }
+    QtObject { id: service; property var idle: idleService }
+    BarPalette { id: colors }
+    Settings { id: barSettings }
+    Item {
+        width: 800; height: 24
+        StatusModule { id: first; name: "idle"; service: service; palette: colors; settings: barSettings.config; panel: null }
+        StatusModule { id: second; name: "idle"; service: service; palette: colors; settings: barSettings.config; panel: null }
+    }
+    Notifications.Settings { id: settings }
+    Notifications.Service { id: notifications; settings: settings }
+    IpcHandler {
+        target: "idleTest"
+        function toggle(): string { first.children[0].item.clicked(Qt.LeftButton); return state(); }
+        function state(): string {
+            return JSON.stringify({inhibited: idleService.inhibited,
+                icons: [first.children[0].item.icon, second.children[0].item.icon],
+                tooltips: [first.children[0].item.tooltip, second.children[0].item.tooltip],
+                ready: notifications.loaded, entries: notifications.entries, popups: notifications.popups.length});
+        }
+    }
+}''')
+            env = dict(os.environ, QT_QPA_PLATFORM='offscreen', QT_QUICK_BACKEND='software',
+                       XDG_STATE_HOME=str(directory / 'state'), PYTHONDONTWRITEBYTECODE='1')
+            log = directory / 'idle.log'
+            with log.open('w') as stream:
+                process = subprocess.Popen(['qs', '-p', str(config), '--no-color'], env=env,
+                                           stdout=stream, stderr=subprocess.STDOUT)
+            try:
+                def ipc(method):
+                    result = subprocess.run(['qs', '-p', str(config), 'ipc', 'call', 'idleTest', method],
+                                            env=env, capture_output=True, text=True, timeout=4)
+                    return result.stdout.strip()
+
+                def wait_state(predicate, timeout=5):
+                    deadline = time.monotonic() + timeout
+                    while time.monotonic() < deadline:
+                        reply = ipc('state')
+                        status = json.loads(reply) if reply.startswith('{') else None
+                        if status and predicate(status):
+                            return status
+                        if process.poll() is not None:
+                            self.fail(log.read_text())
+                    self.fail('Idle state did not converge: ' + str(status) + '\n' + log.read_text())
+
+                wait_state(lambda s: s['ready'] and not s['inhibited'])
+                for expected, summary, icon in ((True, 'Idle locking disabled', '󰾪'), (False, 'Idle locking enabled', '󰅶')):
+                    started = time.monotonic()
+                    immediate = json.loads(ipc('toggle'))
+                    self.assertEqual(immediate['inhibited'], expected)
+                    self.assertEqual(immediate['icons'], [icon, icon], 'both outputs update in the click handler')
+                    self.assertEqual(immediate['tooltips'][0], immediate['tooltips'][1])
+                    settled = wait_state(lambda s: s['inhibited'] == expected
+                                         and s['entries'] and s['entries'][0]['summary'] == summary)
+                    self.assertLess(time.monotonic() - started, 1, 'native state has no command or polling delay')
+                    self.assertGreater(settled['popups'], 0)
+                self.assertEqual(len(settled['entries']), 2)
+            finally:
+                process.terminate()
+                process.wait(timeout=8)
+            logs = log.read_text()
+            self.assertNotIn('WARN scene:', logs, logs)
+            self.assertNotIn('ERROR:', logs, logs)
+
     def test_popup_and_center_effective_content_insets_match(self):
         if self.private_bus():
             return

@@ -42,7 +42,7 @@ window#waybar {
 #temperature,
 #language,
 #bluetooth,
-#custom-idle_inhibitor,
+#idle_inhibitor,
 #custom-storage,
 #custom-next-prayer,
 #custom-notifications,
@@ -220,7 +220,7 @@ window#waybar {
   color: @green;
 }
 
-#custom-idle_inhibitor:hover {
+#idle_inhibitor:hover {
   color: @blue;
 }
 

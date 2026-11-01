@@ -12,7 +12,9 @@ configurations and do not deploy to `~/.config`.
    `upower` are declared in `ansible/roles/packages/vars/main.yml`; apply the
    package role with `make install-packages` if needed. The existing Python,
    coreutils, PipeWire, BlueZ, power-profiles-daemon, brightnessctl, nmcli, Cava,
-   libnotify and Nerd Font packages are also used.
+   libnotify and Nerd Font packages are also used. Native idle support requires
+   Quickshell 0.3.x; the sleep/lock bridge uses Fedora's `python3-dbus` and
+   `python3-gobject` packages.
 2. Review `make dotdiff`. Apply only the relevant shell/session files, not the
    entire home tree with `--force`:
 
@@ -23,7 +25,6 @@ configurations and do not deploy to `~/.config`.
      "$HOME/.config/niri/scripts/autostart.sh" \
      "$HOME/.config/niri/scripts/quickshell-launcher.sh" \
      "$HOME/.config/niri/scripts/toggle-bar.sh" \
-     "$HOME/.config/niri/scripts/toggle-idle.sh" \
      "$HOME/.config/niri/scripts/set-theme.sh" \
      "$HOME/.config/niri/scripts/system-controls.sh" \
      "$HOME/.config/niri/scripts/screencast.sh" \
@@ -39,7 +40,7 @@ configurations and do not deploy to `~/.config`.
    bash "$HOME/.config/niri/scripts/quickshell-launcher.sh" --start
    ```
 
-    Launcher, bar and notification IPC readiness must succeed. This same idempotent wrapper
+    Launcher, bar, notification and idle IPC readiness must succeed. This same idempotent wrapper
    runs at login. Restart the instance after a QML/IPC update; do not rely on
    hot reload to replace a live IPC API. `make bar-reload` also restarts it.
 
@@ -103,7 +104,9 @@ indicators; `dofs update` calls it after updating.
 - Notifications: native unread count; click to toggle the notification center,
   right-click to toggle do not disturb. See [notifications](quickshell-notifications.md)
   for persistent history, privacy rules and migration from the previous daemon.
-- Idle: click to toggle swayidle.
+- Idle: click to toggle keep-awake using native Wayland inhibition. The icon
+  changes immediately and a notification confirms automatic idle locking is
+  enabled/disabled. All outputs and the system-controls menu share this state.
 - Power: power menu. Clock: minute-resolution local time and full-date tooltip.
   Prayer: location-aware calculation with cached results, five-minute alerts
   and external API requests.
@@ -136,12 +139,36 @@ Removing modules stops their optional command sources. A shell-wide native
 Quickshell notification server handles popups and persistent history independently
 of bar visibility and the notifications module.
 
+Idle handling uses Quickshell's `IdleMonitor`: monitors turn off after 10 minutes
+and Hyprlock starts after 15 minutes, matching the session's previous defaults.
+Activity restores the monitors. The bar's `IdleInhibitor` also advertises
+keep-awake to other Wayland clients; the shell disables its own timers directly,
+so inhibition remains effective even with the bar hidden. Other applications'
+Wayland inhibitors are respected. Removing the idle **button** does not disable
+automatic locking. Keep-awake resets to off when the shell restarts.
+
+`session-lock.py` only handles logind `Lock` and `PrepareForSleep` signals. It
+keeps a sleep-delay inhibitor until Niri confirms `LockedHint`, then releases it;
+it reacquires the inhibitor on resume. Manual/lid-close sleep still locks even
+when keep-awake is on. Logind's maximum delay still applies if the locker fails.
+This bridge is independent of the idle timers and never polls for processes.
+
+When migrating an existing session, stop the previously configured external idle
+daemon (or log out after applying) to avoid duplicate idle actions. Its package
+is no longer installed by Ansible; existing installations are not automatically
+uninstalled. The retired idle launch/toggle scripts have been removed from the
+source tree. Keep Hyprlock installed: it remains the screen locker.
+
+Idle IPC: `qs -c dofs ipc call idle toggle`, `inhibited`, or `status`. The system
+controls menu uses this same API; toggling never starts or stops a daemon.
+
 The update cache lives at
 `${XDG_CACHE_HOME:-~/.cache}/quickshell/dofs/updates`.
 
 ```sh
 node scripts/tests/niri-state.test.cjs
 python3 -B -m unittest discover -s scripts/tests -p 'test_quickshell_bar.py' -v
+python3 -B scripts/tests/test_session_lock.py -v
 # Optional live Wayland tests: copied config, hidden panels, scripts disabled.
 DOFS_QML_TEST=1 python3 -B -m unittest discover -s scripts/tests -p 'test_quickshell_bar.py' -v
 ```
@@ -150,13 +177,20 @@ Tested: package configuration, stats, stable-ID action protocol, wrapper startup
 IPC error handling, command JSON/Pango decoding and hard timeout of a process
 that ignores SIGTERM, real QML loading on Quickshell 0.3.2, launcher/bar readiness,
 hide/toggle, initial Niri state, event-stream reconnect, valid/invalid settings
-and palette reload, built-in theme outputs and dependency boundaries.
+and palette reload, built-in theme outputs and dependency boundaries. Native
+idle tests cover immediate cross-output icon updates and notifications, hidden
+panel inhibition, mocked monitor/lock actions, and a private-logind test of
+sleep-delay FD lifetime, lock confirmation, resume and parent exit. No test
+locks or suspends the real desktop.
 The bar was visually checked on the
 1920×1200 eDP-1 output at 1× scale. Tests do not click hardware controls or run
 the update/prayer scripts. Still manual: fractional scaling, tray app interactions, physical
 monitor hotplug, suspend/resume and a complete fresh login.
 
 ## References
+
+- Native [idle monitoring](https://quickshell.org/docs/v0.3.1/types/Quickshell.Wayland/IdleMonitor/)
+  and [idle inhibition](https://quickshell.org/docs/v0.3.1/types/Quickshell.Wayland/IdleInhibitor/).
 
 - [Quickshell panels](https://quickshell.org/docs/v0.2.1/types/Quickshell/PanelWindow/),
   [popup anchors](https://quickshell.org/docs/v0.2.1/types/Quickshell/PopupAnchor/),

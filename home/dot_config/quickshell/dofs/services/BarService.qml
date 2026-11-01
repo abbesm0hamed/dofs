@@ -81,5 +81,5 @@ Scope {
     // Quickshell has no NetworkManager API in the supported release. One shared
     // nmcli snapshot is sufficient; no connection subprocesses per widget.
     CommandStatus { id: network; enabled: !root.testing && root.has("connectivity"); command: ["nmcli", "--terse", "--fields", "DEVICE,TYPE,STATE,CONNECTION", "device", "status"]; interval: 10000; json: false }
-    CommandStatus { id: idle; enabled: !root.testing && root.has("idle"); command: ["sh", "-c", "if pgrep -x swayidle >/dev/null; then printf on; else printf off; fi"]; interval: 5000; json: false }
+    IdleService { id: idle; active: !root.testing }
 }

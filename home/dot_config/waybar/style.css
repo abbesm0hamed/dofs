@@ -161,7 +161,7 @@ window#waybar {
   color: @green;
 }
 
-#custom-idle_inhibitor:hover {
+#idle_inhibitor:hover {
   color: @blue;
 }
 

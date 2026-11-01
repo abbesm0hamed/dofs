@@ -91,6 +91,9 @@ dnf_packages:
 
   # development.txt
   - python
+  # Quickshell's logind sleep/lock bridge (Wayland idle handling is native).
+  - python3-dbus
+  - python3-gobject
   - python3-pip
   - python-virtualenv
   - gh
@@ -199,7 +202,6 @@ dnf_packages:
   - wf-recorder
   - satty
   - hyprlock
-  - swayidle
   - wlogout
   - cliphist
   - gammastep

@@ -9,10 +9,6 @@ export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
 
 SELF="$HOME/.config/niri/scripts/system-controls.sh"
 
-is_user_unit_active() {
-    systemctl --user is-active --quiet "$1" 2>/dev/null
-}
-
 night_light_is_on() {
     pgrep -x gammastep >/dev/null 2>&1 \
         || pgrep -x gammastep-indicator >/dev/null 2>&1 \
@@ -20,10 +16,10 @@ night_light_is_on() {
 }
 
 idle_desc() {
-    if is_user_unit_active swayidle.service || pgrep -x swayidle >/dev/null 2>&1; then
-        echo "Idle mode is ON - turn OFF"
-    else
+    if [[ $(timeout 2s qs -c dofs ipc call idle inhibited 2>/dev/null) == true ]]; then
         echo "Idle mode is OFF - turn ON"
+    else
+        echo "Idle mode is ON - turn OFF"
     fi
 }
 
@@ -48,24 +44,9 @@ bluetooth_desc() {
 }
 
 toggle_idle_mode() {
-    if is_user_unit_active swayidle.service; then
-        systemctl --user stop swayidle.service
-        notify-send "System Controls" "Idle mode disabled" -i "system-suspend"
-    elif pgrep -x swayidle >/dev/null 2>&1; then
-        pkill -x swayidle
-        notify-send "System Controls" "Idle mode disabled" -i "system-suspend"
-    else
-        if systemctl --user list-unit-files swayidle.service >/dev/null 2>&1; then
-            systemctl --user start swayidle.service
-        else
-            swayidle -w \
-                timeout 600 'niri msg action power-off-monitors' \
-                resume 'niri msg action power-on-monitors' \
-                timeout 300 'hyprlock' \
-                before-sleep 'hyprlock' &
-        fi
-        notify-send "System Controls" "Idle mode enabled" -i "system-suspend"
-    fi
+    local reply
+    reply=$(timeout 2s qs -c dofs ipc call idle toggle 2>&1) || return 1
+    [[ -z $reply ]] || { printf '%s\n' "$reply" >&2; return 1; }
 }
 
 toggle_night_light() {

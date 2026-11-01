@@ -21,6 +21,10 @@ PanelWindow {
     visible: shown && Quickshell.env("DOFS_BAR_TEST") !== "1"
     color: palette.background
     readonly property var workspaces: service.niri.workspacesOn(screen.name)
+    IdleInhibitor {
+        window: root
+        enabled: root.service.idle.inhibited
+    }
     Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: root.palette.border }
     Row {
         id: left

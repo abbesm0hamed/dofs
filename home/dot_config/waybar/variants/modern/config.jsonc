@@ -205,17 +205,13 @@
     "group/power": {
         "orientation": "horizontal",
         "modules": [
-            "custom/idle_inhibitor",
+            "idle_inhibitor",
             "custom/power"
         ]
     },
-    "custom/idle_inhibitor": {
-        "format": "{}",
-        "return-type": "json",
-        "exec": "if systemctl --user is-active --quiet swayidle.service 2>/dev/null || pgrep -x swayidle >/dev/null 2>&1; then echo '{\"text\":\"󰅶\",\"tooltip\":\"Idle: ON\"}'; else echo '{\"text\":\"󰾪\",\"tooltip\":\"Idle: OFF\"}'; fi",
-        "interval": 5,
-        "on-click": "~/.config/waybar/scripts/toggle-idle.sh",
-        "signal": 10
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": { "activated": "󰾪", "deactivated": "󰅶" }
     },
     "custom/weather": {
         "format": "{}",

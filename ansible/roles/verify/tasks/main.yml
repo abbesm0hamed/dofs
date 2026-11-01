@@ -6,7 +6,6 @@
     - qs
     - xwayland-satellite
     - hyprlock
-    - swayidle
     - ghostty
     - fnm
     - bun

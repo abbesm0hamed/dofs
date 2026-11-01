@@ -18,6 +18,69 @@ SHELL = ROOT / 'home/dot_config/quickshell/dofs'
 WRAPPER = ROOT / 'home/dot_config/niri/scripts/executable_quickshell-launcher.sh'
 
 
+class IdleTests(unittest.TestCase):
+    def setUp(self):
+        spec = importlib.util.spec_from_file_location('session_lock', SHELL / 'services/session-lock.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.readers = []
+        self.locked = False
+        self.locks = 0
+        self.events = []
+
+        def acquire():
+            read, write = os.pipe()
+            os.set_blocking(read, False)
+            self.readers.append(read)
+            return write
+
+        def lock():
+            self.locks += 1
+
+        self.guard = module.SleepGuard(acquire, lambda: self.locked, lock, self.events.append)
+        self.guard.acquire()
+
+    def tearDown(self):
+        self.guard.release()
+        for read in self.readers:
+            os.close(read)
+
+    def test_sleep_waits_for_compositor_lock_confirmation(self):
+        self.guard.prepare_sleep(True)
+        self.assertEqual(self.locks, 1)
+        self.guard.locked_changed(False)
+        with self.assertRaises(BlockingIOError):
+            os.read(self.readers[0], 1)
+        self.guard.locked_changed(True)
+        self.assertEqual(os.read(self.readers[0], 1), b'')
+        self.assertIsNone(self.guard.fd)
+
+    def test_already_locked_session_can_sleep_immediately(self):
+        self.locked = True
+        self.guard.prepare_sleep(True)
+        self.assertEqual(self.locks, 0)
+        self.assertIsNone(self.guard.fd)
+
+    def test_resume_reacquires_sleep_guard(self):
+        self.guard.prepare_sleep(True)
+        self.guard.locked_changed(True)
+        self.guard.prepare_sleep(False)
+        self.assertEqual(len(self.readers), 2)
+        self.assertEqual(self.events, [{'type': 'resume'}])
+        self.guard.locked_changed(True)  # Ordinary locking must not drop the next sleep's guard.
+        self.assertIsNotNone(self.guard.fd)
+
+    def test_idle_is_native_and_not_tied_to_button_presence(self):
+        service = (SHELL / 'services/IdleService.qml').read_text()
+        self.assertEqual(service.count('IdleMonitor {'), 2)
+        self.assertIn('respectInhibitors: true', service)
+        self.assertIn('IdleInhibitor {', (SHELL / 'bar/Bar.qml').read_text())
+        self.assertIn('IdleService { id: idle; active: !root.testing }', (SHELL / 'services/BarService.qml').read_text())
+        self.assertNotIn('pgrep', service)
+        self.assertNotIn('CommandStatus', service)
+        self.assertIn('target: "idle"', (SHELL / 'shell.qml').read_text())
+
+
 class BarTests(unittest.TestCase):
     def test_sampler(self):
         spec = importlib.util.spec_from_file_location('stats', SHELL / 'services/system-stats.py')
@@ -154,6 +217,99 @@ elif os.environ.get('FAIL_IPC') == '1': print('error: handler unavailable')
 
 @unittest.skipUnless(os.environ.get('DOFS_QML_TEST') == '1', 'requires a live Wayland session and qs')
 class LiveBarTests(unittest.TestCase):
+    def test_native_idle_policy_with_hidden_panel_and_mock_actions(self):
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            shutil.copytree(SHELL / 'services', directory / 'services')
+            binary_dir = directory / 'bin'
+            binary_dir.mkdir()
+            calls = directory / 'calls'
+            for name in ('niri', 'hyprlock'):
+                binary = binary_dir / name
+                binary.write_text('#!/bin/sh\nprintf "%s\\n" "${0##*/} $*" >> "$IDLE_CALLS"\n')
+                binary.chmod(0o700)
+            (directory / 'shell.qml').write_text('''import Quickshell
+import Quickshell.Io
+import Quickshell.Wayland
+import "services"
+ShellRoot {
+    IdleService { id: idle; sleepIntegration: false; screenTimeout: 3600; lockTimeout: 3600 }
+    PanelWindow {
+        id: panel
+        visible: false
+        IdleInhibitor { id: inhibitor; window: panel; enabled: idle.inhibited }
+    }
+    IpcHandler {
+        target: "idleTest"
+        function state(): string {
+            return JSON.stringify({enabled: idle.timersEnabled, inhibited: idle.inhibited,
+                advertised: inhibitor.enabled, visible: panel.visible, error: idle.error});
+        }
+        function exercise(): string {
+            idle.screenIdleChanged(true);
+            var poweredOff = idle.monitorsOff;
+            idle.inhibited = true;
+            var restored = !idle.monitorsOff;
+            idle.screenIdleChanged(true);
+            return JSON.stringify({poweredOff: poweredOff, restored: restored,
+                stayedAwake: !idle.monitorsOff, enabled: idle.timersEnabled});
+        }
+        function lock(): void { idle.lock(); }
+        function enable(): void { idle.inhibited = false; }
+    }
+}''')
+            env = dict(os.environ, QT_QPA_PLATFORM='wayland', IDLE_CALLS=str(calls),
+                       PATH=str(binary_dir) + ':' + os.environ['PATH'])
+            log = directory / 'idle.log'
+            with log.open('w') as stream:
+                process = subprocess.Popen(['qs', '-p', str(directory), '--no-color'], env=env,
+                                           stdout=stream, stderr=subprocess.STDOUT)
+            try:
+                def ipc(method):
+                    result = subprocess.run(['qs', '-p', str(directory), 'ipc', 'call', 'idleTest', method],
+                                            env=env, capture_output=True, text=True, timeout=4)
+                    return result.stdout.strip()
+
+                deadline = time.monotonic() + 10
+                while time.monotonic() < deadline:
+                    reply = ipc('state')
+                    if reply.startswith('{'):
+                        break
+                    if process.poll() is not None:
+                        self.fail(log.read_text())
+                else:
+                    self.fail(log.read_text())
+                initial = json.loads(reply)
+                self.assertTrue(initial['enabled'])
+                self.assertFalse(initial['visible'])
+                self.assertEqual(initial['error'], '')
+                self.assertEqual(json.loads(ipc('exercise')),
+                                 dict(poweredOff=True, restored=True, stayedAwake=True, enabled=False))
+                inhibited = json.loads(ipc('state'))
+                self.assertTrue(inhibited['inhibited'])
+                self.assertTrue(inhibited['advertised'])
+                self.assertFalse(inhibited['visible'])
+                ipc('lock')  # Explicit/sleep locks remain possible while keep-awake is on.
+                deadline = time.monotonic() + 5
+                while time.monotonic() < deadline:
+                    lines = calls.read_text().splitlines() if calls.exists() else []
+                    if len(lines) == 3:
+                        break
+                else:
+                    self.fail('Missing mocked idle actions: ' + str(lines))
+                self.assertCountEqual(lines, ['niri msg action power-off-monitors', 'niri msg action power-on-monitors',
+                                              'hyprlock --immediate-render --no-fade-in'])
+                ipc('enable')
+                restored = json.loads(ipc('state'))
+                self.assertTrue(restored['enabled'])
+                self.assertFalse(restored['inhibited'])
+            finally:
+                process.terminate()
+                process.wait(timeout=8)
+            logs = log.read_text()
+            self.assertNotIn('WARN scene:', logs, logs)
+            self.assertNotIn('ERROR:', logs, logs)
+
     def test_command_output_and_hard_timeout(self):
         with tempfile.TemporaryDirectory() as directory:
             directory = Path(directory)

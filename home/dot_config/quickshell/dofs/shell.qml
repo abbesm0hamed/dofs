@@ -50,6 +50,17 @@ ShellRoot {
     }
 
     IpcHandler {
+        target: "idle"
+        function ping(): string { return "ready"; }
+        function toggle(): void { bar.service.idle.toggle(); }
+        function inhibited(): bool { return bar.service.idle.inhibited; }
+        function status(): string {
+            return JSON.stringify({inhibited: bar.service.idle.inhibited,
+                enabled: bar.service.idle.timersEnabled, error: bar.service.idle.error});
+        }
+    }
+
+    IpcHandler {
         target: "notifications"
         function ping(): string { return "ready"; }
         function open(): void { notificationHost.open(); }
