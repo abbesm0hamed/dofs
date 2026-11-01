@@ -66,7 +66,7 @@ Row {
         Button {
             visible: !!root.service.player
             width: visible ? implicitWidth : 0
-            icon: root.service.player && root.service.player.isPlaying ? "󰐊" : "󰏤"
+            icon: root.service.player && root.service.player.isPlaying ? "󰏤" : "󰐊"
             tooltip: root.service.player ? [root.service.player.identity, root.service.player.trackTitle, root.service.player.trackArtist].filter(Boolean).join("\n") : ""
             onClicked: button => {
                 var p = root.service.player;
