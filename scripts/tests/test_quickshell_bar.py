@@ -125,6 +125,40 @@ class BarTests(unittest.TestCase):
         self.assertTrue((ROOT / 'home/dot_config/waybar/config.jsonc').is_file())
         self.assertNotIn('run_once waybar', (ROOT / 'home/dot_config/niri/scripts/executable_autostart.sh').read_text())
 
+    def test_power_menu_provider_uses_native_session_actions(self):
+        with tempfile.TemporaryDirectory() as directory:
+            home = Path(directory)
+            config = home / '.config'
+            scripts = config / 'niri/scripts'
+            scripts.mkdir(parents=True)
+            shutil.copy2(ROOT / 'home/dot_config/niri/scripts/executable_menu-lib.sh', scripts / 'menu-lib.sh')
+            binaries = home / '.local/bin'
+            binaries.mkdir(parents=True)
+            actions = home / 'unexpected-actions'
+            for name in ('bash', 'niri', 'systemctl', 'qs'):
+                binary = binaries / name
+                binary.write_text('#!/bin/sh\nprintf "%s\\n" "$0 $*" >> "$ACTIONS"\nexit 99\n')
+                binary.chmod(0o700)
+            # Run only the provider. Generating menu entries must never execute
+            # a power action, start a locker, or terminate the desktop session.
+            result = subprocess.run(['/usr/bin/bash', str(SHELL / 'scripts/executable_power-menu.sh')],
+                                    env=dict(os.environ, HOME=str(home), XDG_CONFIG_HOME=str(config), ACTIONS=str(actions)),
+                                    capture_output=True, text=True, timeout=5)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertFalse(actions.exists(), 'opening the menu must not execute an action')
+            entries = [json.loads(line) for line in result.stdout.splitlines()]
+            self.assertEqual([(entry['name'], entry['command']) for entry in entries], [
+                ('Lock screen', ['bash', str(config / 'quickshell/dofs/scripts/lock-screen.sh')]),
+                ('Log out', ['niri', 'msg', 'action', 'quit']),
+                ('Suspend', ['systemctl', 'suspend']),
+                ('Reboot', ['systemctl', 'reboot']),
+                ('Shut down', ['systemctl', 'poweroff']),
+            ])
+            binds = (ROOT / 'home/dot_config/niri/binds.kdl').read_text()
+            self.assertIn('Alt+L { spawn "sh" "-c" "~/.config/niri/scripts/quickshell-launcher.sh power"; }', binds)
+            self.assertIn('"menu": ["~/.config/quickshell/dofs/scripts/power-menu.sh"]',
+                          (SHELL / 'launcher/entries.jsonc').read_text())
+
     def test_active_shell_has_no_legacy_bar_dependencies(self):
         files = [p for p in SHELL.rglob('*') if p.is_file()]
         files += [ROOT / p for p in (

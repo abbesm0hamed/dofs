@@ -201,7 +201,6 @@ dnf_packages:
   - wl-clipboard
   - wf-recorder
   - satty
-  - wlogout
   - cliphist
   - gammastep
   - wlsunset

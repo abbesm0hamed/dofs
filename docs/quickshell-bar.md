@@ -108,7 +108,9 @@ indicators; `dofs update` calls it after updating.
 - Idle: click to toggle keep-awake using native Wayland inhibition. The icon
   changes immediately and a notification confirms automatic idle locking is
   enabled/disabled. All outputs and the system-controls menu share this state.
-- Power: power menu. Clock: minute-resolution local time and full-date tooltip.
+- Power: the built-in launcher menu for lock, logout, suspend, reboot and shutdown;
+  also available with `Alt+L`. No separate logout-menu application is needed.
+  Clock: minute-resolution local time and full-date tooltip.
   Prayer: location-aware calculation with cached results, five-minute alerts
   and external API requests.
 
