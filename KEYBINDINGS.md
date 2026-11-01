@@ -5,7 +5,7 @@
 | `Alt+A                    `         | `helium --app=https://chatgpt.com                            `                                                                                                              |
 | `Alt+Ctrl+A               `         | `sh -c ~/.config/niri/scripts/screencast.sh toggle-audio-only`                                                                                                              |
 | `Alt+Ctrl+D               `         | `wayscriber --active --no-tray                               `                                                                                                              |
-| `Alt+Ctrl+L               `         | `hyprlock                                                    `                                                                                                              |
+| `Alt+Ctrl+L` | Lock the session with Quickshell |
 | `Alt+Ctrl+P               `         | `sh -c hyprpicker -a                                         `                                                                                                              |
 | `Alt+Ctrl+Shift+R         `         | `sh -c ~/.config/niri/scripts/screencast.sh stop             `                                                                                                              |
 | `Alt+Ctrl+T               `         | `sh -c ~/.config/niri/scripts/quickshell-launcher.sh themes  `                                                                                                              |

@@ -7,7 +7,7 @@
   { "id": "bluetooth", "name": "Bluetooth settings", "description": "Manage Bluetooth devices", "icon": "preferences-system-bluetooth", "keywords": "headphones pairing", "command": ["blueman-manager"] },
   { "id": "mute", "name": "Toggle speaker mute", "description": "Default audio output", "icon": "audio-volume-muted", "keywords": "sound volume", "command": ["wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"] },
   { "id": "mic", "name": "Toggle microphone mute", "description": "Default audio input", "icon": "microphone-sensitivity-muted", "keywords": "privacy recording", "command": ["wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "toggle"] },
-  { "id": "lock", "name": "Lock screen", "description": "Lock this session", "icon": "system-lock-screen", "keywords": "privacy hyprlock", "command": ["hyprlock"] },
+  { "id": "lock", "name": "Lock screen", "description": "Lock this session", "icon": "system-lock-screen", "keywords": "privacy quickshell", "command": ["bash", "~/.config/quickshell/dofs/scripts/lock-screen.sh"] },
   { "id": "github", "name": "Open GitHub", "description": "github.com", "icon": "web-browser", "keywords": "code repositories quicklink", "command": ["xdg-open", "https://github.com"] },
 
   // Menus: "menu" runs a provider script that prints one JSON item per line.

@@ -106,11 +106,13 @@ def fixture():
         with tempfile.TemporaryDirectory() as directory:
             directory = Path(directory)
             calls = directory / 'locks'
-            binary = directory / 'hyprlock'
+            config = directory / 'config'
+            binary = config / 'quickshell/dofs/scripts/lock-screen.sh'
+            binary.parent.mkdir(parents=True)
             binary.write_text('#!/bin/sh\nprintf "lock\\n" >> "$LOCK_CALLS"\n')
             binary.chmod(0o700)
             env = dict(os.environ, DBUS_SYSTEM_BUS_ADDRESS=os.environ['DBUS_SESSION_BUS_ADDRESS'],
-                       PATH=str(directory) + ':' + os.environ['PATH'], LOCK_CALLS=str(calls))
+                       XDG_CONFIG_HOME=str(config), LOCK_CALLS=str(calls))
             # Cover the systemd user-service path with no XDG_SESSION_ID.
             env.pop('XDG_SESSION_ID', None)
             process = subprocess.Popen(['/usr/bin/python3', '-B', '-u', str(BRIDGE)], env=env,

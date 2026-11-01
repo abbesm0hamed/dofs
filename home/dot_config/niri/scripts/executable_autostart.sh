@@ -77,6 +77,7 @@ bash "$HOME/.config/niri/scripts/wallpaper.sh" --restore --silent &
 
 # Core Services
 bash "$HOME/.config/niri/scripts/quickshell-launcher.sh" --start || true
+bash "${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/dofs/scripts/lock-screen.sh" --start || true
 
 # Polkit Agent
 POLKIT_AGENT="/usr/libexec/polkit-gnome-authentication-agent-1"

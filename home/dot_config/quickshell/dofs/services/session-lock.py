@@ -79,7 +79,9 @@ def main():
         if is_locked() or locker is not None:
             return
         try:
-            locker = Gio.Subprocess.new(['hyprlock', '--immediate-render', '--no-fade-in'],
+            config_dir = os.environ.get('XDG_CONFIG_HOME') or os.path.expanduser('~/.config')
+            command = ['bash', os.path.join(config_dir, 'quickshell/dofs/scripts/lock-screen.sh')]
+            locker = Gio.Subprocess.new(command,
                                         Gio.SubprocessFlags.STDIN_PIPE | Gio.SubprocessFlags.STDOUT_SILENCE
                                         | Gio.SubprocessFlags.STDERR_SILENCE)
             locker.get_stdin_pipe().close(None)

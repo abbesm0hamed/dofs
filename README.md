@@ -101,7 +101,7 @@ This setup includes:
 - **xdg-desktop-portal-gnome** for better screen sharing
 - **GDM** (GNOME Display Manager) with Niri session support
 - **Optimized autostart** with proper service ordering
-- **Hyprlock** with blur effects for secure screen locking
+- **Quickshell lockscreen** with native Wayland locking, password/fingerprint PAM authentication, and a blurred wallpaper background ([setup](docs/quickshell-lockscreen.md))
 
 ### Single-Command Installation
 

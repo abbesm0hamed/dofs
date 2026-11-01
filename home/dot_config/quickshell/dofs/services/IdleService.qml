@@ -36,7 +36,7 @@ Scope {
     function lock() {
         if (!active) return;
         if (sleepReady) sleepBridge.write("lock\n");
-        else Quickshell.execDetached(["hyprlock", "--immediate-render", "--no-fade-in"]);
+        else Quickshell.execDetached(["bash", (Quickshell.env("XDG_CONFIG_HOME") || Quickshell.env("HOME") + "/.config") + "/quickshell/dofs/scripts/lock-screen.sh"]);
     }
     onInhibitedChanged: if (inhibited) wake()
 

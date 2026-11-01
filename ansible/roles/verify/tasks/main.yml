@@ -5,7 +5,6 @@
     - niri
     - qs
     - xwayland-satellite
-    - hyprlock
     - ghostty
     - fnm
     - bun
@@ -23,9 +22,22 @@
   loop:
     - .config/niri/config.kdl
     - .config/quickshell/dofs/shell.qml
+    - .config/quickshell/dofs-lock/shell.qml
     - .config/quickshell/dofs/bar/config.json
     - .config/quickshell/dofs/notifications/config.json
   register: config_stats
+  tags: verify
+
+- name: Verify Quickshell locker PAM configuration
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/test
+      - -r
+      - "/etc/pam.d/{{ item }}"
+  loop:
+    - dofs-lock
+    - dofs-lock-fingerprint
+  changed_when: false
   tags: verify
 
 - name: Verify Configuration Files Exist

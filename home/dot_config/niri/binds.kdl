@@ -39,7 +39,7 @@
     Alt+T { spawn "flatpak" "run" "com.github.IsmaelMartinez.teams_for_linux"; } // Teams for linux
     Alt+Mod+V { spawn "evince"; }  // Quick PDF viewer launch
     Alt+Ctrl+L {
-       spawn "hyprlock"
+       spawn "sh" "-c" "bash \"${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/dofs/scripts/lock-screen.sh\""
     }
 
     // Screenshots

@@ -21,6 +21,7 @@ configurations and do not deploy to `~/.config`.
    ```sh
    chezmoi apply --recursive --source "$PWD/home" \
      "$HOME/.config/quickshell/dofs" \
+     "$HOME/.config/quickshell/dofs-lock" \
      "$HOME/.config/niri/binds.kdl" \
      "$HOME/.config/niri/scripts/autostart.sh" \
      "$HOME/.config/niri/scripts/quickshell-launcher.sh" \
@@ -140,7 +141,8 @@ Quickshell notification server handles popups and persistent history independent
 of bar visibility and the notifications module.
 
 Idle handling uses Quickshell's `IdleMonitor`: monitors turn off after 10 minutes
-and Hyprlock starts after 15 minutes, matching the session's previous defaults.
+and the native Quickshell locker starts after 15 minutes, matching the session's
+previous defaults.
 Activity restores the monitors. The bar's `IdleInhibitor` also advertises
 keep-awake to other Wayland clients; the shell disables its own timers directly,
 so inhibition remains effective even with the bar hidden. Other applications'
@@ -157,7 +159,9 @@ When migrating an existing session, stop the previously configured external idle
 daemon (or log out after applying) to avoid duplicate idle actions. Its package
 is no longer installed by Ansible; existing installations are not automatically
 uninstalled. The retired idle launch/toggle scripts have been removed from the
-source tree. Keep Hyprlock installed: it remains the screen locker.
+source tree. Screen locking is now handled by the separate `dofs-lock` Quickshell
+instance; see [lockscreen setup and recovery](quickshell-lockscreen.md) before
+deploying the new lock commands. Install its PAM services first.
 
 Idle IPC: `qs -c dofs ipc call idle toggle`, `inhibited`, or `status`. The system
 controls menu uses this same API; toggling never starts or stops a daemon.

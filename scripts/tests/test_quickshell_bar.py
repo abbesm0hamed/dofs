@@ -224,10 +224,13 @@ class LiveBarTests(unittest.TestCase):
             binary_dir = directory / 'bin'
             binary_dir.mkdir()
             calls = directory / 'calls'
-            for name in ('niri', 'hyprlock'):
+            for name in ('niri',):
                 binary = binary_dir / name
                 binary.write_text('#!/bin/sh\nprintf "%s\\n" "${0##*/} $*" >> "$IDLE_CALLS"\n')
                 binary.chmod(0o700)
+            lock_script = directory / 'config/quickshell/dofs/scripts/lock-screen.sh'
+            lock_script.parent.mkdir(parents=True)
+            lock_script.write_text('#!/bin/sh\nprintf "lock-screen\\n" >> "$IDLE_CALLS"\n')
             (directory / 'shell.qml').write_text('''import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
@@ -258,7 +261,7 @@ ShellRoot {
         function enable(): void { idle.inhibited = false; }
     }
 }''')
-            env = dict(os.environ, QT_QPA_PLATFORM='wayland', IDLE_CALLS=str(calls),
+            env = dict(os.environ, QT_QPA_PLATFORM='wayland', IDLE_CALLS=str(calls), XDG_CONFIG_HOME=str(directory / 'config'),
                        PATH=str(binary_dir) + ':' + os.environ['PATH'])
             log = directory / 'idle.log'
             with log.open('w') as stream:
@@ -298,7 +301,7 @@ ShellRoot {
                 else:
                     self.fail('Missing mocked idle actions: ' + str(lines))
                 self.assertCountEqual(lines, ['niri msg action power-off-monitors', 'niri msg action power-on-monitors',
-                                              'hyprlock --immediate-render --no-fade-in'])
+                                              'lock-screen'])
                 ipc('enable')
                 restored = json.loads(ipc('state'))
                 self.assertTrue(restored['enabled'])

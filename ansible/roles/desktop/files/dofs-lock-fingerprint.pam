@@ -1,0 +1,2 @@
+# Independent fingerprint conversation so password entry is never blocked by scanning.
+auth        required      pam_fprintd.so max-tries=3 timeout=30

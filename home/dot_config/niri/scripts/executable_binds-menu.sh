@@ -14,7 +14,7 @@ count=0
 #   Mod+Return { spawn "wezterm"; }
 # and multi-line blocks like:
 #   Alt+Ctrl+L {
-#       spawn "hyprlock"
+#       spawn "sh" "-c" "~/.config/quickshell/dofs/scripts/lock-screen.sh"
 #   }
 while IFS=$'\t' read -r trigger action; do
     [[ -n $trigger && -n $action ]] || continue

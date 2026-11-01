@@ -9,10 +9,6 @@ output_path = '~/.config/quickshell/dofs/bar/theme.json'
 input_path = './templates/niri.kdl'
 output_path = '~/.config/niri/colors.kdl'
 
-[templates.hyprlock]
-input_path = './templates/hyprlock.conf'
-output_path = '~/.config/hypr/hyprlock.conf'
-
 [config.custom_colors.warning]
 color = "#f9e2af"
 blend = true

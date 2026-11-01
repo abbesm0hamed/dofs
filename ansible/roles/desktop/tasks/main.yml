@@ -168,9 +168,15 @@
       ignore_errors: true
 
 
-- name: Configure PAM for Hyprlock
+- name: Configure PAM for the Quickshell locker
   copy:
-    src: hyprlock.pam
-    dest: /etc/pam.d/hyprlock
+    src: "{{ item }}.pam"
+    dest: "/etc/pam.d/{{ item }}"
+    owner: root
+    group: root
     mode: '0644'
+  loop:
+    - dofs-lock
+    - dofs-lock-fingerprint
   become: true
+  tags: lockscreen

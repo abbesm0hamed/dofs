@@ -1,0 +1,2 @@
+# Password authentication for the Quickshell locker; retain Fedora's authselect policy.
+auth        include       password-auth
