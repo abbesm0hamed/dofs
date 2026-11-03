@@ -21,7 +21,7 @@ setup:
 	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass
 
 install-packages:
-	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass --tags repos,packages
+	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass --tags repos,packages,lockscreen
 
 cleanup-packages:
 	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass --tags cleanup-packages
