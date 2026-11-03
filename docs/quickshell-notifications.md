@@ -61,8 +61,8 @@ The center and popups watch `bar/theme.json`, so built-in themes and Matugen
 recolor them without restarting. No separate notification theme is needed.
 Cards, the center, inputs, buttons, unread markers and scrollbar thumbs all
 use zero corner radius, matching the rest of dofs.
-Popups and the center use the same 8 px screen margin. History cards run flush
-to the center panel's edge rather than adding a second inset around the list.
+Popups and the center use the same 8 px screen margin. History cards have equal
+left and right insets from the center panel, using the global `padding` option.
 Both popup and history cards use the same global `padding` option, defaulting
 to Mako's previous 15 px inner padding, and identical internal row spacing.
 Center headings and controls align to that same inset. For a tighter layout,

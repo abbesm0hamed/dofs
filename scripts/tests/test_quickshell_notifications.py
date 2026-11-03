@@ -250,7 +250,9 @@ ShellRoot {
             popup.width = card.width;
             var content = card.children[0], popupContent = popup.children[0];
             return JSON.stringify({ready: true, padding: fixtureSettings.options.padding,
-                centerLeft: content.mapToItem(panel, 0, 0).x,
+                cardLeft: card.mapToItem(panel, 0, 0).x,
+                cardRight: panel.width - card.mapToItem(panel, card.width, 0).x,
+                centerLeft: content.x,
                 popupLeft: popupContent.mapToItem(popup, 0, 0).x,
                 centerTop: content.y, popupTop: popupContent.y,
                 centerRight: card.width - content.x - content.width,
@@ -289,6 +291,8 @@ ShellRoot {
                         if last and last.get('ready') and last['padding'] == padding:
                             insets = ('centerLeft', 'popupLeft', 'centerTop', 'popupTop', 'centerRight', 'popupRight', 'centerBottom', 'popupBottom')
                             if (all(abs(last[key] - padding) < 0.01 for key in insets)
+                                    and abs(last['cardLeft'] - padding) < 0.01
+                                    and abs(last['cardRight'] - padding) < 0.01
                                     and abs(last['centerHeight'] - last['popupHeight']) < 0.01
                                     and last['centerIcon'] == last['popupIcon'] == 1
                                     and last['centerSpacing'] == last['popupSpacing']):
@@ -368,7 +372,7 @@ ShellRoot {
             }
             var controls = root.findItems(history.view.contentItem, "notificationHistoryClear").map(button =>
                 ({right: button.mapToItem(history, button.width, 0).x, width: button.width}));
-            return JSON.stringify({viewportWidth: history.view.width, viewportHeight: history.view.height,
+            return JSON.stringify({viewportX: history.view.x, viewportWidth: history.view.width, viewportHeight: history.view.height,
                 contentHeight: history.view.contentHeight, contentY: history.view.contentY, originY: history.view.originY,
                 count: history.view.count, cards: cards, controls: controls, cleared: root.cleared,
                 scrollbar: {x: bar.x, y: bar.y, width: bar.width, height: bar.height, visible: bar.visible,
@@ -414,7 +418,8 @@ ShellRoot {
                 def check_bounds(state):
                     bar = state['scrollbar']
                     self.assertTrue(bar['external'])
-                    self.assertAlmostEqual(bar['x'] - state['viewportWidth'], 6)
+                    self.assertAlmostEqual(state['viewportX'], 15)
+                    self.assertAlmostEqual(bar['x'] - state['viewportX'] - state['viewportWidth'], 6)
                     self.assertAlmostEqual(bar['height'], state['viewportHeight'])
                     self.assertEqual(bar['y'], 0)
                     self.assertEqual(bar['width'], 4)
@@ -434,7 +439,7 @@ ShellRoot {
                 check_bounds(overflowing)
                 for width, height in ((320, 220), (240, 160), (424, 220)):
                     ipc('resize', width, height)
-                    resized = wait(lambda s: abs(s['viewportWidth'] - (width - 10)) < 0.01 and s['cards'] and s['controls'])
+                    resized = wait(lambda s: abs(s['viewportWidth'] - (width - 30)) < 0.01 and s['cards'] and s['controls'])
                     check_bounds(resized)
                 ipc('scroll')
                 scrolled = wait(lambda s: s['contentY'] > 0 and s['cards'] and s['controls'])

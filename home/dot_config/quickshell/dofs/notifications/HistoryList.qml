@@ -16,8 +16,9 @@ Item {
             top: parent.top
             bottom: parent.bottom
             left: parent.left
+            leftMargin: root.service.settings.options.padding
         }
-        width: Math.max(0, root.width - historyScroll.width - 6)
+        width: Math.max(0, root.width - 2 * root.service.settings.options.padding)
         clip: true
         spacing: 6
         model: root.model
@@ -28,7 +29,7 @@ Item {
             id: historyScroll
             objectName: "notificationHistoryScroll"
             parent: root
-            anchors { top: parent.top; bottom: parent.bottom; right: parent.right }
+            anchors { top: parent.top; bottom: parent.bottom; left: list.right; leftMargin: 6 }
             width: 4
             padding: 0
             policy: ScrollBar.AsNeeded
