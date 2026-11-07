@@ -41,6 +41,12 @@ Scope {
         if (node && node.ready && node.audio) node.audio.muted = !node.audio.muted;
     }
     function brightness(delta) {
+        var current = root.stats.brightness;
+        if (typeof current === "number")
+            // React like the native audio node: show the expected step now and
+            // let the stats sampler confirm the real value (its floor is 5%).
+            root.stats = Object.assign({}, root.stats,
+                {brightness: Math.max(delta > 0 ? 0 : 5, Math.min(100, Math.round(current) + (delta > 0 ? 5 : -5)))});
         if (delta > 0) run(["brightnessctl", "set", "+5%"]);
         else run(["sh", "-c", "max=$(brightnessctl max) || exit; current=$(brightnessctl get) || exit; min=$((max * 5 / 100)); new=$((current - max * 5 / 100)); [ \"$new\" -ge \"$min\" ] || new=$min; brightnessctl set \"$new\""]);
     }

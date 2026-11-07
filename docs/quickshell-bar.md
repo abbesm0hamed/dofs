@@ -136,7 +136,9 @@ launcher's bounded focused-output query remains unchanged.
 
 Audio, media, battery, profiles, Bluetooth and tray use native APIs. One
 Python stdlib helper samples `/proc`, filesystem and backlight state every
-three seconds. Status commands are shared across outputs, skip overlapping
+three seconds, and re-emits an update as soon as the backlight changes between
+samples, so scroll and keyboard brightness steps update the bar as promptly as
+native modules. Status commands are shared across outputs, skip overlapping
 runs and have process-group timeouts; failed commands clear stale indicators.
 Removing modules stops their optional command sources. A shell-wide native
 Quickshell notification server handles popups and persistent history independently
