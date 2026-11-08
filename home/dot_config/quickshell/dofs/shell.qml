@@ -8,31 +8,33 @@ import "connectivity" as Connectivity
 import "audio" as Audio
 import "notifications" as Notifications
 import "wallpaper" as Wallpaper
+import "theme" as ThemePicker
 
 ShellRoot {
-    Launcher { id: launcher; onOpening: { notificationHost.close(); connectivity.close(); audio.close(); wallpaper.close(); } }
+    Launcher { id: launcher; onOpening: { notificationHost.close(); connectivity.close(); audio.close(); wallpaper.close(); themePicker.close(); } }
     DockHost { id: dock }
     Connectivity.Host {
         id: connectivity
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); notificationHost.close(); audio.close(); wallpaper.close(); }
+        onOpening: { launcher.close(); notificationHost.close(); audio.close(); wallpaper.close(); themePicker.close(); }
     }
     Audio.Host {
         id: audio
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); notificationHost.close(); connectivity.close(); wallpaper.close(); }
+        onOpening: { launcher.close(); notificationHost.close(); connectivity.close(); wallpaper.close(); themePicker.close(); }
     }
     Notifications.Host {
         id: notificationHost
         niri: bar.service.niri
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); connectivity.close(); audio.close(); wallpaper.close(); }
+        onOpening: { launcher.close(); connectivity.close(); audio.close(); wallpaper.close(); themePicker.close(); }
     }
     Wallpaper.Host {
         id: wallpaper
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); notificationHost.close(); connectivity.close(); audio.close(); }
+        onOpening: { launcher.close(); notificationHost.close(); connectivity.close(); audio.close(); themePicker.close(); }
     }
+    ThemePicker.Host { id: themePicker; barHeight: bar.shown ? bar.options.height : 0 }
     BarHost {
         id: bar
         notifications: notificationHost.service
@@ -71,6 +73,7 @@ ShellRoot {
             if (id === "notifications") notificationHost.open();
             else if (id === "audio") audio.open("output");
             else if (id === "wallpapers") wallpaper.open();
+            else if (id === "themes") themePicker.open();
             else launcher.openEntry(id);
         }
     }
@@ -120,6 +123,15 @@ ShellRoot {
             return JSON.stringify({inhibited: bar.service.idle.inhibited,
                 enabled: bar.service.idle.timersEnabled, error: bar.service.idle.error});
         }
+    }
+
+    IpcHandler {
+        target: "themes"
+        function ping(): string { return "ready"; }
+        function open(): void { themePicker.open(); }
+        function close(): void { themePicker.close(); }
+        function toggle(): void { themePicker.toggle(); }
+        function status(): string { return JSON.stringify({opened: themePicker.opened, current: themePicker.service.current, error: themePicker.service.error}); }
     }
 
     IpcHandler {

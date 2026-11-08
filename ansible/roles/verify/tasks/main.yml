@@ -36,6 +36,9 @@
     - .config/quickshell/dofs/wallpaper/Surface.qml
     - .config/quickshell/dofs/wallpaper/Panel.qml
     - .config/quickshell/dofs/wallpaper/backend.py
+    - .config/quickshell/dofs/theme/Host.qml
+    - .config/quickshell/dofs/theme/Panel.qml
+    - .config/quickshell/dofs/theme/Service.qml
     - .config/quickshell/dofs/bar/config.json
     - .config/quickshell/dofs/notifications/config.json
   register: config_stats
