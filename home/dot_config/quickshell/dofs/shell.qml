@@ -4,22 +4,30 @@ import Quickshell.Io
 import "launcher"
 import "bar"
 import "dock"
+import "connectivity" as Connectivity
 import "notifications" as Notifications
 
 ShellRoot {
-    Launcher { id: launcher; onOpening: notificationHost.close() }
+    Launcher { id: launcher; onOpening: { notificationHost.close(); connectivity.close(); } }
     DockHost { id: dock }
+    Connectivity.Host {
+        id: connectivity
+        barHeight: bar.shown ? bar.options.height : 0
+        onOpening: { launcher.close(); notificationHost.close(); }
+    }
     Notifications.Host {
         id: notificationHost
         niri: bar.service.niri
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: launcher.close()
+        onOpening: { launcher.close(); connectivity.close(); }
     }
     BarHost {
         id: bar
         notifications: notificationHost.service
         onOpenEntry: entry => {
-            if (entry === "notifications") notificationHost.toggle();
+            if (entry === "network" || entry === "wifi") connectivity.open("wifi");
+            else if (entry === "bluetooth" || entry === "hotspot") connectivity.open(entry);
+            else if (entry === "notifications") notificationHost.toggle();
             else if (entry) launcher.openEntry(entry);
             else launcher.toggle();
         }
@@ -60,6 +68,18 @@ ShellRoot {
         function status(): string {
             return JSON.stringify({shown: dock.shown, error: dock.configError,
                 options: dock.options, palette: dock.paletteColors});
+        }
+    }
+
+    IpcHandler {
+        target: "connectivity"
+        function ping(): string { return "ready"; }
+        function open(section: string): void { connectivity.open(section); }
+        function close(): void { connectivity.close(); }
+        function status(): string {
+            return JSON.stringify({opened: connectivity.opened, tab: connectivity.tab,
+                ready: connectivity.service.ready, busy: connectivity.service.busy,
+                error: connectivity.service.error});
         }
     }
 

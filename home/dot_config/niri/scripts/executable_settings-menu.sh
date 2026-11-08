@@ -58,35 +58,14 @@ case "$section" in
         fi
         menu_item "Night light" "Toggle the 4700K overlay" "weather-clear-night" -- bash "$CONTROLS" --run toggle-night-light
         ;;
-    network)
-        menu_item "Connection editor" "Manage known connections" "preferences-system-network" -- nm-connection-editor
-        menu_item "WiFi networks" "Pick a network nearby" "network-wireless" --menu "$SELF wifi"
-        menu_item "Bluetooth devices" "Connect a known device" "preferences-system-bluetooth" --menu "$SELF bluetooth"
-        menu_item "Toggle WiFi" "Radio power for this adapter" "network-wireless" -- bash "$CONTROLS" --run toggle-wifi
-        menu_item "Toggle Bluetooth" "Radio power for this controller" "preferences-system-bluetooth" -- bash "$CONTROLS" --run toggle-bluetooth
-        ;;
-    wifi)
-        count=0
-        while IFS=: read -r active signal security ssid; do
-            [[ -n $ssid ]] || continue
-            count=$((count + 1))
-            description="$signal% $security"
-            if [[ $active == "yes" || $active == "*" ]]; then
-                description="$signal% $security · connected"
-            fi
-            menu_item "$ssid" "$description" "network-wireless" \
-                -- bash "$HOME/.config/niri/scripts/wifi-connect.sh" "$ssid" "$security"
-        done < <(nmcli -t -f ACTIVE,SIGNAL,SECURITY,SSID device wifi list 2>/dev/null | awk -F: '!seen[$4]++')
-        [[ $count -gt 0 ]] || { echo "no WiFi networks found" >&2; exit 1; }
+    network|wifi)
+        menu_item "Wi-Fi networks" "Scan nearby networks and connect" "network-wireless" -- qs -c dofs ipc call connectivity open wifi
+        menu_item "Mobile hotspot" "Share this computer's internet over Wi-Fi" "network-wireless" -- qs -c dofs ipc call connectivity open hotspot
+        menu_item "Bluetooth devices" "Discover, pair and connect" "preferences-system-bluetooth" -- qs -c dofs ipc call connectivity open bluetooth
+        menu_item "Advanced connections" "VPN, enterprise Wi-Fi and saved profiles" "preferences-system-network" -- nm-connection-editor
         ;;
     bluetooth)
-        count=0
-        while read -r _ mac name; do
-            [[ -n ${name:-} ]] || continue
-            count=$((count + 1))
-            menu_item "$name" "Connect with bluetoothctl" "bluetooth" -- bluetoothctl connect "$mac"
-        done < <(bluetoothctl devices 2>/dev/null)
-        [[ $count -gt 0 ]] || { echo "no known Bluetooth devices" >&2; exit 1; }
+        menu_item "Bluetooth devices" "Discover, pair and connect" "preferences-system-bluetooth" -- qs -c dofs ipc call connectivity open bluetooth
         ;;
     sysinfo)
         menu_item "Hostname" "$(uname -n)" "computer" --copy "$(uname -n)"

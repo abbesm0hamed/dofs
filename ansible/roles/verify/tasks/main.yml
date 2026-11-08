@@ -26,6 +26,8 @@
     - .config/quickshell/dofs/dock/Dock.qml
     - .config/quickshell/dofs/dock/DockItem.qml
     - .config/quickshell/dofs/dock/config.json
+    - .config/quickshell/dofs/connectivity/Panel.qml
+    - .config/quickshell/dofs/connectivity/backend.py
     - .config/quickshell/dofs/bar/config.json
     - .config/quickshell/dofs/notifications/config.json
   register: config_stats

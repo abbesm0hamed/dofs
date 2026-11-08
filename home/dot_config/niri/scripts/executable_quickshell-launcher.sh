@@ -33,6 +33,8 @@ ready() {
         && [[ $reply == ready ]] \
         && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call notifications ping 2>/dev/null) \
         && [[ $reply == ready ]] \
+        && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call connectivity ping 2>/dev/null) \
+        && [[ $reply == ready ]] \
         && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call idle ping 2>/dev/null) \
         && [[ $reply == ready ]]
 }

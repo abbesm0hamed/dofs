@@ -108,10 +108,10 @@ menu_item "Idle mode" "$(idle_desc)" "system-suspend" -- bash "$SELF" --run togg
 menu_item "Night light" "$(night_light_desc)" "weather-clear-night" -- bash "$SELF" --run toggle-night-light
 menu_item "Notifications" "$(notifications_desc)" "preferences-system-notifications" -- bash "$SELF" --run toggle-notifications
 if command -v nmcli >/dev/null 2>&1; then
-    menu_item "WiFi radio" "$(wifi_desc)" "network-wireless" -- bash "$SELF" --run toggle-wifi
+    menu_item "Wi-Fi and hotspot" "Nearby networks and internet sharing" "network-wireless" -- qs -c dofs ipc call connectivity open wifi
 fi
 if command -v bluetoothctl >/dev/null 2>&1; then
-    menu_item "Bluetooth radio" "$(bluetooth_desc)" "preferences-system-bluetooth" -- bash "$SELF" --run toggle-bluetooth
+    menu_item "Bluetooth devices" "Discover, pair and connect" "preferences-system-bluetooth" -- qs -c dofs ipc call connectivity open bluetooth
 fi
 if command -v pavucontrol >/dev/null 2>&1; then
     menu_item "Volume mixer" "Open pavucontrol" "audio-volume-high" -- pavucontrol

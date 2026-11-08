@@ -50,9 +50,11 @@ dnf_packages:
   - fcitx5-qt
   - yaru-icon-theme
   - gnome-themes-extra
-  - network-manager-applet
   - NetworkManager
   - NetworkManager-tui
+  # Prepare a concurrent Wi-Fi hotspot interface when supported by the adapter.
+  - iw
+  # Advanced VPN/enterprise settings; common controls live in Quickshell.
   - nm-connection-editor
   - fprintd
   - fprintd-pam
@@ -206,7 +208,6 @@ dnf_packages:
   - brightnessctl
   - libnotify
   - wlr-randr
-  - blueman
   - playerctl
   - pamixer
   - kanshi

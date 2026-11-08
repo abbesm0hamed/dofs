@@ -181,15 +181,15 @@ Row {
             Button {
                 readonly property var adapter: root.service.adapter
                 icon: adapter && adapter.enabled ? "󰂯" : "󰂲"
-                tooltip: adapter ? adapter.name + (adapter.enabled ? " · on" : " · off") + "\nLeft: manager · right: toggle power" : "Bluetooth adapter unavailable"
-                onClicked: button => { if (button === Qt.RightButton && adapter) adapter.enabled = !adapter.enabled; else root.command(["blueman-manager"]); }
+                tooltip: adapter ? adapter.name + (adapter.enabled ? " · on" : " · off") + "\nLeft: devices · right: toggle power" : "Bluetooth adapter unavailable"
+                onClicked: button => { if (button === Qt.RightButton && adapter) adapter.enabled = !adapter.enabled; else root.openEntry("bluetooth"); }
             }
             Button {
                 readonly property string status: root.service.network.value.text || ""
                 readonly property bool connected: /:connected:/.test(status)
                 icon: connected ? (/:wifi:connected:/.test(status) ? "󰤨" : "󰛳") : "󰤭"
                 tooltip: root.service.network.error || status || "Network unavailable"
-                onClicked: root.command(["nm-connection-editor"])
+                onClicked: root.openEntry("network")
             }
         }
     }
