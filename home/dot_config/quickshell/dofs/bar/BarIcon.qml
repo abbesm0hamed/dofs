@@ -9,16 +9,7 @@ Item {
     implicitWidth: size
     implicitHeight: size
     readonly property rect inkBounds: metrics.tightBoundingRect
-    // Match the visible height of label capitals, not the font's line box.
-    readonly property real glyphScale: Math.max(1, reference.tightBoundingRect.height) / Math.max(1, inkBounds.width, inkBounds.height)
-
-    TextMetrics {
-        id: reference
-        text: "M"
-        font.family: root.fontFamily
-        font.pixelSize: root.size
-        renderType: Text.QtRendering
-    }
+    readonly property real glyphScale: root.size / Math.max(1, inkBounds.width, inkBounds.height)
 
     TextMetrics {
         id: metrics

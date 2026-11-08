@@ -4,7 +4,7 @@ import Quickshell.Io
 QtObject {
     id: root
     readonly property var knownModules: ["visualizer", "media", "fingerprint", "updates", "tray", "monitoring", "brightness", "audio", "connectivity", "battery", "profile", "notifications", "idle", "power", "clock", "prayer"]
-    property var config: ({height: 24, font: "Lilex Nerd Font Mono", fontSize: 13, iconSize: 13, outputs: [], showTitle: false, modules: knownModules})
+    property var config: ({height: 24, font: "Lilex Nerd Font Mono", fontSize: 13, iconSize: 11, outputs: [], showTitle: false, modules: knownModules})
     property string error: ""
     property FileView file: FileView {
         path: Qt.resolvedUrl("config.json")

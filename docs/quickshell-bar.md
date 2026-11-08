@@ -53,10 +53,12 @@ Never run the source and deployed instances simultaneously during normal use.
 
 - `outputs: []`: every screen; otherwise an explicit connector-name allowlist.
 - `height`, `font`, `fontSize`: logical pixels and font family.
-- `iconSize`: shared icon size for modules and tray (13 px by default); falls
+- `iconSize`: shared icon size for modules and tray (11 px by default); falls
   back to `fontSize` when omitted. Font icons are centered by their visible
-  glyph bounds and scaled to the capital-letter height at this size using
-  the configured font. Hover changes foreground colors only.
+  glyph bounds and scaled so their longest visible dimension matches this
+  size, just like tray icons, while preserving their aspect ratio. The default
+  leaves comfortable vertical padding in the 24 px bar. Hover changes
+  foreground colors only.
 - `showTitle`: show the active window title in the remaining middle space.
 - `modules`: ordered right-hand modules; remove an entry to disable it.
 

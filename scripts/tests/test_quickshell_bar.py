@@ -415,18 +415,18 @@ ShellRoot {
             shutil.copytree(SHELL, config)
             entrypoint = config / 'shell.qml'
             entrypoint.write_text('import QtQuick\n' + entrypoint.read_text().rsplit('}', 1)[0] + '''
-    TextMetrics {
-        id: labelMetrics
-        text: "M"
-        font.family: "Lilex Nerd Font Mono"
-        font.pixelSize: 13
-        renderType: Text.QtRendering
-    }
     Item {
         Repeater {
             id: iconSamples
-            model: ["󰁹", "󰐊", "", "", "", "󰤨", ""]
-            BarIcon { required property string modelData; glyph: modelData; size: 13; height: 23 }
+            readonly property var glyphs: ["", "󰏤", "󰐊", "󰚰", "󰡨", "󰋊", "", "", "", "", "󰃠", "󰖁", "", "󰂯", "󰂲", "󰤨", "󰛳", "󰤭", "󰂄", "󰁹", "", "", "", "󰂛", "󰂞", "󰾪", "󰅶", ""]
+            readonly property var sizes: [9, 13, 20]
+            model: glyphs.length * sizes.length
+            BarIcon {
+                required property int index
+                glyph: iconSamples.glyphs[index % iconSamples.glyphs.length]
+                size: iconSamples.sizes[Math.floor(index / iconSamples.glyphs.length)]
+                height: 23
+            }
         }
     }
     BarPalette { id: monitoringPalette }
@@ -480,7 +480,7 @@ ShellRoot {
                 var glyph = icon.children[0];
                 result.push({width: icon.inkBounds.width * icon.glyphScale,
                     height: icon.inkBounds.height * icon.glyphScale,
-                    target: labelMetrics.tightBoundingRect.height,
+                    target: icon.size,
                     centerX: glyph.x + (icon.inkBounds.x + icon.inkBounds.width / 2) * glyph.scale,
                     centerY: glyph.y + (glyph.baselineOffset + icon.inkBounds.y + icon.inkBounds.height / 2) * glyph.scale,
                     boxWidth: icon.width, boxHeight: icon.height});
@@ -529,7 +529,8 @@ ShellRoot {
                 self.assertEqual(ipc('bar', 'ping'), 'ready')
                 first = wait_status(lambda s: s['niri'] and s['workspaces'] and s['stats'].get('cpu') is not None)
                 samples = json.loads(ipc('iconTest', 'metrics'))
-                self.assertEqual(len(samples), 7)
+                self.assertEqual(len(samples), 28 * 3)
+                self.assertEqual({sample['target'] for sample in samples}, {9, 13, 20})
                 for sample in samples:
                     self.assertGreater(sample['width'], 0)
                     self.assertGreater(sample['height'], 0)
