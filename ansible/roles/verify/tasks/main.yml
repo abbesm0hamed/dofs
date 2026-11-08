@@ -23,6 +23,9 @@
     - .config/niri/config.kdl
     - .config/quickshell/dofs/shell.qml
     - .config/quickshell/dofs-lock/shell.qml
+    - .config/quickshell/dofs/dock/Dock.qml
+    - .config/quickshell/dofs/dock/DockItem.qml
+    - .config/quickshell/dofs/dock/config.json
     - .config/quickshell/dofs/bar/config.json
     - .config/quickshell/dofs/notifications/config.json
   register: config_stats

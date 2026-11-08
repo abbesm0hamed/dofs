@@ -3,10 +3,12 @@ import Quickshell
 import Quickshell.Io
 import "launcher"
 import "bar"
+import "dock"
 import "notifications" as Notifications
 
 ShellRoot {
     Launcher { id: launcher; onOpening: notificationHost.close() }
+    DockHost { id: dock }
     Notifications.Host {
         id: notificationHost
         niri: bar.service.niri
@@ -46,6 +48,18 @@ ShellRoot {
         function openEntry(id: string): void {
             if (id === "notifications") notificationHost.open();
             else launcher.openEntry(id);
+        }
+    }
+
+    IpcHandler {
+        target: "dock"
+        function ping(): string { return "ready"; }
+        function toggle(): void { dock.shown = !dock.shown; }
+        function show(): void { dock.shown = true; }
+        function hide(): void { dock.shown = false; }
+        function status(): string {
+            return JSON.stringify({shown: dock.shown, error: dock.configError,
+                options: dock.options, palette: dock.paletteColors});
         }
     }
 

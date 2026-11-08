@@ -1,0 +1,12 @@
+{
+  "launchers": ["app.zen_browser.zen", "md.obsidian.Obsidian", "separator",
+    "com.t3tools.T3Code", "dev.zed.Zed", "com.mitchellh.ghostty", "com.termius.Termius",
+    "separator", "com.github.IsmaelMartinez.teams_for_linux", "com.rtosta.zapzap",
+    "com.slack.Slack", "com.discordapp.Discord", "separator", "steam"],
+  "showRunning": true,
+  "iconSize": 32,
+  "padding": 6,
+  "spacing": 2,
+  "margin": 8,
+  "outputs": []
+}

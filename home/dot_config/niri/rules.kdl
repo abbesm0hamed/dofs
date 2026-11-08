@@ -178,3 +178,15 @@ window-rule {
     block-out-from "screen-capture"
     clip-to-geometry true
 }
+
+// Blur the compact dock surface, including windows directly underneath it.
+layer-rule {
+    match namespace="^dofs-dock$"
+    geometry-corner-radius 12
+    background-effect {
+        blur true
+        saturation 1.15
+        noise 0.01
+        xray false
+    }
+}

@@ -86,7 +86,6 @@ dnf_packages:
   - cava
   - cmatrix
   - xsensors
-  - crystal-dock
   - bibata-cursor-themes
 
   # development.txt
