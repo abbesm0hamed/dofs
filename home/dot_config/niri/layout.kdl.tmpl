@@ -1,0 +1,49 @@
+{{- $stateDir := env "XDG_STATE_HOME" | default (joinPath .chezmoi.homeDir ".local/state") -}}
+{{- $stateFile := joinPath $stateDir "niri/gaps-state" -}}
+{{- $configDir := env "XDG_CONFIG_HOME" | default (joinPath .chezmoi.homeDir ".config") -}}
+{{- $layoutFile := joinPath $configDir "niri/layout.kdl" -}}
+{{- $gaps := "0" -}}
+{{- if stat $stateFile -}}
+    {{- $saved := include $stateFile | trim -}}
+    {{- if regexMatch `^[0-9]+(\.[0-9]+)?$` $saved -}}
+        {{- $gaps = $saved -}}
+    {{- end -}}
+{{- else if stat $layoutFile -}}
+    {{/* Preserve the current choice when upgrading from the old toggle. */}}
+    {{- $line := regexFind `(?m)^[\t ]*gaps[\t ]+[0-9]+(\.[0-9]+)?` (include $layoutFile) -}}
+    {{- if $line -}}
+        {{- $gaps = regexFind `[0-9]+(\.[0-9]+)?` $line -}}
+    {{- end -}}
+{{- end -}}
+layout {
+    gaps {{ $gaps }}
+    center-focused-column "never"
+    always-center-single-column true
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        off
+    }
+
+    border {
+        on
+        width 1.2
+    }
+
+    shadow {
+        on
+        softness 30
+        spread 5
+        offset x=0 y=5
+    }
+
+    struts {}
+}

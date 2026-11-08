@@ -2,6 +2,7 @@
 set -euo pipefail
 
 RULES_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/niri/rules.kdl"
+STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/niri/transparency-state"
 MARK_BEGIN="// DOFS_TRANSPARENCY_OVERRIDE_BEGIN"
 MARK_END="// DOFS_TRANSPARENCY_OVERRIDE_END"
 MARK_BEGIN_HASH="# DOFS_TRANSPARENCY_OVERRIDE_BEGIN"
@@ -108,6 +109,9 @@ KDL
 
 	mode="on"
 fi
+
+mkdir -p "$(dirname "$STATE_FILE")"
+printf '%s\n' "$mode" >"$STATE_FILE"
 
 niri msg action load-config-file >/dev/null 2>&1 || true
 

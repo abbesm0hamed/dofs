@@ -85,6 +85,13 @@ cd ~/dofs
 - `--skip-pull` - Don't pull latest changes from git
 - `-h, --help` - Show help message
 
+Niri's gap (`Mod+Alt+G`) and transparency (`Mod+Alt+O`) choices survive
+`make dotapply`. The toggles save their choices in
+`${XDG_STATE_HOME:-~/.local/state}/niri/gaps-state` and `transparency-state`;
+chezmoi uses those choices while updating the rest of the layout and window rules.
+Existing gap settings and marked transparency overrides are preserved on the
+first apply after upgrading, too.
+
 ## Reboot
 
 ```bash
