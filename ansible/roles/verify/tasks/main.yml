@@ -5,6 +5,7 @@
     - niri
     - qs
     - pactl
+    - magick
     - xwayland-satellite
     - ghostty
     - fnm
@@ -31,6 +32,10 @@
     - .config/quickshell/dofs/connectivity/backend.py
     - .config/quickshell/dofs/audio/Panel.qml
     - .config/quickshell/dofs/audio/backend.py
+    - .config/quickshell/dofs/wallpaper/Host.qml
+    - .config/quickshell/dofs/wallpaper/Surface.qml
+    - .config/quickshell/dofs/wallpaper/Panel.qml
+    - .config/quickshell/dofs/wallpaper/backend.py
     - .config/quickshell/dofs/bar/config.json
     - .config/quickshell/dofs/notifications/config.json
   register: config_stats

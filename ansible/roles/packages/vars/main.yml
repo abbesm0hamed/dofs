@@ -12,7 +12,6 @@ copr_repos:
   - yorickpeterse/stylua
   - imput/helium
   - errornointernet/quickshell
-  - agonie/swww
 
 dnf_packages:
   # system.txt
@@ -190,13 +189,10 @@ dnf_packages:
   - xwayland-satellite
   - jq
   - hyprpaper
-  # Provided by agonie/swww COPR.
-  - swww
   - xdg-desktop-portal
   - xdg-desktop-portal-gnome
   - xdg-desktop-portal-gtk
   - socat
-  - swaybg
   - grim
   - slurp
   - wl-clipboard

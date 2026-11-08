@@ -7,25 +7,31 @@ import "dock"
 import "connectivity" as Connectivity
 import "audio" as Audio
 import "notifications" as Notifications
+import "wallpaper" as Wallpaper
 
 ShellRoot {
-    Launcher { id: launcher; onOpening: { notificationHost.close(); connectivity.close(); audio.close(); } }
+    Launcher { id: launcher; onOpening: { notificationHost.close(); connectivity.close(); audio.close(); wallpaper.close(); } }
     DockHost { id: dock }
     Connectivity.Host {
         id: connectivity
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); notificationHost.close(); audio.close(); }
+        onOpening: { launcher.close(); notificationHost.close(); audio.close(); wallpaper.close(); }
     }
     Audio.Host {
         id: audio
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); notificationHost.close(); connectivity.close(); }
+        onOpening: { launcher.close(); notificationHost.close(); connectivity.close(); wallpaper.close(); }
     }
     Notifications.Host {
         id: notificationHost
         niri: bar.service.niri
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); connectivity.close(); audio.close(); }
+        onOpening: { launcher.close(); connectivity.close(); audio.close(); wallpaper.close(); }
+    }
+    Wallpaper.Host {
+        id: wallpaper
+        barHeight: bar.shown ? bar.options.height : 0
+        onOpening: { launcher.close(); notificationHost.close(); connectivity.close(); audio.close(); }
     }
     BarHost {
         id: bar
@@ -35,6 +41,7 @@ ShellRoot {
             else if (entry === "bluetooth" || entry === "hotspot") connectivity.open(entry);
             else if (entry === "notifications") notificationHost.toggle();
             else if (entry === "audio") audio.toggle();
+            else if (entry === "wallpapers") wallpaper.toggle();
             else if (entry) launcher.openEntry(entry);
             else launcher.toggle();
         }
@@ -63,6 +70,7 @@ ShellRoot {
         function openEntry(id: string): void {
             if (id === "notifications") notificationHost.open();
             else if (id === "audio") audio.open("output");
+            else if (id === "wallpapers") wallpaper.open();
             else launcher.openEntry(id);
         }
     }
@@ -111,6 +119,20 @@ ShellRoot {
         function status(): string {
             return JSON.stringify({inhibited: bar.service.idle.inhibited,
                 enabled: bar.service.idle.timersEnabled, error: bar.service.idle.error});
+        }
+    }
+
+    IpcHandler {
+        target: "wallpaper"
+        function ping(): string { return "ready"; }
+        function open(): void { wallpaper.open(); }
+        function close(): void { wallpaper.close(); }
+        function toggle(): void { wallpaper.toggle(); }
+        function restore(): void { wallpaper.service.apply(["--restore"]); }
+        function status(): string {
+            return JSON.stringify({opened: wallpaper.opened, busy: wallpaper.service.busy,
+                error: wallpaper.service.error || wallpaper.service.renderError,
+                state: wallpaper.service.state, surfaces: wallpaper.service.surfaces});
         }
     }
 

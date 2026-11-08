@@ -4,7 +4,12 @@ window-rule {
 }
 
 layer-rule {
-    match namespace="wallpaper"
+    match namespace="^dofs-wallpaper-workspace$"
+    place-within-backdrop false
+}
+
+layer-rule {
+    match namespace="^dofs-wallpaper-backdrop$"
     place-within-backdrop true
 }
 
