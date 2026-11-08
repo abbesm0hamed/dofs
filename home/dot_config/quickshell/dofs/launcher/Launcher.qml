@@ -365,12 +365,14 @@ Scope {
 
         Rectangle {
             id: card
+            readonly property color divider: Qt.alpha(theme.text, 0.09)
+            readonly property var selectedEntry: root.results[list.currentIndex] || null
             anchors.centerIn: parent
-            width: Math.min(600, parent.width - 24)
-            height: Math.min(420, parent.height - 24)
+            width: Math.min(800, parent.width - 24)
+            height: Math.min(488, parent.height - 24)
             radius: 0
             color: theme.background
-            border.color: theme.border
+            border.color: Qt.alpha(theme.text, 0.18)
             border.width: 1
             // Consume inside clicks; clicks outside dismiss the launcher.
             MouseArea { anchors.fill: parent }
@@ -382,10 +384,10 @@ Scope {
 
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 48
-                    Layout.leftMargin: 18
-                    Layout.rightMargin: 18
-                    spacing: 12
+                    Layout.preferredHeight: 72
+                    Layout.leftMargin: 24
+                    Layout.rightMargin: 24
+                    spacing: 16
                     Item {
                         Layout.preferredWidth: 20
                         Layout.preferredHeight: 28
@@ -414,7 +416,9 @@ Scope {
                         color: theme.text
                         placeholderTextColor: theme.muted
                         font.family: theme.font
-                        font.pixelSize: 16
+                        font.pixelSize: 19
+                        selectionColor: theme.selection
+                        selectedTextColor: theme.text
                         selectByMouse: true
                         background: Item {}
                         focus: true
@@ -439,21 +443,31 @@ Scope {
                             event.accepted = true;
                         }
                     }
+                    Keycap {
+                        text: "esc"
+                        foreground: theme.muted
+                        outline: card.divider
+                        fontFamily: theme.mono
+                    }
                 }
 
-                Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: theme.border }
+                Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: card.divider }
 
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.leftMargin: 12
-                    Layout.rightMargin: 16
-                    Layout.preferredHeight: 36
-                    spacing: 6
+                    Layout.leftMargin: 16
+                    Layout.rightMargin: 24
+                    Layout.preferredHeight: 48
+                    spacing: 8
                     Repeater {
                         model: ["All", "Apps", "Actions"]
                         delegate: Button {
+                            id: filterButton
                             required property string modelData
                             text: modelData
+                            implicitHeight: 28
+                            leftPadding: 12
+                            rightPadding: 12
                             ToolTip.visible: hovered
                             ToolTip.text: "Ctrl+" + (["All", "Apps", "Actions"].indexOf(modelData) + 1)
                             enabled: !root.actionParent && !root.menuParent
@@ -463,18 +477,20 @@ Scope {
                                 text: parent.text
                                 font.family: theme.font
                                 font.pixelSize: 12
+                                font.weight: root.filter === modelData ? Font.DemiBold : Font.Normal
                                 color: root.filter === modelData ? theme.text : theme.muted
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                             }
                             background: Rectangle {
                                 radius: 0
-                                color: "transparent"
+                                color: root.filter === modelData ? Qt.alpha(theme.text, 0.07)
+                                    : filterButton.hovered ? Qt.alpha(theme.text, 0.035) : "transparent"
                                 Rectangle {
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.bottom: parent.bottom
-                                    height: 2
+                                    height: 1
                                     color: root.filter === modelData ? theme.accent : "transparent"
                                     Behavior on color { ColorAnimation { duration: 80 } }
                                 }
@@ -500,7 +516,7 @@ Scope {
                         text: root.results.length + " results"
                         color: theme.muted
                         font.family: theme.font
-                        font.pixelSize: 12
+                        font.pixelSize: 11
                     }
                 }
 
@@ -525,10 +541,11 @@ Scope {
                     id: list
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.leftMargin: 8
-                    Layout.rightMargin: 8
+                    Layout.leftMargin: 12
+                    Layout.rightMargin: 12
+                    Layout.bottomMargin: 12
                     clip: true
-                    spacing: 0
+                    spacing: 4
                     model: root.results
                     boundsBehavior: Flickable.StopAtBounds
                     ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
@@ -537,41 +554,52 @@ Scope {
                         required property var modelData
                         required property int index
                         width: list.width
-                        height: 46
+                        height: 58
                         radius: 0
-                        color: list.currentIndex === index ? theme.selection : mouse.containsMouse ? theme.surface : "transparent"
+                        color: list.currentIndex === index ? Qt.alpha(theme.accent, 0.14)
+                            : mouse.containsMouse ? Qt.alpha(theme.text, 0.045) : "transparent"
+                        border.width: list.currentIndex === index ? 1 : 0
+                        border.color: Qt.alpha(theme.accent, 0.18)
                         Accessible.role: Accessible.ListItem
                         Accessible.name: modelData.name + ", " + modelData.description
                         Accessible.selected: list.currentIndex === index
                         Rectangle {
                             anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.bottom: parent.bottom
-                            width: 3
+                            anchors.verticalCenter: parent.verticalCenter
+                            height: 20
+                            width: 2
                             color: theme.accent
                             visible: list.currentIndex === index
                         }
                         RowLayout {
                             anchors.fill: parent
-                            anchors.leftMargin: 12
-                            anchors.rightMargin: 12
-                            spacing: 12
-                            IconImage {
-                                Layout.preferredWidth: 24
-                                Layout.preferredHeight: 24
-                                source: root.iconSource(row.modelData.icon)
-                                implicitSize: 24
+                            anchors.leftMargin: 14
+                            anchors.rightMargin: 16
+                            spacing: 14
+                            Rectangle {
+                                Layout.preferredWidth: 36
+                                Layout.preferredHeight: 36
+                                radius: 0
+                                color: Qt.alpha(theme.text, 0.04)
+                                IconImage {
+                                    anchors.centerIn: parent
+                                    width: 24
+                                    height: 24
+                                    source: root.iconSource(row.modelData.icon)
+                                    implicitSize: 24
+                                }
                             }
                             ColumnLayout {
                                 Layout.fillWidth: true
-                                spacing: 2
+                                spacing: 4
                                 Text {
                                     Layout.fillWidth: true
                                     text: row.modelData.name
                                     textFormat: Text.PlainText
                                     color: theme.text
                                     font.family: row.modelData.kind === "calculator" ? theme.mono : theme.font
-                                    font.pixelSize: 13
+                                    font.pixelSize: 14
+                                    font.weight: list.currentIndex === row.index ? Font.Medium : Font.Normal
                                     elide: Text.ElideRight
                                 }
                                 Text {
@@ -591,6 +619,13 @@ Scope {
                                 color: theme.muted
                                 font.family: theme.font
                                 font.pixelSize: 10
+                            }
+                            Keycap {
+                                visible: list.currentIndex === row.index
+                                text: row.modelData.kind === "menu" ? "→" : "↵"
+                                foreground: theme.text
+                                outline: Qt.alpha(theme.text, 0.15)
+                                fontFamily: theme.mono
                             }
                         }
                         MouseArea {
@@ -615,27 +650,67 @@ Scope {
                     }
                 }
 
-                Rectangle { Layout.fillWidth: true; Layout.topMargin: 6; implicitHeight: 1; color: theme.border }
-                RowLayout {
+                Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: card.divider }
+                Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 30
-                    Layout.leftMargin: 18
-                    Layout.rightMargin: 18
-                    Text {
-                        text: "↑ ↓ Navigate   ↵ Open   Esc " + (root.actionParent || root.menuParent ? "Back" : "Close")
-                        color: theme.muted
-                        font.family: theme.font
-                        font.pixelSize: 10
-                    }
-                    Item { Layout.fillWidth: true }
-                    Text {
-                        text: {
-                            var entry = root.results[list.currentIndex];
-                            return entry && entry.kind === "app" && entry.app.actions.length ? "Tab  App actions" : "= Calculate   ? Web";
+                    Layout.preferredHeight: 48
+                    color: Qt.alpha(theme.text, 0.025)
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 20
+                        anchors.rightMargin: 20
+                        spacing: 7
+                        Keycap {
+                            text: "↑"
+                            foreground: theme.muted
+                            outline: card.divider
+                            fontFamily: theme.mono
                         }
-                        color: theme.accent
-                        font.family: theme.font
-                        font.pixelSize: 10
+                        Keycap {
+                            text: "↓"
+                            foreground: theme.muted
+                            outline: card.divider
+                            fontFamily: theme.mono
+                        }
+                        Text {
+                            text: "Navigate"
+                            color: theme.muted
+                            font.family: theme.font
+                            font.pixelSize: 11
+                        }
+                        Item { Layout.fillWidth: true }
+                        Text {
+                            visible: parent.width > 440
+                            text: card.selectedEntry && card.selectedEntry.kind === "app" && card.selectedEntry.app.actions.length
+                                ? "Tab  App actions" : "= Calculate   ? Web"
+                            color: theme.muted
+                            font.family: theme.font
+                            font.pixelSize: 11
+                        }
+                        Rectangle {
+                            visible: parent.width > 440
+                            Layout.leftMargin: 7
+                            Layout.rightMargin: 7
+                            implicitWidth: 1
+                            implicitHeight: 16
+                            color: card.divider
+                        }
+                        Text {
+                            text: !card.selectedEntry ? "Select a result"
+                                : card.selectedEntry.kind === "calculator" ? "Copy result"
+                                : card.selectedEntry.kind === "menu" ? "Open menu"
+                                : card.selectedEntry.kind === "app" ? "Open application" : "Run action"
+                            color: theme.text
+                            font.family: theme.font
+                            font.pixelSize: 11
+                            font.weight: Font.Medium
+                        }
+                        Keycap {
+                            text: "↵"
+                            foreground: theme.text
+                            outline: Qt.alpha(theme.text, 0.15)
+                            fontFamily: theme.mono
+                        }
                     }
                 }
             }
