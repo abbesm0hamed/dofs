@@ -128,26 +128,27 @@ chezmoi apply --recursive --source "$PWD/home" \
   "$HOME/.config/niri/scripts/system-controls.sh" \
   "$HOME/.config/niri/scripts/settings-menu.sh" \
   "$HOME/.config/niri/scripts/set-theme.sh" \
+  "$HOME/.config/systemd/user/mako.service" \
   "$HOME/.config/matugen/config.toml"
 ```
 
-Only one notification daemon can own the D-Bus service. Stop the old daemon once
-before starting the updated shell:
+Only one notification daemon can own the D-Bus service. Disable is not enough:
+Mako can be D-Bus activated even when its unit is disabled. The managed user-unit
+mask prevents that. Stop the old daemon and restart the updated shell:
 
 ```sh
-systemctl --user disable --now mako.service 2>/dev/null || true
-pkill -x mako || true
-qs -c dofs kill || true
-bash "$HOME/.config/niri/scripts/quickshell-launcher.sh" --start
+systemctl --user daemon-reload
+systemctl --user mask --now mako.service
+bash "$HOME/.config/niri/scripts/quickshell-launcher.sh" --restart
 notify-send -a "Quickshell test" "Notifications ready" "Open Mod+N to see the saved message."
 ```
 
-The autostart script no longer starts Mako, the package role no longer installs
-it, and theme changes no longer generate/reload its configuration. Existing Mako
+The autostart script no longer starts Mako, the package role removes it,
+and theme changes no longer generate/reload its configuration. Existing Mako
 configuration/theme assets are retained as historical files; `.config/mako/` is
-excluded from new chezmoi deployments. If Mako is still installed, its D-Bus
-activation may start it when Quickshell is absent. You can uninstall it separately
-if you no longer need it. The old in-memory Mako history is not imported.
+excluded from new chezmoi deployments. The user service remains masked even if
+the package is still installed until the next Ansible package run. The old
+in-memory Mako history is not imported.
 
 ## IPC and testing
 

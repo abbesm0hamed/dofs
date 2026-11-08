@@ -12,10 +12,10 @@ dotdiff:
 	chezmoi diff --source $(DOTFILES_SOURCE)
 
 bar-reload:
-	qs -c dofs kill || true
-	qs -c dofs --daemonize --no-duplicate
+	bash "$(DOTFILES_SOURCE)/dot_config/niri/scripts/executable_quickshell-launcher.sh" --restart
 
-bar-apply: dotapply bar-reload
+bar-apply: dotapply
+	$(MAKE) bar-reload
 
 setup:
 	ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/playbook.yml -i ansible/inventory --ask-become-pass

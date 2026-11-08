@@ -52,19 +52,13 @@ Rectangle {
         anchors.topMargin: root.service.settings.options.padding
         anchors.bottomMargin: root.service.settings.options.padding
         spacing: 6
-        RowLayout {
+        PanelHeader {
             Layout.fillWidth: true
             Layout.leftMargin: root.service.settings.options.padding
             Layout.rightMargin: root.service.settings.options.padding
-            Text {
-                Layout.fillWidth: true
-                text: "Notifications"
-                color: root.palette.text
-                font.family: "Inter"
-                font.pixelSize: 20
-                font.weight: Font.DemiBold
-            }
-            NotificationButton { palette: root.palette; text: "Close"; onClicked: root.closeRequested() }
+            palette: root.palette
+            title: "Notifications"
+            onCloseRequested: root.closeRequested()
         }
         RowLayout {
             Layout.fillWidth: true

@@ -35,9 +35,27 @@ ready() {
         && [[ $reply == ready ]] \
         && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call connectivity ping 2>/dev/null) \
         && [[ $reply == ready ]] \
+        && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call audio ping 2>/dev/null) \
+        && [[ $reply == ready ]] \
         && reply=$(timeout --kill-after=1s 2s qs -c dofs ipc call idle ping 2>/dev/null) \
         && [[ $reply == ready ]]
 }
+
+if [[ $entry == --restart ]]; then
+    timeout --kill-after=1s 5s qs -c dofs kill || true
+    deadline=$((SECONDS + 8))
+    while true; do
+        instances=$(timeout --kill-after=1s 2s qs -c dofs list --json) \
+            || fail 'Could not check whether the old Quickshell instance stopped.'
+        [[ $instances == 'No running instances for '* ]] && break
+        count=$(jq -er 'if type == "array" then length else error("Expected instance list") end' <<< "$instances") \
+            || fail 'Could not read the Quickshell instance list.'
+        [[ $count == 0 ]] && break
+        (( SECONDS < deadline )) || fail 'Quickshell did not stop in time. Check: qs -c dofs list'
+        sleep 0.1
+    done
+    entry=--start
+fi
 
 if ! ready; then
     # Applying QML files can leave an older generation alive after a failed

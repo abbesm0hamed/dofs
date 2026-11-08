@@ -137,6 +137,7 @@ This setup includes:
 - **Niri** compositor
 - **Quickshell** status bar ([configuration](docs/quickshell-bar.md))
 - **Quickshell** notifications and history ([configuration](docs/quickshell-notifications.md))
+- **Quickshell** audio mixer, devices, and application routing ([configuration](docs/quickshell-audio.md))
 - Screenshot, recording, clipboard tools
 
 ### Gaming

@@ -37,13 +37,14 @@ configurations and do not deploy to `~/.config`.
 3. Restart the shell:
 
    ```sh
-   qs -c dofs kill || true
-   bash "$HOME/.config/niri/scripts/quickshell-launcher.sh" --start
+   make bar-reload
    ```
 
-    Launcher, bar, notification and idle IPC readiness must succeed. This same idempotent wrapper
+   Launcher, bar, audio, connectivity, notification and idle IPC readiness must succeed. This same idempotent wrapper
    runs at login. Restart the instance after a QML/IPC update; do not rely on
-   hot reload to replace a live IPC API. `make bar-reload` also restarts it.
+   hot reload to replace a live IPC API. Restart waits for the old instance to
+   exit before launching its replacement; `make bar-apply` also waits until
+   deployment finishes, including when make runs parallel jobs.
 
 ## Configuration and shortcuts
 

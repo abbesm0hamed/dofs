@@ -58,7 +58,7 @@ Row {
             text: root.service.visualizerText
             foreground: root.palette.accent
             tooltip: "Left: mixer · right: Cava terminal"
-            onClicked: button => { if (button === Qt.RightButton) root.terminal(["cava"]); else root.command(["pavucontrol"]); }
+            onClicked: button => { if (button === Qt.RightButton) root.terminal(["cava"]); else root.openEntry("audio"); }
         }
     }
     Component {
@@ -168,7 +168,7 @@ Row {
             text: !audio ? "—" : audio.muted ? "" : root.percent(audio.volume * 100)
             tooltip: audio ? (sink.description || "Audio") + "\nLeft: mixer · right: mute · middle: mute microphone\nMicrophone: " + (root.service.source && root.service.source.ready && root.service.source.audio ? (root.service.source.audio.muted ? "muted" : "on") : "unavailable") : "Audio device unavailable"
             onClicked: button => {
-                if (button === Qt.LeftButton) root.command(["pavucontrol"]);
+                if (button === Qt.LeftButton) root.openEntry("audio");
                 else root.service.toggleMute(button === Qt.MiddleButton);
             }
             onScrolled: delta => root.service.changeVolume(delta > 0 ? 0.05 : -0.05, false)

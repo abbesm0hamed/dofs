@@ -85,6 +85,14 @@ class HistoryTests(unittest.TestCase):
             with self.subTest(file=file):
                 self.assertTrue(all(float(value) == 0 for value in re.findall(r'\bradius:\s*([\d.]+)', file.read_text())))
 
+    def test_mako_cannot_reclaim_notifications_through_dbus_activation(self):
+        mask = ROOT / 'home/dot_config/systemd/user/symlink_mako.service'
+        self.assertEqual(mask.read_text().strip(), '/dev/null')
+        packages = (ROOT / 'ansible/roles/packages/vars/main.yml').read_text()
+        installed, removed = packages.split('dnf_absent_packages:', 1)
+        self.assertNotIn('  - mako\n', installed)
+        self.assertIn('  - mako\n', removed)
+
 
 @unittest.skipUnless(os.environ.get('DOFS_QML_TEST') == '1', 'requires qs, gdbus, dbus-run-session and Wayland')
 class LiveNotificationTests(unittest.TestCase):

@@ -8,11 +8,6 @@ layer-rule {
     place-within-backdrop true
 }
 
-layer-rule {
-    match namespace="hyprpaper"
-    place-within-backdrop false
-}
-
 window-rule {
     match title=r#".*[Pp]rivate.*|.*[Ii]ncognito.*"#
     block-out-from "screen-capture"
@@ -101,11 +96,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="pavucontrol"
-    match app-id="blueman-manager"
     match app-id="nm-connection-editor"
-    match app-id="org.gnome.PowerStats"
-    match app-id="system-config-printer"
     match app-id="com.gabm.satty"
     open-floating true
     clip-to-geometry true

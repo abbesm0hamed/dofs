@@ -52,10 +52,13 @@ PanelWindow {
             anchors.fill: parent
             anchors.margins: 16
             spacing: 10
-            RowLayout {
+            Notifications.PanelHeader {
                 Layout.fillWidth: true
-                Label { text: "Connections"; color: root.palette.text; font.pixelSize: 22; Layout.fillWidth: true }
-                Notifications.NotificationButton { palette: root.palette; text: "Close"; onClicked: root.closeRequested() }
+                palette: root.palette
+                title: "Connections"
+                titleSize: 22
+                titleWeight: Font.Normal
+                onCloseRequested: root.closeRequested()
             }
             RowLayout {
                 Layout.fillWidth: true

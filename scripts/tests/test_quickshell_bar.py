@@ -125,6 +125,14 @@ class BarTests(unittest.TestCase):
         self.assertTrue((ROOT / 'home/dot_config/waybar/config.jsonc').is_file())
         self.assertNotIn('run_once waybar', (ROOT / 'home/dot_config/niri/scripts/executable_autostart.sh').read_text())
 
+    def test_window_rules_drop_retired_desktop_helpers(self):
+        rules = (ROOT / 'home/dot_config/niri/rules.kdl').read_text()
+        for retired in ['pavucontrol', 'blueman-manager', 'org.gnome.PowerStats',
+                        'system-config-printer', 'hyprpaper']:
+            self.assertNotIn(retired, rules)
+        for retained in ['nm-connection-editor', 'com.gabm.satty', 'org.gnome.Nautilus']:
+            self.assertIn(retained, rules)
+
     def test_power_menu_provider_uses_native_session_actions(self):
         with tempfile.TemporaryDirectory() as directory:
             home = Path(directory)
@@ -247,6 +255,51 @@ elif os.environ.get('FAIL_IPC') == '1': print('error: handler unavailable')
             self.assertIn(b'Restart', stale.stderr)
             self.assertFalse(any('--daemonize' in json.loads(line) for line in log.read_text().splitlines()),
                              'an outdated running instance needs a restart, not another daemon launch')
+
+
+    def test_wrapper_restart_waits_for_exit_before_starting_new_instance(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            binary = directory / 'qs'
+            binary.write_text('''#!/usr/bin/env python3
+import json, os, pathlib, sys
+args = sys.argv[1:]
+state = pathlib.Path(os.environ['STATE'])
+with open(os.environ['CALLS'], 'a') as log: log.write(json.dumps(args) + '\\n')
+if args[-1] == 'kill':
+    state.write_text('2')
+elif args[-2:] == ['list', '--json']:
+    remaining = int(state.read_text())
+    if not remaining and os.environ.get('EMPTY_LIST_TEXT') == '1':
+        print('No running instances for "/config/dofs/shell.qml"\\nUse --all to list all instances.')
+    else:
+        print(json.dumps([{'pid': 123}] if remaining else []))
+    state.write_text(str(remaining - 1) if remaining else 'stopped')
+elif '--daemonize' in args:
+    if state.read_text() != 'stopped': sys.exit('Started before the old instance exited')
+    state.write_text('running')
+elif args[-1] == 'ping':
+    if state.read_text() != 'running': sys.exit(1)
+    print('ready')
+''')
+            binary.chmod(0o700)
+            calls = directory / 'calls'
+            state = directory / 'state'
+            for empty_list_text in ['0', '1']:
+                with self.subTest(empty_list_text=empty_list_text):
+                    calls.write_text('')
+                    result = subprocess.run(['bash', str(WRAPPER), '--restart'], capture_output=True, text=True,
+                                            timeout=10, env=dict(os.environ, PATH=str(directory) + ':' + os.environ['PATH'],
+                                                STATE=str(state), CALLS=str(calls), XDG_RUNTIME_DIR=temporary,
+                                                EMPTY_LIST_TEXT=empty_list_text))
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    commands = [json.loads(line) for line in calls.read_text().splitlines()]
+                    self.assertEqual(commands[0], ['-c', 'dofs', 'kill'])
+                    self.assertEqual(sum(command[-2:] == ['list', '--json'] for command in commands), 3)
+                    self.assertEqual(sum('--daemonize' in command for command in commands), 1)
+                    self.assertEqual(state.read_text(), 'running')
+                    self.assertIn(['-c', 'dofs', 'ipc', 'call', 'audio', 'ping'], commands)
+                    self.assertNotIn('dofs-lock', str(commands))
 
 
 @unittest.skipUnless(os.environ.get('DOFS_QML_TEST') == '1', 'requires a live Wayland session and qs')
@@ -526,6 +579,8 @@ ShellRoot {
                 else:
                     self.fail('No QML readiness: ' + ''.join(logs))
                 self.assertEqual(ipc('launcher', 'ping'), 'ready')
+                self.assertEqual(ipc('audio', 'ping'), 'ready')
+                self.assertFalse(json.loads(ipc('audio', 'status'))['opened'])
                 self.assertEqual(ipc('bar', 'ping'), 'ready')
                 first = wait_status(lambda s: s['niri'] and s['workspaces'] and s['stats'].get('cpu') is not None)
                 samples = json.loads(ipc('iconTest', 'metrics'))

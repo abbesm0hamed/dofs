@@ -4,6 +4,7 @@
   loop:
     - niri
     - qs
+    - pactl
     - xwayland-satellite
     - ghostty
     - fnm
@@ -28,6 +29,8 @@
     - .config/quickshell/dofs/dock/config.json
     - .config/quickshell/dofs/connectivity/Panel.qml
     - .config/quickshell/dofs/connectivity/backend.py
+    - .config/quickshell/dofs/audio/Panel.qml
+    - .config/quickshell/dofs/audio/backend.py
     - .config/quickshell/dofs/bar/config.json
     - .config/quickshell/dofs/notifications/config.json
   register: config_stats

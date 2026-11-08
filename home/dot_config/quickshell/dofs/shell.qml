@@ -5,21 +5,27 @@ import "launcher"
 import "bar"
 import "dock"
 import "connectivity" as Connectivity
+import "audio" as Audio
 import "notifications" as Notifications
 
 ShellRoot {
-    Launcher { id: launcher; onOpening: { notificationHost.close(); connectivity.close(); } }
+    Launcher { id: launcher; onOpening: { notificationHost.close(); connectivity.close(); audio.close(); } }
     DockHost { id: dock }
     Connectivity.Host {
         id: connectivity
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); notificationHost.close(); }
+        onOpening: { launcher.close(); notificationHost.close(); audio.close(); }
+    }
+    Audio.Host {
+        id: audio
+        barHeight: bar.shown ? bar.options.height : 0
+        onOpening: { launcher.close(); notificationHost.close(); connectivity.close(); }
     }
     Notifications.Host {
         id: notificationHost
         niri: bar.service.niri
         barHeight: bar.shown ? bar.options.height : 0
-        onOpening: { launcher.close(); connectivity.close(); }
+        onOpening: { launcher.close(); connectivity.close(); audio.close(); }
     }
     BarHost {
         id: bar
@@ -28,6 +34,7 @@ ShellRoot {
             if (entry === "network" || entry === "wifi") connectivity.open("wifi");
             else if (entry === "bluetooth" || entry === "hotspot") connectivity.open(entry);
             else if (entry === "notifications") notificationHost.toggle();
+            else if (entry === "audio") audio.toggle();
             else if (entry) launcher.openEntry(entry);
             else launcher.toggle();
         }
@@ -55,6 +62,7 @@ ShellRoot {
         function close(): void { launcher.close(); }
         function openEntry(id: string): void {
             if (id === "notifications") notificationHost.open();
+            else if (id === "audio") audio.open("output");
             else launcher.openEntry(id);
         }
     }
@@ -80,6 +88,18 @@ ShellRoot {
             return JSON.stringify({opened: connectivity.opened, tab: connectivity.tab,
                 ready: connectivity.service.ready, busy: connectivity.service.busy,
                 error: connectivity.service.error});
+        }
+    }
+
+    IpcHandler {
+        target: "audio"
+        function ping(): string { return "ready"; }
+        function open(section: string): void { audio.open(section); }
+        function close(): void { audio.close(); }
+        function toggle(): void { audio.toggle(); }
+        function status(): string {
+            return JSON.stringify({opened: audio.opened, tab: audio.tab, ready: audio.service.ready,
+                loaded: audio.service.loaded, busy: audio.service.busy, error: audio.service.error});
         }
     }
 

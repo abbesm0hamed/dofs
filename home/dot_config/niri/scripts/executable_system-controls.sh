@@ -113,9 +113,7 @@ fi
 if command -v bluetoothctl >/dev/null 2>&1; then
     menu_item "Bluetooth devices" "Discover, pair and connect" "preferences-system-bluetooth" -- qs -c dofs ipc call connectivity open bluetooth
 fi
-if command -v pavucontrol >/dev/null 2>&1; then
-    menu_item "Volume mixer" "Open pavucontrol" "audio-volume-high" -- pavucontrol
-fi
+menu_item "Volume mixer" "Output, microphone and application controls" "audio-volume-high" -- qs -c dofs ipc call audio open output
 menu_item "Settings" "Audio, display, network, info" "preferences-system" --menu "$HOME/.config/niri/scripts/settings-menu.sh"
 menu_item "Lock screen" "Lock this session" "system-lock-screen" -- bash "${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/dofs/scripts/lock-screen.sh"
 menu_item "Power menu" "Lock, logout, suspend, reboot" "system-shutdown" --menu "$HOME/.config/quickshell/dofs/scripts/power-menu.sh"

@@ -33,7 +33,7 @@ dnf_packages:
   - power-profiles-daemon
   - upower
   - rclone
-  - pavucontrol
+  - pulseaudio-utils
   - gnome-keyring
   - polkit
   - wev

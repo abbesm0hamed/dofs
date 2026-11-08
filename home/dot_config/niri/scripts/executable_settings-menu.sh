@@ -29,22 +29,14 @@ case "$section" in
         fi
         ;;
     audio)
-        if command -v pavucontrol >/dev/null 2>&1; then
-            menu_item "Volume mixer" "Open pavucontrol" "audio-volume-high" -- pavucontrol
-        fi
-        menu_item "Audio devices" "Pick the default output" "audio-card" --menu "$SELF devices"
+        menu_item "Volume mixer" "Output, microphone and application controls" "audio-volume-high" -- qs -c dofs ipc call audio open output
+        menu_item "Audio devices" "Pick the default output" "audio-card" -- qs -c dofs ipc call audio open output
         menu_item "Toggle mute" "Default audio output" "audio-volume-muted" -- pactl set-sink-mute @DEFAULT_SINK@ toggle
         menu_item "Increase volume" "Default audio output +5%" "audio-volume-high" -- pactl set-sink-volume @DEFAULT_SINK@ +5%
         menu_item "Decrease volume" "Default audio output -5%" "audio-volume-low" -- pactl set-sink-volume @DEFAULT_SINK@ -5%
         ;;
     devices)
-        count=0
-        while IFS=$'\t' read -r _ name rest; do
-            [[ -n $name ]] || continue
-            count=$((count + 1))
-            menu_item "$name" "Set as default audio output" "audio-card" -- pactl set-default-sink "$name"
-        done < <(pactl list sinks short 2>/dev/null)
-        [[ $count -gt 0 ]] || { echo "no audio outputs found" >&2; exit 1; }
+        menu_item "Audio devices" "Choose outputs, inputs and hardware profiles" "audio-card" -- qs -c dofs ipc call audio open output
         ;;
     display)
         menu_item "Display configuration" "Edit the niri config" "video-display" -- ghostty -e nvim ~/.config/niri/config.kdl
