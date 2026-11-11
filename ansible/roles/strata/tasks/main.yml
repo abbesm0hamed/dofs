@@ -1,0 +1,121 @@
+---
+- name: Verify Strata has a pinned archive checksum for this architecture
+  ansible.builtin.assert:
+    that:
+      - strata_arch in strata_checksums
+    fail_msg: >-
+      Strata has no pinned checksum for architecture {{ strata_arch }}.
+      Add one to roles/strata/defaults/main.yml before installing.
+
+- name: Install Strata runtime dependencies
+  ansible.builtin.dnf:
+    name: "{{ strata_dependencies }}"
+    state: present
+  async: 1800
+  poll: 10
+  become: true
+
+- name: Ensure Strata user directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ strata_bin_dir }}"
+    - "{{ strata_desktop_dir }}"
+    - "{{ strata_icon_dir }}"
+
+- name: Check installed Strata version
+  ansible.builtin.command:
+    argv:
+      - "{{ strata_bin_dir }}/strata"
+      - --version
+  register: strata_installed
+  changed_when: false
+  failed_when: false
+
+- name: Install Strata {{ strata_version }}
+  when: >-
+    strata_installed.rc != 0 or
+    ((strata_installed.stdout | trim).split() | last) != strata_version
+  block:
+    - name: Create Strata download directory
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: strata
+      register: strata_tmp
+
+    - name: Download Strata {{ strata_version }}
+      ansible.builtin.get_url:
+        url: "{{ strata_url }}"
+        dest: "{{ strata_tmp.path }}/{{ strata_archive }}"
+        checksum: "sha256:{{ strata_checksum }}"
+        mode: "0644"
+
+    - name: Extract Strata {{ strata_version }}
+      ansible.builtin.unarchive:
+        src: "{{ strata_tmp.path }}/{{ strata_archive }}"
+        dest: "{{ strata_tmp.path }}"
+        remote_src: true
+
+    - name: Install Strata binary
+      ansible.builtin.copy:
+        src: "{{ strata_tmp.path }}/{{ strata_release }}/strata"
+        dest: "{{ strata_bin_dir }}/strata"
+        mode: "0755"
+        remote_src: true
+
+    - name: Install Strata desktop entry
+      ansible.builtin.copy:
+        src: "{{ strata_tmp.path }}/{{ strata_release }}/io.github.lgse.Strata.desktop"
+        dest: "{{ strata_desktop_dir }}/io.github.lgse.Strata.desktop"
+        mode: "0644"
+        remote_src: true
+
+    - name: Point the Strata desktop entry at the user-local binary
+      ansible.builtin.replace:
+        path: "{{ strata_desktop_dir }}/io.github.lgse.Strata.desktop"
+        regexp: '^Exec=strata '
+        replace: "Exec={{ strata_bin_dir }}/strata "
+
+    - name: Install Strata icon
+      ansible.builtin.copy:
+        src: "{{ strata_tmp.path }}/{{ strata_release }}/io.github.lgse.Strata.svg"
+        dest: "{{ strata_icon_dir }}/io.github.lgse.Strata.svg"
+        mode: "0644"
+        remote_src: true
+
+    - name: Refresh the desktop entry database
+      ansible.builtin.command:
+        argv:
+          - update-desktop-database
+          - "{{ strata_desktop_dir }}"
+      changed_when: false
+
+    - name: Refresh the hicolor icon cache
+      ansible.builtin.command:
+        argv:
+          - gtk-update-icon-cache
+          - -qtf
+          - "{{ strata_icon_dir | dirname | dirname }}"
+      changed_when: false
+      failed_when: false
+
+  always:
+    - name: Remove the Strata download directory
+      ansible.builtin.file:
+        path: "{{ strata_tmp.path }}"
+        state: absent
+      when: strata_tmp is defined and strata_tmp.path is defined
+
+- name: Verify the Strata installation
+  ansible.builtin.command:
+    argv:
+      - "{{ strata_bin_dir }}/strata"
+      - --version
+  register: strata_version_check
+  changed_when: false
+
+- name: Report the installed Strata version
+  ansible.builtin.debug:
+    msg: "Strata: {{ strata_version_check.stdout | trim }}"

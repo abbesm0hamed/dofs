@@ -62,6 +62,18 @@
     label: "{{ item.item }}"
   tags: verify
 
+- name: Check Strata installation
+  stat:
+    path: "{{ ansible_user_dir }}/.local/bin/strata"
+  register: strata_binary
+  tags: verify
+
+- name: Verify Strata binary exists
+  assert:
+    that: strata_binary.stat.exists
+    fail_msg: "Strata is missing from {{ ansible_user_dir }}/.local/bin/ ; run the strata role."
+  tags: verify
+
 - name: Verify Service Status
   systemd:
     name: "{{ item }}"

@@ -1,0 +1,18 @@
+---
+# Runtime libraries Strata expects on a GTK4 Linux desktop. Package names are
+# Fedora's; the installer's Settings > Diagnostics lists anything still absent.
+strata_dependencies:
+  - gtk4
+  - gtksourceview5
+  - poppler-glib
+  - fontconfig
+  - bubblewrap
+  - ffmpeg
+  - ffmpegthumbnailer
+  - gstreamer1-plugins-base
+  - gstreamer1-plugins-good
+  - gstreamer1-plugins-bad-free
+  - gvfs
+  - gvfs-smb
+  - ImageMagick
+  - libraw

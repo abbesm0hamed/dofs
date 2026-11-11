@@ -1,0 +1,27 @@
+---
+# Strata file manager (https://github.com/lgse/strata)
+#
+# Installed per-user under ~/.local so it coexists with Nautilus. This role
+# deliberately does NOT touch the default directory handler, the
+# org.freedesktop.FileManager1 service, or the XDG file-chooser portal; opt
+# into those later with `strata --install-portal` if desired.
+#
+# To upgrade: bump strata_version and the matching checksum below, then re-run
+# the playbook. The version is verified against the installed binary, so an
+# in-app update is replaced by the pinned release on the next run.
+strata_version: "1.2.1"
+
+strata_arch: "{{ ansible_architecture }}"
+strata_release: "strata-{{ strata_version }}-{{ strata_arch }}-unknown-linux-gnu"
+strata_archive: "{{ strata_release }}.tar.gz"
+strata_url: "https://github.com/lgse/strata/releases/download/v{{ strata_version }}/{{ strata_archive }}"
+
+# SHA-256 of the release archives, published alongside each release.
+strata_checksums:
+  x86_64: "a63710ce626078ecc107105223680179a4437b8cb9fbce34d74e3d42c80330d0"
+  aarch64: "4c5552b81757639062034b9022442bf13a96c8c07af68c0f682dd000c33a78f0"
+strata_checksum: "{{ strata_checksums[strata_arch] | default('') }}"
+
+strata_bin_dir: "{{ ansible_user_dir }}/.local/bin"
+strata_desktop_dir: "{{ ansible_user_dir }}/.local/share/applications"
+strata_icon_dir: "{{ ansible_user_dir }}/.local/share/icons/hicolor/scalable/apps"

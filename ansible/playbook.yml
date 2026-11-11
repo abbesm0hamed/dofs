@@ -20,6 +20,8 @@
       tags: system
     - role: desktop
       tags: desktop
+    - role: strata
+      tags: strata
     - role: dotfiles
       tags: dotfiles
     - role: shell
