@@ -56,7 +56,7 @@ State and mode live in `${XDG_STATE_HOME:-~/.local/state}/dofs/wallpaper.json`.
 The shell watches atomic state-file replacements, so setters work before the
 shell is running and do not depend on an available IPC connection. Restore
 migrates existing links, preserves independent backdrops, and falls back to
-`liftoff.png` or the first available image if the workspace selection is gone.
+`sea.jpg` or the first available image if the workspace selection is gone.
 Blur cache keys include source path, modification time, and size to avoid
 basename collisions and refresh changed files. State updates are serialized.
 Failed link or state replacements roll back both compatibility links.
