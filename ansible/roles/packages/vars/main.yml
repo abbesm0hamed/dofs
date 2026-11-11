@@ -188,7 +188,6 @@ dnf_packages:
   - qt6-qtwayland
   - xwayland-satellite
   - jq
-  - hyprpaper
   - xdg-desktop-portal
   - xdg-desktop-portal-gnome
   - xdg-desktop-portal-gtk
