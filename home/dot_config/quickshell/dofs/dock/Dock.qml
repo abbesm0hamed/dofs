@@ -14,7 +14,7 @@ PanelWindow {
     screen: modelData
     anchors { bottom: true }
     margins.bottom: settings.margin
-    readonly property int containerPadding: 6
+    readonly property int containerPadding: 5
     implicitWidth: row.implicitWidth + containerPadding * 2
     implicitHeight: settings.iconSize + settings.padding * 2 + containerPadding * 2
     exclusionMode: ExclusionMode.Ignore
@@ -105,7 +105,7 @@ PanelWindow {
     Rectangle {
         id: pill
         anchors.fill: parent
-        radius: 12
+        radius: 10
         border.width: 0
         // A softly lit tint keeps the surface glassy without an outline.
         gradient: Gradient {

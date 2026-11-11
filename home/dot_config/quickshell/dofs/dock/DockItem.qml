@@ -27,7 +27,7 @@ Rectangle {
     readonly property int size: settings.iconSize + settings.padding * 2
     implicitWidth: separator ? 2 : size
     implicitHeight: size
-    radius: 8
+    radius: 7
     color: hovered && !separator ? Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.08) : "transparent"
     readonly property bool hovered: mouse.containsMouse
     property bool showTip: false
@@ -106,8 +106,8 @@ Rectangle {
         visible: !root.separator && root.running
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 3
-        width: root.active || root.minimized ? 12 : 5
+        anchors.bottomMargin: 2
+        width: root.active || root.minimized ? 10 : 4
         height: 3
         radius: 2
         color: root.active || root.minimized ? root.palette.accent : root.palette.muted
@@ -153,7 +153,7 @@ Rectangle {
             wrapMode: Text.Wrap
             color: root.palette.text
             font.family: "Inter"
-            font.pixelSize: 12
+            font.pixelSize: 11
         }
     }
 }

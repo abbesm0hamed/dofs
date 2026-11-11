@@ -4,8 +4,8 @@
     "separator", "com.github.IsmaelMartinez.teams_for_linux", "com.rtosta.zapzap",
     "com.slack.Slack", "com.discordapp.Discord", "separator", "steam"],
   "showRunning": true,
-  "iconSize": 32,
-  "padding": 6,
+  "iconSize": 28,
+  "padding": 5,
   "spacing": 2,
   "margin": 8,
   "outputs": []
