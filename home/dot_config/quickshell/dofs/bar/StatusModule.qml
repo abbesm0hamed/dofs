@@ -229,8 +229,9 @@ Row {
     Component {
         id: idle
         Button {
-            icon: root.service.idle.inhibited ? "󰾪" : "󰅶"
-            foreground: root.service.idle.inhibited ? root.palette.yellow : root.palette.text
+            // Coffee = keep-awake active (idle inhibited); struck-through cup = normal idle locking.
+            icon: root.service.idle.inhibited ? "󰅶" : "󰾪"
+            foreground: root.service.idle.inhibited ? root.palette.accent : root.palette.text
             tooltip: "Idle locking: " + (root.service.idle.inhibited ? "off · keeping awake" : "on")
                 + "\nClick to toggle" + (root.service.idle.error ? "\n" + root.service.idle.error : "")
             onClicked: root.service.idle.toggle()

@@ -166,7 +166,7 @@ ShellRoot {
                     self.fail('Idle state did not converge: ' + str(status) + '\n' + log.read_text())
 
                 wait_state(lambda s: s['ready'] and not s['inhibited'])
-                for expected, summary, icon in ((True, 'Idle locking disabled', '󰾪'), (False, 'Idle locking enabled', '󰅶')):
+                for expected, summary, icon in ((True, 'Idle locking disabled', '󰅶'), (False, 'Idle locking enabled', '󰾪')):
                     started = time.monotonic()
                     immediate = json.loads(ipc('toggle'))
                     self.assertEqual(immediate['inhibited'], expected)
