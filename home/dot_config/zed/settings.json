@@ -1,8 +1,8 @@
 {
   "icon_theme": "Zed (Default)",
   "vim_mode": true,
-  "ui_font_size": 14,
-  "buffer_font_family": "Iosevka Extended",
+  "ui_font_size": 12,
+  "buffer_font_family": "Lilex",
   "theme": "Catppuccin Latte",
   "relative_line_numbers": "enabled",
   "autosave": "on_focus_change",
