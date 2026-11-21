@@ -228,4 +228,5 @@ flatpaks:
   - net.davidotek.pupgui2
   - org.localsend.localsend_app
   - com.rtosta.zapzap
+  - it.mijorus.gearlever
   - org.gtk.Gtk3theme.adw-gtk3
