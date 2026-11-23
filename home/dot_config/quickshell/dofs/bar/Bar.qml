@@ -25,10 +25,9 @@ PanelWindow {
         window: root
         enabled: root.service.idle.inhibited
     }
-    Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: root.palette.border }
     Row {
         id: left
-        height: parent.height - 1
+        height: parent.height
         BarButton {
             height: parent.height
             palette: root.palette
@@ -89,7 +88,7 @@ PanelWindow {
     Flickable {
         id: right
         anchors.right: parent.right
-        height: parent.height - 1
+        height: parent.height
         width: Math.min(contentWidth, Math.max(0, root.width - left.width - 12))
         contentWidth: modules.width
         contentHeight: height
