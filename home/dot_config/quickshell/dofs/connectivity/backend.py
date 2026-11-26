@@ -245,7 +245,17 @@ class Backend:
             settings['802-11-wireless-security'] = {'key-mgmt': GLib.Variant('s', 'wpa-psk'),
                                                     'psk': GLib.Variant('s', password)}
             if hotspot:
-                settings['802-11-wireless-security']['proto'] = GLib.Variant('as', ['rsn'])
+                # NetworkManager adds SAE/WPA3 personal to every wpa-psk access
+                # point unless PMF is explicitly disabled, turning the hotspot
+                # into a WPA2/WPA3 transition-mode network. Phones and tablets
+                # that cannot negotiate that beacon then fail to connect, so
+                # pin the hotspot to plain WPA2-PSK with CCMP.
+                settings['802-11-wireless-security'].update({
+                    'proto': GLib.Variant('as', ['rsn']),
+                    'pairwise': GLib.Variant('as', ['ccmp']),
+                    'group': GLib.Variant('as', ['ccmp']),
+                    'pmf': GLib.Variant('i', 1),  # NMSettingWirelessSecurityPmf: disable
+                })
         return settings
 
     def sharing_device(self, path, preserve):

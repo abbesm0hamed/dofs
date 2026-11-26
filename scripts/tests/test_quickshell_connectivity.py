@@ -31,6 +31,11 @@ class ConfigurationTests(unittest.TestCase):
         self.assertFalse(unpacked['connection']['autoconnect'])
         self.assertEqual(unpacked['802-11-wireless-security']['key-mgmt'], 'wpa-psk')
         self.assertEqual(unpacked['802-11-wireless-security']['proto'], ['rsn'])
+        self.assertEqual(unpacked['802-11-wireless-security']['pairwise'], ['ccmp'])
+        self.assertEqual(unpacked['802-11-wireless-security']['group'], ['ccmp'])
+        # PMF must be disabled, otherwise NetworkManager advertises WPA3/SAE
+        # transition mode and some clients can no longer authenticate.
+        self.assertEqual(unpacked['802-11-wireless-security']['pmf'], 1)
 
     def test_open_network_does_not_gain_a_password_setting(self):
         settings = backend.Backend.wireless_settings('Guest', '')

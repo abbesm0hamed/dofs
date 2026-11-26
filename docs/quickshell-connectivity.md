@@ -19,6 +19,12 @@ Start. The active hotspot shows its name, interface, IP address, and a button
 to reveal its saved password. Stop hotspot stops sharing. Profiles do not
 autoconnect and are reused on subsequent starts.
 
+Hotspots are plain WPA2-PSK networks (RSN, CCMP). Recent NetworkManager
+versions silently add SAE/WPA3 to every WPA2 access point unless PMF is
+disabled, which produces a transition-mode beacon that some phones and tablets
+cannot authenticate against. The backend disables PMF for the hotspot so the
+broadcast stays WPA2-only and connects on the widest range of devices.
+
 Keep my current Wi-Fi connection is enabled by default. For an adapter that
 supports simultaneous managed/AP mode, the backend creates a `dofs-apN`
 interface on the same radio and channel, preserving the existing connection.
