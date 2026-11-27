@@ -1,4 +1,13 @@
 ---
+- name: Install Nix with SELinux support
+  ansible.builtin.shell: curl --proto '=https' --tlsv1.2 -sSfL https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  args:
+    creates: /nix/var/nix/profiles/default/bin/nix
+  become: true
+  async: 1800
+  poll: 10
+  tags: nix
+
 - name: Check if FNM is installed
   stat:
     path: "{{ ansible_user_dir }}/.local/share/fnm/fnm"
